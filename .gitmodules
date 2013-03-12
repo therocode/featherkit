@@ -1,0 +1,3 @@
+[submodule "gale"]
+	path = gale
+	url = ssh://gitolite@pallkars.net/zagabar/windlab_gale
