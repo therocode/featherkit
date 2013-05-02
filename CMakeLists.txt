@@ -36,11 +36,13 @@ else()
 endif()
 
 add_subdirectory(gale)
+add_subdirectory(breeze)
 
 #project name
 set(project_name windlab)
 project(${project_name})
 
+link_directories("${CMAKE_BINARY_DIR}/lib")
 
 ##test section##
 
