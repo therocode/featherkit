@@ -1,0 +1,10 @@
+{
+    "particle":
+    {
+        "position":"1.0f,2.0f", "mass":"10.0f", "velocity":"-2.0f,-4.0f"
+    },
+    "staticparticle":
+    {
+        "mass":"100.0f", "position":"5.0f,0.0f"
+    }
+}
