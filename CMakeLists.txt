@@ -9,7 +9,7 @@ set(CLANG_PATH "/usr/bin/clang++" CACHE PATH "Path to run CLANG from")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)   #for executables
 
 if(USE_CLANG)
-    set (CMAKE_CXX_COMPILER ${CLANG_PATH})
+    set(CMAKE_CXX_COMPILER ${CLANG_PATH})
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
     if(BUILD_GALE_STRICT)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror")
@@ -49,6 +49,7 @@ link_directories("${CMAKE_BINARY_DIR}/lib")
 if(BUILD_GALE_TESTS)
 
     include_directories("gale/src")
+    include_directories("breeze/src")
 
     if(NOT IGNORE_SFML_TESTS)
         file(GLOB_RECURSE particles_source_files "test/particles/*.cpp")

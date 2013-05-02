@@ -7,6 +7,7 @@
 #include "component.h"
 #include <iostream>
 #include <cstring>
+#include <sfmleventbackend.h>
 
 windgale::BasicEntityBackend allData;
 sf::Window window;
