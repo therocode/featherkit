@@ -11,6 +11,7 @@
 
 windgale::BasicEntityBackend allData;
 sf::Window window;
+windbreeze::SFMLEventBackend sfmlEventBackend(window);
 windgale::EntityFileLoader loader;
 windgale::EntityManager entityManager(allData);
 windgale::EntityGroup spawners;
