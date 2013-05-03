@@ -169,10 +169,12 @@ int run()
             else if(event.key.code == windbreeze::Keyboard::N)
             {
                colourPoints[PINK] = {200.0f, 200.0f}; 
+               eventHandler.setMouseGlobalPosition(100, 100);
             }
             else if(event.key.code == windbreeze::Keyboard::M)
             {
                spawn.add = !spawn.add;
+               eventHandler.setMouseWindowPosition(100, 100);
             }
         }
         else if(event.type == windbreeze::Event::MOUSEBUTTONPRESSED)
@@ -221,6 +223,10 @@ int run()
         spawn.update(colourPoints, particles);
         death.update(particles);
     }
+
+    std::cout << eventHandler.getMouseGlobalPosition().x << "\n";
+    std::cout << eventHandler.getMouseWindowPosition().x << "\n";
+    std::cout << "\n";
 
     all = particles + spawners;
     all.removeInvalid();
