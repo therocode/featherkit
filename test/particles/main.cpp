@@ -111,12 +111,6 @@ int run()
     {
         if(event.type == windbreeze::Event::CLOSED)
             running = false;
-        else if(event.type == windbreeze::Event::RESIZED)
-            std::cout << "resized\n";
-        else if(event.type == windbreeze::Event::LOSTFOCUS)
-            std::cout << "lost focus\n";
-        else if(event.type == windbreeze::Event::GAINEDFOCUS)
-            std::cout << "gained focus\n";
         else if(event.type == windbreeze::Event::KEYPRESSED)
         {
             // quitting and stuff. add pause and restart herevent.
@@ -181,47 +175,43 @@ int run()
                spawn.add = !spawn.add;
             }
         }
+        else if(event.type == windbreeze::Event::MOUSEBUTTONPRESSED)
+        {
+            float r = (float)(rand() % 256) / 255.0f;
+            float g = (float)(rand() % 256) / 255.0f;
+            float b = (float)(rand() % 256) / 255.0f;
+            
+            if(event.mouseButton.button == windbreeze::Mouse::LEFT)
+            {
+                for(int i = 0; i < 1000; i++)
+                {
+                    createQuark(event.mouseButton.x, event.mouseButton.y, r, g, b);
+                }
+            }
+            else if(event.mouseButton.button == windbreeze::Mouse::RIGHT)
+            {
+                createSpawner(event.mouseButton.x, event.mouseButton.y, r, g, b);
+            }
+            else if(event.mouseButton.button == windbreeze::Mouse::MIDDLE)
+            {
+                for(int i = 0; i < 50; i++)
+                {
+                    float rs = (float)(rand() % 256) / 255.0f;
+                    float gs = (float)(rand() % 256) / 255.0f;
+                    float bs = (float)(rand() % 256) / 255.0f;
+                    createSpawner(event.mouseButton.x + (rand() % 50 - 25), event.mouseButton.y + (rand() % 50 - 25), rs, gs, bs);
+                }
+            }
+        }
+        else if(event.type == windbreeze::Event::MOUSEMOVED)
+        {
+            float r = (float)(rand() % 256) / 255.0f;
+            float g = (float)(rand() % 256) / 255.0f;
+            float b = (float)(rand() % 256) / 255.0f;
+            
+            createQuark(event.mouseMove.x, event.mouseMove.y, r, g, b);
+        }
     }
-
-    //while (window.pollEvent(event))
-    //{
-    //    if(event.type == sf::Event::MouseButtonPressed)
-    //    {
-    //        float r = (float)(rand() % 256) / 255.0f;
-    //        float g = (float)(rand() % 256) / 255.0f;
-    //        float b = (float)(rand() % 256) / 255.0f;
-    //        
-    //        if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
-    //        {
-    //            for(int i = 0; i < 1000; i++)
-    //            {
-    //                createQuark(event.mouseButton.x, event.mouseButton.y, r, g, b);
-    //            }
-    //        }
-    //        else if(sf::Mouse::isButtonPressed(sf::Mouse::Right))
-    //        {
-    //            createSpawner(event.mouseButton.x, event.mouseButton.y, r, g, b);
-    //        }
-    //        else if(sf::Mouse::isButtonPressed(sf::Mouse::Middle))
-    //        {
-    //            for(int i = 0; i < 50; i++)
-    //            {
-    //                float rs = (float)(rand() % 256) / 255.0f;
-    //                float gs = (float)(rand() % 256) / 255.0f;
-    //                float bs = (float)(rand() % 256) / 255.0f;
-    //                createSpawner(event.mouseButton.x + (rand() % 50 - 25), event.mouseButton.y + (rand() % 50 - 25), rs, gs, bs);
-    //            }
-    //        }
-    //    }
-    //    if(event.type == sf::Event::MouseMoved)
-    //    {
-    //        float r = (float)(rand() % 256) / 255.0f;
-    //        float g = (float)(rand() % 256) / 255.0f;
-    //        float b = (float)(rand() % 256) / 255.0f;
-    //        
-    //        createQuark(event.mouseMove.x, event.mouseMove.y, r, g, b);
-    //    }
-    //}
 
     sf::Clock clock;
     if(!paused)

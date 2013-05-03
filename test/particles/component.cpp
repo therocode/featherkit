@@ -74,7 +74,7 @@ void RenderComponent::render(windgale::EntityGroup& all)
 
     window->display();
 
-    std::cout << "amount: " << all.getCount() << "\n";
+    //std::cout << "amount: " << all.getCount() << "\n";
 }
 
 void RenderComponent::extendBuffers(int newSize)
