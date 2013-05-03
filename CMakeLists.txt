@@ -1,12 +1,26 @@
 #cmake ver req
 cmake_minimum_required(VERSION 2.8.3)
 
+set(BUILD_GALE TRUE CACHE BOOL "Selects if gale should be built")
+set(BUILD_BREEZE TRUE CACHE BOOL "Selects if breeze should be built")
 set(BUILD_GALE_TESTS FALSE CACHE BOOL "Build gale test applications?")
 set(IGNORE_SFML_TESTS FALSE CACHE BOOL "Ignore tests using sfml?")
 set(USE_CLANG FALSE CACHE BOOL "Select this if you want to use CLANG")
 set(CLANG_PATH "/usr/bin/clang++" CACHE PATH "Path to run CLANG from")
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)   #for executables
+
+
+if(BUILD_GALE)
+    add_subdirectory(gale)
+endif()
+if(BUILD_BREEZE)
+    add_subdirectory(breeze)
+endif()
+
+#project name
+set(project_name windlab)
+project(${project_name})
 
 if(USE_CLANG)
     set(CMAKE_CXX_COMPILER ${CLANG_PATH})
@@ -34,14 +48,6 @@ else()
         endif()
     endif()
 endif()
-
-add_subdirectory(gale)
-add_subdirectory(breeze)
-
-#project name
-set(project_name windlab)
-project(${project_name})
-
 link_directories("${CMAKE_BINARY_DIR}/lib")
 
 ##test section##
