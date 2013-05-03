@@ -7,11 +7,13 @@
 #include "component.h"
 #include <iostream>
 #include <cstring>
+#include <eventhandler.h>
 #include <sfmleventbackend.h>
 
 windgale::BasicEntityBackend allData;
 sf::Window window;
-windbreeze::SFMLEventBackend sfmlEventBackend(window);
+windbreeze::SFMLEventBackend sfmlBackend(window);
+windbreeze::EventHandler eventHandler(sfmlBackend);
 windgale::EntityFileLoader loader;
 windgale::EntityManager entityManager(allData);
 windgale::EntityGroup spawners;
@@ -102,119 +104,132 @@ int run()
 {
     bool running = true;
 
-    sf::Event event;
-    while (window.pollEvent(event))
+    windbreeze::Event event;
+
+    eventHandler.processEvents();
+    while(eventHandler.pollEvent(event))
     {
-        if(event.type == sf::Event::Closed)
+        if(event.type == windbreeze::Event::CLOSED)
             running = false;
-        if(event.type == sf::Event::KeyPressed)
+        else if(event.type == windbreeze::Event::RESIZED)
+            std::cout << "resized\n";
+        else if(event.type == windbreeze::Event::LOSTFOCUS)
+            std::cout << "lost focus\n";
+        else if(event.type == windbreeze::Event::GAINEDFOCUS)
+            std::cout << "gained focus\n";
+        else if(event.type == windbreeze::Event::KEYPRESSED)
         {
-            // quitting and stuff. add pause and restart here.
-            if (event.key.code == sf::Keyboard::Q || event.key.code == sf::Keyboard::Escape)
+            // quitting and stuff. add pause and restart herevent.
+            if (event.key.code == windbreeze::Keyboard::Q || event.key.code == windbreeze::Keyboard::ESCAPE)
                 running = false;
             // pause
-            else if (event.key.code == sf::Keyboard::P)
+            else if (event.key.code == windbreeze::Keyboard::P)
                 paused = !paused;
-            else if (event.key.code == sf::Keyboard::R)
+            else if (event.key.code == windbreeze::Keyboard::R)
             {
                 entityManager.removeEntities(spawners);
                 spawners.remove(spawners);
                 all = particles;
             }
-            else if(event.key.code == sf::Keyboard::E)
+            else if(event.key.code == windbreeze::Keyboard::E)
             {
                 entityManager.removeEntities(entityManager.getAll() - spawners);
                 particles.clear();
                 all = spawners;
             }
-            else if(event.key.code == sf::Keyboard::T)
+            else if(event.key.code == windbreeze::Keyboard::T)
             {
                 entityManager.removeAll();
                 spawners.clear();
                 all.clear();
                 particles.clear();
             }
-            else if(event.key.code == sf::Keyboard::Y)
+            else if(event.key.code == windbreeze::Keyboard::Y)
             {
                 entityManager.reset();
                 spawners.clear();
                 all.clear();
                 particles.clear();
             }
-            else if(event.key.code == sf::Keyboard::Z)
+            else if(event.key.code == windbreeze::Keyboard::Z)
             {
-               colourPoints[ORANGE] = {(float)sf::Mouse::getPosition().x, (float)sf::Mouse::getPosition().y}; 
+               //colourPoints[ORANGE] = {(float)windbreeze::Mouse::getPosition().x, (float)windbreeze::Mouse::getPosition().y}; 
+               colourPoints[ORANGE] = {(float)200.0f, (float)200.0f}; 
             }
-            else if(event.key.code == sf::Keyboard::X)
+            else if(event.key.code == windbreeze::Keyboard::X)
             {
-               colourPoints[LIME] = {(float)sf::Mouse::getPosition().x, (float)sf::Mouse::getPosition().y}; 
+               colourPoints[LIME] = {200.0f, 200.0f}; 
             }
-            else if(event.key.code == sf::Keyboard::C)
+            else if(event.key.code == windbreeze::Keyboard::C)
             {
-               colourPoints[TURQUOISE] = {(float)sf::Mouse::getPosition().x, (float)sf::Mouse::getPosition().y}; 
+               colourPoints[TURQUOISE] = {200.0f, 200.0f}; 
             }
-            else if(event.key.code == sf::Keyboard::V)
+            else if(event.key.code == windbreeze::Keyboard::V)
             {
-               colourPoints[SKYBLUE] = {(float)sf::Mouse::getPosition().x, (float)sf::Mouse::getPosition().y}; 
+               colourPoints[SKYBLUE] = {200.0f, 200.0f}; 
             }
-            else if(event.key.code == sf::Keyboard::B)
+            else if(event.key.code == windbreeze::Keyboard::B)
             {
-               colourPoints[PURPLE] = {(float)sf::Mouse::getPosition().x, (float)sf::Mouse::getPosition().y}; 
+               colourPoints[PURPLE] = {200.0f, 200.0f}; 
             }
-            else if(event.key.code == sf::Keyboard::N)
+            else if(event.key.code == windbreeze::Keyboard::N)
             {
-               colourPoints[PINK] = {(float)sf::Mouse::getPosition().x, (float)sf::Mouse::getPosition().y}; 
+               colourPoints[PINK] = {200.0f, 200.0f}; 
             }
-            else if(event.key.code == sf::Keyboard::M)
+            else if(event.key.code == windbreeze::Keyboard::M)
             {
                spawn.add = !spawn.add;
             }
         }
-        if(event.type == sf::Event::MouseButtonPressed)
-        {
-            float r = (float)(rand() % 256) / 255.0f;
-            float g = (float)(rand() % 256) / 255.0f;
-            float b = (float)(rand() % 256) / 255.0f;
-            
-            if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
-            {
-                for(int i = 0; i < 1000; i++)
-                {
-                    createQuark(event.mouseButton.x, event.mouseButton.y, r, g, b);
-                }
-            }
-            else if(sf::Mouse::isButtonPressed(sf::Mouse::Right))
-            {
-                createSpawner(event.mouseButton.x, event.mouseButton.y, r, g, b);
-            }
-            else if(sf::Mouse::isButtonPressed(sf::Mouse::Middle))
-            {
-                for(int i = 0; i < 50; i++)
-                {
-                    float rs = (float)(rand() % 256) / 255.0f;
-                    float gs = (float)(rand() % 256) / 255.0f;
-                    float bs = (float)(rand() % 256) / 255.0f;
-                    createSpawner(event.mouseButton.x + (rand() % 50 - 25), event.mouseButton.y + (rand() % 50 - 25), rs, gs, bs);
-                }
-            }
-        }
-        if(event.type == sf::Event::MouseMoved)
-        {
-            float r = (float)(rand() % 256) / 255.0f;
-            float g = (float)(rand() % 256) / 255.0f;
-            float b = (float)(rand() % 256) / 255.0f;
-            
-            createQuark(event.mouseMove.x, event.mouseMove.y, r, g, b);
-        }
     }
+
+    //while (window.pollEvent(event))
+    //{
+    //    if(event.type == sf::Event::MouseButtonPressed)
+    //    {
+    //        float r = (float)(rand() % 256) / 255.0f;
+    //        float g = (float)(rand() % 256) / 255.0f;
+    //        float b = (float)(rand() % 256) / 255.0f;
+    //        
+    //        if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
+    //        {
+    //            for(int i = 0; i < 1000; i++)
+    //            {
+    //                createQuark(event.mouseButton.x, event.mouseButton.y, r, g, b);
+    //            }
+    //        }
+    //        else if(sf::Mouse::isButtonPressed(sf::Mouse::Right))
+    //        {
+    //            createSpawner(event.mouseButton.x, event.mouseButton.y, r, g, b);
+    //        }
+    //        else if(sf::Mouse::isButtonPressed(sf::Mouse::Middle))
+    //        {
+    //            for(int i = 0; i < 50; i++)
+    //            {
+    //                float rs = (float)(rand() % 256) / 255.0f;
+    //                float gs = (float)(rand() % 256) / 255.0f;
+    //                float bs = (float)(rand() % 256) / 255.0f;
+    //                createSpawner(event.mouseButton.x + (rand() % 50 - 25), event.mouseButton.y + (rand() % 50 - 25), rs, gs, bs);
+    //            }
+    //        }
+    //    }
+    //    if(event.type == sf::Event::MouseMoved)
+    //    {
+    //        float r = (float)(rand() % 256) / 255.0f;
+    //        float g = (float)(rand() % 256) / 255.0f;
+    //        float b = (float)(rand() % 256) / 255.0f;
+    //        
+    //        createQuark(event.mouseMove.x, event.mouseMove.y, r, g, b);
+    //    }
+    //}
 
     sf::Clock clock;
     if(!paused)
     {
         particles.removeInvalid();
         physics.update(particles);
-        //spawn.update(colourPoints, particles);
-        //death.update(particles);
+        spawn.update(colourPoints, particles);
+        death.update(particles);
     }
 
     all = particles + spawners;
