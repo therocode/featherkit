@@ -224,9 +224,19 @@ int run()
         death.update(particles);
     }
 
-    std::cout << eventHandler.getMouseGlobalPosition().x << "\n";
-    std::cout << eventHandler.getMouseWindowPosition().x << "\n";
-    std::cout << "\n";
+    if(eventHandler.isGamepadConnected(0))
+    {
+        std::cout << "gamepad connected!\n";
+        std::cout << "button amount " << eventHandler.getGamepadButtonCount(0) << "\n";
+        if(eventHandler.gamepadHasAxis(0, windbreeze::Gamepad::X))
+            std::cout << "it has axis x!\n";
+        if(eventHandler.isGamepadButtonPressed(0, 5))
+            std::cout << "now button 5 is pressed\n";
+        std::cout << "position of axis y is " << eventHandler.getGamepadAxisPosition(0, windbreeze::Gamepad::Y) << "\n";
+    }
+
+    if(eventHandler.isKeyPressed(windbreeze::Keyboard::G))
+        std::cout << "G is pressed!\n";
 
     all = particles + spawners;
     all.removeInvalid();
