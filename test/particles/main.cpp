@@ -7,25 +7,28 @@
 #include "component.h"
 #include <iostream>
 #include <cstring>
-#include <eventhandler.h>
-#include <sfmleventbackend.h>
+#include <inputhandler.h>
+#include <sfmlinputbackend.h>
 
-windgale::BasicEntityBackend allData;
 sf::Window window;
-windbreeze::SFMLEventBackend sfmlBackend(window);
-windbreeze::EventHandler eventHandler(sfmlBackend);
+
+windbreeze::SFMLInputBackend sfmlBackend(window);
+windbreeze::InputHandler inputHandler(sfmlBackend);
+
 windgale::EntityFileLoader loader;
+windgale::BasicEntityBackend allData;
 windgale::EntityManager entityManager(allData);
 windgale::EntityGroup spawners;
 windgale::EntityGroup particles;
 windgale::EntityGroup all;
+
 SpawningComponent spawn(&spawners, &entityManager);
 RenderComponent renderer(&window);
 PhysicsComponent physics;
 DeathComponent death(&entityManager);
 
 FloatVec2 colourPoints[6];
-enum { ORANGE, LIME, TURQUOISE, SKYBLUE, PURPLE, PINK};
+enum {ORANGE, LIME, TURQUOISE, SKYBLUE, PURPLE, PINK};
 
 int total = 0;
 int consecutiveSlowFrames = 0;
@@ -106,8 +109,8 @@ int run()
 
     windbreeze::Event event;
 
-    eventHandler.processEvents();
-    while(eventHandler.pollEvent(event))
+    inputHandler.processEvents();
+    while(inputHandler.pollEvent(event))
     {
         if(event.type == windbreeze::Event::CLOSED)
             running = false;
@@ -148,33 +151,33 @@ int run()
             else if(event.key.code == windbreeze::Keyboard::Z)
             {
                //colourPoints[ORANGE] = {(float)windbreeze::Mouse::getPosition().x, (float)windbreeze::Mouse::getPosition().y}; 
-               colourPoints[ORANGE] = {(float)200.0f, (float)200.0f}; 
+               colourPoints[ORANGE] = {(float)inputHandler.getMouseGlobalPosition().x, (float)inputHandler.getMouseGlobalPosition().y}; 
             }
             else if(event.key.code == windbreeze::Keyboard::X)
             {
-               colourPoints[LIME] = {200.0f, 200.0f}; 
+               colourPoints[LIME] = {(float)inputHandler.getMouseWindowPosition().x, (float)inputHandler.getMouseWindowPosition().y}; 
             }
             else if(event.key.code == windbreeze::Keyboard::C)
             {
-               colourPoints[TURQUOISE] = {200.0f, 200.0f}; 
+               colourPoints[TURQUOISE] = {(float)inputHandler.getMouseWindowPosition().x, (float)inputHandler.getMouseWindowPosition().y}; 
             }
             else if(event.key.code == windbreeze::Keyboard::V)
             {
-               colourPoints[SKYBLUE] = {200.0f, 200.0f}; 
+               colourPoints[SKYBLUE] = {(float)inputHandler.getMouseWindowPosition().x, (float)inputHandler.getMouseWindowPosition().y}; 
             }
             else if(event.key.code == windbreeze::Keyboard::B)
             {
-               colourPoints[PURPLE] = {200.0f, 200.0f}; 
+               colourPoints[PURPLE] = {(float)inputHandler.getMouseWindowPosition().x, (float)inputHandler.getMouseWindowPosition().y}; 
             }
             else if(event.key.code == windbreeze::Keyboard::N)
             {
-               colourPoints[PINK] = {200.0f, 200.0f}; 
-               eventHandler.setMouseGlobalPosition(100, 100);
+               colourPoints[PINK] = {(float)inputHandler.getMouseWindowPosition().x, (float)inputHandler.getMouseWindowPosition().y}; 
+               inputHandler.setMouseGlobalPosition(100, 100);
             }
             else if(event.key.code == windbreeze::Keyboard::M)
             {
                spawn.add = !spawn.add;
-               eventHandler.setMouseWindowPosition(100, 100);
+               inputHandler.setMouseWindowPosition(100, 100);
             }
         }
         else if(event.type == windbreeze::Event::MOUSEBUTTONPRESSED)
@@ -224,18 +227,18 @@ int run()
         death.update(particles);
     }
 
-    if(eventHandler.isGamepadConnected(0))
+    if(inputHandler.isGamepadConnected(0))
     {
         std::cout << "gamepad connected!\n";
-        std::cout << "button amount " << eventHandler.getGamepadButtonCount(0) << "\n";
-        if(eventHandler.gamepadHasAxis(0, windbreeze::Gamepad::X))
+        std::cout << "button amount " << inputHandler.getGamepadButtonCount(0) << "\n";
+        if(inputHandler.gamepadHasAxis(0, windbreeze::Gamepad::X))
             std::cout << "it has axis x!\n";
-        if(eventHandler.isGamepadButtonPressed(0, 5))
+        if(inputHandler.isGamepadButtonPressed(0, 5))
             std::cout << "now button 5 is pressed\n";
-        std::cout << "position of axis y is " << eventHandler.getGamepadAxisPosition(0, windbreeze::Gamepad::Y) << "\n";
+        std::cout << "position of axis y is " << inputHandler.getGamepadAxisPosition(0, windbreeze::Gamepad::Y) << "\n";
     }
 
-    if(eventHandler.isKeyPressed(windbreeze::Keyboard::G))
+    if(inputHandler.isKeyPressed(windbreeze::Keyboard::G))
         std::cout << "G is pressed!\n";
 
     all = particles + spawners;
