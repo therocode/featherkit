@@ -104,10 +104,17 @@ void setup()
     entityManager.setDefaultSetter("deathrate", &windgale::uint32Setter);
     entityManager.setDefaultSetter("id", &windgale::idSetter);
 
-    actionHandler.bindKeyPress(windbreeze::Keyboard::Q, "bajsa");
+    actionHandler.bindKeyPress(windbreeze::Keyboard::A, "bajsa");
+    actionHandler.bindKeyRelease(windbreeze::Keyboard::A, "sluta bajsa");
+    actionHandler.bindMousePress(windbreeze::Mouse::RIGHT, "kissa");
+    actionHandler.bindMouseRelease(windbreeze::Mouse::RIGHT, "sluta kissa");
+    actionHandler.bindGamepadPress(0, 0, "spy");
+    actionHandler.bindGamepadRelease(0, 0, "sluta spy");
+    actionHandler.bindGamepadPress(1, 0, "spotta");
+    actionHandler.bindGamepadRelease(1, 0, "sluta spotta");
 }
 
-int run()
+bool run()
 {
     bool running = true;
 
@@ -221,6 +228,10 @@ int run()
             
             createQuark(event.mouseMove.x, event.mouseMove.y, r, g, b);
         }
+        else if(event.type == windbreeze::Event::GAMEPADBUTTONPRESSED)
+        {
+            std::cout << "pressed button " << event.gamepadButton.button << " on gamepad " << event.gamepadButton.gamepadId << "\n";
+        }
     }
     windbreeze::Action action;
     while(actionHandler.pollAction(action))
@@ -237,16 +248,16 @@ int run()
         death.update(particles);
     }
 
-    if(inputHandler.isGamepadConnected(0))
-    {
-        std::cout << "gamepad connected!\n";
-        std::cout << "button amount " << inputHandler.getGamepadButtonCount(0) << "\n";
-        if(inputHandler.gamepadHasAxis(0, windbreeze::Gamepad::X))
-            std::cout << "it has axis x!\n";
-        if(inputHandler.isGamepadButtonPressed(0, 5))
-            std::cout << "now button 5 is pressed\n";
-        std::cout << "position of axis y is " << inputHandler.getGamepadAxisPosition(0, windbreeze::Gamepad::Y) << "\n";
-    }
+    //if(inputHandler.isGamepadConnected(0))
+    //{
+    //    std::cout << "gamepad connected!\n";
+    //    std::cout << "button amount " << inputHandler.getGamepadButtonCount(0) << "\n";
+    //    if(inputHandler.gamepadHasAxis(0, windbreeze::Gamepad::X))
+    //        std::cout << "it has axis x!\n";
+    //    if(inputHandler.isGamepadButtonPressed(0, 5))
+    //        std::cout << "now button 5 is pressed\n";
+    //    std::cout << "position of axis y is " << inputHandler.getGamepadAxisPosition(0, windbreeze::Gamepad::Y) << "\n";
+    //}
 
     if(inputHandler.isKeyPressed(windbreeze::Keyboard::G))
         std::cout << "G is pressed!\n";
