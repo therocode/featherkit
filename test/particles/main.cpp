@@ -9,11 +9,13 @@
 #include <cstring>
 #include <inputhandler.h>
 #include <sfmlinputbackend.h>
+#include <actionhandler.h>
 
 sf::Window window;
 
 windbreeze::SFMLInputBackend sfmlBackend(window);
 windbreeze::InputHandler inputHandler(sfmlBackend);
+windbreeze::ActionHandler actionHandler;
 
 windgale::EntityFileLoader loader;
 windgale::BasicEntityBackend allData;
@@ -101,6 +103,8 @@ void setup()
     entityManager.setDefaultSetter("spawnpower", &windgale::floatSetter);
     entityManager.setDefaultSetter("deathrate", &windgale::uint32Setter);
     entityManager.setDefaultSetter("id", &windgale::idSetter);
+
+    actionHandler.bindKeyPress(windbreeze::Keyboard::Q, "bajsa");
 }
 
 int run()
@@ -110,6 +114,7 @@ int run()
     windbreeze::Event event;
 
     inputHandler.processEvents();
+    actionHandler.processActions(inputHandler);
     while(inputHandler.pollEvent(event))
     {
         if(event.type == windbreeze::Event::CLOSED)
@@ -216,6 +221,11 @@ int run()
             
             createQuark(event.mouseMove.x, event.mouseMove.y, r, g, b);
         }
+    }
+    windbreeze::Action action;
+    while(actionHandler.pollAction(action))
+    {
+        std::cout << "this action happened: " << action << "\n";
     }
 
     sf::Clock clock;
