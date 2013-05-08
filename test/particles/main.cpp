@@ -15,7 +15,7 @@ sf::Window window;
 
 windbreeze::SFMLInputBackend sfmlBackend(window);
 windbreeze::InputHandler inputHandler(sfmlBackend);
-windbreeze::ActionHandler actionHandler;
+windbreeze::ActionHandler<std::string> actionHandler;
 
 windgale::EntityFileLoader loader;
 windgale::BasicEntityBackend allData;
@@ -233,7 +233,8 @@ bool run()
             std::cout << "pressed button " << event.gamepadButton.button << " on gamepad " << event.gamepadButton.gamepadId << "\n";
         }
     }
-    windbreeze::Action action;
+
+    std::string action;
     while(actionHandler.pollAction(action))
     {
         std::cout << "this action happened: " << action << "\n";
