@@ -4,3 +4,6 @@
 [submodule "breeze"]
 	path = breeze
 	url = ssh://gitolite@pallkars.net/zagabar/windlab_breeze
+[submodule "storm"]
+	path = storm
+	url = ssh://gitolite@pallkars.net/zagabar/windlab_storm
