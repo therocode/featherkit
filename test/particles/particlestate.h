@@ -1,4 +1,6 @@
 #include <gamestate.h>
+#include <string>
+#include <vector>
 
 enum {ORANGE, LIME, TURQUOISE, SKYBLUE, PURPLE, PINK};
 
