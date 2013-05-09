@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <entity/entitygroup.h>
+#include "component.h"
 
 enum {ORANGE, LIME, TURQUOISE, SKYBLUE, PURPLE, PINK};
 
