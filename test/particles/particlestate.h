@@ -16,4 +16,5 @@ class ParticleState : public windstorm::GameState
         void setup() override;
         void run() override;
         void destroy() override;
+        ~ParticleState() override;
 };
