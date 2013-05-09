@@ -12,6 +12,8 @@
 #include <window.h>
 #include <iostream>
 #include <cstring>
+#include "particlestate.h"
+#include <gamestatemachine.h>
 
 enum {ORANGE, LIME, TURQUOISE, SKYBLUE, PURPLE, PINK};
 
@@ -25,6 +27,7 @@ class Particles : public windstorm::Application
         void run() override;
         void destroy() override; 
     private:
+        windstorm::GameStateMachine stateMachine;
         void createQuark(int x, int y, float r, float g, float b);
         void createSpawner(int x, int y, float r, float g, float b);
 
@@ -53,5 +56,4 @@ class Particles : public windstorm::Application
         int consecutiveSlowFrames = 0;
         int count = 0;
         bool paused = false;
-
 };

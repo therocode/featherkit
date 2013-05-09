@@ -25,6 +25,8 @@ void Particles::setup()
     window.create(sf::VideoMode(1366, 768), "Particles");
     window.setFramerateLimit(60);
 
+    stateMachine.addGameState(new ParticleState());
+
     renderer.setup();
 
     entityManager.registerAttributes(loader.loadAttributesJson("test/particles/attributes.json"));
@@ -46,6 +48,8 @@ void Particles::setup()
     actionHandler.bindGamepadRelease(0, 0, "sluta spy");
     actionHandler.bindGamepadPress(1, 0, "spotta");
     actionHandler.bindGamepadRelease(1, 0, "sluta spotta");
+
+    inputHandler.setKeyRepeatEnabled(false);
 }
 
 void Particles::run()
