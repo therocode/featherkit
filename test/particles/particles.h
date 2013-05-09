@@ -10,6 +10,7 @@
 #include <util/defaultsetters.h>
 #include <SFML/System/Clock.hpp>
 #include <window.h>
+#include <sfmlwindowbackend.h>
 #include <iostream>
 #include <cstring>
 #include "particlestate.h"
@@ -26,11 +27,12 @@ class Particles : public windstorm::Application
         void createQuark(int x, int y, float r, float g, float b);
         void createSpawner(int x, int y, float r, float g, float b);
 
-        sf::Window window;
-        windbreeze::Window windbreezeow;
+        sf::Window sfWindow;
+        windbreeze::SFMLWindowBackend sfmlWindowBackend = sfWindow;
+        windbreeze::Window window = sfmlWindowBackend;
 
-        windbreeze::SFMLInputBackend sfmlBackend = window;
-        windbreeze::InputHandler inputHandler = sfmlBackend;
+        windbreeze::SFMLInputBackend sfmlInputBackend = sfWindow;
+        windbreeze::InputHandler inputHandler = sfmlInputBackend;
         windbreeze::ActionHandler<std::string> actionHandler;
 
         windgale::EntityFileLoader loader;
@@ -41,7 +43,7 @@ class Particles : public windstorm::Application
         windgale::EntityGroup all;
 
         SpawningComponent spawn = {&spawners, &entityManager};
-        RenderComponent renderer = &window;
+        RenderComponent renderer = &sfWindow;
         PhysicsComponent physics;
         DeathComponent death = &entityManager;
 
