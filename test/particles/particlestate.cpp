@@ -20,12 +20,21 @@ void floatVec2Setter(std::string attribute, std::vector<std::string>& arguments,
     entity.lock()->setAttribute<FloatVec2>(attribute, val);
 }
 
+void ParticleState::activate()
+{
+}
+
+void ParticleState::deactivate()
+{
+}
+
 void ParticleState::setup()
 {
 }
 
-void ParticleState::run()
+std::string ParticleState::run()
 {
+    return "";
 }
 
 void ParticleState::destroy()

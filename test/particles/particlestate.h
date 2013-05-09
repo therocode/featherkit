@@ -13,8 +13,10 @@ void floatVec2Setter(std::string attribute, std::vector<std::string>& arguments,
 class ParticleState : public windstorm::GameState
 {
     public:
+        void activate() override;
+        void deactivate() override;
         void setup() override;
-        void run() override;
+        std::string run() override;
         void destroy() override;
         ~ParticleState() override;
 };
