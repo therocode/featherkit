@@ -46,6 +46,8 @@ void Particles::setup()
     actionHandler.bindGamepadRelease(0, 0, "sluta spy");
     actionHandler.bindGamepadPress(1, 0, "spotta");
     actionHandler.bindGamepadRelease(1, 0, "sluta spotta");
+
+    inputHandler.setKeyRepeatEnabled(false);
 }
 
 void Particles::run()
