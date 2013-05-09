@@ -1,6 +1,12 @@
-#include <GameState.h>
+#include <gamestate.h>
 
-class ParticleState : public Gamestate
+enum {ORANGE, LIME, TURQUOISE, SKYBLUE, PURPLE, PINK};
+
+void colourSetter(std::string attribute, std::vector<std::string>& arguments, windgale::WeakEntityPtr entity);
+void floatVec2Setter(std::string attribute, std::vector<std::string>& arguments, windgale::WeakEntityPtr entity);
+
+
+class ParticleState : public windstorm::GameState
 {
     public:
         void setup() override;
