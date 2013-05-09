@@ -9,6 +9,7 @@
 #include "component.h"
 #include <util/defaultsetters.h>
 #include <SFML/System/Clock.hpp>
+#include <window.h>
 #include <iostream>
 #include <cstring>
 
@@ -28,6 +29,7 @@ class Particles : public windstorm::Application
         void createSpawner(int x, int y, float r, float g, float b);
 
         sf::Window window;
+        windbreeze::Window windbreezeow;
 
         windbreeze::SFMLInputBackend sfmlBackend = window;
         windbreeze::InputHandler inputHandler = sfmlBackend;
