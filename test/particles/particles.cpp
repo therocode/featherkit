@@ -25,6 +25,8 @@ void Particles::setup()
     window.create(sf::VideoMode(1366, 768), "Particles");
     window.setFramerateLimit(60);
 
+    stateMachine.addGameState(new ParticleState());
+
     renderer.setup();
 
     entityManager.registerAttributes(loader.loadAttributesJson("test/particles/attributes.json"));
