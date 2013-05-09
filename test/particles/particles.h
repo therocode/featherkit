@@ -24,8 +24,6 @@ class Particles : public windstorm::Application
         void destroy() override; 
     private:
         windstorm::GameStateMachine stateMachine;
-        void createQuark(int x, int y, float r, float g, float b);
-        void createSpawner(int x, int y, float r, float g, float b);
 
         sf::Window sfWindow;
         windbreeze::SFMLWindowBackend sfmlWindowBackend = sfWindow;
@@ -34,23 +32,4 @@ class Particles : public windstorm::Application
         windbreeze::SFMLInputBackend sfmlInputBackend = sfWindow;
         windbreeze::InputHandler inputHandler = sfmlInputBackend;
         windbreeze::ActionHandler<std::string> actionHandler;
-
-        windgale::EntityFileLoader loader;
-        windgale::BasicEntityBackend allData;
-        windgale::EntityManager entityManager = allData;
-        windgale::EntityGroup spawners;
-        windgale::EntityGroup particles;
-        windgale::EntityGroup all;
-
-        SpawningComponent spawn = {&spawners, &entityManager};
-        RenderComponent renderer = &sfWindow;
-        PhysicsComponent physics;
-        DeathComponent death = &entityManager;
-
-        FloatVec2 colourPoints[6];
-
-        int total = 0;
-        int consecutiveSlowFrames = 0;
-        int count = 0;
-        bool paused = false;
 };
