@@ -51,5 +51,4 @@ class Particles : public windstorm::Application
         int consecutiveSlowFrames = 0;
         int count = 0;
         bool paused = false;
-
 };
