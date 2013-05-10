@@ -21,8 +21,8 @@ class ParticleState : public windstorm::GameState
 {
     public:
         ParticleState(sf::Window& sfw, windbreeze::InputHandler& ih, windbreeze::ActionHandler<std::string>& ah) : sfWindow(sfw), inputHandler(ih), actionHandler(ah) {}
-        void activate() override;
-        void deactivate() override;
+        void activate(std::string previousState) override;
+        void deactivate(std::string nextState) override;
         void setup() override;
         std::string run() override;
         void destroy() override;
