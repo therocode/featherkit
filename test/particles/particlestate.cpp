@@ -1,4 +1,5 @@
 #include "particlestate.h"
+#include <iostream>
 
 void colourSetter(std::string attribute, std::vector<std::string>& arguments, windgale::WeakEntityPtr entity)
 {
@@ -58,18 +59,19 @@ void ParticleState::setup()
 std::string ParticleState::run()
 {
     windbreeze::Event event;
+    std::string nextState;
 
     inputHandler.processEvents();
     actionHandler.processActions(inputHandler);
     while(inputHandler.pollEvent(event))
     {
         if(event.type == windbreeze::Event::CLOSED)
-            shutDown = true;
+            nextState = "shutdown";
         else if(event.type == windbreeze::Event::KEYPRESSED)
         {
             // quitting and stuff. add pause and restart herevent.
             if (event.key.code == windbreeze::Keyboard::Q || event.key.code == windbreeze::Keyboard::ESCAPE)
-                shutDown = true;
+                nextState = "shutdown";
             // pause
             else if (event.key.code == windbreeze::Keyboard::P)
                 paused = !paused;
@@ -212,7 +214,7 @@ std::string ParticleState::run()
         consecutiveSlowFrames++;
     else
         consecutiveSlowFrames = 0;
-    return "";
+    return nextState;
 }
 
 void ParticleState::destroy()

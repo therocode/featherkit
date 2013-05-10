@@ -3,6 +3,13 @@
 #include <vector>
 #include <entity/entitygroup.h>
 #include "component.h"
+#include <util/entityfileloader.h>
+#include <entitybackends/basicentitybackend.h>
+#include "component.h"
+#include <util/defaultsetters.h>
+#include <SFML/System/Clock.hpp>
+#include <inputhandler.h>
+#include <actionhandler.h>
 
 enum {ORANGE, LIME, TURQUOISE, SKYBLUE, PURPLE, PINK};
 
@@ -13,7 +20,7 @@ void floatVec2Setter(std::string attribute, std::vector<std::string>& arguments,
 class ParticleState : public windstorm::GameState
 {
     public:
-        ParticleState(sf::Window& sfw) : sfWindow(sfw){}
+        ParticleState(sf::Window& sfw, windbreeze::InputHandler& ih, windbreeze::ActionHandler<std::string>& ah) : sfWindow(sfw), inputHandler(ih), actionHandler(ah) {}
         void activate() override;
         void deactivate() override;
         void setup() override;
@@ -25,6 +32,8 @@ class ParticleState : public windstorm::GameState
         void createSpawner(int x, int y, float r, float g, float b);
 
         sf::Window& sfWindow;
+        windbreeze::InputHandler& inputHandler;
+        windbreeze::ActionHandler<std::string>& actionHandler;
 
         windgale::EntityFileLoader loader;
         windgale::BasicEntityBackend allData;

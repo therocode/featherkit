@@ -3,12 +3,6 @@
 #include <inputhandler.h>
 #include <sfmlinputbackend.h>
 #include <actionhandler.h>
-#include <util/entityfileloader.h>
-#include <entitybackends/basicentitybackend.h>
-#include <entity/entitygroup.h>
-#include "component.h"
-#include <util/defaultsetters.h>
-#include <SFML/System/Clock.hpp>
 #include <window.h>
 #include <sfmlwindowbackend.h>
 #include <iostream>
