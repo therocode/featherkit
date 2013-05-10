@@ -66,12 +66,12 @@ std::string ParticleState::run()
     while(inputHandler.pollEvent(event))
     {
         if(event.type == windbreeze::Event::CLOSED)
-            nextState = "shutdown";
+            nextState = "NONE";
         else if(event.type == windbreeze::Event::KEYPRESSED)
         {
             // quitting and stuff. add pause and restart herevent.
             if (event.key.code == windbreeze::Keyboard::Q || event.key.code == windbreeze::Keyboard::ESCAPE)
-                nextState = "shutdown";
+                nextState = "NONE";
             // pause
             else if (event.key.code == windbreeze::Keyboard::P)
                 paused = !paused;
