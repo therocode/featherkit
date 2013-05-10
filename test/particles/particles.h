@@ -7,7 +7,6 @@
 #include <sfmlwindowbackend.h>
 #include <iostream>
 #include <cstring>
-#include "particlestate.h"
 #include <gamestatemachine.h>
 
 class Particles : public windstorm::Application
@@ -19,7 +18,7 @@ class Particles : public windstorm::Application
     private:
         windstorm::GameStateMachine stateMachine;
 
-        sf::Window sfWindow;
+        sf::RenderWindow sfWindow;
         windbreeze::SFMLWindowBackend sfmlWindowBackend = sfWindow;
         windbreeze::Window window = sfmlWindowBackend;
 

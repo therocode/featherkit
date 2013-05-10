@@ -1,5 +1,4 @@
 #include <gamestate.h>
-#include <string>
 #include <vector>
 #include <entity/entitygroup.h>
 #include "component.h"
