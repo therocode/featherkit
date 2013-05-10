@@ -21,14 +21,6 @@ void floatVec2Setter(std::string attribute, std::vector<std::string>& arguments,
     entity.lock()->setAttribute<FloatVec2>(attribute, val);
 }
 
-void ParticleState::activate(std::string previousState)
-{
-}
-
-void ParticleState::deactivate(std::string nextState)
-{
-}
-
 void ParticleState::setup()
 {
     renderer.setup();
@@ -215,14 +207,6 @@ std::string ParticleState::run()
     else
         consecutiveSlowFrames = 0;
     return nextState;
-}
-
-void ParticleState::destroy()
-{
-}
-
-ParticleState::~ParticleState()
-{
 }
 
 void ParticleState::createQuark(int x, int y, float r, float g, float b)
