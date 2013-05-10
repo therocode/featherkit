@@ -6,7 +6,7 @@ void Particles::setup()
     window.setFramerateLimit(60);
 
     stateMachine.addGameState("particles", new ParticleState(sfWindow, inputHandler, actionHandler));
-    stateMachine.setState("particles");
+    stateMachine.setCurrentState("particles");
 }
 
 void Particles::run()
@@ -14,6 +14,9 @@ void Particles::run()
     while(!shutDown)
     {
         stateMachine.run();
+
+        if(stateMachine.isFinished())
+            quit();
     }
 }
 
