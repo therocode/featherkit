@@ -30,8 +30,7 @@ std::string SplashState::run()
         else if(event.type == windbreeze::Event::RESIZED)
         {
             std::cout << event.size.width << "\n";
-            splashSprite.setScale(event.size.width, event.size.height);
-            splashSprite.setPosition(0, 0);
+            sfWindow.setView(sf::View(sf::FloatRect({0, 0, event.size.width, event.size.height})));
         }
     }
 
