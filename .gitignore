@@ -7,3 +7,4 @@ Makefile
 *.a
 bin/*
 lib/*
+doxy/gen/*
