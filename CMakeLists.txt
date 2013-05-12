@@ -80,9 +80,9 @@ if(BUILD_BREEZE)
         list(REMOVE_ITEM breeze_source_files "${CMAKE_CURRENT_LIST_DIR}/src/breeze/sfmleventbackend.cpp")
         list(REMOVE_ITEM breeze_source_files "${CMAKE_CURRENT_LIST_DIR}/src/breeze/sfmlwindowbackend.cpp")
     endif()
+    add_library(${project_name}-breeze ${breeze_header_files} ${breeze_source_files})
 endif()
 
-add_library(${project_name}-breeze ${breeze_header_files} ${breeze_source_files})
 
 ##test section##
 if(BUILD_TESTS)
