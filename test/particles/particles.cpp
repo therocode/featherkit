@@ -9,7 +9,7 @@ void Particles::setup()
 
     stateMachine.addGameState("splash", new SplashState(sfWindow, inputHandler));
     stateMachine.addGameState("particles", new ParticleState(sfWindow, inputHandler, actionHandler));
-    stateMachine.setCurrentState("particles");
+    stateMachine.setCurrentState("splash");
 }
 
 void Particles::run()
