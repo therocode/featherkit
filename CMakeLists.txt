@@ -57,14 +57,14 @@ endif()
 #find all source files
 file(GLOB_RECURSE storm_source_files "storm/src/*.cpp")
 file(GLOB_RECURSE storm_header_files "storm/src/*.h")
-add_library(${project_name}_storm ${storm_header_files} ${storm_source_files})
+add_library(${project_name}-storm ${storm_header_files} ${storm_source_files})
 
 ##gale section##
 #find all source files
 include_directories("gale")
 file(GLOB_RECURSE gale_source_files "gale/src/*.cpp")
 file(GLOB_RECURSE gale_header_files "gale/src/*.h")
-add_library(${project_name}_gale ${gale_header_files} ${gale_source_files})
+add_library(${project_name}-gale ${gale_header_files} ${gale_source_files})
 
 ##breeze section##
 #find all source files
@@ -75,7 +75,7 @@ if(NOT ${BUILD_BREEZE_SFMLBACKEND})
     list(REMOVE_ITEM breeze_source_files "${CMAKE_CURRENT_LIST_DIR}/src/sfmleventbackend.cpp")
 endif()
 
-add_library(${project_name}_breeze ${breeze_header_files} ${breeze_source_files})
+add_library(${project_name}-breeze ${breeze_header_files} ${breeze_source_files})
 
 ##test section##
 if(BUILD_TESTS)
