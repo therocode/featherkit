@@ -1,0 +1,18 @@
+
+json0 todo:
+--------------------
+
+
+- support asserting instead of throwing exceptions
+
+- make the float tokenization conformant
+
+- tokenizer speed
+
+- make parsing of 'true' 'false' 'null' case insensitive
+
+- fix alignment of Value::data
+
+- when writing strings, escape characters that need escaping
+
+- handle unicode and unicode literals?
