@@ -1,7 +1,7 @@
-#include "entity/entitymanager.h"
-#include "util/entityfileloader.h"
-#include "entity/entity.h"
-#include "entitybackends/basicentitybackend.h"
+#include "gale/entitymanager.h"
+#include "gale/entityfileloader.h"
+#include "gale/entity.h"
+#include "gale/basicentitybackend.h"
 #include <iostream>
 
 struct FloatVec2

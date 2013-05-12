@@ -96,18 +96,18 @@ if(BUILD_TESTS)
         file(GLOB_RECURSE particles_header_files "test/particles/*.h")
 
         add_executable(${project_name}_particles ${particles_header_files} ${particles_source_files})
-        target_link_libraries(${project_name}_particles windgale windbreeze windstorm libsfml-graphics.so)
+        target_link_libraries(${project_name}_particles windlab-gale windlab-breeze windlab-storm libsfml-graphics.so)
     endif()
 
     file(GLOB_RECURSE entity_source_files "test/entitytest/*.cpp")
     file(GLOB_RECURSE entity_header_files "test/entitytest/*.h")
 
     add_executable(${project_name}_entity ${entity_header_files} ${entity_source_files})
-    target_link_libraries(${project_name}_entity windgale windbreeze windstorm libsfml-graphics.so)
+    target_link_libraries(${project_name}_entity windlab-gale windlab-breeze windlab-storm libsfml-graphics.so)
 
     file(GLOB_RECURSE texttest_source_files "test/texttest/*.cpp")
     file(GLOB_RECURSE texttest_header_files "test/texttest/*.h")
 
     add_executable(${project_name}_texttest ${texttest_header_files} ${texttest_source_files})
-    target_link_libraries(${project_name}_texttest windgale windbreeze windstorm libsfml-graphics.so)
+    target_link_libraries(${project_name}_texttest windlab-gale windlab-breeze windlab-storm libsfml-graphics.so)
 endif()

@@ -1,14 +1,14 @@
 #include <gamestate.h>
 #include <vector>
-#include <entity/entitygroup.h>
+#include <gale/entitygroup.h>
 #include "component.h"
-#include <util/entityfileloader.h>
-#include <entitybackends/basicentitybackend.h>
+#include <gale/entityfileloader.h>
+#include <gale/basicentitybackend.h>
 #include "component.h"
-#include <util/defaultsetters.h>
+#include <gale/defaultsetters.h>
 #include <SFML/System/Clock.hpp>
-#include <inputhandler.h>
-#include <actionhandler.h>
+#include <breeze/inputhandler.h>
+#include <breeze/actionhandler.h>
 
 enum {ORANGE, LIME, TURQUOISE, SKYBLUE, PURPLE, PINK};
 

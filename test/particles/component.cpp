@@ -1,8 +1,8 @@
 #include "component.h"
-#include <entity/entity.h>
-#include <entity/entitygroup.h>
+#include <gale/entity.h>
+#include <gale/entitygroup.h>
 #include <cmath>
-#include <entitybackends/alignedentitybackend.h>
+#include <gale/alignedentitybackend.h>
 #include <SFML/OpenGL.hpp>
 #include <iostream>
 

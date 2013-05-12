@@ -1,7 +1,7 @@
-#include <entitybackends/basicentitybackend.h>
-#include <util/defaultsetters.h>
-#include <entity/entitygroup.h>
-#include <util/entityfileloader.h>
+#include <gale/basicentitybackend.h>
+#include <gale/defaultsetters.h>
+#include <gale/entitygroup.h>
+#include <gale/entityfileloader.h>
 #include <iostream>
 #include <cstring>
 #include <functional>

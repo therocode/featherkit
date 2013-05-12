@@ -1,6 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include <entity/entitygroup.h>
+#include <gale/entitygroup.h>
 
 namespace windgale
 {
