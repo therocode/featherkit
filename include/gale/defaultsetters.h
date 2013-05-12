@@ -1,4 +1,4 @@
-#include "../entity/entity.h"
+#include "entity.h"
 #include <string>
 #include <vector>
 

@@ -1,6 +1,6 @@
 #pragma once
-#include "../common.h"
-#include "../entity/attributelist.h"
+#include "common.h"
+#include "attributelist.h"
 
 namespace windgale
 {

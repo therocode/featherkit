@@ -1,5 +1,5 @@
 #include "basicentitybackend.h"
-#include "../entity/entityexceptions.h"
+#include "include/gale/entityexceptions.h"
 #include <sstream>
 #include <cstring>
 
