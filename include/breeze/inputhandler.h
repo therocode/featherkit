@@ -35,10 +35,20 @@ namespace windbreeze
             InputBackend& inputBackend;
             std::queue<Event> eventQueue;
     };
-}
-
 /** @class InputHandler
  *  Provides an access to input events, as well as the current state of devices.
  *  
  *
  */
+
+/** @fn InputHandler::InputHandler(InputBackend& backend) 
+ *  Constructor that does stuff!
+ *
+ *
+ */
+
+/** @fn void InputHandler::processEvents(bool keepLast = false)
+ *  Grabs the events from the backend
+ */
+}
+
