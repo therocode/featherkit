@@ -56,6 +56,7 @@ endif()
 if(BUILD_STORM)
     ##storm section##
     #find all source files
+    include_directories(${CMAKE_CURRENT_LIST_DIR}/include/storm)
     file(GLOB_RECURSE storm_source_files "src/storm/*.cpp")
     file(GLOB_RECURSE storm_header_files "include/storm/*.h")
     add_library(${project_name}-storm ${storm_header_files} ${storm_source_files})
@@ -64,7 +65,7 @@ endif()
 if(BUILD_GALE)
     ##gale section##
     #find all source files
-    include_directories("gale")
+    include_directories(${CMAKE_CURRENT_LIST_DIR}/include/gale)
     file(GLOB_RECURSE gale_source_files "src/gale/*.cpp")
     file(GLOB_RECURSE gale_header_files "include/gale/*.h")
     add_library(${project_name}-gale ${gale_header_files} ${gale_source_files})
@@ -73,6 +74,7 @@ endif()
 if(BUILD_BREEZE)
     ##breeze section##
     #find all source files
+    include_directories(${CMAKE_CURRENT_LIST_DIR}/include/breeze)
     file(GLOB_RECURSE breeze_source_files "src/breeze/*.cpp")
     file(GLOB_RECURSE breeze_header_files "include/breeze/*.h")
 
