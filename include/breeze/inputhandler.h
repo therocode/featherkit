@@ -59,5 +59,11 @@ namespace windbreeze
  *  @param event Event instance in which to store the frontmost event
  *  @return Returns true if an event was given, or false if the event queue was empty
  */
+
+/** @fn const std::queue<Event>& InputHandler::getEventQueue() const
+ *  Access function
+ *
+ *  @return Returns a const reference to the internal event queue
+ */
 }
 
