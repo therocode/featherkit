@@ -38,22 +38,22 @@ namespace windbreeze
         return eventQueue;
     }
     
-    bool InputHandler::isKeyPressed(Keyboard::Code code)
+    bool InputHandler::isKeyPressed(Keyboard::Code code) const
     {
         return inputBackend.isKeyPressed(code);
     }
     
-    bool InputHandler::isMouseButtonPressed(Mouse::Button b)
+    bool InputHandler::isMouseButtonPressed(Mouse::Button b) const
     {
         return inputBackend.isMouseButtonPressed(b);
     }
     
-    IntVec2 InputHandler::getMouseGlobalPosition()
+    IntVec2 InputHandler::getMouseGlobalPosition() const
     {
         return inputBackend.getMouseGlobalPosition();
     }
 
-    IntVec2 InputHandler::getMouseWindowPosition()
+    IntVec2 InputHandler::getMouseWindowPosition() const
     {
         return inputBackend.getMouseWindowPosition();
     }
@@ -68,27 +68,27 @@ namespace windbreeze
         inputBackend.setMouseWindowPosition(x, y);
     }
 
-    bool InputHandler::isGamepadConnected(uint32_t id)
+    bool InputHandler::isGamepadConnected(uint32_t id) const
     {
         return inputBackend.isGamepadConnected(id);
     }
 
-    uint32_t InputHandler::getGamepadButtonCount(uint32_t id)
+    uint32_t InputHandler::getGamepadButtonCount(uint32_t id) const
     {
         return inputBackend.getGamepadButtonCount(id);
     }
 
-    bool InputHandler::isGamepadButtonPressed(uint32_t id, uint32_t button)
+    bool InputHandler::isGamepadButtonPressed(uint32_t id, uint32_t button) const
     {
         return inputBackend.isGamepadButtonPressed(id, button);
     }
 
-    bool InputHandler::gamepadHasAxis(uint32_t id, Gamepad::Axis axis)
+    bool InputHandler::gamepadHasAxis(uint32_t id, Gamepad::Axis axis) const
     {
         return inputBackend.gamepadHasAxis(id, axis);
     }
 
-    float InputHandler::getGamepadAxisPosition(uint32_t id, Gamepad::Axis axis)
+    float InputHandler::getGamepadAxisPosition(uint32_t id, Gamepad::Axis axis) const
     {
         return inputBackend.getGamepadAxisPosition(id, axis);
     }
