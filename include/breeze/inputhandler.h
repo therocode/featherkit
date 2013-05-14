@@ -15,19 +15,19 @@ namespace windbreeze
             bool pollEvent(Event& event);
             const std::queue<Event>& getEventQueue() const;
 
-            bool isKeyPressed(Keyboard::Code code);
+            bool isKeyPressed(Keyboard::Code code) const;
 
-            bool isMouseButtonPressed(Mouse::Button b);
-            IntVec2 getMouseGlobalPosition();
-            IntVec2 getMouseWindowPosition();
+            bool isMouseButtonPressed(Mouse::Button b) const;
+            IntVec2 getMouseGlobalPosition() const;
+            IntVec2 getMouseWindowPosition() const;
             void setMouseGlobalPosition(int32_t x, int32_t y);
             void setMouseWindowPosition(int32_t x, int32_t y);
 
-            bool isGamepadConnected(uint32_t id);
-            uint32_t getGamepadButtonCount(uint32_t id);
-            bool isGamepadButtonPressed(uint32_t id, uint32_t button);
-            bool gamepadHasAxis(uint32_t id, Gamepad::Axis axis);
-            float getGamepadAxisPosition(uint32_t id, Gamepad::Axis axis);
+            bool isGamepadConnected(uint32_t id) const;
+            uint32_t getGamepadButtonCount(uint32_t id) const;
+            bool isGamepadButtonPressed(uint32_t id, uint32_t button) const;
+            bool gamepadHasAxis(uint32_t id, Gamepad::Axis axis) const;
+            float getGamepadAxisPosition(uint32_t id, Gamepad::Axis axis) const;
 
             void setGamepadThreshold(float threshold);
             void setKeyRepeatEnabled(bool enabled);
@@ -44,7 +44,7 @@ namespace windbreeze
 /** @fn InputHandler::InputHandler(InputBackend& backend) 
  *  Constructs an input handler with the given backend.
  *  
- *  @param backend Input backend given
+ *  @param backend Input backend given.
  */
 
 /** @fn void InputHandler::processEvents(bool keepLast = false)
@@ -56,88 +56,104 @@ namespace windbreeze
 /** @fn bool InputHandler::pollEvent(Event& event)
  *  Accesses the frontmost event in the event queue, removing it in the process.
  *
- *  @param event Event instance in which to store the frontmost event
- *  @return Returns true if an event was given, or false if the event queue was empty
+ *  @param event Event instance in which to store the frontmost event.
+ *  @return Returns true if an event was given, or false if the event queue was empty.
  */
 
 /** @fn const std::queue<Event>& InputHandler::getEventQueue() const
- *  Access function
+ *  Event queue access function.
  *
- *  @return Returns a const reference to the internal event queue
+ *  @return Returns a const reference to the internal event queue.
  */
 
-/** @fn bool InputHandler::isKeyPressed(Keyboard::Code code)
+/** @fn bool InputHandler::isKeyPressed(Keyboard::Code code) const
  *  Checks if a key on the keyboard is pressed or not.
  *
- *  @param code The key to check
- *  @return Returns true if the key is currently pushed down
+ *  @param code The key to check.
+ *  @return Returns true if the key is currently pushed down.
  */
 
-/** @fn bool InputHandler::isMouseButtonPressed(Mouse::Button b)
+/** @fn bool InputHandler::isMouseButtonPressed(Mouse::Button b) const
  *  Checks if a button on the mouse is pressed or not.
  *
- *  @param b The button to check
- *  @return Returns true if the button is currently pushed down
+ *  @param b The button to check.
+ *  @return Returns true if the button is currently pushed down.
  */
 
-/** @fn IntVec2 getMouseGlobalPosition()
- *  Accesses the mouse coordinates relative to the whole screen
+/** @fn IntVec2 InputHandler::getMouseGlobalPosition() const
+ *  Accesses the mouse coordinates relative to the whole screen.
  *
- *  @return Returns the coordinates as a vector
+ *  @return Returns the coordinates as a vector.
  */
 
-/** @fn 
- *  desc
+/** @fn IntVec2 InputHandler::getMouseWindowPosition() const
+ *  Accesses the mouse coordinates relative to the window.
  *
- *
+ *  @return Returns the coordinates as a vector.
  */
 
-/** @fn 
- *  desc
+/** @fn void InputHandler::setMouseGlobalPosition(int32_t x, int32_t y)
+ *  Sets the mouse position relative to the whole screen.
  *
- *
+ *  @param x X coordinate.
+ *  @param y Y coordinate.
  */
 
-/** @fn 
- *  desc
+/** @fn void InputHandler::setMouseWindowPosition(int32_t x, int32_t y)
+ *  Sets the mouse position relative to the window.
  *
- *
+ *  @param x X coordinate.
+ *  @param y Y coordinate.
  */
 
-/** @fn 
- *  desc
- *
- *
+/** @fn bool InputHandler::isGamepadConnected(uint32_t id) const
+ *  Checks if the specified gamepad is connected.
+ *  
+ *  @param id Gamepad to check.
+ *  @return bool Returns true if connected.
  */
 
-/** @fn 
- *  desc
+/** @fn uint32_t InputHandler::getGamepadButtonCount(uint32_t id) const
+ *  Gives the amount of buttons available on the given gamepad.
  *
- *
+ *  @param id Gamepad to check.
+ *  @return uint32_t Returns the amount of buttons.
  */
 
-/** @fn 
- *  desc
+/** @fn  bool InputHandler::isGamepadButtonPressed(uint32_t id, uint32_t button) const
+ *  Checks if a button on the specified gamepad is being pressed down.
  *
- *
+ *  @param id Gamepad to check.
+ *  @param button Button to check.
+ *  @return bool Returns true if the putton is pressed.
  */
 
-/** @fn 
- *  desc
+/** @fn bool InputHandler::gamepadHasAxis(uint32_t id, Gamepad::Axis axis) const
+ *  Checks if the specified gamepad has a given axis.
  *
- *
+ *  @param id Gamepad to check.
+ *  @param axis Axis to look for.
+ *  @return bool Returns true if the axis exists.
  */
 
-/** @fn 
- *  desc
+/** @fn float InputHandler::getGamepadAxisPosition(uint32_t id, Gamepad::Axis axis) const
+ *  Accesses the current position for the given axis on a specific gamepad.
  *
- *
+ *  @param id Gamepad to check.
+ *  @param axis Axis of which to get the position.
+ *  @return float Returns the position of the axis.
  */
 
-/** @fn 
- *  desc
+/** @fn void InputHandler::setGamepadThreshold(float threshold)
+ *  Sets the threshold on when Event::GAMEPADMOVED events are fired.
  *
+ *  @param threshold The threshold to set.
+ */
+
+/** @fn void InputHandler::setKeyRepeatEnabled(bool enabled)
+ *  Used to set if Event::KEYPRESSED events should be fired continuously if a key is being hold or just once.
  *
+ *  @param enabled True sets to enabled.
  */
 }
 
