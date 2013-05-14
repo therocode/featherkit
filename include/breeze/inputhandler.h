@@ -65,5 +65,79 @@ namespace windbreeze
  *
  *  @return Returns a const reference to the internal event queue
  */
+
+/** @fn bool InputHandler::isKeyPressed(Keyboard::Code code)
+ *  Checks if a key on the keyboard is pressed or not.
+ *
+ *  @param code The key to check
+ *  @return Returns true if the key is currently pushed down
+ */
+
+/** @fn bool InputHandler::isMouseButtonPressed(Mouse::Button b)
+ *  Checks if a button on the mouse is pressed or not.
+ *
+ *  @param b The button to check
+ *  @return Returns true if the button is currently pushed down
+ */
+
+/** @fn IntVec2 getMouseGlobalPosition()
+ *  Accesses the mouse coordinates relative to the whole screen
+ *
+ *  @return Returns the coordinates as a vector
+ */
+
+/** @fn 
+ *  desc
+ *
+ *
+ */
+
+/** @fn 
+ *  desc
+ *
+ *
+ */
+
+/** @fn 
+ *  desc
+ *
+ *
+ */
+
+/** @fn 
+ *  desc
+ *
+ *
+ */
+
+/** @fn 
+ *  desc
+ *
+ *
+ */
+
+/** @fn 
+ *  desc
+ *
+ *
+ */
+
+/** @fn 
+ *  desc
+ *
+ *
+ */
+
+/** @fn 
+ *  desc
+ *
+ *
+ */
+
+/** @fn 
+ *  desc
+ *
+ *
+ */
 }
 
