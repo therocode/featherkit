@@ -1,4 +1,4 @@
-#include "entitygroup.h"
+#include "framework/entity/entitygroup.h"
 #include <algorithm>
 
 namespace windgale

@@ -1,5 +1,5 @@
-#include "inputbackend.h"
-#include "inputhandler.h"
+#include <framework/input/inputbackend.h>
+#include <framework/input/inputhandler.h>
 
 namespace windbreeze
 {

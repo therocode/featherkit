@@ -1,9 +1,9 @@
 #pragma once
-#include "videomode.h"
-#include "contextsettings.h"
-#include "windowstyle.h"
+#include <framework/window/videomode.h>
+#include <framework/window/contextsettings.h>
+#include <framework/window/windowstyle.h>
+#include <framework/internal/intvec2.h>
 #include <string>
-#include "intvec2.h"
 
 namespace windbreeze
 {

@@ -1,4 +1,4 @@
-#include "defaultsetters.h"
+#include <framework/util/entity/defaultsetters.h>
 
 namespace windgale
 {

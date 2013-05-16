@@ -1,7 +1,7 @@
 #pragma once
-#include "entitybackend.h"
-#include "bimap.h"
-#include "arrayholder.h"
+#include <framework/entity/entitybackend.h>
+#include <framework/entity/arrayholder.h>
+#include <framework/internal/bimap.h>
 #include <vector>
 #include <stack>
 #include <string>

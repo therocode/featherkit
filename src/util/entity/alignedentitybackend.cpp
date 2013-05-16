@@ -1,8 +1,8 @@
-#include "alignedentitybackend.h"
+#include <framework/util/entity/alignedentitybackend.h>
 #include <algorithm>
 #include <sstream>
 #include <iostream>
-#include "entityexceptions.h"
+#include <framework/entity/entityexceptions.h>
 
     namespace windgale
     {

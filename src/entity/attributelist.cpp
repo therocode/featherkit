@@ -1,4 +1,4 @@
-#include "attributelist.h"
+#include "framework/entity/attributelist.h"
 #include <sstream>
 
 namespace windgale

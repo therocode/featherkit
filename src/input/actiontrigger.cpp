@@ -1,4 +1,4 @@
-#include "actiontrigger.h"
+#include <framework/input/actiontrigger.h>
 
 namespace windbreeze
 {

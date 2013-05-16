@@ -1,7 +1,7 @@
 #pragma once
 #include <queue>
-#include "event.h"
-#include "intvec2.h"
+#include <framework/input/event.h>
+#include <framework/internal/intvec2.h>
 
 namespace windbreeze
 {

@@ -21,6 +21,7 @@ set(project_name windlab)
 project(${project_name})
 
 include_directories(${CMAKE_CURRENT_LIST_DIR})
+include_directories(${CMAKE_CURRENT_LIST_DIR}/include)
 set(EXT_LIBS)
 
 if(USE_CLANG)
@@ -51,11 +52,9 @@ else()
     endif()
 endif()
 
-include_directories(${CMAKE_CURRENT_LIST_DIR}/include/internal)
 if(BUILD_APP)
     ##Application module##
     #find all source files
-    include_directories(${CMAKE_CURRENT_LIST_DIR}/include/application)
     file(GLOB_RECURSE app_source_files "src/application/*.cpp")
     file(GLOB_RECURSE app_header_files "include/application/*.h")
     add_library(${project_name}-app ${app_header_files} ${app_source_files})
@@ -64,11 +63,9 @@ endif()
 if(BUILD_ENTITY)
     ##Entity module##
     #find all source files
-    include_directories(${CMAKE_CURRENT_LIST_DIR}/include/entity)
     file(GLOB_RECURSE entity_source_files "src/entity/*.cpp")
     file(GLOB_RECURSE entity_header_files "include/entity/*.h")
 
-    include_directories(${CMAKE_CURRENT_LIST_DIR}/include/util/entity)
     file(GLOB_RECURSE entity_util_source_files "src/util/entity/*.cpp")
 
     add_library(${project_name}-entity ${entity_header_files} ${entity_source_files} ${entity_util_source_files})
@@ -77,8 +74,6 @@ endif()
 if(BUILD_UI)
     ##UI module##
     #find all source files
-    include_directories(${CMAKE_CURRENT_LIST_DIR}/include/window)
-    include_directories(${CMAKE_CURRENT_LIST_DIR}/include/input)
     file(GLOB_RECURSE ui_source_files "src/window/*.cpp" "src/input/*.cpp")
     file(GLOB_RECURSE ui_header_files "include/window/*.h" "include/input/*.h")
 

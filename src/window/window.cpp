@@ -1,5 +1,5 @@
-#include "window.h"
-#include "windowbackend.h"
+#include <framework/window/window.h>
+#include <framework/window/windowbackend.h>
 
 namespace windbreeze
 {
