@@ -37,14 +37,14 @@ namespace windbreeze
     };
 /** @class InputHandler
  *  Provides an access to input events and settings, as well as the current state of the input devices.
- *  Must be given an input backend upon creaton which is stored internally as a reference. 
+ *  Must be given an InputBackend upon creaton which is stored internally as a reference. 
  * 
  */
 
 /** @fn InputHandler::InputHandler(InputBackend& backend) 
- *  Construct an input handler with the given backend.
+ *  Construct an InputHandler with the given backend.
  *  
- *  @param backend Input backend given.
+ *  @param backend InputBackend given.
  */
 
 /** @fn void InputHandler::processEvents(bool keepLast = false)
@@ -125,7 +125,7 @@ namespace windbreeze
  *
  *  @param id Gamepad to check.
  *  @param button Button to check.
- *  @return True if the putton is pressed.
+ *  @return True if the button is pressed.
  */
 
 /** @fn bool InputHandler::gamepadHasAxis(uint32_t id, Gamepad::Axis axis) const

@@ -2,7 +2,7 @@
 #include <algorithm>
 #include <sstream>
 #include <iostream>
-#include "include/gale/entityexceptions.h"
+#include "entityexceptions.h"
 
     namespace windgale
     {
