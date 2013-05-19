@@ -1,5 +1,5 @@
 #pragma once
-#include "common.h"
+#include <framework/entity/common.h>
 #include <set>
 
 namespace windgale

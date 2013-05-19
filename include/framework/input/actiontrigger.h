@@ -1,6 +1,6 @@
 #pragma once
-#include "keyboard.h"
-#include "mouse.h"
+#include <framework/input/keyboard.h>
+#include <framework/input/mouse.h>
 #include <cstdint>
 
 namespace windbreeze

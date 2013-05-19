@@ -2,8 +2,8 @@
 #include <map>
 #include <string>
 #include <queue>
-#include "actiontrigger.h"
-#include "inputhandler.h"
+#include <framework/input/actiontrigger.h>
+#include <framework/input/inputhandler.h>
 
 
 namespace windbreeze
