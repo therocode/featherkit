@@ -1,9 +1,9 @@
 #pragma once
-#include "entitybackend.h"
+#include <framework/entity/entitybackend.h>
 #include <memory>
 #include <map>
 #include <vector>
-#include "common.h"
+#include <framework/entity/common.h>
 #include <stdexcept>
 
 namespace windgale

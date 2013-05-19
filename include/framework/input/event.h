@@ -1,9 +1,9 @@
 #pragma once
 
 #include <cstdint>
-#include "keyboard.h"
-#include "mouse.h"
-#include "gamepad.h"
+#include <framework/input/keyboard.h>
+#include <framework/input/mouse.h>
+#include <framework/input/gamepad.h>
 
 namespace windbreeze
 {

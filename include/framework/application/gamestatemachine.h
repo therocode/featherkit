@@ -1,6 +1,6 @@
 #include <string>
 #include <map>
-#include "gamestate.h"
+#include <framework/application/gamestate.h>
 
 namespace windstorm
 {

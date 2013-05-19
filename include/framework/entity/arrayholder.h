@@ -1,8 +1,8 @@
 #pragma once
 #include <map>
 #include <string>
-#include "common.h"
-#include "entityexceptions.h"
+#include <framework/entity/common.h>
+#include <framework/entity/entityexceptions.h>
 
 namespace windgale
 {

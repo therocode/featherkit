@@ -1,5 +1,5 @@
 #pragma once
-#include "entitymanager.h"
+#include <framework/entity/entitymanager.h>
 
 namespace windgale
 {
