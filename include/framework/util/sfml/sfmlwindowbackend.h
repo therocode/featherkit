@@ -1,5 +1,5 @@
-#include "windowbackend.h"
-#include "intvec2.h"
+#include "framework/window/windowbackend.h"
+#include "framework/internal/intvec2.h"
 #include <SFML/Window.hpp>
 
 namespace windbreeze
