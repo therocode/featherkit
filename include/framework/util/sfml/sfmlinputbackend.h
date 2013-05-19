@@ -1,5 +1,5 @@
 #include "inputbackend.h"
-#include "intvec2.h"
+#include "vec2.h"
 #include <SFML/Window.hpp>
 
 namespace windbreeze

@@ -1,5 +1,5 @@
 #include <framework/input/event.h>
-#include <framework/internal/intvec2.h>
+#include <framework/internal/vec2.h>
 #include <queue>
 
 namespace windbreeze

@@ -2,7 +2,7 @@
 #include <framework/window/videomode.h>
 #include <framework/window/contextsettings.h>
 #include <framework/window/windowstyle.h>
-#include <framework/internal/intvec2.h>
+#include <framework/internal/vec2.h>
 #include <string>
 
 namespace windbreeze
