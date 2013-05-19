@@ -105,4 +105,35 @@ namespace windbreeze
                 GamepadConnectEvent gamepadConnect;
             };
     };
+    /** @addtogroup UserInterface
+     *@{
+     *  @class Event
+     *@}
+     *
+     *  @class Event
+     *  @brief Defines an event. Contains various structs to define specific events. Holds the type and data of the event.
+     *  
+     *  @enum Event::EventType
+     *  @brief Describes different types of events.
+     * 
+     *  @var Event::type
+     *  @brief Type of the event.
+     *
+     *  @var Event::size
+     *  @brief Holds data of RESIZED events.
+     *
+     *  @var Event::key
+     *  @brief Holds data of KEYPRESSED and KEYRELEASED events.
+     * 
+     *
+     *
+     *  @struct Event::ResizeEvent
+     *  @brief Data structure to contain size information for resizing events.
+     *
+     *  @var Event::ResizeEvent::width
+     *  @brief width of new size.
+     *
+     *  @var Event::ResizeEvent::height
+     *  @brief height of new size.
+     */
 }
