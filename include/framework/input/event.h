@@ -94,15 +94,15 @@ namespace windbreeze
 
             union
             {
-                ResizeEvent size;
-                KeyEvent key;
-                TextEvent text;
-                MouseMoveEvent mouseMove;
-                MouseButtonEvent mouseButton;
-                MouseWheelEvent mouseWheel;
-                GamepadMoveEvent gamepadMove;
-                GamepadButtonEvent gamepadButton;
-                GamepadConnectEvent gamepadConnect;
+                ResizeEvent size;                      ///< Holds data of RESIZED events.
+                KeyEvent key;                          ///< Holds data of KEYPRESSED and KEYRELEASED events.
+                TextEvent text;                        ///< Holds data of TEXTENTERED events.
+                MouseMoveEvent mouseMove;              ///< Holds data of MOUSEMOVED events.
+                MouseButtonEvent mouseButton;          ///< Holds data of MOUSEBUTTONPRESSED and MOUSEBUTTONRELEASED events.
+                MouseWheelEvent mouseWheel;            ///< Holds data of MOUSEWHEELMOVED events.
+                GamepadMoveEvent gamepadMove;          ///< Holds data of GAMEPADMOVED events.
+                GamepadButtonEvent gamepadButton;      ///< Holds data of GAMEPADBUTTONPRESSED and GAMEPADBUTTONREMOVED events.
+                GamepadConnectEvent gamepadConnect;    ///< Holds data of GAMEPADCONNECTED and GAMEPADDISCONNECTED events.
             };
     };
     /** @addtogroup UserInterface
@@ -118,14 +118,6 @@ namespace windbreeze
      * 
      *  @var Event::type
      *  @brief Type of the event.
-     *
-     ***********FIX
-     *  @var Event::Data::size
-     *  @brief Holds data of RESIZED events.
-     *
-     *  @var key
-     *  @brief Holds data of KEYPRESSED and KEYRELEASED events.
-     **************ENDFIX
      *
      *
      *  @struct Event::ResizeEvent
@@ -164,7 +156,7 @@ namespace windbreeze
      *  @brief Integer representing unicode value.
      *
      *  
-     *  @struct MouseMoveEvent
+     *  @struct Event::MouseMoveEvent
      *  @brief Data structure containing data for mouse move events.
      *
      *  @var Event::MouseMoveEvent::x
@@ -174,7 +166,7 @@ namespace windbreeze
      *  @brief Y coordinate.
      *
      *
-     *  @struct MouseButtonEvent
+     *  @struct Event::MouseButtonEvent
      *  @brief Data structure containing data for mouse button events.
      *
      *  @var Event::MouseButtonEvent::button
@@ -187,7 +179,7 @@ namespace windbreeze
      *  @brief Y coordinate.
      *
      *  
-     *  @struct MouseWheelEvent
+     *  @struct Event::MouseWheelEvent
      *  @brief Data structure containing data for mouse wheel events.
      *
      *  @var Event::MouseWheelEvent::delta
