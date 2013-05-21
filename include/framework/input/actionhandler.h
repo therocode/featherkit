@@ -376,7 +376,7 @@ namespace windbreeze
     }
     
     template<class Action>
-    void ActionHandler<Action>::clearActions();
+    void ActionHandler<Action>::clearActions()
     {
         actions = std::queue<Action>();
     }
