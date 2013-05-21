@@ -110,4 +110,12 @@ namespace windbreeze
             PAUSE,
         };
     }
+    /** @addtogroup UserInterface
+     *@{
+     *  @enum Keyboard::Code
+     *@}
+     *
+     *  @enum Keyboard::Code
+     *  @brief Numerical value representing a key on the keyboard.
+     */
 }

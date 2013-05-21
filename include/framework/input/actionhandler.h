@@ -30,6 +30,7 @@ namespace windbreeze
             void removePrimaryBinding(const Action& action);
             void removeSecondaryBinding(const Action& action);
             void clearBindings();
+            void clearActions();
         private:
             std::map<ActionTrigger, Action> primaryBindings;
             std::map<ActionTrigger, Action> secondaryBindings;
@@ -373,4 +374,46 @@ namespace windbreeze
         primaryBindings.clear();
         secondaryBindings.clear();
     }
+    
+    template<class Action>
+    void ActionHandler<Action>::clearActions();
+    {
+        actions = std::queue<Action>();
+    }
+
+    /** @addtogroup UserInterface
+     *@{
+     *  @class ActionHandler
+     *@}
+     *
+     *  @class ActionHandler
+     *  @brief Provides a way to bind raw input to actions. 
+     *  Provides a way to bind raw input to actions. Actions are of an arbitrary type, provided as a template argument upon class creation. The event types that can be bound are KEYPRESSED, KEYRELEASED, MOUSEBUTTONPRESSED, MOUSEBUTTONRELEASED, GAMEPADBUTTONPRESSED and GAMEPADBUTTONRELEASED. When an event which is bound is fired, the corresponding action it is bound to is fired as well. Actions that have been fired are stored until the user accesses or deletes them. Actions are polled in a very similar way to events.
+     *
+     *  @tparam Action Type which is used as the action type.
+     *  
+     * 
+     *  @fn virtual std::queue<Event> InputBackend::fetchEvents() = 0 
+     *  @brief Fetch the events generated so far, emptying the internal event queue of the backend. This function is called by the InputHandler owning the backend and is how it accesses events and makes them available for the user.
+     *  
+     *  @return A queue with Event instances.
+     */
+     /*
+            void processActions(const InputHandler& input, bool keepLast = false);
+            bool pollAction(Action& action);
+            void bindKeyPress(Keyboard::Code code, const Action& action, bool secondary = false);
+            void bindKeyRelease(Keyboard::Code code, const Action& action, bool secondary = false);
+            void bindMousePress(Mouse::Button button, const Action& action, bool secondary = false);
+            void bindMouseRelease(Mouse::Button button, const Action& action, bool secondary = false);
+            void bindGamepadPress(uint32_t id, uint32_t button, const Action& action, bool secondary = false);
+            void bindGamepadRelease(uint32_t id, uint32_t button, const Action& action, bool secondary = false);
+            const std::map<ActionTrigger, Action>& getPrimaryBindings();
+            const std::map<ActionTrigger, Action>& getSecondaryBindings();
+            void setPrimaryBindings(const std::map<ActionTrigger, Action>& bindings);
+            void setSecondaryBindings(const std::map<ActionTrigger, Action>& bindings);
+            void removePrimaryBinding(const Action& action);
+            void removeSecondaryBinding(const Action& action);
+            void clearBindings();
+            void clearActions();
+            */
 }

@@ -33,7 +33,8 @@ namespace windbreeze
      *@}
      *
      *  @class InputBackend
-     *  @brief Abstract base class for various InputBackend implementations. The purpose of an InputBackend is to generate Event instances based on what input the application receives from the user. For example, if the user pushes a key on the keyboard, the backend is responsible to create an Event of the type Event::KEYPRESSED. The InputHandler can then fetch the events generated using the fetchEvents() function.
+     *  @brief Abstract base class for various InputBackend implementations.
+     *  Abstract base class for various InputBackend implementations. The purpose of an InputBackend is to generate Event instances based on what input the application receives from the user. For example, if the user pushes a key on the keyboard, the backend is responsible to create an Event of the type Event::KEYPRESSED. The InputHandler can then fetch the events generated using the fetchEvents() function.
      * 
      *  @fn virtual std::queue<Event> InputBackend::fetchEvents() = 0 
      *  @brief Fetch the events generated so far, emptying the internal event queue of the backend. This function is called by the InputHandler owning the backend and is how it accesses events and makes them available for the user.

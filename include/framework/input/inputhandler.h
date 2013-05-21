@@ -42,7 +42,8 @@ namespace windbreeze
  *@}
  *
  *  @class InputHandler
- *  @brief Provides an access to input events and settings, as well as the current state of the input devices. Must be given an InputBackend upon creaton which is stored internally as a reference. 
+ *  @brief Provides an access to input events and settings, as well as the current state of the input devices.
+ *  Provides an access to input events and settings, as well as the current state of the input devices. Must be given an InputBackend upon creaton which is stored internally as a reference. 
  * 
  * 
  *  @fn InputHandler::InputHandler(InputBackend& backend) 

@@ -13,4 +13,12 @@ namespace windbreeze
             XBUTTON2
         };
     }
+    /** @addtogroup UserInterface
+     *@{
+     *  @enum Mouse::Button
+     *@}
+     *
+     *  @enum Mouse::Button
+     *  @brief Numerical value representing one of the buttons on the mouse.
+     */
 }
