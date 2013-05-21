@@ -119,7 +119,6 @@ namespace windbreeze
      *  @var Event::type
      *  @brief Type of the event.
      *
-     *
      *  @struct Event::ResizeEvent
      *  @brief Data structure containing data for resize events.
      *
@@ -128,7 +127,6 @@ namespace windbreeze
      *
      *  @var Event::ResizeEvent::height
      *  @brief height of new size.
-     *
      *
      *  @struct Event::KeyEvent
      *  @brief Data structure containing data for key events.
@@ -148,13 +146,11 @@ namespace windbreeze
      *  @var Event::KeyEvent::system
      *  @brief True if the system key was held down while the event was fired.
      *
-     *
      *  @struct Event::TextEvent
      *  @brief Data structure containing data for text events.
      *
      *  @var Event::TextEvent::unicode
      *  @brief Integer representing unicode value.
-     *
      *  
      *  @struct Event::MouseMoveEvent
      *  @brief Data structure containing data for mouse move events.
@@ -164,7 +160,6 @@ namespace windbreeze
      *
      *  @var Event::MouseMoveEvent::y
      *  @brief Y coordinate.
-     *
      *
      *  @struct Event::MouseButtonEvent
      *  @brief Data structure containing data for mouse button events.
@@ -178,7 +173,6 @@ namespace windbreeze
      *  @var Event::MouseButtonEvent::y
      *  @brief Y coordinate.
      *
-     *  
      *  @struct Event::MouseWheelEvent
      *  @brief Data structure containing data for mouse wheel events.
      *
@@ -191,13 +185,11 @@ namespace windbreeze
      *  @var Event::MouseWheelEvent::y
      *  @brief Y coordinate.
      *
-     *  
      *  @struct Event::GamepadConnectEvent
      *  @brief Data structure containing data for gamepad connect events.
      *
      *  @var Event::GamepadConnectEvent::gamepadId
      *  @brief Numerical ID representing the gamepad which was connected.
-     *
      *  
      *  @struct Event::GamepadMoveEvent
      *  @brief Data structure containing data for gamepad move events.
@@ -211,7 +203,6 @@ namespace windbreeze
      *  @var Event::GamepadMoveEvent::position
      *  @brief Decimal number of the new position of the axis.
      *
-     *  
      *  @struct Event::GamepadButtonEvent
      *  @brief Data structure containing data for gamepad button events.
      *
