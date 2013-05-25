@@ -20,8 +20,8 @@ namespace windbreeze
      *@{
      *  @enum Gamepad::Axis
      *@}
-     *
+     ***
      *  @enum Gamepad::Axis
      *  @brief Numerical value representing an axis on a gamepad device.
-     */
+     ***/
 }

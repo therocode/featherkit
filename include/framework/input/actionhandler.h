@@ -385,48 +385,48 @@ namespace windbreeze
      *@{
      *  @class ActionHandler
      *@}
-     *
+     ***
      *  @class ActionHandler
      *  @brief Provides a way to bind raw input to actions. 
      *
      *  Provides a way to bind raw input to actions. Actions are of an arbitrary type, provided as a template argument upon class creation. The event types that can be bound are KEYPRESSED, KEYRELEASED, MOUSEBUTTONPRESSED, MOUSEBUTTONRELEASED, GAMEPADBUTTONPRESSED and GAMEPADBUTTONRELEASED. When an event which is bound is fired, the corresponding action it is bound to is fired as well. Actions that have been fired are stored until the user accesses or deletes them. Actions are polled in a very similar way to events.
      *  @tparam Action Type which is used as the action type.
-     * 
+     ***
      *  @fn void ActionHandler::processActions(const InputHandler& input, bool keepLast = false)
      *  @brief Scans an InputHandler instance for generated events.
      *
      *  Scans an InputHandler instance for generated events and fires appropriate actions if any of the generated events are bound. Must be called before InputHandler::pollEvent() since that function removes generated events.
      *  @param input InputHandler instance to scan.
      *  @param keepLast If this is false, the ActionHandler will discard all unhandled actions. Otherwise, new actions will be queued after the old ones. Default value is false.
-     *
+     ***
      *  @fn bool ActionHandler::pollAction(Action& action)
-     *
+     ***
      *  @fn void ActionHandler::bindKeyPress(Keyboard::Code code, const Action& action, bool secondary = false)
-     *
+     ***
      *  @fn void ActionHandler::bindKeyRelease(Keyboard::Code code, const Action& action, bool secondary = false)
-     *
+     ***
      *  @fn void ActionHandler::bindMousePress(Mouse::Button button, const Action& action, bool secondary = false)
-     *
+     ***
      *  @fn void ActionHandler::bindMouseRelease(Mouse::Button button, const Action& action, bool secondary = false)
-     *
+     ***
      *  @fn void ActionHandler::bindGamepadPress(uint32_t id, uint32_t button, const Action& action, bool secondary = false)
-     *
+     ***
      *  @fn void ActionHandler::bindGamepadRelease(uint32_t id, uint32_t button, const Action& action, bool secondary = false)
-     *
+     ***
      *  @fn const std::map<ActionTrigger, Action>& ActionHandler::getPrimaryBindings()
-     *
+     ***
      *  @fn const std::map<ActionTrigger, Action>& ActionHandler::getSecondaryBindings()
-     *
+     ***
      *  @fn void ActionHandler::setPrimaryBindings(const std::map<ActionTrigger, Action>& bindings)
-     *
+     ***
      *  @fn void ActionHandler::setSecondaryBindings(const std::map<ActionTrigger, Action>& bindings)
-     *
+     ***
      *  @fn void ActionHandler::removePrimaryBinding(const Action& action)
-     *
+     ***
      *  @fn void ActionHandler::removeSecondaryBinding(const Action& action)
-     *
+     ***
      *  @fn void ActionHandler::clearBindings()
-     *
+     ***
      *  @fn void ActionHandler::clearActions()
-     */
+     **/
 }

@@ -114,8 +114,8 @@ namespace windbreeze
      *@{
      *  @enum Keyboard::Code
      *@}
-     *
+     ***
      *  @enum Keyboard::Code
      *  @brief Numerical value representing a key on the keyboard.
-     */
+     ***/
 }
