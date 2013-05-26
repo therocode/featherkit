@@ -111,7 +111,9 @@ namespace windbreeze
      *@}
      ***
      *  @class Event
-     *  @brief Defines an event. Contains various structs to define specific events. Holds the type and data of the event.
+     *  @brief Defines an input event. 
+     *
+     *  Contains various structs to define specific input events. These holds the type of the event and its related data.
      ***
      *  @enum Event::EventType
      *  @brief Describes different types of events.
@@ -177,7 +179,7 @@ namespace windbreeze
      *  @brief Data structure containing data for mouse wheel events.
      ***
      *  @var Event::MouseWheelEvent::delta
-     *  @brief Numerical value representing how much the mouse wheel was moved. Backward move will yield a negative number.
+     *  @brief Numerical value representing how much the mouse wheel was moved. A backwards move will yield a negative number.
      ***
      *  @var Event::MouseWheelEvent::x
      *  @brief X coordinate.
@@ -189,7 +191,7 @@ namespace windbreeze
      *  @brief Data structure containing data for gamepad connect events.
      ***
      *  @var Event::GamepadConnectEvent::gamepadId
-     *  @brief Numerical ID representing the gamepad which was connected.
+     *  @brief Numerical ID representing the gamepad that was connected.
      ***
      *  @struct Event::GamepadMoveEvent
      *  @brief Data structure containing data for gamepad move events.

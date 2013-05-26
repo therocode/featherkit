@@ -114,7 +114,7 @@ namespace windbreeze
      *  @return True if the axis exists.
      ***
      *  @fn float InputHandler::getGamepadAxisPosition(uint32_t id, Gamepad::Axis axis) const
-     *  @brief Access the current position for an axis on a specific gamepad.
+     *  @brief Access the current position of an axis on a specific gamepad.
      *  @param id Gamepad to check.
      *  @param axis Axis of which to get the position.
      *  @return Position of the axis.

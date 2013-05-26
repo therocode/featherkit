@@ -35,10 +35,10 @@ namespace windbreeze
      *  @class InputBackend
      *  @brief Abstract base class for various InputBackend implementations.
      *
-     *  Abstract base class for various InputBackend implementations. The purpose of an InputBackend is to generate Event instances based on what input the application receives from the user. For example, if the user pushes a key on the keyboard, the backend is responsible to create an Event of the type Event::KEYPRESSED. The InputHandler can then fetch the events generated using the fetchEvents() function.
+     *  The purpose of an InputBackend is to generate Event instances based on what input the application receives from the user. For example, if the user pushes a key on the keyboard, the backend is responsible for creating an Event of the type Event::KEYPRESSED. The InputHandler can then fetch the events generated using the fetchEvents() function. With this abstract class, it is possible to create multiple backend implementations based on different libraries or platforms. 
      *** 
      *  @fn virtual std::queue<Event> InputBackend::fetchEvents() = 0 
-     *  @brief Fetch the events generated so far, emptying the internal event queue of the backend. This function is called by the InputHandler owning the backend and is how it accesses events and makes them available for the user.
+     *  @brief Fetch the events generated so far, emptying the internal event queue of the InputBackend. This function is called by the InputHandler that owns the InputBackend and this is how it accesses events and makes them available for the user.
      *  @return A queue with Event instances.
      ***
      *  @fn virtual bool InputBackend::isKeyPressed(Keyboard::Code code) const
@@ -92,7 +92,7 @@ namespace windbreeze
      *  @return True if the axis exists.
      ***
      *  @fn virtual float InputBackend::getGamepadAxisPosition(uint32_t id, Gamepad::Axis axis) const
-     *  @brief Access the current position for an axis on a specific gamepad.
+     *  @brief Access the current position of an axis on a specific gamepad.
      *  @param id Gamepad to check.
      *  @param axis Axis of which to get the position.
      *  @return Position of the axis.
