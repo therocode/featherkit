@@ -86,7 +86,7 @@ namespace windgale
      *
      *  @tparam Type of the attribute to get.
      *  @param attribute Name of the attribute to get.
-     *  @param outData Reference in which to store the return value.
+     *  @param outData Pointer to a variable in which to store the return value.
      *  @return True if the requested attribute existed. Otherwise false.
      ***
      *  @fn bool Entity::setAttributeSafe(const std::string& attribute, DataType* inData)
@@ -96,7 +96,7 @@ namespace windgale
      *
      *  @tparam Type of the attribute to set.
      *  @param attribute Name of the attribute to set.
-     *  @param inData Reference containing the new value of the attribute.
+     *  @param inData Pointer to a variable containing the new value of the attribute.
      *  @return True if the specified attribute existed. Otherwise false.
      ***
      *  @fn DataType Entity::getAttribute(const std::string& attribute) const
