@@ -66,6 +66,65 @@ namespace windgale
      *  @class Entity
      *  @brief Represents a single game entity.
      *
-     *  Entity entity hejhejhejhejhejhej
+     *  A game entity is no more than a collection of attributes, associated with the same entity ID. An attribute is a named value of any type. An example of an attribute would be an int named "health points" storing the value 23. An entity may have an arbitrary amount of attributes and every entity has a unique entity ID. 
+     *
+     *  Although usage may vary and is not restricted, the entities are meant to be used for ingame objects that need to store data. These could include the player, enemies, pickups, bullets, and so on.
+     ***
+     *  @fn Entity::Entity(EntityId i, EntityManager& m)
+     *  @brief Construct an Entity. 
+     *
+     *  This sets the EntityId to the supplied ID. The entity stores the EntityManager reference internally for using when getting and setting attributes.
+     *
+     *  Observe that entities aren't mean to be created manually, but using the EntityManager::CreateEntity function.
+     *  @param i ID of the new entity.
+     *  @param m EntityManager that the entity will use.
+     ***
+     *  @fn bool Entity::getAttributeSafe(const std::string& attribute, DataType* outData) const
+     *  @brief Retrieve the value of an attribute of the Entity in a safe way.
+     *
+     *  As opposed to Entity::getAttribute, this function will not throw an exception when the requested attribute does not exist. Instead the function returns false and the return value is undefined.
+     *
+     *  @tparam Type of the attribute to get.
+     *  @param attribute Name of the attribute to get.
+     *  @param outData Reference in which to store the return value.
+     *  @return True if the requested attribute existed. Otherwise false.
+     ***
+     *  @fn bool Entity::setAttributeSafe(const std::string& attribute, DataType* inData)
+     *  @brief Set the value of an attribute of the Entity in a safe way.
+     *
+     *  As opposed to Entity::setAttribute, this function will not throw an exception when the requested attribute does not exist. Instead the function returns false and no attribute is modified.
+     *
+     *  @tparam Type of the attribute to set.
+     *  @param attribute Name of the attribute to set.
+     *  @param inData Reference containing the new value of the attribute.
+     *  @return True if the specified attribute existed. Otherwise false.
+     ***
+     *  @fn DataType Entity::getAttribute(const std::string& attribute) const
+     *  @brief Get the value of an attribute of the entity.
+     *
+     *  If the given attribute does not exist, this function will cause an InvalidAttributeException to be thrown. For a safe way to get attributes, see Entity::getAttributeSafe.
+     *  
+     *  @tparam Type of the attribute to get.
+     *  @param attribute Name of the attribute to get.
+     *  @return Attribute value.
+     ***
+     *  @fn void Entity::setAttribute(const std::string& attribute, DataType value) const
+     *  @brief Set the value of an attribute of the entity.
+     *
+     *  If the given attribute does not exist, this function will cause an InvalidAttributeException to be thrown. For a safe way to set attributes, see Entity::setAttributeSafe.
+     *  
+     *  @tparam Type of the attribute to set.
+     *  @param attribute Name of the attribute to set.
+     *  @param value Value to set the attribute to.
+     ***
+     *  @fn bool Entity::hasAttribute(const std::string& attribute)
+     *  @brief Check if the entity has an attribute.
+     *
+     *  @param attribute Name of the attribute to check.
+     *  @return True if the attribute exists.
+     ***
+     *  @fn EntityId Entity::getId()
+     *  @brief Get the ID of an entity.
+     *  @return The ID.
      ***/
 }
