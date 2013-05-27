@@ -15,22 +15,6 @@ namespace windgale
                 : std::runtime_error(message) { };
     };
     
-    //TODO: check if unsorted_map/set would be better in places
-    //TODO: apply rule of three - including move constructor
-    //TODO: http://stackoverflow.com/questions/3279543/what-is-the-copy-and-swap-idiom
-    //TODO: make use of std::insert and std::erase
-    //TODO: profile! make a dumb entity implementation and compare. 
-    //TODO: think: is attributeArrayLocation necessary if std::maps are always sorted and index can be gotten therefrom?
-    //TODO: think: should expiration of pointers be checked before the library uses lock?
-    //TODO: think: should it be possible to disable attributes?
-    //TODO: think; should entity manager really do this much? register attributes etc
-    //TODO: clean up, using auto, const etc
-    //TODO: nicer type for IDs
-    //TODO: consider if components should be a system included, or up to the user
-    //TODO: what about temporary variables that needs to be stored in components? how to handle that? example: last frame position, such
-    //TODO: mandatory/non-mandatory attributes when getting the data from iterators?
-    //TODO: error checking for the attribute loader
-
     struct EntityTypeData
     {
         AttributeList attributeList;
