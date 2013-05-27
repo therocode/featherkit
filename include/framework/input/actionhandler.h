@@ -389,9 +389,11 @@ namespace windbreeze
      *  @class ActionHandler
      *  @brief Provides a way to bind raw input to actions. 
      *
-     *  This class let's you poll actions in a way similar to how the InputHandler lets you poll input events. These actions can the be used to control the game. By using actions instead of raw input in the game, key configurations and platform portability is a lot easier to setup since only the bindings need to be changed. 
+     *  When an input which is bound to an action is received, the corresponding action is generated. Actions are not defined in any way and could be anything from a player jump action, to a quit the game action. For example, the keyboard key Keyboard::SPACE could be bound to the action BITE which would make the player bite in front of him. The data type of the actions is configurable using the template argument.
      *
-     *  Actions are of an arbitrary type, provided as a template argument upon class creation. The event types that can be bound are KEYPRESSED, KEYRELEASED, MOUSEBUTTONPRESSED, MOUSEBUTTONRELEASED, GAMEPADBUTTONPRESSED and GAMEPADBUTTONRELEASED. When an event which is bound is fired, the corresponding action it is bound to is fired as well. Actions that have been fired are stored until the user accesses or deletes them. Actions are polled in a very similar way to events.
+     *  The ActionHandler lets you poll actions in a way similar to how the InputHandler lets you poll input events. These actions can the be used to control the game. By using actions instead of raw input in the game, key configurations and platform portability is a lot easier to setup since only the bindings need to be changed. Generated actions are stored until they are polled or until the action handler is cleared using the ActionHandler::clearActions() function.
+     *
+     *  The event types that can be bound are KEYPRESSED, KEYRELEASED, MOUSEBUTTONPRESSED, MOUSEBUTTONRELEASED, GAMEPADBUTTONPRESSED and GAMEPADBUTTONRELEASED.
      *  @tparam Action Type which is used as the action type.
      ***
      *  @fn void ActionHandler::processActions(const InputHandler& input, bool keepLast = false)
