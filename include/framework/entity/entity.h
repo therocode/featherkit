@@ -57,4 +57,15 @@ namespace windgale
     {
         entityManager.setAttribute<DataType>(attribute, id, &value);
     }
+
+    /** @addtogroup EntitySystem
+     *@{
+     *  @class Entity
+     *@}
+     ***
+     *  @class Entity
+     *  @brief Represents a single game entity.
+     *
+     *  Entity entity hejhejhejhejhejhej
+     ***/
 }
