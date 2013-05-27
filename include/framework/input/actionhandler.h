@@ -389,7 +389,9 @@ namespace windbreeze
      *  @class ActionHandler
      *  @brief Provides a way to bind raw input to actions. 
      *
-     *  Provides a way to bind raw input to actions. Actions are of an arbitrary type, provided as a template argument upon class creation. The event types that can be bound are KEYPRESSED, KEYRELEASED, MOUSEBUTTONPRESSED, MOUSEBUTTONRELEASED, GAMEPADBUTTONPRESSED and GAMEPADBUTTONRELEASED. When an event which is bound is fired, the corresponding action it is bound to is fired as well. Actions that have been fired are stored until the user accesses or deletes them. Actions are polled in a very similar way to events.
+     *  This class let's you poll actions in a way similar to how the InputHandler lets you poll input events. These actions can the be used to control the game. By using actions instead of raw input in the game, key configurations and platform portability is a lot easier to setup since only the bindings need to be changed. 
+     *
+     *  Actions are of an arbitrary type, provided as a template argument upon class creation. The event types that can be bound are KEYPRESSED, KEYRELEASED, MOUSEBUTTONPRESSED, MOUSEBUTTONRELEASED, GAMEPADBUTTONPRESSED and GAMEPADBUTTONRELEASED. When an event which is bound is fired, the corresponding action it is bound to is fired as well. Actions that have been fired are stored until the user accesses or deletes them. Actions are polled in a very similar way to events.
      *  @tparam Action Type which is used as the action type.
      ***
      *  @fn void ActionHandler::processActions(const InputHandler& input, bool keepLast = false)
