@@ -147,7 +147,7 @@ namespace windgale
      *
      *  The entity type is a name mapped to a map of attributes and their default values. The registered entity type will have all the attributes provided in the map. For example, an Entity type called "Apple" might be registered with the attributes "weight", "brand" and "ripeness". Keep in mind that these attributes must have been registered using EntityManager::registerAttribute.
      *
-     *  Default values are given as strings. They may be empty in which case the attribute does not have a default value. These strings have to be hadled by a default setter function. These functions must be registered separately using EntityManager::setDefaultSetter. See that function for more information on default values.
+     *  Default values are given as strings. They may be empty in which case the attribute does not have a default value. These strings have to be hadled by a default setter function. These functions must be registered separately using EntityManager::registerDefaultSetter. See that function for more information on default values.
      *  @param type Name of the new Entity type.
      *  @param attributes Map containing attribute names and default values.
      ***
@@ -157,7 +157,7 @@ namespace windgale
      *  Works the same as EntityManager::registerEntityType except it registers a whole map full of Entity types at once. Useful for loading Entity type configurations that have been read from file.
      *  @param types Map containing Entity type names and maps with attribute information.
      ***
-     *  @fn void EntityManager::setDefaultSetter(std::string attribute, void (*defaultFunc)(std::string, std::vector<std::string>&, WeakEntityPtr))
+     *  @fn void EntityManager::registerDefaultSetter(std::string attribute, void (*defaultFunc)(std::string, std::vector<std::string>&, WeakEntityPtr))
      *  @brief Register a default setter function for a given attribute.
      *
      *  When registering entity types, default values are registered with their attributes. These default values are always just plain strings, and to make these actually being set to the attribute which might be of any given type in a correct way, a default setter function is needed.
@@ -187,7 +187,7 @@ namespace windgale
      *  @endcode
      *  This works since the default string "1.0f,0.0f,0.0f" will be given to the default setter function as "1.0f", "0.0f" and "0.0f" in the std::vector. Of course it needs to be registered using this function:
      *  @code
-     *  entityManager.setDefaultSetter("Colour", &colourSetter);
+     *  entityManager.registerDefaultSetter("Colour", &colourSetter);
      *  @endcode
      *
      *  After this, whenever an entity of that type (or any other type using the "Colour" attribute) is created, the default value will be set according to the default string.
