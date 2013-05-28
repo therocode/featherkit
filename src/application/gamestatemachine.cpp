@@ -55,7 +55,7 @@ namespace windstorm
             currentState = gameStates.at(nextStateName);
             currentStateName = nextStateName;
 
-            currentState->handOver(previousState);
+            currentState->handOver(previousState, previousStateName);
 
             currentState->activate(previousStateName);
         }

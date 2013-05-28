@@ -8,7 +8,7 @@ namespace windstorm
         public:
             virtual void activate(std::string previousState) {}
             virtual void deactivate(std::string nextState) {}
-            virtual void handOver(GameState* previousState) {}
+            virtual void handOver(GameState* previousState, std::string previousStateName) {}
             virtual void setup() {}
             virtual std::string run() = 0;
             virtual void destroy() {}
