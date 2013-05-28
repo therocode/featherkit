@@ -17,6 +17,7 @@ namespace windgale
         EntityId createdId = backend.addEntity(entityTypes.at(type).attributeList);
         EntityPtr created = std::make_shared<Entity>(createdId, *this);
         entities.insert(std::pair<EntityId, EntityPtr>(createdId, created));
+
         
         if(!entityTypes.at(type).defaultStrings.empty())
         {
@@ -35,7 +36,7 @@ namespace windgale
                     std::string parameter;
                     while(std::getline(splitter, parameter, ','))
                         parameters.push_back(parameter);
-                    (*defaultSetters.at(pair.first))(pair.first, parameters, WeakEntityPtr(created));
+                    defaultSetters.at(pair.first)(pair.first, parameters, WeakEntityPtr(created));
                 }
             }
         }
@@ -103,12 +104,12 @@ namespace windgale
         }
     }
     
-    void EntityManager::setDefaultSetter(std::string attribute, void (*defaultFunc)(std::string, std::vector<std::string>&, WeakEntityPtr))
+    void EntityManager::registerDefaultSetter(std::string attribute, std::function<void(std::string, std::vector<std::string>&, WeakEntityPtr)> defaultFunc)
     {
         std::hash<std::string> hasher;
         if(backend.attributeIsValid(hasher(attribute)))
         {
-            defaultSetters.insert(std::pair<std::string, void(*)(std::string, std::vector<std::string>&, WeakEntityPtr)>(attribute, defaultFunc));
+            defaultSetters.insert(std::pair<std::string, std::function<void(std::string, std::vector<std::string>&, WeakEntityPtr)> >(attribute, defaultFunc));
         }
         else
         {

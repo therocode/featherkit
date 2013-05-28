@@ -37,7 +37,7 @@ namespace windgale
             void registerAttributes(const std::map<std::string, int>& attributes);
             void registerEntityType(const EntityType& type, const std::map<std::string, std::string>& attributes);
             void registerEntityTypes(const std::map<EntityType, std::map<std::string, std::string> > types);
-            void setDefaultSetter(std::string attribute, void (*defaultFunc)(std::string, std::vector<std::string>&, WeakEntityPtr));
+            void registerDefaultSetter(std::string attribute, std::function<void(std::string, std::vector<std::string>&, WeakEntityPtr)> defaultFunc);
             EntityGroup getAll();
             void removeAll();
             void reset();
@@ -45,7 +45,7 @@ namespace windgale
             EntityBackend& backend;
             std::map<EntityType, EntityTypeData> entityTypes;
             std::map<EntityId, EntityPtr> entities;
-            std::map<std::string, void (*)(std::string, std::vector<std::string>&, WeakEntityPtr)> defaultSetters;
+            std::map<std::string, std::function<void(std::string, std::vector<std::string>&, WeakEntityPtr)> > defaultSetters;
     };
 
     template<class DataType>
