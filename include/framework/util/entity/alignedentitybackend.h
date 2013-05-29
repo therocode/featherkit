@@ -1,6 +1,6 @@
 #pragma once
 #include <framework/entity/entitybackend.h>
-#include <framework/entity/arrayholder.h>
+#include <framework/util/entity/arrayholder.h>
 #include <framework/internal/bimap.h>
 #include <vector>
 #include <stack>
