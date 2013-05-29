@@ -119,7 +119,7 @@ namespace windgale
         }
     }
 
-    EntityGroup EntityManager::getAll()
+    EntityGroup EntityManager::getAll() const
     {
         EntityGroup all;
         for(const auto& pair : entities)

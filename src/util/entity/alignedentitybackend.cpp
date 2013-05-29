@@ -1,7 +1,6 @@
 #include <framework/util/entity/alignedentitybackend.h>
 #include <algorithm>
 #include <sstream>
-#include <iostream>
 #include <framework/entity/entityexceptions.h>
 
     namespace windgale
@@ -32,7 +31,6 @@
             else
             {
                 int newAttributeTargetIndex = findSuitableAttributeGroupIndex(attributeList);
-            //std::cout << "will place new attribute group at " << newAttributeTargetIndex << "\n";
             int newAttributeCreatedIndex = attributeGroupLocation.size();
 
             attributeGroupIndex.addKeyValuePair(attributeList, newAttributeCreatedIndex);
@@ -62,34 +60,9 @@
 
             swapDownEntityThroughGroups(entityArrayLocation, newAttributeTargetIndex, true);
         }
-        //debug("");
-        //std::cout << "created entity " << createdEntityId << "\n";
         return createdEntityId;
     }
 
-    void AlignedEntityBackend::debug(std::string mes)
-    {
-        std::cout << "//////////////////////////////starting debug information\n";
-        std::cout << mes << "\n";
-        std::cout << "the group:\n";
-        for(int i = 0; i < attributeGroupIndex.getItemCount(); i++)
-        {
-            std::cout << "attribute index " << i << " is " << attributeGroupIndex.getKeyAtValue(i).debug() << "\n";
-        }
-        std::cout << "the array:\n";
-        for(unsigned int i = 0; i < attributeGroupLocation.size(); i++)
-        {
-            std::cout << "attribute with id " << i << " is at array position " << attributeGroupLocation[i] << "\n";
-        }
-        std::cout << "the actual entities (pos<->id):\n";
-        for(int i = 0; i < posIdMap.getItemCount(); i++)
-        {
-            std::cout << i << " : " << posIdMap.getValueAtKey(i) << "\n";
-        }
-        std::cout << "\n";
-        std::cout << "\n";
-    }
-    
     void AlignedEntityBackend::removeEntity(const EntityId id)
     {
 
@@ -134,11 +107,8 @@
         {
             if(nextEmptyArraySlot == 0)
             {
-                //std::cout << "removed group for reason1\n";
                 removeAttributeGroup(startGroup);
             }
-            //debug("");
-            //std::cout << "removed entity " << id << "\n";
             return;
         }
 
@@ -146,12 +116,8 @@
         {
             if(attributeGroupLocation[startGroup] == nextEmptyArraySlot)
             {
-                //std::cout << "removed group for reason2 because position is " << position << " and next empty is " << nextEmptyArraySlot << "\n";
-                //std::cout << "startGRoup was " << startGroup << " and nextEmptyArraySlot was " << nextEmptyArraySlot << "\n";
                 removeAttributeGroup(startGroup);
             }
-            //debug("");
-            //std::cout << "removed entity " << id << "\n";
             return;
         }
 
@@ -166,9 +132,6 @@
 
         if(attributeGroupLocation[startGroup] == attributeGroupLocation[startGroup + 1])
         {
-            //std::cout << "removed group for reason3\n";
-            //debug("");
-            //std::cout << "removed entity " << id << "\n";
             return removeAttributeGroup(startGroup);
         }
     }
@@ -241,7 +204,7 @@
         return dataArrays.getEntryValid(identifier, posIdMap.getKeyAtValue(id));
     }
 
-    bool AlignedEntityBackend::attributeIsValid(AttributeHash identifier)
+    bool AlignedEntityBackend::attributeIsValid(AttributeHash identifier) const
     {
         return dataArrays.attributeIsValid(identifier);
     }
@@ -320,13 +283,11 @@
     void AlignedEntityBackend::swapDownEntityThroughGroups(const int startEntityPosition, const int stopGroupIndex, bool newGroup)
     {
         int swapFromIndex = startEntityPosition;
-        //std::cout << "swapping down from position " << startEntityPosition << " to where group " << stopGroupIndex << " is. the amount of groups are " << attributeGroupLocation.size() << "\n";
         for(int i = attributeGroupLocation.size() - 1; i > stopGroupIndex; i--)
         {
             int swapToIndex = attributeGroupLocation[i];
             posIdMap.swapValuesAtKeys(swapToIndex, swapFromIndex);
             dataArrays.swapData(swapToIndex, swapFromIndex);
-            //std::cout << "now swapping from " << swapFromIndex << " to " << swapToIndex << "\n";
             swapFromIndex = swapToIndex;
         }
         if(newGroup)
@@ -334,7 +295,6 @@
             int swapToIndex = attributeGroupLocation[stopGroupIndex];
             posIdMap.swapValuesAtKeys(swapToIndex, swapFromIndex);
             dataArrays.swapData(swapToIndex, swapFromIndex);
-            //std::cout << "now swapping from " << swapFromIndex << " to " << swapToIndex << "\n";
         }
     }
     
@@ -350,7 +310,6 @@
     {
         for(auto attribute : attributeList.getSet())
         {
-            //std::cout << "putting attribute " << attribute << " at position " << position << " to " << state << "\n";
             dataArrays.setEntryValid(attribute, position, state);
         }
     }
@@ -400,7 +359,7 @@
         }
     }
 
-    int AlignedEntityBackend::getAttributeGroupIndexFromPosition(int position)
+    int AlignedEntityBackend::getAttributeGroupIndexFromPosition(int position) const
     {
         int groupAmount = attributeGroupIndex.getItemCount();
 
@@ -419,7 +378,7 @@
         return index;
     }
 
-    int AlignedEntityBackend::getLastDataOfGroup(unsigned int currentGroup)
+    int AlignedEntityBackend::getLastDataOfGroup(unsigned int currentGroup) const
     {
         if(currentGroup == attributeGroupLocation.size() - 1)
             return nextEmptyArraySlot - 1;
@@ -451,7 +410,7 @@
         nextEmptyArraySlot = 0;
     }
 
-    DataMap AlignedEntityBackend::getIterableData(std::vector<std::string> stringList)
+    DataMap AlignedEntityBackend::getIterableData(std::vector<std::string> stringList) const
     {
         DataMap result;
         if(attributeGroupLocation.size() == 0)

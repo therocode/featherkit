@@ -108,7 +108,7 @@ namespace windgale
         return entities.at(id).hasData(identifier);
     }
 
-    bool BasicEntityBackend::attributeIsValid(AttributeHash identifier)
+    bool BasicEntityBackend::attributeIsValid(AttributeHash identifier) const
     {
         return(attributes.find(identifier) != attributes.end());
     }

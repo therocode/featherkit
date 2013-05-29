@@ -28,10 +28,9 @@ namespace windgale
             void setData(const AttributeHash identifier, const EntityId id, const char* inData) override;
             void getData(const AttributeHash identifier, const EntityId id, char* outData) const override;
             bool hasData(const AttributeHash identifier, const EntityId id) const override;
-            bool attributeIsValid(AttributeHash identifier) override;
+            bool attributeIsValid(AttributeHash identifier) const override;
             void clear() override;
-            DataMap getIterableData(std::vector<std::string> stringList);
-            void debug(std::string mes);
+            DataMap getIterableData(std::vector<std::string> stringList) const;
         private:
             std::string concatAttributeList(const std::vector<std::string>& attributeList) const;   
             std::vector<std::string> splitAttributeString(const std::string& attributeString) const;  
@@ -44,8 +43,8 @@ namespace windgale
             void validateAttributeList(AttributeList attributeList) const;
             int findSuitableAttributeGroupIndex(AttributeList attributeList) const; 
             int getSubsetGroupArrayPosition(AttributeList& attributeList) const;
-            int getAttributeGroupIndexFromPosition(int position);
-            int getLastDataOfGroup(unsigned int currentGroup);
+            int getAttributeGroupIndexFromPosition(int position) const;
+            int getLastDataOfGroup(unsigned int currentGroup) const;
             void removeAttributeGroup(unsigned int group);
             BiMap<int, EntityId> posIdMap;
             BiMap<AttributeList, int> attributeGroupIndex;

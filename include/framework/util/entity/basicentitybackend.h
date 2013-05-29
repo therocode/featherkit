@@ -27,7 +27,7 @@ namespace windgale
             void setData(const AttributeHash identifier, const EntityId id, const char* inData) override;
             void getData(const AttributeHash identifier, const EntityId id, char* outData) const override;
             bool hasData(const AttributeHash identifier, const EntityId id) const override;
-            bool attributeIsValid(AttributeHash identifier) override;
+            bool attributeIsValid(AttributeHash identifier) const override;
             void clear() override;
             ~BasicEntityBackend();
         private:

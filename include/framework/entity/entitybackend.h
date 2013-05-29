@@ -13,7 +13,7 @@ namespace windgale
                 virtual void setData(const AttributeHash identifier, const EntityId id, const char* inData) = 0;
                 virtual void getData(const AttributeHash identifier, const EntityId id, char* outData) const = 0;
                 virtual bool hasData(const AttributeHash identifier, const EntityId id) const = 0;
-                virtual bool attributeIsValid(AttributeHash identifier) = 0;
+                virtual bool attributeIsValid(AttributeHash identifier) const = 0;
                 virtual void clear() = 0;
     };
     /** @addtogroup EntitySystem
@@ -65,7 +65,7 @@ namespace windgale
      *  @param id ID of the Entity to check the attribute for.
      *  @return True if the attribute exists, otherwise false.
      ***
-     *  @fn virtual bool EntityBackend::attributeIsValid(AttributeHash identifier) = 0
+     *  @fn virtual bool EntityBackend::attributeIsValid(AttributeHash identifier) const = 0
      *  @brief Check if a certain attribute is registered.
      *  @param identifier Hash representing the attribute to check.
      *  @return True if the attribute is registered, otherwise false.

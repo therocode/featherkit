@@ -15,8 +15,8 @@ namespace windgale
             DataType getAttribute(const std::string& attribute) const;
             template<class DataType>
             void setAttribute(const std::string& attribute, DataType value) const;
-            bool hasAttribute(const std::string& attribute);
-            EntityId getId();
+            bool hasAttribute(const std::string& attribute) const;
+            EntityId getId() const;
         private:
             EntityId id;
             EntityManager& entityManager;
@@ -117,13 +117,13 @@ namespace windgale
      *  @param attribute Name of the attribute to set.
      *  @param value Value to set the attribute to.
      ***
-     *  @fn bool Entity::hasAttribute(const std::string& attribute)
+     *  @fn bool Entity::hasAttribute(const std::string& attribute) const
      *  @brief Check if the entity has an attribute.
      *
      *  @param attribute Name of the attribute to check.
      *  @return True if the attribute exists.
      ***
-     *  @fn EntityId Entity::getId()
+     *  @fn EntityId Entity::getId() const
      *  @brief Get the ID of an entity.
      *  @return The ID.
      ***/

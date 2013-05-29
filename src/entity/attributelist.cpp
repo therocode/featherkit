@@ -8,7 +8,7 @@ namespace windgale
         attributeSet.insert(attribute);
     }
 
-    size_t AttributeList::getSize()
+    size_t AttributeList::getSize() const
     {
         return attributeSet.size();
     }
@@ -18,7 +18,7 @@ namespace windgale
         return attributeSet;
     }
     
-    bool AttributeList::hasAttributes(AttributeList& attributes)
+    bool AttributeList::hasAttributes(AttributeList& attributes) const
     {
         for(auto attribute : attributes.attributeSet)
         {
@@ -115,14 +115,5 @@ namespace windgale
     bool AttributeList::operator>=(const AttributeList& other) const
     {
         return attributeSet.size() >= other.attributeSet.size();
-    }
-    
-    std::string AttributeList::debug()
-    {
-        std::stringstream ss;
-        for(auto temp : attributeSet)
-            ss << temp << " ";
-
-        return ss.str();
     }
 }

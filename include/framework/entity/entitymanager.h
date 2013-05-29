@@ -38,7 +38,7 @@ namespace windgale
             void registerEntityType(const EntityType& type, const std::map<std::string, std::string>& attributes);
             void registerEntityTypes(const std::map<EntityType, std::map<std::string, std::string> > types);
             void registerDefaultSetter(std::string attribute, std::function<void(std::string, std::vector<std::string>&, WeakEntityPtr)> defaultFunc);
-            EntityGroup getAll();
+            EntityGroup getAll() const;
             void removeAll();
             void reset();
         private:
@@ -196,7 +196,7 @@ namespace windgale
      *  @param attribute Name of the attribute.
      *  @param defaultFunc Pointer to the default setter function.
      ***
-     *  @fn EntityGroup EntityManager::getAll()
+     *  @fn EntityGroup EntityManager::getAll() const
      *  @brief Retrieve an EntityGroup filled with all entities currently managed by the EntityManager.
      *  @return All entities in a group.
      ***
