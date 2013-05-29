@@ -1,14 +1,22 @@
-#include <framework/util/entity/entityfileloader.h>
+#include <framework/util/entity/jsonentityloader.h>
 #include <json/json_reader.h>
 #include <fstream>
+#include <sstream>
 
 namespace windgale
 {
-    std::map<std::string, int> EntityFileLoader::loadAttributesJson(const std::string& path)
+    std::map<std::string, int> JsonEntityLoader::loadAttributesJson(const std::string& path)
     {
         std::map<std::string, int> result;
 
         std::ifstream file(path);
+        
+        if(!file)
+        {
+            std::stringstream ss;
+            ss << "Error! Attribute file not found: " << path << "\n";
+            throw FileNotFoundException(ss.str());
+        }
 
         json::Value root;
         root.SetObject();
@@ -43,11 +51,18 @@ namespace windgale
         return result;
     }
     
-    std::map<std::string, std::map<std::string, std::string> > EntityFileLoader::loadEntitiesJson(const std::string& path)
+    std::map<std::string, std::map<std::string, std::string> > JsonEntityLoader::loadEntitiesJson(const std::string& path)
     {
         std::map<std::string, std::map<std::string, std::string> > result;
 
         std::ifstream file(path);
+
+        if(!file)
+        {
+            std::stringstream ss;
+            ss << "Error! Entity file not found: " << path << "\n";
+            throw FileNotFoundException(ss.str());
+        }
 
         json::Value root;
         root.SetObject();
