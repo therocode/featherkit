@@ -1,25 +1,28 @@
 #include "framework/application/gamestatemachine.h"
+#include <iostream>
 
 namespace windstorm
 {
-    void GameStateMachine::addGameState(const std::string& name, GameState* state)
+    void GameStateMachine::addGameState(const std::string& name, std::shared_ptr<GameState> state)
     {
         state->setup();
-        gameStates.insert(std::pair<std::string, GameState*>(name, state));
+        gameStates.insert(std::pair<std::string, std::shared_ptr<GameState> >(name, state));
     }
 
     void GameStateMachine::setCurrentState(const std::string& name)
     {
         if(gameStates.find(name) != gameStates.end())
         {
-            if(currentState == nullptr)
+            if(currentState.expired())
             {
+                std::cout << "HEJ\n";
                 currentState = gameStates.at(name);
-                currentState->activate("");
+                currentState.lock()->activate("");
                 currentStateName = name;
             }
             else
             {
+                std::cout << "HOJ\n";
                 switchState(name);
             }
         }
@@ -31,7 +34,7 @@ namespace windstorm
     
     bool GameStateMachine::isFinished()
     {
-        return currentState == nullptr;
+        return currentState.expired();
     }
 
     GameStateMachine::~GameStateMachine()
@@ -39,7 +42,6 @@ namespace windstorm
         for(auto statePair : gameStates)
         {
             statePair.second->destroy();
-            delete statePair.second;
         }
     }
 
@@ -47,17 +49,17 @@ namespace windstorm
     {
         if(gameStates.find(nextStateName) != gameStates.end())
         {
-            currentState->deactivate(nextStateName);
+            currentState.lock()->deactivate(nextStateName);
 
-            GameState* previousState = currentState;
+            std::weak_ptr<GameState> previousState = currentState;
             std::string previousStateName = currentStateName;
 
             currentState = gameStates.at(nextStateName);
             currentStateName = nextStateName;
 
-            currentState->handOver(previousState, previousStateName);
+            currentState.lock()->handOver(previousState, previousStateName);
 
-            currentState->activate(previousStateName);
+            currentState.lock()->activate(previousStateName);
         }
         else
         {
@@ -67,12 +69,12 @@ namespace windstorm
     
     void GameStateMachine::run()
     {
-        std::string returned = currentState->run();
+        std::string returned = currentState.lock()->run();
         if(returned != "")
         {
             if(returned == "NONE")
             {
-                currentState = nullptr;
+                currentState.reset();
             }
             else
             {

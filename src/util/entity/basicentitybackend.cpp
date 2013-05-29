@@ -9,29 +9,23 @@ namespace windgale
     {
         for(auto attribute : attributeLists.getSet())
         {
-            attributeData.insert(std::pair<AttributeHash, char*>(attribute, new char[parent.attributes.at(attribute)]));
+            attributeData.insert(std::pair<AttributeHash, std::shared_ptr<char> >(attribute, std::shared_ptr<char>(new char[parent.attributes.at(attribute)])));
         }
     }
     
     void BasicEntityBackend::BasicBackendEntity::setData(const AttributeHash identifier, const char* inData)
     {
-        memcpy(attributeData.at(identifier), inData, (uint32_t) parent.attributes.at(identifier));
+        memcpy(attributeData.at(identifier).get(), inData, (uint32_t) parent.attributes.at(identifier));
     }
 
     void BasicEntityBackend::BasicBackendEntity::getData(const AttributeHash identifier, char* outData) const
     {
-        memcpy(outData, attributeData.at(identifier), (uint32_t) parent.attributes.at(identifier));
+        memcpy(outData, attributeData.at(identifier).get(), (uint32_t) parent.attributes.at(identifier));
     }
 
     bool BasicEntityBackend::BasicBackendEntity::hasData(const AttributeHash identifier) const
     {
         return attributeData.find(identifier) != attributeData.end();
-    }
-    
-    void BasicEntityBackend::BasicBackendEntity::kill()
-    {
-       for(auto data : attributeData)
-           delete [] data.second; 
     }
     
     BasicEntityBackend::BasicEntityBackend()
@@ -85,7 +79,6 @@ namespace windgale
 
         freeEntityIds.push(id);
 
-        entities.at(id).kill();
         entities.erase(id);
     }
 
@@ -122,11 +115,6 @@ namespace windgale
     
     void BasicEntityBackend::clear()
     {
-        for(auto entity : entities)
-        {
-            entity.second.kill();
-        }
-
        attributes.clear();
        entities.clear();
        freeEntityIds = std::stack<EntityId>();

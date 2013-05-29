@@ -9,15 +9,15 @@ namespace windstorm
     class GameStateMachine
     {
         public:
-            void addGameState(const std::string& name, GameState* state);
+            void addGameState(const std::string& name, std::shared_ptr<GameState> state);
             void setCurrentState(const std::string& name);
             bool isFinished();
             void run();
             ~GameStateMachine();
         private:
             void switchState(const std::string& nextName);
-            GameState* currentState = nullptr;
+            std::weak_ptr<GameState> currentState;
             std::string currentStateName = "";
-            std::map<StateName, GameState*> gameStates;
+            std::map<StateName, std::shared_ptr<GameState> > gameStates;
     };
 }

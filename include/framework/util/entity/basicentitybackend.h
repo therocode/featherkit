@@ -14,10 +14,9 @@ namespace windgale
                 void setData(const AttributeHash identifier, const char* inData);
                 void getData(const AttributeHash identifier, char* outData) const;
                 bool hasData(const AttributeHash identifier) const;
-                void kill();
             private:
                 BasicEntityBackend& parent;
-                std::unordered_map<AttributeHash, char*> attributeData;
+                std::unordered_map<AttributeHash, std::shared_ptr<char> > attributeData;
         };
 
         public:
