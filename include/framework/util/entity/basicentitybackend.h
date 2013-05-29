@@ -22,19 +22,19 @@ namespace windgale
 
         public:
             BasicEntityBackend();
-            int addEntity(AttributeList attributeList) override;
-            void removeEntity(const int id) override;
+            EntityId addEntity(AttributeList attributeList) override;
+            void removeEntity(const EntityId id) override;
             void registerAttribute(const AttributeHash identifier, const ElementSize elementSize) override;
-            void setData(const AttributeHash identifier, const int id, const char* inData) override;
-            void getData(const AttributeHash identifier, const int id, char* outData) const override;
-            bool hasData(const AttributeHash identifier, const int id) const override;
+            void setData(const AttributeHash identifier, const EntityId id, const char* inData) override;
+            void getData(const AttributeHash identifier, const EntityId id, char* outData) const override;
+            bool hasData(const AttributeHash identifier, const EntityId id) const override;
             bool attributeIsValid(AttributeHash identifier) override;
             void clear() override;
             ~BasicEntityBackend();
         private:
             std::unordered_map<AttributeHash, ElementSize> attributes;
             std::unordered_map<EntityId, BasicBackendEntity> entities;
-            std::stack<int> freeEntityIds;
+            std::stack<EntityId> freeEntityIds;
             uint32_t nextEntityId;
     };
 }

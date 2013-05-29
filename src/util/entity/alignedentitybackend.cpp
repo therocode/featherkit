@@ -13,11 +13,11 @@
             nextEmptyArraySlot = 0;
         }
 
-        int AlignedEntityBackend::addEntity(AttributeList attributeList)
+        EntityId AlignedEntityBackend::addEntity(AttributeList attributeList)
         {
             validateAttributeList(attributeList);
 
-            int createdEntityId = 0;
+            EntityId createdEntityId = 0;
             if(attributeGroupIndex.keyExists(attributeList))
             {
                 int attributeIndex = attributeGroupIndex.getValueAtKey(attributeList);
@@ -90,7 +90,7 @@
         std::cout << "\n";
     }
     
-    void AlignedEntityBackend::removeEntity(const int id)
+    void AlignedEntityBackend::removeEntity(const EntityId id)
     {
 
         if(!posIdMap.valueExists(id))
@@ -178,7 +178,7 @@
         dataArrays.addArray(identifier, elementSize);
     }
 
-    void AlignedEntityBackend::setData(const AttributeHash identifier, const int id, const char* inData)
+    void AlignedEntityBackend::setData(const AttributeHash identifier, const EntityId id, const char* inData)
     {
         if(!posIdMap.valueExists(id))
         {
@@ -207,7 +207,7 @@
         }
     }
 
-    void AlignedEntityBackend::getData(const AttributeHash identifier, const int id, char* outData) const
+    void AlignedEntityBackend::getData(const AttributeHash identifier, const EntityId id, char* outData) const
     {
         if(!posIdMap.valueExists(id))
         {
@@ -236,7 +236,7 @@
         }
     }
     
-    bool AlignedEntityBackend::hasData(const AttributeHash identifier, const int id) const
+    bool AlignedEntityBackend::hasData(const AttributeHash identifier, const EntityId id) const
     {
         return dataArrays.getEntryValid(identifier, posIdMap.getKeyAtValue(id));
     }
@@ -446,7 +446,7 @@
         attributeGroupIndex.clear();
         attributeGroupLocation.clear();
         dataArrays.clear();
-        freeEntityIds = std::stack<int>();
+        freeEntityIds = std::stack<EntityId>();
         nextEntityId = 0;
         nextEmptyArraySlot = 0;
     }

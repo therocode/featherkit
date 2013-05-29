@@ -22,12 +22,12 @@ namespace windgale
     {
         public:
             AlignedEntityBackend();
-            int addEntity(AttributeList attributeList) override;
-            void removeEntity(const int id) override;
+            EntityId addEntity(AttributeList attributeList) override;
+            void removeEntity(const EntityId id) override;
             void registerAttribute(const AttributeHash identifier, const ElementSize elementSize) override;
-            void setData(const AttributeHash identifier, const int id, const char* inData) override;
-            void getData(const AttributeHash identifier, const int id, char* outData) const override;
-            bool hasData(const AttributeHash identifier, const int id) const override;
+            void setData(const AttributeHash identifier, const EntityId id, const char* inData) override;
+            void getData(const AttributeHash identifier, const EntityId id, char* outData) const override;
+            bool hasData(const AttributeHash identifier, const EntityId id) const override;
             bool attributeIsValid(AttributeHash identifier) override;
             void clear() override;
             DataMap getIterableData(std::vector<std::string> stringList);
@@ -47,12 +47,12 @@ namespace windgale
             int getAttributeGroupIndexFromPosition(int position);
             int getLastDataOfGroup(unsigned int currentGroup);
             void removeAttributeGroup(unsigned int group);
-            BiMap<int, int> posIdMap;
+            BiMap<int, EntityId> posIdMap;
             BiMap<AttributeList, int> attributeGroupIndex;
             std::vector<int> attributeGroupLocation;
             ArrayHolder dataArrays;
-            std::stack<int> freeEntityIds;
-            uint32_t  nextEntityId;
+            std::stack<EntityId> freeEntityIds;
+            EntityId  nextEntityId;
             int nextEmptyArraySlot;
     };
 }

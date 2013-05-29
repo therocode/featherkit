@@ -39,7 +39,7 @@ namespace windgale
         nextEntityId = 0;
     }
     
-    int BasicEntityBackend::addEntity(AttributeList attributeList)
+    EntityId BasicEntityBackend::addEntity(AttributeList attributeList)
     {
         if(attributeList.getSize() > 0)
         {
@@ -74,7 +74,7 @@ namespace windgale
         return -1;
     }
 
-    void BasicEntityBackend::removeEntity(const int id)
+    void BasicEntityBackend::removeEntity(const EntityId id)
     {
         if(entities.find(id) == entities.end())
         {
@@ -100,17 +100,17 @@ namespace windgale
         attributes.insert(std::pair<AttributeHash, ElementSize>(identifier, elementSize));
     }
             
-    void BasicEntityBackend::setData(const AttributeHash identifier, const int id, const char* inData)
+    void BasicEntityBackend::setData(const AttributeHash identifier, const EntityId id, const char* inData)
     {
         entities.at(id).setData(identifier, inData);
     }
 
-    void BasicEntityBackend::getData(const AttributeHash identifier, const int id, char* outData) const
+    void BasicEntityBackend::getData(const AttributeHash identifier, const EntityId id, char* outData) const
     {
         entities.at(id).getData(identifier, outData);
     }
 
-    bool BasicEntityBackend::hasData(const AttributeHash identifier, const int id) const
+    bool BasicEntityBackend::hasData(const AttributeHash identifier, const EntityId id) const
     {
         return entities.at(id).hasData(identifier);
     }
@@ -129,7 +129,7 @@ namespace windgale
 
        attributes.clear();
        entities.clear();
-       freeEntityIds = std::stack<int>();
+       freeEntityIds = std::stack<EntityId>();
        nextEntityId = 0;
     }
     
