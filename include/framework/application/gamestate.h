@@ -15,4 +15,12 @@ namespace windstorm
             virtual void destroy() {}
             virtual ~GameState() {}
     };
+    /** @addtogroup Application
+     *@{
+     *  @class GameState
+     *@}
+     ***
+     *  @class GameState
+     *  @brief State of the art
+     **/
 }
