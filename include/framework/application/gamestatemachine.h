@@ -1,10 +1,18 @@
 #include <string>
 #include <map>
+#include <stdexcept>
 #include <framework/application/gamestate.h>
 
 namespace windstorm
 {
     using StateName = std::string;
+
+    class GameStateException: public std::runtime_error
+    {
+        public:
+            GameStateException():runtime_error("Game state not found"){}
+            GameStateException(std::string msg):runtime_error(msg.c_str()){}
+    };
 
     class GameStateMachine
     {

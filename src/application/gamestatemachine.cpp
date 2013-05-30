@@ -1,5 +1,6 @@
 #include "framework/application/gamestatemachine.h"
 #include <iostream>
+#include <sstream>
 
 namespace windstorm
 {
@@ -28,7 +29,9 @@ namespace windstorm
         }
         else
         {
-            //error
+            std::stringstream ss;
+            ss << "Error! Game state " << name << " does not exist!\n";
+            throw GameStateException(ss.str());
         }
     }
     
@@ -63,7 +66,9 @@ namespace windstorm
         }
         else
         {
-            //error
+            std::stringstream ss;
+            ss << "Error! Game state " << nextStateName << " does not exist!\n";
+            throw GameStateException(ss.str());
         }
     }
     
