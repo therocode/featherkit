@@ -21,6 +21,8 @@ namespace windstorm
      *@}
      ***
      *  @class GameState
-     *  @brief State of the art
+     *  @brief Specific state of a game application.
+     *
+     *  Games are often divided into states. 
      **/
 }
