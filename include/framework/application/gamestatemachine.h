@@ -28,4 +28,15 @@ namespace windstorm
             std::string currentStateName = "";
             std::map<StateName, std::shared_ptr<GameState> > gameStates;
     };
+    
+    /** @addtogroup Application
+     *@{
+     *  @class GameStateMachine
+     *@}
+     ***
+     *  @class GameStateMachine
+     *  @brief 
+     *
+     *  Games are often divided into states. For example, even a very simple game might have the states "main menu", "high score", "in game" and "credits". This
+     ***/
 }
