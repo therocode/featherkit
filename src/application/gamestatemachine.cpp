@@ -1,5 +1,4 @@
 #include "framework/application/gamestatemachine.h"
-#include <iostream>
 #include <sstream>
 
 namespace windstorm
@@ -16,14 +15,12 @@ namespace windstorm
         {
             if(currentState.expired())
             {
-                std::cout << "HEJ\n";
                 currentState = gameStates.at(name);
                 currentState.lock()->activate("");
                 currentStateName = name;
             }
             else
             {
-                std::cout << "HOJ\n";
                 switchState(name);
             }
         }
@@ -35,7 +32,7 @@ namespace windstorm
         }
     }
     
-    bool GameStateMachine::isFinished()
+    bool GameStateMachine::isFinished() const
     {
         return currentState.expired();
     }
@@ -50,6 +47,11 @@ namespace windstorm
 
     void GameStateMachine::switchState(const std::string& nextStateName)
     {
+        if(nextStateName == currentStateName)
+        {
+            return;
+        }
+
         if(gameStates.find(nextStateName) != gameStates.end())
         {
             currentState.lock()->deactivate(nextStateName);
@@ -74,16 +76,20 @@ namespace windstorm
     
     void GameStateMachine::run()
     {
-        std::string returned = currentState.lock()->run();
-        if(returned != "")
+        if(currentStateName != "NONE")
         {
-            if(returned == "NONE")
+            std::string returned = currentState.lock()->run();
+            if(returned != "")
             {
-                currentState.reset();
-            }
-            else
-            {
-                switchState(returned);
+                if(returned == "NONE")
+                {
+                    currentState.reset();
+                    currentStateName == "NONE";
+                }
+                else
+                {
+                    switchState(returned);
+                }
             }
         }
     }
