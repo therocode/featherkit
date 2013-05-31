@@ -71,8 +71,28 @@ namespace windgale
     /** @addtogroup EntitySystem
      *@{
      *  @class EntityManager
+     *
+     *  @typedef EntityPtr
+     *  
+     *  @typedef WeakEntityPtr
+     *
+     *  @typedef EntityType
+     *
+     *  @typedef EntityId
      *@}
      ***
+     *  @typedef EntityPtr
+     *  A shared pointer to an Entity instance.
+     *
+     *  @typedef WeakEntityPtr
+     *  A weak pointer to an Entity instance.
+     *
+     *  @typedef EntityType
+     *  The type of an Entity instance. This is a normal std::string.
+     *
+     *  @typedef EntityId
+     *  The ID of an Entity instance. This is a normal 32 bit unsigned integer.
+     *
      *  @class EntityManager
      *  @brief Takes care of managing multiple Entity instances. 
      *
@@ -213,5 +233,14 @@ namespace windgale
      ***
      *  @fn void EntityManager::reset()
      *  @brief Reset the whole state of the EntityManager to the original state. Effectively removing all Entity instances, leaving all pointers to them invalid, as well as clearing out any registered attributes, Entity types and default setter functions. Not to be confused with EntityManager::removeAll which only removes all entities.
+     ***
+     *  using EntityPtr std::shared_ptr<Entity>
+     *  brief Entity pointer typedef
+     ***
+     *  using WeakEntityPtr std::weak_ptr<Entity>
+     *  brief HEJHEJ
+    using WeakEntityPtr = std::weak_ptr<Entity>;
+    using EntityType = std::string;
+    using EntityId = uint32_t;
      ***/
 }
