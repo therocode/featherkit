@@ -3,6 +3,8 @@
 
 namespace windgale
 {
+    using AttributeHash = std::size_t;
+
     class InvalidIdException : public std::runtime_error 
     {
         public:

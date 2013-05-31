@@ -8,8 +8,6 @@
 
 namespace windgale
 {
-    using DataMap = std::map<AttributeHash, DataContainer>;
-
     struct DataContainer
     {
         char* data;
@@ -17,6 +15,8 @@ namespace windgale
         int dataLength;        
         int validityStartBit;
     };
+
+    using DataMap = std::map<AttributeHash, DataContainer>;
 
     class AlignedEntityBackend : public EntityBackend
     {

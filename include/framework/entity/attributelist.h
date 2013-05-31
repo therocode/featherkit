@@ -4,6 +4,8 @@
 
 namespace windgale
 {
+    using AttributeHash = std::size_t;
+
     class AttributeList
     {
         public:

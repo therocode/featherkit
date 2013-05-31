@@ -4,6 +4,10 @@
 
 namespace windgale
 {
+    using EntityId = uint32_t;
+    using ElementSize = uint32_t;
+    using AttributeHash = std::size_t;
+
     class EntityBackend
     {
             public:

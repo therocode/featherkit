@@ -6,6 +6,9 @@
 
 namespace windgale
 {
+    using ArrayPosition = uint32_t;
+    using ElementSize = uint32_t;
+
     struct ArrayObject
     {
         char* data = nullptr;
@@ -14,6 +17,7 @@ namespace windgale
         ~ArrayObject();
     };
 
+    using ArrayMap = std::map<AttributeHash, ArrayObject>;
 
     class ArrayHolder
     {

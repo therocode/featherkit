@@ -8,6 +8,14 @@
 
 namespace windgale
 {
+    class Entity;
+    class EntityGroup;
+
+    using EntityPtr = std::shared_ptr<Entity>;
+    using WeakEntityPtr = std::weak_ptr<Entity>;
+    using EntityType = std::string;
+    using EntityId = uint32_t;
+
     class EntityException : public std::runtime_error 
     {
         public:
