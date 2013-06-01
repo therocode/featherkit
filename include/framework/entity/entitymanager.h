@@ -3,7 +3,6 @@
 #include <memory>
 #include <map>
 #include <vector>
-#include <framework/entity/common.h>
 #include <stdexcept>
 
 namespace windgale
