@@ -86,6 +86,10 @@ namespace windgale
      *  @return A map with the attributes, to pass to the EntityManager.
      ***
      *  @fn std::map<std::string, std::map<std::string, std::string> > JsonEntityLoader::loadEntitiesJson(const std::string& path)
-     *  @brief
+     *  @brief Load a json file defining Entity types.
+     *
+     *  Use this function to load an Entity type file. The return value can be given to the EntityManager::loadEntityTypes function.
+     *  @param path File to open.
+     *  @return A map with the Entity types, to pass to the EntityManager.
      **/
 }
