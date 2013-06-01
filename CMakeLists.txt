@@ -51,6 +51,7 @@ else()
         endif()
     else()
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+        include_directories("C:/Program Files (x86)/SFML/include")
 
         if(DEBUG_BUILD)
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0")
