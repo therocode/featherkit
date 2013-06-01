@@ -30,7 +30,7 @@ namespace windgale
      *@}
      ***
      *  @typedef AttributeHash
-     *  Hashed representation of an Entity attribute. This is of the standard type size_t.
+     *  @brief Hashed representation of an Entity attribute. This is of the standard type size_t.
      ***
      *  @class AttributeList
      *  @brief Container class that can hold several AttributeHash instances. Used for the EntityBackend implementations.
