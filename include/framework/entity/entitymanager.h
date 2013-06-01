@@ -82,16 +82,16 @@ namespace windgale
      *@}
      ***
      *  @typedef EntityPtr
-     *  A shared pointer to an Entity instance.
+     *  @brief A shared pointer to an Entity instance.
      *
      *  @typedef WeakEntityPtr
-     *  A weak pointer to an Entity instance.
+     *  @brief A weak pointer to an Entity instance.
      *
      *  @typedef EntityType
-     *  The type of an Entity instance. This is a normal std::string.
+     *  @brief The type of an Entity instance. This is a normal std::string.
      *
      *  @typedef EntityId
-     *  The ID of an Entity instance. This is a normal 32 bit unsigned integer.
+     *  @brief The ID of an Entity instance. This is a normal 32 bit unsigned integer.
      *
      *  @class EntityManager
      *  @brief Takes care of managing multiple Entity instances. 
