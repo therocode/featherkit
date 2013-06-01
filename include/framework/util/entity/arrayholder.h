@@ -1,7 +1,6 @@
 #pragma once
 #include <map>
 #include <string>
-#include <framework/entity/common.h>
 #include <framework/entity/entityexceptions.h>
 
 namespace windgale

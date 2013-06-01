@@ -2,6 +2,7 @@
 #include <framework/entity/entitybackend.h>
 #include <stack>
 #include <unordered_map>
+#include <memory>
 
 namespace windgale
 {

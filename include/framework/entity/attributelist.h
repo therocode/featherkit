@@ -1,6 +1,6 @@
 #pragma once
-#include <framework/entity/common.h>
 #include <set>
+#include <stdlib.h>
 
 namespace windgale
 {
