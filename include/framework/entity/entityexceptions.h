@@ -28,15 +28,20 @@ namespace windgale
      ***
      *  @class InvalidIdException
      *  @brief Exception used by the Entity System when something related to EntityId handling goes wrong.
-     *
+     ***
      *  @fn InvalidIdException::InvalidIdException(const std::string& message)
      *  @brief Construct an exception to throw containing a message.
      *  @param message Message further describing the error.
      ***
      *  @class InvalidAttributeException
      *  @brief Exception used by the Entity System when something related to attribute handling goes wrong.
-     *
+     ***
      *  @fn InvalidAttributeException::InvalidAttributeException
-     *  @param message Message further describing the error.
+     *  @brief Construct an exception to throw containing a message.
+     *  @param m Message further describing the error.
+     *  @param h AttributeHash describing which attribute the error is related to.
+     ***
+     *  @var InvalidAttributeException::hash 
+     *  @brief The AttributeHash given to the constructor will be stored here.
      ***/
 }
