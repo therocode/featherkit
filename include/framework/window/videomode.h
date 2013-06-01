@@ -27,7 +27,7 @@ namespace windbreeze
      *
      *  @param w Width in pixels.
      *  @param h Width in pixels.
-     *  @param bitsDepth Pixel depth in bits per pixel.
+     *  @param bitDepth Pixel depth in bits per pixel.
      ***
      *  @var VideoMode::width
      *  @brief The width of the video mode in pixels.
