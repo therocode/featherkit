@@ -35,6 +35,14 @@ namespace windbreeze
         private:
             WindowBackend& windowBackend;
     };
+    /** @addtogroup UserInterface
+     *@{
+     *  @class Window
+     *@}
+     ***
+     *  @class Window
+     *  @brief Represent a w
+     **/
 }
             /* hej this is from VidyaMöåd and should be here
             static VideoMode getDesktopMode();
