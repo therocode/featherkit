@@ -32,7 +32,19 @@ namespace windstorm
     /** @addtogroup Application
      *@{
      *  @class GameStateMachine
+     *
+     *  @class GameStateException
      *@}
+     ***
+     *  @class GameStateException
+     *  @brief Exception used for errors arising with GameState handling.
+     ***
+     *  @fn GameStateException::GameStateException()
+     *  @brief Construct a GameStateException ready to be thrown.
+     ***
+     *  @fn GameStateException::GameStateException(std::string msg)
+     *  @brief Construct a GameStateException ready to be thrown with a custom message.
+     *  @param msg Message additionally explaining the error.
      ***
      *  @class GameStateMachine
      *  @brief Keeps track of several GameState instances and provides a way of conveniently switching between them.

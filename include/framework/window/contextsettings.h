@@ -1,4 +1,4 @@
-sn#pragma once
+#pragma once
 
 namespace windbreeze
 {
