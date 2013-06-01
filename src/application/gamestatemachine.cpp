@@ -84,7 +84,7 @@ namespace windstorm
                 if(returned == "NONE")
                 {
                     currentState.reset();
-                    currentStateName == "NONE";
+                    currentStateName = "NONE";
                 }
                 else
                 {
