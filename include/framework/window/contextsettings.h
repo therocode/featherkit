@@ -14,8 +14,6 @@ namespace windbreeze
         uint32_t minorVersion;   
     };
 
-}
-
     /** @addtogroup UserInterface
      *@{
      *  @struct ContextSettings
@@ -49,3 +47,5 @@ namespace windbreeze
      *  @var ContextSettings::minorVersion
      *  @brief The minor version number of the OpenGL context to be created.
      ***/
+
+}
