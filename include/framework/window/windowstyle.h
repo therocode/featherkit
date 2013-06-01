@@ -15,7 +15,7 @@ namespace windbreeze
 
     /** @addtogroup UserInterface
      *@{
-     *  @struct ContextSettings
+     *  @enum Style
      *@}
      *  @enum Style
      *  @brief Enumerates the various window styles.
