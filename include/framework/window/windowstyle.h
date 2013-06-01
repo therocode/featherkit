@@ -12,4 +12,10 @@ namespace windbreeze
         
         Default = Titlebar | Resize | Close 
     };
+
+  /***
+  *  @enum Style
+  *  @brief Enumerates the various window styles.
+  ***/
+
 }
