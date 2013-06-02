@@ -8,6 +8,8 @@
 #define JSON0_JSON_INTERNAL_WRITER_H
 
 #include <string>
+#include <ios>
+#include <iostream>
 
 #include <json/json_value.h>
 
@@ -37,13 +39,13 @@ namespace json
 
       case kValueString:
         {
-          out << '"' << node.GetString() << '"';
+          out << std::string("\"") << node.GetString() << std::string("\"");
         }
         break;
 
       case kValueInt:
         {
-          out << node.GetInt();
+          out << std::to_string(node.GetInt());
         }
         break;
 

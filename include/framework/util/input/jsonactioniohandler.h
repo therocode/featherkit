@@ -2,6 +2,9 @@
 #include <string>
 #include <framework/util/filenotfoundexception.h>
 #include <framework/input/actiontrigger.h>
+#include <json/json_writer.h>
+#include <fstream>
+#include <sstream>
 
 namespace windbreeze
 {
@@ -10,14 +13,21 @@ namespace windbreeze
     {
         public:
             void loadBindingsFile(const std::string& path) const;
-            void saveBindingsFile(const std::map<ActionTrigger, Action>& primaryActions) const;
-            void saveBindingsFile(const std::map<ActionTrigger, Action>& primaryActions, const std::map<ActionTrigger, Action>& secondaryActions) const;
+            void saveBindingsFile(const std::string& path, const std::map<ActionTrigger, Action>& primaryActions) const;
+            void saveBindingsFile(const std::string& path, const std::map<ActionTrigger, Action>& primaryActions, const std::map<ActionTrigger, Action>& secondaryActions) const;
             const std::map<ActionTrigger, Action> getPrimaryBindings() const;
             const std::map<ActionTrigger, Action> getSecondaryBindings() const;
         private:
             std::map<ActionTrigger, Action> primaryBindings;
             std::map<ActionTrigger, Action> secondaryBindings;
     };
+
+    template<class Action>
+    void JsonActionIOHandler::saveBindingsFile(const std::string& path, const std::map<ActionTrigger, Action>& primaryActions, const std::map<ActionTrigger, Action>& secondaryActions) const
+    {
+        json::Value root;
+        root.SetObject();
+    }
     /** @addtogroup EntitySystem
      *@{
      *  @class JsonActionIOHandler
