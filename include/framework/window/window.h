@@ -21,7 +21,6 @@ namespace windbreeze
             void close();
             bool isOpen() const;
             const ContextSettings getSettings() const;
-
             IntVec2 getPosition() const;
             void setPosition(const IntVec2& position);
             IntVec2 getSize() const;
@@ -48,6 +47,8 @@ namespace windbreeze
      *  @brief Class that manages a window instance for the application.
      *
      *  The window can be created with different settings, including resolution and title. To make the window cross platform and flexible, it needs a backend implementation. This backend could for instance be based on OpenGL, Direct X or even ncurses. Depending on the backend, the window's capabilities and settings may vary.
+     *
+     *  The API of this class is heavily inspired by the window class of [SFML](http://www.sfml-dev.org/).
      ***
      *  @fn Window::Window(WindowBackend& backend)
      *  @brief Construct a window using the specified backend.
