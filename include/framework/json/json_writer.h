@@ -7,10 +7,10 @@
 #ifndef JSON0_JSON_WRITER_H
 #define JSON0_JSON_WRITER_H
 
-#include <json/json_value.h>
+#include <framework/json/json_value.h>
 
-#include <json/detail/json_internal.h>
-#include <json/detail/json_internal_writer.h>
+#include <framework/json/detail/json_internal.h>
+#include <framework/json/detail/json_internal_writer.h>
 
 #include <ostream>
 

@@ -2,7 +2,7 @@
 #include <string>
 #include <framework/util/filenotfoundexception.h>
 #include <framework/input/actiontrigger.h>
-#include <json/json_writer.h>
+#include <framework/json/json.h>
 #include <fstream>
 #include <sstream>
 
@@ -23,10 +23,124 @@ namespace windbreeze
     };
 
     template<class Action>
-    void JsonActionIOHandler::saveBindingsFile(const std::string& path, const std::map<ActionTrigger, Action>& primaryActions, const std::map<ActionTrigger, Action>& secondaryActions) const
+    void JsonActionIOHandler<Action>::saveBindingsFile(const std::string& path, const std::map<ActionTrigger, Action>& primaryActions, const std::map<ActionTrigger, Action>& secondaryActions) const
     {
         json::Value root;
         root.SetObject();
+
+        json::Value primaryArray;
+        primaryArray.SetArray();
+
+        json::Value secondaryArray;
+        secondaryArray.SetArray();
+
+        std::ofstream file(path);
+
+        for(auto binding : primaryActions)
+        {
+            ActionTrigger::ActionType type = binding.first.type;
+            
+            json::Value bindingEntry;
+            bindingEntry.SetObject();
+
+            switch(type)
+            {
+                case ActionTrigger::KEYPRESS:
+                    bindingEntry.SetStringMember("type", "keypress");
+                    bindingEntry.SetStringMember("key", std::to_string(binding.first.keyCode));
+                    break;
+                case ActionTrigger::KEYRELEASE:
+                    bindingEntry.SetStringMember("type", "keypress");
+                    bindingEntry.SetStringMember("key", std::to_string(binding.first.keyCode));
+                    break;
+                case ActionTrigger::MOUSEPRESS:
+                    bindingEntry.SetStringMember("type", "mousepress");
+                    bindingEntry.SetStringMember("mousebutton", std::to_string(binding.first.mouseButton));
+                    break;
+                case ActionTrigger::MOUSERELEASE:
+                    bindingEntry.SetStringMember("type", "mouserelease");
+                    bindingEntry.SetStringMember("mousebutton", std::to_string(binding.first.mouseButton));
+                    break;
+                case ActionTrigger::GAMEPADPRESS:
+                    bindingEntry.SetStringMember("type", "gamepadpress");
+                    bindingEntry.SetStringMember("gamepadid", std::to_string(binding.first.gamepadId));
+                    bindingEntry.SetStringMember("gamepadbutton", std::to_string(binding.first.gamepadButton));
+                    break;
+                case ActionTrigger::GAMEPADRELEASE:
+                    bindingEntry.SetStringMember("type", "gamepadrelease");
+                    bindingEntry.SetStringMember("gamepadid", std::to_string(binding.first.gamepadId));
+                    bindingEntry.SetStringMember("gamepadbutton", std::to_string(binding.first.gamepadButton));
+                    break;
+                default:
+                    break;
+            }
+
+            std::stringstream ss;
+            ss << binding.second;
+
+            bindingEntry.SetStringMember("action", ss.str());
+
+            primaryArray.AddObject(bindingEntry);
+        }
+
+        if(primaryActions.size() > 0)
+        {
+            root.SetObjectMember("primary", primaryArray);
+        }
+
+        for(auto binding : secondaryActions)
+        {
+            ActionTrigger::ActionType type = binding.first.type;
+            
+            json::Value bindingEntry;
+            bindingEntry.SetObject();
+
+            switch(type)
+            {
+                case ActionTrigger::KEYPRESS:
+                    bindingEntry.SetStringMember("type", "keypress");
+                    bindingEntry.SetStringMember("key", std::to_string(binding.first.keyCode));
+                    break;
+                case ActionTrigger::KEYRELEASE:
+                    bindingEntry.SetStringMember("type", "keypress");
+                    bindingEntry.SetStringMember("key", std::to_string(binding.first.keyCode));
+                    break;
+                case ActionTrigger::MOUSEPRESS:
+                    bindingEntry.SetStringMember("type", "mousepress");
+                    bindingEntry.SetStringMember("mousebutton", std::to_string(binding.first.mouseButton));
+                    break;
+                case ActionTrigger::MOUSERELEASE:
+                    bindingEntry.SetStringMember("type", "mouserelease");
+                    bindingEntry.SetStringMember("mousebutton", std::to_string(binding.first.mouseButton));
+                    break;
+                case ActionTrigger::GAMEPADPRESS:
+                    bindingEntry.SetStringMember("type", "gamepadpress");
+                    bindingEntry.SetStringMember("gamepadid", std::to_string(binding.first.gamepadId));
+                    bindingEntry.SetStringMember("gamepadbutton", std::to_string(binding.first.gamepadButton));
+                    break;
+                case ActionTrigger::GAMEPADRELEASE:
+                    bindingEntry.SetStringMember("type", "gamepadrelease");
+                    bindingEntry.SetStringMember("gamepadid", std::to_string(binding.first.gamepadId));
+                    bindingEntry.SetStringMember("gamepadbutton", std::to_string(binding.first.gamepadButton));
+                    break;
+                default:
+                    break;
+            }
+
+            std::stringstream ss;
+            ss << binding.second;
+
+            bindingEntry.SetStringMember("action", ss.str());
+
+            secondaryArray.AddObject(bindingEntry);
+        }
+
+        if(secondaryActions.size() > 0)
+        {
+            root.SetObjectMember("secondary", secondaryArray);
+        }
+
+        json::write(file, root);
     }
     /** @addtogroup EntitySystem
      *@{

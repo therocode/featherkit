@@ -7,9 +7,9 @@
 #ifndef JSON0_JSON_INTERNAL_PARSER_H
 #define JSON0_JSON_INTERNAL_PARSER_H
 
-#include <json/json_config.h>
-#include <json/json_value.h>
-#include <json/detail/json_internal_tokenizer.h>
+#include <framework/json/json_config.h>
+#include <framework/json/json_value.h>
+#include <framework/json/detail/json_internal_tokenizer.h>
 
 #include <string>
 #include <stdexcept>

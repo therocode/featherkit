@@ -11,7 +11,7 @@
 #include <vector>
 #include <stdexcept>
 
-#include <json/json_config.h>
+#include <framework/json/json_config.h>
 
 
 #define jsonInternalAssert(Expression) json::detail::InternalAssert( Expression, #Expression )

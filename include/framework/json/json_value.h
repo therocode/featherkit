@@ -11,8 +11,8 @@
 #include <vector>
 #include <map>
 
-#include <json/json_config.h>
-#include <json/detail/json_internal.h>
+#include <framework/json/json_config.h>
+#include <framework/json/detail/json_internal.h>
 
 namespace json
 {
