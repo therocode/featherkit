@@ -300,13 +300,19 @@ namespace windbreeze
      *  @brief This class is for loading and saving json files describing Action bindings.
      *
      *  The output of the loading functions of this class can directly be passed to the ActionHandler to bind the actions saved. To bind the actions, first load a json file using JsonActionIOHandler::loadBindingsFile. Then pass the output of JsonActionIOHandler::getPrimaryBindings into ActionHandler::setPrimaryBindings and JsonActionIOHandler::getSecondaryBindings into ActionHandler::setSecondaryBindings if needed.
+     *
+     *  The type used as actions must support string serialisations using the << operator for this to work.
+     *
+     *  @tparam Type used as actions.
      ***
-     *  @fn void JsonActionIOHandler::loadBindingsFile(const std::string& path) const
-            void loadBindingsFile(const std::string& path, std::function<std::string(Action)> stringToAction = [] (Action a) { return a;});
+     *  @fn void JsonActionIOHandler::loadBindingsFile(const std::string& path, std::function<std::string(Action)> stringToAction = [] (Action a) { return a;});
      *  @brief Load a json file defining bindings for actions.
      *
      *  Use this function to load an attribute file. When the bindings are loaded, they can be accessed with JsonActionIOHandler::getPrimaryBindings and JsonActionIOHandler::getSecondaryBindings.
+     *
+     *  Since actions can be of an arbitrary type, a converter function must be supplied that converts the action type from an std::string (since they are saved as string in the json file). The default value of this parameter is sufficient if std::string is used as the action type.
      *  @param path File to open.
+     *  @param stringToAction Function to use for the string to action conversion. Default works for std::string as the action type.
      ***
      *  @fn void JsonActionIOHandler::saveBindingsFile(const std::string& path, const std::map<ActionTrigger, Action>& primaryActions) const
      *  @brief Save action bindings to a json formatted file.
