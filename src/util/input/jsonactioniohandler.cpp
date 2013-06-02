@@ -5,7 +5,7 @@
 
 namespace windgale
 {
-
+    
 /*
     std::map<std::string, int> JsonEntityLoader::loadAttributesJson(const std::string& path)
     {
