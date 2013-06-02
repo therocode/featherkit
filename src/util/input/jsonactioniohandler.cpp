@@ -1,10 +1,12 @@
-#include <framework/util/entity/jsonentityloader.h>
+#include <framework/util/input/jsonactioniohandler.h>
 #include <json/json_reader.h>
 #include <fstream>
 #include <sstream>
 
 namespace windgale
 {
+
+/*
     std::map<std::string, int> JsonEntityLoader::loadAttributesJson(const std::string& path)
     {
         std::map<std::string, int> result;
@@ -85,4 +87,5 @@ namespace windgale
         }
         return result;
     }
+    */
 }

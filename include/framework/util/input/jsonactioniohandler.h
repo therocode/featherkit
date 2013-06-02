@@ -1,43 +1,31 @@
 #include <map>
 #include <string>
-#include <stdexcept>
+#include <framework/util/filenotfoundexception.h>
+#include <framework/input/actiontrigger.h>
 
-namespace windgale
+namespace windbreeze
 {
-    class FileNotFoundException: public std::runtime_error
+    template<class Action>
+    class JsonActionIOHandler
     {
         public:
-            FileNotFoundException():runtime_error("File not found"){}
-            FileNotFoundException(std::string msg):runtime_error(msg.c_str()){}
-    };
-
-    class JsonEntityLoader
-    {
-        public:
-            std::map<std::string, int> loadAttributesJson(const std::string& path);
-            std::map<std::string, std::map<std::string, std::string> > loadEntitiesJson(const std::string& path);
+            void loadBindingsFile(const std::string& path) const;
+            void saveBindingsFile(const std::map<ActionTrigger, Action>& primaryActions, const std::map<ActionTrigger, Action>& secondaryActions = std::map<ActionTrigger, Action>()) const;
+            const std::map<ActionTrigger, Action> getPrimaryBindings() const;
+            const std::map<ActionTrigger, Action> getSecondaryBindings() const;
+        private:
+            std::map<ActionTrigger, Action> primaryBindings;
+            std::map<ActionTrigger, Action> secondaryBindings;
     };
     /** @addtogroup EntitySystem
      *@{
-     *  @class FileNotFoundException
-     *
-     *  @class JsonEntityLoader
+     *  @class JsonActionIOHandler
      *@}
      ***
-     *  @class FileNotFoundException
-     *  @brief Exception used when a file is not found.
-     ***
-     *  @fn FileNotFoundException::FileNotFoundException()
-     *  @brief Construct a FileNotFoundException instance to throw.
-     ***
-     *  @fn FileNotFoundException::FileNotFoundException(std::string msg)
-     *  @brief Construct a FileNotFoundException instance to throw.
-     *  @param msg Message further explaining the error.
-     ***
-     *  @class JsonEntityLoader
-     *  @brief This class is for loading json files describing attribute and Entity types.
+     *  @class JsonActionIOHandler
+     *  @brief This class is for loading and saving json files describing Action bindings.
      *
-     *  The output of the loading functions of this class can directly be passed to the EntityManager to register the attribute and Entity types. To register attributes, pass the output of JsonEntityLoader::loadAttributesJson into EntityManager::registerAttributes and to register Entity types, pass the output of JsonEntityLoader::loadEntitiesJson into EntityManager::registerEntityTypes. The attribute types must be loaded before the Entity types.
+     *  The output of the loading functions of this class can directly be passed to the ActionHandler to bind the actions saved. To bind the actions, first load a json file using JsonActionIOHandler::loadBindingsFile. Then pass the output of JsonActionIOHandler::getPrimaryBindings into ActionHandler::setPrimaryBindings and JsonActionIOHandler::getSecondaryBindings into ActionHandler::setSecondaryBindings if needed.
      *
      *  Here is an example of how an attribute file should be formatted:
      *  @code
