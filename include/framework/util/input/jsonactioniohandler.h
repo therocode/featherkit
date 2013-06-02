@@ -10,7 +10,8 @@ namespace windbreeze
     {
         public:
             void loadBindingsFile(const std::string& path) const;
-            void saveBindingsFile(const std::map<ActionTrigger, Action>& primaryActions, const std::map<ActionTrigger, Action>& secondaryActions = std::map<ActionTrigger, Action>()) const;
+            void saveBindingsFile(const std::map<ActionTrigger, Action>& primaryActions) const;
+            void saveBindingsFile(const std::map<ActionTrigger, Action>& primaryActions, const std::map<ActionTrigger, Action>& secondaryActions) const;
             const std::map<ActionTrigger, Action> getPrimaryBindings() const;
             const std::map<ActionTrigger, Action> getSecondaryBindings() const;
         private:
