@@ -86,9 +86,11 @@ if(BUILD_UI)
     file(GLOB_RECURSE ui_source_files "src/window/*.cpp" "src/input/*.cpp")
     file(GLOB_RECURSE ui_header_files "include/window/*.h" "include/input/*.h")
 
+    file(GLOB_RECURSE ui_util_source_files "src/util/input/*.cpp")
+
     if(${BUILD_SFMLBACKENDS})
         file(GLOB_RECURSE ui_sfml_backend_source_files "${CMAKE_CURRENT_LIST_DIR}/src/util/sfml/*cpp")
         set(EXT_LIBS libsfml-graphics.so)
     endif()
-    add_library(${project_name}-ui ${ui_header_files} ${ui_source_files} ${ui_sfml_backend_source_files})
+    add_library(${project_name}-ui ${ui_header_files} ${ui_source_files} ${ui_util_source_files} ${ui_sfml_backend_source_files})
 endif()
