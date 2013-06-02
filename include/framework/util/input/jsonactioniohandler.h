@@ -142,23 +142,6 @@ namespace windbreeze
                 secondaryBindings.insert(std::pair<ActionTrigger, Action>(tempTrigger, tempAction));
             }
         }
-
-        /*
-        std::size_t entityTypeAmount = root.GetNumMembers();
-        for(unsigned int i = 0; i < entityTypeAmount; i++)
-        {
-            json::Member temp = root.GetMember(i);
-            std::string entityName = temp.name;
-            std::size_t attributeAmount = temp.value.GetNumMembers();
-            
-            std::map<std::string, std::string> attributes;
-            for(unsigned int j = 0; j < attributeAmount; j++)
-            {
-                json::Member attributesObject = temp.value.GetMember(j);
-                attributes.insert(std::pair<std::string, std::string>(attributesObject.name, attributesObject.value.GetString()));
-            }
-            result.insert(std::pair<std::string, std::map<std::string, std::string> >(entityName, attributes));
-        }*/
     }
     
     template<class Action>
@@ -319,6 +302,7 @@ namespace windbreeze
      *  The output of the loading functions of this class can directly be passed to the ActionHandler to bind the actions saved. To bind the actions, first load a json file using JsonActionIOHandler::loadBindingsFile. Then pass the output of JsonActionIOHandler::getPrimaryBindings into ActionHandler::setPrimaryBindings and JsonActionIOHandler::getSecondaryBindings into ActionHandler::setSecondaryBindings if needed.
      ***
      *  @fn void JsonActionIOHandler::loadBindingsFile(const std::string& path) const
+            void loadBindingsFile(const std::string& path, std::function<std::string(Action)> stringToAction = [] (Action a) { return a;});
      *  @brief Load a json file defining bindings for actions.
      *
      *  Use this function to load an attribute file. When the bindings are loaded, they can be accessed with JsonActionIOHandler::getPrimaryBindings and JsonActionIOHandler::getSecondaryBindings.
