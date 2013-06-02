@@ -12,7 +12,7 @@ namespace windbreeze
     class JsonActionIOHandler
     {
         public:
-            void loadBindingsFile(const std::string& path) const;
+            void loadBindingsFile(const std::string& path, std::function<std::string(Action)> stringToAction = [] (Action a) { return a;});
             void saveBindingsFile(const std::string& path, const std::map<ActionTrigger, Action>& primaryActions) const;
             void saveBindingsFile(const std::string& path, const std::map<ActionTrigger, Action>& primaryActions, const std::map<ActionTrigger, Action>& secondaryActions) const;
             const std::map<ActionTrigger, Action> getPrimaryBindings() const;
@@ -21,6 +21,152 @@ namespace windbreeze
             std::map<ActionTrigger, Action> primaryBindings;
             std::map<ActionTrigger, Action> secondaryBindings;
     };
+
+    template<class Action>
+    void JsonActionIOHandler<Action>::loadBindingsFile(const std::string& path, std::function<std::string(Action)> stringToAction)
+    {
+        primaryBindings.clear();
+        secondaryBindings.clear();
+
+        std::ifstream file(path);
+
+        if(!file)
+        {
+            std::stringstream ss;
+            ss << "Error! Entity file not found: " << path << "\n";
+            throw windgale::FileNotFoundException(ss.str());
+        }
+
+        json::Value root;
+        root.SetObject();
+        json::read(file, root);
+
+        if(root.HasMember("primary"))
+        {
+            json::Value primaryArray = root.GetArrayMember("primary");
+            uint32_t bindingAmount = primaryArray.GetNumElements();
+
+            for(uint32_t i = 0; i < bindingAmount; i++)
+            {
+                json::Value binding = primaryArray.GetElement(i);
+                std::string type = binding.GetStringMember("type");
+
+                ActionTrigger tempTrigger;
+                Action tempAction = stringToAction(binding.GetStringMember("action"));
+
+                if(type == "keypress")
+                {
+                    tempTrigger.type = ActionTrigger::KEYPRESS;
+                    tempTrigger.keyCode = (Keyboard::Code) std::stoi(binding.GetStringMember("key"));
+                }
+                else if(type == "keyrelease")
+                {
+                    tempTrigger.type = ActionTrigger::KEYRELEASE;
+                    tempTrigger.keyCode = (Keyboard::Code) std::stoi(binding.GetStringMember("key"));
+                }
+                else if(type == "mousepress")
+                {
+                    tempTrigger.type = ActionTrigger::MOUSEPRESS;
+                    tempTrigger.mouseButton = (Mouse::Button) std::stoi(binding.GetStringMember("mousebutton"));
+                }
+                else if(type == "mouserelease")
+                {
+                    tempTrigger.type = ActionTrigger::MOUSERELEASE;
+                    tempTrigger.mouseButton = (Mouse::Button) std::stoi(binding.GetStringMember("mousebutton"));
+                }
+                else if(type == "gamepadpress")
+                {
+                    tempTrigger.type = ActionTrigger::GAMEPADPRESS;
+                    tempTrigger.gamepadButton = (uint32_t) std::stoi(binding.GetStringMember("gamepadbutton"));
+                    tempTrigger.gamepadId = (uint32_t) std::stoi(binding.GetStringMember("gamepadid"));
+                }
+                else if(type == "gamepadrelease")
+                {
+                    tempTrigger.type = ActionTrigger::GAMEPADRELEASE;
+                    tempTrigger.gamepadButton = (uint32_t) std::stoi(binding.GetStringMember("gamepadbutton"));
+                    tempTrigger.gamepadId = (uint32_t) std::stoi(binding.GetStringMember("gamepadid"));
+                }
+
+                std::cout << "members in array: " << binding.GetStringMember("type") << "\n";
+                primaryBindings.insert(std::pair<ActionTrigger, Action>(tempTrigger, tempAction));
+            }
+        }
+
+        if(root.HasMember("secondary"))
+        {
+            json::Value secondaryArray = root.GetArrayMember("secondary");
+            uint32_t bindingAmount = secondaryArray.GetNumElements();
+
+            for(uint32_t i = 0; i < bindingAmount; i++)
+            {
+                json::Value binding = secondaryArray.GetElement(i);
+                std::string type = binding.GetStringMember("type");
+
+                ActionTrigger tempTrigger;
+                Action tempAction = stringToAction(binding.GetStringMember("action"));
+
+                if(type == "keypress")
+                {
+                    tempTrigger.type = ActionTrigger::KEYPRESS;
+                    tempTrigger.keyCode = (Keyboard::Code) std::stoi(binding.GetStringMember("key"));
+                }
+                else if(type == "keyrelease")
+                {
+                    tempTrigger.type = ActionTrigger::KEYRELEASE;
+                    tempTrigger.keyCode = (Keyboard::Code) std::stoi(binding.GetStringMember("key"));
+                }
+                else if(type == "mousepress")
+                {
+                    tempTrigger.type = ActionTrigger::MOUSEPRESS;
+                    tempTrigger.mouseButton = (Mouse::Button) std::stoi(binding.GetStringMember("mousebutton"));
+                }
+                else if(type == "mouserelease")
+                {
+                    tempTrigger.type = ActionTrigger::MOUSERELEASE;
+                    tempTrigger.mouseButton = (Mouse::Button) std::stoi(binding.GetStringMember("mousebutton"));
+                }
+                else if(type == "gamepadpress")
+                {
+                    tempTrigger.type = ActionTrigger::GAMEPADPRESS;
+                    tempTrigger.gamepadButton = (uint32_t) std::stoi(binding.GetStringMember("gamepadbutton"));
+                    tempTrigger.gamepadId = (uint32_t) std::stoi(binding.GetStringMember("gamepadid"));
+                }
+                else if(type == "gamepadrelease")
+                {
+                    tempTrigger.type = ActionTrigger::GAMEPADRELEASE;
+                    tempTrigger.gamepadButton = (uint32_t) std::stoi(binding.GetStringMember("gamepadbutton"));
+                    tempTrigger.gamepadId = (uint32_t) std::stoi(binding.GetStringMember("gamepadid"));
+                }
+
+                std::cout << "members in array: " << binding.GetStringMember("type") << "\n";
+                secondaryBindings.insert(std::pair<ActionTrigger, Action>(tempTrigger, tempAction));
+            }
+        }
+
+        /*
+        std::size_t entityTypeAmount = root.GetNumMembers();
+        for(unsigned int i = 0; i < entityTypeAmount; i++)
+        {
+            json::Member temp = root.GetMember(i);
+            std::string entityName = temp.name;
+            std::size_t attributeAmount = temp.value.GetNumMembers();
+            
+            std::map<std::string, std::string> attributes;
+            for(unsigned int j = 0; j < attributeAmount; j++)
+            {
+                json::Member attributesObject = temp.value.GetMember(j);
+                attributes.insert(std::pair<std::string, std::string>(attributesObject.name, attributesObject.value.GetString()));
+            }
+            result.insert(std::pair<std::string, std::map<std::string, std::string> >(entityName, attributes));
+        }*/
+    }
+    
+    template<class Action>
+    void JsonActionIOHandler<Action>::saveBindingsFile(const std::string& path, const std::map<ActionTrigger, Action>& primaryActions) const
+    {
+        std::map<ActionTrigger, Action> emptyActions;
+        saveBindingsFile(path, primaryActions, emptyActions);
+    }
 
     template<class Action>
     void JsonActionIOHandler<Action>::saveBindingsFile(const std::string& path, const std::map<ActionTrigger, Action>& primaryActions, const std::map<ActionTrigger, Action>& secondaryActions) const
@@ -57,7 +203,7 @@ namespace windbreeze
                     bindingEntry.SetStringMember("key", std::to_string(binding.first.keyCode));
                     break;
                 case ActionTrigger::KEYRELEASE:
-                    bindingEntry.SetStringMember("type", "keypress");
+                    bindingEntry.SetStringMember("type", "keyrelease");
                     bindingEntry.SetStringMember("key", std::to_string(binding.first.keyCode));
                     break;
                 case ActionTrigger::MOUSEPRESS:
@@ -109,7 +255,7 @@ namespace windbreeze
                     bindingEntry.SetStringMember("key", std::to_string(binding.first.keyCode));
                     break;
                 case ActionTrigger::KEYRELEASE:
-                    bindingEntry.SetStringMember("type", "keypress");
+                    bindingEntry.SetStringMember("type", "keyrelease");
                     bindingEntry.SetStringMember("key", std::to_string(binding.first.keyCode));
                     break;
                 case ActionTrigger::MOUSEPRESS:
@@ -149,6 +295,19 @@ namespace windbreeze
 
         json::write(file, root);
     }
+    
+    template<class Action>
+    const std::map<ActionTrigger, Action> JsonActionIOHandler<Action>::getPrimaryBindings() const
+    {
+        return primaryBindings;
+    }
+
+    template<class Action>
+    const std::map<ActionTrigger, Action> JsonActionIOHandler<Action>::getSecondaryBindings() const
+    {
+        return secondaryBindings;
+    }
+
     /** @addtogroup UserInterface
      *@{
      *  @class JsonActionIOHandler

@@ -40,7 +40,7 @@ namespace windgale
                 typeSize = sizeof(uint32_t);
             else if(sizeString == "#bool#")
                 typeSize = sizeof(bool);
-            else if(sizeString == "#byte#" || typeName == "#char#")
+            else if(sizeString == "#byte#" || sizeString == "#char#")
                 typeSize = sizeof(char);
             else
                 typeSize = std::stoi(sizeString);
