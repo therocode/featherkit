@@ -1,3 +1,4 @@
+#pragma once
 #include <framework/entity/entity.h>
 #include <string>
 #include <vector>

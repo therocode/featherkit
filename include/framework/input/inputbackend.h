@@ -1,3 +1,4 @@
+#pragma once
 #include <framework/input/event.h>
 #include <framework/internal/vec2.h>
 #include <queue>
