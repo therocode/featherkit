@@ -1,3 +1,4 @@
+#pragma once
 #include <map>
 #include <string>
 #include <framework/util/filenotfoundexception.h>

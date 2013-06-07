@@ -1,3 +1,4 @@
+#pragma once
 #include <framework/window/windowbackend.h>
 #include <framework/internal/vec2.h>
 #include <SFML/Window.hpp>
