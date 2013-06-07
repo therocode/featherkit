@@ -6,9 +6,10 @@ set(CLANG_PATH "/usr/bin/clang++" CACHE PATH "Path to run CLANG from")
 set(STRICT_BUILD TRUE CACHE BOOL "Makes use of the -Wall -Wextra and -Werror flags")
 set(DEBUG_BUILD TRUE CACHE BOOL "Turns off optimisation and builds debug info")
 
-set(BUILD_ENTITY TRUE CACHE BOOL "Selects if the entity module should be built")
-set(BUILD_UI TRUE CACHE BOOL "Selects if the UI module should be built")
 set(BUILD_APP TRUE CACHE BOOL "Selects if the application module should be built")
+set(BUILD_ENTITY TRUE CACHE BOOL "Selects if the entity module should be built")
+set(BUILD_MESSAGING TRUE CACHE BOOL "Selects if the messaging module should be built")
+set(BUILD_UI TRUE CACHE BOOL "Selects if the UI module should be built")
 
 set(BUILD_SFMLBACKENDS FALSE CACHE BOOL "Deactivate this if you don't want sfml dependant things to be built")
 
@@ -67,6 +68,14 @@ if(BUILD_APP)
     file(GLOB_RECURSE app_source_files "src/application/*.cpp")
     file(GLOB_RECURSE app_header_files "include/application/*.h")
     add_library(${project_name}-app ${app_header_files} ${app_source_files})
+endif()
+
+if(BUILD_MESSAGING)
+    ##Messaging module##
+    #find all source files
+    file(GLOB_RECURSE messaging_source_files "src/messaging/*.cpp")
+    file(GLOB_RECURSE messaging_header_files "include/messaging/*.h")
+    add_library(${project_name}-messaging ${messaging_header_files} ${messaging_source_files})
 endif()
 
 if(BUILD_ENTITY)
