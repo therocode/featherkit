@@ -14,7 +14,7 @@ namespace windgale
 
     ArrayHolder::ArrayHolder()
     {
-        arrayLength = 256;  //should be dividable with 32 due to the bitfield
+        arrayLength = 256;  //should be divisible with 32 due to the bitfield
         largestElement = 0;
     }
 
@@ -49,7 +49,7 @@ namespace windgale
         if(position1 == position2)
             return;
 
-        char tempBuffer[largestElement];
+        char* tempBuffer = new char[largestElement];
         ElementSize size = 0;
         for(auto iter = arrays.begin(); iter != arrays.end(); iter++)
         {
@@ -65,6 +65,7 @@ namespace windgale
             setEntryValid(iter->first, position1, position2Valid);
             setEntryValid(iter->first, position2, position1Valid);
         }
+        delete [] tempBuffer;
     }
     
     void ArrayHolder::setData(const AttributeHash identifier, const ArrayPosition position, const char* inData)
@@ -95,7 +96,7 @@ namespace windgale
 
     void ArrayHolder::extendArrays(uint32_t newLength)
     {
-        char tempBuffer[largestElement * arrayLength];
+        char* tempBuffer = new char[largestElement * arrayLength];
 
         for(auto iter = arrays.begin(); iter != arrays.end(); iter++)
         {
@@ -119,6 +120,7 @@ namespace windgale
         }
 
         arrayLength = newLength;
+        delete [] tempBuffer;
     }
     
     void ArrayHolder::setEntryValid(const AttributeHash identifier, const ArrayPosition position, const bool state) //ADD ERROR CHECKS?

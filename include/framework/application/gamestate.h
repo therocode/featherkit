@@ -7,9 +7,9 @@ namespace windstorm
     class GameState
     {
         public:
-            virtual void activate(std::string previousState) {}
-            virtual void deactivate(std::string nextState) {}
-            virtual void handOver(std::weak_ptr<GameState> previousState, std::string previousStateName) {}
+            virtual void activate(std::string previousState) {(void) previousState;}
+            virtual void deactivate(std::string nextState) {(void) nextState;}
+            virtual void handOver(std::weak_ptr<GameState> previousState, std::string previousStateName) {(void) previousState; (void) previousStateName;}
             virtual void setup() {}
             virtual std::string run() = 0;
             virtual void destroy() {}
