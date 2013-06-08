@@ -1,17 +1,20 @@
 #include <framework/messaging/messagebus.h>
 
-bool MessageBus::subscriptionExists(uint32_t id, MessageReceiverBase* receiver) const
+namespace windbreeze
 {
-    auto range = subscribers.equal_range(id);
-    bool existed = false;
-
-    for(auto iter = range.first; iter != range.second; iter++)
+    bool MessageBus::subscriptionExists(uint32_t id, MessageReceiverBase* receiver) const
     {
-        if(iter->second == receiver)
+        auto range = subscribers.equal_range(id);
+        bool existed = false;
+
+        for(auto iter = range.first; iter != range.second; iter++)
         {
-            existed = true;
-            break;
+            if(iter->second == receiver)
+            {
+                existed = true;
+                break;
+            }
         }
+        return existed;
     }
-    return existed;
 }
