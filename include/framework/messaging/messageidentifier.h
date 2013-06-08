@@ -3,7 +3,7 @@
 
 namespace windbreeze
 {
-    uint32_t nextMessageId = 0;
+    static uint32_t nextMessageId = 0;
 
     template<class Type>
     struct MessageIdentifier
