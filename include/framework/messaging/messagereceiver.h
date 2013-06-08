@@ -1,14 +1,15 @@
 #pragma once
 
-class MessageReceiverBase
+namespace windbreeze
 {
-};
+    class MessageReceiverBase
+    {
+    };
 
-class MessageBus;
-
-template<class MessageType>
-class MessageReceiver : public MessageReceiverBase
-{
-    public:
-        virtual void handleMessage(const MessageType& mess) = 0;
-};
+    template<class MessageType>
+        class MessageReceiver : public MessageReceiverBase
+    {
+        public:
+            virtual void handleMessage(const MessageType& mess) = 0;
+    };
+}

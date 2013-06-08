@@ -1,6 +1,6 @@
 #include <framework/messaging/messagebus.h>
 
-bool MessageBus::subscriptionExists(uint32_t id, MessageReceiverBase* receiver)
+bool MessageBus::subscriptionExists(uint32_t id, MessageReceiverBase* receiver) const
 {
     auto range = subscribers.equal_range(id);
     bool existed = false;

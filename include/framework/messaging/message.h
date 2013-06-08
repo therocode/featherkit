@@ -1,7 +1,11 @@
 #pragma once
 
-template<class tag, typename... DataTypes>
-struct Message
+
+namespace windbreeze
 {
-    std::tuple<DataTypes...> data;
-};
+    template<class tag, typename... DataTypes>
+    struct Message
+    {
+        std::tuple<DataTypes...> data;
+    };
+}
