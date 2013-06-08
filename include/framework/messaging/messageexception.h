@@ -21,4 +21,5 @@ namespace windbreeze
      *  @fn MessageException::MessageException(const std::string& message)
      *  @brief Construct an exception to throw containing a message.
      *  @param message Message further describing the error.
+     ***/
 }
