@@ -9,6 +9,7 @@ set(DEBUG_BUILD TRUE CACHE BOOL "Turns off optimisation and builds debug info")
 set(BUILD_APP TRUE CACHE BOOL "Selects if the application module should be built")
 set(BUILD_ENTITY TRUE CACHE BOOL "Selects if the entity module should be built")
 set(BUILD_MESSAGING TRUE CACHE BOOL "Selects if the messaging module should be built")
+set(BUILD_RENDERING TRUE CACHE BOOL "Selects if the rendering module should be built")
 set(BUILD_UI TRUE CACHE BOOL "Selects if the UI module should be built")
 
 set(BUILD_SFMLBACKENDS FALSE CACHE BOOL "Deactivate this if you don't want sfml dependant things to be built")
@@ -72,14 +73,6 @@ if(BUILD_APP)
     add_library(${project_name}-app ${app_header_files} ${app_source_files})
 endif()
 
-if(BUILD_MESSAGING)
-    ##Messaging module##
-    #find all source files
-    file(GLOB_RECURSE messaging_source_files "src/messaging/*.cpp")
-    file(GLOB_RECURSE messaging_header_files "include/messaging/*.h")
-    add_library(${project_name}-messaging ${messaging_header_files} ${messaging_source_files})
-endif()
-
 if(BUILD_ENTITY)
     ##Entity module##
     #find all source files
@@ -89,6 +82,22 @@ if(BUILD_ENTITY)
     file(GLOB_RECURSE entity_util_source_files "src/util/entity/*.cpp")
 
     add_library(${project_name}-entity ${entity_header_files} ${entity_source_files} ${entity_util_source_files})
+endif()
+
+if(BUILD_MESSAGING)
+    ##Messaging module##
+    #find all source files
+    file(GLOB_RECURSE messaging_source_files "src/messaging/*.cpp")
+    file(GLOB_RECURSE messaging_header_files "include/messaging/*.h")
+    add_library(${project_name}-messaging ${messaging_header_files} ${messaging_source_files})
+endif()
+
+if(BUILD_RENDERING)
+    ##Rendering module##
+    #find all source files
+    file(GLOB_RECURSE rendering_source_files "src/rendering/*.cpp")
+    file(GLOB_RECURSE rendering_header_files "include/rendering/*.h")
+    add_library(${project_name}-rendering ${rendering_header_files} ${rendering_source_files})
 endif()
 
 if(BUILD_UI)
