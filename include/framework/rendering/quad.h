@@ -6,5 +6,6 @@ namespace windbreeze
     {
         public:
             Quad();
+            Quad(float w, float h);
     };
 }
