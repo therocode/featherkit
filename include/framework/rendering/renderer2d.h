@@ -1,4 +1,5 @@
 #pragma once
+#include <framework/rendering/camera.h>
 #include <SFML/OpenGL.hpp>  //temp for testing
 
 namespace windbreeze
@@ -12,7 +13,8 @@ namespace windbreeze
             void doStuff();
             void clear();
             void render(const Drawable2D& drawable);
+            void setCamera(const Camera& camera);
         private:
-            
+            Camera currentCamera;
     };
 }

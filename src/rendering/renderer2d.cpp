@@ -35,16 +35,26 @@ namespace windbreeze
     {
         const std::vector<float>& vertices = drawable.getVerticesTransformed();
         std::cout << "///////////////drawing the drawable!\nIt has " << vertices.size() << " vertices!\n";
+
+        glm::vec2 vertex;
+
         glBegin(GL_QUADS);
         for(uint32_t i = 0; i < vertices.size(); i += 2)
         {
+            vertex = glm::vec2(vertices[i], vertices[i + 1]);
+            vertex = (currentCamera.getTransformation() * vertex) + currentCamera.getTranslation();
             std::cout << "drawing vertex nr " << i * 0.5 << "\n";
-            std::cout << "x position: " << vertices[i] << "\n";
-            std::cout << "y position: " << vertices[i + 1] << "\n\n";
-            glVertex2f(vertices[i], vertices[i + 1]);
+            std::cout << "x position: " << vertex.x << "\n";
+            std::cout << "y position: " << vertex.y << "\n\n";
+            glVertex2f(vertex.x, vertex.y);
         }
         glEnd();
         std::cout << "done drawing it!\n\n\n";
 
+    }
+
+    void Renderer2D::setCamera(const Camera& camera)
+    {
+        currentCamera = camera;
     }
 }
