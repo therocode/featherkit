@@ -7,5 +7,8 @@ namespace windbreeze
         public:
             Quad();
             Quad(float w, float h);
+            void setSize(float w, float h);
+            void setSize(glm::vec2 size);
+            glm::vec2 getSize();
     };
 }

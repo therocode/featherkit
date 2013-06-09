@@ -20,4 +20,25 @@ namespace windbreeze
                      xnum,  ynum, 
                      xnum, -ynum};
     }
+    
+    void Quad::setSize(float w, float h)
+    {
+        float xnum = w * 0.5f;
+        float ynum = h * 0.5f;
+
+        vertices = {-xnum, -ynum, 
+                    -xnum,  ynum, 
+                     xnum,  ynum, 
+                     xnum, -ynum};
+    }
+
+    void Quad::setSize(glm::vec2 size)
+    {
+        setSize(size.x, size.y);
+    }
+            
+    glm::vec2 Quad::getSize()
+    {
+        return glm::vec2(vertices[0] * 2.0f, vertices[1] * 2.0f);
+    }
 }

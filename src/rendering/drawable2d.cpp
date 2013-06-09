@@ -1,5 +1,4 @@
 #include <framework/rendering/drawable2d.h>
-#include <stdint.h>
 
 namespace windbreeze
 {
@@ -18,10 +17,17 @@ namespace windbreeze
         float cos = glm::cos(rotation);
         glm::mat2x2 rot = glm::mat2x2(cos, sin, -sin, cos);
 
+        glm::mat2x2 transformation;
+
+        for(uint32_t i = 0; i < transformations.size(); i++)
+        {
+            transformation *= transformations[i];
+        }
+
         for(uint32_t i = 0; i < vertices.size(); i+=2)
         {
             point = glm::vec2(vertices[i], vertices[i+1]);
-            point = ((rot * transformation) * (scaling * point)) + position;
+            point = (rot * ( transformation * (scaling * point))) + position;
             result.push_back(point.x);
             result.push_back(point.y);
         }
@@ -93,5 +99,25 @@ namespace windbreeze
     void Drawable2D::scale(const glm::vec2& s)
     {
         scaling *= s;
+    }
+    
+    void Drawable2D::addTransformation(const glm::mat2x2& t)
+    {
+        transformations.push_back(t);
+    }
+
+    glm::mat2x2& Drawable2D::getTransformation(uint32_t index)
+    {
+        return transformations[index];
+    }
+
+    uint32_t Drawable2D::getTransformationCount()
+    {
+        return transformations.size();
+    }
+
+    void Drawable2D::clearTransformations()
+    {
+        transformations.clear();
     }
 }
