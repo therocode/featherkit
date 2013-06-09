@@ -27,7 +27,7 @@ namespace windbreeze
         for(uint32_t i = 0; i < vertices.size(); i+=2)
         {
             point = glm::vec2(vertices[i], vertices[i+1]);
-            point = (rot * ( transformation * (scaling * point))) + position;
+            point = (rot * ( transformation * (scaling * point) - origin)) + position;
             result.push_back(point.x);
             result.push_back(point.y);
         }
@@ -59,6 +59,21 @@ namespace windbreeze
     void Drawable2D::translate(const glm::vec2& p)
     {
         position += p;
+    }
+    
+    void Drawable2D::setOrigin(const float x, const float y)
+    {
+        origin = glm::vec2(x, y);
+    }
+
+    void Drawable2D::setOrigin(const glm::vec2& p)
+    {
+        origin = p;
+    }
+
+    const glm::vec2& Drawable2D::getOrigin() const
+    {
+        return origin;
     }
 
     void Drawable2D::setRotation(const float radians)

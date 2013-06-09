@@ -14,6 +14,7 @@ namespace windbreeze
             void clear();
             void render(const Drawable2D& drawable);
             void setCamera(const Camera& camera);
+            Camera& getCamera();
         private:
             Camera currentCamera;
     };

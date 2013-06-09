@@ -15,6 +15,9 @@ namespace windbreeze
             const glm::vec2& getPosition() const;
             void translate(const float x, const float y);
             void translate(const glm::vec2& p);
+            void setOrigin(const float x, const float y);
+            void setOrigin(const glm::vec2& p);
+            const glm::vec2& getOrigin() const;
             void setRotation(const float radians);
             float getRotation() const;
             void rotate(const float radians);
@@ -30,6 +33,7 @@ namespace windbreeze
         protected:
             std::vector<float> vertices;
             glm::vec2 position;
+            glm::vec2 origin;
             float rotation = 0.0f;
             glm::vec2 scaling = glm::vec2(1.0f, 1.0f);
 

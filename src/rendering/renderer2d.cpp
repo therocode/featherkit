@@ -1,14 +1,12 @@
 #include <framework/glm/glm.hpp>
 #include <framework/rendering/renderer2d.h>
 #include <framework/rendering/drawable2d.h>
-#include <iostream>
 
 namespace windbreeze
 {
-    Renderer2D::Renderer2D()
+    Renderer2D::Renderer2D() : currentCamera(1366.0f * 0.5f, 768.0f * 0.5f, 1366.0f, 768.0f)
     {
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-        gluOrtho2D(0.0f, 1366.0f, 768.0f, 0.0f);
     }
 
     void Renderer2D::doStuff()
@@ -21,40 +19,47 @@ namespace windbreeze
 
         hej = hej + hoj;
 
-        std::cout << "the vector is:\n  [" << hej[0] << ", " << hej[1] << "]\n";
         hej = rot * hej;
-        std::cout << "the vector is:\n  [" << hej[0] << ", " << hej[1] << "]\n";
     }
             
     void Renderer2D::clear()
     {
         glClear(GL_COLOR_BUFFER_BIT);
+        glLoadIdentity();
+
+        float camX = currentCamera.getPosition().x;
+        float camY = currentCamera.getPosition().y;
+        float camWidth = currentCamera.getSize().x;
+        float camHeight = currentCamera.getSize().y;
+
+        gluOrtho2D(camX, camX + camWidth, camY + camHeight, camY);
     }
 
     void Renderer2D::render(const Drawable2D& drawable)
     {
         const std::vector<float>& vertices = drawable.getVerticesTransformed();
-        std::cout << "///////////////drawing the drawable!\nIt has " << vertices.size() << " vertices!\n";
 
         glm::vec2 vertex;
+        glm::vec2 halfCameraSize = currentCamera.getSize() * 0.5f;
 
         glBegin(GL_QUADS);
         for(uint32_t i = 0; i < vertices.size(); i += 2)
         {
             vertex = glm::vec2(vertices[i], vertices[i + 1]);
-            vertex = (currentCamera.getTransformation() * vertex) + currentCamera.getTranslation();
-            std::cout << "drawing vertex nr " << i * 0.5 << "\n";
-            std::cout << "x position: " << vertex.x << "\n";
-            std::cout << "y position: " << vertex.y << "\n\n";
+            vertex = (currentCamera.getTransformation()) * (vertex + currentCamera.getTranslation() - halfCameraSize) + halfCameraSize;
             glVertex2f(vertex.x, vertex.y);
         }
         glEnd();
-        std::cout << "done drawing it!\n\n\n";
 
     }
 
     void Renderer2D::setCamera(const Camera& camera)
     {
         currentCamera = camera;
+    }
+    
+    Camera& Renderer2D::getCamera()
+    {
+        return currentCamera;
     }
 }

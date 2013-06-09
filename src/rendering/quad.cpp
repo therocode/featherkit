@@ -8,6 +8,7 @@ namespace windbreeze
                     -1.0f,  1.0f, 
                      1.0f,  1.0f, 
                      1.0f, -1.0f};
+        origin = glm::vec2(-1.0f, -1.0f);
     }
 
     Quad::Quad(float w, float h)
@@ -19,6 +20,7 @@ namespace windbreeze
                     -xnum,  ynum, 
                      xnum,  ynum, 
                      xnum, -ynum};
+        origin = glm::vec2(-xnum, -ynum);
     }
     
     void Quad::setSize(float w, float h)
@@ -30,6 +32,7 @@ namespace windbreeze
                     -xnum,  ynum, 
                      xnum,  ynum, 
                      xnum, -ynum};
+        origin = glm::vec2(-xnum, -ynum);
     }
 
     void Quad::setSize(glm::vec2 size)
