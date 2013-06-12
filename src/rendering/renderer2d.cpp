@@ -7,19 +7,8 @@ namespace windbreeze
     Renderer2D::Renderer2D() : currentCamera(1366.0f * 0.5f, 768.0f * 0.5f, 1366.0f, 768.0f)
     {
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-    }
 
-    void Renderer2D::doStuff()
-    {
-        glm::vec2 hej(45.0f, 10.0f);
-        glm::vec2 hoj(35.0f, 5.0f);
-
-        float angle = glm::radians(90.0f);
-        glm::mat2x2 rot(glm::cos(angle), glm::sin(angle), -glm::sin(angle), glm::cos(angle));
-
-        hej = hej + hoj;
-
-        hej = rot * hej;
+        
     }
             
     void Renderer2D::clear()
