@@ -17,8 +17,8 @@ namespace windbreeze
             const glm::vec2& getSize();
             void setRotation(float radians);
             void rotate(float radians);
-            glm::vec2 getTranslation();
             glm::mat2x2 getTransformation();
+            glm::vec2 transformPoint(const glm::vec2 point);
         private:
             glm::vec2 position;
             glm::vec2 size;

@@ -4,24 +4,33 @@
 
 namespace windbreeze
 {
-    Renderer2D::Renderer2D() : currentCamera(1366.0f * 0.5f, 768.0f * 0.5f, 1366.0f, 768.0f)
+    Renderer2D::Renderer2D(Renderer2DBackend& b) : backend(b), currentCamera(1366.0f * 0.5f, 768.0f * 0.5f, 1366.0f, 768.0f)
     {
-        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-
-        
     }
             
     void Renderer2D::clear()
     {
-        glClear(GL_COLOR_BUFFER_BIT);
-        glLoadIdentity();
+        backend.clear();
+    }
+    
+    void Renderer2D::setup()
+    {
+        backend.setup();
+    }
 
+    void Renderer2D::destroy()
+    {
+        backend.destroy();
+    }
+
+    void Renderer2D::preRender()
+    {
         float camX = currentCamera.getPosition().x;
         float camY = currentCamera.getPosition().y;
         float camWidth = currentCamera.getSize().x;
         float camHeight = currentCamera.getSize().y;
-
-        gluOrtho2D(camX, camX + camWidth, camY + camHeight, camY);
+        backend.setViewRect(camX, camY, camWidth, camHeight);
+        backend.setViewTransform(currentCamera.getTransformation());
     }
 
     void Renderer2D::render(const Drawable2D& drawable)
@@ -31,15 +40,14 @@ namespace windbreeze
         glm::vec2 vertex;
         glm::vec2 halfCameraSize = currentCamera.getSize() * 0.5f;
 
-        glBegin(GL_QUADS);
-        for(uint32_t i = 0; i < vertices.size(); i += 2)
-        {
-            vertex = glm::vec2(vertices[i], vertices[i + 1]);
-            vertex = (currentCamera.getTransformation()) * (vertex + currentCamera.getTranslation() - halfCameraSize) + halfCameraSize;
-            glVertex2f(vertex.x, vertex.y);
-        }
-        glEnd();
+        RenderData temp;
+        backend.render(temp);
+        
 
+    }
+
+    void Renderer2D::postRender()
+    {
     }
 
     void Renderer2D::setCamera(const Camera& camera)

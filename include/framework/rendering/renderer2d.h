@@ -1,6 +1,6 @@
 #pragma once
 #include <framework/rendering/camera.h>
-#include <SFML/OpenGL.hpp>  //temp for testing
+#include <framework/rendering/renderer2dbackend.h>
 
 namespace windbreeze
 {
@@ -9,12 +9,17 @@ namespace windbreeze
     class Renderer2D
     {
         public:
-            Renderer2D();
+            Renderer2D(Renderer2DBackend& b);
+            void setup();
+            void destroy();
             void clear();
+            void preRender();
             void render(const Drawable2D& drawable);
+            void postRender();
             void setCamera(const Camera& camera);
             Camera& getCamera();
         private:
+            Renderer2DBackend& backend;
             Camera currentCamera;
     };
 }

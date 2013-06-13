@@ -64,11 +64,6 @@ namespace windbreeze
         rotation += radians;
     }
 
-    glm::vec2 Camera::getTranslation()
-    {
-        return -position;
-    }
-
     glm::mat2x2 Camera::getTransformation()
     {
         glm::mat2x2 result;
@@ -78,6 +73,12 @@ namespace windbreeze
 
         glm::mat2x2 rotation = glm::mat2x2(cos, sin, -sin, cos);
 
-        return glm::inverse(result * rotation);
+        return result * rotation;
+    }
+    
+    glm::vec2 Camera::transformPoint(const glm::vec2 point)
+    {
+        glm::vec2 halfCameraSize = size * 0.5f;
+        return glm::inverse(getTransformation()) * (point + (-position) - halfCameraSize) + halfCameraSize; 
     }
 }
