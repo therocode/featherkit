@@ -1,3 +1,4 @@
+#pragma once
 #include <framework/rendering/quad.h>
 
 namespace windbreeze

@@ -2,16 +2,22 @@
 
 namespace windbreeze
 {
-    Camera::Camera(float x, float y, float width, float height)
+    Camera::Camera(float x, float y)
     {
-        position =  glm::vec2(x, y);
-        size = glm::vec2(width, height);
+        position = glm::vec2(x, y);
+        zoom = glm::vec2(1.0f, 1.0f);
     }
 
-    Camera::Camera(glm::vec2 p, glm::vec2 s)
+    Camera::Camera(float x, float y, float xZoom, float yZoom)
+    {
+        position = glm::vec2(x, y);
+        zoom = glm::vec2(xZoom, yZoom);
+    }
+
+    Camera::Camera(glm::vec2 p, glm::vec2 z)
     {
         position = p;
-        size = s;
+        zoom = z;
     }
 
     void Camera::setPosition(float x, float y)
@@ -39,19 +45,19 @@ namespace windbreeze
         position += p;
     }
     
-    void Camera::setSize(float x, float y)
+    void Camera::setZoom(float x, float y)
     {
-        size = glm::vec2(x, y);
+        zoom = glm::vec2(x, y);
     }
 
-    void Camera::setSize(glm::vec2 s)
+    void Camera::setZoom(glm::vec2 z)
     {
-        size = s;
+        zoom = z;
     }
     
-    const glm::vec2& Camera::getSize()
+    const glm::vec2& Camera::getZoom()
     {
-        return size;
+        return zoom;
     }
 
     void Camera::setRotation(float radians)
@@ -78,7 +84,7 @@ namespace windbreeze
     
     glm::vec2 Camera::transformPoint(const glm::vec2 point)
     {
-        glm::vec2 halfCameraSize = size * 0.5f;
-        return glm::inverse(getTransformation()) * (point + (-position) - halfCameraSize) + halfCameraSize; 
+        //glm::vec2 halfCameraSize = size * 0.5f;
+        return point;//glm::inverse(getTransformation()) * (point + (-position) - halfCameraSize) + halfCameraSize; 
     }
 }

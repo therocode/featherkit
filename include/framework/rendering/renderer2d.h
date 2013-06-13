@@ -9,7 +9,7 @@ namespace windbreeze
     class Renderer2D
     {
         public:
-            Renderer2D(Renderer2DBackend& b);
+            Renderer2D(Renderer2DBackend& b, glm::vec2 s, Camera c);
             void setup();
             void destroy();
             void clear();
@@ -20,6 +20,7 @@ namespace windbreeze
             Camera& getCamera();
         private:
             Renderer2DBackend& backend;
+            glm::vec2 renderSize;
             Camera currentCamera;
     };
 }

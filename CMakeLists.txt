@@ -99,7 +99,10 @@ if(BUILD_RENDERING)
     #find all source files
     file(GLOB_RECURSE rendering_source_files "src/rendering/*.cpp")
     file(GLOB_RECURSE rendering_header_files "include/rendering/*.h")
-    add_library(${project_name}-rendering ${rendering_header_files} ${rendering_source_files})
+
+    file(GLOB_RECURSE rendering_util_source_files "src/util/rendering/*.cpp")
+
+    add_library(${project_name}-rendering ${rendering_header_files} ${rendering_source_files} ${rendering_util_source_files})
 endif()
 
 if(BUILD_UI)
