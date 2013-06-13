@@ -32,7 +32,9 @@ namespace windbreeze
         for(uint32_t i = 0; i < vertices.size(); i += 2)
         {
             vertex = glm::vec2(vertices[i], vertices[i + 1]);
-            vertex = (glm::inverse(cameraTransform) * (vertex - halfViewSize) + halfViewSize) - cameraPosition;
+            vertex = vertex - cameraPosition + halfViewSize;
+
+            //vertex = (glm::inverse(cameraTransform) * (vertex - halfViewSize) + halfViewSize) - cameraPosition;
             glVertex2f(vertex.x, vertex.y);
         }
         glEnd();
