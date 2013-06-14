@@ -9,7 +9,7 @@ namespace windgale
     {
         for(auto attribute : attributeLists.getSet())
         {
-            attributeData.insert(std::pair<AttributeHash, std::shared_ptr<char> >(attribute, std::shared_ptr<char>(new char[parent.attributes.at(attribute)])));
+            attributeData.insert(std::pair<AttributeHash, std::shared_ptr<char> >(attribute, std::shared_ptr<char>(new char[parent.attributes.at(attribute)], [](char* arr) { delete [] arr;} )));
         }
     }
     

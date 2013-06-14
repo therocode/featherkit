@@ -1,6 +1,6 @@
 #pragma once
-#include <framework/rendering/camera.h>
 #include <framework/rendering/renderer2dbackend.h>
+#include <framework/rendering/viewport.h>
 
 namespace windbreeze
 {
@@ -9,18 +9,17 @@ namespace windbreeze
     class Renderer2D
     {
         public:
-            Renderer2D(Renderer2DBackend& b, glm::vec2 s, Camera c);
+            Renderer2D(Renderer2DBackend& b, Viewport v);
             void setup();
             void destroy();
             void clear();
             void preRender();
             void render(const Drawable2D& drawable);
             void postRender();
-            void setCamera(const Camera& camera);
-            Camera& getCamera();
+            void setViewport(const Viewport& viewport);
+            Viewport& getViewport();
         private:
             Renderer2DBackend& backend;
-            glm::vec2 renderSize;
-            Camera currentCamera;
+            Viewport currentViewport;
     };
 }

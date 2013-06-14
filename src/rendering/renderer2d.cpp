@@ -4,11 +4,11 @@
 
 namespace windbreeze
 {
-    Renderer2D::Renderer2D(Renderer2DBackend& b, glm::vec2 s, Camera c) : backend(b), renderSize(s), currentCamera(c)
+    Renderer2D::Renderer2D(Renderer2DBackend& b, Viewport v) : backend(b), currentViewport(v)
     {
-        backend.setViewSize(s);
+        b.setViewport(v);
     }
-            
+
     void Renderer2D::clear()
     {
         backend.clear();
@@ -26,9 +26,7 @@ namespace windbreeze
 
     void Renderer2D::preRender()
     {
-        backend.setCameraPosition(currentCamera.getPosition());
-        backend.setCameraZoom(currentCamera.getZoom());
-        backend.setCameraTransform(currentCamera.getTransformation());
+        backend.setViewport(currentViewport);
     }
 
     void Renderer2D::render(const Drawable2D& drawable)
@@ -43,13 +41,13 @@ namespace windbreeze
     {
     }
 
-    void Renderer2D::setCamera(const Camera& camera)
+    void Renderer2D::setViewport(const Viewport& viewport)
     {
-        currentCamera = camera;
+        currentViewport = viewport;
     }
     
-    Camera& Renderer2D::getCamera()
+    Viewport& Renderer2D::getViewport()
     {
-        return currentCamera;
+        return currentViewport;
     }
 }

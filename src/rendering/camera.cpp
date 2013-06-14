@@ -2,24 +2,6 @@
 
 namespace windbreeze
 {
-    Camera::Camera(float x, float y)
-    {
-        position = glm::vec2(x, y);
-        zoom = glm::vec2(1.0f, 1.0f);
-    }
-
-    Camera::Camera(float x, float y, float xZoom, float yZoom)
-    {
-        position = glm::vec2(x, y);
-        zoom = glm::vec2(xZoom, yZoom);
-    }
-
-    Camera::Camera(glm::vec2 p, glm::vec2 z)
-    {
-        position = p;
-        zoom = z;
-    }
-
     void Camera::setPosition(float x, float y)
     {
         position = glm::vec2(x, y);
@@ -80,11 +62,5 @@ namespace windbreeze
         glm::mat2x2 rotation = glm::mat2x2(cos, sin, -sin, cos);
 
         return result * rotation;
-    }
-    
-    glm::vec2 Camera::transformPoint(const glm::vec2 point)
-    {
-        //glm::vec2 halfCameraSize = size * 0.5f;
-        return point;//glm::inverse(getTransformation()) * (point + (-position) - halfCameraSize) + halfCameraSize; 
     }
 }
