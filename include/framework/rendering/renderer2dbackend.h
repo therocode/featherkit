@@ -8,6 +8,7 @@ namespace windbreeze
     struct RenderData
     {
         std::vector<float> vertices;
+        //texcoords
     };
 
     class Renderer2DBackend
