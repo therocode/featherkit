@@ -33,6 +33,11 @@ namespace windbreeze
     {
         RenderData temp;
         temp.vertices = drawable.getVerticesTransformed();
+        temp.textureId = drawable.getTexture();
+        temp.texCoords =        {0.0f, 0.0f,
+                                 0.0f, 1.0f,
+                                 1.0f, 1.0f,
+                                 1.0f, 0.0f};
 
         backend.render(temp);
     }

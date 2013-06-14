@@ -116,6 +116,16 @@ namespace windbreeze
         scaling *= s;
     }
     
+    void Drawable2D::setTexture(const std::string& tex)
+    {
+        textureId = tex;
+    }
+
+    const std::string& Drawable2D::getTexture() const
+    {
+        return textureId;
+    }
+    
     void Drawable2D::addTransformation(const glm::mat2x2& t)
     {
         transformations.push_back(t);

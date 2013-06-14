@@ -2,8 +2,8 @@
 
 namespace windbreeze
 {
-    class OpenGLTexture
+    struct OpenGLTexture
     {
-        uint32_t textureId;
+        uint32_t glId = 0;
     };
 }

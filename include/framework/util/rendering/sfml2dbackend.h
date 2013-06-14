@@ -9,12 +9,12 @@ namespace windbreeze
     class Sfml2DBackend : public Renderer2DBackend
     {
         public:
-            Sfml2DBackend(TextureManager<OpenGLTexture, std::string> tm) : textureManager(tm) {}
+            Sfml2DBackend(TextureManager<OpenGLTexture>& tm) : textureManager(tm) {}
             void setup() override;
             void destroy() override;
             void clear() override;
             void render(RenderData renderData) override;
         private:
-            TextureManager<OpenGLTexture, std::string> textureManager;
+            TextureManager<OpenGLTexture>& textureManager;
     };
 }
