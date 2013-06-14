@@ -6,6 +6,11 @@ namespace windbreeze
     {
         cameraPosition = position;
     }
+    
+    void Renderer2DBackend::setCameraZoom(glm::vec2 zoom)
+    {
+        cameraZoom = zoom;
+    }
             
     void Renderer2DBackend::setCameraTransform(glm::mat2x2 transform)
     {

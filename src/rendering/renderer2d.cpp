@@ -27,6 +27,7 @@ namespace windbreeze
     void Renderer2D::preRender()
     {
         backend.setCameraPosition(currentCamera.getPosition());
+        backend.setCameraZoom(currentCamera.getZoom());
         backend.setCameraTransform(currentCamera.getTransformation());
     }
 

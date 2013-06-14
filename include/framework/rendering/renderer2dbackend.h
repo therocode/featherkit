@@ -22,7 +22,7 @@ namespace windbreeze
             void setViewSize(glm::vec2 size);
         protected:
             glm::vec2 cameraPosition;
-            glm::vec2 cameraZoom;
+            glm::vec2 cameraZoom = glm::vec2(1.0f, 1.0f);
             glm::mat2x2 cameraTransform;
             glm::vec2 viewSize;
     };

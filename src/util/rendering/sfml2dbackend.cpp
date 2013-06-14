@@ -7,10 +7,7 @@ namespace windbreeze
     {
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         glLoadIdentity();
-        //gluOrtho2D(x, x + w, y + h, y);
         gluOrtho2D(0.0f, 1366.0f, 768.0f, 0.0f);
-
-        std::cout << "setup the backend now\n";
     }
 
     void Sfml2DBackend::destroy()
@@ -27,14 +24,13 @@ namespace windbreeze
         std::vector<float> vertices = renderData.vertices;
         glm::vec2 vertex;
         glm::vec2 halfViewSize = viewSize * 0.5f;
+        glm::mat2x2 rotation = glm::inverse(cameraTransform);
 
         glBegin(GL_QUADS);
         for(uint32_t i = 0; i < vertices.size(); i += 2)
         {
             vertex = glm::vec2(vertices[i], vertices[i + 1]);
-            vertex = vertex - cameraPosition + halfViewSize;
-
-            //vertex = (glm::inverse(cameraTransform) * (vertex - halfViewSize) + halfViewSize) - cameraPosition;
+            vertex = rotation * (cameraZoom * (vertex - cameraPosition)) + halfViewSize;
             glVertex2f(vertex.x, vertex.y);
         }
         glEnd();
