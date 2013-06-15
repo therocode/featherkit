@@ -23,11 +23,14 @@ namespace windbreeze
                                          "uniform mat2 rotation;"
                                          "uniform vec2 halfViewSize;"
                                          ""
+                                         "varying vec2 texCoords;"
+                                         ""
                                          "void main()"
                                          "{"
                                          "    vec2 transformedPoint = rotation * (zoom * (gl_Vertex.xy - position)) + halfViewSize;"
                                          "    gl_Position = vec4(transformedPoint.xy, gl_Vertex.zw);"
                                          "    gl_Position = gl_ProjectionMatrix * (gl_Position);"
+                                         "    gl_TexCoord[0]  = gl_MultiTexCoord0;"
                                          "}"
                                          "";
         const char* vertexShaderSourcePointer = &vertexShaderSource[0];
@@ -37,10 +40,13 @@ namespace windbreeze
         glCompileShader(vertexShader);
 
         std::string fragmentShaderSource = "#version 120\n"
+                                           "uniform sampler2D texture;"
+                                           ""
+                                           "varying vec2 texCoords;"
                                            ""
                                            "void main()"
                                            "{"
-                                           "    gl_FragColor = vec4(1.0f, 1.0f, 1.0f, 1.0f);"
+                                           "    gl_FragColor = texture2D(texture, gl_TexCoord[0].st);"
                                            "}"
                                            "";
         const char* fragmentShaderSourcePointer = &fragmentShaderSource[0];
@@ -125,7 +131,12 @@ namespace windbreeze
         if(renderData.textureId != "")
         {
             OpenGLTexture texture = textureManager.getTexture(renderData.textureId);
+
+            GLint textureUniform = glGetUniformLocation(shaderProgram, "texture");
+            glActiveTexture(GL_TEXTURE0);
             glBindTexture(GL_TEXTURE_2D, texture.glId);
+            glUniform1i(textureUniform, 0);
+
             std::cout << "now setting texture " << texture.glId << "\n";
         }
 
