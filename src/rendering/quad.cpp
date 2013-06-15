@@ -40,7 +40,7 @@ namespace windbreeze
         setSize(size.x, size.y);
     }
             
-    glm::vec2 Quad::getSize()
+    glm::vec2 Quad::getSize() const
     {
         return glm::vec2(vertices[0] * 2.0f, vertices[1] * 2.0f);
     }

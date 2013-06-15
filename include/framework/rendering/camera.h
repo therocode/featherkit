@@ -20,6 +20,7 @@ namespace windbreeze
             void setZoom(glm::vec2 z);
             const glm::vec2& getZoom();
             void setRotation(float radians);
+            float getRotation();
             void rotate(float radians);
             glm::mat2x2 getTransformation();
         private:

@@ -46,6 +46,11 @@ namespace windbreeze
     {
         rotation = radians;
     }
+
+    float Camera::getRotation()
+    {
+        return rotation;
+    }
     
     void Camera::rotate(float radians)
     {
