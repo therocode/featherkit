@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <framework/glm/glm.hpp>
+#include <framework/rendering/renderdata.h>
 #include <stdint.h>
 #include <string>
 
@@ -27,19 +28,17 @@ namespace windbreeze
             const glm::vec2& getScale() const;
             void scale(const float x, const float y);
             void scale(const glm::vec2& s);
-            void setTexture(const std::string& tex);
-            const std::string& getTexture() const;
             void addTransformation(const glm::mat2x2& t);
             glm::mat2x2& getTransformation(uint32_t index);
             uint32_t getTransformationCount();
             void clearTransformations();
+            virtual void getRenderData(RenderData& renderData) const;
         protected:
             std::vector<float> vertices;
             glm::vec2 position;
             glm::vec2 origin;
             float rotation = 0.0f;
             glm::vec2 scaling = glm::vec2(1.0f, 1.0f);
-            std::string textureId;
 
             std::vector<glm::mat2x2> transformations;
     };

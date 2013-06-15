@@ -32,12 +32,8 @@ namespace windbreeze
     void Renderer2D::render(const Drawable2D& drawable)
     {
         RenderData temp;
-        temp.vertices = drawable.getVerticesTransformed();
-        temp.textureId = drawable.getTexture();
-        temp.texCoords =        {0.0f, 0.0f,
-                                 0.0f, 1.0f,
-                                 1.0f, 1.0f,
-                                 1.0f, 0.0f};
+
+        drawable.getRenderData(temp);
 
         backend.render(temp);
     }

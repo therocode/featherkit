@@ -2,17 +2,10 @@
 #include <vector>
 #include <framework/glm/glm.hpp>
 #include <framework/rendering/viewport.h>
-#include <string>
+#include <framework/rendering/renderdata.h>
 
 namespace windbreeze
 {
-    struct RenderData
-    {
-        std::vector<float> vertices;
-        std::string textureId;
-        std::vector<float> texCoords;
-    };
-
     class Renderer2DBackend
     {
         public:

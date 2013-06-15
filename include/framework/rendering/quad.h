@@ -10,5 +10,10 @@ namespace windbreeze
             void setSize(float w, float h);
             void setSize(glm::vec2 size);
             glm::vec2 getSize();
+            void setTexture(const std::string& tex);
+            const std::string& getTexture() const;
+            virtual void getRenderData(RenderData& renderData) const override;
+        protected:
+            std::string textureId;
     };
 }
