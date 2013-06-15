@@ -60,9 +60,9 @@ namespace windbreeze
         Drawable2D::getRenderData(renderData);
 
         renderData.textureId = getTexture();
-        renderData.texCoords =        {0.0f, 0.0f,
-                                 0.0f, 1.0f,
+        renderData.texCoords =  {0.0f, 1.0f,
                                  1.0f, 1.0f,
-                                 1.0f, 0.0f};
+                                 1.0f, 0.0f,
+                                 0.0f, 0.0f};
     }
 }
