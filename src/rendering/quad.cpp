@@ -55,9 +55,9 @@ namespace windbreeze
         return textureId;
     }
 
-    void Quad::getRenderData(RenderData& renderData) const
+    void Quad::getRenderData(RenderData& renderData, uint32_t time) const
     {
-        Drawable2D::getRenderData(renderData);
+        Drawable2D::getRenderData(renderData, time);
 
         renderData.textureId = getTexture();
         renderData.texCoords =  {0.0f, 1.0f,

@@ -13,9 +13,19 @@ namespace windbreeze
         return tileSize;
     }
     
-    void RepeatedQuad::getRenderData(RenderData& renderData) const
+    void RepeatedQuad::setScrollSpeed(glm::vec2 speed)
     {
-        Quad::getRenderData(renderData);
+        scrollSpeed = speed;
+    }
+
+    const glm::vec2& RepeatedQuad::getScrollSpeed() const
+    {
+        return scrollSpeed;
+    }
+    
+    void RepeatedQuad::getRenderData(RenderData& renderData, uint32_t time) const
+    {
+        Quad::getRenderData(renderData, time);
 
         glm::vec2 texMax = getSize() / tileSize;
         float texMaxX = texMax.x;

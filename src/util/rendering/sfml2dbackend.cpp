@@ -9,6 +9,88 @@ namespace windbreeze
         glLoadIdentity();
         gluOrtho2D(0.0f, 1366.0f, 768.0f, 0.0f);
         glEnable(GL_TEXTURE_2D);
+
+        glewInit();
+
+        std::string vertexShaderSource = "#version 120\n"
+                                         ""
+                                         "void main()"
+                                         "{"
+                                         "    gl_Position = gl_Vertex;"
+                                         "}"
+                                         "";
+        const char* vertexShaderSourcePointer = &vertexShaderSource[0];
+
+        GLuint vertexShader = glCreateShaderObjectARB(GL_VERTEX_SHADER);
+        glShaderSource(vertexShader, 1, &vertexShaderSourcePointer, NULL);
+        glCompileShader(vertexShader);
+
+        std::string fragmentShaderSource = "#version 120\n"
+                                           ""
+                                           "void main()"
+                                           "{"
+                                           "    gl_FragColor = vec4(1.0f, 1.0f, 1.0f, 1.0f);"
+                                           "}"
+                                           "";
+        const char* fragmentShaderSourcePointer = &fragmentShaderSource[0];
+
+        GLuint fragmentShader = glCreateShaderObjectARB(GL_FRAGMENT_SHADER);
+        glShaderSource(fragmentShader, 1, &fragmentShaderSourcePointer, NULL);
+        glCompileShader(fragmentShader);
+
+
+        GLuint shaderProgram = glCreateProgram();
+        glAttachShader(shaderProgram, vertexShader);
+        glAttachShader(shaderProgram, fragmentShader);
+        glLinkProgram(shaderProgram);
+
+        //////getting error
+        GLint blen = 0; 
+        GLsizei slen = 0;
+
+        std::cout << "the shader program is " << shaderProgram << "\n";
+        glGetShaderiv(vertexShader, GL_INFO_LOG_LENGTH , &blen);       
+        if (blen > 1)
+        {
+             GLchar* compiler_log = (GLchar*)malloc(blen);
+             glGetInfoLogARB(vertexShader, blen, &slen, compiler_log);
+             std::cout << "vertex:\n" << compiler_log << "\n";
+             free (compiler_log);
+             exit(3);
+        }
+        glGetShaderiv(fragmentShader, GL_INFO_LOG_LENGTH , &blen);       
+        if (blen > 1)
+        {
+             GLchar* compiler_log = (GLchar*)malloc(blen);
+             glGetInfoLogARB(fragmentShader, blen, &slen, compiler_log);
+             std::cout << "fragment:\n" << compiler_log << "\n";
+             free (compiler_log);
+             exit(3);
+        }
+        glGetProgramiv(shaderProgram, GL_INFO_LOG_LENGTH , &blen);       
+        if (blen > 1)
+        {
+             GLchar* compiler_log = (GLchar*)malloc(blen);
+             glGetInfoLogARB(shaderProgram, blen, &slen, compiler_log);
+             std::cout << "program:\n" << compiler_log << "\n";
+             free (compiler_log);
+             exit(3);
+        }
+
+        glUseProgram(shaderProgram);
+
+        GLuint error = glGetError();
+        if(error)
+        {
+            std::cout << "ajaj\n";
+            std::string errString(reinterpret_cast<const char*>(gluErrorString(error)));
+            std::cout << errString << "\n";
+            exit(3);
+        }
+        //////
+
+        
+        //std::cout << "program: " << shaderProgram << "\n";
     }
 
     void Sfml2DBackend::destroy()
@@ -22,6 +104,7 @@ namespace windbreeze
 
     void Sfml2DBackend::render(RenderData renderData)
     {
+        glEnableClientState(GL_VERTEX_ARRAY);
         std::vector<float> vertices = renderData.vertices;
         std::vector<float> texCoords = renderData.texCoords;
         glm::vec2 vertex;
@@ -46,5 +129,6 @@ namespace windbreeze
         glEnd();
 
         glBindTexture(GL_TEXTURE_2D, 0);
+        glDisableClientState(GL_VERTEX_ARRAY);
     }
 }

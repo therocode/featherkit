@@ -136,8 +136,9 @@ namespace windbreeze
         transformations.clear();
     }
     
-    void Drawable2D::getRenderData(RenderData& renderData) const
+    void Drawable2D::getRenderData(RenderData& renderData, uint32_t time) const
     {
+        (void) time; //getting rid of unused parameter warning
         renderData.vertices = getVerticesTransformed();
     }
 }

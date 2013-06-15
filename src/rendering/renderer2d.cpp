@@ -33,13 +33,14 @@ namespace windbreeze
     {
         RenderData temp;
 
-        drawable.getRenderData(temp);
+        drawable.getRenderData(temp, clock);
 
         backend.render(temp);
     }
 
     void Renderer2D::postRender()
     {
+        clock++;
     }
 
     void Renderer2D::setViewport(const Viewport& viewport)

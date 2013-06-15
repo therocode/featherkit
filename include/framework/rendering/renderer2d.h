@@ -21,5 +21,6 @@ namespace windbreeze
         private:
             Renderer2DBackend& backend;
             Viewport currentViewport;
+            uint32_t clock = 0;
     };
 }

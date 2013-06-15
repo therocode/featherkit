@@ -32,7 +32,7 @@ namespace windbreeze
             glm::mat2x2& getTransformation(uint32_t index);
             uint32_t getTransformationCount();
             void clearTransformations();
-            virtual void getRenderData(RenderData& renderData) const;
+            virtual void getRenderData(RenderData& renderData, uint32_t time) const;
         protected:
             std::vector<float> vertices;
             glm::vec2 position;

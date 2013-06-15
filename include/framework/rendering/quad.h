@@ -12,7 +12,7 @@ namespace windbreeze
             glm::vec2 getSize() const;
             void setTexture(const std::string& tex);
             const std::string& getTexture() const;
-            virtual void getRenderData(RenderData& renderData) const override;
+            virtual void getRenderData(RenderData& renderData, uint32_t time) const override;
         protected:
             std::string textureId;
     };

@@ -2,6 +2,7 @@
 #include <framework/rendering/renderer2dbackend.h>
 #include <framework/util/rendering/opengltexture.h>
 #include <framework/rendering/texturemanager.h>
+#include <GL/glew.h>
 #include <SFML/OpenGL.hpp>
 
 namespace windbreeze
