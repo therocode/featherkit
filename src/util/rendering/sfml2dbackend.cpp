@@ -1,22 +1,33 @@
 #include <framework/util/rendering/sfml2dbackend.h>
 #include <iostream>
+#include <framework/glm/gtc/type_ptr.hpp>
 
 namespace windbreeze
 {
     void Sfml2DBackend::setup()
     {
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
         gluOrtho2D(0.0f, 1366.0f, 768.0f, 0.0f);
+        glMatrixMode(GL_MODELVIEW);
         glEnable(GL_TEXTURE_2D);
 
         glewInit();
 
+        //vertex = rotation * (viewport.getCamera().getZoom() * (vertex - viewport.getCamera().getPosition())) + halfViewSize
+
         std::string vertexShaderSource = "#version 120\n"
+                                         "uniform vec2 position;"
+                                         "uniform vec2 zoom;"
+                                         "uniform mat2 rotation;"
+                                         "uniform vec2 halfViewSize;"
                                          ""
                                          "void main()"
                                          "{"
-                                         "    gl_Position = gl_Vertex;"
+                                         "    vec2 transformedPoint = rotation * (zoom * (gl_Vertex.xy - position)) + halfViewSize;"
+                                         "    gl_Position = vec4(transformedPoint.xy, gl_Vertex.zw);"
+                                         "    gl_Position = gl_ProjectionMatrix * (gl_Position);"
                                          "}"
                                          "";
         const char* vertexShaderSourcePointer = &vertexShaderSource[0];
@@ -39,7 +50,7 @@ namespace windbreeze
         glCompileShader(fragmentShader);
 
 
-        GLuint shaderProgram = glCreateProgram();
+        shaderProgram = glCreateProgram();
         glAttachShader(shaderProgram, vertexShader);
         glAttachShader(shaderProgram, fragmentShader);
         glLinkProgram(shaderProgram);
@@ -118,11 +129,23 @@ namespace windbreeze
             std::cout << "now setting texture " << texture.glId << "\n";
         }
 
+        GLint positionUniform = glGetUniformLocation(shaderProgram, "position");
+        glUniform2fv(positionUniform, 1, glm::value_ptr(viewport.getCamera().getPosition()));
+
+        GLint zoomUniform = glGetUniformLocation(shaderProgram, "zoom");
+        glUniform2fv(zoomUniform, 1, glm::value_ptr(viewport.getCamera().getZoom()));
+        
+        GLint rotationUniform = glGetUniformLocation(shaderProgram, "rotation");
+        glUniformMatrix2fv(rotationUniform, 1, false, glm::value_ptr(rotation));
+
+        GLint halfSizeUniform = glGetUniformLocation(shaderProgram, "halfViewSize");
+        glUniform2fv(halfSizeUniform, 1, glm::value_ptr(halfViewSize));
+
         glBegin(GL_QUADS);
         for(uint32_t i = 0; i < vertices.size(); i += 2)
         {
             vertex = glm::vec2(vertices[i], vertices[i+1]);
-            vertex = rotation * (viewport.getCamera().getZoom() * (vertex - viewport.getCamera().getPosition())) + halfViewSize;
+            //vertex = rotation * (viewport.getCamera().getZoom() * (vertex - viewport.getCamera().getPosition())) + halfViewSize;
             glVertex2f(vertex.x, vertex.y);
             glTexCoord2f(texCoords[i], texCoords[i+1]);
         }
