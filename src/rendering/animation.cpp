@@ -20,12 +20,28 @@ namespace windbreeze
         {
             clock++;
 
-            currentFrame = (clock/delay) % frameAmount;
-
-            if(!loop && currentFrame == frameAmount - 1)
+            switch(animBehaviour)
             {
-                animate = false;
+                case FORWARDS:
+                    currentFrame = (clock/delay) % frameAmount;
+
+                    if(!loop && currentFrame == frameAmount - 1)
+                    {
+                        animate = false;
+                    }
+                    break;
+
+                case BACKWARDS:
+                    currentFrame = (frameAmount - 1) - (clock/delay) % frameAmount;
+
+                    if(!loop && currentFrame == 0)
+                    {
+                        animate = false;
+                    }
+                default:
+                    break;
             }
+
         }
     }
     
@@ -33,5 +49,10 @@ namespace windbreeze
     {
         animate = true;
         clock = startFrame * delay;
+    }
+    
+    void Animation::setBehaviour(AnimationBehaviour ab)
+    {
+        animBehaviour = ab;
     }
 }
