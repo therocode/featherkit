@@ -55,14 +55,34 @@ namespace windbreeze
         return textureId;
     }
 
+    void Quad::setHFlip(bool enabled)
+    {
+        if(enabled)
+            hFlip = -1.0f;
+        else
+            hFlip = 1.0f;
+    }
+
+    void Quad::setVFlip(bool enabled)
+    {
+        if(enabled)
+            vFlip = -1.0f;
+        else
+            vFlip = 1.0f;
+    }
+
     void Quad::getRenderData(RenderData& renderData, uint32_t time) const
     {
         Drawable2D::getRenderData(renderData, time);
 
+        glm::vec2 texCoordsX = glm::vec2(0.0f, 1.0f) * hFlip;
+        glm::vec2 texCoordsY = glm::vec2(0.0f, 1.0f) * vFlip;
+
+
         renderData.textureId = getTexture();
-        renderData.texCoords =  {0.0f, 0.0f,
-                                 0.0f, 1.0f,
-                                 1.0f, 1.0f,
-                                 1.0f, 0.0f};
+        renderData.texCoords =  {texCoordsX[0], texCoordsY[0],
+                                 texCoordsX[0], texCoordsY[1],
+                                 texCoordsX[1], texCoordsY[1],
+                                 texCoordsX[1], texCoordsY[0]};
     }
 }

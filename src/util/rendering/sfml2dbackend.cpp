@@ -112,4 +112,8 @@ namespace windbreeze
         glDisableClientState(GL_VERTEX_ARRAY);
         glDisableClientState(GL_TEXTURE_COORD_ARRAY);
     }
+
+    //Good morning!
+    //
+    //Fix wrapping and frames for repeated thingy, then implement parallax!
 }
