@@ -27,6 +27,7 @@ namespace windbreeze
     void Renderer2D::preRender()
     {
         backend.setViewport(currentViewport);
+        backend.preRender();
     }
 
     void Renderer2D::render(const Drawable2D& drawable)
@@ -40,6 +41,7 @@ namespace windbreeze
 
     void Renderer2D::postRender()
     {
+        backend.postRender();
         clock++;
     }
 

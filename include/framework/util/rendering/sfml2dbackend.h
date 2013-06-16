@@ -14,7 +14,9 @@ namespace windbreeze
             void setup() override;
             void destroy() override;
             void clear() override;
+            void preRender() override;
             void render(RenderData renderData) override;
+            void postRender() override;
         private:
             TextureManager<OpenGLTexture>& textureManager;
             GLuint shaderProgram = 0;
