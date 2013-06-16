@@ -13,6 +13,8 @@ namespace windbreeze
         gluOrtho2D(0.0f, 1366.0f, 768.0f, 0.0f);
         glMatrixMode(GL_MODELVIEW);
         glEnable(GL_TEXTURE_2D);
+        glEnable(GL_BLEND);
+        glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
         glewInit();
 
