@@ -1,3 +1,4 @@
+#pragma once
 #include <framework/rendering/drawable2d.h>
 
 namespace windbreeze
