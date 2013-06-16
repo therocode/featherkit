@@ -31,10 +31,14 @@ namespace windbreeze
         float texMaxX = texMax.x;
         float texMaxY = texMax.y;
 
+        std::cout << "the tex coords are now " << texMaxX << " and " << texMaxY << "\n";
+        std::cout << "size is " << getSize().x << " and " << getSize().y << "\n";
+        std::cout << "tileSize is " << tileSize.x << " and " << tileSize.y << "\n";
+
         renderData.textureId = getTexture();
-        renderData.texCoords =  {0.0f, texMaxY,
+        renderData.texCoords =  {0.0f, 0.0f,
+                                 0.0f, texMaxY,
                                  texMaxX, texMaxY,
-                                 texMaxX, 0.0f,
-                                 0.0f, 0.0f};
+                                 texMaxX, 0.0f};
     }
 }

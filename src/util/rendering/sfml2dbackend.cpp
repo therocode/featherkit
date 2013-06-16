@@ -63,6 +63,7 @@ namespace windbreeze
     void Sfml2DBackend::preRender()
     {
         glEnableClientState(GL_VERTEX_ARRAY);
+        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
         glm::vec2 halfViewSize = (glm::vec2)(viewport.getSize()) * 0.5f;
         glm::mat2x2 rotation = glm::inverse(viewport.getCamera().getTransformation());
@@ -100,6 +101,11 @@ namespace windbreeze
             glBindTexture(GL_TEXTURE_2D, 0);
         }
 
+        glVertexPointer(2, GL_FLOAT, 0, &vertices[0]);
+        glTexCoordPointer(2, GL_FLOAT, 0, &texCoords[0]);
+        glDrawArrays(GL_QUADS, 0, 4);
+
+        /*
         glBegin(GL_QUADS);
         for(uint32_t i = 0; i < vertices.size(); i += 2)
         {
@@ -107,12 +113,13 @@ namespace windbreeze
             glVertex2f(vertex.x, vertex.y);
             glTexCoord2f(texCoords[i], texCoords[i+1]);
         }
-        glEnd();
+        glEnd();*/
     }
 
     void Sfml2DBackend::postRender()
     {
         glBindTexture(GL_TEXTURE_2D, 0);
         glDisableClientState(GL_VERTEX_ARRAY);
+        glDisableClientState(GL_TEXTURE_COORD_ARRAY);
     }
 }

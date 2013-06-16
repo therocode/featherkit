@@ -42,7 +42,7 @@ namespace windbreeze
             
     glm::vec2 Quad::getSize() const
     {
-        return glm::vec2(vertices[0] * 2.0f, vertices[1] * 2.0f);
+        return glm::vec2(vertices[4] * 2.0f, vertices[3] * 2.0f);
     }
     
     void Quad::setTexture(const std::string& tex)
@@ -60,9 +60,9 @@ namespace windbreeze
         Drawable2D::getRenderData(renderData, time);
 
         renderData.textureId = getTexture();
-        renderData.texCoords =  {0.0f, 1.0f,
+        renderData.texCoords =  {0.0f, 0.0f,
+                                 0.0f, 1.0f,
                                  1.0f, 1.0f,
-                                 1.0f, 0.0f,
-                                 0.0f, 0.0f};
+                                 1.0f, 0.0f};
     }
 }
