@@ -11,7 +11,9 @@ namespace windbreeze
             AnimatedQuad(float w, float h) : Quad(w, h) {}
             void setAnimation(Animation a);
             virtual void getRenderData(RenderData& renderData, uint32_t time) const override;
+            void tick();
         protected:
             Animation currentAnimation;
+            uint32_t clock;
     };
 }
