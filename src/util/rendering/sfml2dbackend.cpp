@@ -104,16 +104,6 @@ namespace windbreeze
         glVertexPointer(2, GL_FLOAT, 0, &vertices[0]);
         glTexCoordPointer(2, GL_FLOAT, 0, &texCoords[0]);
         glDrawArrays(GL_QUADS, 0, 4);
-
-        /*
-        glBegin(GL_QUADS);
-        for(uint32_t i = 0; i < vertices.size(); i += 2)
-        {
-            vertex = glm::vec2(vertices[i], vertices[i+1]);
-            glVertex2f(vertex.x, vertex.y);
-            glTexCoord2f(texCoords[i], texCoords[i+1]);
-        }
-        glEnd();*/
     }
 
     void Sfml2DBackend::postRender()
