@@ -19,4 +19,9 @@ namespace windbreeze
     {
         currentAnimation.tick();
     }
+    
+    void AnimatedQuad::playAnimation(uint32_t startFrame)
+    {
+        currentAnimation.play(startFrame);
+    }
 }

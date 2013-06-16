@@ -16,8 +16,22 @@ namespace windbreeze
     
     void Animation::tick()
     {
-        clock++;
+        if(animate)
+        {
+            clock++;
 
-        currentFrame = (clock/delay) % frameAmount;
+            currentFrame = (clock/delay) % frameAmount;
+
+            if(!loop && currentFrame == frameAmount - 1)
+            {
+                animate = false;
+            }
+        }
+    }
+    
+    void Animation::play(uint32_t startFrame)
+    {
+        animate = true;
+        clock = startFrame * delay;
     }
 }
