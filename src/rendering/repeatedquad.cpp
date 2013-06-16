@@ -39,6 +39,8 @@ namespace windbreeze
                                  texMaxX, texMaxY,
                                  texMaxX, 0.0f};*/
 
+        renderData.textureScroll = scrollSpeed * (float)time;
+
         glm::vec2 hej = getSize() / tileSize;
         for(int i = 0; i < 8; i += 2)
         {
@@ -46,5 +48,6 @@ namespace windbreeze
             renderData.texCoords[i] = newCoords.x;
             renderData.texCoords[i+1] = newCoords.y;
         }
+        //currentScroll = currentScroll + scrollSpeed; must be done later
     }
 }

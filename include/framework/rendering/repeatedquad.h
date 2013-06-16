@@ -16,5 +16,6 @@ namespace windbreeze
         protected:
             glm::vec2 tileSize;
             glm::vec2 scrollSpeed;
+            glm::vec2 currentScroll;
     };
 }
