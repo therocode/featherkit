@@ -26,10 +26,11 @@ namespace windbreeze
                                          "uniform vec2 zoom;\n"
                                          "uniform mat2 rotation;\n"
                                          "uniform vec2 halfViewSize;\n"
+                                         "uniform float parallax;"
                                          "\n"
                                          "void main()\n"
                                          "{\n"
-                                         "    vec2 transformedPoint = rotation * (zoom * (gl_Vertex.xy - position)) + halfViewSize;\n"
+                                         "    vec2 transformedPoint = rotation * (zoom * (gl_Vertex.xy - position * parallax)) + halfViewSize;\n"
                                          "    gl_Position = vec4(transformedPoint.xy, gl_Vertex.zw);\n"
                                          "    gl_Position = gl_ProjectionMatrix * (gl_Position);\n"
                                          "    gl_TexCoord[0]  = gl_MultiTexCoord0;\n"
@@ -135,7 +136,11 @@ namespace windbreeze
             GLint textureScroll = glGetUniformLocation(shaderProgram, "textureScroll");
             glUniform2fv(textureScroll, 1, glm::value_ptr(renderData.textureScroll));
 
-        std::cout << "tex scroll X " << renderData.textureScroll.x << " tex scroll Y " << renderData.textureScroll.y << "\n";
+            GLint parallax = glGetUniformLocation(shaderProgram, "parallax");
+            glUniform1fv(parallax, 1, &renderData.parallax);
+
+            std::cout << "parallax is now " << renderData.parallax << "\n";
+
         }
         else
         {

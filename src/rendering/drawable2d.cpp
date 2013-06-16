@@ -116,6 +116,16 @@ namespace windbreeze
         scaling *= s;
     }
     
+    void Drawable2D::setParallax(float p)
+    {
+        parallax = p;
+    }
+    
+    float Drawable2D::getParallax()
+    {
+        return parallax;
+    }
+    
     void Drawable2D::addTransformation(const glm::mat2x2& t)
     {
         transformations.push_back(t);
@@ -140,5 +150,6 @@ namespace windbreeze
     {
         (void) time; //getting rid of unused parameter warning
         renderData.vertices = getVerticesTransformed();
+        renderData.parallax = parallax;
     }
 }
