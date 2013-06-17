@@ -38,6 +38,7 @@ namespace windbreeze
                     {
                         animate = false;
                     }
+
                 default:
                     break;
             }

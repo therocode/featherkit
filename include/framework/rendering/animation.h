@@ -4,7 +4,7 @@
 
 namespace windbreeze
 {
-    enum AnimationBehaviour { FORWARDS, BACKWARDS, BOUNCE, REVERSE_BOUNCE };
+    enum AnimationBehaviour { FORWARDS, BACKWARDS };
 
     class Animation
     {
@@ -27,8 +27,4 @@ namespace windbreeze
             uint32_t clock = 0;
             uint32_t currentFrame = 0;
     };
-    //Animation
-    //
-    //Loop  should it loop or not
-    //Behaviour  Forwards, Backwards, Bounce, ReverseBounce
 }
