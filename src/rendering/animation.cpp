@@ -51,9 +51,4 @@ namespace windbreeze
         animate = true;
         clock = startFrame * delay;
     }
-    
-    void Animation::setBehaviour(AnimationBehaviour ab)
-    {
-        animBehaviour = ab;
-    }
 }
