@@ -1,13 +1,13 @@
 #pragma once
-#include <framework/rendering/quad.h>
+#include <framework/rendering/animatedquad.h>
 
 namespace windbreeze
 {
-    class RepeatedQuad : public Quad
+    class RepeatedQuad : public AnimatedQuad
     {
         public:
-            RepeatedQuad() : Quad() {tileSize = getSize();}
-            RepeatedQuad(float w, float h) : Quad(w, h) {tileSize = getSize();}
+            RepeatedQuad() : AnimatedQuad() {tileSize = getSize();}
+            RepeatedQuad(float w, float h) : AnimatedQuad(w, h) {tileSize = getSize();}
             void setTileSize(glm::vec2 size);
             const glm::vec2& getTileSize();
             void setScrollSpeed(glm::vec2 speed);

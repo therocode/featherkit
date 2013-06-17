@@ -25,7 +25,7 @@ namespace windbreeze
     
     void RepeatedQuad::getRenderData(RenderData& renderData, uint32_t time) const
     {
-        Quad::getRenderData(renderData, time);
+        AnimatedQuad::getRenderData(renderData, time);
 
         //glm::vec2 texMax = getSize() / tileSize;
         //float texMaxX = texMax.x;
