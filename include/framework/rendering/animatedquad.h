@@ -7,8 +7,8 @@ namespace windbreeze
     class AnimatedQuad : public Quad
     {
         public:
-            AnimatedQuad() : Quad() {}
-            AnimatedQuad(float w, float h) : Quad(w, h) {}
+            AnimatedQuad() : Quad(), currentAnimation(Animation(glm::vec2(0.0f, 0.0f), glm::vec2(1.0f, 1.0f))) {}
+            AnimatedQuad(float w, float h) : Quad(w, h), currentAnimation(Animation(glm::vec2(0.0f, 0.0f), glm::vec2(1.0f, 1.0f))) {}
             void setAnimation(Animation a);
             virtual void getRenderData(RenderData& renderData, uint32_t time) const override;
             void tick();
