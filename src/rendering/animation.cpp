@@ -1,54 +1,34 @@
 #include <framework/rendering/animation.h>
+#include <iostream>
 
 namespace windbreeze
 {
-    void Animation::getConstraints(glm::vec2& constraintX, glm::vec2& constraintY) const
+    void Animation::getConstraints(glm::vec2& constraintX, glm::vec2& constraintY, uint32_t frame) const
     {
-        constraintX[0] = start.x + frameSize.x * currentFrame;
-        constraintX[1] = start.x + frameSize.x + frameSize.x * currentFrame;
-        constraintY[0] = start.y + frameSize.y * currentFrame;
-        constraintY[1] = start.y + frameSize.y + frameSize.y * currentFrame;
-
-        (void)delay;
-        (void)frameAmount;
-        (void)loop;
+        std::cout << "frame:" << start.x <<  " " << constraintY[1] << "\n";
+        constraintX[0] = start.x + frameSize.x * frame;
+        constraintX[1] = start.x + frameSize.x + frameSize.x * frame;
+        constraintY[0] = start.y + frameSize.y * frame;
+        constraintY[1] = start.y + frameSize.y + frameSize.y * frame;
     }
-    
-    void Animation::tick()
+
+    uint32_t Animation::getFrameAmount()
     {
-        if(animate)
-        {
-            clock++;
-
-            switch(animBehaviour)
-            {
-                case FORWARDS:
-                    currentFrame = (clock/delay) % frameAmount;
-
-                    if(!loop && currentFrame == frameAmount - 1)
-                    {
-                        animate = false;
-                    }
-                    break;
-
-                case BACKWARDS:
-                    currentFrame = (frameAmount - 1) - (clock/delay) % frameAmount;
-
-                    if(!loop && currentFrame == 0)
-                    {
-                        animate = false;
-                    }
-
-                default:
-                    break;
-            }
-
-        }
+        return frameAmount;
     }
-    
-    void Animation::play(uint32_t startFrame)
+
+    uint32_t Animation::getDelay()
     {
-        animate = true;
-        clock = startFrame * delay;
+        return delay;
+    }
+            
+    bool Animation::getLoop()
+    {
+        return loop;
+    }
+
+    AnimationBehaviour Animation::getAnimationBehaviour()
+    {
+        return animBehaviour;
     }
 }
