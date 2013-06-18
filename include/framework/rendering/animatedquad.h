@@ -1,7 +1,7 @@
 #pragma once
 #include <framework/rendering/quad.h>
 #include <framework/rendering/animation.h>
-#include <map>
+#include <unordered_map>
 #include <memory>
 
 namespace windbreeze
@@ -18,7 +18,7 @@ namespace windbreeze
             void playAnimation(uint32_t startFrame = 0);
         protected:
             std::weak_ptr<Animation> currentAnimation;
-            std::map<AnimationId, std::weak_ptr<Animation> > animations;
+            std::unordered_map<AnimationId, std::weak_ptr<Animation> > animations;
 
             uint32_t clock = 0;
             uint32_t currentFrame = 0;
