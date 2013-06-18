@@ -22,7 +22,7 @@ namespace windbreeze
             TextureManager<OpenGLTexture>& textureManager;
             GLuint shaderProgram = 0;
 
-            struct sth_stash* stash;
+            sth_stash* stash;
             int droid;
     };
 }

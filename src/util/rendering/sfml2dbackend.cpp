@@ -13,12 +13,11 @@ namespace windbreeze
         gluOrtho2D(0.0f, 1366.0f, 768.0f, 0.0f);
         glMatrixMode(GL_MODELVIEW);
         glEnable(GL_TEXTURE_2D);
+        glDisable(GL_DEPTH_TEST);
         glEnable(GL_BLEND);
         glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
         glewInit();
-
-        //vertex = rotation * (viewport.getCamera().getZoom() * (vertex - viewport.getCamera().getPosition())) + halfViewSize
 
         std::string vertexShaderSource = "#version 120\n"
                                          "\n"
@@ -74,7 +73,7 @@ namespace windbreeze
         ShaderLoader loader;
         shaderProgram = loader.createShader(vertexShaderSource, fragmentShaderSource);
         
-        sth_stash* stash = sth_create(512, 512);
+        stash = sth_create(512, 512);
         droid = sth_add_font(stash, "data/DroidSerif-Regular.ttf");
         if(droid == 0)
         {
@@ -93,6 +92,10 @@ namespace windbreeze
 
     void Sfml2DBackend::preRender()
     {
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        gluOrtho2D(0.0f, 1366.0f, 768.0f, 0.0f);
+        glMatrixMode(GL_MODELVIEW);
         glEnableClientState(GL_VERTEX_ARRAY);
         glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
@@ -129,11 +132,9 @@ namespace windbreeze
             OpenGLTexture texture = textureManager.getTexture(renderData.textureId);
             glBindTexture(GL_TEXTURE_2D, texture.glId);
 
-            //glm::ivec2 size;
-            //glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &size[0]);
-            //glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &size[1]);
-
-            //glm::ivec2 gT
+            glm::ivec2 size;
+            glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &size[0]);
+            glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &size[1]);
 
             GLint constrainXUniform = glGetUniformLocation(shaderProgram, "constrainX");
             glUniform2fv(constrainXUniform, 1, glm::value_ptr(renderData.constrainX));
@@ -168,18 +169,26 @@ namespace windbreeze
         glDisableClientState(GL_VERTEX_ARRAY);
         glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
-
         glDisable(GL_TEXTURE_2D);
-        glDisable(GL_BLEND);
-        glDisable(GL_DEPTH_TEST);
 
-        float x = 10, y = 10;
+        float lineHeight = 0.0f;
+
+        float xStart = 0, y = 0;
+        float x = xStart;
+        sth_vmetrics(stash, droid, 18, NULL, NULL, &lineHeight);
+        y += lineHeight;
         sth_begin_draw(stash);
-        sth_draw_text(stash, droid, 24.0f, x, y, "Hello world!", &x);
+        sth_draw_text(stash, droid, 24.0f, x, y, "Hallå planet!", &x);
+        x = xStart;
+        sth_vmetrics(stash, droid, 18, NULL, NULL, &lineHeight);
+        y += lineHeight;
+        sth_draw_text(stash, droid, 24.0f, x, y, "Korv är bäst!", &x);
+        y += lineHeight;
+        x = xStart;
+        sth_draw_text(stash, droid, 24.0f, x, y, "LALALLALA HEJ", &x);
         sth_end_draw(stash);
-        std::cout << "stopped drawing text\n";
+        std::cout << "stopped drawing text stopped at " << x << "\n";
 
         glEnable(GL_TEXTURE_2D);
-        glEnable(GL_BLEND);
     }
 }
