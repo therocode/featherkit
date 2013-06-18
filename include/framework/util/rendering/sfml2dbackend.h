@@ -4,6 +4,7 @@
 #include <framework/rendering/texturemanager.h>
 #include <GL/glew.h>
 #include <SFML/OpenGL.hpp>
+#include <framework/fontstash/fontstash.h>
 
 namespace windbreeze
 {
@@ -20,5 +21,8 @@ namespace windbreeze
         private:
             TextureManager<OpenGLTexture>& textureManager;
             GLuint shaderProgram = 0;
+
+            struct sth_stash* stash;
+            int droid;
     };
 }

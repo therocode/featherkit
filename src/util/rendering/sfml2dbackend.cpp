@@ -73,7 +73,13 @@ namespace windbreeze
         
         ShaderLoader loader;
         shaderProgram = loader.createShader(vertexShaderSource, fragmentShaderSource);
-        glUseProgram(shaderProgram);
+        
+        sth_stash* stash = sth_create(512, 512);
+        droid = sth_add_font(stash, "data/DroidSerif-Regular.ttf");
+        if(droid == 0)
+        {
+            exit(0);
+        }
     }
 
     void Sfml2DBackend::destroy()
@@ -89,6 +95,8 @@ namespace windbreeze
     {
         glEnableClientState(GL_VERTEX_ARRAY);
         glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+        glUseProgram(shaderProgram);
 
         glm::vec2 halfViewSize = (glm::vec2)(viewport.getSize()) * 0.5f;
         glm::mat2x2 rotation = glm::inverse(viewport.getCamera().getTransformation());
@@ -154,8 +162,24 @@ namespace windbreeze
 
     void Sfml2DBackend::postRender()
     {
+        glUseProgram(0);
+
         glBindTexture(GL_TEXTURE_2D, 0);
         glDisableClientState(GL_VERTEX_ARRAY);
         glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+
+
+        glDisable(GL_TEXTURE_2D);
+        glDisable(GL_BLEND);
+        glDisable(GL_DEPTH_TEST);
+
+        float x = 10, y = 10;
+        sth_begin_draw(stash);
+        sth_draw_text(stash, droid, 24.0f, x, y, "Hello world!", &x);
+        sth_end_draw(stash);
+        std::cout << "stopped drawing text\n";
+
+        glEnable(GL_TEXTURE_2D);
+        glEnable(GL_BLEND);
     }
 }
