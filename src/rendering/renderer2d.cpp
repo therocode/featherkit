@@ -4,6 +4,8 @@
 
 #include <framework/rendering/text.h> //TEMPHACK
 
+#include <iostream>
+
 namespace windbreeze
 {
     Renderer2D::Renderer2D(Renderer2DBackend& b, Viewport v) : backend(b), currentViewport(v)

@@ -124,6 +124,7 @@ namespace windbreeze
         std::vector<float> vertices = renderData.vertices;
         std::vector<float> texCoords = renderData.texCoords;
         glm::vec2 vertex;
+        uint32_t quadAmount = vertices.size() / 2;
 
         if(renderData.textureId != "")
         {
@@ -156,7 +157,8 @@ namespace windbreeze
 
         glVertexPointer(2, GL_FLOAT, 0, &vertices[0]);
         glTexCoordPointer(2, GL_FLOAT, 0, &texCoords[0]);
-        glDrawArrays(GL_QUADS, 0, 4);
+        std::cout << "lolololol kabanoss!\n";
+        glDrawArrays(GL_QUADS, 0, quadAmount);
     }
 
     void Sfml2DBackend::postRender()
@@ -194,6 +196,10 @@ namespace windbreeze
         sth_draw_text(stash, droid, textData.size, x, y, textData.text.c_str(), &x);
         sth_end_draw(stash);
 
+        glEnableClientState(GL_VERTEX_ARRAY);
+        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
         glEnable(GL_TEXTURE_2D);
+        glUseProgram(shaderProgram);
     }
 }
