@@ -6,4 +6,14 @@ namespace windbreeze
     {
         return text;
     }
+    
+    glm::vec3 Text::getColour() const
+    {
+        return colour;
+    }
+    
+    void Text::setColour(glm::vec3 c)
+    {
+        colour = c;
+    }
 }

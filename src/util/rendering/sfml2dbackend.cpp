@@ -181,6 +181,8 @@ namespace windbreeze
 
         glDisable(GL_TEXTURE_2D);
 
+        glColor3f(textData.colour.r, textData.colour.g, textData.colour.b);
+
         glm::vec2 point = glm::vec2(textData.position.x, textData.position.y);
 
         Camera camera = viewport.getCamera();

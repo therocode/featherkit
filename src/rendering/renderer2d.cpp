@@ -40,6 +40,7 @@ namespace windbreeze
             TextData temp;
             temp.text = text.getText();
             temp.position = text.getPosition();
+            temp.colour = text.getColour();
 
             backend.renderText(temp);
             return;
