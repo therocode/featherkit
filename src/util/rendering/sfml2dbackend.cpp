@@ -179,14 +179,16 @@ namespace windbreeze
         glDisableClientState(GL_VERTEX_ARRAY);
         glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
-        glLoadIdentity();
-
         glDisable(GL_TEXTURE_2D);
 
-        float x = textData.position.x;
-        float y = textData.position.y;
+        glm::vec2 point = glm::vec2(textData.position.x, textData.position.y);
 
-        //glTranslate() etc
+        Camera camera = viewport.getCamera();
+        point = glm::inverse(camera.getTransformation()) * (camera.getZoom() * (point - camera.getPosition())) + (glm::vec2)viewport.getSize() * 0.5f;
+        //point = viewport.getCamera().getTransformation() * (point - viewport.getCamera().getPosition());
+
+        float x = point.x;
+        float y = point.y;
 
         sth_begin_draw(stash);
         sth_draw_text(stash, droid, 24.0f, x, y, textData.text.c_str(), &x);
