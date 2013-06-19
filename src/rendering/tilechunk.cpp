@@ -21,10 +21,32 @@ namespace windbreeze
                 vertices.push_back(((float)xPos) + halfTileWidth); vertices.push_back(((float)yPos) + halfTileHeight);
                 vertices.push_back(((float)xPos) + halfTileWidth); vertices.push_back(((float)yPos) - halfTileHeight);
 
-                texCoords.push_back(0.0f); texCoords.push_back(0.0f);
-                texCoords.push_back(0.0f); texCoords.push_back(1.0f);
-                texCoords.push_back(1.0f); texCoords.push_back(1.0f);
-                texCoords.push_back(1.0f); texCoords.push_back(0.0f);
+                //texCoords.push_back(0.0f); texCoords.push_back(0.0f);
+                //texCoords.push_back(0.0f); texCoords.push_back(1.0f);
+                //texCoords.push_back(1.0f); texCoords.push_back(1.0f);
+                //texCoords.push_back(1.0f); texCoords.push_back(0.0f);
+
+                if(x < 5)
+                {
+                    texCoords.push_back(0.0f); texCoords.push_back(0.0f);
+                    texCoords.push_back(0.0f); texCoords.push_back(0.25f);
+                    texCoords.push_back(0.25f); texCoords.push_back(0.25f);
+                    texCoords.push_back(0.25f); texCoords.push_back(0.0f);
+                }
+                else if(x == 5)
+                {
+                    texCoords.push_back(0.25f); texCoords.push_back(0.0f);
+                    texCoords.push_back(0.25f); texCoords.push_back(0.25f);
+                    texCoords.push_back(0.5f); texCoords.push_back(0.25f);
+                    texCoords.push_back(0.5f); texCoords.push_back(0.0f);
+                }
+                else if(x > 5)
+                {
+                    texCoords.push_back(0.5f); texCoords.push_back(0.0f);
+                    texCoords.push_back(0.5f); texCoords.push_back(0.25f);
+                    texCoords.push_back(0.75f); texCoords.push_back(0.25f);
+                    texCoords.push_back(0.75f); texCoords.push_back(0.0f);
+                }
             }
         }
     }
