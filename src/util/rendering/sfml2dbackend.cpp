@@ -8,10 +8,6 @@ namespace windbreeze
     void Sfml2DBackend::setup()
     {
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-        glMatrixMode(GL_PROJECTION);
-        glLoadIdentity();
-        gluOrtho2D(0.0f, 1366.0f, 768.0f, 0.0f);
-        glMatrixMode(GL_MODELVIEW);
         glEnable(GL_TEXTURE_2D);
         glDisable(GL_DEPTH_TEST);
         glEnable(GL_BLEND);
@@ -92,16 +88,18 @@ namespace windbreeze
 
     void Sfml2DBackend::preRender()
     {
+        const glm::uvec2& viewSize = viewport.getSize();
+        glViewport(0, 0, viewSize.x, viewSize.y);
+
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
-        gluOrtho2D(0.0f, 1366.0f, 768.0f, 0.0f);
+        gluOrtho2D(0.0f, viewSize.x, viewSize.y, 0.0f);
         glMatrixMode(GL_MODELVIEW);
         glEnableClientState(GL_VERTEX_ARRAY);
         glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
         glUseProgram(shaderProgram);
 
-        glm::vec2 halfViewSize = (glm::vec2)(viewport.getSize()) * 0.5f;
         glm::mat2x2 rotation = glm::inverse(viewport.getCamera().getTransformation());
 
         GLint positionUniform = glGetUniformLocation(shaderProgram, "position");
@@ -114,7 +112,7 @@ namespace windbreeze
         glUniformMatrix2fv(rotationUniform, 1, false, glm::value_ptr(rotation));
 
         GLint halfSizeUniform = glGetUniformLocation(shaderProgram, "halfViewSize");
-        glUniform2fv(halfSizeUniform, 1, glm::value_ptr(halfViewSize));
+        glUniform2fv(halfSizeUniform, 1, glm::value_ptr((glm::vec2)viewSize * 0.5f));
 
         GLint textureUniform = glGetUniformLocation(shaderProgram, "texture");
         glActiveTexture(GL_TEXTURE0);

@@ -68,4 +68,9 @@ namespace windbreeze
     {
         return currentViewport;
     }
+    
+    void Renderer2D::resize(uint32_t w, uint32_t h)
+    {
+        currentViewport.setSize(glm::uvec2(w, h));
+    }
 }
