@@ -193,7 +193,7 @@ namespace windbreeze
         float y = point.y;
 
         sth_begin_draw(stash);
-        sth_draw_text(stash, droid, 24.0f, x, y, textData.text.c_str(), &x);
+        sth_draw_text(stash, droid, textData.size, x, y, textData.text.c_str(), &x);
         sth_end_draw(stash);
 
         glEnable(GL_TEXTURE_2D);

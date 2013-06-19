@@ -19,5 +19,6 @@ namespace windbreeze
         std::string text;
         glm::vec2 position;
         glm::vec3 colour;
+        float size;
     };
 }

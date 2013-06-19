@@ -41,6 +41,7 @@ namespace windbreeze
             temp.text = text.getText();
             temp.position = text.getPosition();
             temp.colour = text.getColour();
+            temp.size = text.getFontSize();
 
             backend.renderText(temp);
             return;

@@ -16,4 +16,14 @@ namespace windbreeze
     {
         colour = c;
     }
+    
+    float Text::getFontSize() const
+    {
+        return fontSize;
+    }
+    
+    void Text::setFontSize(float size)
+    {
+        fontSize = size;
+    }
 }
