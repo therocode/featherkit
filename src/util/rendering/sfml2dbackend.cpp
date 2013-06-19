@@ -169,25 +169,28 @@ namespace windbreeze
         glDisableClientState(GL_VERTEX_ARRAY);
         glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
+    }
+    
+    void Sfml2DBackend::renderText(const TextData& textData)
+    {
+        glUseProgram(0);
+
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glDisableClientState(GL_VERTEX_ARRAY);
+        glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+
+        glLoadIdentity();
+
         glDisable(GL_TEXTURE_2D);
 
-        float lineHeight = 0.0f;
+        float x = textData.position.x;
+        float y = textData.position.y;
 
-        float xStart = 0, y = 0;
-        float x = xStart;
-        sth_vmetrics(stash, droid, 18, NULL, NULL, &lineHeight);
-        y += lineHeight;
+        //glTranslate() etc
+
         sth_begin_draw(stash);
-        sth_draw_text(stash, droid, 24.0f, x, y, "Hallå planet!", &x);
-        x = xStart;
-        sth_vmetrics(stash, droid, 18, NULL, NULL, &lineHeight);
-        y += lineHeight;
-        sth_draw_text(stash, droid, 24.0f, x, y, "Korv är bäst!", &x);
-        y += lineHeight;
-        x = xStart;
-        sth_draw_text(stash, droid, 24.0f, x, y, "LALALLALA HEJ", &x);
+        sth_draw_text(stash, droid, 24.0f, x, y, textData.text.c_str(), &x);
         sth_end_draw(stash);
-        std::cout << "stopped drawing text stopped at " << x << "\n";
 
         glEnable(GL_TEXTURE_2D);
     }

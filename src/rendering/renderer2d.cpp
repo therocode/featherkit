@@ -2,6 +2,8 @@
 #include <framework/rendering/renderer2d.h>
 #include <framework/rendering/drawable2d.h>
 
+#include <framework/rendering/text.h> //TEMPHACK
+
 namespace windbreeze
 {
     Renderer2D::Renderer2D(Renderer2DBackend& b, Viewport v) : backend(b), currentViewport(v)
@@ -32,6 +34,16 @@ namespace windbreeze
 
     void Renderer2D::render(const Drawable2D& drawable)
     {
+        if(drawable.isText)
+        {
+            const Text& text = (const Text&) drawable;
+            TextData temp;
+            temp.text = text.getText();
+            temp.position = text.getPosition();
+
+            backend.renderText(temp);
+            return;
+        }
         RenderData temp;
 
         drawable.getRenderData(temp, clock);

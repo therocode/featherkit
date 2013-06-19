@@ -13,4 +13,10 @@ namespace windbreeze
         glm::vec2 textureScroll;
         float parallax = 1.0f;
     };
+
+    struct TextData
+    {
+        std::string text;
+        glm::vec2 position;
+    };
 }

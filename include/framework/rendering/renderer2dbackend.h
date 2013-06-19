@@ -16,6 +16,7 @@ namespace windbreeze
             virtual void render(RenderData renderData) = 0;
             virtual void postRender() = 0;
             void setViewport(const Viewport& v);
+            virtual void renderText(const TextData& textData) = 0;
         protected:
             Viewport viewport;
     };

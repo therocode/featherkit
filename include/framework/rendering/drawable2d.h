@@ -35,6 +35,8 @@ namespace windbreeze
             uint32_t getTransformationCount();
             void clearTransformations();
             virtual void getRenderData(RenderData& renderData, uint32_t time) const;
+
+            bool isText = false; //OJOJOJOJOJOJ ugly hack
         protected:
             std::vector<float> vertices;
             glm::vec2 position;

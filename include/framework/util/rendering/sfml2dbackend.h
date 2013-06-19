@@ -19,6 +19,7 @@ namespace windbreeze
             void render(RenderData renderData) override;
             void postRender() override;
         private:
+            virtual void renderText(const TextData& textData) override;
             TextureManager<OpenGLTexture>& textureManager;
             GLuint shaderProgram = 0;
 
