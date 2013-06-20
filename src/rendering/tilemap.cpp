@@ -100,6 +100,11 @@ namespace windbreeze
                                             glm::vec2(texPos.x * textureTileSize.x, texPos.y * textureTileSize.y),
                                             glm::vec2(texPos.x * textureTileSize.x + textureTileSize.x, texPos.y * textureTileSize.y + textureTileSize.y));
 
+        if(animatedTiles.find(glm::uvec2(x, y)) != animatedTiles.end())
+        {
+            animatedTiles.erase(glm::uvec2(x, y));
+        }
+
         if(tileDef.ticksUntilChange > 0)
         {
             AnimatedTile animation;
