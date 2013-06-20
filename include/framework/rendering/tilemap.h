@@ -1,18 +1,28 @@
 #pragma once
 #include <framework/rendering/tilechunk.h>
+#include <map>
 #include <unordered_map>
+#include <functional>
 
 namespace windbreeze
 {
     using TileId = size_t;
-
     struct TileDefinition
     {
+        TileDefinition(glm::uvec2 texPos, TileId nextId = 0, uint32_t ticks = 0);
         glm::uvec2 tileTexPosition;
+        TileId nextTileId;
+        uint32_t ticksUntilChange;
     };
+
 
     class TileMap
     {
+        struct AnimatedTile
+        {
+            TileId next;
+            uint32_t timeLeft;
+        };
         public:
             TileMap(uint32_t gridWidth, uint32_t gridHeight, uint32_t tileWidth = 16, uint32_t tileHeight = 16, float textureTileWidth = 0.25f, float textureTileHeight = 0.25f , uint32_t chunkWidth = 16, uint32_t chunkHeight = 16);
             void setPosition(const glm::vec2& pos);
@@ -23,8 +33,10 @@ namespace windbreeze
             void addTileDefinition(const std::string& name, const TileDefinition& tileDef);
             void setTileByName(uint32_t x, uint32_t y, std::string name);
             void setTileById(uint32_t x, uint32_t y, TileId id);
+            TileId getTileId(const std::string& name);
             glm::uvec2 getTileByCoordinates(float x, float y);
             bool isOutOfBounds(uint32_t x, uint32_t y);
+            void tick();
         private:
             glm::vec2 position;
             glm::uvec2 chunkGridSize;
@@ -36,5 +48,18 @@ namespace windbreeze
             std::string textureId;
             std::unordered_map<TileId, TileDefinition> tileDefs;
             std::hash<std::string> hasher;
+            std::map<glm::uvec2, AnimatedTile, std::function<bool(const glm::uvec2&, const glm::uvec2&)> > animatedTiles { [](const glm::uvec2& first, const glm::uvec2& second){ 
+                if(first.x < second.x) 
+                    return true;
+                else if(first.x > second.x)
+                    return false;
+                else
+                {
+                if(first.y < second.y) 
+                    return true;
+                else
+                    return false;
+                }
+           } };
     };
 }

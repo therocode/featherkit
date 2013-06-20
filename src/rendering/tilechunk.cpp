@@ -15,8 +15,8 @@ namespace windbreeze
         {
             for(uint32_t x = 0; x < width; x++)
             {
-                float xPos = x * tileWidth;
-                float yPos = y * tileHeight;
+                float xPos = x * tileWidth + tileWidth * 0.5f;
+                float yPos = y * tileHeight + tileHeight * 0.5f;
 
                 vertices.push_back(((float)xPos) - halfTileWidth); vertices.push_back(((float)yPos) - halfTileHeight);
                 vertices.push_back(((float)xPos) - halfTileWidth); vertices.push_back(((float)yPos) + halfTileHeight);

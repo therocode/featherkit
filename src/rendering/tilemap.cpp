@@ -3,6 +3,8 @@
 
 namespace windbreeze
 {
+    TileDefinition::TileDefinition(glm::uvec2 texPos, TileId nextId, uint32_t ticks) : tileTexPosition(texPos), nextTileId(nextId), ticksUntilChange(ticks){}
+
     TileMap::TileMap(uint32_t gridWidth, uint32_t gridHeight, uint32_t tileWidth, uint32_t tileHeight, float textureTileWidth, float textureTileHeight, uint32_t chunkWidth, uint32_t chunkHeight)
     {
         uint32_t chunkGridWidth = (gridWidth + chunkWidth - 1) / chunkWidth;
@@ -30,6 +32,7 @@ namespace windbreeze
                     }
                 }
 
+                newChunk.setOrigin(glm::vec2(0.0f, 0.0f));
                 chunks.push_back(newChunk);
                 std::cout << "pushed a chunk\n";
             }
@@ -89,21 +92,31 @@ namespace windbreeze
         uint32_t chunkY = y / chunkSize.y;
         uint32_t chunkIndex = chunkX + chunkY * chunkGridSize.x;
 
-        std::cout << "setting tile, and its coords are " << x << " " << y << "\n";
-        std::cout << "setting in chunk, and its coords are " << chunkX << " " << chunkY << " and the index is " << chunkIndex << "\n";
+        TileDefinition tileDef = tileDefs.at(id);
 
-        glm::uvec2 texPos = tileDefs.at(id).tileTexPosition;
-
-        std::cout << "the texture position of the given tile ID is " << texPos.x << " " << texPos.y << "\n";
+        glm::uvec2 texPos = tileDef.tileTexPosition;
 
         chunks[chunkIndex].setTileTexCoords(x - chunkX * chunkSize.x, y - chunkY * chunkSize.y, 
                                             glm::vec2(texPos.x * textureTileSize.x, texPos.y * textureTileSize.y),
                                             glm::vec2(texPos.x * textureTileSize.x + textureTileSize.x, texPos.y * textureTileSize.y + textureTileSize.y));
+
+        if(tileDef.ticksUntilChange > 0)
+        {
+            AnimatedTile animation;
+            animation.next = tileDef.nextTileId;
+            animation.timeLeft = tileDef.ticksUntilChange;
+            animatedTiles.emplace(glm::uvec2(x, y), animation);
+        }
+    }
+    
+    TileId TileMap::getTileId(const std::string& name)
+    {
+        return hasher(name);
     }
     
     glm::uvec2 TileMap::getTileByCoordinates(float x, float y)
     {
-        if(isOutOfBounds(x, y))
+        if(isOutOfBounds(x / tileSize.x, y / tileSize.y))
             throw std::out_of_range("coordinates out of range");
 
         return glm::uvec2(x / tileSize.x, y / tileSize.y);
@@ -112,5 +125,37 @@ namespace windbreeze
     bool TileMap::isOutOfBounds(uint32_t x, uint32_t y)
     {
         return x > gridSize.x || y > gridSize.y;
+    }
+    
+    void TileMap::tick()
+    {
+        std::vector<glm::uvec2> toSet;
+        std::vector<TileId> ids;
+
+        for(auto animated = animatedTiles.begin(); animated != animatedTiles.end();)
+        {
+            if(animated->second.timeLeft == 0)
+            {
+                uint32_t x = animated->first.x;
+                uint32_t y = animated->first.y;
+                TileId id = animated->second.next;
+                animated = animatedTiles.erase(animated);
+                
+                toSet.push_back(glm::uvec2(x, y));
+                ids.push_back(id);
+                continue;
+            }
+            else
+            {
+                animated->second.timeLeft--;
+                animated++;
+            }
+            std::cout << "hej\n";
+        }
+        for(uint32_t i = 0; i < toSet.size(); i++)
+        {
+            std::cout << "hoj\n";
+            setTileById(toSet[i].x, toSet[i].y, ids[i]);
+        }
     }
 }
