@@ -23,10 +23,14 @@ namespace windbreeze
             void addTileDefinition(const std::string& name, const TileDefinition& tileDef);
             void setTileByName(uint32_t x, uint32_t y, std::string name);
             void setTileById(uint32_t x, uint32_t y, TileId id);
+            glm::uvec2 getTileByCoordinates(float x, float y);
+            bool isOutOfBounds(uint32_t x, uint32_t y);
         private:
             glm::vec2 position;
             glm::uvec2 chunkGridSize;
             glm::uvec2 chunkSize;
+            glm::uvec2 tileSize;
+            glm::uvec2 gridSize;
             glm::vec2 textureTileSize;
             std::vector<TileChunk> chunks;
             std::string textureId;

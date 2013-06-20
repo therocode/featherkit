@@ -10,7 +10,9 @@ namespace windbreeze
 
         chunkGridSize = glm::uvec2(chunkGridWidth, chunkGridHeight);
         chunkSize = glm::uvec2(chunkWidth, chunkHeight);
+        gridSize = glm::uvec2(gridWidth, gridHeight);
         textureTileSize = glm::vec2(textureTileWidth, textureTileHeight);
+        tileSize = glm::uvec2(tileWidth, tileHeight);
 
         for(uint32_t y = 0; y < chunkGridHeight; y++)
         {
@@ -72,11 +74,17 @@ namespace windbreeze
 
     void TileMap::setTileByName(uint32_t x, uint32_t y, std::string name)
     {
+        if(isOutOfBounds(x, y))
+            throw std::out_of_range("coordinates out of range");
+
         setTileById(x, y, hasher(name));
     }
 
     void TileMap::setTileById(uint32_t x, uint32_t y, TileId id)
     {
+        if(isOutOfBounds(x, y))
+            throw std::out_of_range("coordinates out of range");
+
         uint32_t chunkX = x / chunkSize.x;
         uint32_t chunkY = y / chunkSize.y;
         uint32_t chunkIndex = chunkX + chunkY * chunkGridSize.x;
@@ -91,5 +99,18 @@ namespace windbreeze
         chunks[chunkIndex].setTileTexCoords(x - chunkX * chunkSize.x, y - chunkY * chunkSize.y, 
                                             glm::vec2(texPos.x * textureTileSize.x, texPos.y * textureTileSize.y),
                                             glm::vec2(texPos.x * textureTileSize.x + textureTileSize.x, texPos.y * textureTileSize.y + textureTileSize.y));
+    }
+    
+    glm::uvec2 TileMap::getTileByCoordinates(float x, float y)
+    {
+        if(isOutOfBounds(x, y))
+            throw std::out_of_range("coordinates out of range");
+
+        return glm::uvec2(x / tileSize.x, y / tileSize.y);
+    }
+            
+    bool TileMap::isOutOfBounds(uint32_t x, uint32_t y)
+    {
+        return x > gridSize.x || y > gridSize.y;
     }
 }
