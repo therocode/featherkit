@@ -9,10 +9,12 @@ namespace windbreeze
         uint32_t chunkGridHeight = (gridHeight + chunkHeight - 1) / chunkHeight;
 
         chunkGridSize = glm::uvec2(chunkGridWidth, chunkGridHeight);
+        chunkSize = glm::uvec2(chunkWidth, chunkHeight);
+        textureTileSize = glm::vec2(textureTileWidth, textureTileHeight);
 
-        for(uint32_t x = 0; x < chunkGridWidth; x++)
+        for(uint32_t y = 0; y < chunkGridHeight; y++)
         {
-            for(uint32_t y = 0; y < chunkGridHeight; y++)
+            for(uint32_t x = 0; x < chunkGridWidth; x++)
             {
                 TileChunk newChunk(chunkWidth, chunkHeight, tileWidth, tileHeight);
                 glm::vec2 chunkPosition = glm::vec2(position.x + x * chunkWidth * tileWidth, position.y + y * chunkHeight * tileHeight);
@@ -22,8 +24,7 @@ namespace windbreeze
                 {
                     for(uint32_t chunkY = 0; chunkY < chunkHeight; chunkY++)
                     {
-                        std::cout << "setting inner tile " << chunkX << " " << chunkY << " to 0.0f, 0.0f " << textureTileWidth << " " << textureTileHeight << "\n";
-                        newChunk.setTileTexCoords(chunkX, chunkY, glm::vec2(0.0f, 0.0f), glm::vec2(textureTileWidth, textureTileHeight));
+                        newChunk.setTileTexCoords(chunkX, chunkY, glm::vec2(0.0f, 0.0f), textureTileSize);
                     }
                 }
 
@@ -62,5 +63,33 @@ namespace windbreeze
     const std::string& TileMap::getTexture() const
     {
         return textureId;
+    }
+    
+    void TileMap::addTileDefinition(const std::string& name, const TileDefinition& tileDef)
+    {
+        tileDefs.emplace(hasher(name), tileDef);
+    }
+
+    void TileMap::setTileByName(uint32_t x, uint32_t y, std::string name)
+    {
+        setTileById(x, y, hasher(name));
+    }
+
+    void TileMap::setTileById(uint32_t x, uint32_t y, TileId id)
+    {
+        uint32_t chunkX = x / chunkSize.x;
+        uint32_t chunkY = y / chunkSize.y;
+        uint32_t chunkIndex = chunkX + chunkY * chunkGridSize.x;
+
+        std::cout << "setting tile, and its coords are " << x << " " << y << "\n";
+        std::cout << "setting in chunk, and its coords are " << chunkX << " " << chunkY << " and the index is " << chunkIndex << "\n";
+
+        glm::uvec2 texPos = tileDefs.at(id).tileTexPosition;
+
+        std::cout << "the texture position of the given tile ID is " << texPos.x << " " << texPos.y << "\n";
+
+        chunks[chunkIndex].setTileTexCoords(x - chunkX * chunkSize.x, y - chunkY * chunkSize.y, 
+                                            glm::vec2(texPos.x * textureTileSize.x, texPos.y * textureTileSize.y),
+                                            glm::vec2(texPos.x * textureTileSize.x + textureTileSize.x, texPos.y * textureTileSize.y + textureTileSize.y));
     }
 }
