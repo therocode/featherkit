@@ -1,5 +1,4 @@
 #include <framework/rendering/repeatedquad.h>
-#include <iostream>
 
 namespace windbreeze
 {

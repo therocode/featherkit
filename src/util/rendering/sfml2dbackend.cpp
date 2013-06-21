@@ -1,7 +1,6 @@
 #include <framework/util/rendering/sfml2dbackend.h>
 #include <framework/glm/gtc/type_ptr.hpp>
 #include <framework/rendering/shaderloader.h>
-#include <iostream>
 
 namespace windbreeze
 {
@@ -147,8 +146,6 @@ namespace windbreeze
             GLint parallax = glGetUniformLocation(shaderProgram, "parallax");
             glUniform1fv(parallax, 1, &renderData.parallax);
 
-            std::cout << "parallax is now " << renderData.parallax << "\n";
-
         }
         else
         {
@@ -157,7 +154,6 @@ namespace windbreeze
 
         glVertexPointer(2, GL_FLOAT, 0, &vertices[0]);
         glTexCoordPointer(2, GL_FLOAT, 0, &texCoords[0]);
-        std::cout << "lolololol kabanoss!\n";
         glDrawArrays(GL_QUADS, 0, quadAmount);
     }
 

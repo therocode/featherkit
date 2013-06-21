@@ -1,5 +1,4 @@
 #include <framework/rendering/tilechunk.h>
-#include <iostream>
 
 namespace windbreeze
 {
@@ -44,8 +43,6 @@ namespace windbreeze
     void TileChunk::setTileTexCoords(uint32_t x, uint32_t y, const glm::vec2 startCoords, const glm::vec2 endCoords)
     {
         uint32_t arrayIndex = getTileIndex(x, y) * 8;
-        
-        std::cout << "inside the chunk now and setting the internal coords of " << x << " " << y << " to the tex coords " << startCoords.x << " " << startCoords.y << " " << endCoords.x << " " << endCoords.y << "\n";
 
         texCoords[arrayIndex] = startCoords.x; texCoords[arrayIndex + 1] = startCoords.y;
         texCoords[arrayIndex + 2] = startCoords.x; texCoords[arrayIndex + 3] = endCoords.y;
@@ -60,8 +57,6 @@ namespace windbreeze
         renderData.textureId = getTexture();
 
         renderData.texCoords = texCoords;
-
-        std::cout << "filled it with cool texture " << renderData.textureId << "\n";
     }
     
     uint32_t TileChunk::getTileIndex(uint32_t x, uint32_t y)

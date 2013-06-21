@@ -34,7 +34,6 @@ namespace windbreeze
 
                 newChunk.setOrigin(glm::vec2(0.0f, 0.0f));
                 chunks.push_back(newChunk);
-                std::cout << "pushed a chunk\n";
             }
         }
     }
@@ -60,7 +59,6 @@ namespace windbreeze
 
         for(auto& chunk : chunks)
         {
-            std::cout << "setting the texture " << name << "\n";
             chunk.setTexture(name);
         }
     }
@@ -121,7 +119,7 @@ namespace windbreeze
     
     glm::uvec2 TileMap::getTileByCoordinates(float x, float y)
     {
-        if(isOutOfBounds(x / tileSize.x, y / tileSize.y))
+        if(isOutOfBounds(((uint32_t)x) / tileSize.x, ((uint32_t)y) / tileSize.y))
             throw std::out_of_range("coordinates out of range");
 
         return glm::uvec2(x / tileSize.x, y / tileSize.y);
@@ -129,7 +127,7 @@ namespace windbreeze
             
     bool TileMap::isOutOfBounds(uint32_t x, uint32_t y)
     {
-        return x > gridSize.x || y > gridSize.y;
+        return (x > gridSize.x) || (y > gridSize.y);
     }
     
     void TileMap::tick()
@@ -155,11 +153,9 @@ namespace windbreeze
                 animated->second.timeLeft--;
                 animated++;
             }
-            std::cout << "hej\n";
         }
         for(uint32_t i = 0; i < toSet.size(); i++)
         {
-            std::cout << "hoj\n";
             setTileById(toSet[i].x, toSet[i].y, ids[i]);
         }
     }

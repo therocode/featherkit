@@ -1,5 +1,4 @@
 #include <framework/rendering/animatedquad.h>
-#include <iostream>
 
 namespace windbreeze
 {
@@ -20,10 +19,6 @@ namespace windbreeze
         if(!currentAnimation.expired())
         {
             currentAnimation.lock()->getConstraints(renderData.constrainX, renderData.constrainY, currentFrame);
-        }
-        else
-        {
-            std::cout << "AJJJJ AJJJ AJJJJJ JAJAJAJAJJAJJJJJJJ JAAAAAAAAAA SLUTA NU!\n";
         }
     }
     

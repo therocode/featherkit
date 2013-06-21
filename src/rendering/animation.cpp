@@ -1,5 +1,4 @@
 #include <framework/rendering/animation.h>
-#include <iostream>
 
 namespace windbreeze
 {
