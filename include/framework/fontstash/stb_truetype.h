@@ -899,6 +899,7 @@ int stbtt_FindGlyphIndex(const stbtt_fontinfo *info, int unicode_codepoint)
       stbtt_uint16 entrySelector = ttUSHORT(data+index_map+10);
       stbtt_uint16 rangeShift = ttUSHORT(data+index_map+12) >> 1;
       stbtt_uint16 item, offset, start, end;
+      (void)end;
 
       // do a binary search of the segments
       stbtt_uint32 endCount = index_map + 14;
@@ -921,6 +922,7 @@ int stbtt_FindGlyphIndex(const stbtt_fontinfo *info, int unicode_codepoint)
          end = ttUSHORT(data + search + 2);
          start = ttUSHORT(data + search + searchRange*2 + segcount*2 + 2);
          end = ttUSHORT(data + search + searchRange*2);
+         (void)start;
          if (unicode_codepoint > end)
             search += searchRange*2;
          --entrySelector;
