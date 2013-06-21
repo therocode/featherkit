@@ -1,5 +1,4 @@
 #include <framework/rendering/tilemap.h>
-#include <iostream>
 
 namespace windbreeze
 {
@@ -16,17 +15,28 @@ namespace windbreeze
         textureTileSize = glm::vec2(textureTileWidth, textureTileHeight);
         tileSize = glm::uvec2(tileWidth, tileHeight);
 
+        glm::uvec2 edgeSize(gridWidth % chunkWidth, gridHeight % chunkHeight);
+
+        uint32_t newChunkHeight = chunkHeight;
+
         for(uint32_t y = 0; y < chunkGridHeight; y++)
         {
+            if(y == chunkGridHeight - 1)
+                newChunkHeight = edgeSize.y;
+
+            uint32_t newChunkWidth = chunkWidth;
             for(uint32_t x = 0; x < chunkGridWidth; x++)
             {
-                TileChunk newChunk(chunkWidth, chunkHeight, tileWidth, tileHeight);
+                if(x == chunkGridWidth - 1)
+                    newChunkWidth = edgeSize.x;
+    
+                TileChunk newChunk(newChunkWidth, newChunkHeight, tileWidth, tileHeight);
                 glm::vec2 chunkPosition = glm::vec2(position.x + x * chunkWidth * tileWidth, position.y + y * chunkHeight * tileHeight);
                 newChunk.setPosition(chunkPosition);
                 
-                for(uint32_t chunkX = 0; chunkX < chunkWidth; chunkX++)
+                for(uint32_t chunkX = 0; chunkX < newChunkWidth; chunkX++)
                 {
-                    for(uint32_t chunkY = 0; chunkY < chunkHeight; chunkY++)
+                    for(uint32_t chunkY = 0; chunkY < newChunkHeight; chunkY++)
                     {
                         newChunk.setTileTexCoords(chunkX, chunkY, glm::vec2(0.0f, 0.0f), textureTileSize);
                     }
@@ -127,7 +137,7 @@ namespace windbreeze
             
     bool TileMap::isOutOfBounds(uint32_t x, uint32_t y)
     {
-        return (x > gridSize.x) || (y > gridSize.y);
+        return (x >= gridSize.x) || (y >= gridSize.y);
     }
     
     void TileMap::tick()
