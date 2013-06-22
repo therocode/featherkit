@@ -2,9 +2,17 @@
 #include <unordered_map>
 #include <memory>
 #include <framework/rendering/animation.h>
+#include <stdexcept>
 
 namespace windbreeze
 {
+    class InvalidAnimationException : public std::runtime_error 
+    {
+        public:
+            InvalidAnimationException(const std::string& message) 
+                : std::runtime_error(message) { };
+    };
+
     class AnimationManager
     {
         public:

@@ -1,4 +1,5 @@
 #include <framework/rendering/animationmanager.h>
+#include <sstream>
 
 namespace windbreeze
 {
@@ -9,7 +10,16 @@ namespace windbreeze
     
     std::weak_ptr<Animation> AnimationManager::getByName(std::string name)
     {
-        return animations.at(hasher(name));
+        auto animation = animations.find(hasher(name));
+
+        if(animation == animations.end())
+        {
+            std::stringstream ss;
+            ss << "Error! Animation called '" << name << "' does not exist!\n";
+            throw(InvalidAnimationException(ss.str()));
+        }
+
+        return animation->second;
     }
 
     std::weak_ptr<Animation> AnimationManager::getById(AnimationId id)

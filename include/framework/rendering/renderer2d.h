@@ -1,10 +1,18 @@
 #pragma once
 #include <framework/rendering/renderer2dbackend.h>
 #include <framework/rendering/viewport.h>
+#include <stdexcept>
 
 namespace windbreeze
 {
     class Drawable2D;
+
+    class InvalidFontException : public std::runtime_error 
+    {
+        public:
+            InvalidFontException(const std::string& message) 
+                : std::runtime_error(message) { };
+    };
 
     class Renderer2D
     {

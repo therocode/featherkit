@@ -1,6 +1,7 @@
 #include <framework/glm/glm.hpp>
 #include <framework/rendering/renderer2d.h>
 #include <framework/rendering/drawable2d.h>
+#include <sstream>
 
 #include <framework/rendering/text.h> //TEMPHACK
 namespace windbreeze
@@ -76,6 +77,16 @@ namespace windbreeze
     
     int32_t Renderer2D::addFont(uint8_t* fontData)
     {
-        return backend.addFont(fontData);
+        int32_t font = backend.addFont(fontData);
+        if(font != 0)
+        {
+            return font;
+        }
+        else
+        {
+            std::stringstream ss;
+            ss << "Error! While adding font to the renderer!\n";
+            throw(InvalidFontException(ss.str()));
+        }
     }
 }
