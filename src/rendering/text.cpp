@@ -26,4 +26,14 @@ namespace windbreeze
     {
         fontSize = size;
     }
+    
+    int32_t Text::getFont() const
+    {
+        return font;
+    }
+
+    void Text::setFont(int32_t f)
+    {
+        font = f;
+    }
 }

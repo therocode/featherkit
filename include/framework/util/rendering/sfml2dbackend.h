@@ -18,12 +18,12 @@ namespace windbreeze
             void preRender() override;
             void render(RenderData renderData) override;
             void postRender() override;
+            int32_t addFont(uint8_t* fontData) override;
         private:
             virtual void renderText(const TextData& textData) override;
             TextureManager<OpenGLTexture>& textureManager;
             GLuint shaderProgram = 0;
 
             sth_stash* stash;
-            int droid;
     };
 }

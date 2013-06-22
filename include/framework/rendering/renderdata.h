@@ -20,5 +20,6 @@ namespace windbreeze
         glm::vec2 position;
         glm::vec3 colour;
         float size;
+        int font = 0;
     };
 }

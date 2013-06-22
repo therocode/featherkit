@@ -19,6 +19,7 @@ namespace windbreeze
             void setViewport(const Viewport& viewport);
             Viewport& getViewport();
             void resize(uint32_t w, uint32_t h);
+            int32_t addFont(uint8_t* fontData);
         private:
             Renderer2DBackend& backend;
             Viewport currentViewport;

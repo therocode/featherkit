@@ -14,9 +14,12 @@ namespace windbreeze
             void setColour(glm::vec3 c);
             float getFontSize() const;
             void setFontSize(float size);
+            int32_t getFont() const;
+            void setFont(int32_t f);
         protected:
             std::string text;
             glm::vec3 colour = glm::vec3(1.0f, 1.0f, 1.0f);
             float fontSize = 24.0f;
+            int font;
     };
 }

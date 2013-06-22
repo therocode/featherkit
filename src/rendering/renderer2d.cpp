@@ -41,6 +41,7 @@ namespace windbreeze
             temp.position = text.getPosition();
             temp.colour = text.getColour();
             temp.size = text.getFontSize();
+            temp.font = text.getFont();
 
             backend.renderText(temp);
             return;
@@ -71,5 +72,10 @@ namespace windbreeze
     void Renderer2D::resize(uint32_t w, uint32_t h)
     {
         currentViewport.setSize(glm::uvec2(w, h));
+    }
+    
+    int32_t Renderer2D::addFont(uint8_t* fontData)
+    {
+        return backend.addFont(fontData);
     }
 }

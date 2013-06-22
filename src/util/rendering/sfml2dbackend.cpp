@@ -1,6 +1,7 @@
 #include <framework/util/rendering/sfml2dbackend.h>
 #include <framework/glm/gtc/type_ptr.hpp>
 #include <framework/rendering/shaderloader.h>
+#include <iostream>
 
 namespace windbreeze
 {
@@ -69,11 +70,6 @@ namespace windbreeze
         shaderProgram = loader.createShader(vertexShaderSource, fragmentShaderSource);
         
         stash = sth_create(512, 512);
-        droid = sth_add_font(stash, "data/DroidSerif-Regular.ttf");
-        if(droid == 0)
-        {
-            exit(0);
-        }
     }
 
     void Sfml2DBackend::destroy()
@@ -189,7 +185,7 @@ namespace windbreeze
         float y = point.y;
 
         sth_begin_draw(stash);
-        sth_draw_text(stash, droid, textData.size, x, y, textData.text.c_str(), &x);
+        sth_draw_text(stash, textData.font, textData.size, x, y, textData.text.c_str(), &x);
         sth_end_draw(stash);
 
         glEnableClientState(GL_VERTEX_ARRAY);
@@ -197,5 +193,17 @@ namespace windbreeze
 
         glEnable(GL_TEXTURE_2D);
         glUseProgram(shaderProgram);
+
+        std::cout << "rendered text with font " << textData.font << " \n";
+    }
+    
+    int32_t Sfml2DBackend::addFont(uint8_t* fontData)
+    {
+        int font = sth_add_font_from_memory(stash, fontData);
+        if(font == 0)
+        {
+            //throw font error
+        }
+        return font;
     }
 }
