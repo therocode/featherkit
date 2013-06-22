@@ -1,4 +1,5 @@
 #include <framework/rendering/tilemap.h>
+#include <sstream>
 
 namespace windbreeze
 {
@@ -86,7 +87,7 @@ namespace windbreeze
     void TileMap::setTileByName(uint32_t x, uint32_t y, std::string name)
     {
         if(isOutOfBounds(x, y))
-            throw std::out_of_range("coordinates out of range");
+            throw TileMapException("coordinates out of range");
 
         setTileById(x, y, hasher(name));
     }
@@ -94,13 +95,19 @@ namespace windbreeze
     void TileMap::setTileById(uint32_t x, uint32_t y, TileId id)
     {
         if(isOutOfBounds(x, y))
-            throw std::out_of_range("coordinates out of range");
+            throw TileMapException("coordinates out of range");
 
         uint32_t chunkX = x / chunkSize.x;
         uint32_t chunkY = y / chunkSize.y;
         uint32_t chunkIndex = chunkX + chunkY * chunkGridSize.x;
 
-        TileDefinition tileDef = tileDefs.at(id);
+        auto tileIter = tileDefs.find(id);
+        if(tileIter == tileDefs.end())
+        {
+            throw(TileMapException("Error! Tile does not exist!\n"));
+        }
+
+        TileDefinition tileDef = tileIter->second;
 
         glm::uvec2 texPos = tileDef.tileTexPosition;
 
@@ -130,7 +137,7 @@ namespace windbreeze
     glm::uvec2 TileMap::getTileByCoordinates(float x, float y)
     {
         if(isOutOfBounds(((uint32_t)x) / tileSize.x, ((uint32_t)y) / tileSize.y))
-            throw std::out_of_range("coordinates out of range");
+            throw TileMapException("coordinates out of range");
 
         return glm::uvec2(x / tileSize.x, y / tileSize.y);
     }

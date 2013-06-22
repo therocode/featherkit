@@ -15,6 +15,13 @@ namespace windbreeze
         uint32_t ticksUntilChange;
     };
 
+    class TileMapException : public std::runtime_error 
+    {
+        public:
+            TileMapException(const std::string& message) 
+                : std::runtime_error(message) { };
+    };
+
 
     class TileMap
     {
