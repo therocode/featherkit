@@ -16,19 +16,20 @@ namespace windbreeze
         textureTileSize = glm::vec2(textureTileWidth, textureTileHeight);
         tileSize = glm::uvec2(tileWidth, tileHeight);
 
+        bool uneven = gridWidth % chunkWidth != 0;
         glm::uvec2 edgeSize(gridWidth % chunkWidth, gridHeight % chunkHeight);
 
         uint32_t newChunkHeight = chunkHeight;
 
         for(uint32_t y = 0; y < chunkGridHeight; y++)
         {
-            if(y == chunkGridHeight - 1)
+            if(y == chunkGridHeight - 1 && uneven)
                 newChunkHeight = edgeSize.y;
 
             uint32_t newChunkWidth = chunkWidth;
             for(uint32_t x = 0; x < chunkGridWidth; x++)
             {
-                if(x == chunkGridWidth - 1)
+                if(x == chunkGridWidth - 1 && uneven)
                     newChunkWidth = edgeSize.x;
     
                 TileChunk newChunk(newChunkWidth, newChunkHeight, tileWidth, tileHeight);
