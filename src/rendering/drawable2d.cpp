@@ -152,4 +152,28 @@ namespace windbreeze
         renderData.vertices = getVerticesTransformed();
         renderData.parallax = parallax;
     }
+    
+    AABB Drawable2D::getAABB()
+    {
+        AABB result;
+        std::vector<float> transformed = getVerticesTransformed();
+        result.start.x = transformed[0];
+        result.start.y = transformed[1];
+        result.end.x = transformed[0];
+        result.end.y = transformed[1];
+
+        for(uint32_t i = 0; i < transformed.size(); i+=2)
+        {
+            if(transformed[i] < result.start.x)
+                result.start.x = transformed[i];
+            if(transformed[i+1] < result.start.y)
+                result.start.y = transformed[i+1];
+            if(transformed[i] > result.end.x)
+                result.end.x = transformed[i];
+            if(transformed[i+1] > result.end.y)
+                result.end.y = transformed[i+1];
+        }
+
+        return result;
+    }
 }

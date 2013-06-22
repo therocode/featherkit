@@ -22,4 +22,10 @@ namespace windbreeze
         float size;
         int font = 0;
     };
+
+    struct AABB
+    {
+        glm::vec2 start;
+        glm::vec2 end;
+    };
 }

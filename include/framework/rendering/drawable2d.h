@@ -35,6 +35,7 @@ namespace windbreeze
             uint32_t getTransformationCount();
             void clearTransformations();
             virtual void getRenderData(RenderData& renderData, uint32_t time) const;
+            AABB getAABB();
 
             bool isText = false; //OJOJOJOJOJOJ ugly hack
         protected:
