@@ -26,26 +26,26 @@ namespace windbreeze
         return toReturn;
     }
 
-    IntVec2 SFMLWindowBackend::getPosition() const
+    glm::ivec2 SFMLWindowBackend::getPosition() const
     {
         sf::Vector2i position = window.getPosition();
-        IntVec2 toReturn({position.x, position.y});
+        glm::ivec2 toReturn({position.x, position.y});
         return toReturn;
     }
 
-    void SFMLWindowBackend::setPosition(const IntVec2& position)
+    void SFMLWindowBackend::setPosition(const glm::ivec2& position)
     {
         window.setPosition({position.x, position.y});
     }
 
-    IntVec2 SFMLWindowBackend::getSize() const
+    glm::ivec2 SFMLWindowBackend::getSize() const
     {
         sf::Vector2u position = window.getSize();
-        IntVec2 toReturn({(int32_t)position.x, (int32_t)position.y});
+        glm::ivec2 toReturn(glm::ivec2((int32_t)position.x, (int32_t)position.y));
         return toReturn;
     }
 
-    void SFMLWindowBackend::setSize(const IntVec2& size)
+    void SFMLWindowBackend::setSize(const glm::ivec2& size)
     {
         window.setSize({(uint32_t)size.x, (uint32_t)size.y});
     }

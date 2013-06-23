@@ -48,12 +48,12 @@ namespace windbreeze
         return inputBackend.isMouseButtonPressed(b);
     }
     
-    IntVec2 InputHandler::getMouseGlobalPosition() const
+    glm::ivec2 InputHandler::getMouseGlobalPosition() const
     {
         return inputBackend.getMouseGlobalPosition();
     }
 
-    IntVec2 InputHandler::getMouseWindowPosition() const
+    glm::ivec2 InputHandler::getMouseWindowPosition() const
     {
         return inputBackend.getMouseWindowPosition();
     }

@@ -1,6 +1,6 @@
 #pragma once
 #include <framework/window/windowbackend.h>
-#include <framework/internal/vec2.h>
+#include <framework/glm/glm.hpp>
 #include <SFML/Window.hpp>
 
 namespace windbreeze
@@ -14,10 +14,10 @@ namespace windbreeze
             void close() override;
             bool isOpen() const override;
             const ContextSettings getSettings() const override;
-            IntVec2 getPosition() const override;
-            void setPosition(const IntVec2& position) override;
-            IntVec2 getSize() const override;
-            void setSize(const IntVec2& size) override;
+            glm::ivec2 getPosition() const override;
+            void setPosition(const glm::ivec2& position) override;
+            glm::ivec2 getSize() const override;
+            void setSize(const glm::ivec2& size) override;
             void setTitle(const std::string& title) override;
             void setIcon(uint32_t width, uint32_t height, const uint8_t* pixels) override;
             void setVisible(bool visible) override;

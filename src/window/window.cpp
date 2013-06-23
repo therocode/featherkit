@@ -23,22 +23,22 @@ namespace windbreeze
         return windowBackend.getSettings();
     }
 
-    IntVec2 Window::getPosition() const
+    glm::ivec2 Window::getPosition() const
     {
         return windowBackend.getPosition();
     }
 
-    void Window::setPosition(const IntVec2& position)
+    void Window::setPosition(const glm::ivec2& position)
     {
         windowBackend.setPosition(position);
     }
 
-    IntVec2 Window::getSize() const
+    glm::ivec2 Window::getSize() const
     {
         return windowBackend.getSize();
     }
 
-    void Window::setSize(const IntVec2& size)
+    void Window::setSize(const glm::ivec2& size)
     {
         windowBackend.setSize(size);
     }

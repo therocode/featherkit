@@ -1,6 +1,6 @@
 #pragma once
 #include <framework/input/event.h>
-#include <framework/internal/vec2.h>
+#include <framework/glm/glm.hpp>
 #include <queue>
 
 namespace windbreeze
@@ -13,8 +13,8 @@ namespace windbreeze
             virtual bool isKeyPressed(Keyboard::Code code) = 0;
 
             virtual bool isMouseButtonPressed(Mouse::Button b) = 0;
-            virtual IntVec2 getMouseGlobalPosition() = 0;
-            virtual IntVec2 getMouseWindowPosition() = 0;
+            virtual glm::ivec2 getMouseGlobalPosition() = 0;
+            virtual glm::ivec2 getMouseWindowPosition() = 0;
             virtual void setMouseGlobalPosition(int32_t x, int32_t y) = 0;
             virtual void setMouseWindowPosition(int32_t x, int32_t y) = 0;
 
@@ -52,11 +52,11 @@ namespace windbreeze
      *  @param b The button to check.
      *  @return True if the button is currently pushed down.
      ***
-     *  @fn virtual IntVec2 InputBackend::getMouseGlobalPosition() const
+     *  @fn virtual glm::ivec2 InputBackend::getMouseGlobalPosition() const
      *  @brief Access the current mouse position relative to the whole screen.
      *  @return Coordinates as a vector.
      ***
-     *  @fn virtual IntVec2 InputBackend::getMouseWindowPosition() const
+     *  @fn virtual glm::ivec2 InputBackend::getMouseWindowPosition() const
      *  @brief Access the current mouse position relative to the window.
      *  @return Coordinates as a vector.
      ***

@@ -1,6 +1,6 @@
 #pragma once
 #include <framework/input/inputbackend.h>
-#include <framework/internal/vec2.h>
+#include <framework/glm/glm.hpp>
 #include <SFML/Window.hpp>
 
 namespace windbreeze
@@ -15,8 +15,8 @@ namespace windbreeze
             bool isKeyPressed(Keyboard::Code code) override;
 
             bool isMouseButtonPressed(Mouse::Button b) override;
-            IntVec2 getMouseGlobalPosition() override;
-            IntVec2 getMouseWindowPosition() override;
+            glm::ivec2 getMouseGlobalPosition() override;
+            glm::ivec2 getMouseWindowPosition() override;
             void setMouseGlobalPosition(int32_t x, int32_t y) override;
             void setMouseWindowPosition(int32_t x, int32_t y) override;
 

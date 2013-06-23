@@ -60,16 +60,16 @@ namespace windbreeze
         return sf::Mouse::isButtonPressed((sf::Mouse::Button) b);
     }
     
-    IntVec2 SFMLInputBackend::getMouseGlobalPosition()
+    glm::ivec2 SFMLInputBackend::getMouseGlobalPosition()
     {
         sf::Vector2i pos = sf::Mouse::getPosition();
-        return {pos.x, pos.y};
+        return glm::ivec2(pos.x, pos.y);
     }
     
-    IntVec2 SFMLInputBackend::getMouseWindowPosition()
+    glm::ivec2 SFMLInputBackend::getMouseWindowPosition()
     {
         sf::Vector2i pos = sf::Mouse::getPosition(window);
-        return {pos.x, pos.y};
+        return glm::ivec2(pos.x, pos.y);
     }
     
     void SFMLInputBackend::setMouseGlobalPosition(int32_t x, int32_t y)

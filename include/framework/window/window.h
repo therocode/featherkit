@@ -2,7 +2,7 @@
 #include <framework/window/videomode.h>
 #include <framework/window/contextsettings.h>
 #include <framework/window/windowstyle.h>
-#include <framework/internal/vec2.h>
+#include <framework/glm/glm.hpp>
 #include <string>
             /* hej this is from VidyaMöåd and should be here
             static VideoMode getDesktopMode();
@@ -21,10 +21,10 @@ namespace windbreeze
             void close();
             bool isOpen() const;
             const ContextSettings getSettings() const;
-            IntVec2 getPosition() const;
-            void setPosition(const IntVec2& position);
-            IntVec2 getSize() const;
-            void setSize(const IntVec2& size);
+            glm::ivec2 getPosition() const;
+            void setPosition(const glm::ivec2& position);
+            glm::ivec2 getSize() const;
+            void setSize(const glm::ivec2& size);
             void setTitle(const std::string& title);
             void setIcon(uint32_t width, uint32_t height, const uint8_t* pixels);
             void setVisible(bool visible);

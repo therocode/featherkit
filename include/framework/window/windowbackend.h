@@ -2,7 +2,7 @@
 #include <framework/window/videomode.h>
 #include <framework/window/windowstyle.h>
 #include <framework/window/contextsettings.h>
-#include <framework/internal/vec2.h>
+#include <framework/glm/glm.hpp>
 #include <string>
 
 namespace windbreeze
@@ -14,10 +14,10 @@ namespace windbreeze
             virtual void close() = 0;
             virtual bool isOpen() const = 0;
             virtual const ContextSettings getSettings() const = 0;
-            virtual IntVec2 getPosition() const = 0;
-            virtual void setPosition(const IntVec2& position) = 0;
-            virtual IntVec2 getSize() const = 0;
-            virtual void setSize (const IntVec2& size) = 0;
+            virtual glm::ivec2 getPosition() const = 0;
+            virtual void setPosition(const glm::ivec2& position) = 0;
+            virtual glm::ivec2 getSize() const = 0;
+            virtual void setSize (const glm::ivec2& size) = 0;
             virtual void setTitle(const std::string& title) = 0;
             virtual void setIcon(uint32_t width, uint32_t height, const uint8_t* pixels) = 0;
             virtual void setVisible(bool visible) = 0;
@@ -55,19 +55,19 @@ namespace windbreeze
      *  @brief Access the OpenGL settings of the Window.
      *  @return Struct containing the settings.
      ***
-     *  @fn IntVec2 WindowBackend::getPosition() const
+     *  @fn glm::ivec2 WindowBackend::getPosition() const
      *  @brief Get the current position of the Window on the screen.
      *  @return Vector with the x and y coordinates.
      ***
-     *  @fn void WindowBackend::setPosition(const IntVec2& position)
+     *  @fn void WindowBackend::setPosition(const glm::ivec2& position)
      *  @brief Set the Window position on the screen.
      *  @param position Vector with the coordinates to set the window position to.
      ***
-     *  @fn IntVec2 WindowBackend::getSize() const
+     *  @fn glm::ivec2 WindowBackend::getSize() const
      *  @brief Get the current size of the Window.
      *  @return Vector with the width and height of the Window.
      ***
-     *  @fn void WindowBackend::setSize(const IntVec2& size)
+     *  @fn void WindowBackend::setSize(const glm::ivec2& size)
      *  @brief Set the current size of the Window.
      *  @param size Vector with the height and width of the desired Window size.
      ***
