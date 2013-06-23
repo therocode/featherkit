@@ -1,11 +1,11 @@
-#include <framework/util/rendering/sfml2dbackend.h>
+#include <framework/util/rendering/opengl2dbackend.h>
 #include <framework/glm/gtc/type_ptr.hpp>
 #include <framework/rendering/shaderloader.h>
 #include <iostream>
 
 namespace windbreeze
 {
-    void Sfml2DBackend::setup()
+    void OpenGL2DBackend::setup()
     {
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         glEnable(GL_TEXTURE_2D);
@@ -72,16 +72,16 @@ namespace windbreeze
         stash = sth_create(512, 512);
     }
 
-    void Sfml2DBackend::destroy()
+    void OpenGL2DBackend::destroy()
     {
     }
 
-    void Sfml2DBackend::clear()
+    void OpenGL2DBackend::clear()
     {
         glClear(GL_COLOR_BUFFER_BIT);
     }
 
-    void Sfml2DBackend::preRender()
+    void OpenGL2DBackend::preRender()
     {
         const glm::uvec2& viewSize = viewport.getSize();
         glViewport(0, 0, viewSize.x, viewSize.y);
@@ -114,7 +114,7 @@ namespace windbreeze
         glUniform1i(textureUniform, 0);
     }
 
-    void Sfml2DBackend::render(RenderData renderData)
+    void OpenGL2DBackend::render(RenderData renderData)
     {
         std::vector<float> vertices = renderData.vertices;
         std::vector<float> texCoords = renderData.texCoords;
@@ -153,7 +153,7 @@ namespace windbreeze
         glDrawArrays(GL_QUADS, 0, quadAmount);
     }
 
-    void Sfml2DBackend::postRender()
+    void OpenGL2DBackend::postRender()
     {
         glUseProgram(0);
 
@@ -163,7 +163,7 @@ namespace windbreeze
 
     }
     
-    void Sfml2DBackend::renderText(const TextData& textData)
+    void OpenGL2DBackend::renderText(const TextData& textData)
     {
         glUseProgram(0);
 
@@ -197,7 +197,7 @@ namespace windbreeze
         std::cout << "rendered text with font " << textData.font << " \n";
     }
     
-    int32_t Sfml2DBackend::addFont(uint8_t* fontData)
+    int32_t OpenGL2DBackend::addFont(uint8_t* fontData)
     {
         int font = sth_add_font_from_memory(stash, fontData);
         if(font == 0)

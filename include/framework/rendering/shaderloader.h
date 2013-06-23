@@ -1,6 +1,5 @@
 #pragma once
-#include <GL/glew.h>
-#include <SFML/OpenGL.hpp>
+#include <framework/util/rendering/opengl.h>
 #include <string>
 #include <stdexcept>
 

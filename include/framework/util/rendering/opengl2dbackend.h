@@ -2,16 +2,15 @@
 #include <framework/rendering/renderer2dbackend.h>
 #include <framework/util/rendering/opengltexture.h>
 #include <framework/rendering/texturemanager.h>
-#include <GL/glew.h>
-#include <SFML/OpenGL.hpp>
+#include <framework/util/rendering/opengl.h>
 #include <framework/fontstash/fontstash.h>
 
 namespace windbreeze
 {
-    class Sfml2DBackend : public Renderer2DBackend
+    class OpenGL2DBackend : public Renderer2DBackend
     {
         public:
-            Sfml2DBackend(TextureManager<OpenGLTexture>& tm) : textureManager(tm) {}
+            OpenGL2DBackend(TextureManager<OpenGLTexture>& tm) : textureManager(tm) {}
             void setup() override;
             void destroy() override;
             void clear() override;
