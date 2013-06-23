@@ -1,4 +1,4 @@
-#include <framework/rendering/animationmanager.h>
+#include <framework/util/rendering/animationmanager.h>
 #include <sstream>
 
 namespace windbreeze
