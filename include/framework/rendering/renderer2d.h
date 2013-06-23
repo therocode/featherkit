@@ -39,19 +39,24 @@ namespace windbreeze
      *@}
      ***
      *  @class Renderer2D
-     *  @brief Represents a single game entity.
+     *  @brief Used to render 2D drawables to the screen.
      *
-     *  A game entity is no more than a collection of attributes, associated with the same entity ID. An attribute is a named value of any type. An example of an attribute would be an int named "health points" storing the value 23. An entity may have an arbitrary amount of attributes and every entity has a unique entity ID. 
+     *  This class provides a complete interface for rendering to the screen. Only objects which inherit from the Drawable2D base class may be rendered.
      *
-     *  Although usage may vary and is not restricted, the entities are meant to be used for ingame objects that need to store data. These could include the player, enemies, pickups, bullets, and so on.
+     *  Rendered drawables provide vertices translated to worldspace to the renderer via the Drawable2D::getVerticesTransformed function. This means that for any custom drawable, this function is meant to return the vertex coordinates in world space. 
+     *
+     *  The Renderer2D keeps a Viewport describing the size of the render area as well as the current camera data.
+     *
+     *  The functions Renderer2D::preRender and Renderer2D::postRender must be called every frame surrounding all calls to Renderer2D::render. Otherwise rendering may not function properly. 
+     *
+     *  A backend must be given upon construction. The backend is an implementation of the abstract class Renderer2DBackend. This is the one actually doing the rendering and may be implemented using various rendering methods.
      ***
-     *  @fn Entity::Entity(EntityId i, EntityManager& m)
-     *  @brief Construct an Entity. 
+     *  @fn Renderer2D::Renderer2D(Renderer2DBackend& b, Viewport v)
+     *  @brief Construct a renderer with the given backend and Viewport.
      *
-     *  This sets the EntityId to the supplied ID. The entity stores the EntityManager reference internally for using when getting and setting attributes.
+     *  Blabla 
      *
-     *  Observe that entities aren't mean to be created manually, but using the EntityManager::CreateEntity function.
-     *  @param i ID of the new entity.
-     *  @param m EntityManager that the entity will use.
+     *  @param b ID of the new entity.
+     *  @param v EntityManager that the entity will use.
      ***/
 }
