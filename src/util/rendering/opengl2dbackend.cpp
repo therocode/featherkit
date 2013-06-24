@@ -95,7 +95,7 @@ namespace windbreeze
 
         glUseProgram(shaderProgram);
 
-        glm::mat2x2 rotation = glm::inverse(viewport.getCamera().getTransformation());
+        glm::mat2x2 rotation = glm::inverse(viewport.getCamera().getRotationMatrix());
 
         GLint positionUniform = glGetUniformLocation(shaderProgram, "position");
         glUniform2fv(positionUniform, 1, glm::value_ptr(viewport.getCamera().getPosition()));
@@ -178,7 +178,7 @@ namespace windbreeze
         glm::vec2 point = glm::vec2(textData.position.x, textData.position.y);
 
         Camera camera = viewport.getCamera();
-        point = glm::inverse(camera.getTransformation()) * (camera.getZoom() * (point - camera.getPosition())) + (glm::vec2)viewport.getSize() * 0.5f;
+        point = glm::inverse(camera.getRotationMatrix()) * (camera.getZoom() * (point - camera.getPosition())) + (glm::vec2)viewport.getSize() * 0.5f;
         //point = viewport.getCamera().getTransformation() * (point - viewport.getCamera().getPosition());
 
         float x = point.x;
