@@ -12,7 +12,7 @@ namespace windbreeze
         position = p;
     }
     
-    const glm::vec2& Camera::getPosition()
+    const glm::vec2& Camera::getPosition() const
     {
         return position;
     }
@@ -37,7 +37,7 @@ namespace windbreeze
         zoom = z;
     }
     
-    const glm::vec2& Camera::getZoom()
+    const glm::vec2& Camera::getZoom() const
     {
         return zoom;
     }
