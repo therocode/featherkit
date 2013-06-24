@@ -11,9 +11,9 @@ namespace windbreeze
             Viewport(uint32_t w, uint32_t h) : size(glm::uvec2(w, h)) {}
             Viewport(uint32_t w, uint32_t h, const Camera& cam) : size(glm::uvec2(w, h)), camera(cam) {}
             void setSize(const glm::uvec2& s);
-            glm::uvec2& getSize() const;
+            const glm::uvec2& getSize() const;
             void setCamera(const Camera& cam);
-            Camera& getCamera() const;
+            Camera& getCamera();
             glm::vec2 transformPoint(const glm::vec2 point) const;
             glm::vec2 untransformPoint(const glm::vec2 point) const;
         private:
@@ -52,7 +52,7 @@ namespace windbreeze
      *  @brief Set the size of the Viewport.
      *  @param s Size to set it to.
      ***
-     *  @fn glm::uvec2& Viewport::getSize() const
+     *  @fn const glm::uvec2& Viewport::getSize() const
      *  @brief Get the size of the Viewport.
      *  @return Vector containing the current size.
      ***
@@ -60,8 +60,8 @@ namespace windbreeze
      *  @brief Set the Camera of the Viewport.
      *  @param cam Camera to set it to.
      ***
-     *  @fn Camera& Viewport::getCamera() const
-     *  @brief Get the Camera currently in use by the Viewport.
+     *  @fn Camera& Viewport::getCamera()
+     *  @brief Get the Camera currently in use by the Viewport. The camera might be modified external.
      *  @return The current camera.
      ***
      *  @fn glm::vec2 Viewport::transformPoint(const glm::vec2 point) const

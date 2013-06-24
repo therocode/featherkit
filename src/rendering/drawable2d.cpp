@@ -121,7 +121,7 @@ namespace windbreeze
         parallax = p;
     }
     
-    float Drawable2D::getParallax()
+    float Drawable2D::getParallax() const
     {
         return parallax;
     }
@@ -131,12 +131,12 @@ namespace windbreeze
         transformations.push_back(t);
     }
 
-    glm::mat2x2& Drawable2D::getTransformation(uint32_t index)
+    const glm::mat2x2& Drawable2D::getTransformation(uint32_t index) const
     {
         return transformations[index];
     }
 
-    uint32_t Drawable2D::getTransformationCount()
+    uint32_t Drawable2D::getTransformationCount() const
     {
         return transformations.size();
     }
@@ -153,7 +153,7 @@ namespace windbreeze
         renderData.parallax = parallax;
     }
     
-    AABB Drawable2D::getAABB()
+    AABB Drawable2D::getAABB() const
     {
         AABB result;
         std::vector<float> transformed = getVerticesTransformed();

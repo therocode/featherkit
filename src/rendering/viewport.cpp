@@ -7,7 +7,7 @@ namespace windbreeze
         size = s;
     }
 
-    glm::uvec2& Viewport::getSize()
+    const glm::uvec2& Viewport::getSize() const
     {
         return size;
     }
@@ -22,13 +22,13 @@ namespace windbreeze
         return camera;
     }
     
-    glm::vec2 Viewport::transformPoint(const glm::vec2 point)
+    glm::vec2 Viewport::transformPoint(const glm::vec2 point) const
     {
         glm::vec2 halfViewSize = ((glm::vec2) size) * 0.5f;
         return glm::inverse(camera.getRotationMatrix()) * (camera.getZoom() * (point - camera.getPosition())) + halfViewSize;
     }
     
-    glm::vec2 Viewport::untransformPoint(const glm::vec2 point)
+    glm::vec2 Viewport::untransformPoint(const glm::vec2 point) const
     {
         glm::vec2 halfViewSize = ((glm::vec2) size) * 0.5f;
         return (1.0f/camera.getZoom()) * (camera.getRotationMatrix() * (point - halfViewSize)) + camera.getPosition();
