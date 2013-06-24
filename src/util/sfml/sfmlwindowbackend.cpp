@@ -29,8 +29,7 @@ namespace windbreeze
     glm::ivec2 SFMLWindowBackend::getPosition() const
     {
         sf::Vector2i position = window.getPosition();
-        glm::ivec2 toReturn({position.x, position.y});
-        return toReturn;
+        return glm::ivec2(position.x, position.y);
     }
 
     void SFMLWindowBackend::setPosition(const glm::ivec2& position)
