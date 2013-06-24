@@ -84,6 +84,6 @@ namespace windbreeze
      *  @brief Vector describing the upper left corner of the box.
      ***
      *  @var AABB::end
-     *  @breif Vector describing the bottom right corner of the box.
+     *  @brief Vector describing the bottom right corner of the box.
      ***/
 }
