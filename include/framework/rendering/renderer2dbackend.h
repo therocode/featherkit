@@ -82,6 +82,6 @@ namespace windbreeze
      *  @param fontData Array containing the font data.
      *  @return A numerical value representing the font. Should return 0 if the function fails.
      ***
-     *  @var viewport Current Viewport in use. Set using Renderer2DBackend::setViewport.
+     *  @var Renderer2DBackend::viewport Current Viewport in use. Set using Renderer2DBackend::setViewport.
      ***/
 }
