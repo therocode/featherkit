@@ -70,9 +70,18 @@ namespace windbreeze
      *  This function is automatically called by the Renderer2D::setViewport function.
      *  @param v Viewport to set.
      ***
-     *  @fn virtual void renderText(const TextData& textData) = 0
-     *  @brief Render a text object to the screen.
+     *  @fn virtual void Renderer2DBackend::renderText(const TextData& textData) = 0
+     *  @brief Render a text object.
      *  
-     * 
+     *  Called by Renderer2D when a text object needs to be rendered. The TextData argument contains information about the text and its location. The text should be transformed by the camera, but not rotated.
+     ***
+     *  @fn virtual int32_t Renderer2DBackend::addFont(uint8_t* fontData) = 0
+     *  @brief Add a fond to the backend.
+     *
+     *  This function is called by the Renderer2D::addFont function. After this function is called, there should be a valid font to use which is tied to the returned number.
+     *  @param fontData Array containing the font data.
+     *  @return A numerical value representing the font. Should return 0 if the function fails.
+     ***
+     *  @var viewport Current Viewport in use. Set using Renderer2DBackend::setViewport.
      ***/
 }
