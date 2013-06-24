@@ -18,9 +18,9 @@ namespace windbreeze
             void setZoom(glm::vec2 z);
             const glm::vec2& getZoom() const;
             void setRotation(float radians);
-            float getRotation();
+            float getRotation() const;
             void rotate(float radians);
-            glm::mat2x2 getTransformation();
+            glm::mat2x2 getRotationMatrix() const;
         private:
             glm::vec2 position;
             glm::vec2 zoom;
@@ -41,7 +41,7 @@ namespace windbreeze
      *
      *  The constructed Camera will have a position of 0.0f, 0.0f, and neutral zoom and rotation.
      ***
-     *  @fn Camera::Camera(float x, float y, float xZoom = 1.0f, float yZom = 1.0f)
+     *  @fn Camera::Camera(float x, float y, float xZoom = 1.0f, float yZoom = 1.0f)
      *  @brief Construct a Camera with the given position and zoom.
      *
      *  The rotation of the Camera will be neutral.
@@ -60,7 +60,7 @@ namespace windbreeze
      *  @fn void Camera::setPosition(float x, float y)
      *  @brief Set the position of the Camera.
      *  @param x X coordinate.
-     *  @param x Y coordinate.
+     *  @param y Y coordinate.
      ***
      *  @fn void Camera::setPosition(glm::vec2 p)
      *  @brief Set the position of the Camera using a vector.
@@ -91,5 +91,21 @@ namespace windbreeze
      *  @fn const glm::vec2& Camera::getZoom() const
      *  @brief Get the zoom factor of the Camera.
      *  @return Vector with the zoom factor.
+     ***
+     *  @fn void Camera::setRotation(float radians)
+     *  @brief Set the rotation angle of the Camera.
+     *  @param radians Degrees in radians to set it to.
+     ***
+     *  @fn float Camera::getRotation() const
+     *  @brief Get the rotation angle of the Camera.
+     *  @return The angle of the Camera in radians.
+     ***
+     *  @fn void Camera::rotate(float radians)
+     *  @brief Rotate the camera with a given angle.
+     *  @param radians Amount of dregrees in radians to turn the Camera.
+     ***
+     *  @fn glm::mat2x2 Camera::getRotationMatrix() const
+     *  @brief Get the rotation matrix of the Camera.
+     *  @return Matrix representing the rotation of the Camera.
      ***/
 }

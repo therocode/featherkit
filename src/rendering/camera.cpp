@@ -37,7 +37,7 @@ namespace windbreeze
         zoom = z;
     }
     
-    const glm::vec2& Camera::getZoom()
+    const glm::vec2& Camera::getZoom() const
     {
         return zoom;
     }
@@ -47,7 +47,7 @@ namespace windbreeze
         rotation = radians;
     }
 
-    float Camera::getRotation()
+    float Camera::getRotation() const
     {
         return rotation;
     }
@@ -57,7 +57,7 @@ namespace windbreeze
         rotation += radians;
     }
 
-    glm::mat2x2 Camera::getTransformation()
+        glm::mat2x2 Camera::getRotationMatrix() const
     {
         glm::mat2x2 result;
 
