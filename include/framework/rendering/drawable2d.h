@@ -106,5 +106,102 @@ namespace windbreeze
      *  @fn const glm::vec2& Drawable2D::getOrigin() const
      *  @brief Get the origin point of the Drawable2D.
      *  @return Vector containing the origin.
+     ***
+     *  @fn void Drawable2D::setRotation(const float radians)
+     *  @brief Set the rotation.
+     *  @param radians Rotation angle in radians.
+     ***
+     *  @fn float Drawable2D::getRotation() const
+     *  @brief Get the current rotation.
+     *  @return The rotation.
+     ***
+     *  @fn void Drawable2D::rotate(const float radians)
+     *  @brief Rotate the Drawable2D a specific amount.
+     *  @param radians Amount in radians to rotate the Drawable2D.
+     ***
+     *  @fn void Drawable2D::setScale(const float x, const float y)
+     *  @brief Set the scale factor.
+     *  @param x Scale factor in the X axis.
+     *  @param y Scale factor in the Y axis.
+     ***
+     *  @fn void Drawable2D::setScale(const glm::vec2& s)
+     *  @brief Set the scale factor using a vector.
+     *  @param s Vector containing the scale factor.
+     ***
+     *  @fn const glm::vec2& Drawable2D::getScale() const
+     *  @brief Get the current scale.
+     *  @return Vector containing the scale.
+     ***
+     *  @fn void Drawable2D::scale(const float x, const float y)
+     *  @brief Scale the Drawable2D.
+     *  @param x X scale factor.
+     *  @param y Y scale factor.
+     ***
+     *  @fn void Drawable2D::scale(const glm::vec2& s)
+     *  @brief Scale the Drawable2D using a vector.
+     *  @param s Scale factor.
+     ***
+     *  @fn void Drawable2D::setParallax(float p)
+     *  @brief Set the parallax.
+     *  @param p Parallax factor.
+     ***
+     *  @fn float Drawable2D::getParallax() const
+     *  @brief Get the parallax.
+     *  @return Parallax factor.
+     ***
+     *  @fn void Drawable2D::addTransformation(const glm::mat2x2& t)
+     *  @brief Add a transformation matrix.
+     *
+     *  Using this function, an arbitrary number of transformation matrices can be added. They will all be accounted for in the Drawable2D::getVerticesTransformed function.
+     *  @param t Matrix to add.
+     ***
+     *  @fn const glm::mat2x2& Drawable2D::getTransformation(uint32_t index) const
+     *  @brief Get a specific transformation matrix.
+     *  @param index Index of the matrix to get.
+     *  @return The matrix.
+     ***
+     *  @fn uint32_t Drawable2D::getTransformationCount() const
+     *  @brief Get the amount of transformation matrices added using the Drawable2D::addTransformation function.
+     *  @return Amount of matrices.
+     ***
+     *  @fn void Drawable2D::clearTransformations()
+     *  @brief Remove all added transformations.
+     ***
+     *  @fn virtual void Drawable2D::getRenderData(RenderData& renderData, uint32_t time) const
+     *  @brief Generate RenderData which can be given to a Renderer2DBackend instance for rendering.
+     *  
+     *  This function is called by the Renderer2D when a drawable is rendered. The resulting RenderData is sent to the backend for drawing. By inheriting this class, the RenderData can be filled differently.
+     *  @param renderData RenderData reference in which to store the resulting render data.
+     *  @param time Counter keeping track of the time. Can be used to do animations and other time dependant things.
+     ***
+     *  @fn AABB Drawable2D::getAABB() const
+     *  @brief Generate an Axis Aligned Bounding Box around the vertices.
+     *  
+     *  Will generate it around the vertices transformed into world space.
+     *  @return The bounding box.
+     ***
+     *  @var Drawable2D::isText
+     *  @brief Defines if the object is meant to be rendered as text or not.
+     ***
+     *  @var Drawable2D::vertices
+     *  @brief List of all vertices.
+     ***
+     *  @var Drawable2D::position
+     *  @brief Stores the position.
+     ***
+     *  @var Drawable2D::origin
+     *  @brief Stores the origin point.
+     ***
+     *  @var Drawable2D::rotation
+     *  @brief Rotation in radians.
+     ***
+     *  @var Drawable2D::scaling
+     *  @brief Stores the scale factor.
+     ***
+     *  @var Drawable2D::parallax
+     *  @brief Stores the parallax factor.
+     ***
+     *  @var Drawable2D::transformations
+     *  @brief List of all current transformations.
      ***/
 }
