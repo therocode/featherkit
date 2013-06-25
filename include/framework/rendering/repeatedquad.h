@@ -44,5 +44,20 @@ namespace windbreeze
      ***
      *  @fn const glm::vec2& RepeatedQuad::getTileSize()
      *  @brief Get the texture cell size.
+     ***
+     *  @fn void RepeatedQuad::setScrollSpeed(glm::vec2 speed)
+     *  @brief Set the rate at which the texture is scrolled.
+     *
+     *  Texture scrolling makes the wrapped texture image glide over the RepeatedQuad. Can be used to make clouds moving in the wind or a scrolling space background for instance.
+     *  @param speed Vector containing the rate of which the texture scrolls.
+     ***
+     *  @fn const glm::vec2& RepeatedQuad::getScrollSpeed() const
+     *  @brief Get the rate at which the texture is scrolled.
+     *  @return Vector containing the scroll speed.
+     ***
+     *  @fn virtual void getRenderData(RenderData& renderData, uint32_t time) const override
+     *  @brief Overrides AnimatedQuad::getRenderData.
+     *  @param renderData See AnimatedQuad::getRenderData.
+     *  @param time See AnimatedQuad::getRenderData.
      **/
 }

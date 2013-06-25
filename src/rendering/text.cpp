@@ -12,6 +12,11 @@ namespace windbreeze
         return colour;
     }
     
+    void Text::setText(std::string t)
+    {
+        text = t;
+    }
+    
     void Text::setColour(glm::vec3 c)
     {
         colour = c;

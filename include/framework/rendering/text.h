@@ -6,12 +6,12 @@ namespace windbreeze
     class Text : public Drawable2D
     {
         public:
-            Text(std::string t) : text(t){isText = true;}
-            Text(std::string t, glm::vec3 c) : text(t), colour(c){isText = true;}
+            Text(const std::string& t) : text(t){isText = true;}
+            Text(const std::string& t, const glm::vec3& col) : text(t), colour(col){isText = true;}
             std::string getText() const;
-            void setText();
+            void setText(const std::string& t);
             glm::vec3 getColour() const;
-            void setColour(glm::vec3 c);
+            void setColour(const glm::vec3& col);
             float getFontSize() const;
             void setFontSize(float size);
             int32_t getFont() const;
@@ -22,4 +22,33 @@ namespace windbreeze
             float fontSize = 24.0f;
             int font;
     };
+    /** @addtogroup Render2D
+     *@{
+     *  @class Text
+     *@}
+     ***
+     *  @class Text
+     *  @brief Drawable2D representing a text string.
+     *  
+     *  Texts have a font associated with them which must be added to the Renderer2D before any text of that font is rendered.
+     *
+     *  Texts can be scaled and positioned, but not rotated.
+     ***
+     *  @fn Text::Text(const std::string& text)
+     *  @brief Construct a Text drawable with the given string.
+     *  @param t Text string.
+     ***
+     *  @fn Text::Text(const std::string& t, const glm::vec3& col)
+     *  @brief Construct a Text drawable with the given string and colour.
+     *  @param t Text string.
+     *  @param col Colour.
+     ***
+     *  @fn std::string Text::getText() const
+     *  @brief Get the text.
+     *  @return The text.
+     ***
+     *  @fn void Text::setText(const std::string& t)
+     *  @brief Set the text.
+     *  @param t Text to set.
+     ***/
 }
