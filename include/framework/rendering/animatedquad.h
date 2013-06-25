@@ -37,12 +37,12 @@ namespace windbreeze
      *  @fn AnimatedQuad::AnimatedQuad()
      *  @brief Construct an AnimatedQuad.
      *  
-     *  Uses the AnimatedQuad::Quad() constructor.
+     *  Uses the Quad::Quad() constructor.
      ***
      *  @fn AnimatedQuad::AnimatedQuad(float w, float h)
      *  @brief Construct an AnimatedQuad with the given size.
      *  
-     *  Uses the AnimatedQuad::Quad(float w, float h) constructor.
+     *  Uses the Quad::Quad(float w, float h) constructor.
      *  @param w Width.
      *  @param h Height.
      ***
