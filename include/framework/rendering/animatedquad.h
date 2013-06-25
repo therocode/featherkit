@@ -16,13 +16,15 @@ namespace windbreeze
             virtual void getRenderData(RenderData& renderData, uint32_t time) const override;
             void tick();
             void playAnimation(uint32_t startFrame = 0);
+            void stopAnimation();
+            void setAnimationFrame(uint32_t frame);
         protected:
             std::weak_ptr<Animation> currentAnimation;
             std::unordered_map<AnimationId, std::weak_ptr<Animation> > animations;
 
             uint32_t clock = 0;
             uint32_t currentFrame = 0;
-            bool animate = true;
+            bool animate = false;
     };
     /** @addtogroup Render2D
      *@{
@@ -50,5 +52,10 @@ namespace windbreeze
      *  After an animation is added, the animation can be set and played using AnimatedQuad::setAnimation and AnimatedQuad::playAnimation.
      *  @param id Id to be used to refer to the animation.
      *  @param animation Pointer to the animation to add. Pointers to animations can be gotten from the AnimationManager.
+     ***
+     *  @fn void AnimatedQuad::setAnimation(AnimationId id)
+     *  @brief Change the current animation.
+     *
+     *  
      **/
 }

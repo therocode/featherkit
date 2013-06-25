@@ -10,6 +10,8 @@ namespace windbreeze
     void AnimatedQuad::setAnimation(AnimationId a)
     {
         currentAnimation = animations.at(a);
+        animate = false;
+        currentFrame = 0;
     }
     
     void AnimatedQuad::getRenderData(RenderData& renderData, uint32_t time) const
@@ -67,5 +69,15 @@ namespace windbreeze
             animate = true;
             clock = startFrame * currentAnimation.lock()->getDelay();
         }
+    }
+    
+    void AnimatedQuad::stopAnimation()
+    {
+        animate = false;
+    }
+
+    void AnimatedQuad::setAnimationFrame(uint32_t frame)
+    {
+        currentFrame = frame;
     }
 }
