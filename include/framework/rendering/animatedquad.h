@@ -56,6 +56,30 @@ namespace windbreeze
      *  @fn void AnimatedQuad::setAnimation(AnimationId id)
      *  @brief Change the current animation.
      *
+     *  When an animation is set, it will start off still at the first frame. For an animation to play, the function AnimatedQuad::playAnimation has to be called after an animation is set.
+     *  @param id Id of the animation to set.
+     ***
+     *  @fn virtual void AnimatedQuad::getRenderData(RenderData& renderData, uint32_t time) const override
+     *  @brief Overrides Quad::getRenderData.
+     *  @param renderData See Quad::getRenderData.
+     *  @param time See Quad::getRenderData.
+     ***
+     *  @fn void AnimatedQuad::tick()
+     *  @brief Advance the animation one tick.
      *  
+     *  This function should always be called on all AnimatedQuad instances every frame as it acts as the clock which drives the animation logic. If it isn't called, no animations will animate.
+     ***
+     *  @fn void AnimatedQuad::playAnimation(uint32_t startFrame = 0)
+     *  @brief Start the animation sequence for the current set animation.
+     *  @param startFrame Animation frame from which the sequence should start. Default is 0.
+     ***
+     *  @fn void AnimatedQuad::stopAnimation()
+     *  @brief Stop the current animation.
+     *
+     *  This makes the AnimatedQuad constantly display the frame it was up to in the animation sequence when the animation was stopped.
+     ***
+     *  @fn void AnimatedQuad::setAnimationFrame(uint32_t frame)
+     *  @brief Set the animation frame.
+     *  @param frame Frame to set it to.
      **/
 }

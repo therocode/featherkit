@@ -76,5 +76,7 @@ namespace windbreeze
      ***
      *  @fn virtual void Quad::getRenderData(RenderData& renderData, uint32_t time) const override
      *  @brief Overrides Drawable2D::getRenderData.
+     *  @param renderData See Drawable2D::getRenderData.
+     *  @param time See Drawable2D::getRenderData.
      ***/
 }
