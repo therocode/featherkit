@@ -18,7 +18,7 @@ namespace windbreeze
             void playAnimation(uint32_t startFrame = 0);
             void stopAnimation();
             void setAnimationFrame(uint32_t frame);
-        protected:
+        private:
             std::weak_ptr<Animation> currentAnimation;
             std::unordered_map<AnimationId, std::weak_ptr<Animation> > animations;
 
