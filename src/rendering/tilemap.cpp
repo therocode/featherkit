@@ -130,12 +130,12 @@ namespace windbreeze
         }
     }
     
-    TileId TileMap::getTileId(const std::string& name)
+    TileId TileMap::getTileId(const std::string& name) const
     {
         return hasher(name);
     }
     
-    glm::uvec2 TileMap::getTileByCoordinates(float x, float y)
+    glm::uvec2 TileMap::getTileByCoordinates(float x, float y) const
     {
         if(isOutOfBounds(((uint32_t)x) / tileSize.x, ((uint32_t)y) / tileSize.y))
             throw TileMapException("coordinates out of range");
@@ -143,7 +143,7 @@ namespace windbreeze
         return glm::uvec2(x / tileSize.x, y / tileSize.y);
     }
             
-    bool TileMap::isOutOfBounds(uint32_t x, uint32_t y)
+    bool TileMap::isOutOfBounds(uint32_t x, uint32_t y) const
     {
         return (x >= gridSize.x) || (y >= gridSize.y);
     }
