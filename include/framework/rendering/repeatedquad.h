@@ -55,7 +55,7 @@ namespace windbreeze
      *  @brief Get the rate at which the texture is scrolled.
      *  @return Vector containing the scroll speed.
      ***
-     *  @fn virtual void getRenderData(RenderData& renderData, uint32_t time) const override
+     *  @fn virtual void RepeatedQuad::getRenderData(RenderData& renderData, uint32_t time) const override
      *  @brief Overrides AnimatedQuad::getRenderData.
      *  @param renderData See AnimatedQuad::getRenderData.
      *  @param time See AnimatedQuad::getRenderData.
