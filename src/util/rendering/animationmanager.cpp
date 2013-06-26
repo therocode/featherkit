@@ -8,7 +8,7 @@ namespace windbreeze
         animations.emplace(hasher(name), std::make_shared<Animation>(animation));
     }
     
-    std::weak_ptr<Animation> AnimationManager::getByName(std::string name)
+    std::weak_ptr<Animation> AnimationManager::getByName(std::string name) const
     {
         auto animation = animations.find(hasher(name));
 
@@ -22,12 +22,12 @@ namespace windbreeze
         return animation->second;
     }
 
-    std::weak_ptr<Animation> AnimationManager::getById(AnimationId id)
+    std::weak_ptr<Animation> AnimationManager::getById(AnimationId id) const
     {
         return animations.at(id);
     }
     
-    AnimationId AnimationManager::getId(std::string name)
+    AnimationId AnimationManager::getId(std::string name) const
     {
         return hasher(name);
     }

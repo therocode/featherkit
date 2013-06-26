@@ -10,22 +10,22 @@ namespace windbreeze
         constraintY[1] = start.y + frameSize.y;
     }
 
-    uint32_t Animation::getFrameAmount()
+    uint32_t Animation::getFrameAmount() const
     {
         return frameAmount;
     }
 
-    uint32_t Animation::getDelay()
+    uint32_t Animation::getDelay() const
     {
         return delay;
     }
             
-    bool Animation::getLoop()
+    bool Animation::getLoop() const
     {
         return loop;
     }
 
-    AnimationBehaviour Animation::getAnimationBehaviour()
+    AnimationBehaviour Animation::getAnimationBehaviour() const
     {
         return animBehaviour;
     }
