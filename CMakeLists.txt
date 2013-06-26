@@ -58,7 +58,7 @@ else()
     else()
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
         include_directories("C:/Program Files (x86)/SFML/include" "C:/projects/glew/include")
-	link_directories("C:/projects/glew/lib")
+    	link_directories("C:/Program Files (x86)/SFML/lib" "C:/projects/glew/lib")
 
         if(DEBUG_BUILD)
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0")
