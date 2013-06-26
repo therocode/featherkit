@@ -34,8 +34,8 @@
 -Type cmake . to generate makefiles.
 -Type mingw32-make to compile sfml.
 -Type mingw32-make install to install it.
-9. Download the framework
 
+9. Download the framework
 -Download snapshot at http://pallkars.net/gitweb/?p=windlab_engine.git;a=summary
 -Extract somewhere nice.
 

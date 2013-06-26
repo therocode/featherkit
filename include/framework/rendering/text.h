@@ -12,11 +12,11 @@ namespace windbreeze
             void setText(const std::string& t);
             glm::vec3 getColour() const;
             void setColour(const glm::vec3& col);
-            float getFontSize() const;
-            void setFontSize(float size);
+            float getTextSize() const;
+            void setTextSize(float size);
             int32_t getFont() const;
             void setFont(int32_t f);
-        protected:
+        private:
             std::string text;
             glm::vec3 colour = glm::vec3(1.0f, 1.0f, 1.0f);
             float fontSize = 24.0f;
@@ -34,7 +34,7 @@ namespace windbreeze
      *
      *  Texts can be scaled and positioned, but not rotated.
      ***
-     *  @fn Text::Text(const std::string& text)
+     *  @fn Text::Text(const std::string& t)
      *  @brief Construct a Text drawable with the given string.
      *  @param t Text string.
      ***
@@ -50,5 +50,28 @@ namespace windbreeze
      *  @fn void Text::setText(const std::string& t)
      *  @brief Set the text.
      *  @param t Text to set.
+     ***
+     *  @fn glm::vec3 Text::getColour() const
+     *  @brief Get the colour.
+     *  @return Vector containing the colour.
+     ***
+     *  @fn void Text::setColour(const glm::vec3& col)
+     *  @brief Set the colour.
+     *  @param col Vector containing the colour.
+     ***
+     *  @fn float Text::getTextSize() const
+     *  @brief Get the size of the characters in the text.
+     *  @return Text size.
+     ***
+     *  @fn void Text::setTextSize(float size)
+     *  @brief Set the size of the characters in the text.
+     ***
+     *  @fn int32_t Text::getFont() const
+     *  @brief Get the font of the text.
+     *  @return Numerical ID representing the font.
+     ***
+     *  @fn void Text::setFont(int32_t f)
+     *  @brief Set the font of the text.
+     *  @param f Numerical ID representing the font.
      ***/
 }

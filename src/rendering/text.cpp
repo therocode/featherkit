@@ -22,12 +22,12 @@ namespace windbreeze
         colour = c;
     }
     
-    float Text::getFontSize() const
+    float Text::getTextSize() const
     {
         return fontSize;
     }
     
-    void Text::setFontSize(float size)
+    void Text::setTextSize(float size)
     {
         fontSize = size;
     }
