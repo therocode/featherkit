@@ -43,4 +43,32 @@ namespace windbreeze
             return textures.at(name);
         }
     }
+    /** @addtogroup Render2D
+     *@{
+     *  @class InvalidTextureException
+     *  @class TextureManager
+     *@}
+     ***
+     *  @class InvalidTextureException
+     *  @brief Exception used by the TextureManager when something goes wrong.
+     ***
+     *  @fn InvalidTextureException::InvalidTextureException(const std::string& message)
+     *  @brief Construct an exception to throw containing a message.
+     *  @param message Message further describing the error.
+     ***
+     *  @class TextureManager
+     *  @brief Utility class for keeping track of textures.
+     *  @tparam Type of texture to keep track of.
+     ***
+     *  @fn void TextureManager::addTexture(std::string name, Texture texture)
+     *  @brief Add a texture with a name.
+     *  @param name Name of the texture.
+     *  @param texture Texture.
+     ***
+     *  @fn const Texture& TextureManager::getTexture(const std::string& name) const
+     *  @brief Get a texture.
+     *  @param name of the texture to get.
+     *  @return Texture.
+     ***/
+
 }
