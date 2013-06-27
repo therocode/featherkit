@@ -2,7 +2,7 @@
 #include <string>
 #include <map>
 #include <stdexcept>
-#include <framework/application/gamestate.h>
+#include <framework/structure/gamestate.h>
 
 namespace windstorm
 {
@@ -30,7 +30,7 @@ namespace windstorm
             std::map<StateName, std::shared_ptr<GameState> > gameStates;
     };
     
-    /** @addtogroup Application
+    /** @addtogroup Structure
      *@{
      *  @class GameStateMachine
      *

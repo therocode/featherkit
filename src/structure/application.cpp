@@ -1,4 +1,4 @@
-#include "framework/application/application.h"
+#include "framework/structure/application.h"
 
 namespace windstorm
 {

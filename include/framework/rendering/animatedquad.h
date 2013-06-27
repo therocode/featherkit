@@ -12,7 +12,8 @@ namespace windbreeze
             AnimatedQuad() : Quad() {}
             AnimatedQuad(float w, float h) : Quad(w, h) {}
             void addAnimation(AnimationId id, std::weak_ptr<Animation> animation);
-            void setAnimation(AnimationId id);
+            void setAnimation(AnimationId id, bool play = true);
+            AnimationId getAnimation() const;
             virtual void getRenderData(RenderData& renderData, uint32_t time) const override;
             void tick();
             void playAnimation(uint32_t startFrame = 0);
@@ -20,6 +21,7 @@ namespace windbreeze
             void setAnimationFrame(uint32_t frame);
         private:
             std::weak_ptr<Animation> currentAnimation;
+            AnimationId currentAnimationId;
             std::unordered_map<AnimationId, std::weak_ptr<Animation> > animations;
 
             uint32_t clock = 0;
@@ -53,11 +55,16 @@ namespace windbreeze
      *  @param id Id to be used to refer to the animation.
      *  @param animation Pointer to the animation to add. Pointers to animations can be gotten from the AnimationManager.
      ***
-     *  @fn void AnimatedQuad::setAnimation(AnimationId id)
+     *  @fn void AnimatedQuad::setAnimation(AnimationId id, bool play = true)
      *  @brief Change the current animation.
      *
      *  When an animation is set, it will start off still at the first frame. For an animation to play, the function AnimatedQuad::playAnimation has to be called after an animation is set.
      *  @param id Id of the animation to set.
+     *  @param play Set this to false if the animation sequence should not be played after being set.
+     ***
+     *  @fn AnimationId AnimatedQuad::getAnimation() const
+     *  @brief Get current animation.
+     *  @return Current animation ID.
      ***
      *  @fn virtual void AnimatedQuad::getRenderData(RenderData& renderData, uint32_t time) const override
      *  @brief Overrides Quad::getRenderData.

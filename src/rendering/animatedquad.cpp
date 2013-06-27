@@ -7,13 +7,22 @@ namespace windbreeze
         animations.emplace(id, animation);
     }
 
-    void AnimatedQuad::setAnimation(AnimationId a)
+    void AnimatedQuad::setAnimation(AnimationId a, bool play)
     {
-        currentAnimation = animations.at(a);
-        animate = false;
-        currentFrame = 0;
+        if(a != currentAnimationId)
+        {
+            currentAnimation = animations.at(a);
+            currentAnimationId = a;
+            animate = play;
+            currentFrame = 0;
+        }
     }
     
+    AnimationId AnimatedQuad::getAnimation() const
+    {
+        return currentAnimationId;
+    }
+
     void AnimatedQuad::getRenderData(RenderData& renderData, uint32_t time) const
     {
         Quad::getRenderData(renderData, time);

@@ -25,35 +25,38 @@ namespace windbreeze
         GLint blen = 0; 
         GLsizei slen = 0;
 
-        glGetShaderiv(vertexShader, GL_INFO_LOG_LENGTH , &blen);       
-        if (blen > 1)
+        if(glGetError())
         {
-            GLchar* compiler_log = (GLchar*)malloc(blen);
-            glGetInfoLogARB(vertexShader, blen, &slen, compiler_log);
-            std::stringstream ss;
-            ss << "Error! Vertex shader compilation:\n" << compiler_log << "\n";
-            free (compiler_log);
-            throw(ShaderException(ss.str()));
-        }
-        glGetShaderiv(fragmentShader, GL_INFO_LOG_LENGTH , &blen);       
-        if (blen > 1)
-        {
-            GLchar* compiler_log = (GLchar*)malloc(blen);
-            glGetInfoLogARB(fragmentShader, blen, &slen, compiler_log);
-            std::stringstream ss;
-            ss << "Error! Fragment shader compilation:\n" << compiler_log << "\n";
-            free (compiler_log);
-            throw(ShaderException(ss.str()));
-        }
-        glGetProgramiv(shaderProgram, GL_INFO_LOG_LENGTH , &blen);       
-        if (blen > 1)
-        {
-            GLchar* compiler_log = (GLchar*)malloc(blen);
-            glGetInfoLogARB(shaderProgram, blen, &slen, compiler_log);
-            std::stringstream ss;
-            ss << "Error! Shader program compilation:\n" << compiler_log << "\n";
-            free (compiler_log);
-            throw(ShaderException(ss.str()));
+            glGetShaderiv(vertexShader, GL_INFO_LOG_LENGTH , &blen);       
+            if (blen > 1)
+            {
+                GLchar* compiler_log = (GLchar*)malloc(blen);
+                glGetInfoLogARB(vertexShader, blen, &slen, compiler_log);
+                std::stringstream ss;
+                ss << "Error! Vertex shader compilation:\n" << compiler_log << "\n";
+                free (compiler_log);
+                throw(ShaderException(ss.str()));
+            }
+            glGetShaderiv(fragmentShader, GL_INFO_LOG_LENGTH , &blen);       
+            if (blen > 1)
+            {
+                GLchar* compiler_log = (GLchar*)malloc(blen);
+                glGetInfoLogARB(fragmentShader, blen, &slen, compiler_log);
+                std::stringstream ss;
+                ss << "Error! Fragment shader compilation:\n" << compiler_log << "\n";
+                free (compiler_log);
+                throw(ShaderException(ss.str()));
+            }
+            glGetProgramiv(shaderProgram, GL_INFO_LOG_LENGTH , &blen);       
+            if (blen > 1)
+            {
+                GLchar* compiler_log = (GLchar*)malloc(blen);
+                glGetInfoLogARB(shaderProgram, blen, &slen, compiler_log);
+                std::stringstream ss;
+                ss << "Error! Shader program compilation:\n" << compiler_log << "\n";
+                free (compiler_log);
+                throw(ShaderException(ss.str()));
+            }
         }
 
         return shaderProgram;

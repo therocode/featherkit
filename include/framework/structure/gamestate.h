@@ -15,7 +15,7 @@ namespace windstorm
             virtual void destroy() {}
             virtual ~GameState() {}
     };
-    /** @addtogroup Application
+    /** @addtogroup Structure
      *@{
      *  @class GameState
      *@}
