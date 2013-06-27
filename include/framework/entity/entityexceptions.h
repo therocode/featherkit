@@ -19,11 +19,20 @@ namespace windgale
                 : std::runtime_error(m), hash(h) { };
             AttributeHash hash;
     };
+
+    class EntityException : public std::runtime_error 
+    {
+        public:
+            EntityException(const std::string& message) 
+                : std::runtime_error(message) { };
+    };
     /** @addtogroup EntitySystem
      *@{
      *  @class InvalidIdException
      *  
      *  @class InvalidAttributeException
+     *
+     *  @class EntityException
      *@}
      ***
      *  @class InvalidIdException
@@ -43,5 +52,12 @@ namespace windgale
      ***
      *  @var InvalidAttributeException::hash 
      *  @brief The AttributeHash given to the constructor will be stored here.
+     ***
+     *  @class EntityException
+     *  @brief Exception used by the Entity System when something goes wrong.
+     ***
+     *  @fn EntityException::EntityException(const std::string& message)
+     *  @brief Construct an exception to throw containing a message.
+     *  @param message Message further describing the error.
      ***/
 }

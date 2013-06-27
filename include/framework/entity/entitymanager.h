@@ -14,13 +14,6 @@ namespace windgale
     using WeakEntityPtr = std::weak_ptr<Entity>;
     using EntityType = std::string;
     using EntityId = uint32_t;
-
-    class EntityException : public std::runtime_error 
-    {
-        public:
-            EntityException(const std::string& message) 
-                : std::runtime_error(message) { };
-    };
     
     struct EntityTypeData
     {
