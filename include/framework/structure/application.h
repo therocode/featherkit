@@ -14,7 +14,7 @@ namespace windstorm
         private:
             bool shutDown = false;
     };
-    /** @addtogroup Application
+    /** @addtogroup Structure
      *@{
      *  @class Application
      *@}

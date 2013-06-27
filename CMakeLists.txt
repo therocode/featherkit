@@ -6,7 +6,7 @@ set(CLANG_PATH "/usr/bin/clang++" CACHE PATH "Path to run CLANG from")
 set(STRICT_BUILD TRUE CACHE BOOL "Makes use of the -Wall -Wextra and -Werror flags")
 set(DEBUG_BUILD TRUE CACHE BOOL "Turns off optimisation and builds debug info")
 
-set(BUILD_APP TRUE CACHE BOOL "Selects if the application module should be built")
+set(BUILD_STRUCTURE TRUE CACHE BOOL "Selects if the structure module should be built")
 set(BUILD_ENTITY TRUE CACHE BOOL "Selects if the entity module should be built")
 set(BUILD_MESSAGING TRUE CACHE BOOL "Selects if the messaging module should be built")
 set(BUILD_RENDERING TRUE CACHE BOOL "Selects if the rendering module should be built")
@@ -68,12 +68,12 @@ else()
     endif()
 endif()
 
-if(BUILD_APP)
-    ##Application module##
+if(BUILD_STRUCTURE)
+    ##Structure module##
     #find all source files
-    file(GLOB_RECURSE app_source_files "src/application/*.cpp")
-    file(GLOB_RECURSE app_header_files "include/application/*.h")
-    add_library(${project_name}-app ${app_header_files} ${app_source_files})
+    file(GLOB_RECURSE structure_source_files "src/structure/*.cpp")
+    file(GLOB_RECURSE structure_header_files "include/structure/*.h")
+    add_library(${project_name}-structure ${structure_header_files} ${structure_source_files})
 endif()
 
 if(BUILD_ENTITY)
