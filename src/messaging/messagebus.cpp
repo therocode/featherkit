@@ -2,7 +2,7 @@
 
 namespace windbreeze
 {
-    bool MessageBus::subscriptionExists(uint32_t id, MessageReceiverBase* receiver) const
+    bool MessageBus::subscriptionExists(std::type_index id, MessageReceiverBase* receiver) const
     {
         auto range = subscribers.equal_range(id);
         bool existed = false;

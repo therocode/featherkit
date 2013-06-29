@@ -1,8 +1,8 @@
 #pragma once
 #include <unordered_map>
 #include <sstream>
+#include <typeindex>
 #include <framework/messaging/messagereceiver.h>
-#include <framework/messaging/messageidentifier.h>
 #include <framework/messaging/messageexception.h>
 
 namespace windbreeze
@@ -17,27 +17,26 @@ namespace windbreeze
             template<class Message>
             void sendMessage(const Message& mess);
         private:
-            bool subscriptionExists(uint32_t id, MessageReceiverBase* receiver) const;
-            std::unordered_multimap<uint32_t, MessageReceiverBase*> subscribers;
+            bool subscriptionExists(std::type_index id, MessageReceiverBase* receiver) const;
+            std::unordered_multimap<std::type_index, MessageReceiverBase*> subscribers;
     };
 
     template<class Message>
     void MessageBus::addMessageSubscriber(const MessageReceiver<Message>& receiver)
     {
-        MessageIdentifier<Message> identifier;
-        uint32_t messageId = identifier.id;
         MessageReceiverBase* receiverPtr = (MessageReceiverBase*) &receiver;
+        std::type_index index = std::type_index(typeid(Message));
 
-        bool existed = subscriptionExists(messageId, receiverPtr);
+        bool existed = subscriptionExists(index, receiverPtr);
 
         if(!existed)
         {
-            subscribers.emplace(messageId, receiverPtr);
+            subscribers.emplace(index, receiverPtr);
         }
         else
         {
             std::stringstream ss;
-            ss << "Error! Message receiver " << receiverPtr << " already subscribes to message " << messageId << "!\n";
+            ss << "Error! Message receiver " << receiverPtr << " already subscribes to message " << index.name() << "!\n";
             throw MessageException(ss.str());
         }
     }
@@ -45,11 +44,10 @@ namespace windbreeze
     template<class Message>
     void MessageBus::removeMessageSubscriber(const MessageReceiver<Message>& receiver)
     {
-        MessageIdentifier<Message> identifier;
-        uint32_t messageId = identifier.id;
         MessageReceiverBase* receiverPtr = (MessageReceiverBase*) &receiver;
+        std::type_index index = std::type_index(typeid(Message));
 
-        auto range = subscribers.equal_range(messageId);
+        auto range = subscribers.equal_range(index);
         bool existed = false;
 
         for(auto iter = range.first; iter != range.second; iter++)
@@ -65,7 +63,7 @@ namespace windbreeze
         if(!existed)
         {
             std::stringstream ss;
-            ss << "Error! Cannot remove subscription to message id " << messageId << " on receiver " << receiverPtr << " since the subscription does not exist!\n";
+            ss << "Error! Cannot remove subscription to message " << index.name() << " on receiver " << receiverPtr << " since the subscription does not exist!\n";
             throw MessageException(ss.str());
         }
     }
@@ -73,13 +71,10 @@ namespace windbreeze
     template<class Message>
     void MessageBus::sendMessage(const Message& mess)
     {
-        MessageIdentifier<Message> identifier;
-        uint32_t messageId = identifier.id;
-
-        auto range = subscribers.equal_range(messageId);
+        auto range = subscribers.equal_range(std::type_index(typeid(Message)));
         if(range.first != subscribers.end() || range.second != subscribers.end())
         {
-            for_each (range.first, range.second, [&](std::unordered_multimap<uint32_t, MessageReceiverBase*>::value_type& subscription){ ((MessageReceiver<Message>*)subscription.second)->handleMessage(mess);});
+            for_each (range.first, range.second, [&](std::unordered_multimap<std::type_index, MessageReceiverBase*>::value_type& subscription){ ((MessageReceiver<Message>*)subscription.second)->handleMessage(mess);});
         }
     }
     /** @addtogroup Messaging
