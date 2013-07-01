@@ -5,6 +5,17 @@
 
 namespace windgale
 {
+    JsonEntityLoader::JsonEntityLoader()
+    {
+        registerType("#float#", sizeof(float));
+        registerType("#double#", sizeof(double));
+        registerType("#int32#", sizeof(int32_t));
+        registerType("#uint32#", sizeof(uint32_t));
+        registerType("#bool#", sizeof(bool));
+        registerType("#char#", sizeof(char));
+        registerType("#byte#", sizeof(char));
+    }
+
     std::map<std::string, int> JsonEntityLoader::loadAttributesJson(const std::string& path)
     {
         std::map<std::string, int> result;
@@ -30,18 +41,8 @@ namespace windgale
             std::string sizeString = temp.value.GetString();
             int typeSize = 0;
 
-            if(sizeString == "#float#")
-                typeSize = sizeof(float);
-            else if(sizeString == "#double#")
-                typeSize = sizeof(double);
-            else if(sizeString == "#int32#")
-                typeSize = sizeof(int32_t);
-            else if(sizeString == "#uint32#")
-                typeSize = sizeof(uint32_t);
-            else if(sizeString == "#bool#")
-                typeSize = sizeof(bool);
-            else if(sizeString == "#byte#" || sizeString == "#char#")
-                typeSize = sizeof(char);
+            if(registeredTypes.find(sizeString) != registeredTypes.end())
+                typeSize = registeredTypes.at(sizeString);
             else
                 typeSize = std::stoi(sizeString);
 
@@ -84,5 +85,17 @@ namespace windgale
             result.insert(std::pair<std::string, std::map<std::string, std::string> >(entityName, attributes));
         }
         return result;
+    }
+    
+    void JsonEntityLoader::registerType(std::string type, uint32_t size)
+    {
+        if(registeredTypes.find(type) == registeredTypes.end())
+        {
+            registeredTypes.emplace(type, size);
+        }
+        else 
+        {
+            //aready egistered exception
+        }
     }
 }
