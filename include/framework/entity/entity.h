@@ -12,9 +12,13 @@ namespace windgale
             template<class DataType>
             bool setAttributeSafe(const std::string& attribute, const DataType* inData) const;
             template<class DataType>
+            bool modifyAttributeSafe(const std::string& attribute, const DataType* inData) const;
+            template<class DataType>
             DataType getAttribute(const std::string& attribute) const;
             template<class DataType>
             void setAttribute(const std::string& attribute, DataType value) const;
+            template<class DataType>
+            void modifyAttribute(const std::string& attribute, DataType value) const;
             bool hasAttribute(const std::string& attribute) const;
             EntityId getId() const;
         private:
@@ -45,6 +49,17 @@ namespace windgale
     }
 
     template<class DataType>
+    bool Entity::modifyAttributeSafe(const std::string& attribute, const DataType* inData) const
+    {
+        if(entityManager.hasAttribute(attribute, id))
+        {
+            entityManager.modifyAttribute<DataType>(attribute, id, inData);
+            return true;
+        }
+        return false;
+    }
+
+    template<class DataType>
     DataType Entity::getAttribute(const std::string& attribute) const
     {
         DataType result;
@@ -56,6 +71,12 @@ namespace windgale
     void Entity::setAttribute(const std::string& attribute, DataType value) const
     {
         entityManager.setAttribute<DataType>(attribute, id, &value);
+    }
+
+    template<class DataType>
+    void Entity::modifyAttribute(const std::string& attribute, DataType value) const
+    {
+        entityManager.modifyAttribute<DataType>(attribute, id, &value);
     }
 
     /** @addtogroup EntitySystem
@@ -116,6 +137,17 @@ namespace windgale
      *  @tparam Type of the attribute to set.
      *  @param attribute Name of the attribute to set.
      *  @param value Value to set the attribute to.
+     ***
+     *  @fn void Entity::modifyAttribute(const std::string& attribute, DataType value) const
+     *  @brief Modify the value of an attribute of the entity.
+     *
+     *  The given value will be added to the already existing value. Needs the operator+ function to be implemented for the target type.
+     *
+     *  If the given attribute does not exist, this function will cause an InvalidAttributeException to be thrown. For a safe way to set attributes, see Entity::setAttributeSafe.
+     *  
+     *  @tparam Type of the attribute to modify.
+     *  @param attribute Name of the attribute to modify.
+     *  @param value Value to add to the attribute.
      ***
      *  @fn bool Entity::hasAttribute(const std::string& attribute) const
      *  @brief Check if the entity has an attribute.

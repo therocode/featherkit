@@ -32,6 +32,8 @@ namespace windgale
             void getAttribute(const std::string& attribute, const EntityId id, DataType* outData) const;
             template<class DataType>
             void setAttribute(const std::string& attribute, const EntityId id, const DataType* inData);
+            template<class DataType>
+            void modifyAttribute(const std::string& attribute, const EntityId id, const DataType* inData);
             bool hasAttribute(const std::string& attribute, const EntityId id) const;
             void registerAttribute(const std::string& attribute, const int size);
             void registerAttributes(const std::map<std::string, int>& attributes);
@@ -54,11 +56,25 @@ namespace windgale
         std::hash<std::string> hasher;
         backend.getData(hasher(attribute), id, (char*) outData);
     }
+
     template<class DataType>
     void EntityManager::setAttribute(const std::string& attribute, const EntityId id, const DataType* inData)
     {
         std::hash<std::string> hasher;
         backend.setData(hasher(attribute), id, (char*) inData);
+    }
+
+    template<class DataType>
+    void EntityManager::modifyAttribute(const std::string& attribute, const EntityId id, const DataType* inData)
+    {
+        std::hash<std::string> hasher;
+        size_t hashed = hasher(attribute);
+
+        DataType temp;
+        backend.getData(hashed, id, (char*) &temp);
+        temp = temp + *inData;
+
+        backend.setData(hashed, id, (char*) &temp);
     }
     /** @addtogroup EntitySystem
      *@{
@@ -136,8 +152,19 @@ namespace windgale
      *  If the given attribute does not exist for the selected Entity, an InvalidAttributeException will be thrown. If the selected Entity does not exist, an EntityException will be thrown. In most cases, it is better to use the setting functions of a specific WeakEntityPtr than using this function.
      *  @tparam Type of the attribute to set.
      *  @param attribute Name of the attribute to set.
-     *  @param id ID of the Entity to set the attribute from.
+     *  @param id ID of the Entity to set the attribute of.
      *  @param inData Pointer to a variable containing the new value.
+     ***
+     *  @fn void EntityManager::modifyAttribute(const std::string& attribute, const EntityId id, DataType* inData) const
+     *  @brief Modify the value of an attribute of a selected Entity. 
+     *
+     *  The given value will be added to the already existing value. Needs the operator+ function to be implemented for the target type.
+     *  
+     *  If the given attribute does not exist for the selected Entity, an InvalidAttributeException will be thrown. If the selected Entity does not exist, an EntityException will be thrown. In most cases, it is better to use the setting functions of a specific WeakEntityPtr than using this function.
+     *  @tparam Type of the attribute to modify.
+     *  @param attribute Name of the attribute to modify.
+     *  @param id ID of the Entity to modify the attribute of.
+     *  @param inData Pointer to a variable containing the value to add.
      ***
      *  @fn bool EntityManager::hasAttribute(const std::string& attribute, const EntityId id) const
      *  @brief Check if an attribute exists for a specific Entity.

@@ -2,6 +2,7 @@
 #include <unordered_map>
 #include <sstream>
 #include <typeindex>
+#include <algorithm>
 #include <framework/messaging/messagereceiver.h>
 #include <framework/messaging/messageexception.h>
 
@@ -74,7 +75,7 @@ namespace windbreeze
         auto range = subscribers.equal_range(std::type_index(typeid(Message)));
         if(range.first != subscribers.end() || range.second != subscribers.end())
         {
-            for_each (range.first, range.second, [&](std::unordered_multimap<std::type_index, MessageReceiverBase*>::value_type& subscription){ ((MessageReceiver<Message>*)subscription.second)->handleMessage(mess);});
+            std::for_each (range.first, range.second, [&](std::unordered_multimap<std::type_index, MessageReceiverBase*>::value_type& subscription){ ((MessageReceiver<Message>*)subscription.second)->handleMessage(mess);});
         }
     }
     /** @addtogroup Messaging
