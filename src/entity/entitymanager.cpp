@@ -44,6 +44,11 @@ namespace windgale
         //std::cout << "created entity " << createdId << " of type " << type << "\n";
         return WeakEntityPtr(created);
     }
+
+    WeakEntityPtr EntityManager::getEntity(EntityId id) const
+    {
+        return entities.at(id);
+    }
     
     void EntityManager::removeEntity(const EntityId id)
     {

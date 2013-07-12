@@ -26,6 +26,7 @@ namespace windgale
         public:
             EntityManager(EntityBackend& b) : backend(b) {};
             WeakEntityPtr createEntity(const EntityType& type);
+            WeakEntityPtr getEntity(EntityId id) const;
             void removeEntity(const EntityId id);
             void removeEntities(const EntityGroup entities);
             template<class DataType>
@@ -122,6 +123,11 @@ namespace windgale
      *  The EntityType given along with its attributes must have been registered prior to creating the Entity. Otherwise, an EntityException will be thrown. If the function succeeds in creating the Entity, it will be assigned a unique ID and a WeakEntityPtr pointing to the Entity will be returned.
      *  @param type The name of the type of Entity to be created.
      *  @return A pointer to the created Entity.
+     ***
+     *  @fn WeakEntityPtr EntityManager::getEntity(EntityId id) const
+     *  @brief Get a specific entity.
+     *  @param id ID of the entity to get.
+     *  @return Pointer to the entity.
      ***
      *  @fn void EntityManager::removeEntity(const EntityId id)
      *  @brief Remove an Entity. 

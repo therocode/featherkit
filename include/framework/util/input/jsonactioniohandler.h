@@ -88,7 +88,6 @@ namespace windbreeze
                     tempTrigger.gamepadId = (uint32_t) std::stoi(binding.GetStringMember("gamepadid"));
                 }
 
-                std::cout << "members in array: " << binding.GetStringMember("type") << "\n";
                 primaryBindings.insert(std::pair<ActionTrigger, Action>(tempTrigger, tempAction));
             }
         }
@@ -139,7 +138,6 @@ namespace windbreeze
                     tempTrigger.gamepadId = (uint32_t) std::stoi(binding.GetStringMember("gamepadid"));
                 }
 
-                std::cout << "members in array: " << binding.GetStringMember("type") << "\n";
                 secondaryBindings.insert(std::pair<ActionTrigger, Action>(tempTrigger, tempAction));
             }
         }
