@@ -1,7 +1,6 @@
 #include <framework/util/rendering/opengl2dbackend.h>
 #include <framework/glm/gtc/type_ptr.hpp>
 #include <framework/rendering/shaderloader.h>
-#include <iostream>
 
 namespace windbreeze
 {
@@ -193,8 +192,6 @@ namespace windbreeze
 
         glEnable(GL_TEXTURE_2D);
         glUseProgram(shaderProgram);
-
-        std::cout << "rendered text with font " << textData.font << " \n";
     }
     
     int32_t OpenGL2DBackend::addFont(uint8_t* fontData)
