@@ -10,7 +10,7 @@ namespace windgale
     {
         public:
             void addAttribute(AttributeHash attribute);
-            size_t getSize() const;
+            size_t size() const;
             const std::set<AttributeHash>& getSet() const;
             bool hasAttributes(AttributeList& attributes) const;
             bool operator==(const AttributeList& other) const;
@@ -39,7 +39,7 @@ namespace windgale
      *  @brief Add an AttributeHash to this AttributeList.
      *  @param attribute AttributeHash to add.
      ***
-     *  @fn size_t AttributeList::getSize() const
+     *  @fn size_t AttributeList::size() const
      *  @brief Retrieve the current amount of AttributeHash instances currently in the AttributeList.
      *  @return The amount.
      ***

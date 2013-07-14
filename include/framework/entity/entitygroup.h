@@ -21,7 +21,7 @@ namespace windgale
             template<class DataType>
             void setAttribute(const std::string& attribute, const DataType* inData);
             const EntitySet& getSet() const;
-            size_t getCount();
+            size_t size();
             EntityGroup applyFilter(std::function<bool(WeakEntityPtr)> filterFunc);
             void removeInvalid();
         private:
@@ -96,7 +96,7 @@ namespace windgale
      *  @brief Access the internal set containing the Entity instances. Useful for looping through the enties.
      *  @return Set of the entities.
      ***
-     *  @fn size_t EntityGroup::getCount()
+     *  @fn size_t EntityGroup::size()
      *  @brief Get the amount of Entity instances currently in the group.
      *  @return Amount of entities.
      ***

@@ -64,7 +64,7 @@ namespace windgale
         return entities;
     }
 
-    size_t EntityGroup::getCount()
+    size_t EntityGroup::size()
     {
         return entities.size();
     }

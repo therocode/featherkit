@@ -35,7 +35,7 @@ namespace windgale
     
     EntityId BasicEntityBackend::addEntity(AttributeList attributeList)
     {
-        if(attributeList.getSize() > 0)
+        if(attributeList.size() > 0)
         {
             for(auto attribute : attributeList.getSet())
             {

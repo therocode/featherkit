@@ -8,7 +8,7 @@ namespace windgale
         attributeSet.insert(attribute);
     }
 
-    size_t AttributeList::getSize() const
+    size_t AttributeList::size() const
     {
         return attributeSet.size();
     }

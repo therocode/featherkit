@@ -65,7 +65,7 @@ namespace windgale
             {
                 return backwardMap.at(value);
             }
-            int getItemCount() const
+            int size() const
             {
                 return forwardMap.size();
             }

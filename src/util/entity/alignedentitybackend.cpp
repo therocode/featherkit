@@ -39,7 +39,7 @@
             int attribGroupLocationSize = attributeGroupLocation.size();
 
 
-            if(attribGroupLocationSize > 0 && newAttributeTargetIndex < attributeGroupIndex.getItemCount() - 1)
+            if(attribGroupLocationSize > 0 && newAttributeTargetIndex < attributeGroupIndex.size() - 1)
             {
                 attributeGroupLocation.insert(attributeGroupLocation.begin() + newAttributeTargetIndex, attributeGroupLocation[newAttributeTargetIndex]);
                 for(unsigned int i = newAttributeTargetIndex + 1; i < attributeGroupLocation.size(); i++)
@@ -87,7 +87,7 @@
 
         int prevIndex = position;
         
-        while(currentGroup < attributeGroupIndex.getItemCount())
+        while(currentGroup < attributeGroupIndex.size())
         {
             int lastOfGroup = getLastDataOfGroup(currentGroup);
 
@@ -103,7 +103,7 @@
 
         freeEntityIds.push(id);
 
-        if(attributeGroupIndex.getItemCount() == 1)
+        if(attributeGroupIndex.size() == 1)
         {
             if(nextEmptyArraySlot == 0)
             {
@@ -112,7 +112,7 @@
             return;
         }
 
-        if(startGroup == attributeGroupIndex.getItemCount() -1)
+        if(startGroup == attributeGroupIndex.size() -1)
         {
             if(attributeGroupLocation[startGroup] == nextEmptyArraySlot)
             {
@@ -122,7 +122,7 @@
         }
 
         int currentBorderChangedGroup = startGroup + 1;
-        while(currentBorderChangedGroup < attributeGroupIndex.getItemCount())
+        while(currentBorderChangedGroup < attributeGroupIndex.size())
         {
             attributeGroupLocation[currentBorderChangedGroup]--;
             currentBorderChangedGroup++;
@@ -243,12 +243,12 @@
 
     int AlignedEntityBackend::findSuitableAttributeGroupIndex(AttributeList attributeList) const
     {
-        int groupAmount = attributeGroupIndex.getItemCount();
+        int groupAmount = attributeGroupIndex.size();
         int indexToChoose = groupAmount;
 
         for(int i = 0; i < groupAmount; i++)
         {
-            if(attributeList.getSize() <= attributeGroupIndex.getKeyAtValue(i).getSize())
+            if(attributeList.size() <= attributeGroupIndex.getKeyAtValue(i).size())
             {
                 indexToChoose = i;
                 break;
@@ -265,7 +265,7 @@
             bool found = true;
 
             AttributeList tempAttributeList = attributeGroupIndex.getKeyAtValue(i);
-            for(unsigned int j = 0; j < attributeList.getSize(); j++)
+            for(unsigned int j = 0; j < attributeList.size(); j++)
             {
                 if(!tempAttributeList.hasAttributes(attributeList))
                     found = false;
@@ -345,7 +345,7 @@
     
     void AlignedEntityBackend::validateAttributeList(AttributeList attributeList) const
     {
-        if(attributeList.getSize() == 0)
+        if(attributeList.size() == 0)
         {
             throw InvalidAttributeException("Error! Zero attributes given", 0);
         }
@@ -361,7 +361,7 @@
 
     int AlignedEntityBackend::getAttributeGroupIndexFromPosition(int position) const
     {
-        int groupAmount = attributeGroupIndex.getItemCount();
+        int groupAmount = attributeGroupIndex.size();
 
         int index = -1;
         for(int i = 0; i < groupAmount; i++)
@@ -391,7 +391,7 @@
         attributeGroupLocation.erase(attributeGroupLocation.begin() + group);
 
         int currentGroup = group;
-        while(currentGroup < attributeGroupIndex.getItemCount() - 1)
+        while(currentGroup < attributeGroupIndex.size() - 1)
         {
             attributeGroupIndex.swapKeysAtValues(currentGroup, currentGroup + 1);
             currentGroup++;
