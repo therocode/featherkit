@@ -4,6 +4,7 @@
 #include <map>
 #include <vector>
 #include <stdexcept>
+#include <sstream>
 
 namespace windgale
 {
@@ -55,14 +56,32 @@ namespace windgale
     void EntityManager::getAttribute(const std::string& attribute, const EntityId id, DataType* outData) const
     {
         std::hash<std::string> hasher;
-        backend.getData(hasher(attribute), id, (char*) outData);
+        try
+        {
+            backend.getData(hasher(attribute), id, (char*) outData);
+        }
+        catch(InvalidAttributeException)
+        {
+            std::stringstream ss;
+            ss << "Error! The given attribute '" << attribute << "' does not exist!\n";
+            throw InvalidAttributeException(ss.str(), hasher(attribute));
+        }
     }
 
     template<class DataType>
     void EntityManager::setAttribute(const std::string& attribute, const EntityId id, const DataType* inData)
     {
         std::hash<std::string> hasher;
-        backend.setData(hasher(attribute), id, (char*) inData);
+        try
+        {
+            backend.setData(hasher(attribute), id, (char*) inData);
+        }
+        catch(InvalidAttributeException)
+        {
+            std::stringstream ss;
+            ss << "Error! The given attribute '" << attribute << "' does not exist!\n";
+            throw InvalidAttributeException(ss.str(), hasher(attribute));
+        }
     }
 
     template<class DataType>

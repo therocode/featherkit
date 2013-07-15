@@ -15,12 +15,30 @@ namespace windgale
     
     void BasicEntityBackend::BasicBackendEntity::setData(const AttributeHash identifier, const char* inData)
     {
-        memcpy(attributeData.at(identifier).get(), inData, (uint32_t) parent.attributes.at(identifier));
+        try
+        {
+            memcpy(attributeData.at(identifier).get(), inData, (uint32_t) parent.attributes.at(identifier));
+        }
+        catch(std::out_of_range)
+        {
+            std::stringstream ss;
+            ss << "Error! The given attribute '" << identifier << "' does not exist!\n";
+            throw InvalidAttributeException(ss.str(), identifier);
+        }
     }
 
     void BasicEntityBackend::BasicBackendEntity::getData(const AttributeHash identifier, char* outData) const
     {
-        memcpy(outData, attributeData.at(identifier).get(), (uint32_t) parent.attributes.at(identifier));
+        try
+        {
+            memcpy(outData, attributeData.at(identifier).get(), (uint32_t) parent.attributes.at(identifier));
+        }
+        catch(std::out_of_range)
+        {
+            std::stringstream ss;
+            ss << "Error! The given attribute '" << identifier << "' does not exist!\n";
+            throw InvalidAttributeException(ss.str(), identifier);
+        }
     }
 
     bool BasicEntityBackend::BasicBackendEntity::hasData(const AttributeHash identifier) const
