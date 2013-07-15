@@ -148,6 +148,21 @@ namespace windbreeze
         return (x >= gridSize.x) || (y >= gridSize.y);
     }
     
+    glm::uvec2 TileMap::getTileSize() const
+    {
+        return tileSize;
+    }
+
+    glm::uvec2 TileMap::getGridSize() const
+    {
+        return gridSize;
+    }
+
+    glm::uvec2 TileMap::getTileMapSize() const
+    {
+        return tileSize * gridSize;
+    }
+
     void TileMap::tick()
     {
         std::vector<glm::uvec2> toSet;

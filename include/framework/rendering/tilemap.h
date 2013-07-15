@@ -44,6 +44,9 @@ namespace windbreeze
             TileId getTileId(const std::string& name) const;
             glm::uvec2 getTileByCoordinates(float x, float y) const;
             bool isOutOfBounds(uint32_t x, uint32_t y) const;
+            glm::uvec2 getTileSize() const;
+            glm::uvec2 getGridSize() const;
+            glm::uvec2 getTileMapSize() const;
             void tick();
         private:
             glm::vec2 position;
