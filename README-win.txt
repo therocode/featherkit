@@ -1,5 +1,5 @@
 1. Download mingw
--http://sourceforge.net/projects/mingwbuilds/files/host--windows/releases/4.8.1/64-bit/threads-posix/
+-http://sourceforge.net/projects/mingwbuilds/files/host-windows/releases/4.8.1/64-bit/threads-posix/
 -Seh works well
 -Unzip it somewhere fitting, for example c:/
 -Add the bin folder of the unzipped directory to the system PATH variable
