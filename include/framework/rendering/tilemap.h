@@ -197,5 +197,19 @@ namespace windbreeze
      *  @brief Advance the animation clock by one step.
      *  
      *  This function needs to be called once every frame for the animations to work properly
+     ***
+     *  @fn glm::uvec2 TileMap::getTileSize() const
+     *  @brief Get the size of a single tile.
+     *  @return The tile size.
+     ***
+     *  @fn glm::uvec2 TileMap::getGridSize() const
+     *  @brief Get the dimensions of the grid in tiles.
+     *  @return The size of the grid.
+     ***
+     *  @fn glm::uvec2 TileMap::getTileMapSize() const
+     *  @brief Get the total size of the whole tilemap.
+     *  
+     *  This will return the size of a single tile multiplied with the tile grid dimensions.
+     *  @return Total size of the tilemap.
      ***/
 }

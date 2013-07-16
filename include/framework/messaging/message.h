@@ -31,6 +31,14 @@ namespace windbreeze
      *  using ResizedData = std::tuple<uint32_t, uint32_t>;
      *  @endcode
      *  The empty struct Resized_tag serves as a way of making this Message type unique. The using statements are useful for creating aliases that are easy to work with.
+     ***
+     *  @fn Message::Message()
+     *  @brief Construct a message.
+     ***
+     *  @fn Message::Message(DataTypes... d)
+     *  @brief Construct a message containing the given data.
+     *  @param d Data.
+     ***
      *  @var Message::data 
      *  @brief Packed tuple of all data the Message is carrying.
      **/

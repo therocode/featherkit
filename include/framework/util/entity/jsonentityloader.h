@@ -53,7 +53,7 @@ namespace windgale
      *  @endcode
      *  The formatting is very simple. Every row defines an attribute that could be used in an Entity type definition. The two values needed per row are firstly the name of the attribute, and secondly the amount of memory needed to store it in bytes. For example, the first row defines an attribute called "position". Since the position in the application will be implemented using a struct composed of two floats, one for X and one for Y, and floats are 4 bytes each, a total of 8 bytes are needed.
      *
-     *  It is also possible to have special data type tags instead of numbers. These tags directly correspond to sizes of C++ data types. Here is a complete list of data type tags and the C++ types they correspond to.
+     *  It is also possible to have special data type tags instead of numbers. These tags directly correspond to sizes of C++ data types. Here is a list of the data type tags and the C++ types they correspond to that are added from the start. More types can be added using the JsonEntityLoader::registerEntityTypes function.
      *  - \#uint32\# - uint32_t
      *  - \#int32\# - int32_t
      *  - \#float\# - float
@@ -90,5 +90,10 @@ namespace windgale
      *  Use this function to load an Entity type file. The return value can be given to the EntityManager::loadEntityTypes function.
      *  @param path File to open.
      *  @return A map with the Entity types, to pass to the EntityManager.
+     ***
+     *  @fn void JsonEntityLoader::registerType(std::string type, uint32_t size)
+     *  @brief Register a data type so that it can be used in the loaded file.
+     *  @param type String with the type name to register. The convention of the default types is that the names should be surrounded by ##.
+     *  @param size Size in bytes of the data type. A good idea is to use the result of the sizeof operator.
      **/
 }

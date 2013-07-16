@@ -78,5 +78,14 @@ namespace windbreeze
      *  @brief Overrides Drawable2D::getRenderData.
      *  @param renderData See Drawable2D::getRenderData.
      *  @param time See Drawable2D::getRenderData.
+     ***
+     *  @var Quad::textureId
+     *  @brief Name of the texture that the Quad will use when being rendered.
+     ***
+     *  @var Quad::hFlip
+     *  @brief Internal variable representing if the Quad will be drawn mirrored horizontally or not.
+     ***
+     *  @var Quad::vFlip
+     *  @brief Internal variable representing if the Quad will be drawn mirrored vertically or not.
      ***/
 }

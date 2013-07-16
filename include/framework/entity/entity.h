@@ -120,6 +120,18 @@ namespace windgale
      *  @param inData Pointer to a variable containing the new value of the attribute.
      *  @return True if the specified attribute existed. Otherwise false.
      ***
+     *  @fn bool Entity::modifyAttributeSafe(const std::string& attribute, DataType* inData)
+     *  @brief Modify the value of an attribute of the Entity in a safe way.
+     *
+     *  The given value will be added to the already existing value. Needs the operator+ function to be implemented for the target type.
+     *
+     *  As opposed to Entity::modifyAttribute, this function will not throw an exception when the requested attribute does not exist. Instead the function returns false and no attribute is modified.
+     *
+     *  @tparam Type of the attribute to modify.
+     *  @param attribute Name of the attribute to modify.
+     *  @param inData Pointer to a variable containing the value to add to the attribute.
+     *  @return True if the specified attribute existed. Otherwise false.
+     ***
      *  @fn DataType Entity::getAttribute(const std::string& attribute) const
      *  @brief Get the value of an attribute of the entity.
      *
