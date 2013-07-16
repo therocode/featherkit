@@ -10,6 +10,6 @@ namespace windbreeze
     class OpenGLTextureCreator
     {
         public:
-            OpenGLTexture createTexture(const unsigned char* pixels, uint32_t width, uint32_t height, ResizeAlgorithm algo) const;
+            OpenGLTexture createTexture(const unsigned char* pixels, uint32_t width, uint32_t height, ResizeAlgorithm algo = NEAREST) const;
     };
 }
