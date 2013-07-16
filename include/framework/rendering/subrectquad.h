@@ -12,6 +12,6 @@ namespace windbreeze
             virtual void getRenderData(RenderData& renderData, uint32_t time) const override;
         private:
             glm::vec2 subrectStart;
-            glm::vec2 subrectEnd;
+            glm::vec2 subrectEnd{1.0f, 1.0f};
     };
 }
