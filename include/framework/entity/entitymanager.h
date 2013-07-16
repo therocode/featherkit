@@ -1,5 +1,6 @@
 #pragma once
 #include <framework/entity/entitybackend.h>
+#include <framework/entity/entityexceptions.h>
 #include <memory>
 #include <map>
 #include <vector>

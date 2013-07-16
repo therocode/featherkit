@@ -1,4 +1,4 @@
-#include "framework/entity/entity.h"
+#include <framework/entity/entity.h>
 
 namespace windgale
 {

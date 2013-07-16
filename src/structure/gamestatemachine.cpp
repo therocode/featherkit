@@ -1,4 +1,4 @@
-#include "framework/structure/gamestatemachine.h"
+#include <framework/structure/gamestatemachine.h>
 #include <sstream>
 
 namespace windstorm

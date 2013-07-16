@@ -1,6 +1,6 @@
 #include <cstring>
 #include <sstream>
-#include "framework/util/entity/arrayholder.h"
+#include <framework/util/entity/arrayholder.h>
 
 namespace windgale
 {
