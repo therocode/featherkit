@@ -74,7 +74,8 @@ endif()
             /sw          # Fink
             /opt/local/  # DarwinPorts
             /opt/csw/    # Blastwave
-            /opt/)
+            /opt/
+            "C:/Program Files (x86)/SFML/include")
 
 # check the version number
     set(SFML_VERSION_OK TRUE)
