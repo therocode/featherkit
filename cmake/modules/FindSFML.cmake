@@ -42,7 +42,7 @@ ENDIF(MSVC)
             /opt/include/SFML 
             /opt/include 
             ${SFMLDIR}/include #for wxWIN vc2008(9.0)
-            "C:/Program Files (x86)/SFML"
+            "C:/Program Files (x86)/SFML/include"
        ) 
 
     SET(SFML_LIBRARY_SEARCH_DIR 
@@ -56,7 +56,7 @@ ENDIF(MSVC)
             /opt 
             ${SFMLDIR}/lib
             ${SFMLDIR}/lib/vc2008 #for wxWIN vc2008(9.0) 
-            "C:/program files (x86)/SFML/lib"
+            "C:/Program Files (x86)/SFML/lib"
        ) 
 
 FOREACH(COMPONENT ${SFML_COMPONENTS}) 
