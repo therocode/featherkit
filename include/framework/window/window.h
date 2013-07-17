@@ -4,6 +4,7 @@
 #include <framework/window/windowstyle.h>
 #include <framework/glm/glm.hpp>
 #include <string>
+#include <memory>
             /* hej this is from VidyaMöåd and should be here
             static VideoMode getDesktopMode();
             static const std::vector<VideoMode>& getFullscreenModes();
@@ -16,7 +17,7 @@ namespace windbreeze
     class Window
     {
         public:
-            Window(WindowBackend& backend) : windowBackend(backend) {}
+            Window(WindowBackend* backend) : windowBackend(backend) {}
             void create(VideoMode mode, const std::string& title, uint32_t style=Style::Default, const ContextSettings& settings=ContextSettings());
             void close();
             bool isOpen() const;
@@ -33,10 +34,8 @@ namespace windbreeze
             void setFramerateLimit(uint32_t limit);
             bool setRenderingActive(bool active=true) const;
             void display();
-
-
         private:
-            WindowBackend& windowBackend;
+            std::unique_ptr<WindowBackend> windowBackend;
     };
     /** @addtogroup UserInterface
      *@{
@@ -50,9 +49,9 @@ namespace windbreeze
      *
      *  The API of this class is heavily inspired by the window class of [SFML](http://www.sfml-dev.org/).
      ***
-     *  @fn Window::Window(WindowBackend& backend)
+     *  @fn Window::Window(WindowBackend* backend)
      *  @brief Construct a window using the specified backend.
-     *  @param backend Backend to use with the window instance. Will be stored as a reference. Some Window functions will modify the backend.
+     *  @param backend Backend to use with the window instance. Will be stored as an std::unique_ptr and therefore memory will be managed.
      ***
      *  @fn void Window::create(VideoMode mode, const std::string& title, uint32_t style=Style::Default, const ContextSettings& settings=ContextSettings())
      *  @brief Create a window and open it.

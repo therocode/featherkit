@@ -1,5 +1,6 @@
 #pragma once
 #include <queue>
+#include <memory>
 #include <framework/input/event.h>
 #include <framework/glm/glm.hpp>
 
@@ -10,7 +11,7 @@ namespace windbreeze
     class InputHandler
     {
         public:
-            InputHandler(InputBackend& backend) : inputBackend(backend){}
+            InputHandler(InputBackend* backend) : inputBackend(backend){}
             void processEvents(bool keepLast = false);
             bool pollEvent(Event& event);
             const std::queue<Event>& getEventQueue() const;
@@ -32,7 +33,7 @@ namespace windbreeze
             void setGamepadThreshold(float threshold);
             void setKeyRepeatEnabled(bool enabled);
         private:
-            InputBackend& inputBackend;
+            std::unique_ptr<InputBackend> inputBackend;
             std::queue<Event> eventQueue;
     };
 
@@ -44,11 +45,11 @@ namespace windbreeze
      *  @class InputHandler
      *  @brief Provides access to input events and settings, as well as the current state of the input devices.
      *
-     *  Just about any game needs to access the input devices a lot to let the player control the game. This is what this class is for. The types of devices supported are keyboard, mouse and gamepad. This class relies on a system specific backend that must be given upon construction. The backend is stored internally as a reference. 
+     *  Just about any game needs to access the input devices a lot to let the player control the game. This is what this class is for. The types of devices supported are keyboard, mouse and gamepad. This class relies on a system specific backend that must be given upon construction. The backend is stored internally as an std::unique_ptr. 
      ***
-     *  @fn InputHandler::InputHandler(InputBackend& backend) 
+     *  @fn InputHandler::InputHandler(InputBackend* backend) 
      *  @brief Construct an InputHandler that will rely on the given backend.
-     *  @param backend InputBackend given. Depending on how this class is used, the provided backend might become modified.
+     *  @param backend InputBackend given. The memory will be managed by the InputHandler.
      ***
      *  @fn void InputHandler::processEvents(bool keepLast = false)
      *  @brief Search the backend for generated events. If there are events generated, they will be fetched (and will not remain in the backend) and stored in a queue, making them available for polling. Must be called before using InputHandler::pollEvent, otherwise there will be no events to poll.
