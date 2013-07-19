@@ -6,7 +6,7 @@ namespace windgale
     class Entity
     {
         public:
-            Entity(EntityId i, EntityManager& m) : id(i), entityManager(m) {}
+            Entity(EntityId i, EntityManager& m);
             template<class DataType>
             bool getAttributeSafe(const std::string& attribute, DataType* outData) const;
             template<class DataType>

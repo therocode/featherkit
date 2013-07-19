@@ -2,6 +2,7 @@
 #include <framework/rendering/renderer2dbackend.h>
 #include <framework/rendering/viewport.h>
 #include <stdexcept>
+#include <memory>
 
 namespace windbreeze
 {
@@ -10,14 +11,13 @@ namespace windbreeze
     class InvalidFontException : public std::runtime_error 
     {
         public:
-            InvalidFontException(const std::string& message) 
-                : std::runtime_error(message) { };
+            InvalidFontException(const std::string& message);
     };
 
     class Renderer2D
     {
         public:
-            Renderer2D(Renderer2DBackend& b, Viewport v);
+            Renderer2D(Renderer2DBackend* b, Viewport v);
             void setup();
             void destroy();
             void clear();
@@ -29,9 +29,9 @@ namespace windbreeze
             void resize(uint32_t w, uint32_t h);
             int32_t addFont(uint8_t* fontData);
         private:
-            Renderer2DBackend& backend;
+            std::unique_ptr<Renderer2DBackend> backend;
             Viewport currentViewport;
-            uint32_t clock = 0;
+            uint32_t clock;
     };
     /** @addtogroup Render2D
      *@{
@@ -59,10 +59,10 @@ namespace windbreeze
      *
      *  A backend must be given upon construction. The backend is an implementation of the abstract class Renderer2DBackend. This is the one actually doing the rendering and may be implemented using various rendering methods.
      ***
-     *  @fn Renderer2D::Renderer2D(Renderer2DBackend& b, Viewport v)
+     *  @fn Renderer2D::Renderer2D(Renderer2DBackend* b, Viewport v)
      *  @brief Construct a renderer with the given backend and Viewport.
      *
-     *  @param b Backend to store as a reference. This will be used for rendering and might become modified.
+     *  @param b Backend to store as an std::unique_ptr. The memory will be managed internally.
      *  @param v Viewport to use.
      *** 
      *  @fn void Renderer2D::setup()

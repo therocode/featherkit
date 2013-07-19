@@ -9,8 +9,8 @@ namespace windbreeze
     class AnimatedQuad : public Quad
     {
         public:
-            AnimatedQuad() : Quad() {}
-            AnimatedQuad(float w, float h) : Quad(w, h) {}
+            AnimatedQuad();
+            AnimatedQuad(float w, float h);
             void addAnimation(AnimationId id, std::weak_ptr<Animation> animation);
             void setAnimation(AnimationId id, bool play = true);
             AnimationId getAnimation() const;
@@ -24,9 +24,9 @@ namespace windbreeze
             AnimationId currentAnimationId;
             std::unordered_map<AnimationId, std::weak_ptr<Animation> > animations;
 
-            uint32_t clock = 0;
-            uint32_t currentFrame = 0;
-            bool animate = false;
+            uint32_t clock;
+            uint32_t currentFrame;
+            bool animate;
     };
     /** @addtogroup Render2D
      *@{

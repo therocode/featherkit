@@ -11,7 +11,7 @@ namespace windbreeze
     class InputHandler
     {
         public:
-            InputHandler(InputBackend* backend) : inputBackend(backend){}
+            InputHandler(InputBackend* backend);
             void processEvents(bool keepLast = false);
             bool pollEvent(Event& event);
             const std::queue<Event>& getEventQueue() const;

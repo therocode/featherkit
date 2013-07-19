@@ -3,6 +3,10 @@
 
 namespace windbreeze
 {
+    InvalidAnimationException::InvalidAnimationException(const std::string& message) : std::runtime_error(message)
+    {
+    }
+
     void AnimationManager::addAnimation(std::string name, Animation animation)
     {
         animations.emplace(hasher(name), std::make_shared<Animation>(animation));

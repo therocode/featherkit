@@ -5,8 +5,8 @@ namespace windbreeze
 {
     struct VideoMode
     {
-            VideoMode() {}
-            VideoMode(uint32_t w, uint32_t h, uint32_t bitDepth=32) : width(w), height(h), bitsPerPixel(bitDepth) {}
+            VideoMode();
+            VideoMode(uint32_t w, uint32_t h, uint32_t bitDepth = 32);
 
             uint32_t width;
             uint32_t height;

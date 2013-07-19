@@ -2,6 +2,18 @@
 
 namespace windbreeze
 {
+    Camera::Camera() : position(glm::vec2(0.0f, 0.0f)), zoom(glm::vec2(1.0f, 1.0f)), rotation(0.0f)
+    {
+    }
+
+    Camera::Camera(float x, float y, float xZoom, float yZoom) : position(glm::vec2(x, y)), zoom(glm::vec2(xZoom, yZoom)), rotation(0.0f)
+    {
+    }
+
+    Camera::Camera(glm::vec2 p, glm::vec2 z) : position(p), zoom(z), rotation(0.0f)
+    {
+    }
+
     void Camera::setPosition(float x, float y)
     {
         position = glm::vec2(x, y);

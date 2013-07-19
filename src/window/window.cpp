@@ -3,6 +3,10 @@
 
 namespace windbreeze
 {
+    Window::Window(WindowBackend* backend) : windowBackend(backend)
+    {
+    }
+
     void Window::create(VideoMode mode, const std::string& title, uint32_t style, const ContextSettings& settings)
     {
         windowBackend->create(mode, title, style, settings);

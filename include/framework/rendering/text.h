@@ -6,8 +6,8 @@ namespace windbreeze
     class Text : public Drawable2D
     {
         public:
-            Text(const std::string& t) : text(t){isText = true;}
-            Text(const std::string& t, const glm::vec3& col) : text(t), colour(col){isText = true;}
+            Text(const std::string& t);
+            Text(const std::string& t, const glm::vec3& col);
             std::string getText() const;
             void setText(const std::string& t);
             glm::vec3 getColour() const;
@@ -18,8 +18,8 @@ namespace windbreeze
             void setFont(int32_t f);
         private:
             std::string text;
-            glm::vec3 colour = glm::vec3(1.0f, 1.0f, 1.0f);
-            float fontSize = 24.0f;
+            glm::vec3 colour;
+            float fontSize;
             int font;
     };
     /** @addtogroup Render2D

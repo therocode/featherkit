@@ -2,6 +2,10 @@
 
 namespace windbreeze
 {
+    SFMLInputBackend::SFMLInputBackend(sf::Window& w) : window(w)
+    {
+    }
+
     std::queue<Event> SFMLInputBackend::fetchEvents()
     {
         sf::Event event;

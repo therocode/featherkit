@@ -8,7 +8,7 @@ namespace windbreeze
     class SFMLInputBackend : public InputBackend
     {
         public:
-            SFMLInputBackend(sf::Window& w) : window(w) {}
+            SFMLInputBackend(sf::Window& w);
 
             std::queue<Event> fetchEvents() override;
             

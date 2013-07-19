@@ -2,6 +2,10 @@
 
 namespace windstorm
 {
+    Application::Application() : shutDown(false)
+    {
+    }
+
     void Application::run()
     {
         while(!shutDown)

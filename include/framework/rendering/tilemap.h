@@ -19,8 +19,7 @@ namespace windbreeze
     class TileMapException : public std::runtime_error 
     {
         public:
-            TileMapException(const std::string& message) 
-                : std::runtime_error(message) { };
+            TileMapException(const std::string& message);
     };
 
 
@@ -59,19 +58,7 @@ namespace windbreeze
             std::string textureId;
             std::unordered_map<TileId, TileDefinition> tileDefs;
             std::hash<std::string> hasher;
-            std::map<glm::uvec2, AnimatedTile, std::function<bool(const glm::uvec2&, const glm::uvec2&)> > animatedTiles { [](const glm::uvec2& first, const glm::uvec2& second){ 
-                if(first.x < second.x) 
-                    return true;
-                else if(first.x > second.x)
-                    return false;
-                else
-                {
-                if(first.y < second.y) 
-                    return true;
-                else
-                    return false;
-                }
-           } };
+            std::map<glm::uvec2, AnimatedTile, std::function<bool(const glm::uvec2&, const glm::uvec2&)> > animatedTiles;
     };
     /** @addtogroup Render2D
      *@{

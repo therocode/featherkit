@@ -17,8 +17,8 @@ namespace windbreeze
     class Window
     {
         public:
-            Window(WindowBackend* backend) : windowBackend(backend) {}
-            void create(VideoMode mode, const std::string& title, uint32_t style=Style::Default, const ContextSettings& settings=ContextSettings());
+            Window(WindowBackend* backend);
+            void create(VideoMode mode, const std::string& title, uint32_t style = Style::Default, const ContextSettings& settings = ContextSettings());
             void close();
             bool isOpen() const;
             const ContextSettings getSettings() const;
@@ -32,7 +32,7 @@ namespace windbreeze
             void setVSyncEnabled(bool enabled);
             void setMouseCursorVisible(bool visible);
             void setFramerateLimit(uint32_t limit);
-            bool setRenderingActive(bool active=true) const;
+            bool setRenderingActive(bool active = true) const;
             void display();
         private:
             std::unique_ptr<WindowBackend> windowBackend;

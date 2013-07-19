@@ -6,8 +6,8 @@ namespace windbreeze
     class RepeatedQuad : public AnimatedQuad
     {
         public:
-            RepeatedQuad() : AnimatedQuad() {tileSize = getSize();}
-            RepeatedQuad(float w, float h) : AnimatedQuad(w, h) {tileSize = getSize();}
+            RepeatedQuad();
+            RepeatedQuad(float w, float h);
             void setTileSize(glm::vec2 size);
             const glm::vec2& getTileSize();
             void setScrollSpeed(glm::vec2 speed);

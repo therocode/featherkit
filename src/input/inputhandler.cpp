@@ -3,6 +3,10 @@
 
 namespace windbreeze
 {
+    InputHandler::InputHandler(InputBackend* backend) : inputBackend(backend)
+    {
+    }
+
     void InputHandler::processEvents(bool keepLast)
     {
         std::queue<Event> newEvents = inputBackend->fetchEvents();

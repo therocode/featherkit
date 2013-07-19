@@ -9,8 +9,7 @@ namespace windbreeze
     class InvalidAnimationException : public std::runtime_error 
     {
         public:
-            InvalidAnimationException(const std::string& message) 
-                : std::runtime_error(message) { };
+            InvalidAnimationException(const std::string& message);
     };
 
     class AnimationManager

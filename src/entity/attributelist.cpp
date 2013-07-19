@@ -18,7 +18,7 @@ namespace windgale
         return attributeSet;
     }
     
-    bool AttributeList::hasAttributes(AttributeList& attributes) const
+    bool AttributeList::hasAttributes(const AttributeList& attributes) const
     {
         for(auto attribute : attributes.attributeSet)
         {

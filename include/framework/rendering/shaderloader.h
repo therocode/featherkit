@@ -8,8 +8,7 @@ namespace windbreeze
     class ShaderException : public std::runtime_error 
     {
         public:
-            ShaderException(const std::string& message) 
-                : std::runtime_error(message) { };
+            ShaderException(const std::string& message);
     };
 
     class ShaderLoader

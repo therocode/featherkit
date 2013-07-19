@@ -3,6 +3,10 @@
 
 namespace windbreeze
 {
+    ShaderException::ShaderException(const std::string& message) : std::runtime_error(message)
+    {
+    };
+
     GLuint ShaderLoader::createShader(std::string vertexSource, std::string fragmentSource)
     {
         const char* vertexShaderSourcePointer = &vertexSource[0];

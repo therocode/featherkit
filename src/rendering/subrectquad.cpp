@@ -2,6 +2,14 @@
 
 namespace windbreeze
 {
+    SubrectQuad::SubrectQuad() : Quad(), subrectEnd(1.0f, 1.0f)
+    {
+    }
+
+    SubrectQuad::SubrectQuad(float w, float h) : Quad(w, h), subrectEnd(1.0f, 1.0f)
+    {
+    }
+
     void SubrectQuad::setSubrect(const glm::vec2& srStart, const glm::vec2& srEnd)
     {
         subrectStart = srStart;

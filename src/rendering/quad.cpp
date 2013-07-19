@@ -2,7 +2,7 @@
 
 namespace windbreeze
 {
-    Quad::Quad()
+    Quad::Quad() : hFlip(1.0f), vFlip(1.0f)
     {
         vertices = {-1.0f, -1.0f, 
                     -1.0f,  1.0f, 
@@ -11,7 +11,7 @@ namespace windbreeze
         origin = glm::vec2(-1.0f, -1.0f);
     }
 
-    Quad::Quad(float w, float h)
+    Quad::Quad(float w, float h) : hFlip(1.0f), vFlip(1.0f)
     {
         float xnum = w * 0.5f;
         float ynum = h * 0.5f;

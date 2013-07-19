@@ -8,8 +8,7 @@ namespace windgale
     class DefaultSetterException : public std::runtime_error 
     {
         public:
-            DefaultSetterException(const std::string& m) 
-                : std::runtime_error(m) { };
+            DefaultSetterException(const std::string& m);
     };
 
     void floatSetter(std::string attribute, std::vector<std::string>& arguments, windgale::WeakEntityPtr entity);
