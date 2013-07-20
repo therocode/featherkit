@@ -1,6 +1,7 @@
 #pragma once
 #include <map>
-namespace fk
+
+namespace fki
 {
     ////////
     //Class: BiMap

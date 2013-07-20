@@ -1,6 +1,6 @@
 #include <framework/util/input/sfmlinputbackend.h>
 
-namespace fk
+namespace fku
 {
     SFMLInputBackend::SFMLInputBackend(sf::Window& w) : window(w)
     {

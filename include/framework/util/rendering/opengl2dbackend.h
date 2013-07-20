@@ -5,7 +5,9 @@
 #include <framework/util/rendering/opengl.h>
 #include <framework/fontstash/fontstash.h>
 
-namespace fk
+using namespace fk;
+
+namespace fku
 {
     class OpenGL2DBackend : public Renderer2DBackend
     {

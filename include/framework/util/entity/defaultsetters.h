@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-namespace fk
+namespace fku
 {
     class DefaultSetterException : public std::runtime_error 
     {

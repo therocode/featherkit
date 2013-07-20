@@ -1,7 +1,7 @@
 #include <framework/util/rendering/animationmanager.h>
 #include <sstream>
 
-namespace fk
+namespace fku
 {
     InvalidAnimationException::InvalidAnimationException(const std::string& message) : std::runtime_error(message)
     {

@@ -1,6 +1,6 @@
 #include <framework/util/filenotfoundexception.h>
 
-namespace fk
+namespace fku
 {
     FileNotFoundException::FileNotFoundException():runtime_error("File not found")
     {

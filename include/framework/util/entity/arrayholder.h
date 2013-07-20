@@ -3,7 +3,9 @@
 #include <string>
 #include <framework/entity/entityexceptions.h>
 
-namespace fk
+using namespace fk;
+
+namespace fku
 {
     using ArrayPosition = uint32_t;
     using ElementSize = uint32_t;
@@ -16,7 +18,7 @@ namespace fk
         ~ArrayObject();
     };
 
-    using ArrayMap = std::map<AttributeHash, ArrayObject>;
+    using ArrayMap = std::map<fk::AttributeHash, ArrayObject>;
 
     class ArrayHolder
     {

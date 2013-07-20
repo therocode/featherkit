@@ -1,7 +1,7 @@
 #pragma once
 #include <stdexcept>
 
-namespace fk
+namespace fku
 {
     class FileNotFoundException: public std::runtime_error
     {

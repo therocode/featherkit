@@ -1,6 +1,6 @@
 #include <framework/util/entity/defaultsetters.h>
 
-namespace fk
+namespace fku
 {
     DefaultSetterException::DefaultSetterException(const std::string& m) : std::runtime_error(m)
     {

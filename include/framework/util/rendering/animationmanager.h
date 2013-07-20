@@ -4,7 +4,9 @@
 #include <framework/rendering/animation.h>
 #include <stdexcept>
 
-namespace fk
+using namespace fk;
+
+namespace fku
 {
     class InvalidAnimationException : public std::runtime_error 
     {

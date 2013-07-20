@@ -3,7 +3,7 @@
 #include <sstream>
 #include <cstring>
 
-namespace fk
+namespace fku
 {
     BasicEntityBackend::BasicBackendEntity::BasicBackendEntity(AttributeList attributeLists, BasicEntityBackend& p) : parent(p)
     {

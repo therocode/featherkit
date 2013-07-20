@@ -2,7 +2,7 @@
 #include <framework/glm/gtc/type_ptr.hpp>
 #include <framework/rendering/shaderloader.h>
 
-namespace fk
+namespace fku
 {
     OpenGL2DBackend::OpenGL2DBackend(TextureManager<OpenGLTexture>& tm) : textureManager(tm), shaderProgram(0)
     {

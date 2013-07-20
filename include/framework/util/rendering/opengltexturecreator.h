@@ -3,7 +3,7 @@
 #include <framework/util/rendering/opengltexture.h>
 #include <framework/util/rendering/opengl.h>
 
-namespace fk
+namespace fku
 {
     enum ResizeAlgorithm{NEAREST, LINEAR};
 

@@ -4,7 +4,7 @@
 #include <string>
 #include <framework/util/filenotfoundexception.h>
 
-namespace fk
+namespace fku
 {
     class JsonEntityLoader
     {

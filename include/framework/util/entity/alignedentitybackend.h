@@ -1,12 +1,12 @@
 #pragma once
 #include <framework/entity/entitybackend.h>
 #include <framework/util/entity/arrayholder.h>
-#include <framework/internal/bimap.h>
+#include <framework/util/entity/bimap.h>
 #include <vector>
 #include <stack>
 #include <string>
 
-namespace fk
+namespace fku
 {
     struct DataContainer
     {
@@ -46,8 +46,8 @@ namespace fk
             int getAttributeGroupIndexFromPosition(int position) const;
             int getLastDataOfGroup(unsigned int currentGroup) const;
             void removeAttributeGroup(unsigned int group);
-            BiMap<int, EntityId> posIdMap;
-            BiMap<AttributeList, int> attributeGroupIndex;
+            fki::BiMap<int, EntityId> posIdMap;
+            fki::BiMap<AttributeList, int> attributeGroupIndex;
             std::vector<int> attributeGroupLocation;
             ArrayHolder dataArrays;
             std::stack<EntityId> freeEntityIds;

@@ -3,7 +3,7 @@
 #include <fstream>
 #include <sstream>
 
-namespace fk
+namespace fku
 {
     JsonEntityLoader::JsonEntityLoader()
     {

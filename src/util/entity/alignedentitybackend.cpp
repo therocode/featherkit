@@ -3,34 +3,34 @@
 #include <sstream>
 #include <framework/entity/entityexceptions.h>
 
-    namespace fk
+namespace fku
+{
+
+    AlignedEntityBackend::AlignedEntityBackend()
     {
+        nextEntityId = 0;
+        nextEmptyArraySlot = 0;
+    }
 
-        AlignedEntityBackend::AlignedEntityBackend()
+    EntityId AlignedEntityBackend::addEntity(AttributeList attributeList)
+    {
+        validateAttributeList(attributeList);
+
+        EntityId createdEntityId = 0;
+        if(attributeGroupIndex.keyExists(attributeList))
         {
-            nextEntityId = 0;
-            nextEmptyArraySlot = 0;
+            int attributeIndex = attributeGroupIndex.getValueAtKey(attributeList);
+            int entityArrayLocation;
+            createdEntityId = assignEntityAtEnd(entityArrayLocation);
+            setSlotsValid(attributeList, entityArrayLocation, true);
+            swapDownEntityThroughGroups(entityArrayLocation, attributeIndex, false);
+
+            for(int i = attributeGroupLocation.size() - 1; i > attributeIndex; i--)
+                attributeGroupLocation[i]++;
         }
-
-        EntityId AlignedEntityBackend::addEntity(AttributeList attributeList)
+        else
         {
-            validateAttributeList(attributeList);
-
-            EntityId createdEntityId = 0;
-            if(attributeGroupIndex.keyExists(attributeList))
-            {
-                int attributeIndex = attributeGroupIndex.getValueAtKey(attributeList);
-                int entityArrayLocation;
-                createdEntityId = assignEntityAtEnd(entityArrayLocation);
-                setSlotsValid(attributeList, entityArrayLocation, true);
-                swapDownEntityThroughGroups(entityArrayLocation, attributeIndex, false);
-
-                for(int i = attributeGroupLocation.size() - 1; i > attributeIndex; i--)
-                    attributeGroupLocation[i]++;
-            }
-            else
-            {
-                int newAttributeTargetIndex = findSuitableAttributeGroupIndex(attributeList);
+            int newAttributeTargetIndex = findSuitableAttributeGroupIndex(attributeList);
             int newAttributeCreatedIndex = attributeGroupLocation.size();
 
             attributeGroupIndex.addKeyValuePair(attributeList, newAttributeCreatedIndex);
@@ -86,7 +86,7 @@
         }
 
         int prevIndex = position;
-        
+
         while(currentGroup < attributeGroupIndex.size())
         {
             int lastOfGroup = getLastDataOfGroup(currentGroup);
@@ -97,7 +97,7 @@
             prevIndex = lastOfGroup;
             currentGroup++;
         }
-        
+
         posIdMap.removeAtValue(id);
         nextEmptyArraySlot--;
 
@@ -135,7 +135,7 @@
             return removeAttributeGroup(startGroup);
         }
     }
-    
+
     void AlignedEntityBackend::registerAttribute(const AttributeHash identifier, const ElementSize elementSize)
     {
         dataArrays.addArray(identifier, elementSize);
@@ -157,7 +157,7 @@
             ss << "Error! The given attribute '" << identifier << "' does not exist!\n";
             throw InvalidAttributeException(ss.str(), identifier);
         }
-            
+
         if(dataArrays.getEntryValid(identifier, position))
         {
             dataArrays.setData(identifier, position, inData);
@@ -198,7 +198,7 @@
             throw InvalidAttributeException(ss.str(), identifier);
         }
     }
-    
+
     bool AlignedEntityBackend::hasData(const AttributeHash identifier, const EntityId id) const
     {
         return dataArrays.getEntryValid(identifier, posIdMap.getKeyAtValue(id));
@@ -256,7 +256,7 @@
         }
         return indexToChoose;
     }
-    
+
     int AlignedEntityBackend::getSubsetGroupArrayPosition(AttributeList& attributeList) const
     {
         int result = -1;
@@ -297,7 +297,7 @@
             dataArrays.swapData(swapToIndex, swapFromIndex);
         }
     }
-    
+
     void AlignedEntityBackend::swapDownGroups(const int startIndex, const int stopIndex) 
     {
         for(int i = startIndex; i > stopIndex; i--)
@@ -342,7 +342,7 @@
         arrayPos = newEntityArrayPosition;
         return createdId;
     }
-    
+
     void AlignedEntityBackend::validateAttributeList(AttributeList attributeList) const
     {
         if(attributeList.size() == 0)
@@ -367,7 +367,7 @@
         for(int i = 0; i < groupAmount; i++)
         {
             index = i;
-            
+
             if(attributeGroupLocation[i] > position)
             {
                 index--;
@@ -385,7 +385,7 @@
         else
             return attributeGroupLocation[currentGroup + 1] - 1;
     }
-    
+
     void AlignedEntityBackend::removeAttributeGroup(unsigned int group)
     {
         attributeGroupLocation.erase(attributeGroupLocation.begin() + group);
@@ -441,5 +441,5 @@
         }
         return result;
     }
-    
+
 }

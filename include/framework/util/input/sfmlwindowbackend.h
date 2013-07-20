@@ -3,7 +3,9 @@
 #include <framework/glm/glm.hpp>
 #include <SFML/Window.hpp>
 
-namespace fk
+using namespace fk;
+
+namespace fku
 {
     class SFMLWindowBackend : public WindowBackend
     {

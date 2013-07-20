@@ -4,7 +4,9 @@
 #include <unordered_map>
 #include <memory>
 
-namespace fk
+using namespace fk;
+
+namespace fku
 {
     class BasicEntityBackend : public EntityBackend
     {

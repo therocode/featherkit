@@ -2,7 +2,7 @@
 #include <sstream>
 #include <framework/util/entity/arrayholder.h>
 
-namespace fk
+namespace fku
 {
     ArrayObject::~ArrayObject()
     {

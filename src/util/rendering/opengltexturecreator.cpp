@@ -1,10 +1,10 @@
 #include <framework/util/rendering/opengltexturecreator.h>
 
-namespace fk
+namespace fku
 {
     OpenGLTexture OpenGLTextureCreator::createTexture(const unsigned char* pixels, uint32_t width, uint32_t height, ResizeAlgorithm algo) const
     {
-        fk::OpenGLTexture texture;
+        OpenGLTexture texture;
 
         GLuint id;
 

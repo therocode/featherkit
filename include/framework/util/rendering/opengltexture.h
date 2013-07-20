@@ -1,6 +1,6 @@
 #pragma once
 
-namespace fk
+namespace fku
 {
     struct OpenGLTexture
     {
