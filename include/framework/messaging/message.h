@@ -2,7 +2,7 @@
 #include <tuple>
 
 
-namespace windbreeze
+namespace fk
 {
     template<class tag, typename... DataTypes>
     struct Message

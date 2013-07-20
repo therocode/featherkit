@@ -1,6 +1,6 @@
 #include <framework/util/input/sfmlwindowbackend.h>
 
-namespace windbreeze
+namespace fk
 {
     SFMLWindowBackend::SFMLWindowBackend(sf::Window& w) : window(w)
     {
@@ -26,7 +26,7 @@ namespace windbreeze
     const ContextSettings SFMLWindowBackend::getSettings() const
     {
         const sf::ContextSettings& settings = window.getSettings();
-        const windbreeze::ContextSettings toReturn(settings.depthBits, settings.stencilBits, settings.antialiasingLevel, settings.majorVersion, settings.minorVersion);
+        const fk::ContextSettings toReturn(settings.depthBits, settings.stencilBits, settings.antialiasingLevel, settings.majorVersion, settings.minorVersion);
         return toReturn;
     }
 

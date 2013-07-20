@@ -1,6 +1,6 @@
 #include <framework/util/input/sfmlinputbackend.h>
 
-namespace windbreeze
+namespace fk
 {
     SFMLInputBackend::SFMLInputBackend(sf::Window& w) : window(w)
     {

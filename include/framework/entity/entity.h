@@ -1,7 +1,7 @@
 #pragma once
 #include <framework/entity/entitymanager.h>
 
-namespace windgale
+namespace fk
 {
     class Entity
     {

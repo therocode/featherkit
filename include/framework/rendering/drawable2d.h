@@ -5,7 +5,7 @@
 #include <stdint.h>
 #include <string>
 
-namespace windbreeze
+namespace fk
 {
     class Drawable2D
     {

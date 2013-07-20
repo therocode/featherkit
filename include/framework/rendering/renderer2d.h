@@ -4,7 +4,7 @@
 #include <stdexcept>
 #include <memory>
 
-namespace windbreeze
+namespace fk
 {
     class Drawable2D;
 

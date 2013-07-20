@@ -5,7 +5,7 @@
 #include <sstream>
 #include <iostream>
 
-namespace windgale
+namespace fk
 {
     EntityManager::EntityManager(EntityBackend* b) : backend(b)
     {

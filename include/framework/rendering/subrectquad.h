@@ -1,7 +1,7 @@
 #pragma once
 #include <framework/rendering/quad.h>
 
-namespace windbreeze
+namespace fk
 {
     class SubrectQuad : public Quad
     {

@@ -3,7 +3,7 @@
 #include <framework/glm/glm.hpp>
 #include <queue>
 
-namespace windbreeze
+namespace fk
 {
     class InputBackend
     {

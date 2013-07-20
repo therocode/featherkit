@@ -3,7 +3,7 @@
 #include <string>
 #include <stdexcept>
 
-namespace windbreeze
+namespace fk
 {
     class ShaderException : public std::runtime_error 
     {

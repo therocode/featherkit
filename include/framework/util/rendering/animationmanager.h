@@ -4,7 +4,7 @@
 #include <framework/rendering/animation.h>
 #include <stdexcept>
 
-namespace windbreeze
+namespace fk
 {
     class InvalidAnimationException : public std::runtime_error 
     {

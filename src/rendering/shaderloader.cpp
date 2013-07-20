@@ -1,7 +1,7 @@
 #include <framework/rendering/shaderloader.h>
 #include <sstream>
 
-namespace windbreeze
+namespace fk
 {
     ShaderException::ShaderException(const std::string& message) : std::runtime_error(message)
     {

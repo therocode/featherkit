@@ -7,7 +7,7 @@
 #include <fstream>
 #include <sstream>
 
-namespace windbreeze
+namespace fk
 {
     template<class Action>
     class JsonActionIOHandler
@@ -35,7 +35,7 @@ namespace windbreeze
         {
             std::stringstream ss;
             ss << "Error! Entity file not found: " << path << "\n";
-            throw windgale::FileNotFoundException(ss.str());
+            throw fk::FileNotFoundException(ss.str());
         }
 
         json::Value root;
@@ -168,7 +168,7 @@ namespace windbreeze
         {
             std::stringstream ss;
             ss << "Error! Action bindings file not found: " << path << "\n";
-            throw windgale::FileNotFoundException(ss.str());
+            throw fk::FileNotFoundException(ss.str());
         }
 
         for(auto binding : primaryActions)

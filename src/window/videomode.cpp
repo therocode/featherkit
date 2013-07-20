@@ -1,6 +1,6 @@
 #include <framework/window/videomode.h>
 
-namespace windbreeze
+namespace fk
 {
     VideoMode::VideoMode()
     {

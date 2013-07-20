@@ -1,6 +1,6 @@
 #include <framework/rendering/viewport.h>
 
-namespace windbreeze
+namespace fk
 {
     Viewport::Viewport()
     {

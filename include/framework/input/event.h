@@ -5,7 +5,7 @@
 #include <framework/input/mouse.h>
 #include <framework/input/gamepad.h>
 
-namespace windbreeze
+namespace fk
 {
     class Event
     {

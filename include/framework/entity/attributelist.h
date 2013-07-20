@@ -2,7 +2,7 @@
 #include <set>
 #include <stdlib.h>
 
-namespace windgale
+namespace fk
 {
     using AttributeHash = std::size_t;
 

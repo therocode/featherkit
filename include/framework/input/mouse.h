@@ -1,6 +1,6 @@
 #pragma once
 
-namespace windbreeze
+namespace fk
 {
     namespace Mouse
     {

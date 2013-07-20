@@ -1,6 +1,6 @@
 #include <framework/rendering/subrectquad.h>
 
-namespace windbreeze
+namespace fk
 {
     SubrectQuad::SubrectQuad() : Quad(), subrectEnd(1.0f, 1.0f)
     {

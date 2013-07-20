@@ -1,6 +1,6 @@
 #include <framework/entity/entityexceptions.h>
 
-namespace windgale
+namespace fk
 {
     InvalidIdException::InvalidIdException(const std::string& message) : std::runtime_error(message)
     {

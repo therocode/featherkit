@@ -1,6 +1,6 @@
 #include <framework/util/filenotfoundexception.h>
 
-namespace windgale
+namespace fk
 {
     FileNotFoundException::FileNotFoundException():runtime_error("File not found")
     {

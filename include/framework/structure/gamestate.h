@@ -2,7 +2,7 @@
 #include <string>
 #include <memory>
 
-namespace windstorm
+namespace fk
 {
     class GameState
     {

@@ -1,7 +1,7 @@
 #pragma once
 #include <framework/rendering/drawable2d.h>
 
-namespace windbreeze
+namespace fk
 {
     class Quad : public Drawable2D
     {

@@ -1,7 +1,7 @@
 #include <framework/structure/gamestatemachine.h>
 #include <sstream>
 
-namespace windstorm
+namespace fk
 {
     GameStateException::GameStateException() : runtime_error("Game state not found")
     {

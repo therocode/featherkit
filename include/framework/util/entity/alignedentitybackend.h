@@ -6,7 +6,7 @@
 #include <stack>
 #include <string>
 
-namespace windgale
+namespace fk
 {
     struct DataContainer
     {

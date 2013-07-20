@@ -1,6 +1,6 @@
 #include <framework/input/actiontrigger.h>
 
-namespace windbreeze
+namespace fk
 {
     ActionTrigger::ActionTrigger() : gamepadId(0)
     {

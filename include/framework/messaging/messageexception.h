@@ -1,7 +1,7 @@
 #pragma once
 #include <stdexcept>
 
-namespace windbreeze
+namespace fk
 {
     class MessageException : public std::runtime_error 
     {

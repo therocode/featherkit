@@ -1,7 +1,7 @@
 #include <framework/input/inputbackend.h>
 #include <framework/input/inputhandler.h>
 
-namespace windbreeze
+namespace fk
 {
     InputHandler::InputHandler(InputBackend* backend) : inputBackend(backend)
     {

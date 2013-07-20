@@ -3,7 +3,7 @@
 #include <framework/glm/glm.hpp>
 #include <SFML/Window.hpp>
 
-namespace windbreeze
+namespace fk
 {
     class SFMLWindowBackend : public WindowBackend
     {

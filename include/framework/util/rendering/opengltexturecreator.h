@@ -3,7 +3,7 @@
 #include <framework/util/rendering/opengltexture.h>
 #include <framework/util/rendering/opengl.h>
 
-namespace windbreeze
+namespace fk
 {
     enum ResizeAlgorithm{NEAREST, LINEAR};
 

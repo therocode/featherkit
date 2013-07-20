@@ -1,6 +1,6 @@
 #include <framework/rendering/tilechunk.h>
 
-namespace windbreeze
+namespace fk
 {
     TileChunk::TileChunk(uint32_t width, uint32_t height, uint32_t tileWidth, uint32_t tileHeight)
     {

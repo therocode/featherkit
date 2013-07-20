@@ -1,7 +1,7 @@
 #pragma once
 #include <stdexcept>
 
-namespace windgale
+namespace fk
 {
     class FileNotFoundException: public std::runtime_error
     {

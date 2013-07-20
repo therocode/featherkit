@@ -3,7 +3,7 @@
 #include <sstream>
 #include <framework/entity/entityexceptions.h>
 
-    namespace windgale
+    namespace fk
     {
 
         AlignedEntityBackend::AlignedEntityBackend()

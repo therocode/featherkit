@@ -1,6 +1,6 @@
 #include <framework/structure/application.h>
 
-namespace windstorm
+namespace fk
 {
     Application::Application() : shutDown(false)
     {

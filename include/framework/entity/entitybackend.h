@@ -2,7 +2,7 @@
 #include <framework/entity/attributelist.h>
 #include <stdint.h>
 
-namespace windgale
+namespace fk
 {
     using EntityId = uint32_t;
     using ElementSize = uint32_t;

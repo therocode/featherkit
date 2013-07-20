@@ -4,7 +4,7 @@
 #include <string>
 #include <framework/util/filenotfoundexception.h>
 
-namespace windgale
+namespace fk
 {
     class JsonEntityLoader
     {

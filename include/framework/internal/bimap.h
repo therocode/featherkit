@@ -1,6 +1,6 @@
 #pragma once
 #include <map>
-namespace windgale
+namespace fk
 {
     ////////
     //Class: BiMap

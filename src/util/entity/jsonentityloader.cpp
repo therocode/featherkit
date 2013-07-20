@@ -3,7 +3,7 @@
 #include <fstream>
 #include <sstream>
 
-namespace windgale
+namespace fk
 {
     JsonEntityLoader::JsonEntityLoader()
     {

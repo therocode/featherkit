@@ -1,7 +1,7 @@
 #include <framework/entity/attributelist.h>
 #include <sstream>
 
-namespace windgale
+namespace fk
 {
     void AttributeList::addAttribute(AttributeHash attribute)
     {

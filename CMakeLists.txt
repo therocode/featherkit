@@ -17,7 +17,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)  #for shared libs
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)   #for static libs
 
 #project name
-set(project_name windlab)
+set(project_name featherkit)
 project(${project_name})
 
 include_directories(${CMAKE_CURRENT_LIST_DIR}/include)

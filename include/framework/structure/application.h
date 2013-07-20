@@ -1,6 +1,6 @@
 #pragma once
 
-namespace windstorm
+namespace fk
 {
     class Application
     {

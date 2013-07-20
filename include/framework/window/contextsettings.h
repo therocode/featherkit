@@ -1,7 +1,7 @@
 #pragma once
 #include <stdint.h>
 
-namespace windbreeze
+namespace fk
 {
     struct ContextSettings
     {

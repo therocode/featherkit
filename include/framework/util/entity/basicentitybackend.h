@@ -4,7 +4,7 @@
 #include <unordered_map>
 #include <memory>
 
-namespace windgale
+namespace fk
 {
     class BasicEntityBackend : public EntityBackend
     {

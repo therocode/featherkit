@@ -1,7 +1,7 @@
 #pragma once
 #include <framework/glm/glm.hpp>
 
-namespace windbreeze
+namespace fk
 {
     class Camera
     {

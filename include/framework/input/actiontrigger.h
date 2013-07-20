@@ -3,7 +3,7 @@
 #include <framework/input/mouse.h>
 #include <cstdint>
 
-namespace windbreeze
+namespace fk
 {
 
     class ActionTrigger

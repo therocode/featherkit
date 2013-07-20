@@ -1,7 +1,7 @@
 #pragma once
 #include <stdexcept>
 
-namespace windgale
+namespace fk
 {
     using AttributeHash = std::size_t;
 

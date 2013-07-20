@@ -1,6 +1,6 @@
 #include <framework/rendering/text.h>
 
-namespace windbreeze
+namespace fk
 {
     Text::Text(const std::string& t) : text(t), colour(1.0f, 1.0f, 1.0f), fontSize(24.0f)
     {

@@ -1,7 +1,7 @@
 #include <framework/rendering/tilemap.h>
 #include <sstream>
 
-namespace windbreeze
+namespace fk
 {
     TileDefinition::TileDefinition(glm::uvec2 texPos, TileId nextId, uint32_t ticks) : tileTexPosition(texPos), nextTileId(nextId), ticksUntilChange(ticks)
     {

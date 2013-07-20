@@ -1,6 +1,6 @@
 #include <framework/rendering/animatedquad.h>
 
-namespace windbreeze
+namespace fk
 {
     AnimatedQuad::AnimatedQuad() : Quad(), clock(0), currentFrame(0), animate(false)
     {

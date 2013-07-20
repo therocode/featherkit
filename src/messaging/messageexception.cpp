@@ -1,6 +1,6 @@
 #include <framework/messaging/messageexception.h>
 
-namespace windbreeze
+namespace fk
 {
     MessageException::MessageException(const std::string& message) : std::runtime_error(message)
     {

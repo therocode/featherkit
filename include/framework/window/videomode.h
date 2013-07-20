@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
 
-namespace windbreeze
+namespace fk
 {
     struct VideoMode
     {

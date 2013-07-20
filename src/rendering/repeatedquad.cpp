@@ -1,6 +1,6 @@
 #include <framework/rendering/repeatedquad.h>
 
-namespace windbreeze
+namespace fk
 {
     RepeatedQuad::RepeatedQuad() : AnimatedQuad() 
     {

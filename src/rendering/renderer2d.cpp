@@ -4,7 +4,7 @@
 #include <sstream>
 
 #include <framework/rendering/text.h> //TEMPHACK
-namespace windbreeze
+namespace fk
 {
     InvalidFontException::InvalidFontException(const std::string& message) : std::runtime_error(message)
     {

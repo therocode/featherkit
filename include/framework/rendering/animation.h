@@ -2,7 +2,7 @@
 #include <framework/glm/glm.hpp>
 #include <stdint.h>
 
-namespace windbreeze
+namespace fk
 {
     enum AnimationBehaviour { FORWARDS, BACKWARDS };
 

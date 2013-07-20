@@ -4,7 +4,7 @@
 #include <framework/input/event.h>
 #include <framework/glm/glm.hpp>
 
-namespace windbreeze
+namespace fk
 {
     class InputBackend;
 

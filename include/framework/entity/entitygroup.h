@@ -2,7 +2,7 @@
 #include <framework/entity/entity.h>
 #include <set>
 
-namespace windgale
+namespace fk
 {
     using EntitySet = std::set<WeakEntityPtr, std::owner_less<WeakEntityPtr> >;
 

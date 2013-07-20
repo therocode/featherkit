@@ -4,7 +4,7 @@
 #include <unordered_map>
 #include <memory>
 
-namespace windbreeze
+namespace fk
 {
     class AnimatedQuad : public Quad
     {

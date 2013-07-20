@@ -1,7 +1,7 @@
 #include <framework/window/window.h>
 #include <framework/window/windowbackend.h>
 
-namespace windbreeze
+namespace fk
 {
     Window::Window(WindowBackend* backend) : windowBackend(backend)
     {

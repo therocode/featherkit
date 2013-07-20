@@ -1,6 +1,6 @@
 #include <framework/rendering/animation.h>
 
-namespace windbreeze
+namespace fk
 {
     Animation::Animation() : frameAmount(0), delay(0), loop(true), animBehaviour(FORWARDS)
     {

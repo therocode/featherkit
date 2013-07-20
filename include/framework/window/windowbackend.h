@@ -5,7 +5,7 @@
 #include <framework/glm/glm.hpp>
 #include <string>
 
-namespace windbreeze
+namespace fk
 {
     class WindowBackend
     {

@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-namespace windgale
+namespace fk
 {
     class DefaultSetterException : public std::runtime_error 
     {
@@ -11,35 +11,35 @@ namespace windgale
             DefaultSetterException(const std::string& m);
     };
 
-    void floatSetter(std::string attribute, std::vector<std::string>& arguments, windgale::WeakEntityPtr entity);
-    void doubleSetter(std::string attribute, std::vector<std::string>& arguments, windgale::WeakEntityPtr entity);
-    void int32Setter(std::string attribute, std::vector<std::string>& arguments, windgale::WeakEntityPtr entity);
-    void uint32Setter(std::string attribute, std::vector<std::string>& arguments, windgale::WeakEntityPtr entity);
-    void boolSetter(std::string attribute, std::vector<std::string>& arguments, windgale::WeakEntityPtr entity);
-    void byteSetter(std::string attribute, std::vector<std::string>& arguments, windgale::WeakEntityPtr entity);
-    void idSetter(std::string attribute, std::vector<std::string>& arguments, windgale::WeakEntityPtr entity);
+    void floatSetter(std::string attribute, std::vector<std::string>& arguments, fk::WeakEntityPtr entity);
+    void doubleSetter(std::string attribute, std::vector<std::string>& arguments, fk::WeakEntityPtr entity);
+    void int32Setter(std::string attribute, std::vector<std::string>& arguments, fk::WeakEntityPtr entity);
+    void uint32Setter(std::string attribute, std::vector<std::string>& arguments, fk::WeakEntityPtr entity);
+    void boolSetter(std::string attribute, std::vector<std::string>& arguments, fk::WeakEntityPtr entity);
+    void byteSetter(std::string attribute, std::vector<std::string>& arguments, fk::WeakEntityPtr entity);
+    void idSetter(std::string attribute, std::vector<std::string>& arguments, fk::WeakEntityPtr entity);
 
     /** @addtogroup EntitySystem
      *@{
-     *  @fn void floatSetter(std::string attribute, std::vector<std::string>& arguments, windgale::WeakEntityPtr entity)
+     *  @fn void floatSetter(std::string attribute, std::vector<std::string>& arguments, fk::WeakEntityPtr entity)
      *  @brief Register this with the EntityManager::registerDefaultSetter function for the attributes that are of the type float and should be handled as such.
      *
-     *  @fn void doubleSetter(std::string attribute, std::vector<std::string>& arguments, windgale::WeakEntityPtr entity)
+     *  @fn void doubleSetter(std::string attribute, std::vector<std::string>& arguments, fk::WeakEntityPtr entity)
      *  @brief Register this with the EntityManager::registerDefaultSetter function for the attributes that are of the type double and should be handled as such.
      *
-     *  @fn void int32Setter(std::string attribute, std::vector<std::string>& arguments, windgale::WeakEntityPtr entity)
+     *  @fn void int32Setter(std::string attribute, std::vector<std::string>& arguments, fk::WeakEntityPtr entity)
      *  @brief Register this with the EntityManager::registerDefaultSetter function for the attributes that are of the type int32 and should be handled as such.
      *
-     *  @fn void uint32Setter(std::string attribute, std::vector<std::string>& arguments, windgale::WeakEntityPtr entity)
+     *  @fn void uint32Setter(std::string attribute, std::vector<std::string>& arguments, fk::WeakEntityPtr entity)
      *  @brief Register this with the EntityManager::registerDefaultSetter function for the attributes that are of the type uint32 and should be handled as such.
      *
-     *  @fn void boolSetter(std::string attribute, std::vector<std::string>& arguments, windgale::WeakEntityPtr entity)
+     *  @fn void boolSetter(std::string attribute, std::vector<std::string>& arguments, fk::WeakEntityPtr entity)
      *  @brief Register this with the EntityManager::registerDefaultSetter function for the attributes that are of the type bool and should be handled as such.
      *
-     *  @fn void byteSetter(std::string attribute, std::vector<std::string>& arguments, windgale::WeakEntityPtr entity)
+     *  @fn void byteSetter(std::string attribute, std::vector<std::string>& arguments, fk::WeakEntityPtr entity)
      *  @brief Register this with the EntityManager::registerDefaultSetter function for the attributes that are of the type char and should be handled as such.
      *
-     *  @fn void idSetter(std::string attribute, std::vector<std::string>& arguments, windgale::WeakEntityPtr entity)
+     *  @fn void idSetter(std::string attribute, std::vector<std::string>& arguments, fk::WeakEntityPtr entity)
      *  @brief Register this with the EntityManager::registerDefaultSetter function for the attributes that are meant to be identical to the ID numbers of the entities.
      *
      *  @class DefaultSetterException

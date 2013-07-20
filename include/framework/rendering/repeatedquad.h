@@ -1,7 +1,7 @@
 #pragma once
 #include <framework/rendering/animatedquad.h>
 
-namespace windbreeze
+namespace fk
 {
     class RepeatedQuad : public AnimatedQuad
     {

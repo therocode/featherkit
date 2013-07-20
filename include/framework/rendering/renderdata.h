@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 
-namespace windbreeze
+namespace fk
 {
     struct RenderData
     {

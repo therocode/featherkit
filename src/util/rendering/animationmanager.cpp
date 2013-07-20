@@ -1,7 +1,7 @@
 #include <framework/util/rendering/animationmanager.h>
 #include <sstream>
 
-namespace windbreeze
+namespace fk
 {
     InvalidAnimationException::InvalidAnimationException(const std::string& message) : std::runtime_error(message)
     {

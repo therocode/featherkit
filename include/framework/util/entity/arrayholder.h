@@ -3,7 +3,7 @@
 #include <string>
 #include <framework/entity/entityexceptions.h>
 
-namespace windgale
+namespace fk
 {
     using ArrayPosition = uint32_t;
     using ElementSize = uint32_t;

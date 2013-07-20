@@ -1,6 +1,6 @@
 #include <framework/rendering/quad.h>
 
-namespace windbreeze
+namespace fk
 {
     Quad::Quad() : hFlip(1.0f), vFlip(1.0f)
     {

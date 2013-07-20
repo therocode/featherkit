@@ -1,6 +1,6 @@
 #include <framework/rendering/drawable2d.h>
 
-namespace windbreeze
+namespace fk
 {
     Drawable2D::Drawable2D() : isText(false), rotation(0.0f), scaling(glm::vec2(1.0f, 1.0f)), parallax(1.0f)
     {

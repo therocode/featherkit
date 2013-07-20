@@ -2,7 +2,7 @@
 #include <framework/rendering/camera.h>
 #include <stdint.h>
 
-namespace windbreeze
+namespace fk
 {
     class Viewport
     {

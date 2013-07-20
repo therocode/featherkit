@@ -6,7 +6,7 @@
 #include <framework/messaging/messagereceiver.h>
 #include <framework/messaging/messageexception.h>
 
-namespace windbreeze
+namespace fk
 {
     class MessageBus
     {

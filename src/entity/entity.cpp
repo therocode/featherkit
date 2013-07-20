@@ -1,6 +1,6 @@
 #include <framework/entity/entity.h>
 
-namespace windgale
+namespace fk
 {
     Entity::Entity(EntityId i, EntityManager& m) : id(i), entityManager(m)
     {

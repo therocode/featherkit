@@ -1,7 +1,7 @@
 #include <framework/entity/entitygroup.h>
 #include <algorithm>
 
-namespace windgale
+namespace fk
 {
     void EntityGroup::add(const WeakEntityPtr entity)
     {

@@ -3,7 +3,7 @@
 #include <stdexcept>
 #include <sstream>
 
-namespace windbreeze
+namespace fk
 {
     class InvalidTextureException : public std::runtime_error 
     {

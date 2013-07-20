@@ -3,7 +3,7 @@
 #include <sstream>
 #include <cstring>
 
-namespace windgale
+namespace fk
 {
     BasicEntityBackend::BasicBackendEntity::BasicBackendEntity(AttributeList attributeLists, BasicEntityBackend& p) : parent(p)
     {

@@ -1,10 +1,10 @@
 #include <framework/util/rendering/opengltexturecreator.h>
 
-namespace windbreeze
+namespace fk
 {
     OpenGLTexture OpenGLTextureCreator::createTexture(const unsigned char* pixels, uint32_t width, uint32_t height, ResizeAlgorithm algo) const
     {
-        windbreeze::OpenGLTexture texture;
+        fk::OpenGLTexture texture;
 
         GLuint id;
 

@@ -1,6 +1,6 @@
 #include <framework/messaging/messagebus.h>
 
-namespace windbreeze
+namespace fk
 {
     bool MessageBus::subscriptionExists(std::type_index id, MessageReceiverBase* receiver) const
     {

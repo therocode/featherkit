@@ -4,7 +4,7 @@
 #include <stdexcept>
 #include <framework/structure/gamestate.h>
 
-namespace windstorm
+namespace fk
 {
     using StateName = std::string;
 

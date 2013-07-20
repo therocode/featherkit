@@ -6,7 +6,7 @@
 #include <framework/input/inputhandler.h>
 
 
-namespace windbreeze
+namespace fk
 {
     class InputHandler;
 

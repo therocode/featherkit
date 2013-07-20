@@ -5,7 +5,7 @@
 #include <functional>
 #include <stdexcept>
 
-namespace windbreeze
+namespace fk
 {
     using TileId = size_t;
     struct TileDefinition

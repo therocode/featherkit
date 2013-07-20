@@ -5,7 +5,7 @@
 #include <framework/util/rendering/opengl.h>
 #include <framework/fontstash/fontstash.h>
 
-namespace windbreeze
+namespace fk
 {
     class OpenGL2DBackend : public Renderer2DBackend
     {
