@@ -1,7 +1,7 @@
-#include <framework/util/entity/alignedentitybackend.h>
+#include <featherkit/util/entity/alignedentitybackend.h>
 #include <algorithm>
 #include <sstream>
-#include <framework/entity/entityexceptions.h>
+#include <featherkit/entity/entityexceptions.h>
 
 namespace fku
 {

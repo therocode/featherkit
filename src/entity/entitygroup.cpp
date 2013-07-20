@@ -1,4 +1,4 @@
-#include <framework/entity/entitygroup.h>
+#include <featherkit/entity/entitygroup.h>
 #include <algorithm>
 
 namespace fk

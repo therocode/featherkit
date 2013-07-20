@@ -1,4 +1,4 @@
-#include <framework/window/videomode.h>
+#include <featherkit/window/videomode.h>
 
 namespace fk
 {

@@ -1,9 +1,9 @@
-#include <framework/glm/glm.hpp>
-#include <framework/rendering/renderer2d.h>
-#include <framework/rendering/drawable2d.h>
+#include <featherkit/glm/glm.hpp>
+#include <featherkit/rendering/renderer2d.h>
+#include <featherkit/rendering/drawable2d.h>
 #include <sstream>
 
-#include <framework/rendering/text.h> //TEMPHACK
+#include <featherkit/rendering/text.h> //TEMPHACK
 namespace fk
 {
     InvalidFontException::InvalidFontException(const std::string& message) : std::runtime_error(message)

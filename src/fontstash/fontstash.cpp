@@ -31,7 +31,7 @@
 #endif
 
 /* @rlyeh: removed STB_TRUETYPE_IMPLENTATION. We link it externally */
-#include <framework/fontstash/stb_truetype.h>
+#include <featherkit/fontstash/stb_truetype.h>
 
 #define HASH_LUT_SIZE 256
 #define MAX_ROWS 128

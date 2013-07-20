@@ -1,5 +1,5 @@
-#include <framework/util/entity/jsonentityloader.h>
-#include <framework/json/json_reader.h>
+#include <featherkit/util/entity/jsonentityloader.h>
+#include <featherkit/json/json_reader.h>
 #include <fstream>
 #include <sstream>
 

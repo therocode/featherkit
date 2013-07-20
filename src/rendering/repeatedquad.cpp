@@ -1,4 +1,4 @@
-#include <framework/rendering/repeatedquad.h>
+#include <featherkit/rendering/repeatedquad.h>
 
 namespace fk
 {

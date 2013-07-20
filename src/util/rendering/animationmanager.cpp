@@ -1,4 +1,4 @@
-#include <framework/util/rendering/animationmanager.h>
+#include <featherkit/util/rendering/animationmanager.h>
 #include <sstream>
 
 namespace fku

@@ -1,4 +1,4 @@
-#include <framework/rendering/texturemanager.h>
+#include <featherkit/rendering/texturemanager.h>
 
 namespace fk
 {

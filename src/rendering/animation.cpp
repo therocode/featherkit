@@ -1,4 +1,4 @@
-#include <framework/rendering/animation.h>
+#include <featherkit/rendering/animation.h>
 
 namespace fk
 {

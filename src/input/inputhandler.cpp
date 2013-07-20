@@ -1,5 +1,5 @@
-#include <framework/input/inputbackend.h>
-#include <framework/input/inputhandler.h>
+#include <featherkit/input/inputbackend.h>
+#include <featherkit/input/inputhandler.h>
 
 namespace fk
 {

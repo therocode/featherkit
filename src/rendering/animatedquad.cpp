@@ -1,4 +1,4 @@
-#include <framework/rendering/animatedquad.h>
+#include <featherkit/rendering/animatedquad.h>
 
 namespace fk
 {

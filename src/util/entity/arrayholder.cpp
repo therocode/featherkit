@@ -1,6 +1,6 @@
 #include <cstring>
 #include <sstream>
-#include <framework/util/entity/arrayholder.h>
+#include <featherkit/util/entity/arrayholder.h>
 
 namespace fku
 {

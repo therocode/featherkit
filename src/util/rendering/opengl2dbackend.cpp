@@ -1,6 +1,6 @@
-#include <framework/util/rendering/opengl2dbackend.h>
-#include <framework/glm/gtc/type_ptr.hpp>
-#include <framework/rendering/shaderloader.h>
+#include <featherkit/util/rendering/opengl2dbackend.h>
+#include <featherkit/glm/gtc/type_ptr.hpp>
+#include <featherkit/rendering/shaderloader.h>
 
 namespace fku
 {

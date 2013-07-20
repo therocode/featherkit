@@ -1,4 +1,4 @@
-#include <framework/rendering/camera.h>
+#include <featherkit/rendering/camera.h>
 
 namespace fk
 {
