@@ -65,10 +65,10 @@ if(BUILD_ENTITY)
     ##Entity module##
     #find all source files
     file(GLOB_RECURSE entity_source_files "src/entity/*.cpp")
-    file(GLOB_RECURSE entity_header_files "include/framework/entity/*.h")
+    file(GLOB_RECURSE entity_header_files "include/featherkit/entity/*.h")
 
     file(GLOB_RECURSE entity_util_source_files "src/util/entity/*.cpp")
-    file(GLOB_RECURSE entity_util_header_files "include/framework/util/entity/*.h")
+    file(GLOB_RECURSE entity_util_header_files "include/featherkit/util/entity/*.h")
 
     add_library(${project_name}-entity ${entity_header_files} ${entity_source_files} ${entity_util_source_files} ${entity_util_header_files})
 endif()
@@ -77,7 +77,7 @@ if(BUILD_MESSAGING)
     ##Messaging module##
     #find all source files
     file(GLOB_RECURSE messaging_source_files "src/messaging/*.cpp")
-    file(GLOB_RECURSE messaging_header_files "include/framework/messaging/*.h")
+    file(GLOB_RECURSE messaging_header_files "include/featherkit/messaging/*.h")
     add_library(${project_name}-messaging ${messaging_header_files} ${messaging_source_files})
 endif()
 
@@ -85,13 +85,13 @@ if(BUILD_RENDERING)
     ##Rendering module##
     #find all source files
     file(GLOB_RECURSE rendering_source_files "src/rendering/*.cpp")
-    file(GLOB_RECURSE rendering_header_files "include/framework/rendering/*.h")
+    file(GLOB_RECURSE rendering_header_files "include/featherkit/rendering/*.h")
 
     file(GLOB_RECURSE rendering_util_source_files "src/util/rendering/*.cpp")
-    file(GLOB_RECURSE rendering_util_header_files "include/framework/util/rendering/*.h")
+    file(GLOB_RECURSE rendering_util_header_files "include/featherkit/util/rendering/*.h")
 
     file(GLOB_RECURSE fontstash_source_files "src/fontstash/*.cpp")
-    file(GLOB_RECURSE fontstash_header_files "include/framework/fontstash/*.cpp")
+    file(GLOB_RECURSE fontstash_header_files "include/featherkit/fontstash/*.cpp")
 
     find_package(GLew REQUIRED)
     if(GLEW_FOUND)
@@ -106,10 +106,10 @@ if(BUILD_UI)
     ##UI module##
     #find all source files
     file(GLOB_RECURSE ui_source_files "src/window/*.cpp" "src/input/*.cpp")
-    file(GLOB_RECURSE ui_header_files "include/framework/window/*.h" "include/framework/input/*.h")
+    file(GLOB_RECURSE ui_header_files "include/featherkit/window/*.h" "include/featherkit/input/*.h")
 
     file(GLOB_RECURSE ui_util_source_files "src/util/input/*.cpp")
-    file(GLOB_RECURSE ui_util_header_files "include/framework/util/input/*.h")
+    file(GLOB_RECURSE ui_util_header_files "include/featherkit/util/input/*.h")
 
     if(${BUILD_SFMLBACKENDS})
         find_package(SFML REQUIRED)
