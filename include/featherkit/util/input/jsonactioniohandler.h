@@ -7,6 +7,8 @@
 #include <fstream>
 #include <sstream>
 
+using namespace fk;
+
 namespace fku
 {
     template<class Action>
@@ -35,7 +37,7 @@ namespace fku
         {
             std::stringstream ss;
             ss << "Error! Entity file not found: " << path << "\n";
-            throw fk::FileNotFoundException(ss.str());
+            throw fku::FileNotFoundException(ss.str());
         }
 
         json::Value root;
@@ -168,7 +170,7 @@ namespace fku
         {
             std::stringstream ss;
             ss << "Error! Action bindings file not found: " << path << "\n";
-            throw fk::FileNotFoundException(ss.str());
+            throw fku::FileNotFoundException(ss.str());
         }
 
         for(auto binding : primaryActions)

@@ -69,6 +69,8 @@ if(BUILD_ENTITY)
 
     file(GLOB_RECURSE entity_util_source_files "src/util/entity/*.cpp")
     file(GLOB_RECURSE entity_util_header_files "include/featherkit/util/entity/*.h")
+    set(entity_util_source_files ${entity_util_source_files} "src/util/filenotfoundexception.cpp")
+    set(entity_util_header_files ${entity_util_header_files} "include/featherkit/util/filenotfoundexception.h")
 
     add_library(${project_name}-entity ${entity_header_files} ${entity_source_files} ${entity_util_source_files} ${entity_util_header_files})
 endif()
