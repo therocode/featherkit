@@ -10,6 +10,7 @@ namespace windbreeze
     class Drawable2D
     {
         public:
+            Drawable2D();
             const std::vector<float>& getVertices() const;
             std::vector<float> getVerticesTransformed() const;
             void setPosition(const float x, const float y);
@@ -37,14 +38,14 @@ namespace windbreeze
             virtual void getRenderData(RenderData& renderData, uint32_t time) const;
             AABB getAABB() const;
 
-            bool isText = false; //OJOJOJOJOJOJ ugly hack
+            bool isText; //OJOJOJOJOJOJ ugly hack
         protected:
             std::vector<float> vertices;
             glm::vec2 position;
             glm::vec2 origin;
-            float rotation = 0.0f;
-            glm::vec2 scaling = glm::vec2(1.0f, 1.0f);
-            float parallax = 1.0f;
+            float rotation;
+            glm::vec2 scaling;
+            float parallax;
 
             std::vector<glm::mat2x2> transformations;
     };

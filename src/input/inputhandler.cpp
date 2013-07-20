@@ -3,9 +3,13 @@
 
 namespace windbreeze
 {
+    InputHandler::InputHandler(InputBackend* backend) : inputBackend(backend)
+    {
+    }
+
     void InputHandler::processEvents(bool keepLast)
     {
-        std::queue<Event> newEvents = inputBackend.fetchEvents();
+        std::queue<Event> newEvents = inputBackend->fetchEvents();
 
         if(keepLast)
         {
@@ -40,66 +44,66 @@ namespace windbreeze
     
     bool InputHandler::isKeyPressed(Keyboard::Code code) const
     {
-        return inputBackend.isKeyPressed(code);
+        return inputBackend->isKeyPressed(code);
     }
     
     bool InputHandler::isMouseButtonPressed(Mouse::Button b) const
     {
-        return inputBackend.isMouseButtonPressed(b);
+        return inputBackend->isMouseButtonPressed(b);
     }
     
     glm::ivec2 InputHandler::getMouseGlobalPosition() const
     {
-        return inputBackend.getMouseGlobalPosition();
+        return inputBackend->getMouseGlobalPosition();
     }
 
     glm::ivec2 InputHandler::getMouseWindowPosition() const
     {
-        return inputBackend.getMouseWindowPosition();
+        return inputBackend->getMouseWindowPosition();
     }
     
     void InputHandler::setMouseGlobalPosition(int32_t x, int32_t y)
     {
-        inputBackend.setMouseGlobalPosition(x, y);
+        inputBackend->setMouseGlobalPosition(x, y);
     }
     
     void InputHandler::setMouseWindowPosition(int32_t x, int32_t y)
     {
-        inputBackend.setMouseWindowPosition(x, y);
+        inputBackend->setMouseWindowPosition(x, y);
     }
 
     bool InputHandler::isGamepadConnected(uint32_t id) const
     {
-        return inputBackend.isGamepadConnected(id);
+        return inputBackend->isGamepadConnected(id);
     }
 
     uint32_t InputHandler::getGamepadButtonCount(uint32_t id) const
     {
-        return inputBackend.getGamepadButtonCount(id);
+        return inputBackend->getGamepadButtonCount(id);
     }
 
     bool InputHandler::isGamepadButtonPressed(uint32_t id, uint32_t button) const
     {
-        return inputBackend.isGamepadButtonPressed(id, button);
+        return inputBackend->isGamepadButtonPressed(id, button);
     }
 
     bool InputHandler::gamepadHasAxis(uint32_t id, Gamepad::Axis axis) const
     {
-        return inputBackend.gamepadHasAxis(id, axis);
+        return inputBackend->gamepadHasAxis(id, axis);
     }
 
     float InputHandler::getGamepadAxisPosition(uint32_t id, Gamepad::Axis axis) const
     {
-        return inputBackend.getGamepadAxisPosition(id, axis);
+        return inputBackend->getGamepadAxisPosition(id, axis);
     }
 
     void InputHandler::setGamepadThreshold(float threshold)
     {
-        inputBackend.setGamepadThreshold(threshold);
+        inputBackend->setGamepadThreshold(threshold);
     }
 
     void InputHandler::setKeyRepeatEnabled(bool enabled)
     {
-        inputBackend.setKeyRepeatEnabled(enabled);
+        inputBackend->setKeyRepeatEnabled(enabled);
     }
 }

@@ -2,6 +2,10 @@
 
 namespace windbreeze
 {
+    SFMLWindowBackend::SFMLWindowBackend(sf::Window& w) : window(w)
+    {
+    }
+
     void SFMLWindowBackend::create(VideoMode mode, const std::string& title, uint32_t style, const ContextSettings& settings)
     {
         sf::VideoMode vidMode(mode.width, mode.height, mode.bitsPerPixel);

@@ -5,6 +5,7 @@ namespace windstorm
     class Application
     {
         public:
+            Application();
             virtual void setup() = 0;
             void run();
             virtual void destroy() = 0;
@@ -12,7 +13,7 @@ namespace windstorm
         protected:
             virtual void loop() = 0;
         private:
-            bool shutDown = false;
+            bool shutDown;
     };
     /** @addtogroup Structure
      *@{

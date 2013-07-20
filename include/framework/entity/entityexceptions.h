@@ -8,23 +8,20 @@ namespace windgale
     class InvalidIdException : public std::runtime_error 
     {
         public:
-            InvalidIdException(const std::string& message) 
-                : std::runtime_error(message) { };
+            InvalidIdException(const std::string& message);
     };
 
     class InvalidAttributeException : public std::runtime_error 
     {
         public:
-            InvalidAttributeException(const std::string& m, const AttributeHash h) 
-                : std::runtime_error(m), hash(h) { };
+            InvalidAttributeException(const std::string& m, const AttributeHash h);
             AttributeHash hash;
     };
 
     class EntityException : public std::runtime_error 
     {
         public:
-            EntityException(const std::string& message) 
-                : std::runtime_error(message) { };
+            EntityException(const std::string& message);
     };
     /** @addtogroup EntitySystem
      *@{

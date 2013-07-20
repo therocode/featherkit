@@ -18,8 +18,8 @@ namespace windbreeze
             virtual void getRenderData(RenderData& renderData, uint32_t time) const override;
         protected:
             std::string textureId;
-            float hFlip = 1.0f;
-            float vFlip = 1.0f;
+            float hFlip;
+            float vFlip;
     };
     /** @addtogroup Render2D
      *@{

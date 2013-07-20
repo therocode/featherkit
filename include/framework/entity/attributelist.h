@@ -12,7 +12,7 @@ namespace windgale
             void addAttribute(AttributeHash attribute);
             size_t size() const;
             const std::set<AttributeHash>& getSet() const;
-            bool hasAttributes(AttributeList& attributes) const;
+            bool hasAttributes(const AttributeList& attributes) const;
             bool operator==(const AttributeList& other) const;
             bool operator!=(const AttributeList& other) const;
             bool operator<(const AttributeList& other) const;
@@ -35,7 +35,7 @@ namespace windgale
      *  @class AttributeList
      *  @brief Container class that can hold several AttributeHash instances. Used for the EntityBackend implementations.
      ***
-     *  @fn void AttributeList::addAttribute(AttributeHash attribute)
+     *  @fn void AttributeList::addAttribute(const AttributeHash attribute)
      *  @brief Add an AttributeHash to this AttributeList.
      *  @param attribute AttributeHash to add.
      ***

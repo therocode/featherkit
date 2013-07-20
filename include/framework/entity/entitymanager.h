@@ -26,7 +26,7 @@ namespace windgale
     class EntityManager
     {
         public:
-            EntityManager(EntityBackend& b) : backend(b) {};
+            EntityManager(EntityBackend* b);
             WeakEntityPtr createEntity(const EntityType& type);
             WeakEntityPtr getEntity(EntityId id) const;
             void removeEntity(const EntityId id);
@@ -47,7 +47,7 @@ namespace windgale
             void removeAll();
             void reset();
         private:
-            EntityBackend& backend;
+            std::unique_ptr<EntityBackend> backend;
             std::map<EntityType, EntityTypeData> entityTypes;
             std::map<EntityId, EntityPtr> entities;
             std::map<std::string, std::function<void(std::string, std::vector<std::string>&, WeakEntityPtr)> > defaultSetters;
@@ -59,7 +59,7 @@ namespace windgale
         std::hash<std::string> hasher;
         try
         {
-            backend.getData(hasher(attribute), id, (char*) outData);
+            backend->getData(hasher(attribute), id, (char*) outData);
         }
         catch(InvalidAttributeException)
         {
@@ -75,7 +75,7 @@ namespace windgale
         std::hash<std::string> hasher;
         try
         {
-            backend.setData(hasher(attribute), id, (char*) inData);
+            backend->setData(hasher(attribute), id, (char*) inData);
         }
         catch(InvalidAttributeException)
         {
@@ -92,10 +92,10 @@ namespace windgale
         size_t hashed = hasher(attribute);
 
         DataType temp;
-        backend.getData(hashed, id, (char*) &temp);
+        backend->getData(hashed, id, (char*) &temp);
         temp = temp + *inData;
 
-        backend.setData(hashed, id, (char*) &temp);
+        backend->setData(hashed, id, (char*) &temp);
     }
     /** @addtogroup EntitySystem
      *@{
@@ -133,9 +133,9 @@ namespace windgale
      *
      *  The EntityManager relies on an EntityBackend which is responsible of providing a data structure for the EntityManager to store its data in. The underlying implementation of these may vary and have different pros and cons. 
      ***
-     *  @fn EntityManager::EntityManager(EntityBackend& b)
+     *  @fn EntityManager::EntityManager(EntityBackend* b)
      *  @brief Construct an EntityManager that will use the provided EntityBackend.
-     *  @param b Backend to be used. This will be modified as the EntityManager stores its data in it.
+     *  @param b Backend to be used. The backend is stored internally as an std::unique_ptr and the memory of it will therefore be managed.
      ***
      *  @fn WeakEntityPtr EntityManager::createEntity(const EntityType& type)
      *  @brief Create an Entity of the given EntityType.

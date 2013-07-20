@@ -7,10 +7,20 @@ namespace windbreeze
     template<class tag, typename... DataTypes>
     struct Message
     {
-        Message() {}
-        Message(DataTypes... d) : data(d...) {}
+        Message();
+        Message(DataTypes... d);
         std::tuple<DataTypes...> data;
     };
+
+    template<class tag, typename... DataTypes>
+    Message<tag, DataTypes...>::Message()
+    {
+    }
+
+    template<class tag, typename... DataTypes>
+    Message<tag, DataTypes...>::Message(DataTypes... d) : data(d...)
+    {
+    }
     /** @addtogroup Messaging
      *@{
      *  @struct Message

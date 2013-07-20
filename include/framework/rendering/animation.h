@@ -11,8 +11,8 @@ namespace windbreeze
     class Animation
     {
         public:
-            Animation(){}
-            Animation(glm::vec2 fStart, glm::vec2 fSize, uint32_t fAmount = 1, uint32_t d = 1, bool l = true, AnimationBehaviour ab = FORWARDS) : start(fStart), frameSize(fSize), frameAmount(fAmount), delay(d), loop(l), animBehaviour(ab) {}
+            Animation();
+            Animation(glm::vec2 fStart, glm::vec2 fSize, uint32_t fAmount = 1, uint32_t d = 1, bool l = true, AnimationBehaviour ab = FORWARDS);
             void getConstraints(glm::vec2& constraintX, glm::vec2& constraintY, uint32_t frame) const;
             uint32_t getFrameAmount() const;
             uint32_t getDelay() const;
@@ -21,10 +21,10 @@ namespace windbreeze
         private:
             glm::vec2 start;
             glm::vec2 frameSize;
-            uint32_t frameAmount = 1;
-            uint32_t delay = 1;
-            bool loop = true;
-            AnimationBehaviour animBehaviour = FORWARDS;
+            uint32_t frameAmount;
+            uint32_t delay;
+            bool loop;
+            AnimationBehaviour animBehaviour;
     };
     /** @addtogroup Render2D
      *@{

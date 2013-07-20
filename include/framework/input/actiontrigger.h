@@ -9,19 +9,20 @@ namespace windbreeze
     class ActionTrigger
     {
         public:
-        enum ActionType {KEYPRESS, KEYRELEASE, MOUSEPRESS, MOUSERELEASE, GAMEPADPRESS, GAMEPADRELEASE};
+            enum ActionType {KEYPRESS, KEYRELEASE, MOUSEPRESS, MOUSERELEASE, GAMEPADPRESS, GAMEPADRELEASE};
 
-        ActionType type;
-        uint32_t gamepadId = 0;
-        union
-        {
-            Keyboard::Code keyCode;         ///< Numerical value representing the key needed to trigger this action.
-            Mouse::Button mouseButton;      ///< Numerical value representing the mouse button needed to trigger this action.
-            uint32_t gamepadButton;         ///< Numerical value representing the gamepad button needed to trigger this action.
-        };
+            ActionType type;
+            uint32_t gamepadId;
+            union
+            {
+                Keyboard::Code keyCode;         ///< Numerical value representing the key needed to trigger this action.
+                Mouse::Button mouseButton;      ///< Numerical value representing the mouse button needed to trigger this action.
+                uint32_t gamepadButton;         ///< Numerical value representing the gamepad button needed to trigger this action.
+            };
 
-        bool operator>(const ActionTrigger& other) const;
-        bool operator<(const ActionTrigger& other) const;
+            ActionTrigger();
+            bool operator>(const ActionTrigger& other) const;
+            bool operator<(const ActionTrigger& other) const;
     };
     /** @addtogroup UserInterface
      *@{

@@ -11,13 +11,14 @@ namespace windstorm
     class GameStateException: public std::runtime_error
     {
         public:
-            GameStateException():runtime_error("Game state not found"){}
-            GameStateException(std::string msg):runtime_error(msg.c_str()){}
+            GameStateException();
+            GameStateException(std::string msg);
     };
 
     class GameStateMachine
     {
         public:
+            GameStateMachine();
             void addGameState(const std::string& name, std::shared_ptr<GameState> state);
             void setCurrentState(const std::string& name);
             bool isFinished() const;
@@ -26,7 +27,7 @@ namespace windstorm
         private:
             void switchState(const std::string& nextName);
             std::weak_ptr<GameState> currentState;
-            std::string currentStateName = "NONE";
+            std::string currentStateName;
             std::map<StateName, std::shared_ptr<GameState> > gameStates;
     };
     

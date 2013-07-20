@@ -6,8 +6,7 @@ namespace windbreeze
     class MessageException : public std::runtime_error 
     {
         public:
-            MessageException(const std::string& message) 
-                : std::runtime_error(message) { };
+            MessageException(const std::string& message);
     };
 
     /** @addtogroup Messaging

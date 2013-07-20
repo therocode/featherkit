@@ -2,6 +2,16 @@
 
 namespace windbreeze
 {
+    RepeatedQuad::RepeatedQuad() : AnimatedQuad() 
+    {
+        tileSize = getSize();
+    }
+
+    RepeatedQuad::RepeatedQuad(float w, float h) : AnimatedQuad(w, h) 
+    {
+        tileSize = getSize();
+    }
+
     void RepeatedQuad::setTileSize(glm::vec2 size)
     {
         tileSize = size;

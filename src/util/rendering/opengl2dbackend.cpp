@@ -4,6 +4,10 @@
 
 namespace windbreeze
 {
+    OpenGL2DBackend::OpenGL2DBackend(TextureManager<OpenGLTexture>& tm) : textureManager(tm), shaderProgram(0)
+    {
+    }
+
     void OpenGL2DBackend::setup()
     {
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);

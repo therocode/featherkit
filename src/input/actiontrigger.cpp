@@ -2,6 +2,10 @@
 
 namespace windbreeze
 {
+    ActionTrigger::ActionTrigger() : gamepadId(0)
+    {
+    }
+
     bool ActionTrigger::operator>(const ActionTrigger& other) const
     {
         if(type > other.type)

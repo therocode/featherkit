@@ -2,6 +2,16 @@
 
 namespace windbreeze
 {
+    Text::Text(const std::string& t) : text(t), colour(1.0f, 1.0f, 1.0f), fontSize(24.0f)
+    {
+        isText = true;
+    }
+
+    Text::Text(const std::string& t, const glm::vec3& col) : text(t), colour(col), fontSize(24.0f)
+    {
+        isText = true;
+    }
+    
     std::string Text::getText() const
     {
         return text;

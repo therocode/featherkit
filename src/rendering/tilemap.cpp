@@ -3,9 +3,27 @@
 
 namespace windbreeze
 {
-    TileDefinition::TileDefinition(glm::uvec2 texPos, TileId nextId, uint32_t ticks) : tileTexPosition(texPos), nextTileId(nextId), ticksUntilChange(ticks){}
+    TileDefinition::TileDefinition(glm::uvec2 texPos, TileId nextId, uint32_t ticks) : tileTexPosition(texPos), nextTileId(nextId), ticksUntilChange(ticks)
+    {
+    }
+    
+    TileMapException::TileMapException(const std::string& message) : std::runtime_error(message)
+    {
+    };
 
-    TileMap::TileMap(uint32_t gridWidth, uint32_t gridHeight, uint32_t tileWidth, uint32_t tileHeight, float textureTileWidth, float textureTileHeight, uint32_t chunkWidth, uint32_t chunkHeight)
+    TileMap::TileMap(uint32_t gridWidth, uint32_t gridHeight, uint32_t tileWidth, uint32_t tileHeight, float textureTileWidth, float textureTileHeight, uint32_t chunkWidth, uint32_t chunkHeight) : animatedTiles([](const glm::uvec2& first, const glm::uvec2& second){ 
+                if(first.x < second.x) 
+                    return true;
+                else if(first.x > second.x)
+                    return false;
+                else
+                {
+                if(first.y < second.y) 
+                    return true;
+                else
+                    return false;
+                }
+           })
     {
         uint32_t chunkGridWidth = (gridWidth + chunkWidth - 1) / chunkWidth;
         uint32_t chunkGridHeight = (gridHeight + chunkHeight - 1) / chunkHeight;

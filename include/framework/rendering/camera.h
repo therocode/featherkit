@@ -6,9 +6,9 @@ namespace windbreeze
     class Camera
     {
         public:
-            Camera() : position(glm::vec2(0.0f, 0.0f)), zoom(glm::vec2(1.0f, 1.0f)) {}
-            Camera(float x, float y, float xZoom = 1.0f, float yZoom = 1.0f) : position(glm::vec2(x, y)), zoom(glm::vec2(xZoom, yZoom)) {}
-            Camera(glm::vec2 p, glm::vec2 z = glm::vec2(1.0f, 1.0f)) : position(p), zoom(z) {}
+            Camera();
+            Camera(float x, float y, float xZoom = 1.0f, float yZoom = 1.0f);
+            Camera(glm::vec2 p, glm::vec2 z = glm::vec2(1.0f, 1.0f));
             void setPosition(float x, float y);
             void setPosition(glm::vec2 p);
             const glm::vec2& getPosition() const;
@@ -24,7 +24,7 @@ namespace windbreeze
         private:
             glm::vec2 position;
             glm::vec2 zoom;
-            float rotation = 0.0f;
+            float rotation;
     };
     /** @addtogroup Render2D
      *@{

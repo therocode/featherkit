@@ -2,6 +2,14 @@
 
 namespace windbreeze
 {
+    AnimatedQuad::AnimatedQuad() : Quad(), clock(0), currentFrame(0), animate(false)
+    {
+    }
+
+    AnimatedQuad::AnimatedQuad(float w, float h) : Quad(w, h), clock(0), currentFrame(0), animate(false)
+    {
+    }
+
     void AnimatedQuad::addAnimation(AnimationId id, std::weak_ptr<Animation> animation)
     {
         animations.emplace(id, animation);

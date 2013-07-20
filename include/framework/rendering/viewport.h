@@ -7,9 +7,9 @@ namespace windbreeze
     class Viewport
     {
         public:
-            Viewport() {}
-            Viewport(uint32_t w, uint32_t h) : size(glm::uvec2(w, h)) {}
-            Viewport(uint32_t w, uint32_t h, const Camera& cam) : size(glm::uvec2(w, h)), camera(cam) {}
+            Viewport();
+            Viewport(uint32_t w, uint32_t h);
+            Viewport(uint32_t w, uint32_t h, const Camera& cam);
             void setSize(const glm::uvec2& s);
             const glm::uvec2& getSize() const;
             void setCamera(const Camera& cam);

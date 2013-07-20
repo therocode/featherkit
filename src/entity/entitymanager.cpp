@@ -7,6 +7,10 @@
 
 namespace windgale
 {
+    EntityManager::EntityManager(EntityBackend* b) : backend(b)
+    {
+    }
+
     WeakEntityPtr EntityManager::createEntity(const EntityType& type)
     {
         if(entityTypes.find(type) == entityTypes.end())
@@ -15,7 +19,7 @@ namespace windgale
             ss << "Error! Entity type '" << type << "' does not exist!\n";
             throw(EntityException(ss.str()));
         }
-        EntityId createdId = backend.addEntity(entityTypes.at(type).attributeList);
+        EntityId createdId = backend->addEntity(entityTypes.at(type).attributeList);
         EntityPtr created = std::make_shared<Entity>(createdId, *this);
         entities.insert(std::pair<EntityId, EntityPtr>(createdId, created));
 
@@ -52,7 +56,7 @@ namespace windgale
     
     void EntityManager::removeEntity(const EntityId id)
     {
-        backend.removeEntity(id);
+        backend->removeEntity(id);
         entities.erase(id);
     }
     
@@ -65,7 +69,7 @@ namespace windgale
     void EntityManager::registerAttribute(const std::string& attribute, const int size)
     {
         std::hash<std::string> hasher;
-        backend.registerAttribute(hasher(attribute), size);
+        backend->registerAttribute(hasher(attribute), size);
     }
 
     void EntityManager::registerAttributes(const std::map<std::string, int>& attributes)
@@ -73,7 +77,7 @@ namespace windgale
         std::hash<std::string> hasher;
         for(const auto& pair : attributes)
         {
-            backend.registerAttribute(hasher(pair.first), pair.second);
+            backend->registerAttribute(hasher(pair.first), pair.second);
         }
     }
 
@@ -113,7 +117,7 @@ namespace windgale
     void EntityManager::registerDefaultSetter(std::string attribute, std::function<void(std::string, std::vector<std::string>&, WeakEntityPtr)> defaultFunc)
     {
         std::hash<std::string> hasher;
-        if(backend.attributeIsValid(hasher(attribute)))
+        if(backend->attributeIsValid(hasher(attribute)))
         {
             defaultSetters.insert(std::pair<std::string, std::function<void(std::string, std::vector<std::string>&, WeakEntityPtr)> >(attribute, defaultFunc));
         }
@@ -136,7 +140,7 @@ namespace windgale
     bool EntityManager::hasAttribute(const std::string& attribute, const EntityId id) const
     {
         std::hash<std::string> hasher;
-        return backend.hasData(hasher(attribute), id);
+        return backend->hasData(hasher(attribute), id);
     }
 
     void EntityManager::removeAll()
@@ -150,6 +154,6 @@ namespace windgale
         entities.clear();
         entityTypes.clear();
         defaultSetters.clear();
-        backend.clear();
+        backend->clear();
     }
 }

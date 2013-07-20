@@ -10,7 +10,7 @@ namespace windbreeze
     class OpenGL2DBackend : public Renderer2DBackend
     {
         public:
-            OpenGL2DBackend(TextureManager<OpenGLTexture>& tm) : textureManager(tm) {}
+            OpenGL2DBackend(TextureManager<OpenGLTexture>& tm);
             void setup() override;
             void destroy() override;
             void clear() override;
@@ -21,7 +21,7 @@ namespace windbreeze
         private:
             virtual void renderText(const TextData& textData) override;
             TextureManager<OpenGLTexture>& textureManager;
-            GLuint shaderProgram = 0;
+            GLuint shaderProgram;
 
             sth_stash* stash;
     };

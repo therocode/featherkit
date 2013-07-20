@@ -3,6 +3,18 @@
 
 namespace windstorm
 {
+    GameStateException::GameStateException() : runtime_error("Game state not found")
+    {
+    }
+
+    GameStateException::GameStateException(std::string msg) : runtime_error(msg.c_str())
+    {
+    }
+
+    GameStateMachine::GameStateMachine() : currentStateName("NONE")
+    {
+    }
+
     void GameStateMachine::addGameState(const std::string& name, std::shared_ptr<GameState> state)
     {
         state->setup();

@@ -8,8 +8,7 @@ namespace windbreeze
     class InvalidTextureException : public std::runtime_error 
     {
         public:
-            InvalidTextureException(const std::string& message) 
-                : std::runtime_error(message) { };
+            InvalidTextureException(const std::string& message);
     };
 
     template<class Texture>

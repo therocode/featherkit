@@ -6,30 +6,34 @@
 #include <framework/rendering/text.h> //TEMPHACK
 namespace windbreeze
 {
-    Renderer2D::Renderer2D(Renderer2DBackend& b, Viewport v) : backend(b), currentViewport(v)
+    InvalidFontException::InvalidFontException(const std::string& message) : std::runtime_error(message)
     {
-        b.setViewport(v);
+    };
+
+    Renderer2D::Renderer2D(Renderer2DBackend* b, Viewport v) : backend(b), currentViewport(v), clock(0)
+    {
+        backend->setViewport(v);
     }
 
     void Renderer2D::clear()
     {
-        backend.clear();
+        backend->clear();
     }
     
     void Renderer2D::setup()
     {
-        backend.setup();
+        backend->setup();
     }
 
     void Renderer2D::destroy()
     {
-        backend.destroy();
+        backend->destroy();
     }
 
     void Renderer2D::preRender()
     {
-        backend.setViewport(currentViewport);
-        backend.preRender();
+        backend->setViewport(currentViewport);
+        backend->preRender();
     }
 
     void Renderer2D::render(const Drawable2D& drawable)
@@ -44,19 +48,19 @@ namespace windbreeze
             temp.size = text.getTextSize();
             temp.font = text.getFont();
 
-            backend.renderText(temp);
+            backend->renderText(temp);
             return;
         }
         RenderData temp;
 
         drawable.getRenderData(temp, clock);
 
-        backend.render(temp);
+        backend->render(temp);
     }
 
     void Renderer2D::postRender()
     {
-        backend.postRender();
+        backend->postRender();
         clock++;
     }
 
@@ -77,7 +81,7 @@ namespace windbreeze
     
     int32_t Renderer2D::addFont(uint8_t* fontData)
     {
-        int32_t font = backend.addFont(fontData);
+        int32_t font = backend->addFont(fontData);
         if(font != 0)
         {
             return font;

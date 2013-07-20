@@ -2,6 +2,10 @@
 
 namespace windgale
 {
+    DefaultSetterException::DefaultSetterException(const std::string& m) : std::runtime_error(m)
+    {
+    }
+
     void floatSetter(std::string attribute, std::vector<std::string>& arguments, windgale::WeakEntityPtr entity)
     {
         float val = std::stof(arguments[0]);

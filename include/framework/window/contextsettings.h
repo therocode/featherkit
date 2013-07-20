@@ -1,11 +1,11 @@
 #pragma once
+#include <stdint.h>
 
 namespace windbreeze
 {
     struct ContextSettings
     {
-        explicit ContextSettings(uint32_t depth = 0, uint32_t stencil = 0, uint32_t antialiasing = 0, uint32_t major = 2, uint32_t minor = 0) :
-        depthBits(depth), stencilBits(stencil), antialiasingLevel(antialiasing), majorVersion(major), minorVersion(minor) {}
+        explicit ContextSettings(uint32_t depth = 0, uint32_t stencil = 0, uint32_t antialiasing = 0, uint32_t major = 2, uint32_t minor = 0);
 
         uint32_t depthBits;         
         uint32_t stencilBits;       
