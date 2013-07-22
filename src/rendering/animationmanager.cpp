@@ -1,7 +1,7 @@
-#include <featherkit/util/rendering/animationmanager.h>
+#include <featherkit/rendering/animationmanager.h>
 #include <sstream>
 
-namespace fku
+namespace fk
 {
     InvalidAnimationException::InvalidAnimationException(const std::string& message) : std::runtime_error(message)
     {
