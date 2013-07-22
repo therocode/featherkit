@@ -1,8 +1,8 @@
 #pragma once
 #include <featherkit/rendering/renderer2dbackend.h>
-#include <featherkit/util/rendering/opengltexture.h>
+#include <featherkit/util/rendering/opengl/opengltexture.h>
 #include <featherkit/rendering/texturemanager.h>
-#include <featherkit/util/rendering/opengl.h>
+#include <featherkit/util/rendering/opengl/opengl.h>
 #include <featherkit/fontstash/fontstash.h>
 
 using namespace fk;

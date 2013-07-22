@@ -1,4 +1,4 @@
-#include <featherkit/util/rendering/opengltexturecreator.h>
+#include <featherkit/util/rendering/opengl/opengltexturecreator.h>
 
 namespace fku
 {

@@ -1,5 +1,5 @@
 #pragma once
-#include <featherkit/util/rendering/opengl.h>
+#include <featherkit/util/rendering/opengl/opengl.h>
 #include <string>
 #include <stdexcept>
 

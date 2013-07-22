@@ -1,7 +1,7 @@
 #pragma once
 #include <stdint.h>
-#include <featherkit/util/rendering/opengltexture.h>
-#include <featherkit/util/rendering/opengl.h>
+#include <featherkit/util/rendering/opengl/opengltexture.h>
+#include <featherkit/util/rendering/opengl/opengl.h>
 
 namespace fku
 {

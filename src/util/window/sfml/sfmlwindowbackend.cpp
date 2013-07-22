@@ -1,4 +1,4 @@
-#include <featherkit/util/input/sfmlwindowbackend.h>
+#include <featherkit/util/window/sfml/sfmlwindowbackend.h>
 
 namespace fku
 {
