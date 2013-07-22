@@ -1,3 +1,2 @@
-#include <featherkit/util/rendering/animationmanager.h>
-#include <featherkit/util/rendering/opengl2dbackend.h>
-#include <featherkit/util/rendering/opengltexturecreator.h>
+#include <featherkit/util/rendering/opengl/opengl2dbackend.h>
+#include <featherkit/util/rendering/opengl/opengltexturecreator.h>

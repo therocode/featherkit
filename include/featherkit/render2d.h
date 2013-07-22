@@ -3,3 +3,4 @@
 #include <featherkit/rendering/text.h>
 #include <featherkit/rendering/texturemanager.h>
 #include <featherkit/rendering/tilemap.h>
+#include <featherkit/rendering/animationmanager.h>
