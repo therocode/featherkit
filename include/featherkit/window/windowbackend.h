@@ -25,7 +25,7 @@ namespace fk
             virtual void setMouseCursorVisible(bool visible) = 0;
             virtual void setFramerateLimit(uint32_t limit) = 0;
             virtual bool setRenderingActive(bool active=true) const = 0;
-            virtual void display() = 0;
+            virtual void swapBuffers() = 0;
     };
     /** @addtogroup UserInterface
      *@{
@@ -102,7 +102,7 @@ namespace fk
      *  @param active True to set rendering to on, false for off. Default is true.
      *  @return True if the operation succeeded, otherwise false.
      ***
-     *  @fn void WindowBackend::display()
-     *  @brief Displays what has been rendered on the Window so far.
+     *  @fn void WindowBackend::swapBuffers()
+     *  @brief Swaps the front and back buffers, causing what has been rendered on the Window so far to be displayed.
      **/
 }

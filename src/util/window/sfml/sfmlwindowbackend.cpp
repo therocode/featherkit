@@ -88,7 +88,7 @@ namespace fku
         return window.setActive(active);
     }
 
-    void SFMLWindowBackend::display()
+    void SFMLWindowBackend::swapBuffers()
     {
         window.display();
     }

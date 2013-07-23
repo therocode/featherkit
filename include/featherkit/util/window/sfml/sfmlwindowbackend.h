@@ -28,8 +28,7 @@ namespace fku
             void setFramerateLimit(uint32_t limit) override;
 
             bool setRenderingActive(bool active = true) const override;
-            void display() override;
-
+            void swapBuffers() override;
         private:
             sf::Window& window;
     };

@@ -82,9 +82,9 @@ namespace fk
         return windowBackend->setRenderingActive(active);
     }
 
-    void Window::display()
+    void Window::swapBuffers()
     {
-        windowBackend->display();
+        windowBackend->swapBuffers();
     }
 
 

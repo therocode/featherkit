@@ -33,7 +33,7 @@ namespace fk
             void setMouseCursorVisible(bool visible);
             void setFramerateLimit(uint32_t limit);
             bool setRenderingActive(bool active = true) const;
-            void display();
+            void swapBuffers();
         private:
             std::unique_ptr<WindowBackend> windowBackend;
     };
@@ -120,7 +120,7 @@ namespace fk
      *  @param active True to set rendering to on, false for off. Default is true.
      *  @return True if the operation succeeded, otherwise false.
      ***
-     *  @fn void Window::display()
-     *  @brief Displays what has been rendered on the Window so far.
+     *  @fn void Window::swapBuffers()
+     *  @brief Swaps the front and back buffers, causing what has been rendered on the Window so far to be displayed.
      **/
 }
