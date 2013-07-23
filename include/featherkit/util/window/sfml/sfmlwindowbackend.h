@@ -13,7 +13,7 @@ namespace fea
         class SFMLWindowBackend : public WindowBackend
         {
             public:
-                SFMLWindowBackend(sf::Window* w);
+                SFMLWindowBackend(sf::Window& w);
 
                 void create(VideoMode mode, const std::string& title, uint32_t style = Style::Default, const ContextSettings& settings = ContextSettings()) override;
                 void close() override;
@@ -33,7 +33,7 @@ namespace fea
                 bool setRenderingActive(bool active = true) const override;
                 void swapBuffers() override;
             private:
-                std::unique_ptr<sf::Window> window;
+                sf::Window& window;
         };
     }
 }
