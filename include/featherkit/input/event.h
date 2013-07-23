@@ -5,7 +5,7 @@
 #include <featherkit/input/mouse.h>
 #include <featherkit/input/gamepad.h>
 
-namespace fk
+namespace fea
 {
     class Event
     {

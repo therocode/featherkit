@@ -1,6 +1,6 @@
 #include <featherkit/rendering/renderer2dbackend.h>
 
-namespace fk
+namespace fea
 {
     void Renderer2DBackend::setViewport(const Viewport& v)
     {

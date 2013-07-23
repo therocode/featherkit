@@ -1,7 +1,7 @@
 #pragma once
 #include <featherkit/entity/entitymanager.h>
 
-namespace fk
+namespace fea
 {
     class Entity
     {

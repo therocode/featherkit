@@ -1,6 +1,6 @@
 #include <featherkit/entity/entityexceptions.h>
 
-namespace fk
+namespace fea
 {
     InvalidIdException::InvalidIdException(const std::string& message) : std::runtime_error(message)
     {

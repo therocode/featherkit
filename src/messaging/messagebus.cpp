@@ -1,6 +1,6 @@
 #include <featherkit/messaging/messagebus.h>
 
-namespace fk
+namespace fea
 {
     bool MessageBus::subscriptionExists(std::type_index id, MessageReceiverBase* receiver) const
     {

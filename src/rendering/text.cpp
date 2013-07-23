@@ -1,6 +1,6 @@
 #include <featherkit/rendering/text.h>
 
-namespace fk
+namespace fea
 {
     Text::Text(const std::string& t) : text(t), colour(1.0f, 1.0f, 1.0f), fontSize(24.0f)
     {

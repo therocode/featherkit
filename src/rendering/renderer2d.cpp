@@ -4,7 +4,7 @@
 #include <sstream>
 
 #include <featherkit/rendering/text.h> //TEMPHACK
-namespace fk
+namespace fea
 {
     InvalidFontException::InvalidFontException(const std::string& message) : std::runtime_error(message)
     {

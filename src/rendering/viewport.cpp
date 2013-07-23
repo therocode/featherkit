@@ -1,6 +1,6 @@
 #include <featherkit/rendering/viewport.h>
 
-namespace fk
+namespace fea
 {
     Viewport::Viewport()
     {

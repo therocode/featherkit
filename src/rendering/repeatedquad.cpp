@@ -1,6 +1,6 @@
 #include <featherkit/rendering/repeatedquad.h>
 
-namespace fk
+namespace fea
 {
     RepeatedQuad::RepeatedQuad() : AnimatedQuad() 
     {

@@ -1,7 +1,7 @@
 #include <featherkit/structure/gamestatemachine.h>
 #include <sstream>
 
-namespace fk
+namespace fea
 {
     GameStateException::GameStateException() : runtime_error("Game state not found")
     {

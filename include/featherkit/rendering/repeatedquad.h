@@ -1,7 +1,7 @@
 #pragma once
 #include <featherkit/rendering/animatedquad.h>
 
-namespace fk
+namespace fea
 {
     class RepeatedQuad : public AnimatedQuad
     {

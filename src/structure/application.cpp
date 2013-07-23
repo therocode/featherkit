@@ -1,6 +1,6 @@
 #include <featherkit/structure/application.h>
 
-namespace fk
+namespace fea
 {
     Application::Application() : shutDown(false)
     {

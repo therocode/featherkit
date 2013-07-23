@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
 
-namespace fk
+namespace fea
 {
     struct VideoMode
     {

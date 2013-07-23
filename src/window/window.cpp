@@ -1,7 +1,7 @@
 #include <featherkit/window/window.h>
 #include <featherkit/window/windowbackend.h>
 
-namespace fk
+namespace fea
 {
     Window::Window(WindowBackend* backend) : windowBackend(backend)
     {

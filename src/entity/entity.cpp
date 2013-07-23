@@ -1,6 +1,6 @@
 #include <featherkit/entity/entity.h>
 
-namespace fk
+namespace fea
 {
     Entity::Entity(EntityId i, EntityManager& m) : id(i), entityManager(m)
     {

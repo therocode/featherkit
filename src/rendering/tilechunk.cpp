@@ -1,6 +1,6 @@
 #include <featherkit/rendering/tilechunk.h>
 
-namespace fk
+namespace fea
 {
     TileChunk::TileChunk(uint32_t width, uint32_t height, uint32_t tileWidth, uint32_t tileHeight)
     {

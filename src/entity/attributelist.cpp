@@ -1,7 +1,7 @@
 #include <featherkit/entity/attributelist.h>
 #include <sstream>
 
-namespace fk
+namespace fea
 {
     void AttributeList::addAttribute(AttributeHash attribute)
     {

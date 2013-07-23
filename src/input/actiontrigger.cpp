@@ -1,6 +1,6 @@
 #include <featherkit/input/actiontrigger.h>
 
-namespace fk
+namespace fea
 {
     ActionTrigger::ActionTrigger() : gamepadId(0)
     {

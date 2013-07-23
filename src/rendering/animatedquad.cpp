@@ -1,6 +1,6 @@
 #include <featherkit/rendering/animatedquad.h>
 
-namespace fk
+namespace fea
 {
     AnimatedQuad::AnimatedQuad() : Quad(), clock(0), currentFrame(0), animate(false)
     {

@@ -1,6 +1,6 @@
 #include <featherkit/window/videomode.h>
 
-namespace fk
+namespace fea
 {
     VideoMode::VideoMode()
     {

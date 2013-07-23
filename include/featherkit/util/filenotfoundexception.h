@@ -1,12 +1,15 @@
 #pragma once
 #include <stdexcept>
 
-namespace fku
+namespace fea
 {
-    class FileNotFoundException: public std::runtime_error
+    namespace util
     {
-        public:
-            FileNotFoundException();
-            FileNotFoundException(std::string msg);
-    };
+        class FileNotFoundException: public std::runtime_error
+        {
+            public:
+                FileNotFoundException();
+                FileNotFoundException(std::string msg);
+        };
+    }
 }

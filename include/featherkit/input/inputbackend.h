@@ -3,7 +3,7 @@
 #include <featherkit/glm/glm.hpp>
 #include <queue>
 
-namespace fk
+namespace fea
 {
     class InputBackend
     {

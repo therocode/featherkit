@@ -7,9 +7,9 @@
 #include <fstream>
 #include <sstream>
 
-using namespace fk;
+using namespace fea;
 
-namespace fku
+namespace fea::util
 {
     template<class Action>
     class JsonActionIOHandler
@@ -37,7 +37,7 @@ namespace fku
         {
             std::stringstream ss;
             ss << "Error! Entity file not found: " << path << "\n";
-            throw fku::FileNotFoundException(ss.str());
+            throw fea::util::FileNotFoundException(ss.str());
         }
 
         json::Value root;
@@ -170,7 +170,7 @@ namespace fku
         {
             std::stringstream ss;
             ss << "Error! Action bindings file not found: " << path << "\n";
-            throw fku::FileNotFoundException(ss.str());
+            throw fea::util::FileNotFoundException(ss.str());
         }
 
         for(auto binding : primaryActions)

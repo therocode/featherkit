@@ -3,7 +3,7 @@
 #include <string>
 #include <stdexcept>
 
-namespace fk
+namespace fea
 {
     class ShaderException : public std::runtime_error 
     {

@@ -7,7 +7,7 @@
 #include <stdexcept>
 #include <sstream>
 
-namespace fk
+namespace fea
 {
     class Entity;
     class EntityGroup;
@@ -248,7 +248,7 @@ namespace fk
      *  @endcode
      *  ...and you have registered an entity type with that attribute, and the default value "1.0f,0.0f,0.0f" for it, then an appropriate default setting function would be:
      *  @code
-     *  void colourSetter(std::string attribute, std::vector<std::string>& arguments, fk::WeakEntityPtr entity)
+     *  void colourSetter(std::string attribute, std::vector<std::string>& arguments, fea::WeakEntityPtr entity)
      *  {
      *    Colour col;
      *    col.r = std::stof(arguments[0]);

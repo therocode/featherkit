@@ -1,7 +1,7 @@
 #pragma once
 #include <featherkit/rendering/drawable2d.h>
 
-namespace fk
+namespace fea
 {
     class Quad : public Drawable2D
     {

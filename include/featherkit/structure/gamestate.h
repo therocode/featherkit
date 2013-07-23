@@ -2,7 +2,7 @@
 #include <string>
 #include <memory>
 
-namespace fk
+namespace fea
 {
     class GameState
     {

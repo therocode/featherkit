@@ -4,7 +4,7 @@
 #include <featherkit/rendering/viewport.h>
 #include <featherkit/rendering/renderdata.h>
 
-namespace fk
+namespace fea
 {
     class Renderer2DBackend
     {

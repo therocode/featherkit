@@ -1,7 +1,7 @@
 #pragma once
 #include <featherkit/rendering/quad.h>
 
-namespace fk
+namespace fea
 {
     class SubrectQuad : public Quad
     {

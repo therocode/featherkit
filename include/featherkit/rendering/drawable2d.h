@@ -5,7 +5,7 @@
 #include <stdint.h>
 #include <string>
 
-namespace fk
+namespace fea
 {
     class Drawable2D
     {

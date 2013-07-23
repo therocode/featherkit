@@ -1,7 +1,7 @@
 #include <featherkit/entity/entitygroup.h>
 #include <algorithm>
 
-namespace fk
+namespace fea
 {
     void EntityGroup::add(const WeakEntityPtr entity)
     {

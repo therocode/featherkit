@@ -6,7 +6,7 @@
 #include <featherkit/messaging/messagereceiver.h>
 #include <featherkit/messaging/messageexception.h>
 
-namespace fk
+namespace fea
 {
     class MessageBus
     {

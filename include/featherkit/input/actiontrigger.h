@@ -3,7 +3,7 @@
 #include <featherkit/input/mouse.h>
 #include <cstdint>
 
-namespace fk
+namespace fea
 {
 
     class ActionTrigger

@@ -1,7 +1,7 @@
 #pragma once
 #include <map>
 
-namespace fki
+namespace feai
 {
     ////////
     //Class: BiMap

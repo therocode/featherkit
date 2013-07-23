@@ -1,7 +1,7 @@
 #include <featherkit/rendering/tilemap.h>
 #include <sstream>
 
-namespace fk
+namespace fea
 {
     TileDefinition::TileDefinition(glm::uvec2 texPos, TileId nextId, uint32_t ticks) : tileTexPosition(texPos), nextTileId(nextId), ticksUntilChange(ticks)
     {

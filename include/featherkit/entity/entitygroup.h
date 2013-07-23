@@ -2,7 +2,7 @@
 #include <featherkit/entity/entity.h>
 #include <set>
 
-namespace fk
+namespace fea
 {
     using EntitySet = std::set<WeakEntityPtr, std::owner_less<WeakEntityPtr> >;
 

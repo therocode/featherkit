@@ -2,7 +2,7 @@
 #include <featherkit/rendering/camera.h>
 #include <stdint.h>
 
-namespace fk
+namespace fea
 {
     class Viewport
     {

@@ -3,7 +3,7 @@
 #include <stdexcept>
 #include <sstream>
 
-namespace fk
+namespace fea
 {
     class InvalidTextureException : public std::runtime_error 
     {

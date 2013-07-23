@@ -1,6 +1,6 @@
 #include <featherkit/rendering/quad.h>
 
-namespace fk
+namespace fea
 {
     Quad::Quad() : hFlip(1.0f), vFlip(1.0f)
     {

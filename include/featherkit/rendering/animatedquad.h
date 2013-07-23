@@ -4,7 +4,7 @@
 #include <unordered_map>
 #include <memory>
 
-namespace fk
+namespace fea
 {
     class AnimatedQuad : public Quad
     {

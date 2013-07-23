@@ -1,7 +1,7 @@
 #include <featherkit/rendering/shaderloader.h>
 #include <sstream>
 
-namespace fk
+namespace fea
 {
     ShaderException::ShaderException(const std::string& message) : std::runtime_error(message)
     {

@@ -4,7 +4,7 @@
 #include <featherkit/rendering/animation.h>
 #include <stdexcept>
 
-namespace fk
+namespace fea
 {
     class InvalidAnimationException : public std::runtime_error 
     {

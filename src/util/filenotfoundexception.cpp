@@ -1,12 +1,15 @@
 #include <featherkit/util/filenotfoundexception.h>
 
-namespace fku
+namespace fea
 {
-    FileNotFoundException::FileNotFoundException():runtime_error("File not found")
+    namespace util
     {
-    }
+        FileNotFoundException::FileNotFoundException():runtime_error("File not found")
+        {
+        }
 
-    FileNotFoundException::FileNotFoundException(std::string msg):runtime_error(msg.c_str())
-    {
+        FileNotFoundException::FileNotFoundException(std::string msg):runtime_error(msg.c_str())
+        {
+        }
     }
 }

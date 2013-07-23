@@ -5,7 +5,7 @@
 #include <functional>
 #include <stdexcept>
 
-namespace fk
+namespace fea
 {
     using TileId = size_t;
     struct TileDefinition

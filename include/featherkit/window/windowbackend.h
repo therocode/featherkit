@@ -5,7 +5,7 @@
 #include <featherkit/glm/glm.hpp>
 #include <string>
 
-namespace fk
+namespace fea
 {
     class WindowBackend
     {

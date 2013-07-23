@@ -1,7 +1,7 @@
 #pragma once
 #include <stdexcept>
 
-namespace fk
+namespace fea
 {
     using AttributeHash = std::size_t;
 

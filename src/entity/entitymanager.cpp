@@ -5,7 +5,7 @@
 #include <sstream>
 #include <iostream>
 
-namespace fk
+namespace fea
 {
     EntityManager::EntityManager(EntityBackend* b) : backend(b)
     {

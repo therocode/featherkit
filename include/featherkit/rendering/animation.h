@@ -2,7 +2,7 @@
 #include <featherkit/glm/glm.hpp>
 #include <stdint.h>
 
-namespace fk
+namespace fea
 {
     enum AnimationBehaviour { FORWARDS, BACKWARDS };
 

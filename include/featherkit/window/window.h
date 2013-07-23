@@ -10,7 +10,7 @@
             static const std::vector<VideoMode>& getFullscreenModes();
             bool isValid() const; */
 
-namespace fk
+namespace fea
 {
     class WindowBackend;
 

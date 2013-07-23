@@ -1,7 +1,7 @@
 #pragma once
 #include <featherkit/glm/glm.hpp>
 
-namespace fk
+namespace fea
 {
     class Camera
     {

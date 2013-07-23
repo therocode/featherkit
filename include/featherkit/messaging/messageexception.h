@@ -1,7 +1,7 @@
 #pragma once
 #include <stdexcept>
 
-namespace fk
+namespace fea
 {
     class MessageException : public std::runtime_error 
     {

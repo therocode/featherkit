@@ -2,7 +2,7 @@
 #include <set>
 #include <stdlib.h>
 
-namespace fk
+namespace fea
 {
     using AttributeHash = std::size_t;
 

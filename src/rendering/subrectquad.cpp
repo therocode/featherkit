@@ -1,6 +1,6 @@
 #include <featherkit/rendering/subrectquad.h>
 
-namespace fk
+namespace fea
 {
     SubrectQuad::SubrectQuad() : Quad(), subrectEnd(1.0f, 1.0f)
     {

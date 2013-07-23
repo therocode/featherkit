@@ -6,7 +6,7 @@
 #include <featherkit/input/inputhandler.h>
 
 
-namespace fk
+namespace fea
 {
     class InputHandler;
 

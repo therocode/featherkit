@@ -4,7 +4,7 @@
 #include <stdexcept>
 #include <featherkit/structure/gamestate.h>
 
-namespace fk
+namespace fea
 {
     using StateName = std::string;
 

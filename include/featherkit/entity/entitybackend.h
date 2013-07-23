@@ -2,7 +2,7 @@
 #include <featherkit/entity/attributelist.h>
 #include <stdint.h>
 
-namespace fk
+namespace fea
 {
     using EntityId = uint32_t;
     using ElementSize = uint32_t;

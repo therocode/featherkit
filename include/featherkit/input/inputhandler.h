@@ -4,7 +4,7 @@
 #include <featherkit/input/event.h>
 #include <featherkit/glm/glm.hpp>
 
-namespace fk
+namespace fea
 {
     class InputBackend;
 

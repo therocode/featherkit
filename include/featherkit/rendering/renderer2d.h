@@ -4,7 +4,7 @@
 #include <stdexcept>
 #include <memory>
 
-namespace fk
+namespace fea
 {
     class Drawable2D;
 

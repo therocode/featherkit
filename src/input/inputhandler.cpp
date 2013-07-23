@@ -1,7 +1,7 @@
 #include <featherkit/input/inputbackend.h>
 #include <featherkit/input/inputhandler.h>
 
-namespace fk
+namespace fea
 {
     InputHandler::InputHandler(InputBackend* backend) : inputBackend(backend)
     {

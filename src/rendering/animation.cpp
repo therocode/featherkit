@@ -1,6 +1,6 @@
 #include <featherkit/rendering/animation.h>
 
-namespace fk
+namespace fea
 {
     Animation::Animation() : frameAmount(0), delay(0), loop(true), animBehaviour(FORWARDS)
     {
