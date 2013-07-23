@@ -1,8 +1,6 @@
 #cmake ver req
 cmake_minimum_required(VERSION 2.8.3)
 
-set(USE_CLANG FALSE CACHE BOOL "Select this if you want to use CLANG")
-set(CLANG_PATH "/usr/bin/clang++" CACHE PATH "Path to run CLANG from")
 set(DEBUG_BUILD TRUE CACHE BOOL "Turns off optimisation and builds debug info")
 
 set(BUILD_STRUCTURE TRUE CACHE BOOL "Selects if the structure module should be built")
@@ -24,8 +22,8 @@ project(${project_name})
 include_directories(${CMAKE_CURRENT_LIST_DIR}/include)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_LIST_DIR}/cmake/modules/")
 
-if(USE_CLANG)
-    set(CMAKE_CXX_COMPILER ${CLANG_PATH})
+if(MINGW OR CMAKE_COMPILER_IS_GNUCXX)
+    #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror -pedantic") #proper but bad for glm
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -Werror")
 
     if(DEBUG_BUILD)
@@ -34,23 +32,12 @@ if(USE_CLANG)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
     endif()
 else()
-    if(MINGW OR CMAKE_COMPILER_IS_GNUCXX)
-        #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror -pedantic") #proper but bad for glm
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -Werror")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-        if(DEBUG_BUILD)
-            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0")
-        else()
-            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
-        endif()
+    if(DEBUG_BUILD)
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0")
     else()
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-
-        if(DEBUG_BUILD)
-            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0")
-        else()
-            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
-        endif()
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
     endif()
 endif()
 
