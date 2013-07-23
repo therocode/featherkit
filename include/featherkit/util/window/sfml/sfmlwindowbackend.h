@@ -2,6 +2,7 @@
 #include <featherkit/window/windowbackend.h>
 #include <featherkit/glm/glm.hpp>
 #include <SFML/Window.hpp>
+#include <memory>
 
 using namespace fk;
 
@@ -10,7 +11,7 @@ namespace fku
     class SFMLWindowBackend : public WindowBackend
     {
         public:
-            SFMLWindowBackend(sf::Window& w);
+            SFMLWindowBackend(sf::Window* w);
             
             void create(VideoMode mode, const std::string& title, uint32_t style = Style::Default, const ContextSettings& settings = ContextSettings()) override;
             void close() override;
@@ -30,6 +31,6 @@ namespace fku
             bool setRenderingActive(bool active = true) const override;
             void swapBuffers() override;
         private:
-            sf::Window& window;
+            std::unique_ptr<sf::Window> window;
     };
 }
