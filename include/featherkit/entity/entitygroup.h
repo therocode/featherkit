@@ -43,7 +43,7 @@ namespace fea
      *  @class EntityGroup
      *  @brief Utility class representing a group of Entity instances.
      *
-     *  It is often useful to refer to a group of Entity instances. This is when this class comes in handy. An EntityGroup can contain zero or more Entity pointers. Is has functions to easily add and remove one or several Entity instances. It is also possible to filter them out based on an arbitrary criteria (see EntityGroup::ApplyFilter), and to set attributes for the whole group. The EntityGroup guarantees that the same Entity will never exist two times in a single EntityGroup instance.
+     *  It is often useful to refer to a group of Entity instances. This is when this class comes in handy. An EntityGroup can contain zero or more Entity pointers. It has functions to easily add and remove one or several Entity instances. It is also possible to filter them out based on an arbitrary criteria (see EntityGroup::ApplyFilter), and to set attributes for the whole group. The EntityGroup guarantees that the same Entity will never exist two times in a single EntityGroup instance.
      *
      *  Entities are represended using WeakEntityPtr instances.
      ***
