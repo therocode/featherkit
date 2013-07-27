@@ -34,7 +34,7 @@ namespace fea
         }
         void boolSetter(std::string attribute, std::vector<std::string>& arguments, fea::WeakEntityPtr entity)
         {
-            bool val = arguments[0] == "false";
+            bool val = ((arguments[0] != "false") && (arguments[0] != "0"));
 
             entity.lock()->setAttribute(attribute, val);
         }
