@@ -71,6 +71,16 @@ namespace fea
     void TileMap::setPosition(const glm::vec2& pos)
     {
         position = pos;
+
+        for(uint32_t y = 0; y < chunkGridSize.y; y++)
+        {
+            for(uint32_t x = 0; x < chunkGridSize.x; x++)
+            {
+                glm::vec2 chunkPosition = glm::vec2(position.x + x * chunkSize.x * tileSize.x, position.y + y * chunkSize.y * tileSize.y);
+
+                chunks[x + y * chunkGridSize.x].setPosition(chunkPosition);
+            }
+        }
     }
     
     const glm::vec2& TileMap::getPosition() const
