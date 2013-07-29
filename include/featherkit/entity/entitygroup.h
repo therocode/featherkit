@@ -22,7 +22,8 @@ namespace fea
             void setAttribute(const std::string& attribute, const DataType* inData);
             const EntitySet& getSet() const;
             size_t size();
-            EntityGroup applyFilter(std::function<bool(WeakEntityPtr)> filterFunc);
+            EntityGroup filterOutGroup(std::function<bool(EntityPtr)> filterFunc);
+            WeakEntityPtr filterOutEntity(std::function<bool(EntityPtr)> filterFunc);
             void removeInvalid();
         private:
             EntitySet entities;

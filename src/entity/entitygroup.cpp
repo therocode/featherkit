@@ -69,17 +69,29 @@ namespace fea
         return entities.size();
     }
 
-    EntityGroup EntityGroup::applyFilter(std::function<bool(WeakEntityPtr)> filterFunc)
+    EntityGroup EntityGroup::filterOutGroup(std::function<bool(EntityPtr)> filterFunc)
     {
         EntityGroup newGroup;
 
         for(auto entity : entities)
         {
-            if(filterFunc(entity))
+            if(filterFunc(entity.lock()))
                 newGroup.add(entity);
         }
 
         return newGroup;
+    }
+
+    WeakEntityPtr EntityGroup::filterOutEntity(std::function<bool(EntityPtr)> filterFunc)
+    {
+        EntityGroup newGroup;
+
+        for(auto entity : entities)
+        {
+            if(filterFunc(entity.lock()))
+                return entity;
+        }
+        return WeakEntityPtr();
     }
 
     void EntityGroup::removeInvalid()
