@@ -183,7 +183,7 @@ namespace fea
             glm::vec2 point = glm::vec2(textData.position.x, textData.position.y);
 
             Camera camera = viewport.getCamera();
-            point = glm::inverse(camera.getRotationMatrix()) * (camera.getZoom() * (point - camera.getPosition())) + (glm::vec2)viewport.getSize() * 0.5f;
+            point = glm::inverse(camera.getRotationMatrix()) * (camera.getZoom() * (point - camera.getPosition() * textData.parallax)) + (glm::vec2)viewport.getSize() * 0.5f;
             //point = viewport.getCamera().getTransformation() * (point - viewport.getCamera().getPosition());
 
             float x = point.x;

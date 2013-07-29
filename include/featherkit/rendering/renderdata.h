@@ -21,6 +21,7 @@ namespace fea
         glm::vec3 colour;
         float size;
         int font = 0;
+        float parallax = 1.0f;
     };
 
     struct AABB
