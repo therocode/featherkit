@@ -36,7 +36,7 @@ namespace fea
             template<class DataType>
             void setAttribute(const std::string& attribute, const EntityId id, const DataType* inData);
             template<class DataType>
-            void modifyAttribute(const std::string& attribute, const EntityId id, const DataType* inData);
+            void addToAttribute(const std::string& attribute, const EntityId id, const DataType* inData);
             bool hasAttribute(const std::string& attribute, const EntityId id) const;
             void registerAttribute(const std::string& attribute, const int size);
             void registerAttributes(const std::map<std::string, int>& attributes);
@@ -86,7 +86,7 @@ namespace fea
     }
 
     template<class DataType>
-    void EntityManager::modifyAttribute(const std::string& attribute, const EntityId id, const DataType* inData)
+    void EntityManager::addToAttribute(const std::string& attribute, const EntityId id, const DataType* inData)
     {
         std::hash<std::string> hasher;
         size_t hashed = hasher(attribute);
@@ -181,15 +181,15 @@ namespace fea
      *  @param id ID of the Entity to set the attribute of.
      *  @param inData Pointer to a variable containing the new value.
      ***
-     *  @fn void EntityManager::modifyAttribute(const std::string& attribute, const EntityId id, DataType* inData) const
-     *  @brief Modify the value of an attribute of a selected Entity. 
+     *  @fn void EntityManager::addToAttribute(const std::string& attribute, const EntityId id, DataType* inData) const
+     *  @brief Add the given value to an attribute of a selected Entity. 
      *
-     *  The given value will be added to the already existing value. Needs the operator+ function to be implemented for the target type.
+     *  Needs the operator+ function to be implemented for the target type.
      *  
      *  If the given attribute does not exist for the selected Entity, an InvalidAttributeException will be thrown. If the selected Entity does not exist, an EntityException will be thrown. In most cases, it is better to use the setting functions of a specific WeakEntityPtr than using this function.
-     *  @tparam Type of the attribute to modify.
-     *  @param attribute Name of the attribute to modify.
-     *  @param id ID of the Entity to modify the attribute of.
+     *  @tparam Type of the attribute to add to.
+     *  @param attribute Name of the attribute to add to.
+     *  @param id ID of the Entity to add the attribute to.
      *  @param inData Pointer to a variable containing the value to add.
      ***
      *  @fn bool EntityManager::hasAttribute(const std::string& attribute, const EntityId id) const
