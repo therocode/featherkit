@@ -75,19 +75,24 @@ if(BUILD_RENDERING)
 
     file(GLOB fontstash_source_files "src/fontstash/*.cpp")
     file(GLOB fontstash_header_files "include/featherkit/fontstash/*.cpp")
-
-    find_package(GLew REQUIRED)
-    if(GLEW_FOUND)
-        #target_link_libraries(asdf ${GLEW_LIBRARIES})
-        include_directories(${GLEW_INCLUDE_DIR})
-    endif(GLEW_FOUND)
     
     if(${BUILD_OPENGLBACKENDS})
+        find_package(GLew REQUIRED)
+        if(GLEW_FOUND)
+            include_directories(${GLEW_INCLUDE_DIRS})
+        endif(GLEW_FOUND)
+
         file(GLOB rendering_opengl_backend_source_files "src/util/rendering/opengl/*.cpp" "src/util/rendering/opengl/*.cpp")
         file(GLOB rendering_opengl_backend_header_files "include/featherkit/util/rendering/opengl/*.h" "include/featherkit/util/rendering/opengl/*.h")
     endif()
 
-    add_library(${project_name}-rendering ${SHARED_OR_STATIC} ${rendering_source_files} ${rendering_header_files} ${rendering_util_source_files} ${rendering_util_header_files} ${fontstash_source_files} ${fontstash_header_files} ${rendering_opengl_backend_source_files} ${rendering_opengl_backend_header_files})
+    add_library(${project_name}-rendering ${SHARED_OR_STATIC} ${rendering_source_files} ${rendering_header_files} ${rendering_util_source_files} ${rendering_util_header_files} ${fontstash_source_files} ${fontstash_header_files} ${rendering_opengl_backend_source_files} ${rendering_opengl_backend_header_files} ${GLEW_LIBRARIES})
+
+    if(${BUILD_OPENGLBACKENDS})
+        if(GLEW_FOUND)
+            target_link_libraries(${project_name}-rendering ${GLEW_LIBRARIES})
+        endif(GLEW_FOUND)
+    endif()
 endif()
 
 if(BUILD_UI)
@@ -100,13 +105,19 @@ if(BUILD_UI)
     file(GLOB ui_util_header_files "include/featherkit/util/window/*.h" "include/featherkit/util/input/*.h")
 
     if(${BUILD_SFMLBACKENDS})
-        find_package(SFML REQUIRED)
+        find_package(SFML COMPONENTS window system REQUIRED)
         if(SFML_FOUND)
-        #target_link_libraries(asdf ${SFML_LIBRARY})
             include_directories(${SFML_INCLUDE_DIR})
         endif(SFML_FOUND)
         file(GLOB ui_sfml_backend_source_files "src/util/window/sfml/*.cpp" "src/util/input/sfml/*.cpp")
         file(GLOB ui_sfml_backend_header_files "include/featherkit/util/window/sfml/*.h" "include/featherkit/util/input/sfml/*.h")
     endif()
+
     add_library(${project_name}-ui ${SHARED_OR_STATIC} ${ui_header_files} ${ui_source_files} ${ui_util_source_files} ${ui_util_header_files} ${ui_sfml_backend_source_files} ${ui_sfml_backend_header_files})
+
+    if(${BUILD_SFMLBACKENDS})
+        if(SFML_FOUND)
+            target_link_libraries(${project_name}-ui ${SFML_LIBRARIES})
+        endif()
+    endif()
 endif()
