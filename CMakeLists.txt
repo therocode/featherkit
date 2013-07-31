@@ -1,8 +1,6 @@
 #cmake ver req
 cmake_minimum_required(VERSION 2.8.3)
 
-set(DEBUG_BUILD TRUE CACHE BOOL "Turns off optimisation and builds debug info")
-
 set(BUILD_STRUCTURE TRUE CACHE BOOL "Selects if the structure module should be built")
 set(BUILD_ENTITY TRUE CACHE BOOL "Selects if the entity module should be built")
 set(BUILD_MESSAGING TRUE CACHE BOOL "Selects if the messaging module should be built")
@@ -25,20 +23,6 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_LIST_DIR}/cmake/modu
 if(MINGW OR CMAKE_COMPILER_IS_GNUCXX)
     #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror -pedantic") #proper but bad for glm
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -Werror")
-
-    if(DEBUG_BUILD)
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0")
-    else()
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
-    endif()
-else()
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-
-    if(DEBUG_BUILD)
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0")
-    else()
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
-    endif()
 endif()
 
 if(BUILD_STRUCTURE)
