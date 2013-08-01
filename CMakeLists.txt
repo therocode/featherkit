@@ -75,6 +75,11 @@ if(BUILD_RENDERING)
 
     file(GLOB fontstash_source_files "src/fontstash/*.cpp")
     file(GLOB fontstash_header_files "include/featherkit/fontstash/*.cpp")
+
+    find_package(GLM REQUIRED)
+    if(GLM_FOUND)
+        include_directories(${GLM_INCLUDE_DIR})
+    endif()
     
     if(${BUILD_OPENGLBACKENDS})
         find_package(OpenGL REQUIRED)
