@@ -19,10 +19,10 @@ namespace fea
                 void close() override;
                 bool isOpen() const override;
                 const ContextSettings getSettings() const override;
-                glm::ivec2 getPosition() const override;
-                void setPosition(const glm::ivec2& position) override;
-                glm::ivec2 getSize() const override;
-                void setSize(const glm::ivec2& size) override;
+                Vec2I getPosition() const override;
+                void setPosition(int32_t x, int32_t y) override;
+                Vec2I getSize() const override;
+                void setSize(int32_t w, int32_t h) override;
                 void setTitle(const std::string& title) override;
                 void setIcon(uint32_t width, uint32_t height, const uint8_t* pixels) override;
                 void setVisible(bool visible) override;

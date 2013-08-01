@@ -32,27 +32,26 @@ namespace fea
             return toReturn;
         }
 
-        glm::ivec2 SFMLWindowBackend::getPosition() const
+        Vec2I SFMLWindowBackend::getPosition() const
         {
             sf::Vector2i position = window.getPosition();
-            return glm::ivec2(position.x, position.y);
+            return {position.x, position.y};
         }
 
-        void SFMLWindowBackend::setPosition(const glm::ivec2& position)
+        void SFMLWindowBackend::setPosition(int32_t x, int32_t y)
         {
-            window.setPosition({position.x, position.y});
+            window.setPosition({x, y});
         }
 
-        glm::ivec2 SFMLWindowBackend::getSize() const
+        Vec2I SFMLWindowBackend::getSize() const
         {
             sf::Vector2u position = window.getSize();
-            glm::ivec2 toReturn(glm::ivec2((int32_t)position.x, (int32_t)position.y));
-            return toReturn;
+            return {(int32_t)position.x, (int32_t)position.y};
         }
 
-        void SFMLWindowBackend::setSize(const glm::ivec2& size)
+        void SFMLWindowBackend::setSize(int32_t w, int32_t h)
         {
-            window.setSize({(uint32_t)size.x, (uint32_t)size.y});
+            window.setSize({(uint32_t)w, (uint32_t)h});
         }
 
         void SFMLWindowBackend::setTitle(const std::string& title)
