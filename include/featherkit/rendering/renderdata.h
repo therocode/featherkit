@@ -78,6 +78,9 @@ namespace fea
      *  @var TextData::font
      *  @brief ID of the font to use.
      ***
+     *  @var TextData::parallax
+     *  @brief Parallax factor of the text.
+     ***
      *  @struct AABB
      *  @brief Axis Aligned Bounding Box. A rectangle aligned to the X and Y axes.
      ***

@@ -61,15 +61,17 @@ namespace fea
      ***
      *  @fn void WindowBackend::setPosition(int32_t x, int32_t y)
      *  @brief Set the Window position on the screen.
-     *  @param position Vector with the coordinates to set the window position to.
+     *  @param x X coordinate to set the window position to.
+     *  @param y Y coordinate to set the window position to.
      ***
      *  @fn Vec2I WindowBackend::getSize() const
      *  @brief Get the current size of the Window.
      *  @return Vector with the width and height of the Window.
      ***
-     *  @fn void WindowBackend::setSize(int32_t x, int32_t y)
+     *  @fn void WindowBackend::setSize(int32_t w, int32_t h)
      *  @brief Set the current size of the Window.
-     *  @param size Vector with the height and width of the desired Window size.
+     *  @param w Width.
+     *  @param h Height.
      ***
      *  @fn void WindowBackend::setTitle(const std::string& title)
      *  @brief Set the title name of the window.
