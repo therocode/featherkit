@@ -46,7 +46,18 @@ namespace fea
                 if(registeredTypes.find(sizeString) != registeredTypes.end())
                     typeSize = registeredTypes.at(sizeString);
                 else
-                    typeSize = std::stoi(sizeString);
+                {
+                    try
+                    {
+                        typeSize = std::stoi(sizeString);
+                    }
+                    catch(std::invalid_argument)
+                    {
+                        std::stringstream ss;
+                        ss << "Error! Attribute '" << sizeString << "' is not a valid size number, and not a registered attribute type!\n";
+                        throw std::invalid_argument(ss.str());
+                    }
+                }
 
                 result.insert(std::pair<std::string, int>(typeName, typeSize));
             }
