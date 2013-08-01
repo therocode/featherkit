@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-#include <featherkit/glm/glm.hpp>
+#include <glm/glm.hpp>
 #include <featherkit/rendering/viewport.h>
 #include <featherkit/rendering/renderdata.h>
 

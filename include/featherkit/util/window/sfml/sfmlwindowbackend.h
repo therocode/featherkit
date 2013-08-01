@@ -1,6 +1,6 @@
 #pragma once
 #include <featherkit/window/windowbackend.h>
-#include <featherkit/glm/glm.hpp>
+#include <glm/glm.hpp>
 #include <SFML/Window.hpp>
 #include <memory>
 

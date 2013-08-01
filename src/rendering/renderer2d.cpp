@@ -1,4 +1,4 @@
-#include <featherkit/glm/glm.hpp>
+#include <glm/glm.hpp>
 #include <featherkit/rendering/renderer2d.h>
 #include <featherkit/rendering/drawable2d.h>
 #include <sstream>

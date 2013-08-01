@@ -1,6 +1,6 @@
 #pragma once
 #include <featherkit/input/inputbackend.h>
-#include <featherkit/glm/glm.hpp>
+#include <glm/glm.hpp>
 #include <SFML/Window.hpp>
 
 using namespace fea;

@@ -1,5 +1,5 @@
 #include <featherkit/util/rendering/opengl/opengl2dbackend.h>
-#include <featherkit/glm/gtc/type_ptr.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include <featherkit/rendering/shaderloader.h>
 
 namespace fea

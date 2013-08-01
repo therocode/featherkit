@@ -1,5 +1,5 @@
 #pragma once
-#include <featherkit/glm/glm.hpp>
+#include <glm/glm.hpp>
 #include <stdint.h>
 
 namespace fea

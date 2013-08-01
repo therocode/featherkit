@@ -1,6 +1,6 @@
 #pragma once
 #include <featherkit/input/event.h>
-#include <featherkit/glm/glm.hpp>
+#include <glm/glm.hpp>
 #include <queue>
 
 namespace fea
