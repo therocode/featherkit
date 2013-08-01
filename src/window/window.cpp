@@ -27,24 +27,24 @@ namespace fea
         return windowBackend->getSettings();
     }
 
-    glm::ivec2 Window::getPosition() const
+    Vec2I Window::getPosition() const
     {
         return windowBackend->getPosition();
     }
 
-    void Window::setPosition(const glm::ivec2& position)
+    void Window::setPosition(int32_t x, int32_t y)
     {
-        windowBackend->setPosition(position);
+        windowBackend->setPosition(x, y);
     }
 
-    glm::ivec2 Window::getSize() const
+    Vec2I Window::getSize() const
     {
         return windowBackend->getSize();
     }
 
-    void Window::setSize(const glm::ivec2& size)
+    void Window::setSize(int32_t w, int32_t h)
     {
-        windowBackend->setSize(size);
+        windowBackend->setSize(w, h);
     }
     
     void Window::setTitle(const std::string& title)

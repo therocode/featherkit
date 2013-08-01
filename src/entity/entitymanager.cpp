@@ -62,7 +62,7 @@ namespace fea
     
     void EntityManager::removeEntities(const EntityGroup group)
     {
-        for(auto entity : group.getSet())
+        for(auto entity : group)
             removeEntity(entity.lock()->getId());
     }
 

@@ -2,7 +2,7 @@
 #include <featherkit/window/videomode.h>
 #include <featherkit/window/contextsettings.h>
 #include <featherkit/window/windowstyle.h>
-#include <featherkit/glm/glm.hpp>
+#include <featherkit/window/vec2i.h>
 #include <string>
 #include <memory>
             /* hej this is from VidyaMöåd and should be here
@@ -16,16 +16,17 @@ namespace fea
 
     class Window
     {
+
         public:
             Window(WindowBackend* backend);
             void create(VideoMode mode, const std::string& title, uint32_t style = Style::Default, const ContextSettings& settings = ContextSettings());
             void close();
             bool isOpen() const;
             const ContextSettings getSettings() const;
-            glm::ivec2 getPosition() const;
-            void setPosition(const glm::ivec2& position);
-            glm::ivec2 getSize() const;
-            void setSize(const glm::ivec2& size);
+            Vec2I getPosition() const;
+            void setPosition(int32_t x, int32_t y);
+            Vec2I getSize() const;
+            void setSize(int32_t w, int32_t h);
             void setTitle(const std::string& title);
             void setIcon(uint32_t width, uint32_t height, const uint8_t* pixels);
             void setVisible(bool visible);
@@ -41,7 +42,6 @@ namespace fea
      *@{
      *  @class Window
      *@}
-     ***
      *  @class Window
      *  @brief Class that manages a window instance for the application.
      *
@@ -73,21 +73,23 @@ namespace fea
      *  @brief Access the OpenGL settings of the Window.
      *  @return Struct containing the settings.
      ***
-     *  @fn IntVec2 Window::getPosition() const
+     *  @fn Vec2I Window::getPosition() const
      *  @brief Get the current position of the Window on the screen.
      *  @return Vector with the x and y coordinates.
      ***
-     *  @fn void Window::setPosition(const IntVec2& position)
+     *  @fn void Window::setPosition(int32_t x, int32_t y)
      *  @brief Set the Window position on the screen.
-     *  @param position Vector with the coordinates to set the window position to.
+     *  @param x X coordinate.
+     *  @param y Y coordinate.
      ***
-     *  @fn IntVec2 Window::getSize() const
+     *  @fn Vec2I Window::getSize() const
      *  @brief Get the current size of the Window.
      *  @return Vector with the width and height of the Window.
      ***
-     *  @fn void Window::setSize(const IntVec2& size)
+     *  @fn void Window::setSize(int32_t w, int32_t h)
      *  @brief Set the current size of the Window.
-     *  @param size Vector with the height and width of the desired Window size.
+     *  @param w Width.
+     *  @param h Height.
      ***
      *  @fn void Window::setTitle(const std::string& title)
      *  @brief Set the title name of the window.

@@ -59,9 +59,14 @@ namespace fea
         return newGroup;
     }
     
-    const EntitySet& EntityGroup::getSet() const
+    EntitySet::iterator EntityGroup::begin() const
     {
-        return entities;
+        return entities.begin();
+    }
+
+    EntitySet::iterator EntityGroup::end() const
+    {
+        return entities.end();
     }
 
     size_t EntityGroup::size()

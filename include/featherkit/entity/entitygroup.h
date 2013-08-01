@@ -20,7 +20,8 @@ namespace fea
             EntityGroup operator-(const WeakEntityPtr& entity) const;
             template<class DataType>
             void setAttribute(const std::string& attribute, const DataType* inData);
-            const EntitySet& getSet() const;
+            EntitySet::iterator begin() const;
+            EntitySet::iterator end() const;
             size_t size();
             EntityGroup filterOutGroup(std::function<bool(EntityPtr)> filterFunc);
             WeakEntityPtr filterOutEntity(std::function<bool(EntityPtr)> filterFunc);
@@ -93,9 +94,13 @@ namespace fea
      *  @param attribute Name of the attribute to set.
      *  @param inData Pointer to a variable containing the value to set.
      ***
-     *  @fn const EntitySet& EntityGroup::getSet() const
-     *  @brief Access the internal set containing the Entity instances. Useful for looping through the enties.
-     *  @return Set of the entities.
+     *  @fn EntitySet::iterator EntityGroup::begin() const
+     *  @brief Access an iterator to the first entity in the group.
+     *  @return Iterator to first entity.
+     ***
+     *  @fn EntitySet::iterator EntityGroup::end() const
+     *  @brief Access an iterator to the last entity in the group.
+     *  @return Iterator to last entity.
      ***
      *  @fn size_t EntityGroup::size()
      *  @brief Get the amount of Entity instances currently in the group.
