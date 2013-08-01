@@ -20,7 +20,8 @@ namespace fea
             EntityGroup operator-(const WeakEntityPtr& entity) const;
             template<class DataType>
             void setAttribute(const std::string& attribute, const DataType* inData);
-            const EntitySet& getSet() const;
+            EntitySet::iterator begin() const;
+            EntitySet::iterator end() const;
             size_t size();
             EntityGroup filterOutGroup(std::function<bool(EntityPtr)> filterFunc);
             WeakEntityPtr filterOutEntity(std::function<bool(EntityPtr)> filterFunc);

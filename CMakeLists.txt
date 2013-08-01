@@ -29,10 +29,10 @@ project(${project_name})
 include_directories(${CMAKE_CURRENT_LIST_DIR}/include)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_LIST_DIR}/cmake/modules/")
 
-if(MINGW OR CMAKE_COMPILER_IS_GNUCXX)
+#if(MINGW OR CMAKE_COMPILER_IS_GNUCXX OR Clang)
     #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror -pedantic") #proper but bad for glm
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -Werror")
-endif()
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -Werror")
+#endif()
 
 if(BUILD_STRUCTURE)
     ##Structure module##
