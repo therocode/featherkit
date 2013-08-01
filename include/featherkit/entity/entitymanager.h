@@ -278,14 +278,5 @@ namespace fea
      ***
      *  @fn void EntityManager::reset()
      *  @brief Reset the whole state of the EntityManager to the original state. Effectively removing all Entity instances, leaving all pointers to them invalid, as well as clearing out any registered attributes, Entity types and default setter functions. Not to be confused with EntityManager::removeAll which only removes all entities.
-     ***
-     *  using EntityPtr std::shared_ptr<Entity>
-     *  brief Entity pointer typedef
-     ***
-     *  using WeakEntityPtr std::weak_ptr<Entity>
-     *  brief HEJHEJ
-    using WeakEntityPtr = std::weak_ptr<Entity>;
-    using EntityType = std::string;
-    using EntityId = uint32_t;
      ***/
 }
