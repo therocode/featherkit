@@ -101,7 +101,7 @@ namespace fea
      *  @brief Get the amount of Entity instances currently in the group.
      *  @return Amount of entities.
      ***
-     *  @fn EntityGroup EntityGroup::applyFilter(std::function<bool(WeakEntityPtr)> filterFunc)
+     *  @fn EntityGroup EntityGroup::filterOutGroup(std::function<bool(WeakEntityPtr)> filterFunc)
      *  @brief Filter out Entity instances based on a criterium.
      *
      *  The new filtered group will contain a subset of the Entity instances in this group. The subset is determined by a criterum given in the form of an std::function which could be for example a functor class or a lambda expression. They must however, take a WeakEntityPtr as an argument and return a bool.
@@ -120,6 +120,11 @@ namespace fea
      *
      *  @param filterFunc Function object containing the logic for the criterium. Should take a WeakEntityPtr as an argument and return a bool. Should return true for the entities to keep.
      *  @return The new subset group.
+     ***
+     *  @fn WeakEntityPtr EntityGroup::filterOutEntity(std::function<bool(WeakEntityPtr)> filterFunc)
+     *  @brief Filter out an Entity instance matching the criterium given.
+     *
+     *  This filtering works in the same way as EntityGroup::filterOutGroup() but instead of returning a group containing all entities matched, only one will be returned. The one that is returned out of all the ones that matches is arbitrary.
      ***
      *  @fn void EntityGroup::removeInvalid()
      *  @brief Searches through the EntityGroup and removes any Entity pointers that have become invalid due to the target Entity being deleted.

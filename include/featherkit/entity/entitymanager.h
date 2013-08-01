@@ -220,7 +220,7 @@ namespace fea
      *
      *  The entity type is a name mapped to a map of attributes and their default values. The registered entity type will have all the attributes provided in the map. For example, an Entity type called "Apple" might be registered with the attributes "weight", "brand" and "ripeness". Keep in mind that these attributes must have been registered using EntityManager::registerAttribute.
      *
-     *  Default values are given as strings. They may be empty in which case the attribute does not have a default value. These strings have to be hadled by a default setter function. These functions must be registered separately using EntityManager::registerDefaultSetter. See that function for more information on default values.
+     *  Default values are given as strings. They may be empty in which case the attribute does not have a default value. These strings have to be handled by a default setter function. These functions must be registered separately using EntityManager::registerDefaultSetter. See that function for more information on default values.
      *  @param type Name of the new Entity type.
      *  @param attributes Map containing attribute names and default values.
      ***
