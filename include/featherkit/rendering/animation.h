@@ -43,7 +43,7 @@ namespace fea
      *  All values defining location on the sprite sheet is in percent of the total texture size.
      ***
      *  @fn Animation::Animation(glm::vec2 fStart, glm::vec2 fSize, uint32_t fAmount = 1, uint32_t d = 1, bool l = true, AnimationBehaviour ab = FORWARDS)
-     *  @brief Construct an animation.
+     *  @brief Construct an animation. All positioning values are in percent (between 0.0 and 1.0) of the total texture size.
      *  @param fStart Starting point. The top left corner of the first animation frame.
      *  @param fSize Width and height of one animation frame.
      *  @param fAmount Total amount of frames in the animation.

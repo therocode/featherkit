@@ -129,7 +129,7 @@ namespace fea
      *
      *  The only way to access Entity instances created by the EntityManager is through WeakEntityPtr instances. WeakEntityPtr is simply an alias to std::weak_ptr<Entity>. Entity pointers received from the EntityManager should never be manually freed, since that is the job of the EntityManager. If an entity is meant to be deleted, use the EntityManager::removeEntity function.
      *
-     *  Prior to creating any Entity instances, attributes and entity types must be registered. If an entity type which is either not registered, or has unregistered attributes, an appropriate exception will be thrown. Registration is done using EntityManager::registerAttribute and EntityManager::registerEntityType.
+     *  Prior to creating any Entity instances, attributes and entity types must be registered. If an entity type which is either not registered, or has unregistered attributes, an appropriate exception will be thrown. Registration is done using EntityManager::registerAttribute and EntityManager::registerEntityType. Using the functions EntityManager::registerAttributes and EntityManager::registerEntityTypes, types and attributes can be loaded many at once, which is useful when for instance loading from file. 
      *
      *  The EntityManager relies on an EntityBackend which is responsible of providing a data structure for the EntityManager to store its data in. The underlying implementation of these may vary and have different pros and cons. 
      ***
