@@ -1,9 +1,9 @@
 #pragma once
 #include <featherkit/rendering/renderer2dbackend.h>
 #include <featherkit/util/rendering/opengl/opengltexture.h>
-#include <featherkit/rendering/texturemanager.h>
 #include <featherkit/util/rendering/opengl/opengl.h>
 #include <featherkit/fontstash/fontstash.h>
+#include <unordered_map>
 
 using namespace fea;
 
@@ -14,7 +14,7 @@ namespace fea
         class OpenGL2DBackend : public Renderer2DBackend
         {
             public:
-                OpenGL2DBackend(TextureManager<OpenGLTexture>& tm);
+                OpenGL2DBackend(std::unordered_map<std::string, OpenGLTexture>& tm);
                 void setup() override;
                 void destroy() override;
                 void clear() override;
@@ -24,7 +24,7 @@ namespace fea
                 int32_t addFont(uint8_t* fontData) override;
             private:
                 virtual void renderText(const TextData& textData) override;
-                TextureManager<OpenGLTexture>& textureManager;
+                std::unordered_map<std::string, OpenGLTexture>& textures;
                 GLuint shaderProgram;
 
                 sth_stash* stash;

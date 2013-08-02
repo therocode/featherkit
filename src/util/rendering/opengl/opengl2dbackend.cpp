@@ -6,7 +6,7 @@ namespace fea
 {
     namespace util
     {
-        OpenGL2DBackend::OpenGL2DBackend(TextureManager<OpenGLTexture>& tm) : textureManager(tm), shaderProgram(0)
+        OpenGL2DBackend::OpenGL2DBackend(std::unordered_map<std::string, OpenGLTexture>& t) : textures(t), shaderProgram(0)
         {
         }
 
@@ -128,7 +128,7 @@ namespace fea
 
             if(renderData.textureId != "")
             {
-                OpenGLTexture texture = textureManager.getTexture(renderData.textureId);
+                OpenGLTexture texture = textures.at(renderData.textureId);
                 glBindTexture(GL_TEXTURE_2D, texture.glId);
 
                 glm::ivec2 size;
