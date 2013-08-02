@@ -142,7 +142,7 @@ namespace fea
      ***
      *  @fn void TileMap::setPosition(const glm::vec2& position)
      *  @brief Set the position.
-     *  @param pos Vector containing the position.
+     *  @param position Vector containing the position.
      ***
      *  @fn const glm::vec2& TileMap::getPosition() const
      *  @brief Get the position.
@@ -202,9 +202,9 @@ namespace fea
      *  @param y Y coordinate.
      *  @return Tile coordinates.
      ***
-     *  @fn glm::uvec2 TileMap::getTileByCoordinates(const glm::vec2 coordinates) const
+     *  @fn glm::uvec2 TileMap::getTileByCoordinates(const glm::vec2& coordinates) const
      *  @brief Get the tile coordinates for the given pixel coordinate on the TileMap.
-     *  @param coordinate Coordinate to check at.
+     *  @param coordinates Coordinate to check at.
      *  @return Tile coordinates.
      ***
      *  @fn bool TileMap::isOutOfBounds(uint32_t x, uint32_t y) const
@@ -213,7 +213,7 @@ namespace fea
      *  @param y Y coordinate.
      *  @return True if the given tile coordinate is not within the tile grid.
      ***
-     *  @fn bool TileMap::isOutOfBounds(const glm::uvec2 position) const
+     *  @fn bool TileMap::isOutOfBounds(const glm::uvec2& position) const
      *  @brief Checks if a tile is out of bounds.
      *  @param position Coordinate.
      *  @return True if the given tile coordinate is not within the tile grid.
