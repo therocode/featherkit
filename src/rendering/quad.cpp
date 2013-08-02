@@ -23,6 +23,10 @@ namespace fea
         origin = glm::vec2(-xnum, -ynum);
     }
     
+    Quad::Quad(const glm::vec2& size) : Quad(size.x, size.y)
+    {
+    }
+    
     void Quad::setSize(float w, float h)
     {
         float xnum = w * 0.5f;

@@ -5,13 +5,13 @@
 
 namespace fea
 {
-    class ShaderException : public std::runtime_error 
+    class GLSLException : public std::runtime_error 
     {
         public:
-            ShaderException(const std::string& message);
+            GLSLException(const std::string& message);
     };
 
-    class ShaderLoader
+    class GLSLLoader
     {
         public:
             GLuint createShader(std::string vertexSource, std::string fragmentSource);

@@ -1,13 +1,13 @@
-#include <featherkit/rendering/shaderloader.h>
+#include <featherkit/util/rendering/opengl/glslloader.h>
 #include <sstream>
 
 namespace fea
 {
-    ShaderException::ShaderException(const std::string& message) : std::runtime_error(message)
+    GLSLException::GLSLException(const std::string& message) : std::runtime_error(message)
     {
     };
 
-    GLuint ShaderLoader::createShader(std::string vertexSource, std::string fragmentSource)
+    GLuint GLSLLoader::createShader(std::string vertexSource, std::string fragmentSource)
     {
         const char* vertexShaderSourcePointer = &vertexSource[0];
         const char* fragmentShaderSourcePointer = &fragmentSource[0];
@@ -39,7 +39,7 @@ namespace fea
                 std::stringstream ss;
                 ss << "Error! Vertex shader compilation:\n" << compiler_log << "\n";
                 free (compiler_log);
-                throw(ShaderException(ss.str()));
+                throw(GLSLException(ss.str()));
             }
             glGetShaderiv(fragmentShader, GL_INFO_LOG_LENGTH , &blen);       
             if (blen > 1)
@@ -49,7 +49,7 @@ namespace fea
                 std::stringstream ss;
                 ss << "Error! Fragment shader compilation:\n" << compiler_log << "\n";
                 free (compiler_log);
-                throw(ShaderException(ss.str()));
+                throw(GLSLException(ss.str()));
             }
             glGetProgramiv(shaderProgram, GL_INFO_LOG_LENGTH , &blen);       
             if (blen > 1)
@@ -59,7 +59,7 @@ namespace fea
                 std::stringstream ss;
                 ss << "Error! Shader program compilation:\n" << compiler_log << "\n";
                 free (compiler_log);
-                throw(ShaderException(ss.str()));
+                throw(GLSLException(ss.str()));
             }
         }
 

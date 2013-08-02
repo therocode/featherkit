@@ -7,10 +7,12 @@ namespace fea
     {
         public:
             Text(const std::string& t);
+            Text(const std::string& t, float r, float g, float b);
             Text(const std::string& t, const glm::vec3& col);
             std::string getText() const;
             void setText(const std::string& t);
             glm::vec3 getColour() const;
+            void setColour(float r, float g, float b);
             void setColour(const glm::vec3& col);
             float getTextSize() const;
             void setTextSize(float size);
@@ -38,6 +40,13 @@ namespace fea
      *  @brief Construct a Text drawable with the given string.
      *  @param t Text string.
      ***
+     *  @fn Text::Text(const std::string& t, float r, float g, float b)
+     *  @brief Construct a Text drawable with the given string and colour.
+     *  @param t Text string.
+     *  @param r Amount of red.
+     *  @param g Amount of green.
+     *  @param b Amount of blue.
+     ***
      *  @fn Text::Text(const std::string& t, const glm::vec3& col)
      *  @brief Construct a Text drawable with the given string and colour.
      *  @param t Text string.
@@ -54,6 +63,12 @@ namespace fea
      *  @fn glm::vec3 Text::getColour() const
      *  @brief Get the colour.
      *  @return Vector containing the colour.
+     ***
+     *  @fn void Text::setColour(float r, float g, float b)
+     *  @brief Set the colour.
+     *  @param r Amount of red.
+     *  @param g Amount of green.
+     *  @param b Amount of blue.
      ***
      *  @fn void Text::setColour(const glm::vec3& col)
      *  @brief Set the colour.

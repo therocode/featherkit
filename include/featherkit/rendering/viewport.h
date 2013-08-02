@@ -9,12 +9,17 @@ namespace fea
         public:
             Viewport();
             Viewport(uint32_t w, uint32_t h);
+            Viewport(const glm::vec2& size);
             Viewport(uint32_t w, uint32_t h, const Camera& cam);
+            Viewport(const glm::vec2& size, const Camera& cam);
+            void setSize(float w, float h);
             void setSize(const glm::uvec2& s);
             const glm::uvec2& getSize() const;
             void setCamera(const Camera& cam);
             Camera& getCamera();
+            glm::vec2 transformPoint(float x, float y) const;
             glm::vec2 transformPoint(const glm::vec2 point) const;
+            glm::vec2 untransformPoint(float x, float y) const;
             glm::vec2 untransformPoint(const glm::vec2 point) const;
         private:
             glm::uvec2 size;
@@ -35,18 +40,34 @@ namespace fea
      *  
      *  The default constructor constructs a Viewport with no translation and the viewing rectangle set to a width of 1.0f and a size of 1.0f.
      ***
-     *  @fn Viewport::Viewport(uint32_t w, uint32_t h) : size(glm::uvec2(w, h))
+     *  @fn Viewport::Viewport(uint32_t w, uint32_t h)
      *  @brief Construct a Viewport with the given size.
      *
      *  @param w width of the new Viewport.
      *  @param h height of the new Viewport.
      ***
-     *  @fn Viewport::Viewport(uint32_t w, uint32_t h, const Camera& cam) : size(glm::uvec2(w, h)), camera(cam)
+     *  @fn Viewport::Viewport(const glm::vec2& size)
+     *  @brief Construct a Viewport with the given size.
+     *
+     *  @param size Size of the new Viewport.
+     ***
+     *  @fn Viewport::Viewport(uint32_t w, uint32_t h, const Camera& cam)
      *  @brief Construct a Viewport with the given size and Camera.
      *
      *  @param w width of the new Viewport.
      *  @param h height of the new Viewport.
      *  @param cam Camera the new Viewport should use.
+     ***
+     *  @fn Viewport::Viewport(const glm::vec2& size, const Camera& cam)
+     *  @brief Construct a Viewport with the given size and Camera.
+     *
+     *  @param size Size of the new Viewport
+     *  @param cam Camera the new Viewport should use.
+     ***
+     *  @fn void Viewport::setSize(float w, float h)
+     *  @brief Set the size of the Viewport.
+     *  @param w New width.
+     *  @param h New height.
      ***
      *  @fn void Viewport::setSize(const glm::uvec2& s)
      *  @brief Set the size of the Viewport.
@@ -64,12 +85,28 @@ namespace fea
      *  @brief Get the Camera currently in use by the Viewport. The camera might be modified external.
      *  @return The current camera.
      ***
+     *  @fn glm::vec2 Viewport::transformPoint(float x, float y) const
+     *  @brief Transform a point to the Viewport.
+     *
+     *  The point given will be transformed into the coordinate space of the Viewport. For instance, it can be used to calculate where on the screen a certain object will be rendered if this Viewport is used.
+     *  @param x World space X coordinate to transform.
+     *  @param y World space Y coordinate to transform.
+     *  @return The given point in the space of this Viewport.
+     ***
      *  @fn glm::vec2 Viewport::transformPoint(const glm::vec2 point) const
      *  @brief Transform a point to the Viewport.
      *
      *  The point given will be transformed into the coordinate space of the Viewport. For instance, it can be used to calculate where on the screen a certain object will be rendered if this Viewport is used.
      *  @param point World space coordinate to transform.
      *  @return The given point in the space of this Viewport.
+     ***
+     *  @fn glm::vec2 Viewport::untransformPoint(float x, float y) const
+     *  @brief Transform a point from the Viewport back to world coordinates.
+     *
+     *  Does a reverse Viewport transformation of the given point. The point is given in screen space, and the return value will represent the given point in world coordinates. For example, this can be used to decide where in the world coordinates a given screen point is.
+     *  @param x Screen space X coordinate to reverse transform.
+     *  @param y Screen space Y coordinate to reverse transform.
+     *  @return The given point in world space.
      ***
      *  @fn glm::vec2 Viewport::untransformPoint(const glm::vec2 point) const
      *  @brief Transform a point from the Viewport back to world coordinates.

@@ -10,6 +10,10 @@ namespace fea
     {
     }
 
+    AnimatedQuad::AnimatedQuad(const glm::vec2& size) : Quad(size), clock(0), currentFrame(0), animate(false)
+    {
+    }
+
     void AnimatedQuad::addAnimation(AnimationId id, std::weak_ptr<Animation> animation)
     {
         animations.emplace(id, animation);

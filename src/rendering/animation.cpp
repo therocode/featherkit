@@ -6,6 +6,10 @@ namespace fea
     {
     }
 
+    Animation::Animation(float fStartX, float fStartY, float fWidth, float fHeight, uint32_t fAmount, uint32_t d, bool l, AnimationBehaviour ab) : start(glm::vec2(fStartX, fStartY)), frameSize(glm::vec2(fWidth, fHeight)), frameAmount(fAmount), delay(d), loop(l), animBehaviour(ab)
+    {
+    }
+
     Animation::Animation(glm::vec2 fStart, glm::vec2 fSize, uint32_t fAmount, uint32_t d, bool l, AnimationBehaviour ab) : start(fStart), frameSize(fSize), frameAmount(fAmount), delay(d), loop(l), animBehaviour(ab)
     {
     }

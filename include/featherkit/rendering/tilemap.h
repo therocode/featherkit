@@ -11,6 +11,7 @@ namespace fea
     struct TileDefinition
     {
         TileDefinition(glm::uvec2 texPos, TileId nextId = 0, uint32_t ticks = 0);
+        TileDefinition(uint32_t texX, uint32_t texY, TileId nextId = 0, uint32_t ticks = 0);
         glm::uvec2 tileTexPosition;
         TileId nextTileId;
         uint32_t ticksUntilChange;
@@ -32,17 +33,22 @@ namespace fea
         };
         public:
             TileMap(uint32_t gridWidth, uint32_t gridHeight, uint32_t tileWidth = 16, uint32_t tileHeight = 16, float textureTileWidth = 0.25f, float textureTileHeight = 0.25f , uint32_t chunkWidth = 32, uint32_t chunkHeight = 32);
-            void setPosition(const glm::vec2& pos);
+            void setPosition(float x, float y);
+            void setPosition(const glm::vec2& position);
             const glm::vec2& getPosition() const;
             const std::vector<TileChunk>& getTileChunks() const;
             void setTexture(const std::string& name);
             const std::string& getTexture() const;
             void addTileDefinition(const std::string& name, const TileDefinition& tileDef);
             void setTileByName(uint32_t x, uint32_t y, std::string name);
+            void setTileByName(const glm::uvec2& position, std::string name);
             void setTileById(uint32_t x, uint32_t y, TileId id);
+            void setTileById(const glm::uvec2& position, TileId id);
             TileId getTileId(const std::string& name) const;
             glm::uvec2 getTileByCoordinates(float x, float y) const;
+            glm::uvec2 getTileByCoordinates(const glm::vec2& coordinates) const;
             bool isOutOfBounds(uint32_t x, uint32_t y) const;
+            bool isOutOfBounds(const glm::uvec2& position) const;
             glm::uvec2 getTileSize() const;
             glm::uvec2 getGridSize() const;
             glm::uvec2 getTileMapSize() const;
@@ -79,6 +85,13 @@ namespace fea
      *  @fn TileDefinition::TileDefinition(glm::uvec2 texPos, TileId nextId = 0, uint32_t ticks = 0)
      *  @brief Construct a TileDefinition.
      *  @param texPos Texture coordinates of the tile.
+     *  @param nextId TileDefinition to change to. Only needed if the tile is animated.
+     *  @param ticks Amount of ticks until the tile is changed. Only needed if the tile is animated.
+     ***
+     *  @fn TileDefinition::TileDefinition(uint32_t texX, uint32_t texY, TileId nextId = 0, uint32_t ticks = 0)
+     *  @brief Construct a TileDefinition.
+     *  @param texX X Texture coordinates of the tile.
+     *  @param texY Y Texture coordinates of the tile.
      *  @param nextId TileDefinition to change to. Only needed if the tile is animated.
      *  @param ticks Amount of ticks until the tile is changed. Only needed if the tile is animated.
      ***
@@ -122,7 +135,12 @@ namespace fea
      *  @param chunkWidth How many tiles on the X axis makes up a TileChunk.
      *  @param chunkHeight How many tiles on the Y axis makes up a TileChunk.
      ***
-     *  @fn void TileMap::setPosition(const glm::vec2& pos)
+     *  @fn void TileMap::setPosition(float x, float y)
+     *  @brief Set the position.
+     *  @param x X position.
+     *  @param y Y position.
+     ***
+     *  @fn void TileMap::setPosition(const glm::vec2& position)
      *  @brief Set the position.
      *  @param pos Vector containing the position.
      ***
@@ -157,10 +175,20 @@ namespace fea
      *  @param y Y coordinate.
      *  @param name Name of the tile definition to change it to.
      ***
+     *  @fn void TileMap::setTileByName(const glm::uvec2& position, std::string name)
+     *  @brief Set a tile at the given coordinate.
+     *  @param position Coordinate of the tile to set,
+     *  @param name Name of the tile definition to change it to.
+     ***
      *  @fn void TileMap::setTileById(uint32_t x, uint32_t y, TileId id)
      *  @brief Set a tile at the given coordinate.
      *  @param x X coordinate.
      *  @param y Y coordinate.
+     *  @param id ID of the tile definition to change to.
+     ***
+     *  @fn void TileMap::setTileById(const glm::uvec2& position, TileId id)
+     *  @brief Set a tile at the given coordinate.
+     *  @param position Coordinate of the tile to set.
      *  @param id ID of the tile definition to change to.
      ***
      *  @fn TileId TileMap::getTileId(const std::string& name) const
@@ -174,10 +202,20 @@ namespace fea
      *  @param y Y coordinate.
      *  @return Tile coordinates.
      ***
+     *  @fn glm::uvec2 TileMap::getTileByCoordinates(const glm::vec2 coordinates) const
+     *  @brief Get the tile coordinates for the given pixel coordinate on the TileMap.
+     *  @param coordinate Coordinate to check at.
+     *  @return Tile coordinates.
+     ***
      *  @fn bool TileMap::isOutOfBounds(uint32_t x, uint32_t y) const
      *  @brief Checks if a tile is out of bounds.
      *  @param x X coordinate.
      *  @param y Y coordinate.
+     *  @return True if the given tile coordinate is not within the tile grid.
+     ***
+     *  @fn bool TileMap::isOutOfBounds(const glm::uvec2 position) const
+     *  @brief Checks if a tile is out of bounds.
+     *  @param position Coordinate.
      *  @return True if the given tile coordinate is not within the tile grid.
      ***
      *  @fn void TileMap::tick()

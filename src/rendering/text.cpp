@@ -7,6 +7,11 @@ namespace fea
         isText = true;
     }
 
+    Text::Text(const std::string& t, float r, float g, float b) : text(t), colour(glm::vec3(r, g, b)), fontSize(24.0f)
+    {
+        isText = true;
+    }
+    
     Text::Text(const std::string& t, const glm::vec3& col) : text(t), colour(col), fontSize(24.0f)
     {
         isText = true;
@@ -25,6 +30,11 @@ namespace fea
     void Text::setText(const std::string& t)
     {
         text = t;
+    }
+    
+    void Text::setColour(float r, float g, float b)
+    {
+        colour = glm::vec3(r, g, b);
     }
     
     void Text::setColour(const glm::vec3& c)

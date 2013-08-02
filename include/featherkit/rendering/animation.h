@@ -12,6 +12,7 @@ namespace fea
     {
         public:
             Animation();
+            Animation(float fStartX, float fStartY, float fWidth, float fHeight, uint32_t fAmount = 1, uint32_t d = 1, bool l = true, AnimationBehaviour ab = FORWARDS);
             Animation(glm::vec2 fStart, glm::vec2 fSize, uint32_t fAmount = 1, uint32_t d = 1, bool l = true, AnimationBehaviour ab = FORWARDS);
             void getConstraints(glm::vec2& constraintX, glm::vec2& constraintY, uint32_t frame) const;
             uint32_t getFrameAmount() const;
@@ -41,6 +42,17 @@ namespace fea
      *  Animations use animation frames from a single texture at a time. In other words a sprite sheet. An animation then defines a starting point in the sprite sheet, followed by the size of a frame and the amount of frames. There is also a setting to control the speed of the animation and if it should loop or not and if it should animate forwards or backwards. 
      *
      *  All values defining location on the sprite sheet is in percent of the total texture size.
+     ***
+     *  @fn Animation::Animation(float fStartX, float fStartY, float fWidth, float fHeight, uint32_t fAmount = 1, uint32_t d = 1, bool l = true, AnimationBehaviour ab = FORWARDS)
+     *  @brief Construct an animation. All positioning values are in percent (between 0.0 and 1.0) of the total texture size.
+     *  @param fStartX X coordinate of the starting point. The top left corner of the first animation frame.
+     *  @param fStartY Y coordinate of the starting point. The top left corner of the first animation frame.
+     *  @param fWidth Width of one animation frame.
+     *  @param fHeight Height of one animation frame.
+     *  @param fAmount Total amount of frames in the animation.
+     *  @param d Amount of ticks between every animation frame.
+     *  @param l Describes if the animation is looping or not.
+     *  @param ab Can currently be FORWARDS or BACKWARDS, and defines if the frame is animated backwards or not.
      ***
      *  @fn Animation::Animation(glm::vec2 fStart, glm::vec2 fSize, uint32_t fAmount = 1, uint32_t d = 1, bool l = true, AnimationBehaviour ab = FORWARDS)
      *  @brief Construct an animation. All positioning values are in percent (between 0.0 and 1.0) of the total texture size.

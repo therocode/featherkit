@@ -1,6 +1,6 @@
 #include <featherkit/util/rendering/opengl/opengl2dbackend.h>
 #include <glm/gtc/type_ptr.hpp>
-#include <featherkit/rendering/shaderloader.h>
+#include <featherkit/util/rendering/opengl/glslloader.h>
 
 namespace fea
 {
@@ -71,7 +71,7 @@ namespace fea
                 "}\n"
                 "";
 
-            ShaderLoader loader;
+            GLSLLoader loader;
             shaderProgram = loader.createShader(vertexShaderSource, fragmentShaderSource);
 
             stash = sth_create(512, 512);

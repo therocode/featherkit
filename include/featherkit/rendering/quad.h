@@ -8,6 +8,7 @@ namespace fea
         public:
             Quad();
             Quad(float w, float h);
+            Quad(const glm::vec2& size);
             void setSize(float w, float h);
             void setSize(glm::vec2 size);
             glm::vec2 getSize() const;
@@ -40,6 +41,10 @@ namespace fea
      *  @brief Construct a quad with the given size.
      *  @param w Width.
      *  @param h Height.
+     ***
+     *  @fn Quad::Quad(const glm::vec2& size)
+     *  @brief Construct a quad with the given size.
+     *  @param size Size.
      ***
      *  @fn Quad::void Quad::setSize(float w, float h)
      *  @brief Resize the Quad.

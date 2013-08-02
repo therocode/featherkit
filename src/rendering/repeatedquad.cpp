@@ -12,7 +12,17 @@ namespace fea
         tileSize = getSize();
     }
 
-    void RepeatedQuad::setTileSize(glm::vec2 size)
+    RepeatedQuad::RepeatedQuad(const glm::vec2& size) : AnimatedQuad(size)
+    {
+        tileSize = getSize();
+    }
+
+    void RepeatedQuad::setTileSize(float w, float h)
+    {
+        tileSize = glm::vec2(w, h);
+    }
+
+    void RepeatedQuad::setTileSize(const glm::vec2& size)
     {
         tileSize = size;
     }
@@ -22,7 +32,12 @@ namespace fea
         return tileSize;
     }
     
-    void RepeatedQuad::setScrollSpeed(glm::vec2 speed)
+    void RepeatedQuad::setScrollSpeed(float xSpeed, float ySpeed)
+    {
+        scrollSpeed = glm::vec2(xSpeed, ySpeed);
+    }
+    
+    void RepeatedQuad::setScrollSpeed(const glm::vec2& speed)
     {
         scrollSpeed = speed;
     }
