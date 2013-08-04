@@ -209,5 +209,10 @@ namespace fea
             }
             return font;
         }
+
+        void OpenGL2DBackend::setRenderMode(const std::string& mode)
+        {
+
+        }
     }
 }

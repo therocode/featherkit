@@ -94,4 +94,9 @@ namespace fea
             throw(InvalidFontException(ss.str()));
         }
     }
+    
+    void Renderer2D::setRenderMode(const std::string& mode)
+    {
+        backend->setRenderMode(mode);
+    }
 }

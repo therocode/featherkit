@@ -23,6 +23,7 @@ namespace fea
                 void render(RenderData renderData) override;
                 void postRender() override;
                 int32_t addFont(uint8_t* fontData) override;
+                void setRenderMode(const std::string& mode) override;
             private:
                 virtual void renderText(const TextData& textData) override;
                 HashedStorage<std::string, OpenGLTexture>& textures;

@@ -18,6 +18,7 @@ namespace fea
             void setViewport(const Viewport& v);
             virtual void renderText(const TextData& textData) = 0;
             virtual int32_t addFont(uint8_t* fontData) = 0;
+            virtual void setRenderMode(const std::string& mode) = 0;
         protected:
             Viewport viewport;
     };
