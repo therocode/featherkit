@@ -7,20 +7,12 @@ namespace fea
     template<class tag, typename... DataTypes>
     struct Message
     {
-        Message();
-        Message(DataTypes... d);
+        Message(typename std::enable_if<sizeof...(DataTypes) >= 1>) {}
+        Message(DataTypes... d) : data(d...) { }
         std::tuple<DataTypes...> data;
+
+
     };
-
-    template<class tag, typename... DataTypes>
-    Message<tag, DataTypes...>::Message()
-    {
-    }
-
-    template<class tag, typename... DataTypes>
-    Message<tag, DataTypes...>::Message(DataTypes... d) : data(d...)
-    {
-    }
     /** @addtogroup Messaging
      *@{
      *  @struct Message
