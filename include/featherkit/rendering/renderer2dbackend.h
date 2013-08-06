@@ -8,6 +8,8 @@ namespace fea
 {
     class RenderMode;
 
+    enum BlendMode { NONE, ALPHA, ADD, MULTIPLY, MULTIPLY2X };
+
     class Renderer2DBackend
     {
         public:
@@ -23,6 +25,7 @@ namespace fea
             virtual void addRenderMode(const std::string& name, RenderMode* newMode) = 0;
             virtual void setRenderMode(const std::string& mode) = 0;
             virtual void setClearColour(const glm::vec3& colour) = 0;
+            virtual void setBlendMode(BlendMode mode) = 0;
         protected:
             Viewport viewport;
     };

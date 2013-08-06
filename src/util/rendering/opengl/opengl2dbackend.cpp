@@ -177,5 +177,30 @@ namespace fea
         {
             glClearColor(colour.r, colour.g, colour.b, 0.0f);
         }
+        
+        void OpenGL2DBackend::setBlendMode(BlendMode mode)
+        {
+            switch(mode)
+            {
+                case NONE:
+                    glBlendFunc(GL_ONE, GL_ZERO);
+                    break;
+                case ALPHA:
+                    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+                    break;
+                case ADD:
+                    glBlendFunc(GL_ONE, GL_ONE);
+                    break;
+                case MULTIPLY:
+                    glBlendFunc(GL_DST_COLOR, GL_ZERO);
+                    break;
+                case MULTIPLY2X:
+                    glBlendFunc(GL_DST_COLOR, GL_SRC_COLOR);
+                    break;
+                default:
+                    glBlendFunc(GL_ONE, GL_ZERO);
+                    break;
+            }
+        }
     }
 }

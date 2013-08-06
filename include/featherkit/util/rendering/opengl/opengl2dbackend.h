@@ -27,6 +27,7 @@ namespace fea
                 void addRenderMode(const std::string& name, RenderMode* newMode) override;
                 void setRenderMode(const std::string& mode) override;
                 void setClearColour(const glm::vec3& colour) override;
+                void setBlendMode(BlendMode mode) override;
             private:
                 virtual void renderText(const TextData& textData) override;
                 HashedStorage<std::string, OpenGLTexture>& textures;

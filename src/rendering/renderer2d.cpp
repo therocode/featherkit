@@ -115,4 +115,9 @@ namespace fea
     {
         backend->setClearColour(colour);
     }
+    
+    void Renderer2D::setBlendMode(BlendMode mode)
+    {
+        backend->setBlendMode(mode);
+    }
 }
