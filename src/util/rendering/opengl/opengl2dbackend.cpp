@@ -98,6 +98,9 @@ namespace fea
                 
                 GLint colour = glGetUniformLocation(shaderProgram, "colour");
                 glUniform3fv(colour, 1, glm::value_ptr(renderData.colour));
+
+                GLint opacity = glGetUniformLocation(shaderProgram, "opacity");
+                glUniform1fv(opacity, 1, &renderData.opacity);
             }
             else
             {
@@ -129,7 +132,7 @@ namespace fea
 
             glDisable(GL_TEXTURE_2D);
 
-            glColor3f(textData.colour.r, textData.colour.g, textData.colour.b);
+            glColor4f(textData.colour.r, textData.colour.g, textData.colour.b, textData.opacity);
 
             glm::vec2 point = glm::vec2(textData.position.x, textData.position.y);
 

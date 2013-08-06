@@ -48,6 +48,7 @@ namespace fea
             temp.size = text.getTextSize();
             temp.font = text.getFont();
             temp.parallax = text.getParallax();
+            temp.opacity = text.getOpacity();
 
             backend->renderText(temp);
             return;

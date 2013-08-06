@@ -13,6 +13,7 @@ namespace fea
         glm::vec2 textureScroll;
         float parallax = 1.0f;
         glm::vec3 colour = glm::vec3(1.0f, 1.0f, 1.0f);
+        float opacity = 1.0f;
     };
 
     struct TextData
@@ -23,6 +24,7 @@ namespace fea
         float size;
         int font = 0;
         float parallax = 1.0f;
+        float opacity = 1.0f;
     };
 
     struct AABB

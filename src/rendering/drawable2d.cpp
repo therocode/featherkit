@@ -2,7 +2,7 @@
 
 namespace fea
 {
-    Drawable2D::Drawable2D() : isText(false), rotation(0.0f), scaling(glm::vec2(1.0f, 1.0f)), parallax(1.0f), colour(1.0f, 1.0f, 1.0f)
+    Drawable2D::Drawable2D() : isText(false), rotation(0.0f), scaling(glm::vec2(1.0f, 1.0f)), parallax(1.0f), colour(1.0f, 1.0f, 1.0f), opacity(1.0f)
     {
     }
 
@@ -145,6 +145,16 @@ namespace fea
         return colour;
     }
     
+    void Drawable2D::setOpacity(float o)
+    {
+        opacity = o;
+    }
+
+    float Drawable2D::getOpacity() const
+    {
+        return opacity;
+    }
+    
     void Drawable2D::addTransformation(const glm::mat2x2& t)
     {
         transformations.push_back(t);
@@ -171,6 +181,7 @@ namespace fea
         renderData.vertices = getVerticesTransformed();
         renderData.parallax = parallax;
         renderData.colour = colour;
+        renderData.opacity = opacity;
     }
     
     AABB Drawable2D::getAABB() const

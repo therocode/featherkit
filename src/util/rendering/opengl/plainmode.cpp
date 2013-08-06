@@ -32,11 +32,12 @@ namespace fea
                 "uniform vec2 constrainY;\n"
                 "uniform vec2 textureScroll;\n"
                 "uniform vec3 colour;\n"
+                "uniform float opacity;\n"
                 "\n"
                 "void main()\n"
                 "{\n"
                 "\n"
-                "    gl_FragColor = vec4(colour, 1.0f);\n"
+                "    gl_FragColor = vec4(colour, opacity);\n"
                 "}\n"
                 "";
 

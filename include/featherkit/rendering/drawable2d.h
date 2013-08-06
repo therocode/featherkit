@@ -34,6 +34,8 @@ namespace fea
             void setColour(float r, float g, float b);
             void setColour(const glm::vec3& c);
             glm::vec3 getColour() const;
+            void setOpacity(float o);
+            float getOpacity() const;
             void addTransformation(const glm::mat2x2& t);
             const glm::mat2x2& getTransformation(uint32_t index) const;
             uint32_t getTransformationCount() const;
@@ -50,6 +52,7 @@ namespace fea
             glm::vec2 scaling;
             float parallax;
             glm::vec3 colour;
+            float opacity;
 
             std::vector<glm::mat2x2> transformations;
     };

@@ -32,6 +32,7 @@ namespace fea
                 "uniform vec2 constrainY;\n"
                 "uniform vec2 textureScroll;\n"
                 "uniform vec3 colour;\n"
+                "uniform float opacity;\n"
                 "\n"
                 "float boundBetween(float val, float lowerBound, float upperBound)\n"
                 "{\n"
@@ -57,7 +58,7 @@ namespace fea
                 "    vec2 constraintSize = abs(vec2(constrainX[1] - constrainX[0] , constrainY[1] - constrainY[0]));\n"
                 "    vec2 texCoords = constraintSize * gl_TexCoord[0].st + vec2(constrainX[0], constrainY[0]) - textureScroll;\n"
                 "    texCoords = vec2(boundBetween(texCoords.s, constrainX[0], constrainX[1]), boundBetween(texCoords.t, constrainY[0], constrainY[1]));\n"
-                "    gl_FragColor = texture2D(texture, texCoords) * vec4(colour, 1.0f);\n"
+                "    gl_FragColor = texture2D(texture, texCoords) * vec4(colour, opacity);\n"
                 "}\n"
                 "";
 
