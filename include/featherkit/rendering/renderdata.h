@@ -12,6 +12,7 @@ namespace fea
         glm::vec2 constrainY = glm::vec2(1.0f, 0.0f);
         glm::vec2 textureScroll;
         float parallax = 1.0f;
+        glm::vec3 colour = glm::vec3(1.0f, 1.0f, 1.0f);
     };
 
     struct TextData

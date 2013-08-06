@@ -1,5 +1,6 @@
 #include <featherkit/util/rendering/opengl/glslloader.h>
 #include <sstream>
+#include <vector>
 
 namespace fea
 {
@@ -25,42 +26,33 @@ namespace fea
         glAttachShader(shaderProgram, fragmentShader);
         glLinkProgram(shaderProgram);
 
-        //////getting error
-        GLint blen = 0; 
-        GLsizei slen = 0;
+        GLint isCompiled = 0;
 
-        if(glGetError())
+        glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &isCompiled);
+        if(!isCompiled)
         {
-            glGetShaderiv(vertexShader, GL_INFO_LOG_LENGTH , &blen);       
-            if (blen > 1)
-            {
-                GLchar* compiler_log = (GLchar*)malloc(blen);
-                glGetInfoLogARB(vertexShader, blen, &slen, compiler_log);
-                std::stringstream ss;
-                ss << "Error! Vertex shader compilation:\n" << compiler_log << "\n";
-                free (compiler_log);
-                throw(GLSLException(ss.str()));
-            }
-            glGetShaderiv(fragmentShader, GL_INFO_LOG_LENGTH , &blen);       
-            if (blen > 1)
-            {
-                GLchar* compiler_log = (GLchar*)malloc(blen);
-                glGetInfoLogARB(fragmentShader, blen, &slen, compiler_log);
-                std::stringstream ss;
-                ss << "Error! Fragment shader compilation:\n" << compiler_log << "\n";
-                free (compiler_log);
-                throw(GLSLException(ss.str()));
-            }
-            glGetProgramiv(shaderProgram, GL_INFO_LOG_LENGTH , &blen);       
-            if (blen > 1)
-            {
-                GLchar* compiler_log = (GLchar*)malloc(blen);
-                glGetInfoLogARB(shaderProgram, blen, &slen, compiler_log);
-                std::stringstream ss;
-                ss << "Error! Shader program compilation:\n" << compiler_log << "\n";
-                free (compiler_log);
-                throw(GLSLException(ss.str()));
-            }
+            GLint maxLength = 0;
+            glGetShaderiv(vertexShader, GL_INFO_LOG_LENGTH, &maxLength);
+            std::vector<GLchar> infoLog(maxLength);
+            glGetShaderInfoLog(vertexShader, maxLength, &maxLength, &infoLog[0]);
+            std::stringstream ss;
+            ss << "Error! Vertex shader compilation:\n" << std::string(&infoLog[0]) << "\n";
+            throw(GLSLException(ss.str()));
+            return 0;
+        }
+
+        isCompiled = 0;
+        glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &isCompiled);
+        if(!isCompiled)
+        {
+            GLint maxLength = 0;
+            glGetShaderiv(fragmentShader, GL_INFO_LOG_LENGTH, &maxLength);
+            std::vector<GLchar> infoLog(maxLength);
+            glGetShaderInfoLog(fragmentShader, maxLength, &maxLength, &infoLog[0]);
+            std::stringstream ss;
+            ss << "Error! Fragment shader compilation:\n" << std::string(&infoLog[0]) << "\n";
+            throw(GLSLException(ss.str()));
+            return 0;
         }
 
         return shaderProgram;

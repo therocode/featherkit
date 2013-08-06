@@ -2,7 +2,7 @@
 
 namespace fea
 {
-    Drawable2D::Drawable2D() : isText(false), rotation(0.0f), scaling(glm::vec2(1.0f, 1.0f)), parallax(1.0f)
+    Drawable2D::Drawable2D() : isText(false), rotation(0.0f), scaling(glm::vec2(1.0f, 1.0f)), parallax(1.0f), colour(1.0f, 1.0f, 1.0f)
     {
     }
 
@@ -129,6 +129,21 @@ namespace fea
     {
         return parallax;
     }
+        
+    void Drawable2D::setColour(float r, float g, float b)
+    {
+        colour = glm::vec3(r, g, b);
+    }
+    
+    void Drawable2D::setColour(const glm::vec3& c)
+    {
+        colour = c;
+    }
+    
+    glm::vec3 Drawable2D::getColour() const
+    {
+        return colour;
+    }
     
     void Drawable2D::addTransformation(const glm::mat2x2& t)
     {
@@ -155,6 +170,7 @@ namespace fea
         (void) time; //getting rid of unused parameter warning
         renderData.vertices = getVerticesTransformed();
         renderData.parallax = parallax;
+        renderData.colour = colour;
     }
     
     AABB Drawable2D::getAABB() const

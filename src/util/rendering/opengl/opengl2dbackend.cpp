@@ -95,7 +95,9 @@ namespace fea
 
                 GLint parallax = glGetUniformLocation(shaderProgram, "parallax");
                 glUniform1fv(parallax, 1, &renderData.parallax);
-
+                
+                GLint colour = glGetUniformLocation(shaderProgram, "colour");
+                glUniform3fv(colour, 1, glm::value_ptr(renderData.colour));
             }
             else
             {
