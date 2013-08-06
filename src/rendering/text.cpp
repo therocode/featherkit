@@ -2,44 +2,31 @@
 
 namespace fea
 {
-    Text::Text(const std::string& t) : text(t), colour(1.0f, 1.0f, 1.0f), fontSize(24.0f)
+    Text::Text(const std::string& t) : text(t), fontSize(24.0f)
     {
         isText = true;
     }
 
-    Text::Text(const std::string& t, float r, float g, float b) : text(t), colour(glm::vec3(r, g, b)), fontSize(24.0f)
+    Text::Text(const std::string& t, float r, float g, float b) : text(t), fontSize(24.0f)
     {
         isText = true;
+        setColour(r, b, g);
     }
     
-    Text::Text(const std::string& t, const glm::vec3& col) : text(t), colour(col), fontSize(24.0f)
+    Text::Text(const std::string& t, const glm::vec3& col) : text(t), fontSize(24.0f)
     {
         isText = true;
+        setColour(col);
     }
     
     std::string Text::getText() const
     {
         return text;
     }
-    
-    glm::vec3 Text::getColour() const
-    {
-        return colour;
-    }
-    
+
     void Text::setText(const std::string& t)
     {
         text = t;
-    }
-    
-    void Text::setColour(float r, float g, float b)
-    {
-        colour = glm::vec3(r, g, b);
-    }
-    
-    void Text::setColour(const glm::vec3& c)
-    {
-        colour = c;
     }
     
     float Text::getTextSize() const

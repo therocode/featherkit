@@ -11,16 +11,12 @@ namespace fea
             Text(const std::string& t, const glm::vec3& col);
             std::string getText() const;
             void setText(const std::string& t);
-            glm::vec3 getColour() const;
-            void setColour(float r, float g, float b);
-            void setColour(const glm::vec3& col);
             float getTextSize() const;
             void setTextSize(float size);
             int32_t getFont() const;
             void setFont(int32_t f);
         private:
             std::string text;
-            glm::vec3 colour;
             float fontSize;
             int font;
     };

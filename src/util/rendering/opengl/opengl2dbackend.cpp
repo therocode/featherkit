@@ -169,5 +169,10 @@ namespace fea
         {
             currentMode = renderModes.at(mode);
         }
+        
+        void OpenGL2DBackend::setClearColour(const glm::vec3& colour)
+        {
+            glClearColor(colour.r, colour.g, colour.b, 0.0f);
+        }
     }
 }

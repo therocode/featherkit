@@ -104,4 +104,14 @@ namespace fea
     {
         backend->setRenderMode(mode);
     }
+    
+    void Renderer2D::setClearColour(float r, float g, float b)
+    {
+        backend->setClearColour(glm::vec3(r, g, b));
+    }
+    
+    void Renderer2D::setClearColour(const glm::vec3& colour)
+    {
+        backend->setClearColour(colour);
+    }
 }

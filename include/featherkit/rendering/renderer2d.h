@@ -30,6 +30,8 @@ namespace fea
             int32_t addFont(uint8_t* fontData);
             void addRenderMode(const std::string& name, RenderMode* newMode);
             void setRenderMode(const std::string& mode);
+            void setClearColour(float r, float g, float b);
+            void setClearColour(const glm::vec3& colour);
         private:
             std::unique_ptr<Renderer2DBackend> backend;
             Viewport currentViewport;

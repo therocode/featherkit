@@ -154,6 +154,20 @@ namespace fea
      *  @brief Get the parallax.
      *  @return Parallax factor.
      ***
+     *  @fn glm::vec3 Drawable2D::getColour() const
+     *  @brief Get the colour.
+     *  @return Vector containing the colour.
+     ***
+     *  @fn void Drawable2D::setColour(float r, float g, float b)
+     *  @brief Set the colour.
+     *  @param r Amount of red.
+     *  @param g Amount of green.
+     *  @param b Amount of blue.
+     ***
+     *  @fn void Drawable2D::setColour(const glm::vec3& col)
+     *  @brief Set the colour.
+     *  @param col Vector containing the colour.
+     ***
      *  @fn void Drawable2D::addTransformation(const glm::mat2x2& t)
      *  @brief Add a transformation matrix.
      *

@@ -22,6 +22,7 @@ namespace fea
             virtual int32_t addFont(uint8_t* fontData) = 0;
             virtual void addRenderMode(const std::string& name, RenderMode* newMode) = 0;
             virtual void setRenderMode(const std::string& mode) = 0;
+            virtual void setClearColour(const glm::vec3& colour) = 0;
         protected:
             Viewport viewport;
     };
