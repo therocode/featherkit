@@ -95,6 +95,11 @@ namespace fea
         }
     }
     
+    void Renderer2D::addRenderMode(const std::string& name, RenderMode* newMode)
+    {
+        backend->addRenderMode(name, newMode);
+    }
+    
     void Renderer2D::setRenderMode(const std::string& mode)
     {
         backend->setRenderMode(mode);

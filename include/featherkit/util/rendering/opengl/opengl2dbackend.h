@@ -1,6 +1,7 @@
 #pragma once
 #include <featherkit/rendering/renderer2dbackend.h>
 #include <featherkit/util/rendering/opengl/opengltexture.h>
+#include <featherkit/util/rendering/opengl/openglrendermode.h>
 #include <featherkit/util/rendering/opengl/opengl.h>
 #include <featherkit/fontstash/fontstash.h>
 #include <featherkit/rendering/hashedstorage.h>
@@ -23,11 +24,13 @@ namespace fea
                 void render(RenderData renderData) override;
                 void postRender() override;
                 int32_t addFont(uint8_t* fontData) override;
+                void addRenderMode(const std::string& name, RenderMode* newMode) override;
                 void setRenderMode(const std::string& mode) override;
             private:
                 virtual void renderText(const TextData& textData) override;
                 HashedStorage<std::string, OpenGLTexture>& textures;
-                GLuint shaderProgram;
+                std::unordered_map<std::string, std::shared_ptr<OpenGLRenderMode> > renderModes;
+                std::weak_ptr<OpenGLRenderMode> currentMode;
 
                 sth_stash* stash;
         };

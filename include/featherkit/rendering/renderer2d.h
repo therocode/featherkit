@@ -28,6 +28,7 @@ namespace fea
             Viewport& getViewport();
             void resize(uint32_t w, uint32_t h);
             int32_t addFont(uint8_t* fontData);
+            void addRenderMode(const std::string& name, RenderMode* newMode);
             void setRenderMode(const std::string& mode);
         private:
             std::unique_ptr<Renderer2DBackend> backend;
