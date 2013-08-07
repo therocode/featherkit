@@ -2,60 +2,53 @@
 
 namespace fea
 {
-    AnimatedQuad::AnimatedQuad() : Quad(), clock(0), currentFrame(0), animate(false)
+    AnimatedQuad::AnimatedQuad() : Quad(), currentAnimation(nullptr), clock(0), currentFrame(0), animate(false)
     {
     }
 
-    AnimatedQuad::AnimatedQuad(float w, float h) : Quad(w, h), clock(0), currentFrame(0), animate(false)
+    AnimatedQuad::AnimatedQuad(float w, float h) : Quad(w, h), currentAnimation(nullptr), clock(0), currentFrame(0), animate(false)
     {
     }
 
-    AnimatedQuad::AnimatedQuad(const glm::vec2& size) : Quad(size), clock(0), currentFrame(0), animate(false)
+    AnimatedQuad::AnimatedQuad(const glm::vec2& size) : Quad(size), currentAnimation(nullptr), clock(0), currentFrame(0), animate(false)
     {
     }
 
-    void AnimatedQuad::addAnimation(AnimationId id, std::weak_ptr<Animation> animation)
+    void AnimatedQuad::setAnimation(const Animation& animation, bool play)
     {
-        animations.emplace(id, animation);
-    }
-
-    void AnimatedQuad::setAnimation(AnimationId a, bool play)
-    {
-        if(a != currentAnimationId)
+        if(&animation != currentAnimation)
         {
-            currentAnimation = animations.at(a);
-            currentAnimationId = a;
+            currentAnimation = &animation;
             animate = play;
             currentFrame = 0;
         }
     }
     
-    AnimationId AnimatedQuad::getAnimation() const
+    const Animation& AnimatedQuad::getAnimation() const
     {
-        return currentAnimationId;
+        return *currentAnimation;
     }
 
     void AnimatedQuad::getRenderData(RenderData& renderData, uint32_t time) const
     {
         Quad::getRenderData(renderData, time);
         
-        if(!currentAnimation.expired())
+        if(currentAnimation != nullptr)
         {
-            currentAnimation.lock()->getConstraints(renderData.constrainX, renderData.constrainY, currentFrame);
+            currentAnimation->getConstraints(renderData.constrainX, renderData.constrainY, currentFrame);
         }
     }
     
     void AnimatedQuad::tick()
     {
-        if(animate && !currentAnimation.expired())
+        if(animate && currentAnimation != nullptr)
         {
             clock++;
             
-            std::shared_ptr<Animation> anim = currentAnimation.lock();
-            uint32_t delay = anim->getDelay();
-            uint32_t frameAmount = anim->getFrameAmount();
-            bool loop = anim->getLoop();
-            AnimationBehaviour animBehaviour = anim->getAnimationBehaviour();
+            uint32_t delay = currentAnimation->getDelay();
+            uint32_t frameAmount = currentAnimation->getFrameAmount();
+            bool loop = currentAnimation->getLoop();
+            AnimationBehaviour animBehaviour = currentAnimation->getAnimationBehaviour();
 
             switch(animBehaviour)
             {
@@ -85,10 +78,10 @@ namespace fea
     
     void AnimatedQuad::playAnimation(uint32_t startFrame)
     {
-        if(!currentAnimation.expired())
+        if(currentAnimation != nullptr)
         {
             animate = true;
-            clock = startFrame * currentAnimation.lock()->getDelay();
+            clock = startFrame * currentAnimation->getDelay();
         }
     }
     

@@ -12,18 +12,15 @@ namespace fea
             AnimatedQuad();
             AnimatedQuad(float w, float h);
             AnimatedQuad(const glm::vec2& size);
-            void addAnimation(AnimationId id, std::weak_ptr<Animation> animation);
-            void setAnimation(AnimationId id, bool play = true);
-            AnimationId getAnimation() const;
+            void setAnimation(const Animation& animation, bool play = true);
+            const Animation& getAnimation() const;
             virtual void getRenderData(RenderData& renderData, uint32_t time) const override;
             void tick();
             void playAnimation(uint32_t startFrame = 0);
             void stopAnimation();
             void setAnimationFrame(uint32_t frame);
         private:
-            std::weak_ptr<Animation> currentAnimation;
-            AnimationId currentAnimationId;
-            std::unordered_map<AnimationId, std::weak_ptr<Animation> > animations;
+            const Animation* currentAnimation;
 
             uint32_t clock;
             uint32_t currentFrame;

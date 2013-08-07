@@ -1,6 +1,5 @@
 #pragma once
 #include <featherkit/rendering/renderer2dbackend.h>
-#include <featherkit/util/rendering/opengl/opengltexture.h>
 #include <featherkit/util/rendering/opengl/openglrendermode.h>
 #include <featherkit/util/rendering/opengl/opengl.h>
 #include <featherkit/fontstash/fontstash.h>
