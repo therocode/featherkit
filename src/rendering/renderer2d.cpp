@@ -50,13 +50,15 @@ namespace fea
             temp.opacity = text.getOpacity();
 
             backend->renderText(temp);
-            return;
         }
-        RenderData temp;
+        else
+        {
+            RenderData temp;
 
-        drawable.getRenderData(temp, clock);
+            drawable.getRenderData(temp, clock);
 
-        backend->render(temp);
+            backend->render(temp);
+        }
     }
 
     void Renderer2D::postRender()

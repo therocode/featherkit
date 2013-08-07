@@ -62,7 +62,7 @@ namespace fea
             glUniform2fv(halfSizeUniform, 1, glm::value_ptr((glm::vec2)viewSize * 0.5f));
         }
 
-        void OpenGL2DBackend::render(RenderData renderData)
+        void OpenGL2DBackend::render(const RenderData& renderData)
         {
             GLuint shaderProgram = currentMode.lock()->getShader();
             std::vector<float> vertices = renderData.vertices;

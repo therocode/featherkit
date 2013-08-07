@@ -21,7 +21,7 @@ namespace fea
                 void destroy() override;
                 void clear() override;
                 void preRender() override;
-                void render(RenderData renderData) override;
+                void render(const RenderData& renderData) override;
                 void postRender() override;
                 int32_t addFont(uint8_t* fontData) override;
                 void addRenderMode(const std::string& name, RenderMode* newMode) override;

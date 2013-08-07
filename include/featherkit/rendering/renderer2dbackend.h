@@ -17,7 +17,7 @@ namespace fea
             virtual void destroy() = 0;
             virtual void clear() = 0;
             virtual void preRender() = 0;
-            virtual void render(RenderData renderData) = 0;
+            virtual void render(const RenderData& renderData) = 0;
             virtual void postRender() = 0;
             virtual void renderText(const TextData& textData) = 0;
             virtual int32_t addFont(uint8_t* fontData) = 0;
