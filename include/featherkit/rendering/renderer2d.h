@@ -33,6 +33,7 @@ namespace fea
             void setClearColour(float r, float g, float b);
             void setClearColour(const glm::vec3& colour);
             void setBlendMode(BlendMode mode);
+            Texture createTexture(uint32_t w, uint32_t h, const uint8_t* imageData);
         private:
             std::unique_ptr<Renderer2DBackend> backend;
             Viewport currentViewport;

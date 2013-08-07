@@ -123,4 +123,9 @@ namespace fea
     {
         backend->setBlendMode(mode);
     }
+    
+    Texture Renderer2D::createTexture(uint32_t w, uint32_t h, const uint8_t* imageData)
+    {
+        return backend->createTexture(w, h, imageData);
+    }
 }

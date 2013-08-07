@@ -37,8 +37,8 @@ namespace fea
             void setPosition(const glm::vec2& position);
             const glm::vec2& getPosition() const;
             const std::vector<TileChunk>& getTileChunks() const;
-            void setTexture(const std::string& name);
-            const std::string& getTexture() const;
+            void setTexture(const Texture& tex);
+            const Texture& getTexture() const;
             void addTileDefinition(const std::string& name, const TileDefinition& tileDef);
             void setTileByName(uint32_t x, uint32_t y, std::string name);
             void setTileByName(const glm::uvec2& position, std::string name);
@@ -61,7 +61,7 @@ namespace fea
             glm::uvec2 gridSize;
             glm::vec2 textureTileSize;
             std::vector<TileChunk> chunks;
-            std::string textureId;
+            const Texture* texture;
             std::unordered_map<TileId, TileDefinition> tileDefs;
             std::hash<std::string> hasher;
             std::map<glm::uvec2, AnimatedTile, std::function<bool(const glm::uvec2&, const glm::uvec2&)> > animatedTiles;

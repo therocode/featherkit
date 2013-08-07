@@ -49,14 +49,14 @@ namespace fea
         return glm::vec2(vertices[4] * 2.0f, vertices[3] * 2.0f);
     }
     
-    void Quad::setTexture(const std::string& tex)
+    void Quad::setTexture(const Texture& tex)
     {
-        textureId = tex;
+        texture = &tex;
     }
 
-    const std::string& Quad::getTexture() const
+    const Texture& Quad::getTexture() const
     {
-        return textureId;
+        return *texture;
     }
 
     void Quad::setHFlip(bool enabled)
@@ -83,7 +83,7 @@ namespace fea
         glm::vec2 texCoordsY = glm::vec2(0.0f, 1.0f) * vFlip;
 
 
-        renderData.textureId = getTexture();
+        renderData.texture= getTexture().getId();
         renderData.texCoords =  {texCoordsX[0], texCoordsY[0],
                                  texCoordsX[0], texCoordsY[1],
                                  texCoordsX[1], texCoordsY[1],

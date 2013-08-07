@@ -55,7 +55,7 @@ namespace fea
         //float texMaxX = texMax.x;
         //float texMaxY = texMax.y;
 
-        renderData.textureId = getTexture();
+        renderData.texture = getTexture().getId();
 
         /*
         renderData.texCoords =  {0.0f, 0.0f,

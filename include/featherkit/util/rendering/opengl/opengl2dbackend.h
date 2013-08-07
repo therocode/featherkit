@@ -4,8 +4,8 @@
 #include <featherkit/util/rendering/opengl/openglrendermode.h>
 #include <featherkit/util/rendering/opengl/opengl.h>
 #include <featherkit/fontstash/fontstash.h>
-#include <featherkit/rendering/hashedstorage.h>
 #include <unordered_map>
+#include <memory>
 
 using namespace fea;
 
@@ -16,7 +16,7 @@ namespace fea
         class OpenGL2DBackend : public Renderer2DBackend
         {
             public:
-                OpenGL2DBackend(HashedStorage<std::string, OpenGLTexture>& tm);
+                OpenGL2DBackend();
                 void setup() override;
                 void destroy() override;
                 void clear() override;
@@ -29,9 +29,12 @@ namespace fea
                 void setClearColour(const glm::vec3& colour) override;
                 void setBlendMode(BlendMode mode) override;
                 void setViewport(Viewport& view) override;
+                Texture createTexture(uint32_t w, uint32_t h, const uint8_t* imageData, ResizeAlgorithm algo = NEAREST) override;
+                void destroyTexture(int32_t id) override;
             private:
                 virtual void renderText(const TextData& textData) override;
-                HashedStorage<std::string, OpenGLTexture>& textures;
+                std::unordered_map<int32_t, GLuint> textures;
+                int32_t nextTextureId;
                 std::unordered_map<std::string, std::shared_ptr<OpenGLRenderMode> > renderModes;
                 std::weak_ptr<OpenGLRenderMode> currentMode;
 

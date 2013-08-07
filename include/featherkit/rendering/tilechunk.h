@@ -1,5 +1,6 @@
 #pragma once
 #include <featherkit/rendering/drawable2d.h>
+#include <featherkit/rendering/texture.h>
 
 namespace fea
 {
@@ -7,14 +8,14 @@ namespace fea
     {
         public:
             TileChunk(uint32_t width, uint32_t height, uint32_t tileWidth, uint32_t tileHeight);
-            void setTexture(const std::string& tex);
-            const std::string& getTexture() const;
+            void setTexture(const Texture& tex);
+            const Texture& getTexture() const;
             void setTileTexCoords(uint32_t x, uint32_t y, const glm::vec2 startCoords, const glm::vec2 endCoords);
             virtual void getRenderData(RenderData& renderData, uint32_t time) const override;
         private:
             uint32_t getTileIndex(uint32_t x, uint32_t y);
             glm::uvec2 gridSize;
-            std::string textureId;
+            const Texture* texture;
             std::vector<float> texCoords;
     };
     /** @addtogroup Render2D

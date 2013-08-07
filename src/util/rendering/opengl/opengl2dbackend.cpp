@@ -6,7 +6,7 @@ namespace fea
 {
     namespace util
     {
-        OpenGL2DBackend::OpenGL2DBackend(HashedStorage<std::string, OpenGLTexture>& t) : textures(t)
+        OpenGL2DBackend::OpenGL2DBackend() : nextTextureId(0)
         {
         }
 
@@ -70,10 +70,10 @@ namespace fea
             glm::vec2 vertex;
             uint32_t quadAmount = vertices.size() / 2;
 
-            if(renderData.textureId != "")
+            if(renderData.texture != -1)
             {
-                OpenGLTexture texture = *textures.at(renderData.textureId).lock();
-                glBindTexture(GL_TEXTURE_2D, texture.glId);
+                GLuint texture = textures.at(renderData.texture);
+                glBindTexture(GL_TEXTURE_2D, texture);
 
                 glm::ivec2 size;
                 glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &size[0]);
@@ -209,6 +209,43 @@ namespace fea
             glMatrixMode(GL_MODELVIEW);
 
             viewport = &view;
+        }
+        
+        Texture OpenGL2DBackend::createTexture(uint32_t w, uint32_t h, const uint8_t* imageData, ResizeAlgorithm algo)
+        {
+
+            GLuint id;
+
+            glGenTextures(1, &id);
+            glBindTexture(GL_TEXTURE_2D, id);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
+
+            if(algo == NEAREST)
+            {
+                glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+                glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+            }
+            else if(algo == LINEAR)
+            {
+                glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+                glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+            }
+            glBindTexture(GL_TEXTURE_2D, 0);
+
+            Texture newTexture(*this, nextTextureId);
+            textures.emplace(nextTextureId, id);
+            nextTextureId++;
+            
+            return newTexture;
+        }
+        
+        void OpenGL2DBackend::destroyTexture(int32_t id)
+        {
+            if(id != -1)
+            {
+                glDeleteTextures(1, &textures.at(id));
+                textures.erase(id);
+            }
         }
     }
 }

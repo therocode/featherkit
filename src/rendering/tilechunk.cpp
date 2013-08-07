@@ -30,14 +30,14 @@ namespace fea
         }
     }
     
-    void TileChunk::setTexture(const std::string& tex)
+    void TileChunk::setTexture(const Texture& tex)
     {
-        textureId = tex;
+        texture = &tex;
     }
 
-    const std::string& TileChunk::getTexture() const
+    const Texture& TileChunk::getTexture() const
     {
-        return textureId;
+        return *texture;
     }
     
     void TileChunk::setTileTexCoords(uint32_t x, uint32_t y, const glm::vec2 startCoords, const glm::vec2 endCoords)
@@ -54,7 +54,7 @@ namespace fea
     {
         Drawable2D::getRenderData(renderData, time);
 
-        renderData.textureId = getTexture();
+        renderData.texture = getTexture().getId();
 
         renderData.texCoords = texCoords;
     }

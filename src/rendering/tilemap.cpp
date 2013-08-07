@@ -112,19 +112,19 @@ namespace fea
         return chunks;
     }
     
-    void TileMap::setTexture(const std::string& name)
+    void TileMap::setTexture(const Texture& tex)
     {
-        textureId = name;
+        texture = &tex;
 
         for(auto& chunk : chunks)
         {
-            chunk.setTexture(name);
+            chunk.setTexture(tex);
         }
     }
     
-    const std::string& TileMap::getTexture() const
+    const Texture& TileMap::getTexture() const
     {
-        return textureId;
+        return *texture;
     }
     
     void TileMap::addTileDefinition(const std::string& name, const TileDefinition& tileDef)
