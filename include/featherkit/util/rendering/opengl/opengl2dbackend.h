@@ -28,11 +28,14 @@ namespace fea
                 void setRenderMode(const std::string& mode) override;
                 void setClearColour(const glm::vec3& colour) override;
                 void setBlendMode(BlendMode mode) override;
+                void setViewport(Viewport& view) override;
             private:
                 virtual void renderText(const TextData& textData) override;
                 HashedStorage<std::string, OpenGLTexture>& textures;
                 std::unordered_map<std::string, std::shared_ptr<OpenGLRenderMode> > renderModes;
                 std::weak_ptr<OpenGLRenderMode> currentMode;
+
+                Viewport* viewport;
 
                 sth_stash* stash;
         };

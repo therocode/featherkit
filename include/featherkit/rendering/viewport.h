@@ -8,11 +8,12 @@ namespace fea
     {
         public:
             Viewport();
-            Viewport(uint32_t w, uint32_t h);
-            Viewport(const glm::vec2& size);
-            Viewport(uint32_t w, uint32_t h, const Camera& cam);
-            Viewport(const glm::vec2& size, const Camera& cam);
-            void setSize(float w, float h);
+            Viewport(uint32_t w, uint32_t h, int32_t x = 0, int32_t y = 0, const Camera& cam = Camera());
+            Viewport(const glm::uvec2& s, const glm::ivec2& pos = glm::ivec2(), const Camera& cam = Camera());
+            void setPosition(int32_t x, int32_t y);
+            void setPosition(const glm::ivec2& p);
+            const glm::ivec2& getPosition() const;
+            void setSize(uint32_t w, uint32_t h);
             void setSize(const glm::uvec2& s);
             const glm::uvec2& getSize() const;
             void setCamera(const Camera& cam);
@@ -22,6 +23,7 @@ namespace fea
             glm::vec2 untransformPoint(float x, float y) const;
             glm::vec2 untransformPoint(const glm::vec2 point) const;
         private:
+            glm::ivec2 position;
             glm::uvec2 size;
             Camera camera;
     };

@@ -19,15 +19,13 @@ namespace fea
             virtual void preRender() = 0;
             virtual void render(RenderData renderData) = 0;
             virtual void postRender() = 0;
-            void setViewport(const Viewport& v);
             virtual void renderText(const TextData& textData) = 0;
             virtual int32_t addFont(uint8_t* fontData) = 0;
             virtual void addRenderMode(const std::string& name, RenderMode* newMode) = 0;
             virtual void setRenderMode(const std::string& mode) = 0;
             virtual void setClearColour(const glm::vec3& colour) = 0;
             virtual void setBlendMode(BlendMode mode) = 0;
-        protected:
-            Viewport viewport;
+            virtual void setViewport(Viewport& view) = 0;
     };
     /** @addtogroup Render2D
      *@{

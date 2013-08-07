@@ -39,26 +39,21 @@ namespace fea
 
         void OpenGL2DBackend::preRender()
         {
-            const glm::uvec2& viewSize = viewport.getSize();
-            glViewport(0, 0, viewSize.x, viewSize.y);
+            const glm::uvec2& viewSize = viewport->getSize();
 
-            glMatrixMode(GL_PROJECTION);
-            glLoadIdentity();
-            gluOrtho2D(0.0f, viewSize.x, viewSize.y, 0.0f);
-            glMatrixMode(GL_MODELVIEW);
             glEnableClientState(GL_VERTEX_ARRAY);
             glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
             currentMode.lock()->preRender();
             GLuint shaderProgram = currentMode.lock()->getShader();
 
-            glm::mat2x2 rotation = glm::inverse(viewport.getCamera().getRotationMatrix());
+            glm::mat2x2 rotation = glm::inverse(viewport->getCamera().getRotationMatrix());
 
             GLint positionUniform = glGetUniformLocation(shaderProgram, "position");
-            glUniform2fv(positionUniform, 1, glm::value_ptr(viewport.getCamera().getPosition()));
+            glUniform2fv(positionUniform, 1, glm::value_ptr(viewport->getCamera().getPosition()));
 
             GLint zoomUniform = glGetUniformLocation(shaderProgram, "zoom");
-            glUniform2fv(zoomUniform, 1, glm::value_ptr(viewport.getCamera().getZoom()));
+            glUniform2fv(zoomUniform, 1, glm::value_ptr(viewport->getCamera().getZoom()));
 
             GLint rotationUniform = glGetUniformLocation(shaderProgram, "rotation");
             glUniformMatrix2fv(rotationUniform, 1, false, glm::value_ptr(rotation));
@@ -136,8 +131,8 @@ namespace fea
 
             glm::vec2 point = glm::vec2(textData.position.x, textData.position.y);
 
-            Camera camera = viewport.getCamera();
-            point = glm::inverse(camera.getRotationMatrix()) * (camera.getZoom() * (point - camera.getPosition() * textData.parallax)) + (glm::vec2)viewport.getSize() * 0.5f;
+            Camera camera = viewport->getCamera();
+            point = glm::inverse(camera.getRotationMatrix()) * (camera.getZoom() * (point - camera.getPosition() * textData.parallax)) + (glm::vec2)viewport->getSize() * 0.5f;
             //point = viewport.getCamera().getTransformation() * (point - viewport.getCamera().getPosition());
 
             float x = point.x;
@@ -201,6 +196,19 @@ namespace fea
                     glBlendFunc(GL_ONE, GL_ZERO);
                     break;
             }
+        }
+
+        void OpenGL2DBackend::setViewport(Viewport& view)
+        {
+            const glm::uvec2& viewSize = view.getSize();
+            const glm::ivec2& viewPos = view.getPosition();
+            glViewport(viewPos.x, viewPos.y, viewSize.x, viewSize.y);
+            glMatrixMode(GL_PROJECTION);
+            glLoadIdentity();
+            gluOrtho2D(0.0f, viewSize.x, viewSize.y, 0.0f);
+            glMatrixMode(GL_MODELVIEW);
+
+            viewport = &view;
         }
     }
 }

@@ -32,7 +32,6 @@ namespace fea
 
     void Renderer2D::preRender()
     {
-        backend->setViewport(currentViewport);
         backend->preRender();
     }
 
@@ -69,6 +68,7 @@ namespace fea
     void Renderer2D::setViewport(const Viewport& viewport)
     {
         currentViewport = viewport;
+        backend->setViewport(currentViewport);
     }
     
     Viewport& Renderer2D::getViewport()
@@ -79,6 +79,7 @@ namespace fea
     void Renderer2D::resize(uint32_t w, uint32_t h)
     {
         currentViewport.setSize(glm::uvec2(w, h));
+        backend->setViewport(currentViewport);
     }
     
     int32_t Renderer2D::addFont(uint8_t* fontData)
