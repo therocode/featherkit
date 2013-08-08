@@ -149,7 +149,7 @@ namespace fea
 
             glm::vec2 point = glm::vec2(textData.position.x, textData.position.y);
 
-            Camera camera = viewport->getCamera();
+            const Camera& camera = viewport->getCamera();
             point = glm::inverse(camera.getRotationMatrix()) * (camera.getZoom() * (point - camera.getPosition() * textData.parallax)) + (glm::vec2)viewport->getSize() * 0.5f;
             //point = viewport.getCamera().getTransformation() * (point - viewport.getCamera().getPosition());
 
@@ -166,6 +166,8 @@ namespace fea
             glEnable(GL_TEXTURE_2D);
 
             glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+            
+            glUseProgram(currentMode.lock()->getShader());
         }
         
         void OpenGL2DBackend::renderText(const TextData& textData, const RenderTarget& target)
