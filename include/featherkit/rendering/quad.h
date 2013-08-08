@@ -19,9 +19,9 @@ namespace fea
             void setVFlip(bool enabled);
             virtual void getRenderData(RenderData& renderData, uint32_t time) const override;
         protected:
-            const Texture* texture;
             float hFlip;
             float vFlip;
+            const Texture* texture;
     };
     /** @addtogroup Render2D
      *@{

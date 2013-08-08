@@ -2,7 +2,7 @@
 
 namespace fea
 {
-    Quad::Quad() : hFlip(1.0f), vFlip(1.0f)
+    Quad::Quad() : hFlip(1.0f), vFlip(1.0f), texture(nullptr)
     {
         vertices = {-1.0f, -1.0f, 
                     -1.0f,  1.0f, 
@@ -13,7 +13,7 @@ namespace fea
         origin = glm::vec2(-1.0f, -1.0f);
     }
 
-    Quad::Quad(float w, float h) : hFlip(1.0f), vFlip(1.0f)
+    Quad::Quad(float w, float h) : hFlip(1.0f), vFlip(1.0f), texture(nullptr)
     {
         float xnum = w * 0.5f;
         float ynum = h * 0.5f;
@@ -88,8 +88,10 @@ namespace fea
         glm::vec2 texCoordsX = glm::vec2(0.0f, 1.0f) * hFlip;
         glm::vec2 texCoordsY = glm::vec2(0.0f, 1.0f) * vFlip;
 
+    
+        if(texture != nullptr)
+            renderData.texture = getTexture().getId();
 
-        renderData.texture= getTexture().getId();
         renderData.texCoords =  {texCoordsX[0], texCoordsY[0],
                                  texCoordsX[0], texCoordsY[1],
                                  texCoordsX[1], texCoordsY[0],
