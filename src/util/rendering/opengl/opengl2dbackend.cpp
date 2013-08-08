@@ -240,7 +240,7 @@ namespace fea
             viewport = &view;
         }
         
-        Texture OpenGL2DBackend::createTexture(uint32_t w, uint32_t h, const uint8_t* imageData, ResizeAlgorithm algo)
+        Texture OpenGL2DBackend::createTexture(uint32_t w, uint32_t h, const uint8_t* imageData, bool smooth)
         {
 
             GLuint id;
@@ -249,16 +249,11 @@ namespace fea
             glBindTexture(GL_TEXTURE_2D, id);
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
 
-            if(algo == NEAREST)
-            {
-                glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
-                glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
-            }
-            else if(algo == LINEAR)
-            {
-                glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
-                glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-            }
+            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, smooth ? GL_LINEAR : GL_NEAREST);
+            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, smooth ? GL_LINEAR : GL_NEAREST);
+            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, smooth ? GL_LINEAR : GL_NEAREST);
+            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, smooth ? GL_LINEAR : GL_NEAREST);
+
             glBindTexture(GL_TEXTURE_2D, 0);
 
             Texture newTexture(*this, nextTextureId);
@@ -274,7 +269,7 @@ namespace fea
             textures.erase(id);
         }
         
-        RenderTarget OpenGL2DBackend::createRenderTarget(uint32_t w, uint32_t h)
+        RenderTarget OpenGL2DBackend::createRenderTarget(uint32_t w, uint32_t h, bool smooth)
         {
             GLuint targetId;
             GLuint textureId;
@@ -288,8 +283,8 @@ namespace fea
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, smooth ? GL_LINEAR : GL_NEAREST);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, smooth ? GL_LINEAR : GL_NEAREST);
             glGenerateMipmap(GL_TEXTURE_2D);
 
             glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureId, 0);

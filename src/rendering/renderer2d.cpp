@@ -155,13 +155,13 @@ namespace fea
         backend->setBlendMode(mode);
     }
     
-    Texture Renderer2D::createTexture(uint32_t w, uint32_t h, const uint8_t* imageData)
+    Texture Renderer2D::createTexture(uint32_t w, uint32_t h, const uint8_t* imageData, bool smooth)
     {
-        return backend->createTexture(w, h, imageData);
+        return backend->createTexture(w, h, imageData, smooth);
     }
     
-    RenderTarget Renderer2D::createRenderTarget(uint32_t w, uint32_t h)
+    RenderTarget Renderer2D::createRenderTarget(uint32_t w, uint32_t h, bool smooth)
     {
-        return backend->createRenderTarget(w, h);
+        return backend->createRenderTarget(w, h, smooth);
     }
 }
