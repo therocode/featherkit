@@ -61,6 +61,32 @@ namespace fea
         }
     }
 
+    void Renderer2D::render(const Drawable2D& drawable, const RenderTarget& target)
+    {
+        if(drawable.isText)
+        {
+            const Text& text = (const Text&) drawable;
+            TextData temp;
+            temp.text = text.getText();
+            temp.position = text.getPosition();
+            temp.colour = text.getColour();
+            temp.size = text.getTextSize();
+            temp.font = text.getFont();
+            temp.parallax = text.getParallax();
+            temp.opacity = text.getOpacity();
+
+            backend->renderText(temp, target);
+        }
+        else
+        {
+            RenderData temp;
+
+            drawable.getRenderData(temp, clock);
+
+            backend->render(temp, target);
+        }
+    }
+
     void Renderer2D::postRender()
     {
         backend->postRender();
@@ -127,5 +153,10 @@ namespace fea
     Texture Renderer2D::createTexture(uint32_t w, uint32_t h, const uint8_t* imageData)
     {
         return backend->createTexture(w, h, imageData);
+    }
+    
+    RenderTarget Renderer2D::createRenderTarget(uint32_t w, uint32_t h)
+    {
+        return backend->createRenderTarget(w, h);
     }
 }

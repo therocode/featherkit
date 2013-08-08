@@ -21,6 +21,9 @@ namespace fea
                 void clear() override;
                 void preRender() override;
                 void render(const RenderData& renderData) override;
+                void render(const RenderData& renderData, const RenderTarget& target) override;
+                void renderText(const TextData& textData) override;
+                void renderText(const TextData& textData, const RenderTarget& target) override;
                 void postRender() override;
                 int32_t addFont(uint8_t* fontData) override;
                 void addRenderMode(const std::string& name, RenderMode* newMode) override;
@@ -30,10 +33,13 @@ namespace fea
                 void setViewport(Viewport& view) override;
                 Texture createTexture(uint32_t w, uint32_t h, const uint8_t* imageData, ResizeAlgorithm algo = NEAREST) override;
                 void destroyTexture(int32_t id) override;
+                RenderTarget createRenderTarget(uint32_t w, uint32_t h) override;
+                void destroyRenderTarget(int32_t id) override;
             private:
-                virtual void renderText(const TextData& textData) override;
                 std::unordered_map<int32_t, GLuint> textures;
                 int32_t nextTextureId;
+                std::unordered_map<int32_t, GLuint> renderTargets;
+                int32_t nextRenderTargetId;
                 std::unordered_map<std::string, std::shared_ptr<OpenGLRenderMode> > renderModes;
                 std::weak_ptr<OpenGLRenderMode> currentMode;
 

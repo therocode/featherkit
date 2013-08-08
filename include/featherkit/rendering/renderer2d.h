@@ -23,6 +23,7 @@ namespace fea
             void clear();
             void preRender();
             void render(const Drawable2D& drawable);
+            void render(const Drawable2D& drawable, const RenderTarget& target);
             void postRender();
             void setViewport(const Viewport& viewport);
             Viewport& getViewport();
@@ -34,6 +35,7 @@ namespace fea
             void setClearColour(const glm::vec3& colour);
             void setBlendMode(BlendMode mode);
             Texture createTexture(uint32_t w, uint32_t h, const uint8_t* imageData);
+            RenderTarget createRenderTarget(uint32_t w, uint32_t h);
         private:
             std::unique_ptr<Renderer2DBackend> backend;
             Viewport currentViewport;

@@ -4,6 +4,7 @@
 #include <featherkit/rendering/viewport.h>
 #include <featherkit/rendering/renderdata.h>
 #include <featherkit/rendering/texture.h>
+#include <featherkit/rendering/rendertarget.h>
 
 namespace fea
 {
@@ -20,8 +21,10 @@ namespace fea
             virtual void clear() = 0;
             virtual void preRender() = 0;
             virtual void render(const RenderData& renderData) = 0;
+            virtual void render(const RenderData& renderData, const RenderTarget& target) = 0;
             virtual void postRender() = 0;
             virtual void renderText(const TextData& textData) = 0;
+            virtual void renderText(const TextData& textData, const RenderTarget& target) = 0;
             virtual int32_t addFont(uint8_t* fontData) = 0;
             virtual void addRenderMode(const std::string& name, RenderMode* newMode) = 0;
             virtual void setRenderMode(const std::string& mode) = 0;
@@ -30,6 +33,8 @@ namespace fea
             virtual void setViewport(Viewport& view) = 0;
             virtual Texture createTexture(uint32_t w, uint32_t h, const uint8_t* imageData, ResizeAlgorithm algo = NEAREST) = 0;
             virtual void destroyTexture(int32_t id) = 0;
+            virtual RenderTarget createRenderTarget(uint32_t w, uint32_t h) = 0;
+            virtual void destroyRenderTarget(int32_t id) = 0;
     };
     /** @addtogroup Render2D
      *@{

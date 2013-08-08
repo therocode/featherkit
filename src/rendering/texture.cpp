@@ -8,9 +8,8 @@ namespace fea
     {
     }
     
-    Texture::Texture(Texture&& other) : creator(other.creator)
+    Texture::Texture(Texture&& other) : creator(other.creator), id(other.id)
     {
-        id = other.id;
         other.id = -1;
     }
 

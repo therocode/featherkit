@@ -6,7 +6,7 @@ namespace fea
 {
     namespace util
     {
-        OpenGL2DBackend::OpenGL2DBackend() : nextTextureId(0)
+        OpenGL2DBackend::OpenGL2DBackend() : nextTextureId(0), nextRenderTargetId(0)
         {
         }
 
@@ -106,6 +106,15 @@ namespace fea
             glTexCoordPointer(2, GL_FLOAT, 0, &texCoords[0]);
             glDrawArrays(GL_QUADS, 0, quadAmount);
         }
+        
+        void OpenGL2DBackend::render(const RenderData& renderData, const RenderTarget& target)
+        {
+            glBindFramebuffer(GL_FRAMEBUFFER, renderTargets.at(target.getId()));
+
+            render(renderData);
+
+            glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        }
 
         void OpenGL2DBackend::postRender()
         {
@@ -146,6 +155,17 @@ namespace fea
             glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
             glEnable(GL_TEXTURE_2D);
+
+            glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+        }
+        
+        void OpenGL2DBackend::renderText(const TextData& textData, const RenderTarget& target)
+        {
+            glBindFramebuffer(GL_FRAMEBUFFER, renderTargets.at(target.getId()));
+
+            renderText(textData);
+
+            glBindFramebuffer(GL_FRAMEBUFFER, 0);
         }
 
         int32_t OpenGL2DBackend::addFont(uint8_t* fontData)
@@ -246,6 +266,44 @@ namespace fea
                 glDeleteTextures(1, &textures.at(id));
                 textures.erase(id);
             }
+        }
+        
+        RenderTarget OpenGL2DBackend::createRenderTarget(uint32_t w, uint32_t h)
+        {
+            GLuint targetId;
+            GLuint textureId;
+
+            glGenFramebuffers(1, &targetId);
+            glBindFramebuffer(GL_FRAMEBUFFER, targetId);
+
+            glGenTextures(1, &textureId);
+            glBindTexture(GL_TEXTURE_2D, textureId);
+
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            glGenerateMipmap(GL_TEXTURE_2D);
+
+            glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureId, 0);
+
+            glBindFramebuffer(GL_FRAMEBUFFER, 0);
+            glBindTexture(GL_TEXTURE_2D, 0);
+            
+            RenderTarget newTarget(*this, nextRenderTargetId, w, h, Texture(*this, nextTextureId));
+            renderTargets.emplace(nextRenderTargetId, targetId);
+            textures.emplace(nextTextureId, textureId);
+            nextTextureId++;
+            nextRenderTargetId++;
+
+            return newTarget;
+        }
+
+        void OpenGL2DBackend::destroyRenderTarget(int32_t id)
+        {
+            glDeleteFramebuffers(1, &renderTargets.at(id));
+            renderTargets.erase(id);
         }
     }
 }
