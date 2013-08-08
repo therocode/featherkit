@@ -8,7 +8,7 @@ namespace fea
 {
     InvalidFontException::InvalidFontException(const std::string& message) : std::runtime_error(message)
     {
-    };
+    }
 
     Renderer2D::Renderer2D(Renderer2DBackend* b, Viewport v) : backend(b), currentViewport(v), clock(0)
     {

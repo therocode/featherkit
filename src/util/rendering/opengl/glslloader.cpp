@@ -6,7 +6,7 @@ namespace fea
 {
     GLSLException::GLSLException(const std::string& message) : std::runtime_error(message)
     {
-    };
+    }
 
     GLuint GLSLLoader::createShader(std::string vertexSource, std::string fragmentSource)
     {

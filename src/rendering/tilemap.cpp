@@ -13,7 +13,7 @@ namespace fea
     
     TileMapException::TileMapException(const std::string& message) : std::runtime_error(message)
     {
-    };
+    }
 
     TileMap::TileMap(uint32_t gridWidth, uint32_t gridHeight, uint32_t tileWidth, uint32_t tileHeight, float textureTileWidth, float textureTileHeight, uint32_t chunkWidth, uint32_t chunkHeight) : animatedTiles([](const glm::uvec2& first, const glm::uvec2& second){ 
                 if(first.x < second.x) 
