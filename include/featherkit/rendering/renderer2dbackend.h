@@ -19,6 +19,7 @@ namespace fea
             virtual void setup() = 0;
             virtual void destroy() = 0;
             virtual void clear() = 0;
+            virtual void clear(const RenderTarget& target) = 0;
             virtual void preRender() = 0;
             virtual void render(const RenderData& renderData) = 0;
             virtual void render(const RenderData& renderData, const RenderTarget& target) = 0;

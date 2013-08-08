@@ -19,6 +19,7 @@ namespace fea
                 void setup() override;
                 void destroy() override;
                 void clear() override;
+                void clear(const RenderTarget& target) override;
                 void preRender() override;
                 void render(const RenderData& renderData) override;
                 void render(const RenderData& renderData, const RenderTarget& target) override;

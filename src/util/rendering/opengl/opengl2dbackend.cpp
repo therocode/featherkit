@@ -36,6 +36,15 @@ namespace fea
         {
             glClear(GL_COLOR_BUFFER_BIT);
         }
+        
+        void OpenGL2DBackend::clear(const RenderTarget& target)
+        {
+            glBindFramebuffer(GL_FRAMEBUFFER, renderTargets.at(target.getId()));
+
+            glClear(GL_COLOR_BUFFER_BIT);
+
+            glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        }
 
         void OpenGL2DBackend::preRender()
         {
@@ -261,11 +270,8 @@ namespace fea
         
         void OpenGL2DBackend::destroyTexture(int32_t id)
         {
-            if(id != -1)
-            {
-                glDeleteTextures(1, &textures.at(id));
-                textures.erase(id);
-            }
+            glDeleteTextures(1, &textures.at(id));
+            textures.erase(id);
         }
         
         RenderTarget OpenGL2DBackend::createRenderTarget(uint32_t w, uint32_t h)

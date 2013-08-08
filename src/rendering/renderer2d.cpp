@@ -20,6 +20,11 @@ namespace fea
         backend->clear();
     }
     
+    void Renderer2D::clear(const RenderTarget& target)
+    {
+        backend->clear(target);
+    }
+    
     void Renderer2D::setup()
     {
         backend->setup();

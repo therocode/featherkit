@@ -21,6 +21,7 @@ namespace fea
             void setup();
             void destroy();
             void clear();
+            void clear(const RenderTarget& target);
             void preRender();
             void render(const Drawable2D& drawable);
             void render(const Drawable2D& drawable, const RenderTarget& target);
