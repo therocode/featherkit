@@ -19,13 +19,17 @@ namespace fea
 
                 vertices.push_back(((float)xPos) - halfTileWidth); vertices.push_back(((float)yPos) - halfTileHeight);
                 vertices.push_back(((float)xPos) - halfTileWidth); vertices.push_back(((float)yPos) + halfTileHeight);
-                vertices.push_back(((float)xPos) + halfTileWidth); vertices.push_back(((float)yPos) + halfTileHeight);
                 vertices.push_back(((float)xPos) + halfTileWidth); vertices.push_back(((float)yPos) - halfTileHeight);
+                vertices.push_back(((float)xPos) + halfTileWidth); vertices.push_back(((float)yPos) - halfTileHeight);
+                vertices.push_back(((float)xPos) - halfTileWidth); vertices.push_back(((float)yPos) + halfTileHeight);
+                vertices.push_back(((float)xPos) + halfTileWidth); vertices.push_back(((float)yPos) + halfTileHeight);
 
                 texCoords.push_back(0.0f); texCoords.push_back(0.0f);
                 texCoords.push_back(0.0f); texCoords.push_back(1.0f);
-                texCoords.push_back(1.0f); texCoords.push_back(1.0f);
                 texCoords.push_back(1.0f); texCoords.push_back(0.0f);
+                texCoords.push_back(1.0f); texCoords.push_back(0.0f);
+                texCoords.push_back(0.0f); texCoords.push_back(1.0f);
+                texCoords.push_back(1.0f); texCoords.push_back(1.0f);
             }
         }
     }
@@ -42,12 +46,14 @@ namespace fea
     
     void TileChunk::setTileTexCoords(uint32_t x, uint32_t y, const glm::vec2 startCoords, const glm::vec2 endCoords)
     {
-        uint32_t arrayIndex = getTileIndex(x, y) * 8;
+        uint32_t arrayIndex = getTileIndex(x, y) * 12;
 
         texCoords[arrayIndex] = startCoords.x; texCoords[arrayIndex + 1] = startCoords.y;
         texCoords[arrayIndex + 2] = startCoords.x; texCoords[arrayIndex + 3] = endCoords.y;
-        texCoords[arrayIndex + 4] = endCoords.x; texCoords[arrayIndex + 5] = endCoords.y;
+        texCoords[arrayIndex + 4] = endCoords.x; texCoords[arrayIndex + 5] = startCoords.y;
         texCoords[arrayIndex + 6] = endCoords.x; texCoords[arrayIndex + 7] = startCoords.y;
+        texCoords[arrayIndex + 8] = startCoords.x; texCoords[arrayIndex + 9] = endCoords.y;
+        texCoords[arrayIndex + 10] = endCoords.x; texCoords[arrayIndex + 11] = endCoords.y;
     }
 
     void TileChunk::getRenderData(RenderData& renderData, uint32_t time) const

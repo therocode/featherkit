@@ -6,8 +6,10 @@ namespace fea
     {
         vertices = {-1.0f, -1.0f, 
                     -1.0f,  1.0f, 
-                     1.0f,  1.0f, 
-                     1.0f, -1.0f};
+                     1.0f, -1.0f, 
+                     1.0f, -1.0f, 
+                    -1.0f,  1.0f, 
+                     1.0f,  1.0f};
         origin = glm::vec2(-1.0f, -1.0f);
     }
 
@@ -18,8 +20,10 @@ namespace fea
 
         vertices = {-xnum, -ynum, 
                     -xnum,  ynum, 
-                     xnum,  ynum, 
-                     xnum, -ynum};
+                     xnum, -ynum, 
+                     xnum, -ynum, 
+                    -xnum,  ynum, 
+                     xnum,  ynum};
         origin = glm::vec2(-xnum, -ynum);
     }
     
@@ -34,8 +38,10 @@ namespace fea
 
         vertices = {-xnum, -ynum, 
                     -xnum,  ynum, 
-                     xnum,  ynum, 
-                     xnum, -ynum};
+                     xnum, -ynum, 
+                     xnum, -ynum, 
+                    -xnum,  ynum, 
+                     xnum,  ynum};
         origin = glm::vec2(-xnum, -ynum);
     }
 
@@ -86,7 +92,9 @@ namespace fea
         renderData.texture= getTexture().getId();
         renderData.texCoords =  {texCoordsX[0], texCoordsY[0],
                                  texCoordsX[0], texCoordsY[1],
-                                 texCoordsX[1], texCoordsY[1],
-                                 texCoordsX[1], texCoordsY[0]};
+                                 texCoordsX[1], texCoordsY[0],
+                                 texCoordsX[1], texCoordsY[0],
+                                 texCoordsX[0], texCoordsY[1],
+                                 texCoordsX[1], texCoordsY[1]};
     }
 }

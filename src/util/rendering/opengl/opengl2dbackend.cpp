@@ -113,7 +113,7 @@ namespace fea
 
             glVertexPointer(2, GL_FLOAT, 0, &vertices[0]);
             glTexCoordPointer(2, GL_FLOAT, 0, &texCoords[0]);
-            glDrawArrays(GL_QUADS, 0, quadAmount);
+            glDrawArrays(GL_TRIANGLES, 0, quadAmount);
         }
         
         void OpenGL2DBackend::render(const RenderData& renderData, const RenderTarget& target)
