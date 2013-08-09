@@ -1,4 +1,5 @@
 #include <featherkit/rendering/animatedquad.h>
+#include <iostream>
 
 namespace fea
 {
@@ -47,6 +48,8 @@ namespace fea
     void AnimatedQuad::getRenderData(RenderData& renderData, uint32_t time) const
     {
         Quad::getRenderData(renderData, time);
+
+        std::cout << currentAnimation << " is what it points at \n";
         
         if(currentAnimation != nullptr)
         {
