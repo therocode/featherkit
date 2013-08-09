@@ -115,6 +115,8 @@ namespace fea
                     break;
                 case BOUNCE:
                     break;
+                case INV_BOUNCE:
+                    break;
                 case RANDOM:
 
                     if(clock == delay)

@@ -1,4 +1,5 @@
 #include <featherkit/rendering/animation.h>
+#include <iostream>
 
 namespace fea
 {
@@ -16,6 +17,7 @@ namespace fea
 
     void Animation::getConstraints(glm::vec2& constraintX, glm::vec2& constraintY, uint32_t frame) const
     {
+        std::cout << "frame: " << frame << " startx " << start.x << " starty " << start.y << " framesize: " << frameSize.x << "x" << frameSize.y << "\n";
         constraintX[0] = start.x + frameSize.x * frame;
         constraintX[1] = start.x + frameSize.x + frameSize.x * frame;
         constraintY[0] = start.y;
