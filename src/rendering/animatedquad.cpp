@@ -115,6 +115,21 @@ namespace fea
     {
         currentFrame = frame;
     }
+    
+    uint32_t AnimatedQuad::getAnimationFrame() const
+    {
+        return currentFrame;
+    }
+    
+    bool AnimatedQuad::isPlaying() const
+    {
+        return animate;
+    }
+    
+    void AnimatedQuad::onAnimationEnd(std::function<void(void)> callback)
+    {
+        onEnd = callback;
+    }
 
     void AnimatedQuad::animateForwards()
     {
@@ -134,6 +149,8 @@ namespace fea
             {
                 animate = false;
                 currentFrame--;
+                if(onEnd)
+                    onEnd();
             }
             else
             {
@@ -160,6 +177,8 @@ namespace fea
             {
                 animate = false;
                 currentFrame = 0;
+                if(onEnd)
+                    onEnd();
             }
             else
             {
@@ -202,6 +221,8 @@ namespace fea
                 {
                     animate = false;
                     currentFrame = 0;
+                    if(onEnd)
+                        onEnd();
                 }
                 else
                 {
@@ -246,6 +267,8 @@ namespace fea
                 {
                     animate = false;
                     currentFrame--;
+                    if(onEnd)
+                        onEnd();
                 }
                 else
                 {

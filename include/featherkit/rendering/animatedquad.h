@@ -19,6 +19,9 @@ namespace fea
             void playAnimation(uint32_t startFrame = 0);
             void stopAnimation();
             void setAnimationFrame(uint32_t frame);
+            uint32_t getAnimationFrame() const;
+            bool isPlaying() const;
+            void onAnimationEnd(std::function<void(void)> callback);
         private:
             void animateForwards();
             void animateBackwards();
@@ -30,6 +33,7 @@ namespace fea
             uint32_t currentFrame;
             bool animate;
             bool back;
+            std::function<void(void)> onEnd;
     };
     /** @addtogroup Render2D
      *@{
