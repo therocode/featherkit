@@ -6,8 +6,6 @@
 #include <unordered_map>
 #include <memory>
 
-using namespace fea;
-
 namespace fea
 {
     namespace util

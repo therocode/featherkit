@@ -4,8 +4,6 @@
 #include <SFML/Window.hpp>
 #include <memory>
 
-using namespace fea;
-
 namespace fea
 {
     namespace util

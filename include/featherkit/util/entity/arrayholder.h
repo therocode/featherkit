@@ -3,8 +3,6 @@
 #include <string>
 #include <featherkit/entity/entityexceptions.h>
 
-using namespace fea;
-
 namespace fea
 {
     namespace util

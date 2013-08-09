@@ -7,8 +7,6 @@
 #include <fstream>
 #include <sstream>
 
-using namespace fea;
-
 namespace fea
 {
     namespace util

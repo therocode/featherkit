@@ -3,8 +3,6 @@
 #include <glm/glm.hpp>
 #include <SFML/Window.hpp>
 
-using namespace fea;
-
 namespace fea
 {
     namespace util
