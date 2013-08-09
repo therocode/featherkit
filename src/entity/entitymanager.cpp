@@ -11,22 +11,22 @@ namespace fea
     {
     }
 
-    WeakEntityPtr EntityManager::createEntity(const EntityType& type)
+    WeakEntityPtr EntityManager::createEntity(const EntityTemplate& temp)
     {
-        if(entityTypes.find(type) == entityTypes.end())
+        if(entityTemplates.find(temp) == entityTemplates.end())
         {
             std::stringstream ss;
-            ss << "Error! Entity type '" << type << "' does not exist!\n";
+            ss << "Error! Entity template '" << temp << "' does not exist!\n";
             throw(EntityException(ss.str()));
         }
-        EntityId createdId = backend->addEntity(entityTypes.at(type).attributeList);
+        EntityId createdId = backend->addEntity(entityTemplates.at(temp).attributeList);
         EntityPtr created = std::make_shared<Entity>(createdId, *this);
         entities.insert(std::pair<EntityId, EntityPtr>(createdId, created));
 
         
-        if(!entityTypes.at(type).defaultStrings.empty())
+        if(!entityTemplates.at(temp).defaultStrings.empty())
         {
-            for(const auto& pair : entityTypes.at(type).defaultStrings)
+            for(const auto& pair : entityTemplates.at(temp).defaultStrings)
             {
                 if(defaultSetters.find(pair.first) == defaultSetters.end())
                 {
@@ -45,7 +45,6 @@ namespace fea
                 }
             }
         }
-        //std::cout << "created entity " << createdId << " of type " << type << "\n";
         return WeakEntityPtr(created);
     }
 
@@ -81,12 +80,12 @@ namespace fea
         }
     }
 
-    void EntityManager::registerEntityType(const EntityType& type, const std::map<std::string, std::string>& attributes)
+    void EntityManager::registerEntityTemplate(const EntityTemplate& temp, const std::map<std::string, std::string>& attributes)
     {
         std::hash<std::string> hasher;
-        if(entityTypes.find(type) == entityTypes.end())
+        if(entityTemplates.find(temp) == entityTemplates.end())
         {
-            EntityTypeData tempData;
+            EntityTemplateData tempData;
 
             for(const auto& pair : attributes)
             {
@@ -96,21 +95,21 @@ namespace fea
                 if(pair.second != "")
                     tempData.defaultStrings.insert(std::pair<std::string, std::string>(pair.first, pair.second));
             }
-            entityTypes.insert(std::pair<EntityType, EntityTypeData>(type, tempData));
+            entityTemplates.insert(std::pair<EntityTemplate, EntityTemplateData>(temp, tempData));
         }
         else
         {
             std::stringstream ss;
-            ss << "Error! Entity type '" << type << "' already exist!\n";
+            ss << "Error! Entity template '" << temp << "' already exist!\n";
             throw(EntityException(ss.str()));
         }
     }
 
-    void EntityManager::registerEntityTypes(const std::map<EntityType, std::map<std::string, std::string> > types)
+    void EntityManager::registerEntityTemplates(const std::map<EntityTemplate, std::map<std::string, std::string> > templates)
     {
-        for(const auto& pair : types)
+        for(const auto& pair : templates)
         {
-            registerEntityType(pair.first, pair.second);
+            registerEntityTemplate(pair.first, pair.second);
         }
     }
     
@@ -152,7 +151,7 @@ namespace fea
     void EntityManager::reset()
     {
         entities.clear();
-        entityTypes.clear();
+        entityTemplates.clear();
         defaultSetters.clear();
         backend->clear();
     }

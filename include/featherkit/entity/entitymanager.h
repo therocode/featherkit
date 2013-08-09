@@ -14,10 +14,10 @@ namespace fea
 
     using EntityPtr = std::shared_ptr<Entity>;
     using WeakEntityPtr = std::weak_ptr<Entity>;
-    using EntityType = std::string;
+    using EntityTemplate = std::string;
     using EntityId = uint32_t;
     
-    struct EntityTypeData
+    struct EntityTemplateData
     {
         AttributeList attributeList;
         std::map<std::string, std::string> defaultStrings;
@@ -27,7 +27,7 @@ namespace fea
     {
         public:
             EntityManager(EntityBackend* b);
-            WeakEntityPtr createEntity(const EntityType& type);
+            WeakEntityPtr createEntity(const EntityTemplate& templates);
             WeakEntityPtr getEntity(EntityId id) const;
             void removeEntity(const EntityId id);
             void removeEntities(const EntityGroup entities);
@@ -40,15 +40,15 @@ namespace fea
             bool hasAttribute(const std::string& attribute, const EntityId id) const;
             void registerAttribute(const std::string& attribute, const int size);
             void registerAttributes(const std::map<std::string, int>& attributes);
-            void registerEntityType(const EntityType& type, const std::map<std::string, std::string>& attributes);
-            void registerEntityTypes(const std::map<EntityType, std::map<std::string, std::string> > types);
+            void registerEntityTemplate(const EntityTemplate& temp, const std::map<std::string, std::string>& attributes);
+            void registerEntityTemplates(const std::map<EntityTemplate, std::map<std::string, std::string> > templates);
             void registerDefaultSetter(std::string attribute, std::function<void(std::string, std::vector<std::string>&, WeakEntityPtr)> defaultFunc);
             EntityGroup getAll() const;
             void removeAll();
             void reset();
         private:
             std::unique_ptr<EntityBackend> backend;
-            std::map<EntityType, EntityTypeData> entityTypes;
+            std::map<EntityTemplate, EntityTemplateData> entityTemplates;
             std::map<EntityId, EntityPtr> entities;
             std::map<std::string, std::function<void(std::string, std::vector<std::string>&, WeakEntityPtr)> > defaultSetters;
     };
@@ -105,7 +105,7 @@ namespace fea
      *  
      *  @typedef WeakEntityPtr
      *
-     *  @typedef EntityType
+     *  @typedef EntityTemplate
      *
      *  @typedef EntityId
      *@}
@@ -116,8 +116,8 @@ namespace fea
      *  @typedef WeakEntityPtr
      *  @brief A weak pointer to an Entity instance.
      *
-     *  @typedef EntityType
-     *  @brief The type of an Entity instance. This is a normal std::string.
+     *  @typedef EntityTemplate
+     *  @brief Template name. This is a normal std::string.
      *
      *  @typedef EntityId
      *  @brief The ID of an Entity instance. This is a normal 32 bit unsigned integer.
@@ -129,7 +129,7 @@ namespace fea
      *
      *  The only way to access Entity instances created by the EntityManager is through WeakEntityPtr instances. WeakEntityPtr is simply an alias to std::weak_ptr<Entity>. Entity pointers received from the EntityManager should never be manually freed, since that is the job of the EntityManager. If an entity is meant to be deleted, use the EntityManager::removeEntity function.
      *
-     *  Prior to creating any Entity instances, attributes and entity types must be registered. If an entity type which is either not registered, or has unregistered attributes, an appropriate exception will be thrown. Registration is done using EntityManager::registerAttribute and EntityManager::registerEntityType. Using the functions EntityManager::registerAttributes and EntityManager::registerEntityTypes, types and attributes can be loaded many at once, which is useful when for instance loading from file. 
+     *  Prior to creating any Entity instances, attributes and entity templates must be registered. If an entity template is used which is either not registered, or has unregistered attributes, an appropriate exception will be thrown. Registration is done using EntityManager::registerAttribute and EntityManager::registerEntityTemplate. Using the functions EntityManager::registerAttributes and EntityManager::registerEntityTemplates, templates and attributes can be loaded many at once, which is useful when for instance loading from file. 
      *
      *  The EntityManager relies on an EntityBackend which is responsible of providing a data structure for the EntityManager to store its data in. The underlying implementation of these may vary and have different pros and cons. 
      ***
@@ -137,11 +137,11 @@ namespace fea
      *  @brief Construct an EntityManager that will use the provided EntityBackend.
      *  @param b Backend to be used. The backend is stored internally as an std::unique_ptr and the memory of it will therefore be managed.
      ***
-     *  @fn WeakEntityPtr EntityManager::createEntity(const EntityType& type)
-     *  @brief Create an Entity of the given EntityType.
+     *  @fn WeakEntityPtr EntityManager::createEntity(const EntityTemplate& temp)
+     *  @brief Create an Entity of the given EntityTemplate.
      *  
-     *  The EntityType given along with its attributes must have been registered prior to creating the Entity. Otherwise, an EntityException will be thrown. If the function succeeds in creating the Entity, it will be assigned a unique ID and a WeakEntityPtr pointing to the Entity will be returned.
-     *  @param type The name of the type of Entity to be created.
+     *  The EntityTemplate given along with its attributes must have been registered prior to creating the Entity. Otherwise, an EntityException will be thrown. If the function succeeds in creating the Entity, it will be assigned a unique ID and a WeakEntityPtr pointing to the Entity will be returned.
+     *  @param temp The name of the template to use for the entity.
      *  @return A pointer to the created Entity.
      ***
      *  @fn WeakEntityPtr EntityManager::getEntity(EntityId id) const
@@ -215,25 +215,25 @@ namespace fea
      *  Works the same as EntityManager::registerAttribute except it registers a whole map full of attributes at once. Useful for loading attribute configurations that have been read from file.
      *  @param attributes Map containing attribute names and memory sizes.
      ***
-     *  @fn void EntityManager::registerEntityType(const EntityType& type, const std::map<std::string, std::string>& attributes)
-     *  @brief Register an EntityType. 
+     *  @fn void EntityManager::registerEntityTemplate(const EntityTemplate& temp, const std::map<std::string, std::string>& attributes)
+     *  @brief Register an EntityTemplate. 
      *
-     *  The entity type is a name mapped to a map of attributes and their default values. The registered entity type will have all the attributes provided in the map. For example, an Entity type called "Apple" might be registered with the attributes "weight", "brand" and "ripeness". Keep in mind that these attributes must have been registered using EntityManager::registerAttribute.
+     *  The entity template is a name mapped to a map of attributes and their default values. The registered entity template will have all the attributes provided in the map. For example, an Entity template called "Apple" might be registered with the attributes "weight", "brand" and "ripeness". Keep in mind that these attributes must have been registered using EntityManager::registerAttribute.
      *
      *  Default values are given as strings. They may be empty in which case the attribute does not have a default value. These strings have to be handled by a default setter function. These functions must be registered separately using EntityManager::registerDefaultSetter. See that function for more information on default values.
-     *  @param type Name of the new Entity type.
+     *  @param temp Name of the new Entity template.
      *  @param attributes Map containing attribute names and default values.
      ***
-     *  @fn void EntityManager::registerEntityTypes(const std::map<EntityType, std::map<std::string, std::string> > types)
-     *  @brief Register multiple Entity types at once.
+     *  @fn void EntityManager::registerEntityTemplates(const std::map<EntityTemplate, std::map<std::string, std::string> > templates)
+     *  @brief Register multiple Entity templates at once.
      *  
-     *  Works the same as EntityManager::registerEntityType except it registers a whole map full of Entity types at once. Useful for loading Entity type configurations that have been read from file.
-     *  @param types Map containing Entity type names and maps with attribute information.
+     *  Works the same as EntityManager::registerEntityTemplate except it registers a whole map full of Entity templates at once. Useful for loading Entity template configurations that have been read from file.
+     *  @param templates Map containing Entity template names and maps with attribute information.
      ***
      *  @fn void EntityManager::registerDefaultSetter(std::string attribute, void (*defaultFunc)(std::string, std::vector<std::string>&, WeakEntityPtr))
      *  @brief Register a default setter function for a given attribute.
      *
-     *  When registering entity types, default values are registered with their attributes. These default values are always just plain strings, and to make these actually being set to the attribute which might be of any given type in a correct way, a default setter function is needed.
+     *  When registering entity templates, default values are registered with their attributes. These default values are always just plain strings, and to make these actually being set to the attribute which might be of any given template in a correct way, a default setter function is needed.
      *
      *  This function should take a string for the attribute name, and an std::vector<std::string> which contains the default value string cut into pieces delimited by ",", and finally a pointer to the entity for which the attribute should be set. This function is responsible for setting the default value for the WeakEntityPtr instance.
      *
@@ -246,7 +246,7 @@ namespace fea
      *    float b;
      *   };
      *  @endcode
-     *  ...and you have registered an entity type with that attribute, and the default value "1.0f,0.0f,0.0f" for it, then an appropriate default setting function would be:
+     *  ...and you have registered an entity template with that attribute, and the default value "1.0f,0.0f,0.0f" for it, then an appropriate default setting function would be:
      *  @code
      *  void colourSetter(std::string attribute, std::vector<std::string>& arguments, fea::WeakEntityPtr entity)
      *  {
@@ -263,9 +263,9 @@ namespace fea
      *  entityManager.registerDefaultSetter("Colour", &colourSetter);
      *  @endcode
      *
-     *  After this, whenever an entity of that type (or any other type using the "Colour" attribute) is created, the default value will be set according to the default string.
+     *  After this, whenever an entity of that template (or any other template using the "Colour" attribute) is created, the default value will be set according to the default string.
      *  
-     *  If an entity type is registered with default values for an attribute, that attribute must have a default setter function registered or an InvalidAttributeException will be thrown.
+     *  If an entity template is registered with default values for an attribute, that attribute must have a default setter function registered or an InvalidAttributeException will be thrown.
      *  @param attribute Name of the attribute.
      *  @param defaultFunc Pointer to the default setter function.
      ***
@@ -277,6 +277,6 @@ namespace fea
      *  @brief Remove all Entity instances managed by the EntityManager, leaving all pointers to them invalid.
      ***
      *  @fn void EntityManager::reset()
-     *  @brief Reset the whole state of the EntityManager to the original state. Effectively removing all Entity instances, leaving all pointers to them invalid, as well as clearing out any registered attributes, Entity types and default setter functions. Not to be confused with EntityManager::removeAll which only removes all entities.
+     *  @brief Reset the whole state of the EntityManager to the original state. Effectively removing all Entity instances, leaving all pointers to them invalid, as well as clearing out any registered attributes, Entity templates and default setter functions. Not to be confused with EntityManager::removeAll which only removes all entities.
      ***/
 }
