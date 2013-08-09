@@ -16,6 +16,7 @@ namespace fea
 
     void AnimatedQuad::setAnimation(const Animation& animation, bool play)
     {
+        clock = 0;
         if(&animation != currentAnimation)
         {
             currentAnimation = &animation;
