@@ -25,6 +25,7 @@ namespace fea
             uint32_t clock;
             uint32_t currentFrame;
             bool animate;
+            bool back;
     };
     /** @addtogroup Render2D
      *@{

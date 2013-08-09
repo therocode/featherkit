@@ -4,7 +4,7 @@
 
 namespace fea
 {
-    enum AnimationBehaviour { FORWARDS, BACKWARDS };
+    enum AnimationBehaviour { FORWARDS, BACKWARDS, BOUNCE, INV_BOUNCE, RANDOM };
 
     using AnimationId = size_t;
 

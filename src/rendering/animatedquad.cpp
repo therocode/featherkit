@@ -2,15 +2,15 @@
 
 namespace fea
 {
-    AnimatedQuad::AnimatedQuad() : Quad(), currentAnimation(nullptr), clock(0), currentFrame(0), animate(false)
+    AnimatedQuad::AnimatedQuad() : Quad(), currentAnimation(nullptr), clock(0), currentFrame(0), animate(false), back(false)
     {
     }
 
-    AnimatedQuad::AnimatedQuad(float w, float h) : Quad(w, h), currentAnimation(nullptr), clock(0), currentFrame(0), animate(false)
+    AnimatedQuad::AnimatedQuad(float w, float h) : Quad(w, h), currentAnimation(nullptr), clock(0), currentFrame(0), animate(false), back(false)
     {
     }
 
-    AnimatedQuad::AnimatedQuad(const glm::vec2& size) : Quad(size), currentAnimation(nullptr), clock(0), currentFrame(0), animate(false)
+    AnimatedQuad::AnimatedQuad(const glm::vec2& size) : Quad(size), currentAnimation(nullptr), clock(0), currentFrame(0), animate(false), back(false)
     {
     }
 
@@ -20,7 +20,21 @@ namespace fea
         {
             currentAnimation = &animation;
             animate = play;
-            currentFrame = 0;
+
+            AnimationBehaviour animBehaviour = currentAnimation->getAnimationBehaviour();
+
+            if(animBehaviour == FORWARDS || animBehaviour == BOUNCE)
+            {
+                currentFrame = 0;
+            }
+            else if(animBehaviour == BACKWARDS || animBehaviour == INV_BOUNCE)
+            {
+                currentFrame = currentAnimation->getFrameAmount() - 1;
+            }
+            else if(animBehaviour == RANDOM)
+            {
+                currentFrame = rand() % currentAnimation->getFrameAmount();
+            }
         }
     }
     
@@ -65,6 +79,7 @@ namespace fea
                         if(!loop)
                         {
                             animate = false;
+                            currentFrame--;
                         }
                         else
                         {
@@ -74,15 +89,36 @@ namespace fea
                     break;
 
                 case BACKWARDS:
-                    currentFrame = (frameAmount - 1) - (clock/delay) % frameAmount;
-
                     
-
-                    if(!loop && currentFrame == 0)
+                    if(clock == delay)
                     {
-                        animate = false;
+                        currentFrame--;
+                        clock = 0;
                     }
 
+                    if(currentFrame == (uint32_t)-1)
+                    {
+                        if(!loop)
+                        {
+                            animate = false;
+                            currentFrame = 0;
+                        }
+                        else
+                        {
+                            currentFrame = frameAmount - 1;
+                        }
+                    }
+                    break;
+                case BOUNCE:
+                    break;
+                case RANDOM:
+
+                    if(clock == delay)
+                    {
+                        currentFrame = rand() % frameAmount;
+                        clock = 0;
+                    }
+                    break;
                 default:
                     break;
             }
