@@ -53,16 +53,30 @@ namespace fea
             switch(animBehaviour)
             {
                 case FORWARDS:
-                    currentFrame = (clock/delay) % frameAmount;
 
-                    if(!loop && currentFrame == frameAmount - 1)
+                    if(clock == delay)
                     {
-                        animate = false;
+                        currentFrame++;
+                        clock = 0;
+                    }
+
+                    if(currentFrame == frameAmount)
+                    {
+                        if(!loop)
+                        {
+                            animate = false;
+                        }
+                        else
+                        {
+                            currentFrame = 0;
+                        }
                     }
                     break;
 
                 case BACKWARDS:
                     currentFrame = (frameAmount - 1) - (clock/delay) % frameAmount;
+
+                    
 
                     if(!loop && currentFrame == 0)
                     {
