@@ -20,6 +20,10 @@ namespace fea
             void stopAnimation();
             void setAnimationFrame(uint32_t frame);
         private:
+            void animateForwards();
+            void animateBackwards();
+            void animateBounce();
+            void animateInvBounce();
             const Animation* currentAnimation;
 
             uint32_t clock;

@@ -1,5 +1,4 @@
 #include <featherkit/rendering/animatedquad.h>
-#include <iostream>
 
 namespace fea
 {
@@ -49,8 +48,6 @@ namespace fea
     {
         Quad::getRenderData(renderData, time);
 
-        std::cout << currentAnimation << " is what it points at \n";
-        
         if(currentAnimation != nullptr)
         {
             currentAnimation->getConstraints(renderData.constrainX, renderData.constrainY, currentFrame);
@@ -65,57 +62,25 @@ namespace fea
             
             uint32_t delay = currentAnimation->getDelay();
             uint32_t frameAmount = currentAnimation->getFrameAmount();
-            bool loop = currentAnimation->getLoop();
             AnimationBehaviour animBehaviour = currentAnimation->getAnimationBehaviour();
+
+            if(frameAmount <= 1)
+                return;
 
             switch(animBehaviour)
             {
                 case FORWARDS:
-
-                    if(clock == delay)
-                    {
-                        currentFrame++;
-                        clock = 0;
-                    }
-
-                    if(currentFrame == frameAmount)
-                    {
-                        if(!loop)
-                        {
-                            animate = false;
-                            currentFrame--;
-                        }
-                        else
-                        {
-                            currentFrame = 0;
-                        }
-                    }
+                    animateForwards();
                     break;
 
                 case BACKWARDS:
-                    
-                    if(clock == delay)
-                    {
-                        currentFrame--;
-                        clock = 0;
-                    }
-
-                    if(currentFrame == (uint32_t)-1)
-                    {
-                        if(!loop)
-                        {
-                            animate = false;
-                            currentFrame = 0;
-                        }
-                        else
-                        {
-                            currentFrame = frameAmount - 1;
-                        }
-                    }
+                    animateBackwards();
                     break;
                 case BOUNCE:
+                    animateBounce();
                     break;
                 case INV_BOUNCE:
+                    animateInvBounce();
                     break;
                 case RANDOM:
 
@@ -149,5 +114,145 @@ namespace fea
     void AnimatedQuad::setAnimationFrame(uint32_t frame)
     {
         currentFrame = frame;
+    }
+
+    void AnimatedQuad::animateForwards()
+    {
+        bool loop = currentAnimation->getLoop();
+        uint32_t delay = currentAnimation->getDelay();
+        uint32_t frameAmount = currentAnimation->getFrameAmount();
+
+        if(clock == delay)
+        {
+            currentFrame++;
+            clock = 0;
+        }
+
+        if(currentFrame == frameAmount)
+        {
+            if(!loop)
+            {
+                animate = false;
+                currentFrame--;
+            }
+            else
+            {
+                currentFrame = 0;
+            }
+        }
+    }
+
+    void AnimatedQuad::animateBackwards()
+    {
+        bool loop = currentAnimation->getLoop();
+        uint32_t delay = currentAnimation->getDelay();
+        uint32_t frameAmount = currentAnimation->getFrameAmount();
+
+        if(clock == delay)
+        {
+            currentFrame--;
+            clock = 0;
+        }
+
+        if(currentFrame == (uint32_t)-1)
+        {
+            if(!loop)
+            {
+                animate = false;
+                currentFrame = 0;
+            }
+            else
+            {
+                currentFrame = frameAmount - 1;
+            }
+        }
+    }
+
+    void AnimatedQuad::animateBounce()
+    {
+        bool loop = currentAnimation->getLoop();
+        uint32_t delay = currentAnimation->getDelay();
+        uint32_t frameAmount = currentAnimation->getFrameAmount();
+
+        if(!back)
+        {
+            if(clock == delay)
+            {
+                currentFrame++;
+                clock = 0;
+            }
+
+            if(currentFrame == frameAmount)
+            {
+                currentFrame -= 2;
+                back = true;
+            }
+        }
+        else
+        {
+            if(clock == delay)
+            {
+                currentFrame--;
+                clock = 0;
+            }
+
+            if(currentFrame == (uint32_t)-1)
+            {
+                if(!loop)
+                {
+                    animate = false;
+                    currentFrame = 0;
+                }
+                else
+                {
+                    currentFrame = 1;
+                    back = false;
+                }
+            }
+        }
+    }
+
+    void AnimatedQuad::animateInvBounce()
+    {
+        bool loop = currentAnimation->getLoop();
+        uint32_t delay = currentAnimation->getDelay();
+        uint32_t frameAmount = currentAnimation->getFrameAmount();
+
+        if(!back)
+        {
+            if(clock == delay)
+            {
+                currentFrame--;
+                clock = 0;
+            }
+
+            if(currentFrame == (uint32_t)-1)
+            {
+                currentFrame += 2;
+                back = true;
+            }
+        }
+        else
+        {
+            if(clock == delay)
+            {
+                currentFrame++;
+                clock = 0;
+            }
+
+            if(currentFrame == frameAmount)
+            {
+                if(!loop)
+                {
+                    animate = false;
+                    currentFrame--;
+                }
+                else
+                {
+                    currentFrame = frameAmount -2;
+                    back = false;
+                }
+            }
+        }
     }
 }
