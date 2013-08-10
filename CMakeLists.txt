@@ -95,7 +95,7 @@ if(BUILD_RENDERING)
 
     find_package(GLM REQUIRED)
     if(GLM_FOUND)
-        include_directories(${GLM_INCLUDE_DIRS})
+        include_directories(SYSTEM ${GLM_INCLUDE_DIRS})
     endif()
     
     if(${BUILD_OPENGLBACKENDS})

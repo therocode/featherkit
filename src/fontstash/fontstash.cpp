@@ -139,12 +139,12 @@ static const unsigned char utf8d[] = {
     1,3,1,1,1,1,1,3,1,3,1,1,1,1,1,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1, // s7..s8
 };
 
-static unsigned int decutf8(unsigned int* state, unsigned int* codep, unsigned int byte)
+static unsigned int decutf8(unsigned int* state, unsigned int* codep, unsigned int b)
 {
-    unsigned int type = utf8d[byte];
+    unsigned int type = utf8d[b];
     *codep = (*state != UTF8_ACCEPT) ?
-        (byte & 0x3fu) | (*codep << 6) :
-        (0xff >> type) & (byte);
+        (b& 0x3fu) | (*codep << 6) :
+        (0xff >> type) & (b);
     *state = utf8d[256 + *state*16 + type];
     return *state;
 }
