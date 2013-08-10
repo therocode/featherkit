@@ -120,7 +120,7 @@ if(BUILD_UI)
     file(GLOB ui_util_header_files "include/featherkit/util/window/*.h" "include/featherkit/util/input/*.h")
 
     if(${BUILD_SFMLBACKENDS})
-        find_package(SFML COMPONENTS window system REQUIRED)
+        find_package(SFML 2.0 COMPONENTS window system REQUIRED)
         if(SFML_FOUND)
             include_directories(${SFML_INCLUDE_DIRS})
         endif(SFML_FOUND)
