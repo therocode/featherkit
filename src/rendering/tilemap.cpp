@@ -55,7 +55,7 @@ namespace fea
                     newChunkWidth = edgeSize.x;
     
                 TileChunk newChunk(newChunkWidth, newChunkHeight, tileWidth, tileHeight);
-                glm::vec2 chunkPosition = glm::vec2(position.x + x * chunkWidth * tileWidth, position.y + y * chunkHeight * tileHeight);
+                glm::vec2 chunkPosition = glm::vec2(position.x +(float) (x * chunkWidth * tileWidth),position.y + (float)(y * chunkHeight * tileHeight));
                 newChunk.setPosition(chunkPosition);
                 
                 for(uint32_t chunkX = 0; chunkX < newChunkWidth; chunkX++)
@@ -80,7 +80,7 @@ namespace fea
         {
             for(uint32_t x = 0; x < chunkGridSize.x; x++)
             {
-                glm::vec2 chunkPosition = glm::vec2(position.x + x * chunkSize.x * tileSize.x, position.y + y * chunkSize.y * tileSize.y);
+                glm::vec2 chunkPosition = glm::vec2(position.x + (float)(x * chunkSize.x * tileSize.x), position.y + (float)(y * chunkSize.y * tileSize.y));
 
                 chunks[x + y * chunkGridSize.x].setPosition(chunkPosition);
             }
@@ -95,7 +95,7 @@ namespace fea
         {
             for(uint32_t x = 0; x < chunkGridSize.x; x++)
             {
-                glm::vec2 chunkPosition = glm::vec2(position.x + x * chunkSize.x * tileSize.x, position.y + y * chunkSize.y * tileSize.y);
+                glm::vec2 chunkPosition = glm::vec2(position.x + (float)(x * chunkSize.x * tileSize.x), position.y + (float)(y * chunkSize.y * tileSize.y));
 
                 chunks[x + y * chunkGridSize.x].setPosition(chunkPosition);
             }
@@ -180,8 +180,8 @@ namespace fea
         glm::uvec2 texPos = tileDef.tileTexPosition;
 
         chunks[chunkIndex].setTileTexCoords(x - chunkX * chunkSize.x, y - chunkY * chunkSize.y, 
-                                            glm::vec2(texPos.x * textureTileSize.x, texPos.y * textureTileSize.y),
-                                            glm::vec2(texPos.x * textureTileSize.x + textureTileSize.x, texPos.y * textureTileSize.y + textureTileSize.y));
+                                            glm::vec2((float)texPos.x * textureTileSize.x, (float)texPos.y * textureTileSize.y),
+                                            glm::vec2((float)texPos.x * textureTileSize.x + textureTileSize.x, (float)texPos.y * textureTileSize.y + textureTileSize.y));
 
         if(animatedTiles.find(glm::uvec2(x, y)) != animatedTiles.end())
         {
@@ -212,7 +212,7 @@ namespace fea
         if(isOutOfBounds(((uint32_t)x) / tileSize.x, ((uint32_t)y) / tileSize.y))
             throw TileMapException("coordinates out of range");
 
-        return glm::uvec2(x / tileSize.x, y / tileSize.y);
+        return glm::uvec2((uint32_t)x / tileSize.x, (uint32_t)y / tileSize.y);
     }
     
     glm::uvec2 TileMap::getTileByCoordinates(const glm::vec2& coordinate) const
@@ -220,7 +220,7 @@ namespace fea
         if(isOutOfBounds(((uint32_t)coordinate.x) / tileSize.x, ((uint32_t)coordinate.y) / tileSize.y))
             throw TileMapException("coordinates out of range");
 
-        return glm::uvec2(coordinate.x / tileSize.x, coordinate.y / tileSize.y);
+        return glm::uvec2((uint32_t)coordinate.x / tileSize.x, (uint32_t)coordinate.y / tileSize.y);
     }
             
     bool TileMap::isOutOfBounds(uint32_t x, uint32_t y) const

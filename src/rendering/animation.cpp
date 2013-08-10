@@ -16,8 +16,8 @@ namespace fea
 
     void Animation::getConstraints(glm::vec2& constraintX, glm::vec2& constraintY, uint32_t frame) const
     {
-        constraintX[0] = start.x + frameSize.x * frame;
-        constraintX[1] = start.x + frameSize.x + frameSize.x * frame;
+        constraintX[0] = start.x + frameSize.x * (float)frame;
+        constraintX[1] = start.x + frameSize.x + frameSize.x * (float)frame;
         constraintY[0] = start.y;
         constraintY[1] = start.y + frameSize.y;
     }

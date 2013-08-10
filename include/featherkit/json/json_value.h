@@ -266,7 +266,7 @@ namespace json
       case kValueNull: break;//no deleter necessary, nothing constructed into data
 
       default:
-        jsonInternalAssert("Invalid type!" == "");
+        jsonInternalAssert("Invalid type!" == std::string());
         break;
       }
     }
