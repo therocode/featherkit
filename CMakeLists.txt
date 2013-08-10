@@ -136,3 +136,9 @@ if(BUILD_UI)
         endif()
     endif()
 endif()
+
+install(
+    DIRECTORY include
+    DESTINATION .
+)
+
