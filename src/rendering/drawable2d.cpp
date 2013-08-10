@@ -167,7 +167,7 @@ namespace fea
 
     uint32_t Drawable2D::getTransformationCount() const
     {
-        return transformations.size();
+        return (uint32_t)transformations.size();
     }
 
     void Drawable2D::clearTransformations()

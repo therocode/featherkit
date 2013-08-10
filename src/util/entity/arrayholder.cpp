@@ -6,14 +6,6 @@ namespace fea
 {
     namespace util
     {
-        ArrayObject::~ArrayObject()
-        {
-            if(data != nullptr)
-                delete [] data;
-            if(bitfield != nullptr)
-                delete [] bitfield;
-        }
-
         ArrayHolder::ArrayHolder()
         {
             arrayLength = 256;  //should be divisible with 32 due to the bitfield
@@ -175,6 +167,11 @@ namespace fea
             arrays.clear();
             arrayLength = 256;
             largestElement = 0;
+        }
+        
+        ArrayHolder::~ArrayHolder()
+        {
+            clear();
         }
     }
 }

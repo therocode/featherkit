@@ -65,7 +65,7 @@ namespace fea
                     }
                 }
 
-                int createdId;
+                EntityId createdId;
                 if(freeEntityIds.size() > 0)
                 {
                     createdId = freeEntityIds.top();
@@ -85,7 +85,7 @@ namespace fea
                 throw InvalidAttributeException("Error! Zero attributes given!", 0);
             }
 
-            return -1;
+            return (uint32_t)-1;
         }
 
         void BasicEntityBackend::removeEntity(const EntityId id)

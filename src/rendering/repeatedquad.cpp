@@ -64,7 +64,7 @@ namespace fea
         renderData.textureScroll = scrollSpeed * (float)time;
 
         glm::vec2 hej = getSize() / tileSize;
-        for(int i = 0; i < 12; i += 2)
+        for(uint32_t i = 0; i < 12; i += 2)
         {
             glm::vec2 newCoords = glm::vec2(renderData.texCoords[i], renderData.texCoords[i+1]) * hej;
             renderData.texCoords[i] = newCoords.x;

@@ -1,6 +1,14 @@
 #cmake ver req
 cmake_minimum_required(VERSION 2.8.3)
 
+if(NOT CMAKE_BUILD_TYPE )
+    set(CMAKE_BUILD_TYPE Release CACHE STRING "Select if you want to build Debug or Release" FORCE )
+endif()
+
+#project name
+set(project_name featherkit)
+project(${project_name})
+
 set(SHARED_BUILD TRUE CACHE BOOL "Set this to false if you want a static build")
 
 set(BUILD_STRUCTURE TRUE CACHE BOOL "Selects if the structure module should be built")
@@ -22,15 +30,11 @@ else(SHARED_BUILD)
     set(SHARED_OR_STATIC STATIC)
 endif(SHARED_BUILD)
 
-#project name
-set(project_name featherkit)
-project(${project_name})
-
 include_directories(${CMAKE_CURRENT_LIST_DIR}/include)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_LIST_DIR}/cmake/modules/")
 
 #if(MINGW OR CMAKE_COMPILER_IS_GNUCXX OR Clang)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -Werror -pedantic")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -Werror -Wshadow -Wconversion -Wno-long-long -pedantic -ferror-limit=0")
 #endif()
 
 if(BUILD_STRUCTURE)

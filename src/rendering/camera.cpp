@@ -76,8 +76,8 @@ namespace fea
         float sin = glm::sin(rotation);
         float cos = glm::cos(rotation);
 
-        glm::mat2x2 rotation = glm::mat2x2(cos, sin, -sin, cos);
+        glm::mat2x2 rot = glm::mat2x2(cos, sin, -sin, cos);
 
-        return result * rotation;
+        return result * rot;
     }
 }

@@ -193,11 +193,11 @@ namespace json
         return std::make_pair(true, kValueNull);
       }
 
-      ValueType type = array->elements[0].type;
+      ValueType t = array->elements[0].type;
 
       for( std::vector<Value>::const_iterator iter = array->elements.begin(); iter != array->elements.end(); ++iter )
       {
-        if( iter->type != type )
+        if( iter->type != t )
         {
           result.first = false;
           return result;
@@ -205,7 +205,7 @@ namespace json
       }
 
       result.first  = true;
-      result.second = type;
+      result.second = t;
 
       return result;
     }
@@ -253,20 +253,20 @@ namespace json
       detail::unused_arg(t);
     }
 
-    inline void DestructValue(ValueType type, void* data)
+    inline void DestructValue(ValueType t, void* d)
     {
-      switch(type)
+      switch(t)
       {
-      case kValueString: DestructValue<detail::ValueString>(data); break;
-      case kValueInt:    DestructValue<detail::ValueInt>   (data); break;
-      case kValueFloat:  DestructValue<detail::ValueFloat> (data); break;
-      case kValueBool:   DestructValue<detail::ValueBool>  (data); break;
-      case kValueArray:  DestructValue<detail::ValueArray> (data); break;
-      case kValueObject: DestructValue<detail::ValueObject>(data); break;
+      case kValueString: DestructValue<detail::ValueString>(d); break;
+      case kValueInt:    DestructValue<detail::ValueInt>   (d); break;
+      case kValueFloat:  DestructValue<detail::ValueFloat> (d); break;
+      case kValueBool:   DestructValue<detail::ValueBool>  (d); break;
+      case kValueArray:  DestructValue<detail::ValueArray> (d); break;
+      case kValueObject: DestructValue<detail::ValueObject>(d); break;
       case kValueNull: break;//no deleter necessary, nothing constructed into data
 
       default:
-        jsonInternalAssert(!"Invalid type!");
+        jsonInternalAssert("Invalid type!" == "");
         break;
       }
     }
@@ -318,9 +318,9 @@ namespace json
     }
 
     template<typename StringT, typename ValueT>
-    Member( StringT&& name, ValueT&& value )
-      :name(std::forward<StringT>(name))
-      ,value(std::forward<ValueT>(value))
+    Member( StringT&& n, ValueT&& v )
+      :name(std::forward<StringT>(n))
+      ,value(std::forward<ValueT>(v))
     {
     }
   };

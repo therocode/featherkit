@@ -72,9 +72,9 @@ namespace json
       bool cur_token;
 
 
-      Parser( std::vector<char> const& src, TokenContainerT& tokens )
-        :src(src)
-        ,tokens(tokens)
+      Parser( std::vector<char> const& source, TokenContainerT& tkens )
+        :src(source)
+        ,tokens(tkens)
         ,token(nullptr)
       {
       }
@@ -89,14 +89,14 @@ namespace json
         RaiseParserException( src, token, message );
       }
 
-      void Fault( Token const* token, std::string const& message )
+      void Fault( Token const* tken, std::string const& message )
       {
-        Fault(token, message.c_str());
+        Fault(tken, message.c_str());
       }
 
-      void Fault( Token const* token, char const* message )
+      void Fault( Token const* tken, char const* message )
       {
-        RaiseParserException( src, token, message );
+        RaiseParserException( src, tken, message );
       }
 
 

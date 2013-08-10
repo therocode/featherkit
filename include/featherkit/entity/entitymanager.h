@@ -38,8 +38,8 @@ namespace fea
             template<class DataType>
             void addToAttribute(const std::string& attribute, const EntityId id, const DataType* inData);
             bool hasAttribute(const std::string& attribute, const EntityId id) const;
-            void registerAttribute(const std::string& attribute, const int size);
-            void registerAttributes(const std::map<std::string, int>& attributes);
+            void registerAttribute(const std::string& attribute, const uint32_t size);
+            void registerAttributes(const std::map<std::string, uint32_t>& attributes);
             void registerEntityTemplate(const EntityTemplate& temp, const std::map<std::string, std::string>& attributes);
             void registerEntityTemplates(const std::map<EntityTemplate, std::map<std::string, std::string> > templates);
             void registerDefaultSetter(std::string attribute, std::function<void(std::string, std::vector<std::string>&, WeakEntityPtr)> defaultFunc);

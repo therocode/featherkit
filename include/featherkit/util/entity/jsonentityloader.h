@@ -12,7 +12,7 @@ namespace fea
         {
             public:
                 JsonEntityLoader();
-                std::map<std::string, int> loadAttributesJson(const std::string& path);
+                std::map<std::string, uint32_t> loadAttributesJson(const std::string& path);
                 std::map<std::string, std::map<std::string, std::string> > loadEntitiesJson(const std::string& path);
                 void registerType(std::string type, uint32_t size);
             private:

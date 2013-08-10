@@ -158,10 +158,10 @@ namespace json
       std::size_t row;
       std::size_t col;
 
-      Tokenizer(std::vector<char> const& in, TokenContainerT& tokens)
+      Tokenizer(std::vector<char> const& in, TokenContainerT& tkens)
         :src(in)
         ,srcCursor(0)
-        ,tokens(tokens)
+        ,tokens(tkens)
       {
       }
 
@@ -269,9 +269,9 @@ namespace json
         }
       }
 
-      bool IsWhiteSpace( char ch )
+      bool IsWhiteSpace( char c )
       {
-        if( ch == '\n' || ch == '\r' || ch == '\t' || ch == ' ' )
+        if( c == '\n' || c == '\r' || c == '\t' || c == ' ' )
         {
           return true;
         }

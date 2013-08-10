@@ -18,9 +18,9 @@ namespace fea
             registerType("#byte#", sizeof(char));
         }
 
-        std::map<std::string, int> JsonEntityLoader::loadAttributesJson(const std::string& path)
+        std::map<std::string, uint32_t> JsonEntityLoader::loadAttributesJson(const std::string& path)
         {
-            std::map<std::string, int> result;
+            std::map<std::string, uint32_t> result;
 
             std::ifstream file(path);
 
@@ -41,7 +41,7 @@ namespace fea
                 json::Member temp = root.GetMember(i);
                 std::string typeName = temp.name;
                 std::string sizeString = temp.value.GetString();
-                int typeSize = 0;
+                uint32_t typeSize = 0;
 
                 if(registeredTypes.find(sizeString) != registeredTypes.end())
                     typeSize = registeredTypes.at(sizeString);
@@ -49,7 +49,7 @@ namespace fea
                 {
                     try
                     {
-                        typeSize = std::stoi(sizeString);
+                        typeSize = (uint32_t)std::stoul(sizeString);
                     }
                     catch(std::invalid_argument)
                     {
@@ -59,7 +59,7 @@ namespace fea
                     }
                 }
 
-                result.insert(std::pair<std::string, int>(typeName, typeSize));
+                result.insert(std::pair<std::string, uint32_t>(typeName, typeSize));
             }
 
             return result;

@@ -71,8 +71,8 @@ namespace json
       ValueString& operator=( ValueString&& rhs      ){data = std::move(rhs.data);return *this;}
 
       template<typename StringT>
-      ValueString( StringT&& data, typename std::enable_if< !std::is_same<StringT,ValueString&>::value >::type* = 0 )
-        :data(std::forward<StringT>(data))
+      ValueString( StringT&& d, typename std::enable_if< !std::is_same<StringT,ValueString&>::value >::type* = 0 )
+        :data(std::forward<StringT>(d))
       {
       }
     };

@@ -144,16 +144,16 @@ namespace fea
         setTileById(x, y, hasher(name));
     }
 
-    void TileMap::setTileByName(const glm::uvec2& position, std::string name)
+    void TileMap::setTileByName(const glm::uvec2& pos, std::string name)
     {
-        if(isOutOfBounds(position.x, position.y))
+        if(isOutOfBounds(pos.x, pos.y))
         {
             std::stringstream ss;
-            ss << "Error! Coordinates " << position.x << " and " << position.y << " out of range (" << gridSize.x << "," << gridSize.y << ")\n";
+            ss << "Error! Coordinates " << pos.x << " and " << pos.y << " out of range (" << gridSize.x << "," << gridSize.y << ")\n";
             throw TileMapException(ss.str());
         }
 
-        setTileById(position.x, position.y, hasher(name));
+        setTileById(pos.x, pos.y, hasher(name));
     }
 
     void TileMap::setTileById(uint32_t x, uint32_t y, TileId id)
@@ -197,9 +197,9 @@ namespace fea
         }
     }
 
-    void TileMap::setTileById(const glm::uvec2& position, TileId id)
+    void TileMap::setTileById(const glm::uvec2& pos, TileId id)
     {
-        setTileById(position.x, position.y, id);
+        setTileById(pos.x, pos.y, id);
     }
     
     TileId TileMap::getTileId(const std::string& name) const
@@ -228,9 +228,9 @@ namespace fea
         return (x >= gridSize.x) || (y >= gridSize.y);
     }
             
-    bool TileMap::isOutOfBounds(const glm::uvec2& position) const
+    bool TileMap::isOutOfBounds(const glm::uvec2& pos) const
     {
-        return (position.x >= gridSize.x) || (position.y >= gridSize.y);
+        return (pos.x >= gridSize.x) || (pos.y >= gridSize.y);
     }
     
     glm::uvec2 TileMap::getTileSize() const

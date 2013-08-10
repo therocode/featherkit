@@ -33,7 +33,7 @@ namespace fea
         {
             GLint maxLength = 0;
             glGetShaderiv(vertexShader, GL_INFO_LOG_LENGTH, &maxLength);
-            std::vector<GLchar> infoLog(maxLength);
+            std::vector<GLchar> infoLog((size_t)maxLength);
             glGetShaderInfoLog(vertexShader, maxLength, &maxLength, &infoLog[0]);
             std::stringstream ss;
             ss << "Error! Vertex shader compilation:\n" << std::string(&infoLog[0]) << "\n";
@@ -47,7 +47,7 @@ namespace fea
         {
             GLint maxLength = 0;
             glGetShaderiv(fragmentShader, GL_INFO_LOG_LENGTH, &maxLength);
-            std::vector<GLchar> infoLog(maxLength);
+            std::vector<GLchar> infoLog((size_t)maxLength);
             glGetShaderInfoLog(fragmentShader, maxLength, &maxLength, &infoLog[0]);
             std::stringstream ss;
             ss << "Error! Fragment shader compilation:\n" << std::string(&infoLog[0]) << "\n";

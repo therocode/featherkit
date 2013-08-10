@@ -163,9 +163,9 @@ struct sth_stash* sth_create(int cachew, int cacheh)
     memset(stash,0,sizeof(struct sth_stash));
 
     // Create data for clearing the textures
-    empty_data = (GLubyte*) malloc(cachew * cacheh);
+    empty_data = (GLubyte*) malloc((size_t)(cachew * cacheh));
     if (empty_data == NULL) goto error;
-    memset(empty_data, 0, cachew * cacheh);
+    memset(empty_data, 0, size_t(cachew * cacheh));
 
     // Allocate memory for the first texture
     texture = (struct sth_texture*)malloc(sizeof(struct sth_texture));
@@ -239,15 +239,15 @@ error:
 int sth_add_font(struct sth_stash* stash, const char* path)
 {
     FILE* fp = 0;
-    int datasize;
+    size_t datasize;
     unsigned char* data = NULL;
-    int idx;
+    int id;
 
     // Read in the font data.
     fp = fopen(path, "rb");
     if (!fp) goto error;
     fseek(fp,0,SEEK_END);
-    datasize = (int)ftell(fp);
+    datasize = (size_t)ftell(fp);
     fseek(fp,0,SEEK_SET);
     data = (unsigned char*)malloc(datasize);
     if (data == NULL) goto error;
@@ -255,14 +255,14 @@ int sth_add_font(struct sth_stash* stash, const char* path)
     fclose(fp);
     fp = 0;
 
-    idx = sth_add_font_from_memory(stash, data);
+    id = sth_add_font_from_memory(stash, data);
     // Modify type of the loaded font.
-    if (idx)
+    if (id)
         stash->fonts->type = TTFONT_FILE;
     else
         free(data);
 
-    return idx;
+    return id;
 
 error:
     if (data) free(data);
@@ -302,7 +302,7 @@ error:
 }
 
 void sth_add_glyph(struct sth_stash* stash,
-        int idx,
+        int idxx,
         GLuint id,
         const char* s,
         short size, short base,
@@ -330,7 +330,7 @@ void sth_add_glyph(struct sth_stash* stash,
     }
 
     fnt = stash->fonts;
-    while (fnt != NULL && fnt->idx != idx) fnt = fnt->next;
+    while (fnt != NULL && fnt->idx != idxx) fnt = fnt->next;
     if (fnt == NULL) return;
     if (fnt->type != BMFONT) return;
 
@@ -342,7 +342,7 @@ void sth_add_glyph(struct sth_stash* stash,
 
     // Alloc space for new glyph.
     fnt->nglyphs++;
-    fnt->glyphs = (struct sth_glyph *)realloc(fnt->glyphs, fnt->nglyphs*sizeof(struct sth_glyph)); /* @rlyeh: explicit cast needed in C++ */
+    fnt->glyphs = (struct sth_glyph *)realloc(fnt->glyphs, (unsigned long)fnt->nglyphs*sizeof(struct sth_glyph)); /* @rlyeh: explicit cast needed in C++ */
     if (!fnt->glyphs) return;
 
     // Init glyph.
@@ -394,7 +394,7 @@ static struct sth_glyph* get_glyph(struct sth_stash* stash, struct sth_font* fnt
 
     // For truetype fonts: create this glyph.
     scale = stbtt_ScaleForPixelHeight(&fnt->font, size);
-    g = stbtt_FindGlyphIndex(&fnt->font, codepoint);
+    g = stbtt_FindGlyphIndex(&fnt->font, (int)codepoint);
     if(!g) return 0; /* @rlyeh: glyph not found, ie, arab chars */
     stbtt_GetGlyphHMetrics(&fnt->font, g, &advance, &lsb);
     stbtt_GetGlyphBitmapBox(&fnt->font, g, scale,scale, &x0,&y0,&x1,&y1);
@@ -455,14 +455,14 @@ static struct sth_glyph* get_glyph(struct sth_stash* stash, struct sth_font* fnt
             br = &texture->rows[texture->nrows];
             br->x = 0;
             br->y = py;
-            br->h = rh;
+            br->h = (short)rh;
             texture->nrows++;	
         }
     }
 
     // Alloc space for new glyph.
     fnt->nglyphs++;
-    fnt->glyphs = (struct sth_glyph *)realloc(fnt->glyphs, fnt->nglyphs*sizeof(struct sth_glyph)); /* @rlyeh: explicit cast needed in C++ */
+    fnt->glyphs = (struct sth_glyph *)realloc(fnt->glyphs, (unsigned long)fnt->nglyphs*sizeof(struct sth_glyph)); /* @rlyeh: explicit cast needed in C++ */
     if (!fnt->glyphs) return 0;
 
     // Init glyph.
@@ -488,7 +488,7 @@ static struct sth_glyph* get_glyph(struct sth_stash* stash, struct sth_font* fnt
     fnt->lut[h] = fnt->nglyphs-1;
 
     // Rasterize
-    bmp = (unsigned char*)malloc(gw*gh);
+    bmp = (unsigned char*)malloc((size_t)(gw*gh));
     if (bmp)
     {
         stbtt_MakeGlyphBitmap(&fnt->font, bmp, gw,gh,gw, scale,scale, g);
@@ -514,9 +514,9 @@ static int get_quad(struct sth_stash* stash, struct sth_font* fnt, struct sth_gl
 
     if (fnt->type == BMFONT) scale = isize/(glyph->size*10.0f);
 
-    rx = floorf(*x + scale * glyph->xoff);
+    rx = (int)floorf(*x + scale * glyph->xoff);
     //ry = floorf(*y - scale * glyph->yoff);
-    ry = floorf(*y + scale * glyph->yoff); //flip
+    ry = (int)floorf(*y + scale * glyph->yoff); //flip
 
     q->x0 = rx;
     q->y0 = ry;
@@ -609,7 +609,7 @@ void sth_end_draw(struct sth_stash* stash)
 }
 
 void sth_draw_text(struct sth_stash* stash,
-        int idx, float size,
+        int idxx, float size,
         float x, float y,
         const char* s, float* dx)
 {
@@ -624,7 +624,7 @@ void sth_draw_text(struct sth_stash* stash,
     if (stash == NULL) return;
 
     fnt = stash->fonts;
-    while(fnt != NULL && fnt->idx != idx) fnt = fnt->next;
+    while(fnt != NULL && fnt->idx != idxx) fnt = fnt->next;
     if (fnt == NULL) return;
     if (fnt->type != BMFONT && !fnt->data) return;
 
@@ -657,7 +657,7 @@ void sth_draw_text(struct sth_stash* stash,
 }
 
 void sth_dim_text(struct sth_stash* stash,
-        int idx, float size,
+        int idxx, float size,
         const char* s,
         float* minx, float* miny, float* maxx, float* maxy)
 {
@@ -673,7 +673,7 @@ void sth_dim_text(struct sth_stash* stash,
 
     if (stash == NULL) return;
     fnt = stash->fonts;
-    while(fnt != NULL && fnt->idx != idx) fnt = fnt->next;
+    while(fnt != NULL && fnt->idx != idxx) fnt = fnt->next;
     if (fnt == NULL) return;
     if (fnt->type != BMFONT && !fnt->data) return;
 
@@ -694,14 +694,14 @@ void sth_dim_text(struct sth_stash* stash,
 }
 
 void sth_vmetrics(struct sth_stash* stash,
-        int idx, float size,
+        int idxx, float size,
         float* ascender, float* descender, float* lineh)
 {
     struct sth_font* fnt = NULL;
 
     if (stash == NULL) return;
     fnt = stash->fonts;
-    while(fnt != NULL && fnt->idx != idx) fnt = fnt->next;
+    while(fnt != NULL && fnt->idx != idxx) fnt = fnt->next;
     if (fnt == NULL) return;
     if (fnt->type != BMFONT && !fnt->data) return;
     if (ascender)

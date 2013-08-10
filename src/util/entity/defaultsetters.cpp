@@ -28,7 +28,7 @@ namespace fea
         }
         void uint32Setter(std::string attribute, std::vector<std::string>& arguments, fea::WeakEntityPtr entity)
         {
-            uint32_t val = std::stoul(arguments[0]);
+            uint32_t val = (uint32_t)std::stoul(arguments[0]);
 
             entity.lock()->setAttribute(attribute, val);
         }
@@ -40,7 +40,7 @@ namespace fea
         }
         void byteSetter(std::string attribute, std::vector<std::string>& arguments, fea::WeakEntityPtr entity)
         {
-            uint8_t val = std::stoi(arguments[0]);
+            uint8_t val = (uint8_t)std::stoul(arguments[0]);
 
             entity.lock()->setAttribute(attribute, val);
         }

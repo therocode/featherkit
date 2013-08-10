@@ -34,7 +34,7 @@ namespace fea
             }
             else if(animBehaviour == RANDOM)
             {
-                currentFrame = rand() % currentAnimation->getFrameAmount();
+                currentFrame = (uint32_t)rand() % currentAnimation->getFrameAmount();
             }
         }
     }
@@ -86,7 +86,7 @@ namespace fea
 
                     if(clock == delay)
                     {
-                        currentFrame = rand() % frameAmount;
+                        currentFrame = (uint32_t)rand() % frameAmount;
                         clock = 0;
                     }
                     break;

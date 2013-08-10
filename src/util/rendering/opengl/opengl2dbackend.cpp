@@ -77,7 +77,7 @@ namespace fea
             std::vector<float> vertices = renderData.vertices;
             std::vector<float> texCoords = renderData.texCoords;
             glm::vec2 vertex;
-            uint32_t quadAmount = vertices.size() / 2;
+            GLsizei quadAmount = (GLsizei) vertices.size() / 2;
 
             if(renderData.texture != -1)
             {
@@ -233,7 +233,7 @@ namespace fea
         {
             const glm::uvec2& viewSize = view.getSize();
             const glm::ivec2& viewPos = view.getPosition();
-            glViewport(viewPos.x, viewPos.y, viewSize.x, viewSize.y);
+            glViewport(viewPos.x, viewPos.y, (GLsizei)viewSize.x, (GLsizei)viewSize.y);
             glMatrixMode(GL_PROJECTION);
             glLoadIdentity();
             gluOrtho2D(0.0f, viewSize.x, viewSize.y, 0.0f);
@@ -249,7 +249,7 @@ namespace fea
 
             glGenTextures(1, &id);
             glBindTexture(GL_TEXTURE_2D, id);
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLsizei)w, (GLsizei)h, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
 
             glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, smooth ? GL_LINEAR : GL_NEAREST);
             glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, smooth ? GL_LINEAR : GL_NEAREST);
@@ -282,7 +282,7 @@ namespace fea
             glGenTextures(1, &textureId);
             glBindTexture(GL_TEXTURE_2D, textureId);
 
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, (GLsizei)w, (GLsizei)h, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, smooth ? GL_LINEAR : GL_NEAREST);

@@ -20,30 +20,30 @@ namespace fea
             EntityId createdEntityId = 0;
             if(attributeGroupIndex.keyExists(attributeList))
             {
-                int attributeIndex = attributeGroupIndex.getValueAtKey(attributeList);
-                int entityArrayLocation;
+                uint32_t attributeIndex = attributeGroupIndex.getValueAtKey(attributeList);
+                uint32_t entityArrayLocation;
                 createdEntityId = assignEntityAtEnd(entityArrayLocation);
                 setSlotsValid(attributeList, entityArrayLocation, true);
                 swapDownEntityThroughGroups(entityArrayLocation, attributeIndex, false);
 
-                for(int i = attributeGroupLocation.size() - 1; i > attributeIndex; i--)
+                for(uint32_t i = (uint32_t)attributeGroupLocation.size() - 1; i > attributeIndex; i--)
                     attributeGroupLocation[i]++;
             }
             else
             {
-                int newAttributeTargetIndex = findSuitableAttributeGroupIndex(attributeList);
-                int newAttributeCreatedIndex = attributeGroupLocation.size();
+                uint32_t newAttributeTargetIndex = findSuitableAttributeGroupIndex(attributeList);
+                uint32_t newAttributeCreatedIndex = (uint32_t)attributeGroupLocation.size();
 
                 attributeGroupIndex.addKeyValuePair(attributeList, newAttributeCreatedIndex);
                 swapDownGroups(newAttributeCreatedIndex, newAttributeTargetIndex);
 
-                int attribGroupLocationSize = attributeGroupLocation.size();
+                uint32_t attribGroupLocationSize = (uint32_t)attributeGroupLocation.size();
 
 
-                if(attribGroupLocationSize > 0 && newAttributeTargetIndex < attributeGroupIndex.size() - 1)
+                if(attribGroupLocationSize > 0 && newAttributeTargetIndex < (uint32_t)attributeGroupIndex.size() - 1)
                 {
                     attributeGroupLocation.insert(attributeGroupLocation.begin() + newAttributeTargetIndex, attributeGroupLocation[newAttributeTargetIndex]);
-                    for(unsigned int i = newAttributeTargetIndex + 1; i < attributeGroupLocation.size(); i++)
+                    for(uint32_t i = newAttributeTargetIndex + 1; i < attributeGroupLocation.size(); i++)
                         attributeGroupLocation[i]++;
                 }
                 else if (attribGroupLocationSize > 0)
@@ -55,7 +55,7 @@ namespace fea
                     attributeGroupLocation.push_back(0);
                 }
 
-                int entityArrayLocation;
+                uint32_t entityArrayLocation;
                 createdEntityId = assignEntityAtEnd(entityArrayLocation);
                 setSlotsValid(attributeList, entityArrayLocation, true);
 
@@ -73,24 +73,24 @@ namespace fea
                 ss << "Error! Cannot remove entity number " << id << "! It is not a valid entity!\n";
                 throw InvalidIdException(ss.str());
             }
-            int position = posIdMap.getKeyAtValue(id);
-            int startGroup = getAttributeGroupIndexFromPosition(position);
+            uint32_t position = posIdMap.getKeyAtValue(id);
+            uint32_t startGroup = getAttributeGroupIndexFromPosition(position);
 
             setSlotsValid(attributeGroupIndex.getKeyAtValue(startGroup), position, false);
 
-            int currentGroup = getAttributeGroupIndexFromPosition(position + 1);
+            uint32_t currentGroup = getAttributeGroupIndexFromPosition(position + 1);
 
-            if(currentGroup == -1)
+            if(currentGroup == (uint32_t)-1)
             {
                 posIdMap.removeAtValue(id);
                 return;
             }
 
-            int prevIndex = position;
+            uint32_t prevIndex = position;
 
             while(currentGroup < attributeGroupIndex.size())
             {
-                int lastOfGroup = getLastDataOfGroup(currentGroup);
+                uint32_t lastOfGroup = getLastDataOfGroup(currentGroup);
 
                 posIdMap.swapValuesAtKeys(prevIndex, lastOfGroup);
                 dataArrays.swapData(prevIndex, lastOfGroup);
@@ -122,7 +122,7 @@ namespace fea
                 return;
             }
 
-            int currentBorderChangedGroup = startGroup + 1;
+            uint32_t currentBorderChangedGroup = startGroup + 1;
             while(currentBorderChangedGroup < attributeGroupIndex.size())
             {
                 attributeGroupLocation[currentBorderChangedGroup]--;
@@ -150,7 +150,7 @@ namespace fea
                 ss << "Error! Entity number " << id << " does not exist!\n";
                 throw InvalidIdException(ss.str());
             }
-            int position = posIdMap.getKeyAtValue(id);
+            uint32_t position = posIdMap.getKeyAtValue(id);
 
             if(!dataArrays.attributeIsValid(identifier))
             {
@@ -179,7 +179,7 @@ namespace fea
                 ss << "Error! Entity number " << id << " does not exist!\n";
                 throw InvalidIdException(ss.str());
             }
-            int position = posIdMap.getKeyAtValue(id);
+            uint32_t position = posIdMap.getKeyAtValue(id);
 
             if(!dataArrays.attributeIsValid(identifier))
             {
@@ -242,12 +242,12 @@ namespace fea
             sort(attributeList.begin(), attributeList.end());
         }
 
-        int AlignedEntityBackend::findSuitableAttributeGroupIndex(AttributeList attributeList) const
+        uint32_t AlignedEntityBackend::findSuitableAttributeGroupIndex(AttributeList attributeList) const
         {
-            int groupAmount = attributeGroupIndex.size();
-            int indexToChoose = groupAmount;
+            uint32_t groupAmount = (uint32_t)attributeGroupIndex.size();
+            uint32_t indexToChoose = groupAmount;
 
-            for(int i = 0; i < groupAmount; i++)
+            for(uint32_t i = 0; i < groupAmount; i++)
             {
                 if(attributeList.size() <= attributeGroupIndex.getKeyAtValue(i).size())
                 {
@@ -258,15 +258,15 @@ namespace fea
             return indexToChoose;
         }
 
-        int AlignedEntityBackend::getSubsetGroupArrayPosition(AttributeList& attributeList) const
+        uint32_t AlignedEntityBackend::getSubsetGroupArrayPosition(AttributeList& attributeList) const
         {
-            int result = -1;
-            for(unsigned int i = 0; i < attributeGroupLocation.size(); i++)
+            uint32_t result = (uint32_t)-1;
+            for(uint32_t i = 0; i < attributeGroupLocation.size(); i++)
             {
                 bool found = true;
 
                 AttributeList tempAttributeList = attributeGroupIndex.getKeyAtValue(i);
-                for(unsigned int j = 0; j < attributeList.size(); j++)
+                for(uint32_t j = 0; j < attributeList.size(); j++)
                 {
                     if(!tempAttributeList.hasAttributes(attributeList))
                         found = false;
@@ -281,33 +281,33 @@ namespace fea
             return result;
         }
 
-        void AlignedEntityBackend::swapDownEntityThroughGroups(const int startEntityPosition, const int stopGroupIndex, bool newGroup)
+        void AlignedEntityBackend::swapDownEntityThroughGroups(const uint32_t startEntityPosition, const uint32_t stopGroupIndex, bool newGroup)
         {
-            int swapFromIndex = startEntityPosition;
-            for(int i = attributeGroupLocation.size() - 1; i > stopGroupIndex; i--)
+            uint32_t swapFromIndex = startEntityPosition;
+            for(uint32_t i = (uint32_t) attributeGroupLocation.size() - 1; i > stopGroupIndex; i--)
             {
-                int swapToIndex = attributeGroupLocation[i];
+                uint32_t swapToIndex = attributeGroupLocation[i];
                 posIdMap.swapValuesAtKeys(swapToIndex, swapFromIndex);
                 dataArrays.swapData(swapToIndex, swapFromIndex);
                 swapFromIndex = swapToIndex;
             }
             if(newGroup)
             {
-                int swapToIndex = attributeGroupLocation[stopGroupIndex];
+                uint32_t swapToIndex = attributeGroupLocation[stopGroupIndex];
                 posIdMap.swapValuesAtKeys(swapToIndex, swapFromIndex);
                 dataArrays.swapData(swapToIndex, swapFromIndex);
             }
         }
 
-        void AlignedEntityBackend::swapDownGroups(const int startIndex, const int stopIndex) 
+        void AlignedEntityBackend::swapDownGroups(const uint32_t startIndex, const uint32_t stopIndex) 
         {
-            for(int i = startIndex; i > stopIndex; i--)
+            for(uint32_t i = startIndex; i > stopIndex; i--)
             {
                 attributeGroupIndex.swapKeysAtValues(i, i-1);
             }
         }
 
-        void AlignedEntityBackend::setSlotsValid(const AttributeList& attributeList, const int position, const bool state)
+        void AlignedEntityBackend::setSlotsValid(const AttributeList& attributeList, const uint32_t position, const bool state)
         {
             for(auto attribute : attributeList.getSet())
             {
@@ -315,9 +315,9 @@ namespace fea
             }
         }
 
-        int AlignedEntityBackend::assignEntityAtEnd(int& arrayPos)
+        EntityId AlignedEntityBackend::assignEntityAtEnd(uint32_t& arrayPos)
         {
-            int createdId;
+            EntityId createdId;
 
             if(freeEntityIds.size() > 0)
             {
@@ -335,7 +335,7 @@ namespace fea
                 createdId = nextEntityId;
                 nextEntityId++;
             }
-            int newEntityArrayPosition = nextEmptyArraySlot;
+            uint32_t newEntityArrayPosition = nextEmptyArraySlot;
             nextEmptyArraySlot++;
             dataArrays.setMinimumArrayLength(newEntityArrayPosition + 1);
 
@@ -360,12 +360,12 @@ namespace fea
             }
         }
 
-        int AlignedEntityBackend::getAttributeGroupIndexFromPosition(int position) const
+        uint32_t AlignedEntityBackend::getAttributeGroupIndexFromPosition(uint32_t position) const
         {
-            int groupAmount = attributeGroupIndex.size();
+            uint32_t groupAmount = (uint32_t)attributeGroupIndex.size();
 
-            int index = -1;
-            for(int i = 0; i < groupAmount; i++)
+            uint32_t index = (uint32_t)-1;
+            for(uint32_t i = 0; i < groupAmount; i++)
             {
                 index = i;
 
@@ -379,7 +379,7 @@ namespace fea
             return index;
         }
 
-        int AlignedEntityBackend::getLastDataOfGroup(unsigned int currentGroup) const
+        uint32_t AlignedEntityBackend::getLastDataOfGroup(uint32_t currentGroup) const
         {
             if(currentGroup == attributeGroupLocation.size() - 1)
                 return nextEmptyArraySlot - 1;
@@ -387,11 +387,11 @@ namespace fea
                 return attributeGroupLocation[currentGroup + 1] - 1;
         }
 
-        void AlignedEntityBackend::removeAttributeGroup(unsigned int group)
+        void AlignedEntityBackend::removeAttributeGroup(uint32_t group)
         {
             attributeGroupLocation.erase(attributeGroupLocation.begin() + group);
 
-            int currentGroup = group;
+            uint32_t currentGroup = group;
             while(currentGroup < attributeGroupIndex.size() - 1)
             {
                 attributeGroupIndex.swapKeysAtValues(currentGroup, currentGroup + 1);
@@ -424,9 +424,9 @@ namespace fea
                 attributeList.addAttribute(hasher(attributeString));
             }
 
-            int arrayPosition = getSubsetGroupArrayPosition(attributeList);
+            uint32_t arrayPosition = getSubsetGroupArrayPosition(attributeList);
 
-            if(arrayPosition == -1)
+            if(arrayPosition == (uint32_t)-1)
             {
                 return result;
             }

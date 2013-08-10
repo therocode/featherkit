@@ -14,8 +14,8 @@ namespace fea
         {
             char* data;
             uint32_t* validity;
-            int dataLength;        
-            int validityStartBit;
+            uint32_t dataLength;        
+            uint32_t validityStartBit;
         };
 
         using DataMap = std::map<AttributeHash, DataContainer>;
@@ -37,24 +37,24 @@ namespace fea
                 std::string concatAttributeList(const std::vector<std::string>& attributeList) const;   
                 std::vector<std::string> splitAttributeString(const std::string& attributeString) const;  
                 void sortAttributeList(std::vector<std::string>& attributeList) const; 
-                void swapDownEntityThroughGroups(const int startEntityPosition, const int stopGroupIndex); 
-                void swapDownEntityThroughGroups(const int startEntityPosition, const int stopGroupIndex, bool newGroup); 
-                void swapDownGroups(const int startIndex, const int stopIndex); 
-                void setSlotsValid(const AttributeList& attributeList, const int position, const bool state); 
-                int assignEntityAtEnd(int& arrayPos);
+                void swapDownEntityThroughGroups(const uint32_t startEntityPosition, const uint32_t stopGroupIndex); 
+                void swapDownEntityThroughGroups(const uint32_t startEntityPosition, const uint32_t stopGroupIndex, bool newGroup); 
+                void swapDownGroups(const uint32_t startIndex, const uint32_t stopIndex); 
+                void setSlotsValid(const AttributeList& attributeList, const uint32_t position, const bool state); 
+                EntityId assignEntityAtEnd(uint32_t& arrayPos);
                 void validateAttributeList(AttributeList attributeList) const;
-                int findSuitableAttributeGroupIndex(AttributeList attributeList) const; 
-                int getSubsetGroupArrayPosition(AttributeList& attributeList) const;
-                int getAttributeGroupIndexFromPosition(int position) const;
-                int getLastDataOfGroup(unsigned int currentGroup) const;
-                void removeAttributeGroup(unsigned int group);
-                feai::BiMap<int, EntityId> posIdMap;
-                feai::BiMap<AttributeList, int> attributeGroupIndex;
-                std::vector<int> attributeGroupLocation;
+                uint32_t findSuitableAttributeGroupIndex(AttributeList attributeList) const; 
+                uint32_t getSubsetGroupArrayPosition(AttributeList& attributeList) const;
+                uint32_t getAttributeGroupIndexFromPosition(uint32_t position) const;
+                uint32_t getLastDataOfGroup(uint32_t currentGroup) const;
+                void removeAttributeGroup(uint32_t group);
+                feai::BiMap<uint32_t, EntityId> posIdMap;
+                feai::BiMap<AttributeList, uint32_t> attributeGroupIndex;
+                std::vector<uint32_t> attributeGroupLocation;
                 ArrayHolder dataArrays;
                 std::stack<EntityId> freeEntityIds;
                 EntityId  nextEntityId;
-                int nextEmptyArraySlot;
+                uint32_t nextEmptyArraySlot;
         };
         /** @addtogroup EntitySystem
          *@{

@@ -66,7 +66,7 @@ namespace feai
             {
                 return backwardMap.at(value);
             }
-            int size() const
+            size_t size() const
             {
                 return forwardMap.size();
             }

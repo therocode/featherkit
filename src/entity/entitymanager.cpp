@@ -65,13 +65,13 @@ namespace fea
             removeEntity(entity.lock()->getId());
     }
 
-    void EntityManager::registerAttribute(const std::string& attribute, const int size)
+    void EntityManager::registerAttribute(const std::string& attribute, const uint32_t size)
     {
         std::hash<std::string> hasher;
         backend->registerAttribute(hasher(attribute), size);
     }
 
-    void EntityManager::registerAttributes(const std::map<std::string, int>& attributes)
+    void EntityManager::registerAttributes(const std::map<std::string, uint32_t>& attributes)
     {
         std::hash<std::string> hasher;
         for(const auto& pair : attributes)

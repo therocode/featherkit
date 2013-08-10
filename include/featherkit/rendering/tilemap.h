@@ -41,14 +41,14 @@ namespace fea
             const Texture& getTexture() const;
             void addTileDefinition(const std::string& name, const TileDefinition& tileDef);
             void setTileByName(uint32_t x, uint32_t y, std::string name);
-            void setTileByName(const glm::uvec2& position, std::string name);
+            void setTileByName(const glm::uvec2& pos, std::string name);
             void setTileById(uint32_t x, uint32_t y, TileId id);
-            void setTileById(const glm::uvec2& position, TileId id);
+            void setTileById(const glm::uvec2& pos, TileId id);
             TileId getTileId(const std::string& name) const;
             glm::uvec2 getTileByCoordinates(float x, float y) const;
             glm::uvec2 getTileByCoordinates(const glm::vec2& coordinates) const;
             bool isOutOfBounds(uint32_t x, uint32_t y) const;
-            bool isOutOfBounds(const glm::uvec2& position) const;
+            bool isOutOfBounds(const glm::uvec2& pos) const;
             glm::uvec2 getTileSize() const;
             glm::uvec2 getGridSize() const;
             glm::uvec2 getTileMapSize() const;

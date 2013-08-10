@@ -15,7 +15,6 @@ namespace fea
             char* data = nullptr;
             uint32_t* bitfield = nullptr;
             ElementSize elementSize = 0;
-            ~ArrayObject();
         };
 
         using ArrayMap = std::map<fea::AttributeHash, ArrayObject>;
@@ -35,6 +34,7 @@ namespace fea
                 char* getDataPointer(const AttributeHash identifier, const ArrayPosition position) const;
                 uint32_t* getValidityPointer(const AttributeHash identifier, const ArrayPosition position) const;
                 void clear();
+                ~ArrayHolder();
             private:
                 void extendArrays(uint32_t newLength);
                 ArrayMap arrays;
