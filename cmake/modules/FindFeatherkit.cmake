@@ -47,6 +47,10 @@ set(FIND_Featherkit_LIB_PATHS
 #    message("i need glm!")
 #endif()
 
+set(FEATHERKIT_FOUND)
+set(FEATHERKIT_LIBRARY)
+set(FEATHERKIT_INCLUDE_DIR)
+
 foreach(FIND_Featherkit_COMPONENT ${Featherkit_FIND_COMPONENTS})
     string(TOLOWER ${FIND_Featherkit_COMPONENT} FIND_Featherkit_COMPONENT)
 
@@ -82,7 +86,7 @@ find_library(
 if(NOT FEATHERKIT_INCLUDE_DIR OR FIND_Featherkit_MISSING)
     set(FEATHERKIT_FOUND)
     set(FEATHERKIT_INCLUDE_DIRS)
-    set(FAETHERKIT_LIBRARIES)
+    set(FEATHERKIT_LIBRARIES)
     if(Featherkit_FIND_REQUIRED)
         message(FATAL_ERROR "Feather kit not found.")
     elseif(NOT Featherkit_FIND_QUIETLY)
