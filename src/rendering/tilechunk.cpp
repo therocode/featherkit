@@ -14,8 +14,8 @@ namespace fea
         {
             for(uint32_t x = 0; x < width; x++)
             {
-                float xPos = (float)(x * tileWidth + tileWidth) * 0.5f;
-                float yPos = (float)(y * tileHeight + tileHeight) * 0.5f;
+                float xPos = (float)(x * tileWidth) + (float)tileWidth * 0.5f;
+                float yPos = (float)(y * tileHeight) + (float)tileHeight * 0.5f;
 
                 vertices.push_back(((float)xPos) - halfTileWidth); vertices.push_back(((float)yPos) - halfTileHeight);
                 vertices.push_back(((float)xPos) - halfTileWidth); vertices.push_back(((float)yPos) + halfTileHeight);
