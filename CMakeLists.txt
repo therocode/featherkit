@@ -154,8 +154,13 @@ install(
 )
  
 install(
-        TARGETS ${BUILT_TARGETS}
-        RUNTIME DESTINATION bin COMPONENT bin
-        LIBRARY DESTINATION lib COMPONENT bin
-        ARCHIVE DESTINATION lib COMPONENT dev
-)   
+    TARGETS ${BUILT_TARGETS}
+    RUNTIME DESTINATION bin COMPONENT bin
+    LIBRARY DESTINATION lib COMPONENT bin
+    ARCHIVE DESTINATION lib COMPONENT dev
+)
+
+#install(
+#    FILES readme.txt license.txt
+#    DESTINATION ${SHARE_TARGET_DIR}
+#)
