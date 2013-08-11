@@ -32,6 +32,7 @@ endif(SHARED_BUILD)
 
 if(WIN32)
     set(FEATHERKIT_MISC_DIR .)
+    set(WINFIX SYSTEM)
 else()
     set(FEATHERKIT_MISC_DIR share/featherkit)
 endif()
@@ -95,7 +96,7 @@ if(BUILD_RENDERING)
 
     find_package(GLM REQUIRED)
     if(GLM_FOUND)
-        include_directories(SYSTEM ${GLM_INCLUDE_DIRS})
+        include_directories(${WINFIX} ${GLM_INCLUDE_DIRS})
     endif()
     
     if(${BUILD_OPENGLBACKENDS})
