@@ -18,6 +18,8 @@ find_path(
     /opt/local
     /opt/csw
     /opt
+    "C:/Program Files (x86)"
+    "C:/Program Files (x86)/featherkit"
 )
 
 set(FIND_Featherkit_LIB_PATHS
@@ -32,7 +34,10 @@ set(FIND_Featherkit_LIB_PATHS
     /sw
     /opt/local
     /opt/csw
-    /opt)
+    /opt
+    "C:/Program Files (x86)"
+    "C:/Program Files (x86)/featherkit"
+)
 
 #list(FIND Featherkit_FIND_COMPONENTS "rendering" Featherkit_NEEDS_GLM)
 
