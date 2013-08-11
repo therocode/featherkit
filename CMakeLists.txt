@@ -39,6 +39,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -Werror -Wshado
 
 if(BUILD_STRUCTURE)
     ##Structure module##
+
+    set(TARGETS ${BUILT_TARGETS} ${project_name}-structure)
     #find all source files
     file(GLOB structure_source_files "src/structure/*.cpp")
     file(GLOB structure_header_files "include/structure/*.h")
@@ -47,6 +49,8 @@ endif()
 
 if(BUILD_ENTITY)
     ##Entity module##
+
+    set(TARGETS ${BUILT_TARGETS} ${project_name}-entity)
     #find all source files
     file(GLOB entity_source_files "src/entity/*.cpp")
     file(GLOB entity_header_files "include/featherkit/entity/*.h")
@@ -61,6 +65,8 @@ endif()
 
 if(BUILD_MESSAGING)
     ##Messaging module##
+
+    set(TARGETS ${BUILT_TARGETS} ${project_name}-messaging)
     #find all source files
     file(GLOB messaging_source_files "src/messaging/*.cpp")
     file(GLOB messaging_header_files "include/featherkit/messaging/*.h")
@@ -69,6 +75,8 @@ endif()
 
 if(BUILD_RENDERING)
     ##Rendering module##
+
+    set(TARGETS ${BUILT_TARGETS} ${project_name}-rendering)
     #find all source files
     file(GLOB rendering_source_files "src/rendering/*.cpp")
     file(GLOB rendering_header_files "include/featherkit/rendering/*.h")
@@ -112,6 +120,9 @@ endif()
 
 if(BUILD_UI)
     ##UI module##
+
+    set(TARGETS ${BUILT_TARGETS} ${project_name}-ui)
+
     #find all source files
     file(GLOB ui_source_files "src/window/*.cpp" "src/input/*.cpp")
     file(GLOB ui_header_files "include/featherkit/window/*.h" "include/featherkit/input/*.h")
@@ -141,4 +152,10 @@ install(
     DIRECTORY include
     DESTINATION .
 )
-
+ 
+install(
+        TARGETS ${BUILT_TARGETS}
+        RUNTIME DESTINATION bin COMPONENT bin
+        LIBRARY DESTINATION lib COMPONENT bin
+        ARCHIVE DESTINATION lib COMPONENT dev
+)   

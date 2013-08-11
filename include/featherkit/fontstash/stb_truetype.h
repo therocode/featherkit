@@ -768,8 +768,8 @@ enum { // languageID for STBTT_PLATFORM_ID_MAC
 
 #else
 
-   stbtt_uint16 ttUSHORT(const stbtt_uint8 *p) { return p[0]*256 + p[1]; }
-   stbtt_int16 ttSHORT(const stbtt_uint8 *p)   { return p[0]*256 + p[1]; }
+   stbtt_uint16 ttUSHORT(const stbtt_uint8 *p) { return (stbtt_uint16)(p[0]*256 + p[1]); }
+   stbtt_int16 ttSHORT(const stbtt_uint8 *p)   { return (stbtt_int16)(p[0]*256 + p[1]); }
    stbtt_uint32 ttULONG(const stbtt_uint8 *p)  { return (stbtt_uint32)((p[0]<<24) + (p[1]<<16) + (p[2]<<8) + p[3]); }
    stbtt_int32 ttLONG(const stbtt_uint8 *p)    { return (p[0]<<24) + (p[1]<<16) + (p[2]<<8) + p[3]; }
 
@@ -894,10 +894,10 @@ int stbtt_FindGlyphIndex(const stbtt_fontinfo *info, int unicode_codepoint)
       STBTT_assert(0); // @TODO: high-byte mapping for japanese/chinese/korean
       return 0;
    } else if (format == 4) { // standard mapping for windows fonts: binary search collection of ranges
-      stbtt_uint16 segcount = ttUSHORT(data+index_map+6) >> 1;
-      stbtt_uint16 searchRange = ttUSHORT(data+index_map+8) >> 1;
-      stbtt_uint16 entrySelector = ttUSHORT(data+index_map+10);
-      stbtt_uint16 rangeShift = ttUSHORT(data+index_map+12) >> 1;
+      stbtt_uint16 segcount = (stbtt_uint16)(ttUSHORT(data+index_map+6) >> 1);
+      stbtt_uint16 searchRange = (stbtt_uint16)(ttUSHORT(data+index_map+8) >> 1);
+      stbtt_uint16 entrySelector = (stbtt_uint16)(ttUSHORT(data+index_map+10));
+      stbtt_uint16 rangeShift = (stbtt_uint16)(ttUSHORT(data+index_map+12) >> 1);
       stbtt_uint16 item, offset, start, end;
       (void)end;
 
@@ -917,12 +917,12 @@ int stbtt_FindGlyphIndex(const stbtt_fontinfo *info, int unicode_codepoint)
       search -= 2;
       while (entrySelector) {
          stbtt_uint16 s, e;
-         searchRange >>= 1;
+         searchRange = (stbtt_uint16)(searchRange >> 1);
          s = ttUSHORT(data + search + 2 + segcount*2 + 2);
          e = ttUSHORT(data + search + 2);
          s = ttUSHORT(data + search + searchRange*2 + segcount*2 + 2);
          e = ttUSHORT(data + search + searchRange*2);
-         (void)start;
+         (void)s;
          if (unicode_codepoint > e)
             search += searchRange*2;
          --entrySelector;
@@ -1342,13 +1342,13 @@ void stbtt_GetFontBoundingBox(const stbtt_fontinfo *info, int *x0, int *y0, int 
 float stbtt_ScaleForPixelHeight(const stbtt_fontinfo *info, float height)
 {
    int fheight = ttSHORT(info->data + info->hhea + 4) - ttSHORT(info->data + info->hhea + 6);
-   return (float) height / fheight;
+   return height / (float)fheight;
 }
 
 float stbtt_ScaleForMappingEmToPixels(const stbtt_fontinfo *info, float pixels)
 {
    int unitsPerEm = ttUSHORT(info->data + info->head + 18);
-   return pixels / unitsPerEm;
+   return pixels / (float)unitsPerEm;
 }
 
 void stbtt_FreeShape(const stbtt_fontinfo *info, stbtt_vertex *v)
@@ -1368,10 +1368,10 @@ void stbtt_GetGlyphBitmapBoxSubpixel(const stbtt_fontinfo *font, int glyph, floa
    if (!stbtt_GetGlyphBox(font, glyph, &x0,&y0,&x1,&y1))
       x0=y0=x1=y1=0; // e.g. space character
    // now move to integral bboxes (treating pixels as little squares, what pixels get touched)?
-   if (ix0) *ix0 =  STBTT_ifloor(x0 * scale_x + shift_x);
-   if (iy0) *iy0 = -STBTT_iceil (y1 * scale_y + shift_y);
-   if (ix1) *ix1 =  STBTT_iceil (x1 * scale_x + shift_x);
-   if (iy1) *iy1 = -STBTT_ifloor(y0 * scale_y + shift_y);
+   if (ix0) *ix0 =  STBTT_ifloor((float)(x0 * (stbtt_int32)scale_x) + shift_x);
+   if (iy0) *iy0 = -STBTT_iceil ((float)(y1 * (stbtt_int32)scale_y) + shift_y);
+   if (ix1) *ix1 =  STBTT_iceil ((float)(x1 * (stbtt_int32)scale_x) + shift_x);
+   if (iy1) *iy1 = -STBTT_ifloor((float)(y0 * (stbtt_int32)scale_y) + shift_y);
 }
 void stbtt_GetGlyphBitmapBox(const stbtt_fontinfo *font, int glyph, float scale_x, float scale_y, int *ix0, int *iy0, int *ix1, int *iy1)
 {
@@ -1447,20 +1447,20 @@ static void stbtt__fill_active_edges(unsigned char *scanline, int len, stbtt__ac
             if (i < len && j >= 0) {
                if (i == j) {
                   // x0,x1 are the same pixel, so compute combined coverage
-                  scanline[i] = scanline[i] + (stbtt_uint8) ((x1 - x0) * max_weight >> FIXSHIFT);
+                  scanline[i] = (stbtt_uint8)(scanline[i] + (stbtt_uint8) ((x1 - x0) * max_weight >> FIXSHIFT));
                } else {
                   if (i >= 0) // add antialiasing for x0
-                     scanline[i] = scanline[i] + (stbtt_uint8) (((FIX - (x0 & FIXMASK)) * max_weight) >> FIXSHIFT);
+                     scanline[i] = (stbtt_uint8)(scanline[i] + (stbtt_uint8) (((FIX - (x0 & FIXMASK)) * max_weight) >> FIXSHIFT));
                   else
                      i = -1; // clip
 
                   if (j < len) // add antialiasing for x1
-                     scanline[j] = scanline[j] + (stbtt_uint8) (((x1 & FIXMASK) * max_weight) >> FIXSHIFT);
+                     scanline[j] = (stbtt_uint8)(scanline[j] + (stbtt_uint8) (((x1 & FIXMASK) * max_weight) >> FIXSHIFT));
                   else
                      j = len; // clip
 
                   for (++i; i < j; ++i) // fill pixels between x0 and x1
-                     scanline[i] = scanline[i] + (stbtt_uint8) max_weight;
+                     scanline[i] = (stbtt_uint8)(scanline[i] + (stbtt_uint8) max_weight);
                }
             }
          }
@@ -1484,13 +1484,13 @@ static void stbtt__rasterize_sorted_edges(stbtt__bitmap *result, stbtt__edge *e,
       scanline = scanline_data;
 
    y = off_y * vsubsample;
-   e[n].y0 = (off_y + result->h) * (float) vsubsample + 1;
+   e[n].y0 = (float)(off_y + result->h) * (float) vsubsample + 1;
 
    while (j < result->h) {
       STBTT_memset(scanline, 0, (size_t)result->w);
       for (s=0; s < vsubsample; ++s) {
          // find center of pixel for this scanline
-         float scan_y = y + 0.5f;
+         float scan_y = (float)y + 0.5f;
          stbtt__active_edge **step = &active;
 
          // update all active edges;
@@ -1620,9 +1620,9 @@ static void stbtt__rasterize(stbtt__bitmap *result, stbtt__point *pts, int *wcou
             a=j,b=k;
          }
          e[n].x0 = p[a].x * scale_x + shift_x;
-         e[n].y0 = p[a].y * y_scale_inv * vsubsample + shift_y;
+         e[n].y0 = p[a].y * y_scale_inv * (float)vsubsample + shift_y;
          e[n].x1 = p[b].x * scale_x + shift_x;
-         e[n].y1 = p[b].y * y_scale_inv * vsubsample + shift_y;
+         e[n].y1 = p[b].y * y_scale_inv * (float)vsubsample + shift_y;
          ++n;
       }
    }
@@ -1879,7 +1879,7 @@ extern int stbtt_BakeFontBitmap(const unsigned char *data, int offset,  // font 
       chardata[i].y0 = (stbtt_uint16) y;
       chardata[i].x1 = (stbtt_uint16) (x + gw);
       chardata[i].y1 = (stbtt_uint16) (y + gh);
-      chardata[i].xadvance = scale * advance;
+      chardata[i].xadvance = scale * (float)advance;
       chardata[i].xoff     = (float) x0;
       chardata[i].yoff     = (float) y0;
       x = x + gw + 2;
@@ -1892,15 +1892,15 @@ extern int stbtt_BakeFontBitmap(const unsigned char *data, int offset,  // font 
 void stbtt_GetBakedQuad(stbtt_bakedchar *chardata, int pw, int ph, int char_index, float *xpos, float *ypos, stbtt_aligned_quad *q, int opengl_fillrule)
 {
    float d3d_bias = opengl_fillrule ? 0 : -0.5f;
-   float ipw = 1.0f / pw, iph = 1.0f / ph;
+   float ipw = 1.0f / (float)pw, iph = 1.0f / (float)ph;
    stbtt_bakedchar *b = chardata + char_index;
    int round_x = STBTT_ifloor((*xpos + b->xoff) + 0.5);
    int round_y = STBTT_ifloor((*ypos + b->yoff) + 0.5);
 
-   q->x0 = round_x + d3d_bias;
-   q->y0 = round_y + d3d_bias;
-   q->x1 = round_x + b->x1 - b->x0 + d3d_bias;
-   q->y1 = round_y + b->y1 - b->y0 + d3d_bias;
+   q->x0 = (float)round_x + (float)d3d_bias;
+   q->y0 = (float)round_y + (float)d3d_bias;
+   q->x1 = (float)((float)round_x + b->x1 - b->x0 + (float)d3d_bias);
+   q->y1 = (float)((float)round_y + b->y1 - b->y0 + (float)d3d_bias);
 
    q->s0 = b->x0 * ipw;
    q->t0 = b->y0 * iph;
@@ -1922,7 +1922,7 @@ static stbtt_int32 stbtt__CompareUTF8toUTF16_bigendian_prefix(const stbtt_uint8 
 
    // convert utf16 to utf8 and compare the results while converting
    while (len2) {
-      stbtt_uint16 ch = s2[0]*256 + s2[1];
+      stbtt_uint16 ch = (stbtt_uint16)(s2[0]*256 + s2[1]);
       if (ch < 0x80) {
          if (i >= len1) return -1;
          if (s1[i++] != ch) return -1;
@@ -1932,7 +1932,7 @@ static stbtt_int32 stbtt__CompareUTF8toUTF16_bigendian_prefix(const stbtt_uint8 
          if (s1[i++] != 0x80 + (ch & 0x3f)) return -1;
       } else if (ch >= 0xd800 && ch < 0xdc00) {
          stbtt_uint32 c;
-         stbtt_uint16 ch2 = s2[2]*256 + s2[3];
+         stbtt_uint16 ch2 = (stbtt_uint16)(s2[2]*256 + s2[3]);
          if (i+3 >= len1) return -1;
          c = (stbtt_uint32)((ch - 0xd800) << 10) + (ch2 - 0xdc00) + 0x10000;
          if (s1[i++] != 0xf0 + (c >> 18)) return -1;

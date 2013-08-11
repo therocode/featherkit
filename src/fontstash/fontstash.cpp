@@ -36,7 +36,7 @@
 #define HASH_LUT_SIZE 256
 #define MAX_ROWS 128
 #define VERT_COUNT (6*128)
-#define VERT_STRIDE (sizeof(float)*4)
+#define VERT_STRIDE (GLsizei)(sizeof(float)*4)
 
 #define TTFONT_FILE 1
 #define TTFONT_MEM  2
@@ -175,8 +175,8 @@ struct sth_stash* sth_create(int cachew, int cacheh)
     // Create first texture for the cache.
     stash->tw = cachew;
     stash->th = cacheh;
-    stash->itw = 1.0f/cachew;
-    stash->ith = 1.0f/cacheh;
+    stash->itw = 1.0f/(float)cachew;
+    stash->ith = 1.0f/(float)cacheh;
     stash->empty_data = empty_data;
     stash->tt_textures = texture;
     glGenTextures(1, &texture->id);
@@ -427,7 +427,7 @@ static struct sth_glyph* get_glyph(struct sth_stash* stash, struct sth_font* fnt
             // Check that there is enough space.
             if (texture->nrows)
             {
-                py = texture->rows[texture->nrows-1].y + texture->rows[texture->nrows-1].h+1;
+                py = (short)(texture->rows[texture->nrows-1].y + texture->rows[texture->nrows-1].h+1);
                 if (py+rh > stash->th)
                 {
                     if (texture->next != NULL)
@@ -475,13 +475,13 @@ static struct sth_glyph* get_glyph(struct sth_stash* stash, struct sth_font* fnt
     glyph->y0 = br->y;
     glyph->x1 = glyph->x0+gw;
     glyph->y1 = glyph->y0+gh;
-    glyph->xadv = scale * advance;
+    glyph->xadv = scale * (float)advance;
     glyph->xoff = (float)x0;
     glyph->yoff = (float)y0;
     glyph->next = 0;
 
     // Advance row location.
-    br->x += gw+1;
+    br->x = (short)(br->x + (short)(gw+1));
 
     // Insert char to hash lookup.
     glyph->next = fnt->lut[h];
@@ -518,16 +518,16 @@ static int get_quad(struct sth_stash* stash, struct sth_font* fnt, struct sth_gl
     //ry = floorf(*y - scale * glyph->yoff);
     ry = (int)floorf(*y + scale * glyph->yoff); //flip
 
-    q->x0 = rx;
-    q->y0 = ry;
-    q->x1 = rx + scale * (glyph->x1 - glyph->x0);
+    q->x0 = (float)rx;
+    q->y0 = (float)ry;
+    q->x1 = (float)rx + scale * (float)(glyph->x1 - glyph->x0);
     //q->y1 = ry - scale * (glyph->y1 - glyph->y0);
-    q->y1 = ry + scale * (glyph->y1 - glyph->y0); //flip
+    q->y1 = (float)ry + scale * (float)(glyph->y1 - glyph->y0); //flip
 
-    q->s0 = (glyph->x0) * stash->itw;
-    q->t0 = (glyph->y0) * stash->ith;
-    q->s1 = (glyph->x1) * stash->itw;
-    q->t1 = (glyph->y1) * stash->ith;
+    q->s0 = (float)(glyph->x0) * stash->itw;
+    q->t0 = (float)(glyph->y0) * stash->ith;
+    q->s1 = (float)(glyph->x1) * stash->itw;
+    q->t1 = (float)(glyph->y1) * stash->ith;
 
     *x += scale * glyph->xadv;
 
