@@ -30,6 +30,12 @@ else(SHARED_BUILD)
     set(SHARED_OR_STATIC STATIC)
 endif(SHARED_BUILD)
 
+if(WIN32)
+    set(FEATHERKIT_MISC_DIR .)
+else()
+    set(FEATHERKIT_MISC_DIR share/featherkit)
+endif()
+
 include_directories(${CMAKE_CURRENT_LIST_DIR}/include)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_LIST_DIR}/cmake/modules/")
 
@@ -160,7 +166,7 @@ install(
     ARCHIVE DESTINATION lib COMPONENT dev
 )
 
-#install(
-#    FILES readme.txt license.txt
-#    DESTINATION ${SHARE_TARGET_DIR}
-#)
+install(
+    FILES readme.txt license.txt
+    DESTINATION ${FEATHERKIT_MISC_DIR}
+)
