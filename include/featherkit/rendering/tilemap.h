@@ -154,9 +154,9 @@ namespace fea
      *  This function is what is used to render the TileMap. The list of the TileChunk instances can be iterated through, to pass the content to the rendered.
      *  @return List of tile chunks.
      ***
-     *  @fn void TileMap::setTexture(const std::string& name)
+     *  @fn void TileMap::setTexture(const Texture& tex)
      *  @brief Set the texture to use.
-     *  @param name Name of the texture.
+     *  @param tex Texture.
      ***
      *  @fn const std::string& TileMap::getTexture() const
      *  @brief Get the current texture.

@@ -10,11 +10,7 @@ namespace fea
             Viewport();
             Viewport(uint32_t w, uint32_t h, int32_t x = 0, int32_t y = 0, const Camera& cam = Camera());
             Viewport(const glm::uvec2& s, const glm::ivec2& pos = glm::ivec2(), const Camera& cam = Camera());
-            void setPosition(int32_t x, int32_t y);
-            void setPosition(const glm::ivec2& p);
             const glm::ivec2& getPosition() const;
-            void setSize(uint32_t w, uint32_t h);
-            void setSize(const glm::uvec2& s);
             const glm::uvec2& getSize() const;
             void setCamera(const Camera& cam);
             Camera& getCamera();
@@ -37,21 +33,26 @@ namespace fea
      *
      *  The scene is defined by a viewing rectangle which contains the size of the view, and a Camera which contains its rotation and zoom.
      ***
-     *  @fn Viewport::Viewport
+     *  @fn Viewport::Viewport()
      *  @brief Construct a Viewport.
      *  
      *  The default constructor constructs a Viewport with no translation and the viewing rectangle set to a width of 1.0f and a size of 1.0f.
      ***
-     *  @fn Viewport::Viewport(uint32_t w, uint32_t h)
-     *  @brief Construct a Viewport with the given size.
+     *  @fn Viewport::Viewport(uint32_t w, uint32_t h, int32_t x = 0, int32_t y = 0, const Camera& cam = Camera())
+     *  @brief Construct a Viewport with the given size, position and camera.
      *
      *  @param w width of the new Viewport.
      *  @param h height of the new Viewport.
+     *  @param x X position of the top-left corner. Default is 0.
+     *  @param y Y position of the top-left corner. Default is 0.
+     *  @param cam Camera to use.
      ***
-     *  @fn Viewport::Viewport(const glm::vec2& size)
-     *  @brief Construct a Viewport with the given size.
+     *  @fn Viewport::Viewport(const glm::uvec2& s, const glm::ivec2& pos = glm::ivec2(), const Camera& cam = Camera())
+     *  @brief Construct a Viewport with the given size, position and camera.
      *
-     *  @param size Size of the new Viewport.
+     *  @param s Size of the new Viewport.
+     *  @param pos Position of the top-left corner. Default is 0,0.
+     *  @param cam Camera to use.
      ***
      *  @fn Viewport::Viewport(uint32_t w, uint32_t h, const Camera& cam)
      *  @brief Construct a Viewport with the given size and Camera.
@@ -66,14 +67,9 @@ namespace fea
      *  @param size Size of the new Viewport
      *  @param cam Camera the new Viewport should use.
      ***
-     *  @fn void Viewport::setSize(float w, float h)
-     *  @brief Set the size of the Viewport.
-     *  @param w New width.
-     *  @param h New height.
-     ***
-     *  @fn void Viewport::setSize(const glm::uvec2& s)
-     *  @brief Set the size of the Viewport.
-     *  @param s Size to set it to.
+     *  @fn const glm::ivec2& Viewport::getPosition() const
+     *  @brief Get the position of the top-left corner.
+     *  @return Vector containing position.
      ***
      *  @fn const glm::uvec2& Viewport::getSize() const
      *  @brief Get the size of the Viewport.
