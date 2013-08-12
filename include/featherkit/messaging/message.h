@@ -34,7 +34,7 @@ namespace fea
      *  @endcode
      *  The empty struct Resized_tag serves as a way of making this Message type unique. The using statements are useful for creating aliases that are easy to work with.
      ***
-     *  @fn Message::Message()
+     *  @fn Message::Message(typename std::enable_if<sizeof...(DataTypes) >= 1>)
      *  @brief Construct a message.
      ***
      *  @fn Message::Message(DataTypes... d)

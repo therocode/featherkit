@@ -45,8 +45,8 @@ namespace fea
      *  @var RenderData::vertices
      *  @brief Vertices of what is to be rendered.
      ***
-     *  @var RenderData::textureId
-     *  @brief Name of the texture to use.
+     *  @var RenderData::texture
+     *  @brief Texture to use.
      ***
      *  @var RenderData::texCoords
      *  @brief Texture coordinates for the object.
@@ -62,6 +62,12 @@ namespace fea
      ***
      *  @var RenderData::parallax
      *  @brief Parallax factor of the object.
+     ***
+     *  @var RenderData::colour
+     *  @brief Colour of the object.
+     ***
+     *  @var RenderData::opacity
+     *  @brief float describing how opaque an object is.
      ***
      *  @struct TextData
      *  @brief Container for text object data, passed by the Render2D to the Renderer2DBackend. Contains needed information to perform text rendering.
@@ -83,6 +89,9 @@ namespace fea
      ***
      *  @var TextData::parallax
      *  @brief Parallax factor of the text.
+     ***
+     *  @var TextData::opacity
+     *  @brief float describing how opaque the text is.
      ***
      *  @struct AABB
      *  @brief Axis Aligned Bounding Box. A rectangle aligned to the X and Y axes.
