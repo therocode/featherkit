@@ -768,8 +768,8 @@ enum { // languageID for STBTT_PLATFORM_ID_MAC
 
 #else
 
-   stbtt_uint16 ttUSHORT(const stbtt_uint8 *p) { return (stbtt_uint16)(p[0]*256 + p[1]); }
-   stbtt_int16 ttSHORT(const stbtt_uint8 *p)   { return (stbtt_int16)(p[0]*256 + p[1]); }
+   stbtt_uint16 ttUSHORT(const stbtt_uint8 *p) { return (stbtt_uint16) (p[0]*256 + p[1]); }
+   stbtt_int16 ttSHORT(const stbtt_uint8 *p)   { return (stbtt_int16) (p[0]*256 + p[1]); }
    stbtt_uint32 ttULONG(const stbtt_uint8 *p)  { return (stbtt_uint32)((p[0]<<24) + (p[1]<<16) + (p[2]<<8) + p[3]); }
    stbtt_int32 ttLONG(const stbtt_uint8 *p)    { return (p[0]<<24) + (p[1]<<16) + (p[2]<<8) + p[3]; }
 
@@ -1342,13 +1342,13 @@ void stbtt_GetFontBoundingBox(const stbtt_fontinfo *info, int *x0, int *y0, int 
 float stbtt_ScaleForPixelHeight(const stbtt_fontinfo *info, float height)
 {
    int fheight = ttSHORT(info->data + info->hhea + 4) - ttSHORT(info->data + info->hhea + 6);
-   return height / (float)fheight;
+   return (float) (height / (float)fheight);
 }
 
 float stbtt_ScaleForMappingEmToPixels(const stbtt_fontinfo *info, float pixels)
 {
    int unitsPerEm = ttUSHORT(info->data + info->head + 18);
-   return pixels / (float)unitsPerEm;
+   return (float)(pixels / (float)unitsPerEm);
 }
 
 void stbtt_FreeShape(const stbtt_fontinfo *info, stbtt_vertex *v)
@@ -1368,10 +1368,10 @@ void stbtt_GetGlyphBitmapBoxSubpixel(const stbtt_fontinfo *font, int glyph, floa
    if (!stbtt_GetGlyphBox(font, glyph, &x0,&y0,&x1,&y1))
       x0=y0=x1=y1=0; // e.g. space character
    // now move to integral bboxes (treating pixels as little squares, what pixels get touched)?
-   if (ix0) *ix0 =  STBTT_ifloor((float)(x0 * (stbtt_int32)scale_x) + shift_x);
-   if (iy0) *iy0 = -STBTT_iceil ((float)(y1 * (stbtt_int32)scale_y) + shift_y);
-   if (ix1) *ix1 =  STBTT_iceil ((float)(x1 * (stbtt_int32)scale_x) + shift_x);
-   if (iy1) *iy1 = -STBTT_ifloor((float)(y0 * (stbtt_int32)scale_y) + shift_y);
+   if (ix0) *ix0 =  STBTT_ifloor(((float)x0 * scale_x + shift_x));
+   if (iy0) *iy0 = -STBTT_iceil (((float)y1 * scale_y + shift_y));
+   if (ix1) *ix1 =  STBTT_iceil (((float)x1 * scale_x + shift_x));
+   if (iy1) *iy1 = -STBTT_ifloor(((float)y0 * scale_y + shift_y));
 }
 void stbtt_GetGlyphBitmapBox(const stbtt_fontinfo *font, int glyph, float scale_x, float scale_y, int *ix0, int *iy0, int *ix1, int *iy1)
 {
@@ -1897,10 +1897,10 @@ void stbtt_GetBakedQuad(stbtt_bakedchar *chardata, int pw, int ph, int char_inde
    int round_x = STBTT_ifloor((*xpos + b->xoff) + 0.5);
    int round_y = STBTT_ifloor((*ypos + b->yoff) + 0.5);
 
-   q->x0 = (float)round_x + (float)d3d_bias;
-   q->y0 = (float)round_y + (float)d3d_bias;
-   q->x1 = (float)((float)round_x + b->x1 - b->x0 + (float)d3d_bias);
-   q->y1 = (float)((float)round_y + b->y1 - b->y0 + (float)d3d_bias);
+   q->x0 = (float)round_x + d3d_bias;
+   q->y0 = (float)round_y + d3d_bias;
+   q->x1 = (float)round_x + b->x1 - b->x0 + d3d_bias;
+   q->y1 = (float)round_y + b->y1 - b->y0 + d3d_bias;
 
    q->s0 = b->x0 * ipw;
    q->t0 = b->y0 * iph;

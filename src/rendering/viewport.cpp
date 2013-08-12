@@ -14,29 +14,9 @@ namespace fea
     {
     }
     
-    void Viewport::setPosition(int32_t x, int32_t y)
-    {
-        position = glm::ivec2(x, y);
-    }
-    
-    void Viewport::setPosition(const glm::ivec2& p)
-    {
-        position = p;
-    }
-
     const glm::ivec2& Viewport::getPosition() const
     {
         return position;
-    }
-
-    void Viewport::setSize(uint32_t w, uint32_t y)
-    {
-        size = glm::uvec2(w, y);
-    }
-
-    void Viewport::setSize(const glm::uvec2& s)
-    {
-        size = s;
     }
 
     const glm::uvec2& Viewport::getSize() const
