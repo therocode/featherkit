@@ -894,10 +894,10 @@ int stbtt_FindGlyphIndex(const stbtt_fontinfo *info, int unicode_codepoint)
       STBTT_assert(0); // @TODO: high-byte mapping for japanese/chinese/korean
       return 0;
    } else if (format == 4) { // standard mapping for windows fonts: binary search collection of ranges
-      stbtt_uint16 segcount = ttUSHORT(data+index_map+6) >> 1;
-      stbtt_uint16 searchRange = ttUSHORT(data+index_map+8) >> 1;
-      stbtt_uint16 entrySelector = ttUSHORT(data+index_map+10);
-      stbtt_uint16 rangeShift = ttUSHORT(data+index_map+12) >> 1;
+      stbtt_uint16 segcount = (stbtt_uint16)(ttUSHORT(data+index_map+6) >> 1);
+      stbtt_uint16 searchRange = (stbtt_uint16)(ttUSHORT(data+index_map+8) >> 1);
+      stbtt_uint16 entrySelector = (stbtt_uint16)(ttUSHORT(data+index_map+10));
+      stbtt_uint16 rangeShift = (stbtt_uint16)(ttUSHORT(data+index_map+12) >> 1);
       stbtt_uint16 item, offset, start, end;
       (void)end;
 
@@ -917,12 +917,12 @@ int stbtt_FindGlyphIndex(const stbtt_fontinfo *info, int unicode_codepoint)
       search -= 2;
       while (entrySelector) {
          stbtt_uint16 s, e;
-         searchRange >>= 1;
+         searchRange = (stbtt_uint16)(searchRange >> 1);
          s = ttUSHORT(data + search + 2 + segcount*2 + 2);
          e = ttUSHORT(data + search + 2);
          s = ttUSHORT(data + search + searchRange*2 + segcount*2 + 2);
          e = ttUSHORT(data + search + searchRange*2);
-         (void)start;
+         (void)s;
          if (unicode_codepoint > e)
             search += searchRange*2;
          --entrySelector;
