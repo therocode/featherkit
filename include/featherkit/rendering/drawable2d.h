@@ -157,6 +157,14 @@ namespace fea
      *  @brief Get the parallax.
      *  @return Parallax factor.
      ***
+     *  @fn void Drawable2D::setOpacity(float o)
+     *  @brief Set the opacity.
+     *  @param o Opacity.
+     ***
+     *  @fn float Drawable2D::getOpacity() const
+     *  @brief Get the opacity.
+     *  @return Opacity.
+     ***
      *  @fn glm::vec3 Drawable2D::getColour() const
      *  @brief Get the colour.
      *  @return Vector containing the colour.
@@ -222,6 +230,12 @@ namespace fea
      ***
      *  @var Drawable2D::parallax
      *  @brief Stores the parallax factor.
+     ***
+     *  @var Drawable2D::opacity
+     *  @brief Stores the opacity.
+     ***
+     *  @var Drawable2D::colour
+     *  @brief Stores the colour.
      ***
      *  @var Drawable2D::transformations
      *  @brief List of all current transformations.

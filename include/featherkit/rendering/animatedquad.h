@@ -101,5 +101,19 @@ namespace fea
      *  @fn void AnimatedQuad::setAnimationFrame(uint32_t frame)
      *  @brief Set the animation frame.
      *  @param frame Frame to set it to.
+     ***
+     *  @fn uint32 AnimatedQuad::getAnimationFrame() const
+     *  @brief Get the current frame.
+     *  @return Numerical index of the frame.
+     ***
+     *  @fn bool AnimatedQuad::isPlaying() const
+     *  @brief Check if the animation is playing or not
+     *  @return True if it is playing.
+     ***
+     *  @fn void AnimatedQuad::onAnimationEnd(std::function<void(void)> callback)
+     *  @brief Add a callback to be called when the animation stops.
+     *  
+     *  An animation will only stop if it is set to not loop. Changing the animation does not count as stopping. To remove the callback set a new one using this function or call it without arguments to have no callback at all.
+     *  @param callback Function object to call.
      **/
 }

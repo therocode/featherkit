@@ -93,5 +93,8 @@ namespace fea
      ***
      *  @var Quad::vFlip
      *  @brief Internal variable representing if the Quad will be drawn mirrored vertically or not.
+     ***
+     *  @var Quad::texture
+     *  @brief Pointer to the current texture in use.
      ***/
 }
