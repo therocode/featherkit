@@ -28,6 +28,7 @@ namespace fea
     void Renderer2D::setup()
     {
         backend->setup();
+        backend->setViewport(currentViewport);
     }
 
     void Renderer2D::destroy()
