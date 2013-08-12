@@ -1368,10 +1368,10 @@ void stbtt_GetGlyphBitmapBoxSubpixel(const stbtt_fontinfo *font, int glyph, floa
    if (!stbtt_GetGlyphBox(font, glyph, &x0,&y0,&x1,&y1))
       x0=y0=x1=y1=0; // e.g. space character
    // now move to integral bboxes (treating pixels as little squares, what pixels get touched)?
-   if (ix0) *ix0 =  STBTT_ifloor(x0 * scale_x + shift_x);
-   if (iy0) *iy0 = -STBTT_iceil (y1 * scale_y + shift_y);
-   if (ix1) *ix1 =  STBTT_iceil (x1 * scale_x + shift_x);
-   if (iy1) *iy1 = -STBTT_ifloor(y0 * scale_y + shift_y);
+   if (ix0) *ix0 =  STBTT_ifloor(((float)x0 * scale_x + shift_x));
+   if (iy0) *iy0 = -STBTT_iceil (((float)y1 * scale_y + shift_y));
+   if (ix1) *ix1 =  STBTT_iceil (((float)x1 * scale_x + shift_x));
+   if (iy1) *iy1 = -STBTT_ifloor(((float)y0 * scale_y + shift_y));
 }
 void stbtt_GetGlyphBitmapBox(const stbtt_fontinfo *font, int glyph, float scale_x, float scale_y, int *ix0, int *iy0, int *ix1, int *iy1)
 {
@@ -1447,20 +1447,20 @@ static void stbtt__fill_active_edges(unsigned char *scanline, int len, stbtt__ac
             if (i < len && j >= 0) {
                if (i == j) {
                   // x0,x1 are the same pixel, so compute combined coverage
-                  scanline[i] = scanline[i] + (stbtt_uint8) ((x1 - x0) * max_weight >> FIXSHIFT);
+                  scanline[i] = (stbtt_uint8)(scanline[i] + (stbtt_uint8) ((x1 - x0) * max_weight >> FIXSHIFT));
                } else {
                   if (i >= 0) // add antialiasing for x0
-                     scanline[i] = scanline[i] + (stbtt_uint8) (((FIX - (x0 & FIXMASK)) * max_weight) >> FIXSHIFT);
+                     scanline[i] = (stbtt_uint8)(scanline[i] + (stbtt_uint8) (((FIX - (x0 & FIXMASK)) * max_weight) >> FIXSHIFT));
                   else
                      i = -1; // clip
 
                   if (j < len) // add antialiasing for x1
-                     scanline[j] = scanline[j] + (stbtt_uint8) (((x1 & FIXMASK) * max_weight) >> FIXSHIFT);
+                     scanline[j] = (stbtt_uint8)(scanline[j] + (stbtt_uint8) (((x1 & FIXMASK) * max_weight) >> FIXSHIFT));
                   else
                      j = len; // clip
 
                   for (++i; i < j; ++i) // fill pixels between x0 and x1
-                     scanline[i] = scanline[i] + (stbtt_uint8) max_weight;
+                     scanline[i] = (stbtt_uint8)(scanline[i] + (stbtt_uint8) max_weight);
                }
             }
          }
@@ -1484,7 +1484,7 @@ static void stbtt__rasterize_sorted_edges(stbtt__bitmap *result, stbtt__edge *e,
       scanline = scanline_data;
 
    y = off_y * vsubsample;
-   e[n].y0 = (off_y + result->h) * (float) vsubsample + 1;
+   e[n].y0 = (float)(off_y + result->h) * (float) vsubsample + 1;
 
    while (j < result->h) {
       STBTT_memset(scanline, 0, (size_t)result->w);
