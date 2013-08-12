@@ -56,20 +56,6 @@ namespace fea
      *  @brief Set the text.
      *  @param t Text to set.
      ***
-     *  @fn glm::vec3 Text::getColour() const
-     *  @brief Get the colour.
-     *  @return Vector containing the colour.
-     ***
-     *  @fn void Text::setColour(float r, float g, float b)
-     *  @brief Set the colour.
-     *  @param r Amount of red.
-     *  @param g Amount of green.
-     *  @param b Amount of blue.
-     ***
-     *  @fn void Text::setColour(const glm::vec3& col)
-     *  @brief Set the colour.
-     *  @param col Vector containing the colour.
-     ***
      *  @fn float Text::getTextSize() const
      *  @brief Get the size of the characters in the text.
      *  @return Text size.

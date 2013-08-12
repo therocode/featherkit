@@ -54,19 +54,6 @@ namespace fea
      *  @param pos Position of the top-left corner. Default is 0,0.
      *  @param cam Camera to use.
      ***
-     *  @fn Viewport::Viewport(uint32_t w, uint32_t h, const Camera& cam)
-     *  @brief Construct a Viewport with the given size and Camera.
-     *
-     *  @param w width of the new Viewport.
-     *  @param h height of the new Viewport.
-     *  @param cam Camera the new Viewport should use.
-     ***
-     *  @fn Viewport::Viewport(const glm::vec2& size, const Camera& cam)
-     *  @brief Construct a Viewport with the given size and Camera.
-     *
-     *  @param size Size of the new Viewport
-     *  @param cam Camera the new Viewport should use.
-     ***
      *  @fn const glm::ivec2& Viewport::getPosition() const
      *  @brief Get the position of the top-left corner.
      *  @return Vector containing position.

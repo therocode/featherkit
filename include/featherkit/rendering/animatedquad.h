@@ -61,18 +61,11 @@ namespace fea
      *  Uses the Quad::Quad(const glm::vec2& size) constructor.
      *  @param size Size.
      ***
-     *  @fn void AnimatedQuad::addAnimation(AnimationId id, std::weak_ptr<Animation> animation)
-     *  @brief Add an animation.
-     * 
-     *  After an animation is added, the animation can be set and played using AnimatedQuad::setAnimation and AnimatedQuad::playAnimation.
-     *  @param id Id to be used to refer to the animation.
-     *  @param animation Pointer to the animation to add. Pointers to animations can be gotten from the AnimationManager.
-     ***
-     *  @fn void AnimatedQuad::setAnimation(AnimationId id, bool play = true)
+     *  @fn void AnimatedQuad::setAnimation(const Animation& animation, bool play = true)
      *  @brief Change the current animation.
      *
-     *  When an animation is set, it will start off still at the first frame. For an animation to play, the function AnimatedQuad::playAnimation has to be called after an animation is set.
-     *  @param id Id of the animation to set.
+     *  When an animation is set, it will start off at the first frame. It can start both as playing or as still and be played at a later time using the AnimatedQuad::playAnimation function.
+     *  @param animation Animation to use.
      *  @param play Set this to false if the animation sequence should not be played after being set.
      ***
      *  @fn AnimationId AnimatedQuad::getAnimation() const
