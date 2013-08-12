@@ -1490,7 +1490,7 @@ static void stbtt__rasterize_sorted_edges(stbtt__bitmap *result, stbtt__edge *e,
       STBTT_memset(scanline, 0, (size_t)result->w);
       for (s=0; s < vsubsample; ++s) {
          // find center of pixel for this scanline
-         float scan_y = y + 0.5f;
+         float scan_y = (float)y + 0.5f;
          stbtt__active_edge **step = &active;
 
          // update all active edges;
@@ -1620,9 +1620,9 @@ static void stbtt__rasterize(stbtt__bitmap *result, stbtt__point *pts, int *wcou
             a=j,b=k;
          }
          e[n].x0 = p[a].x * scale_x + shift_x;
-         e[n].y0 = p[a].y * y_scale_inv * vsubsample + shift_y;
+         e[n].y0 = p[a].y * y_scale_inv * (float)vsubsample + shift_y;
          e[n].x1 = p[b].x * scale_x + shift_x;
-         e[n].y1 = p[b].y * y_scale_inv * vsubsample + shift_y;
+         e[n].y1 = p[b].y * y_scale_inv * (float)vsubsample + shift_y;
          ++n;
       }
    }
@@ -1879,7 +1879,7 @@ extern int stbtt_BakeFontBitmap(const unsigned char *data, int offset,  // font 
       chardata[i].y0 = (stbtt_uint16) y;
       chardata[i].x1 = (stbtt_uint16) (x + gw);
       chardata[i].y1 = (stbtt_uint16) (y + gh);
-      chardata[i].xadvance = scale * advance;
+      chardata[i].xadvance = scale * (float)advance;
       chardata[i].xoff     = (float) x0;
       chardata[i].yoff     = (float) y0;
       x = x + gw + 2;
@@ -1892,15 +1892,15 @@ extern int stbtt_BakeFontBitmap(const unsigned char *data, int offset,  // font 
 void stbtt_GetBakedQuad(stbtt_bakedchar *chardata, int pw, int ph, int char_index, float *xpos, float *ypos, stbtt_aligned_quad *q, int opengl_fillrule)
 {
    float d3d_bias = opengl_fillrule ? 0 : -0.5f;
-   float ipw = 1.0f / pw, iph = 1.0f / ph;
+   float ipw = 1.0f / (float)pw, iph = 1.0f / (float)ph;
    stbtt_bakedchar *b = chardata + char_index;
    int round_x = STBTT_ifloor((*xpos + b->xoff) + 0.5);
    int round_y = STBTT_ifloor((*ypos + b->yoff) + 0.5);
 
-   q->x0 = round_x + d3d_bias;
-   q->y0 = round_y + d3d_bias;
-   q->x1 = round_x + b->x1 - b->x0 + d3d_bias;
-   q->y1 = round_y + b->y1 - b->y0 + d3d_bias;
+   q->x0 = (float)round_x + d3d_bias;
+   q->y0 = (float)round_y + d3d_bias;
+   q->x1 = (float)round_x + b->x1 - b->x0 + d3d_bias;
+   q->y1 = (float)round_y + b->y1 - b->y0 + d3d_bias;
 
    q->s0 = b->x0 * ipw;
    q->t0 = b->y0 * iph;
@@ -1922,7 +1922,7 @@ static stbtt_int32 stbtt__CompareUTF8toUTF16_bigendian_prefix(const stbtt_uint8 
 
    // convert utf16 to utf8 and compare the results while converting
    while (len2) {
-      stbtt_uint16 ch = s2[0]*256 + s2[1];
+      stbtt_uint16 ch = (stbtt_uint16)(s2[0]*256 + s2[1]);
       if (ch < 0x80) {
          if (i >= len1) return -1;
          if (s1[i++] != ch) return -1;
@@ -1932,7 +1932,7 @@ static stbtt_int32 stbtt__CompareUTF8toUTF16_bigendian_prefix(const stbtt_uint8 
          if (s1[i++] != 0x80 + (ch & 0x3f)) return -1;
       } else if (ch >= 0xd800 && ch < 0xdc00) {
          stbtt_uint32 c;
-         stbtt_uint16 ch2 = s2[2]*256 + s2[3];
+         stbtt_uint16 ch2 = (stbtt_uint16)(s2[2]*256 + s2[3]);
          if (i+3 >= len1) return -1;
          c = (stbtt_uint32)((ch - 0xd800) << 10) + (ch2 - 0xdc00) + 0x10000;
          if (s1[i++] != 0xf0 + (c >> 18)) return -1;
