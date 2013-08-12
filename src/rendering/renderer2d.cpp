@@ -12,7 +12,6 @@ namespace fea
 
     Renderer2D::Renderer2D(Renderer2DBackend* b, Viewport v) : backend(b), currentViewport(v), clock(0)
     {
-        backend->setViewport(v);
     }
 
     void Renderer2D::clear()
