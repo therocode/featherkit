@@ -21,7 +21,7 @@ namespace fea
             void setAnimationFrame(uint32_t frame);
             uint32_t getAnimationFrame() const;
             bool isPlaying() const;
-            void onAnimationEnd(std::function<void(void)> callback);
+            void onAnimationEnd(std::function<void(void)> callback = nullptr);
         private:
             void animateForwards();
             void animateBackwards();

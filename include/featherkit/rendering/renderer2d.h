@@ -28,7 +28,6 @@ namespace fea
             void postRender();
             void setViewport(const Viewport& viewport);
             Viewport& getViewport();
-            void resize(uint32_t w, uint32_t h);
             int32_t addFont(uint8_t* fontData);
             void addRenderMode(const std::string& name, RenderMode* newMode);
             void setRenderMode(const std::string& mode);
@@ -114,13 +113,6 @@ namespace fea
      *  
      *  Returns a reference, so this can be used to modify the Viewport.
      *  @return A reference to the Viewport.
-     ***
-     *  @fn void Renderer2D::resize(uint32_t w, uint32_t h)
-     *  @brief Change the size of the rendering area.
-     *
-     *  Necessary to call when the window size has changed.
-     *  @param w Width of the new area size.
-     *  @param h Height of the new area size.
      ***
      *  @fn int32_t Renderer2D::addFont(uint8_t* fontData)
      *  @brief Add a font to the renderer from memory.

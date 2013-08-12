@@ -109,12 +109,6 @@ namespace fea
         return currentViewport;
     }
     
-    void Renderer2D::resize(uint32_t w, uint32_t h)
-    {
-        currentViewport.setSize(glm::uvec2(w, h));
-        backend->setViewport(currentViewport);
-    }
-    
     int32_t Renderer2D::addFont(uint8_t* fontData)
     {
         int32_t font = backend->addFont(fontData);
