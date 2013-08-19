@@ -6,12 +6,12 @@ namespace fea
     {
         public:
             Application();
-            virtual void setup() = 0;
             void run();
-            virtual void destroy() = 0;
             void quit();
         protected:
+            virtual void setup() = 0;
             virtual void loop() = 0;
+            virtual void destroy() = 0;
         private:
             bool shutDown;
     };
@@ -31,33 +31,33 @@ namespace fea
      *  {
      *      ApplicationImplementation superGame;
      *
-     *      superGame.setup();
      *      superGame.run();
-     *      superGame.destroy();
      *  }
      *  @endcode
-     ***
-     *  @fn virtual void Application::setup() = 0
-     *  @brief Run setup procedures for the application.
      ***
      *  @fn void Application::run()
      *  @brief Run main loop of the application.
      *
      *  This function runs the main loop. When called, the main loop will be looping until Application::quit is called. The logic of the main loop is defined by inheriting from Application::loop.
      ***
-     *  @fn virtual void Application::destroy() = 0
-     *  @brief Run clean up procedures and shut down the application.
-     *
-     *  This function is meant to be run externally after the execution of the function Application::run.
-     ***
      *  @fn void Application::quit()
      *  @brief Call this function to request the application to shut down.
      *
      *  After this function is called, it will leave the main loop after the current iteration is finished.
      ***
+     *  @fn virtual void Application::setup() = 0
+     *  @brief Run setup procedures for the application.
+     *
+     *  This function is automatically called once before it starts looping the Application::loop() function when Application::run() is called.
+     ***
      *  @fn virtual void Application::loop() = 0
      *  @brief Iterate the main loop.
      *
      *  The application is given its logic by implementing this function. It is not meant to be called directly, instead it will automatically be called over and over, from Application::run.
-     **/
+     ***
+     *  @fn virtual void Application::destroy() = 0
+     *  @brief Run clean up procedures and shut down the application.
+     *
+     *  This function is not meant to be called directly. It is run bu the Application::run() function after the looping is over.
+     ***/
 }

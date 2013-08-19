@@ -8,8 +8,10 @@ namespace fea
 
     void Application::run()
     {
+        setup();
         while(!shutDown)
             loop();
+        destroy();
     }
 
     void Application::quit()
