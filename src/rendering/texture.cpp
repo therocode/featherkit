@@ -5,7 +5,6 @@ namespace fea
 {
     Texture::Texture() : creator(nullptr), id(-1)
     {
-        
     }
 
     Texture::Texture(Renderer2DBackend& backend, int32_t i) : creator(&backend), id(i)
