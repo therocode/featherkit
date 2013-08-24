@@ -213,14 +213,16 @@ namespace fea
                     if(!(s <= nextLooseBounds))
                     {
                         std::cout << "it doesn't fit so will use depth " << depth << "\n";
+                        depth++; //one too much
                         break;
                     }
                     nextLooseBounds = nextLooseBounds / 2.0f;
                     std::cout << "fits in this depth\n";
                 }
-                placeEntryInDepth(id, pos, depth);
+                std::cout << "i ended up using depth " << depth - 1 << " and Depth is " << Depth << "\n";
+                placeEntryInDepth(id, pos, depth - 1); //correct it
             }
-            
+
             void remove(uint32_t id)
             {
                 auto range = entries.equal_range(entryLocations.at(id));
