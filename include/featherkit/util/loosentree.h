@@ -118,6 +118,49 @@ namespace fea
                             nodes[children[child]].printNode(nodes);
                     }
                 }
+
+                void renderNode(Node* nodes, const Vector& pos, const Vector& size, uint32_t depth, uint32_t nodeId, std::unordered_multimap<uint32_t, uint32_t>& entries)
+                {
+                    uint32_t contentAmount = entries.count(nodeId);
+                    glPointSize(20 - depth * 4.00);
+
+                    if(contentAmount == 0)
+                    {
+                        glColor3f(0.0f, 1.0f, 1.0f);
+                    }
+                    else if(contentAmount == 1)
+                    {
+                        glColor3f(0.0f, 1.0f, 0.0f);
+                    }
+                    else
+                    {
+                        glColor3f(1.0f, 1.0f, 0.0f);
+                    }
+
+                    glBegin(GL_POINTS); // render with points
+                    glVertex2f(pos[0], pos[1]); //display a point
+                    glEnd();
+
+                    const Vector newSize = size / 2.0f;
+
+
+                    if(children[0])
+                    {
+                        nodes[children[0]].renderNode(nodes, Vector({pos[0] -newSize[0] / 2.0f, pos[1] -newSize[1] / 2.0f}),newSize, depth + 1, children[0], entries);
+                    }
+                    if(children[1])
+                    {
+                        nodes[children[1]].renderNode(nodes, Vector({pos[0] +newSize[0] / 2.0f, pos[1] -newSize[1] / 2.0f}),newSize, depth + 1, children[1], entries);
+                    }
+                    if(children[2])
+                    {
+                        nodes[children[2]].renderNode(nodes, Vector({pos[0] -newSize[0] / 2.0f, pos[1] +newSize[1] / 2.0f}),newSize, depth + 1, children[2], entries);
+                    }
+                    if(children[3])
+                    {
+                        nodes[children[3]].renderNode(nodes, Vector({pos[0] +newSize[0] / 2.0f, pos[1] +newSize[1] / 2.0f}),newSize, depth + 1, children[3], entries);
+                    }
+                }
             };
 
             using Entry = uint32_t;
@@ -224,6 +267,13 @@ namespace fea
                 remove(id);
                 placeEntryInDepth(id, pos, depth);
             }
+
+            void renderTree()
+            {
+                glTranslatef(size[0]/2.0f, size[1]/2.0f, 0.0f);
+                nodes[0].renderNode(nodes, size / 2.0f, size, 0, 0, entries);
+                glLoadIdentity();
+            }
  
             ~LooseNTree()
             {
@@ -258,6 +308,7 @@ namespace fea
                     }
                     targetNodeIndex = currentNode->children[childIndex];
                     currentNode = &nodes[currentNode->children[childIndex]];
+                    std::cout << "target index is now " << targetNodeIndex << " \n";
                 }
                 entries.emplace(targetNodeIndex, entry);
                 entryLocations.emplace(entry, targetNodeIndex);
