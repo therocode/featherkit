@@ -120,11 +120,7 @@ namespace fea
                 }
             };
 
-            struct Entry
-            {
-                uint32_t id;
-
-            };
+            using Entry = uint32_t;
 
             LooseNTree(float width, float height) : size({width, height})
             {
@@ -158,7 +154,7 @@ namespace fea
                 std::cout << "Allocated: " << allocatedNodesCount << " used: " << usedNodesCount << " root node id is " << 0 << "\n";
             }
 
-            void add(uint32_t id, float x, float y, float width, float height)
+            void add(uint32_t id, float x, float y, float width, float height)////WTF!
             {
                 add(id, Vector({x, y}), Vector({width, height}));
             }
@@ -179,23 +175,79 @@ namespace fea
                     nextLooseBounds = nextLooseBounds / 2.0f;
                     std::cout << "fits in this depth\n";
                 }
+                placeEntryInDepth(id, pos, depth);
+            }
+            
+            void remove(uint32_t id)
+            {
+                auto range = entries.equal_range(entryLocations.at(id));
+                bool existed = false;
 
+                for(auto iter = range.first; iter != range.second; iter++)
+                {
+                    if(iter->second == id)
+                    {
+                        entries.erase(iter);
+                        existed = true;
+                        break;
+                    }
+                }
+                entryLocations.erase(id);
+
+                if(!existed)
+                {
+                    std::cout << "FAILED TO REMOVE\n";
+                    //std::stringstream ss; 
+                    //ss << "Error! Cannot remove subscription to message " << index.name() << " on receiver " << receiverPtr << " since the subscription does not exist!\n";
+                    //throw MessageException(ss.str());
+                }
+
+            }
+
+            void move(uint32_t id, float x, float y) //WTF!!!!!!!!!
+            {
+                move(id, Vector({x, y}));
+            }
+
+            void move(uint32_t id, const Vector& pos)
+            {
+                uint32_t depth = 0;
+
+                uint32_t currentNodeId = entryLocations.at(id);
+
+                while(currentNodeId != 0)
+                {
+                    depth++;
+                    currentNodeId = nodes[currentNodeId].parent;
+                }
+
+                remove(id);
+                placeEntryInDepth(id, pos, depth);
+            }
+ 
+            ~LooseNTree()
+            {
+                delete [] nodes;
+            }
+        private:
+            void placeEntryInDepth(const Entry& entry, const Vector& pos, uint32_t depth)
+            {
                 Vector positionPercent = pos / size;
-                Node& currentNode = nodes[0];
+                Node* currentNode = &nodes[0];
                 uint32_t targetNodeIndex = 0;
 
                 std::cout << "going to find the right node now. it should be in depth " << depth << "\n";
                 for(uint32_t d = 0; d < depth; d++)
                 {
                     uint32_t childIndex = 0;
-                    std::cout << "on depth " << d << "\n";
+                    std::cout << "on depth " << d << " with percentage being " << positionPercent[0] << " " << positionPercent[1] << "\n";
                     for(uint32_t dim = 0; dim < Dimensions; dim++)
                     {
                         std::cout << "comparing axis " << dim << "\n";
                         if(positionPercent[dim] > 0.5f)
                         {
                             childIndex += pow(2, dim);
-                            positionPercent[dim] = (positionPercent[dim] - 50.0f) * 2.0f;
+                            positionPercent[dim] = (positionPercent[dim] - 0.5f) * 2.0f;
                             std::cout << "it was over the half\n";
                         }
                         else
@@ -204,26 +256,22 @@ namespace fea
                             std::cout << "it was under the half\n";
                         }
                     }
-                    targetNodeIndex = currentNode.children[childIndex];
-                    currentNode = nodes[currentNode.children[childIndex]];
+                    targetNodeIndex = currentNode->children[childIndex];
+                    currentNode = &nodes[currentNode->children[childIndex]];
                 }
-                entries.emplace(targetNodeIndex, Entry({id}));
+                entries.emplace(targetNodeIndex, entry);
+                entryLocations.emplace(entry, targetNodeIndex);
 
 
                 std::cout << "the thing ended up in node index " << targetNodeIndex << "\n";
-                //nodes[0].printNode(nodes);
             }
- 
-            ~LooseNTree()
-            {
-                delete [] nodes;
-            }
-        private:
+
             Vector size;
 
             Node* nodes;
             uint32_t allocatedNodesCount;
             uint32_t usedNodesCount;
             std::unordered_multimap<uint32_t, Entry> entries;
+            std::unordered_map<uint32_t, uint32_t> entryLocations;
     };
 }
