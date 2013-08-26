@@ -1,4 +1,6 @@
 #include <iostream>
+#include <set>
+#include <unordered_map>
 
 namespace fea
 {
@@ -63,6 +65,24 @@ namespace fea
                                 return false;
 
                         return true;
+                    }
+
+                    Vector operator*(const Vector& other) const
+                    {
+                        Vector result;
+                        for(uint32_t d = 0; d < Dimensions; d++)
+                            result[d] = coords[d] * other.coords[d];
+
+                        return result;
+                    }
+
+                    Vector operator*(float multiplier) const
+                    {
+                        Vector result;
+                        for(uint32_t d = 0; d < Dimensions; d++)
+                            result[d] = coords[d] * multiplier;
+
+                        return result;
                     }
 
                     Vector operator/(const Vector& other) const
@@ -270,6 +290,15 @@ namespace fea
                 placeEntryInDepth(id, pos, depth);
             }
 
+            std::set<Entry> get(const Vector& point) const
+            {
+                std::set<Entry> result;
+
+                getFromNode(point / size, 0, result);
+
+                return result;
+            }
+
             void renderTree()
             {
                 glTranslatef(size[0]/2.0f, size[1]/2.0f, 0.0f);
@@ -317,6 +346,76 @@ namespace fea
 
 
                 std::cout << "the thing ended up in node index " << targetNodeIndex << "\n";
+            }
+
+            void getFromNode(const Vector& positionPercentage, uint32_t nodeId, std::set<Entry>& result) const
+            {
+                std::cout << "\n////////////////////////////////////CHECKING node " << nodeId << "\n";
+                std::cout << "positon percentage is " << positionPercentage[0] << " " << positionPercentage[1] << "\n";
+                auto contained = entries.equal_range(nodeId);
+                
+                for(auto iter = contained.first; iter != contained.second; iter++)
+                {
+                    std::cout << "added " << iter->second << " to set\n";
+                    result.insert(iter->second);
+                }
+
+                std::cout << "the size of the set is now " << result.size() << "\n";
+
+                bool overHalf[Dimensions];
+
+                for(uint32_t child = 0; child < Pow<2, Dimensions>::value; child++)
+                {
+                    std::cout << "checking kid " << child << "\n";
+                    if(nodes[nodeId].children[child] == 0)
+                    {
+                        std::cout << "that kid doesn't exist, skipping\n";
+                        continue;
+                    }
+
+                    bool wasInside = true;
+                    for(uint32_t dim = 0; dim < Dimensions; dim++)
+                    {
+                        float moveIt = ((float)((uint32_t)(child / pow(2, dim)) % 2) - 0.5f) / 2.0f;
+                        overHalf[dim] = moveIt > 0.0f;
+
+                        std::cout << "chist is " << child << " dim is " << dim << " tone: " << moveIt << "\n";
+
+                        if(positionPercentage[dim] < moveIt || positionPercentage[dim] > 1.0f + moveIt)
+                        {
+                            wasInside = false;
+                            break;
+                        }
+                    }
+
+                    if(wasInside)
+                    {
+                        std::cout << "the point was in the loose bounds of child " << child << "!\n";
+                        Vector percentAdapted = positionPercentage;
+                        for(uint32_t dim = 0; dim < Dimensions; dim++)
+                        {
+                            std::cout << "comparing axis " << dim << "\n";
+                            if(overHalf[dim])
+                            {
+                                percentAdapted[dim] = (percentAdapted[dim] - 0.5f) * 2.0f;
+                                std::cout << "it was over the half\n";
+                            }
+                            else
+                            {
+                                percentAdapted[dim] = percentAdapted[dim] * 2.0f;
+                                std::cout << "it was under the half\n";
+                            }
+                        }
+
+                        std::cout << "searching in child node nr " << child << " which is node id " << nodes[nodeId].children[child] << "\n";
+                        getFromNode(percentAdapted, nodes[nodeId].children[child], result);
+                        std::cout << "/////////this is back to node " << nodeId << "\n";
+                    }
+                    else
+                    {
+                        std::cout << "the point was not in the loose bounds of child " << child << "!\n";
+                    }
+                }
             }
 
             Vector size;
