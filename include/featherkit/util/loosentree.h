@@ -129,11 +129,8 @@ namespace fea
 
                 void printNode(Node* nodes)
                 {
-                    std::cout << "HEJ!\n";
-
                     for(uint32_t child = 0; child < pow(2, Dimensions); child++)
                     {
-                        std::cout << "checking kid number " << child << " and it has index " << children[child] << "\n";
                         if(children[child] != 0)
                             nodes[children[child]].printNode(nodes);
                     }
@@ -200,7 +197,6 @@ namespace fea
                     {
                         for(uint32_t j = 0; j < Pow<2, Dimensions>::value; j++)
                         {
-                            std::cout << "i am index " << i << " and i want a child! I claim " << nextFreeIndex << " as mine!\n";
                             nodes[nextFreeIndex].parent = i;
                             nodes[i].children[j] = nextFreeIndex++;
                         }
@@ -214,12 +210,6 @@ namespace fea
                     nodes = new Node[allocatedNodesCount];
                     usedNodesCount = 1;
                 }
-                std::cout << "Allocated: " << allocatedNodesCount << " used: " << usedNodesCount << " root node id is " << 0 << "\n";
-            }
-
-            void add(uint32_t id, float x, float y, float width, float height)////WTF!
-            {
-                add(id, Vector({x, y}), Vector({width, height}));
             }
 
             void add(uint32_t id, const Vector& pos, const Vector& s)
@@ -229,17 +219,13 @@ namespace fea
                 Vector nextLooseBounds = size;
                 for(depth = 0; depth < Depth; depth++)
                 {
-                    std::cout << "testing depth " << depth + 1 << " with loose bounds being " << nextLooseBounds[0] << " " << nextLooseBounds[1] << "...\n";
                     if(!(s <= nextLooseBounds))
                     {
-                        std::cout << "it doesn't fit so will use depth " << depth << "\n";
                         depth++; //one too much
                         break;
                     }
                     nextLooseBounds = nextLooseBounds / 2.0f;
-                    std::cout << "fits in this depth\n";
                 }
-                std::cout << "i ended up using depth " << depth - 1 << " and Depth is " << Depth << "\n";
                 placeEntryInDepth(id, pos, depth - 1); //correct it
             }
 
@@ -261,17 +247,11 @@ namespace fea
 
                 if(!existed)
                 {
-                    std::cout << "FAILED TO REMOVE\n";
                     //std::stringstream ss; 
                     //ss << "Error! Cannot remove subscription to message " << index.name() << " on receiver " << receiverPtr << " since the subscription does not exist!\n";
                     //throw MessageException(ss.str());
                 }
 
-            }
-
-            void move(uint32_t id, float x, float y) //WTF!!!!!!!!!
-            {
-                move(id, Vector({x, y}));
             }
 
             void move(uint32_t id, const Vector& pos)
@@ -314,11 +294,18 @@ namespace fea
                 nodes[0].renderNode(nodes, size / 2.0f, size, 0, 0, entries);
                 glLoadIdentity();
             }
+
+            void clear()
+            {
+                entries.clear();
+                entryLocations.clear();
+            }
  
             ~LooseNTree()
             {
                 delete [] nodes;
             }
+
         private:
             void placeEntryInDepth(const Entry& entry, const Vector& pos, uint32_t depth)
             {
@@ -326,59 +313,43 @@ namespace fea
                 Node* currentNode = &nodes[0];
                 uint32_t targetNodeIndex = 0;
 
-                std::cout << "going to find the right node now. it should be in depth " << depth << "\n";
                 for(uint32_t d = 0; d < depth; d++)
                 {
                     uint32_t childIndex = 0;
-                    std::cout << "on depth " << d << " with percentage being " << positionPercent[0] << " " << positionPercent[1] << "\n";
                     for(uint32_t dim = 0; dim < Dimensions; dim++)
                     {
-                        std::cout << "comparing axis " << dim << "\n";
                         if(positionPercent[dim] > 0.5f)
                         {
                             childIndex += pow(2, dim);
                             positionPercent[dim] = (positionPercent[dim] - 0.5f) * 2.0f;
-                            std::cout << "it was over the half\n";
                         }
                         else
                         {
                             positionPercent[dim] = positionPercent[dim] * 2.0f;
-                            std::cout << "it was under the half\n";
                         }
                     }
                     targetNodeIndex = currentNode->children[childIndex];
                     currentNode = &nodes[currentNode->children[childIndex]];
-                    std::cout << "target index is now " << targetNodeIndex << " \n";
                 }
                 entries.emplace(targetNodeIndex, entry);
                 entryLocations.emplace(entry, targetNodeIndex);
-
-
-                std::cout << "the thing ended up in node index " << targetNodeIndex << "\n";
             }
 
             void getFromNode(const Vector& positionPercentage, uint32_t nodeId, std::set<Entry>& result) const
             {
-                std::cout << "\n////////////////////////////////////CHECKING node " << nodeId << "\n";
-                std::cout << "positon percentage is " << positionPercentage[0] << " " << positionPercentage[1] << "\n";
                 auto contained = entries.equal_range(nodeId);
                 
                 for(auto iter = contained.first; iter != contained.second; iter++)
                 {
-                    std::cout << "added " << iter->second << " to set\n";
                     result.insert(iter->second);
                 }
-
-                std::cout << "the size of the set is now " << result.size() << "\n";
 
                 bool overHalf[Dimensions];
 
                 for(uint32_t child = 0; child < Pow<2, Dimensions>::value; child++)
                 {
-                    std::cout << "checking kid " << child << "\n";
                     if(nodes[nodeId].children[child] == 0)
                     {
-                        std::cout << "that kid doesn't exist, skipping\n";
                         continue;
                     }
 
@@ -387,8 +358,6 @@ namespace fea
                     {
                         float moveIt = ((float)((uint32_t)(child / pow(2, dim)) % 2) - 0.5f) / 2.0f;
                         overHalf[dim] = moveIt > 0.0f;
-
-                        std::cout << "chist is " << child << " dim is " << dim << " tone: " << moveIt << "\n";
 
                         if(positionPercentage[dim] < moveIt || positionPercentage[dim] > 1.0f + moveIt)
                         {
@@ -399,55 +368,39 @@ namespace fea
 
                     if(wasInside)
                     {
-                        std::cout << "the point was in the loose bounds of child " << child << "!\n";
                         Vector percentAdapted = positionPercentage;
                         for(uint32_t dim = 0; dim < Dimensions; dim++)
                         {
-                            std::cout << "comparing axis " << dim << "\n";
                             if(overHalf[dim])
                             {
                                 percentAdapted[dim] = (percentAdapted[dim] - 0.5f) * 2.0f;
-                                std::cout << "it was over the half\n";
                             }
                             else
                             {
                                 percentAdapted[dim] = percentAdapted[dim] * 2.0f;
-                                std::cout << "it was under the half\n";
                             }
                         }
 
-                        std::cout << "searching in child node nr " << child << " which is node id " << nodes[nodeId].children[child] << "\n";
                         getFromNode(percentAdapted, nodes[nodeId].children[child], result);
-                        std::cout << "/////////this is back to node " << nodeId << "\n";
-                    }
-                    else
-                    {
-                        std::cout << "the point was not in the loose bounds of child " << child << "!\n";
                     }
                 }
             }
 
             void getFromNode(const Vector& startPercentage, const Vector& endPercentage, uint32_t nodeId, std::set<Entry>& result) const
             {
-                std::cout << "\n////////////////////////////////////CHECKING node " << nodeId << "\n";
                 auto contained = entries.equal_range(nodeId);
                 
                 for(auto iter = contained.first; iter != contained.second; iter++)
                 {
-                    std::cout << "added " << iter->second << " to set\n";
                     result.insert(iter->second);
                 }
-
-                std::cout << "the size of the set is now " << result.size() << "\n";
 
                 bool overHalf[Dimensions];
 
                 for(uint32_t child = 0; child < Pow<2, Dimensions>::value; child++)
                 {
-                    std::cout << "checking kid " << child << "\n";
                     if(nodes[nodeId].children[child] == 0)
                     {
-                        std::cout << "that kid doesn't exist, skipping\n";
                         continue;
                     }
 
@@ -456,8 +409,6 @@ namespace fea
                     {
                         float moveIt = ((float)((uint32_t)(child / pow(2, dim)) % 2) - 0.5f) / 2.0f;
                         overHalf[dim] = moveIt > 0.0f;
-
-                        std::cout << "chist is " << child << " dim is " << dim << " tone: " << moveIt << "\n";
 
                         if(endPercentage[dim] < moveIt || startPercentage[dim] > 1.0f + moveIt)
                         {
@@ -468,33 +419,23 @@ namespace fea
 
                     if(wasInside)
                     {
-                        std::cout << "the point was in the loose bounds of child " << child << "!\n";
                         Vector startPercentAdapted = startPercentage;
                         Vector endPercentAdapted = endPercentage;
                         for(uint32_t dim = 0; dim < Dimensions; dim++)
                         {
-                            std::cout << "comparing axis " << dim << "\n";
                             if(overHalf[dim])
                             {
                                 startPercentAdapted[dim] = (startPercentAdapted[dim] - 0.5f) * 2.0f;
                                 endPercentAdapted[dim] = (endPercentAdapted[dim] - 0.5f) * 2.0f;
-                                std::cout << "it was over the half\n";
                             }
                             else
                             {
                                 startPercentAdapted[dim] = startPercentAdapted[dim] * 2.0f;
                                 endPercentAdapted[dim] = endPercentAdapted[dim] * 2.0f;
-                                std::cout << "it was under the half\n";
                             }
                         }
 
-                        std::cout << "searching in child node nr " << child << " which is node id " << nodes[nodeId].children[child] << "\n";
                         getFromNode(startPercentAdapted, endPercentAdapted, nodes[nodeId].children[child], result);
-                        std::cout << "/////////this is back to node " << nodeId << "\n";
-                    }
-                    else
-                    {
-                        std::cout << "the point was not in the loose bounds of child " << child << "!\n";
                     }
                 }
             }
@@ -502,11 +443,6 @@ namespace fea
             void setSize(const Vector& s)
             {
                 size = s;
-            }
-
-            void clear()
-            {
-                
             }
 
             Vector size;
