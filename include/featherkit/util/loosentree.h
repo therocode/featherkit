@@ -299,6 +299,15 @@ namespace fea
                 return result;
             }
 
+            std::set<Entry> get(const Vector& start, const Vector& end) const
+            {
+                std::set<Entry> result;
+
+                getFromNode(start / size, end / size, 0, result);
+
+                return result;
+            }
+
             void renderTree()
             {
                 glTranslatef(size[0]/2.0f, size[1]/2.0f, 0.0f);
@@ -416,6 +425,88 @@ namespace fea
                         std::cout << "the point was not in the loose bounds of child " << child << "!\n";
                     }
                 }
+            }
+
+            void getFromNode(const Vector& startPercentage, const Vector& endPercentage, uint32_t nodeId, std::set<Entry>& result) const
+            {
+                std::cout << "\n////////////////////////////////////CHECKING node " << nodeId << "\n";
+                auto contained = entries.equal_range(nodeId);
+                
+                for(auto iter = contained.first; iter != contained.second; iter++)
+                {
+                    std::cout << "added " << iter->second << " to set\n";
+                    result.insert(iter->second);
+                }
+
+                std::cout << "the size of the set is now " << result.size() << "\n";
+
+                bool overHalf[Dimensions];
+
+                for(uint32_t child = 0; child < Pow<2, Dimensions>::value; child++)
+                {
+                    std::cout << "checking kid " << child << "\n";
+                    if(nodes[nodeId].children[child] == 0)
+                    {
+                        std::cout << "that kid doesn't exist, skipping\n";
+                        continue;
+                    }
+
+                    bool wasInside = true;
+                    for(uint32_t dim = 0; dim < Dimensions; dim++)
+                    {
+                        float moveIt = ((float)((uint32_t)(child / pow(2, dim)) % 2) - 0.5f) / 2.0f;
+                        overHalf[dim] = moveIt > 0.0f;
+
+                        std::cout << "chist is " << child << " dim is " << dim << " tone: " << moveIt << "\n";
+
+                        if(endPercentage[dim] < moveIt || startPercentage[dim] > 1.0f + moveIt)
+                        {
+                            wasInside = false;
+                            break;
+                        }
+                    }
+
+                    if(wasInside)
+                    {
+                        std::cout << "the point was in the loose bounds of child " << child << "!\n";
+                        Vector startPercentAdapted = startPercentage;
+                        Vector endPercentAdapted = endPercentage;
+                        for(uint32_t dim = 0; dim < Dimensions; dim++)
+                        {
+                            std::cout << "comparing axis " << dim << "\n";
+                            if(overHalf[dim])
+                            {
+                                startPercentAdapted[dim] = (startPercentAdapted[dim] - 0.5f) * 2.0f;
+                                endPercentAdapted[dim] = (endPercentAdapted[dim] - 0.5f) * 2.0f;
+                                std::cout << "it was over the half\n";
+                            }
+                            else
+                            {
+                                startPercentAdapted[dim] = startPercentAdapted[dim] * 2.0f;
+                                endPercentAdapted[dim] = endPercentAdapted[dim] * 2.0f;
+                                std::cout << "it was under the half\n";
+                            }
+                        }
+
+                        std::cout << "searching in child node nr " << child << " which is node id " << nodes[nodeId].children[child] << "\n";
+                        getFromNode(startPercentAdapted, endPercentAdapted, nodes[nodeId].children[child], result);
+                        std::cout << "/////////this is back to node " << nodeId << "\n";
+                    }
+                    else
+                    {
+                        std::cout << "the point was not in the loose bounds of child " << child << "!\n";
+                    }
+                }
+            }
+
+            void setSize(const Vector& s)
+            {
+                size = s;
+            }
+
+            void clear()
+            {
+                
             }
 
             Vector size;
