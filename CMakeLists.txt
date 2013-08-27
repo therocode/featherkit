@@ -18,6 +18,7 @@ set(BUILD_RENDERING TRUE CACHE BOOL "Selects if the rendering module should be b
 set(BUILD_UI TRUE CACHE BOOL "Selects if the UI module should be built")
 
 set(BUILD_SFMLBACKENDS FALSE CACHE BOOL "Selects if the SFML backends should be built")
+set(BUILD_SDLBACKENDS FALSE CACHE BOOL "Selects if the SDL backends should be built")
 set(BUILD_OPENGLBACKENDS FALSE CACHE BOOL "Selects if the OpenGL rendering backends should be built")
 
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)  #for shared libs
@@ -146,11 +147,25 @@ if(BUILD_UI)
         file(GLOB ui_sfml_backend_header_files "include/featherkit/util/window/sfml/*.h" "include/featherkit/util/input/sfml/*.h")
     endif()
 
-    add_library(${project_name}-ui ${SHARED_OR_STATIC} ${ui_header_files} ${ui_source_files} ${ui_util_source_files} ${ui_util_header_files} ${ui_sfml_backend_source_files} ${ui_sfml_backend_header_files})
+    if(${BUILD_SDLBACKENDS})
+        find_package(SDL REQUIRED)
+        if(SDL_FOUND)
+            include_directories(${SDL_INCLUDE_DIRS})
+        endif(SDL_FOUND)
+        file(GLOB ui_sdl_backend_source_files "src/util/window/sdl/*.cpp" "src/util/input/sdl/*.cpp")
+        file(GLOB ui_sdl_backend_header_files "include/featherkit/util/window/sdl/*.h" "include/featherkit/util/input/sdl/*.h")
+    endif()
+
+    add_library(${project_name}-ui ${SHARED_OR_STATIC} ${ui_header_files} ${ui_source_files} ${ui_util_source_files} ${ui_util_header_files} ${ui_sfml_backend_source_files} ${ui_sfml_backend_header_files} ${ui_sfml_backend_source_files} ${ui_sdl_backend_header_files})
 
     if(${BUILD_SFMLBACKENDS})
         if(SFML_FOUND)
             target_link_libraries(${project_name}-ui ${SFML_LIBRARIES})
+        endif()
+    endif()
+    if(${BUILD_SDLBACKENDS})
+        if(SDL_FOUND)
+            target_link_libraries(${project_name}-ui ${SDL_LIBRARIES})
         endif()
     endif()
 endif()

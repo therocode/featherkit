@@ -9,3 +9,4 @@ Makefile
 bin/*
 lib/*
 doxy/gen/*
+install_manifest.txt
