@@ -156,7 +156,7 @@ if(BUILD_UI)
         file(GLOB ui_sdl_backend_header_files "include/featherkit/util/window/sdl/*.h" "include/featherkit/util/input/sdl/*.h")
     endif()
 
-    add_library(${project_name}-ui ${SHARED_OR_STATIC} ${ui_header_files} ${ui_source_files} ${ui_util_source_files} ${ui_util_header_files} ${ui_sfml_backend_source_files} ${ui_sfml_backend_header_files} ${ui_sfml_backend_source_files} ${ui_sdl_backend_header_files})
+    add_library(${project_name}-ui ${SHARED_OR_STATIC} ${ui_header_files} ${ui_source_files} ${ui_util_source_files} ${ui_util_header_files} ${ui_sfml_backend_source_files} ${ui_sfml_backend_header_files} ${ui_sdl_backend_source_files} ${ui_sdl_backend_header_files})
 
     if(${BUILD_SFMLBACKENDS})
         if(SFML_FOUND)
