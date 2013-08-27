@@ -42,7 +42,7 @@ namespace fea
 
                 if(attribGroupLocationSize > 0 && newAttributeTargetIndex < (uint32_t)attributeGroupIndex.size() - 1)
                 {
-                    attributeGroupLocation.insert(attributeGroupLocation.begin() + newAttributeTargetIndex, attributeGroupLocation[newAttributeTargetIndex]);
+                    attributeGroupLocation.insert(attributeGroupLocation.begin() + (int32_t)newAttributeTargetIndex, attributeGroupLocation[newAttributeTargetIndex]);
                     for(uint32_t i = newAttributeTargetIndex + 1; i < attributeGroupLocation.size(); i++)
                         attributeGroupLocation[i]++;
                 }
@@ -389,7 +389,7 @@ namespace fea
 
         void AlignedEntityBackend::removeAttributeGroup(uint32_t group)
         {
-            attributeGroupLocation.erase(attributeGroupLocation.begin() + group);
+            attributeGroupLocation.erase(attributeGroupLocation.begin() + (int32_t)group);
 
             uint32_t currentGroup = group;
             while(currentGroup < attributeGroupIndex.size() - 1)
