@@ -1,5 +1,5 @@
-#include <iostream>
 #include <set>
+#include <sstream>
 #include <unordered_map>
 
 namespace fea
@@ -32,6 +32,15 @@ namespace fea
     class LooseNTree
     {
         public:
+            class LooseNTreeException : public std::runtime_error
+            {
+                public:
+                    LooseNTreeException(std::string message) : std::runtime_error(message) { }
+                    //Entry id;
+                    //Vector position;
+                    //Vector size;
+            };
+
             class Vector
             {
                 public:
@@ -110,6 +119,14 @@ namespace fea
                         return *this;
                     }
 
+                    bool isPositive() const
+                    {
+                        for(uint32_t d = 0; d < Dimensions; d++)
+                            if(coords[d] <= 0.0f)
+                                return false;
+                        return true;
+                    }
+
                 private:
 
                     float coords[Dimensions];
@@ -126,64 +143,17 @@ namespace fea
                 bool empty;
                 uint32_t children[Pow<2, Dimensions>::value];
                 uint32_t parent;
-
-                void printNode(Node* nodes)
-                {
-                    for(uint32_t child = 0; child < pow(2, Dimensions); child++)
-                    {
-                        if(children[child] != 0)
-                            nodes[children[child]].printNode(nodes);
-                    }
-                }
-
-                void renderNode(Node* nodes, const Vector& pos, const Vector& size, uint32_t depth, uint32_t nodeId, std::unordered_multimap<uint32_t, uint32_t>& entries)
-                {
-                    uint32_t contentAmount = entries.count(nodeId);
-                    glPointSize(20 - depth * 4.00);
-
-                    if(contentAmount == 0)
-                    {
-                        glColor3f(0.0f, 1.0f, 1.0f);
-                    }
-                    else if(contentAmount == 1)
-                    {
-                        glColor3f(0.0f, 1.0f, 0.0f);
-                    }
-                    else
-                    {
-                        glColor3f(1.0f, 1.0f, 0.0f);
-                    }
-
-                    glBegin(GL_POINTS); // render with points
-                    glVertex2f(pos[0], pos[1]); //display a point
-                    glEnd();
-
-                    const Vector newSize = size / 2.0f;
-
-
-                    if(children[0])
-                    {
-                        nodes[children[0]].renderNode(nodes, Vector({pos[0] -newSize[0] / 2.0f, pos[1] -newSize[1] / 2.0f}),newSize, depth + 1, children[0], entries);
-                    }
-                    if(children[1])
-                    {
-                        nodes[children[1]].renderNode(nodes, Vector({pos[0] +newSize[0] / 2.0f, pos[1] -newSize[1] / 2.0f}),newSize, depth + 1, children[1], entries);
-                    }
-                    if(children[2])
-                    {
-                        nodes[children[2]].renderNode(nodes, Vector({pos[0] -newSize[0] / 2.0f, pos[1] +newSize[1] / 2.0f}),newSize, depth + 1, children[2], entries);
-                    }
-                    if(children[3])
-                    {
-                        nodes[children[3]].renderNode(nodes, Vector({pos[0] +newSize[0] / 2.0f, pos[1] +newSize[1] / 2.0f}),newSize, depth + 1, children[3], entries);
-                    }
-                }
             };
 
             using Entry = uint32_t;
 
-            LooseNTree(float width, float height) : size({width, height})
+            LooseNTree(const Vector& s) : size(s)
             {
+                if(!s.isPositive())
+                {
+                    throw LooseNTreeException("Error! Cannot create a tree with a negative size");
+                }
+
                 if(StaticAllocation)
                 {
                     //allocate all nodes ever and make them all used
@@ -201,7 +171,6 @@ namespace fea
                             nodes[i].children[j] = nextFreeIndex++;
                         }
                     }
-                    nodes[0].printNode(nodes);
                 }
                 else
                 {
@@ -214,6 +183,28 @@ namespace fea
 
             void add(uint32_t id, const Vector& pos, const Vector& s)
             {
+                if(!s.isPositive())
+                {
+                    throw LooseNTreeException("Error! Added objects must have a size bigger than zero.");
+                }
+                
+                if(entries.find(id) != entries.end())
+                {
+                    std::stringstream ss;
+                    ss << "Error! Cannot add id " << id << " twice.";
+                    throw LooseNTreeException(ss.str());
+                }
+
+                for(uint32_t dim = 0; dim < Dimensions; dim++)
+                {
+                    if(pos[dim] < 0.0f || pos[dim] > size[dim])
+                    {
+                        std::stringstream ss;
+                        ss << "Error! Cannot add id " << id << " out of the tree's bounds.";
+                        throw LooseNTreeException(ss.str());
+                    }
+                }
+
                 uint32_t depth;
 
                 Vector nextLooseBounds = size;
@@ -231,6 +222,13 @@ namespace fea
 
             void remove(uint32_t id)
             {
+                if(entryLocations.find(id) == entryLocations.end())
+                {
+                    std::stringstream ss;
+                    ss << "Error! Cannot remove id " << id << " since it doesn't exist.";
+                    throw LooseNTreeException(ss.str());
+                }
+                
                 auto range = entries.equal_range(entryLocations.at(id));
                 bool existed = false;
 
@@ -256,6 +254,23 @@ namespace fea
 
             void move(uint32_t id, const Vector& pos)
             {
+                if(entryLocations.find(id) == entryLocations.end())
+                {
+                    std::stringstream ss;
+                    ss << "Error! Cannot move id " << id << " since it doesn't exist.";
+                    throw LooseNTreeException(ss.str());
+                }
+
+                for(uint32_t dim = 0; dim < Dimensions; dim++)
+                {
+                    if(pos[dim] < 0.0f || pos[dim] > size[dim])
+                    {
+                        std::stringstream ss;
+                        ss << "Error! Cannot move id " << id << " out of the tree's bounds.";
+                        throw LooseNTreeException(ss.str());
+                    }
+                }
+
                 uint32_t depth = 0;
 
                 uint32_t currentNodeId = entryLocations.at(id);
@@ -291,7 +306,6 @@ namespace fea
             void renderTree()
             {
                 glTranslatef(size[0]/2.0f, size[1]/2.0f, 0.0f);
-                nodes[0].renderNode(nodes, size / 2.0f, size, 0, 0, entries);
                 glLoadIdentity();
             }
 
