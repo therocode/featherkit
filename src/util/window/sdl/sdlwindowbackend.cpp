@@ -1,97 +1,123 @@
-#include <featherkit/util/window/sfml/sfmlwindowbackend.h>
+#include <featherkit/util/window/sdl/sdlwindowbackend.h>
 
 namespace fea
 {
     namespace util
     {
-        SFMLWindowBackend::SFMLWindowBackend(sf::Window& w) : window(w)
+        SDLWindowBackend::SDLWindowBackend() : window(nullptr)
         {
+            SDL_Init(SDL_INIT_VIDEO);
         }
 
-        void SFMLWindowBackend::create(VideoMode mode, const std::string& title, uint32_t style, const ContextSettings& settings)
+        void SDLWindowBackend::create(VideoMode mode, const std::string& title, uint32_t style, const ContextSettings& settings)
         {
-            sf::VideoMode vidMode(mode.width, mode.height, mode.bitsPerPixel);
-            sf::ContextSettings conSettings(settings.depthBits, settings.stencilBits, settings.antialiasingLevel, settings.majorVersion, settings.minorVersion);
-            window.create(vidMode, title, style, conSettings);
+            //todo: fix style
+            (void) style;
+            (void) settings;
+            window = SDL_SetVideoMode((int32_t)mode.width, (int32_t)mode.height, (int32_t)mode.bitsPerPixel, SDL_OPENGL);
+            SDL_WM_SetCaption(title.c_str(), nullptr);
         }
 
-        void SFMLWindowBackend::close()
+        void SDLWindowBackend::close()
         {
-            window.close();
+            SDL_Quit();
+            window = nullptr;
         }
 
-        bool SFMLWindowBackend::isOpen() const
+        bool SDLWindowBackend::isOpen() const
         {
-            return window.isOpen();
+            return window != nullptr;
         }
 
-        const ContextSettings SFMLWindowBackend::getSettings() const
+        const ContextSettings SDLWindowBackend::getSettings() const
         {
-            const sf::ContextSettings& settings = window.getSettings();
-            const fea::ContextSettings toReturn(settings.depthBits, settings.stencilBits, settings.antialiasingLevel, settings.majorVersion, settings.minorVersion);
-            return toReturn;
+            //settings not finalised;
+            return ContextSettings();
         }
 
-        Vec2I SFMLWindowBackend::getPosition() const
+        Vec2I SDLWindowBackend::getPosition() const
         {
-            sf::Vector2i position = window.getPosition();
-            return {position.x, position.y};
+            //not sure
+            //SDL_getenv("SDL_VIDEO_WINDOW_POS");
+            return Vec2I();
         }
 
-        void SFMLWindowBackend::setPosition(int32_t x, int32_t y)
+        void SDLWindowBackend::setPosition(int32_t x, int32_t y)
         {
-            window.setPosition({x, y});
+            (void)x;
+            (void)y;
+            //not sure
+            //std::stringstream ss;
+            //ss << "SDL_VIDEO_WINDOW_POS=" << x << ", " << y;
+            //SDL_putenv(ss.str());
         }
 
-        Vec2I SFMLWindowBackend::getSize() const
+        Vec2I SDLWindowBackend::getSize() const
         {
-            sf::Vector2u position = window.getSize();
-            return {(int32_t)position.x, (int32_t)position.y};
+            //not sure
+            return Vec2I();
         }
 
-        void SFMLWindowBackend::setSize(int32_t w, int32_t h)
+        void SDLWindowBackend::setSize(int32_t w, int32_t h)
         {
-            window.setSize({(uint32_t)w, (uint32_t)h});
+            (void)w;
+            (void)h;
+            //not sure
+            //window.setSize({(uint32_t)w, (uint32_t)h});
         }
 
-        void SFMLWindowBackend::setTitle(const std::string& title)
+        void SDLWindowBackend::setTitle(const std::string& title)
         {
-            window.setTitle({title});
+            SDL_WM_SetCaption(title.c_str(), nullptr);
         }
 
-        void SFMLWindowBackend::setIcon(uint32_t width, uint32_t height, const uint8_t* pixels)
+        void SDLWindowBackend::setIcon(uint32_t width, uint32_t height, const uint8_t* pixels)
         {
-            window.setIcon(width, height, pixels);
+            //should be fixed
+            (void)width;
+            (void)height;
+            SDL_WM_SetCaption("shouldbetitle", (char*)pixels);
         }
 
-        void SFMLWindowBackend::setVisible(bool visible)
+        void SDLWindowBackend::setVisible(bool visible)
         {
-            window.setVisible(visible);
+            //should be fixed
+            (void) visible;
         }
 
-        void SFMLWindowBackend::setVSyncEnabled(bool enabled)
+        void SDLWindowBackend::setVSyncEnabled(bool enabled)
         {
-            window.setVerticalSyncEnabled(enabled);
+            //should be fixed
+            (void) enabled;
         }
 
-        void SFMLWindowBackend::setMouseCursorVisible(bool visible)
+        void SDLWindowBackend::setMouseCursorVisible(bool visible)
         {
-            window.setMouseCursorVisible(visible);
+            //should be fixed
+            (void)visible;
         }
 
-        void SFMLWindowBackend::setFramerateLimit(uint32_t limit)
+        void SDLWindowBackend::setFramerateLimit(uint32_t limit)
         {
-            window.setFramerateLimit(limit);
+            //should be fixed
+            (void)limit;
         }
 
-        bool SFMLWindowBackend::setRenderingActive(bool active) const
+        bool SDLWindowBackend::setRenderingActive(bool active) const
         {
-            return window.setActive(active);
+            //should be fixed
+            (void)active;
+            return true;
         }
 
-        void SFMLWindowBackend::swapBuffers()
+        void SDLWindowBackend::swapBuffers()
         {
-            window.display();
+            SDL_GL_SwapBuffers();
+        }
+        
+        SDLWindowBackend::~SDLWindowBackend()
+        {
+            delete window;
         }
     }
 }

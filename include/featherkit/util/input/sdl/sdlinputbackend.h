@@ -1,16 +1,16 @@
 #pragma once
 #include <featherkit/input/inputbackend.h>
 #include <glm/glm.hpp>
-#include <SFML/Window.hpp>
+#include <SDL.h>
 
 namespace fea
 {
     namespace util
     {
-        class SFMLInputBackend : public InputBackend
+        class SDLInputBackend : public InputBackend
         {
             public:
-                SFMLInputBackend(sf::Window& w);
+                SDLInputBackend();
 
                 std::queue<Event> fetchEvents() override;
 
@@ -32,24 +32,20 @@ namespace fea
                 void setKeyRepeatEnabled(bool enabled) override;
             private:
                 Event closed();
-                Event resized(sf::Event& event);
-                Event lostFocus();
-                Event gainedFocus();
-                Event textEntered(sf::Event& event);
-                Event keyPressed(sf::Event& event);
-                Event keyReleased(sf::Event& event);
-                Event mouseWheelMoved(sf::Event& event);
-                Event mouseButtonPressed(sf::Event& event);
-                Event mouseButtonReleased(sf::Event& event);
-                Event mouseMoved(sf::Event& event);
-                Event mouseEntered();
-                Event mouseLeft();
-                Event gamepadButtonPressed(sf::Event& event);
-                Event gamepadButtonReleased(sf::Event& event);
-                Event gamepadMoved(sf::Event& event);
-                Event gamepadConnected(sf::Event& event);
-                Event gamepadDisconnected(sf::Event& event);
-                sf::Window& window;
+                Event resized(SDL_Event& event);
+                Event active(SDL_Event& event);
+                Event keyPressed(SDL_Event& event);
+                Event keyReleased(SDL_Event& event);
+                Event mouseButtonPressed(SDL_Event& event);
+                Event mouseButtonReleased(SDL_Event& event);
+                Event mouseMoved(SDL_Event& event);
+                Event gamepadButtonPressed(SDL_Event& event);
+                Event gamepadButtonReleased(SDL_Event& event);
+                Event gamepadMoved(SDL_Event& event);
+                Keyboard::Code sdlKeyCodeToFea(SDLKey sdlCode) const;
+                SDLKey feaKeyCodeToSdl(Keyboard::Code feaCode) const;
+                uint8_t feaMouseButtonToSdl(Mouse::Button feaMouseButton) const;
+                Mouse::Button sdlMouseButtonToFea(uint32_t sdlMouseButton) const;
         };
     }
 }

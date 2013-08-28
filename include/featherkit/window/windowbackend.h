@@ -26,6 +26,7 @@ namespace fea
             virtual void setFramerateLimit(uint32_t limit) = 0;
             virtual bool setRenderingActive(bool active=true) const = 0;
             virtual void swapBuffers() = 0;
+            virtual ~WindowBackend(){};
     };
     /** @addtogroup UserInterface
      *@{
@@ -106,5 +107,8 @@ namespace fea
      ***
      *  @fn void WindowBackend::swapBuffers()
      *  @brief Swaps the front and back buffers, causing what has been rendered on the Window so far to be displayed.
+     ***
+     *  @fn virtual WindowBackend::~WindowBackend()
+     *  @brief Destructor.
      **/
 }

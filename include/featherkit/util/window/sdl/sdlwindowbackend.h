@@ -1,17 +1,19 @@
 #pragma once
+#define NO_SDL_GLEXT
 #include <featherkit/window/windowbackend.h>
 #include <glm/glm.hpp>
-#include <SFML/Window.hpp>
+#include <SDL.h>
+#include <SDL/SDL_opengl.h>
 #include <memory>
 
 namespace fea
 {
     namespace util
     {
-        class SFMLWindowBackend : public WindowBackend
+        class SDLWindowBackend : public WindowBackend
         {
             public:
-                SFMLWindowBackend(sf::Window& w);
+                SDLWindowBackend();
 
                 void create(VideoMode mode, const std::string& title, uint32_t style = Style::Default, const ContextSettings& settings = ContextSettings()) override;
                 void close() override;
@@ -30,8 +32,9 @@ namespace fea
 
                 bool setRenderingActive(bool active = true) const override;
                 void swapBuffers() override;
+                ~SDLWindowBackend();
             private:
-                sf::Window& window;
+                SDL_Surface* window;
         };
     }
 }
