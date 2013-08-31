@@ -50,8 +50,10 @@ namespace fea
         {
             const glm::uvec2& viewSize = viewport->getSize();
 
-            glEnableClientState(GL_VERTEX_ARRAY);
-            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+            //glEnableClientState(GL_VERTEX_ARRAY);
+            //glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+            glEnableVertexAttribArray(0);
+            glEnableVertexAttribArray(1);
 
             currentMode.lock()->preRender();
             GLuint shaderProgram = currentMode.lock()->getShader();
@@ -111,8 +113,10 @@ namespace fea
                 glBindTexture(GL_TEXTURE_2D, 0);
             }
 
-            glVertexPointer(2, GL_FLOAT, 0, &vertices[0]);
-            glTexCoordPointer(2, GL_FLOAT, 0, &texCoords[0]);
+            //glVertexPointer(2, GL_FLOAT, 0, &vertices[0]);
+            //glTexCoordPointer(2, GL_FLOAT, 0, &texCoords[0]);
+            glVertexAttribPointer(0, 2, GL_FLOAT, false, 0, &vertices[0]);
+            glVertexAttribPointer(1, 2, GL_FLOAT, false, 0, &texCoords[0]);
             glDrawArrays(GL_TRIANGLES, 0, quadAmount);
         }
         
@@ -130,9 +134,10 @@ namespace fea
             currentMode.lock()->postRender();
 
             glBindTexture(GL_TEXTURE_2D, 0);
-            glDisableClientState(GL_VERTEX_ARRAY);
-            glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-
+            //glDisableClientState(GL_VERTEX_ARRAY);
+            //glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+            glDisableVertexAttribArray(0);
+            glDisableVertexAttribArray(1);
         }
 
         void OpenGL2DBackend::renderText(const TextData& textData)
@@ -140,8 +145,10 @@ namespace fea
             glUseProgram(0);
 
             glBindTexture(GL_TEXTURE_2D, 0);
-            glDisableClientState(GL_VERTEX_ARRAY);
-            glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+            //glDisableClientState(GL_VERTEX_ARRAY);
+            //glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+            glDisableVertexAttribArray(0);
+            glDisableVertexAttribArray(1);
 
             glDisable(GL_TEXTURE_2D);
 
@@ -160,8 +167,10 @@ namespace fea
             sth_draw_text(stash, textData.font, textData.size, x, y, textData.text.c_str(), &x);
             sth_end_draw(stash);
 
-            glEnableClientState(GL_VERTEX_ARRAY);
-            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+            //glEnableClientState(GL_VERTEX_ARRAY);
+            //glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+            glEnableVertexAttribArray(0);
+            glEnableVertexAttribArray(1);
 
             glEnable(GL_TEXTURE_2D);
 
