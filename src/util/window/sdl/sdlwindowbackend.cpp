@@ -14,7 +14,7 @@ namespace fea
             //todo: fix style
             (void) style;
             (void) settings;
-            window = SDL_SetVideoMode((int32_t)mode.width, (int32_t)mode.height, (int32_t)mode.bitsPerPixel, SDL_OPENGL);
+            window = SDL_SetVideoMode((int32_t)mode.width, (int32_t)mode.height, (int32_t)mode.bitsPerPixel, SDL_OPENGL | SDL_RESIZABLE);
             SDL_WM_SetCaption(title.c_str(), nullptr);
         }
 
@@ -60,10 +60,7 @@ namespace fea
 
         void SDLWindowBackend::setSize(int32_t w, int32_t h)
         {
-            (void)w;
-            (void)h;
-            //not sure
-            //window.setSize({(uint32_t)w, (uint32_t)h});
+            window = SDL_SetVideoMode(w, h, 32, SDL_OPENGL | SDL_RESIZABLE);
         }
 
         void SDLWindowBackend::setTitle(const std::string& title)

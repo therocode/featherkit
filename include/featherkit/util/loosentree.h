@@ -179,6 +179,14 @@ namespace fea
                     nodes = new Node[allocatedNodesCount];
                     usedNodesCount = 1;
                 }
+                
+                for(uint32_t child = 0; child < Pow<2, Dimensions>::value; child++)
+                {
+                    for(uint32_t dim = 0; dim < Dimensions; dim++)
+                    {
+                        moveCache[child][dim] = ((float)((uint32_t)(child / pow(2, dim)) % 2) - 0.5f) / 2.0f;
+                    }
+                }
             }
 
             void add(uint32_t id, const Vector& pos, const Vector& s)
@@ -188,7 +196,7 @@ namespace fea
                     throw LooseNTreeException("Error! Added objects must have a size bigger than zero.");
                 }
                 
-                if(entries.find(id) != entries.end())
+                if(entryLocations.find(id) != entryLocations.end())
                 {
                     std::stringstream ss;
                     ss << "Error! Cannot add id " << id << " twice.";
@@ -285,18 +293,18 @@ namespace fea
                 placeEntryInDepth(id, pos, depth);
             }
 
-            std::set<Entry> get(const Vector& point) const
+            std::vector<Entry> get(const Vector& point) const
             {
-                std::set<Entry> result;
+                std::vector<Entry> result;
 
                 getFromNode(point / size, 0, result);
 
                 return result;
             }
 
-            std::set<Entry> get(const Vector& start, const Vector& end) const
+            std::vector<Entry> get(const Vector& start, const Vector& end) const
             {
-                std::set<Entry> result;
+                std::vector<Entry> result;
 
                 getFromNode(start / size, end / size, 0, result);
 
@@ -349,13 +357,13 @@ namespace fea
                 entryLocations.emplace(entry, targetNodeIndex);
             }
 
-            void getFromNode(const Vector& positionPercentage, uint32_t nodeId, std::set<Entry>& result) const
+            void getFromNode(const Vector& positionPercentage, uint32_t nodeId, std::vector<Entry>& result) const
             {
                 auto contained = entries.equal_range(nodeId);
                 
                 for(auto iter = contained.first; iter != contained.second; iter++)
                 {
-                    result.insert(iter->second);
+                    result.push_back(iter->second);
                 }
 
                 bool overHalf[Dimensions];
@@ -370,7 +378,7 @@ namespace fea
                     bool wasInside = true;
                     for(uint32_t dim = 0; dim < Dimensions; dim++)
                     {
-                        float moveIt = ((float)((uint32_t)(child / pow(2, dim)) % 2) - 0.5f) / 2.0f;
+                        float moveIt = moveCache[child][dim];
                         overHalf[dim] = moveIt > 0.0f;
 
                         if(positionPercentage[dim] < moveIt || positionPercentage[dim] > 1.0f + moveIt)
@@ -400,13 +408,13 @@ namespace fea
                 }
             }
 
-            void getFromNode(const Vector& startPercentage, const Vector& endPercentage, uint32_t nodeId, std::set<Entry>& result) const
+            void getFromNode(const Vector& startPercentage, const Vector& endPercentage, uint32_t nodeId, std::vector<Entry>& result) const
             {
                 auto contained = entries.equal_range(nodeId);
                 
                 for(auto iter = contained.first; iter != contained.second; iter++)
                 {
-                    result.insert(iter->second);
+                    result.push_back(iter->second);
                 }
 
                 bool overHalf[Dimensions];
@@ -421,7 +429,7 @@ namespace fea
                     bool wasInside = true;
                     for(uint32_t dim = 0; dim < Dimensions; dim++)
                     {
-                        float moveIt = ((float)((uint32_t)(child / pow(2, dim)) % 2) - 0.5f) / 2.0f;
+                        float moveIt = moveCache[child][dim];
                         overHalf[dim] = moveIt > 0.0f;
 
                         if(endPercentage[dim] < moveIt || startPercentage[dim] > 1.0f + moveIt)
@@ -465,6 +473,7 @@ namespace fea
             uint32_t allocatedNodesCount;
             uint32_t usedNodesCount;
             std::unordered_multimap<uint32_t, Entry> entries;
-            std::unordered_map<uint32_t, uint32_t> entryLocations;
+            std::unordered_map<Entry, uint32_t> entryLocations;
+            float moveCache[Pow<2, Dimensions>::value][Dimensions];
     };
 }

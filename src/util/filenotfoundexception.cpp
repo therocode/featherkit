@@ -1,4 +1,5 @@
 #include <featherkit/util/filenotfoundexception.h>
+#include <string>
 
 namespace fea
 {

@@ -177,7 +177,7 @@ namespace json
     {
       detail::ValueArray* array = InternalGetArray();
       std::vector<Value>::iterator where = array->elements.begin();
-      std::advance(where, index);
+      std::advance(where, (int32_t)index);
       array->elements.erase(where);
     }
 

@@ -2,6 +2,7 @@
 #define NO_SDL_GLEXT
 #include <featherkit/window/windowbackend.h>
 #include <glm/glm.hpp>
+#include <GL/glew.h>
 #include <SDL.h>
 #include <SDL/SDL_opengl.h>
 #include <memory>
