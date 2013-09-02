@@ -8,5 +8,15 @@ namespace fea
         {
             return shaderProgram;
         }
+        
+        GLint OpenGLRenderMode::getVertexLocation() const
+        {
+            return vertexLocation;
+        }
+
+        GLint OpenGLRenderMode::getTexCoordsLocation() const
+        {
+            return texCoordsLocation;
+        }
     }
 }

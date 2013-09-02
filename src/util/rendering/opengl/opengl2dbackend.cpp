@@ -52,8 +52,8 @@ namespace fea
 
             //glEnableClientState(GL_VERTEX_ARRAY);
             //glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-            glEnableVertexAttribArray(0);
-            glEnableVertexAttribArray(1);
+            glEnableVertexAttribArray(currentMode.lock()->getVertexLocation());
+            glEnableVertexAttribArray(currentMode.lock()->getTexCoordsLocation());
 
             currentMode.lock()->preRender();
             GLuint shaderProgram = currentMode.lock()->getShader();
@@ -115,8 +115,8 @@ namespace fea
 
             //glVertexPointer(2, GL_FLOAT, 0, &vertices[0]);
             //glTexCoordPointer(2, GL_FLOAT, 0, &texCoords[0]);
-            glVertexAttribPointer(0, 2, GL_FLOAT, false, 0, &vertices[0]);
-            glVertexAttribPointer(1, 2, GL_FLOAT, false, 0, &texCoords[0]);
+            glVertexAttribPointer(currentMode.lock()->getVertexLocation(), 2, GL_FLOAT, false, 0, &vertices[0]);
+            glVertexAttribPointer(currentMode.lock()->getTexCoordsLocation(), 2, GL_FLOAT, false, 0, &texCoords[0]);
             glDrawArrays(GL_TRIANGLES, 0, quadAmount);
         }
         
@@ -136,8 +136,8 @@ namespace fea
             glBindTexture(GL_TEXTURE_2D, 0);
             //glDisableClientState(GL_VERTEX_ARRAY);
             //glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-            glDisableVertexAttribArray(0);
-            glDisableVertexAttribArray(1);
+            glDisableVertexAttribArray(currentMode.lock()->getVertexLocation());
+            glDisableVertexAttribArray(currentMode.lock()->getTexCoordsLocation());
         }
 
         void OpenGL2DBackend::renderText(const TextData& textData)
@@ -147,8 +147,8 @@ namespace fea
             glBindTexture(GL_TEXTURE_2D, 0);
             //glDisableClientState(GL_VERTEX_ARRAY);
             //glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-            glDisableVertexAttribArray(0);
-            glDisableVertexAttribArray(1);
+            glDisableVertexAttribArray(currentMode.lock()->getVertexLocation());
+            glDisableVertexAttribArray(currentMode.lock()->getTexCoordsLocation());
 
             glDisable(GL_TEXTURE_2D);
 
@@ -169,8 +169,8 @@ namespace fea
 
             //glEnableClientState(GL_VERTEX_ARRAY);
             //glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-            glEnableVertexAttribArray(0);
-            glEnableVertexAttribArray(1);
+            glEnableVertexAttribArray(currentMode.lock()->getVertexLocation());
+            glEnableVertexAttribArray(currentMode.lock()->getTexCoordsLocation());
 
             glEnable(GL_TEXTURE_2D);
 

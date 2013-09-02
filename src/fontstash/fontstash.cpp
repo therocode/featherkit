@@ -22,7 +22,7 @@
 #include <string.h>
 #include <math.h> /* @rlyeh: floorf() */
 
-//#include <GL/glew.h>  /* @rlyeh: before including GL. doesnt hurt and makes life better */
+#include <GL/glew.h>  /* @rlyeh: before including GL. doesnt hurt and makes life better */
 
 #ifdef __MACOSX__
 #include <OpenGL/gl.h>
@@ -30,8 +30,12 @@
 #include <GL/gl.h>
 #endif
 
+#include <string>
+#include <iostream>
+
 /* @rlyeh: removed STB_TRUETYPE_IMPLENTATION. We link it externally */
 #include <featherkit/fontstash/stb_truetype.h>
+#include <featherkit/util/rendering/opengl/glslloader.h>
 
 #define HASH_LUT_SIZE 256
 #define MAX_ROWS 128
@@ -43,6 +47,32 @@
 #define BMFONT      3
 
 static int idx = 1;
+static GLuint shader = 0;
+static GLint vertexLocation = 0;
+static GLint texCoordsLocation = 0;
+
+static std::string vertexShaderSource = "#version 120\n"
+                "attribute vec4 vertex;\n"
+                "attribute vec2 texCoords;\n"
+                "varying vec2 vTex;\n"
+                "\n"
+                "void main()\n"
+                "{\n"
+                "    gl_Position = vertex;\n"
+                "    vTex = texCoords;\n"
+                "}\n"
+                "";
+
+static std::string fragmentShaderSource = "#version 120\n"
+                "uniform sampler2D texture;\n"
+                "varying vec2 vTex;\n"
+                "\n"
+                "void main()\n"
+                "{\n"
+                "\n"
+                "    gl_FragColor = texture2D(texture, vTex);\n"
+                "}\n"
+                "";
 
 static unsigned int hashint(unsigned int a)
 {
@@ -185,6 +215,12 @@ struct sth_stash* sth_create(int cachew, int cacheh)
     glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA, cachew, cacheh, 0, GL_ALPHA, GL_UNSIGNED_BYTE, empty_data);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    // Create the shader
+    fea::GLSLLoader loader;
+    shader = loader.createShader(vertexShaderSource, fragmentShaderSource);
+    vertexLocation = glGetAttribLocation(shader, "vertex");
+    texCoordsLocation = glGetAttribLocation(shader, "texCoords");
 
     return stash;
 
@@ -551,16 +587,29 @@ static void flush_draw(struct sth_stash* stash)
     {
         if (texture->nverts > 0)
         {			
-            glBindTexture(GL_TEXTURE_2D, texture->id);
             glEnable(GL_TEXTURE_2D);
-            glEnableClientState(GL_VERTEX_ARRAY);
-            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-            glVertexPointer(2, GL_FLOAT, VERT_STRIDE, texture->verts);
-            glTexCoordPointer(2, GL_FLOAT, VERT_STRIDE, texture->verts+2);
+            glUseProgram(shader);
+            glBindTexture(GL_TEXTURE_2D, texture->id);
+
+            GLint textureUniform = glGetUniformLocation(shader, "texture");
+            glActiveTexture(GL_TEXTURE0);
+            glUniform1i(textureUniform, 0);
+
+            //glEnableClientState(GL_VERTEX_ARRAY);
+            //glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+            glEnableVertexAttribArray(vertexLocation);
+            glEnableVertexAttribArray(texCoordsLocation);
+            //glVertexPointer(2, GL_FLOAT, VERT_STRIDE, texture->verts);
+            //glTexCoordPointer(2, GL_FLOAT, VERT_STRIDE, texture->verts+2);
+            glVertexAttribPointer(vertexLocation, 2, GL_FLOAT, false, VERT_STRIDE, texture->verts);
+            glVertexAttribPointer(texCoordsLocation, 2, GL_FLOAT, false, VERT_STRIDE, texture->verts+2);
             glDrawArrays(GL_TRIANGLES, 0, texture->nverts);
             glDisable(GL_TEXTURE_2D);
-            glDisableClientState(GL_VERTEX_ARRAY);
-            glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+            //glDisableClientState(GL_VERTEX_ARRAY);
+            //glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+            glDisableVertexAttribArray(vertexLocation);
+            glDisableVertexAttribArray(texCoordsLocation);
+            glUseProgram(0);
             texture->nverts = 0;
         }
         texture = texture->next;

@@ -13,8 +13,12 @@ namespace fea
                 virtual void preRender() override = 0;
                 virtual void postRender() override = 0;
                 GLuint getShader() const;
+                GLint getVertexLocation() const;
+                GLint getTexCoordsLocation() const;
             protected:
                 GLuint shaderProgram;
+                GLint vertexLocation;
+                GLint texCoordsLocation;
         };
     }
 }

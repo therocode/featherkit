@@ -25,7 +25,6 @@ namespace fea
                 "    vec2 transformedPoint = rotation * (zoom * (vertex.xy - position * parallax)) + halfViewSize;\n"
                 "    gl_Position = vec4(transformedPoint.xy, vertex.zw);\n"
                 "    gl_Position = gl_ProjectionMatrix * (gl_Position);\n"
-                "    gl_TexCoord[0]  = gl_MultiTexCoord0;\n"
                 "    vTex = texCoords;\n"
                 "}\n"
                 "";
@@ -69,6 +68,8 @@ namespace fea
 
             GLSLLoader loader;
             shaderProgram = loader.createShader(vertexShaderSource, fragmentShaderSource);
+            vertexLocation = glGetAttribLocation(shaderProgram, "vertex");
+            texCoordsLocation = glGetAttribLocation(shaderProgram, "texCoords");
         }
 
         void TexturedMode::preRender()

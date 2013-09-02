@@ -11,6 +11,8 @@ namespace fea
 
             std::string vertexShaderSource = "#version 120\n"
                 "\n"
+                "attribute vec4 vertex;\n"
+                "attribute vec2 texCoords;\n"
                 "uniform vec2 position;\n"
                 "uniform vec2 zoom;\n"
                 "uniform mat2 rotation;\n"
@@ -19,10 +21,9 @@ namespace fea
                 "\n"
                 "void main()\n"
                 "{\n"
-                "    vec2 transformedPoint = rotation * (zoom * (gl_Vertex.xy - position * parallax)) + halfViewSize;\n"
-                "    gl_Position = vec4(transformedPoint.xy, gl_Vertex.zw);\n"
+                "    vec2 transformedPoint = rotation * (zoom * (vertex.xy - position * parallax)) + halfViewSize;\n"
+                "    gl_Position = vec4(transformedPoint.xy, vertex.zw);\n"
                 "    gl_Position = gl_ProjectionMatrix * (gl_Position);\n"
-                "    gl_TexCoord[0]  = gl_MultiTexCoord0;\n"
                 "}\n"
                 "";
 
@@ -43,6 +44,8 @@ namespace fea
 
             GLSLLoader loader;
             shaderProgram = loader.createShader(vertexShaderSource, fragmentShaderSource);
+            vertexLocation = glGetAttribLocation(shaderProgram, "vertex");
+            texCoordsLocation = glGetAttribLocation(shaderProgram, "texCoords");
         }
 
         void PlainMode::preRender()
