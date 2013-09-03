@@ -23,6 +23,7 @@
 struct sth_stash* sth_create(int cachew, int cacheh);
 
 int sth_add_font(struct sth_stash* stash, const char* path);
+void sth_set_projection(struct sth_stash* stash, float* matrix);
 int sth_add_font_from_memory(struct sth_stash* stash, unsigned char* buffer);
 
 int  sth_add_bitmap_font(struct sth_stash* stash, int ascent, int descent, int line_gap);

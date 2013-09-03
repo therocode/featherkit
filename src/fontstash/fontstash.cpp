@@ -50,15 +50,17 @@ static int idx = 1;
 static GLuint shader = 0;
 static GLint vertexLocation = 0;
 static GLint texCoordsLocation = 0;
+static GLint projectionLocation = 0;
 
 static std::string vertexShaderSource = "#version 120\n"
                 "attribute vec4 vertex;\n"
                 "attribute vec2 texCoords;\n"
+                "uniform mat4 projection;\n"
                 "varying vec2 vTex;\n"
                 "\n"
                 "void main()\n"
                 "{\n"
-                "    gl_Position = vertex;\n"
+                "    gl_Position = projection * vertex;\n"
                 "    vTex = texCoords;\n"
                 "}\n"
                 "";
@@ -221,6 +223,7 @@ struct sth_stash* sth_create(int cachew, int cacheh)
     shader = loader.createShader(vertexShaderSource, fragmentShaderSource);
     vertexLocation = glGetAttribLocation(shader, "vertex");
     texCoordsLocation = glGetAttribLocation(shader, "texCoords");
+    projectionLocation = glGetUniformLocation(shader, "projection");
 
     return stash;
 
@@ -230,6 +233,12 @@ error:
     if (texture != NULL)
         free(texture);
     return NULL;
+}
+
+void sth_set_projection(struct sth_stash* stash, float* matrix)
+{
+    glUseProgram(shader);
+    glUniformMatrix4fv(projectionLocation, 1, true, matrix);
 }
 
 int sth_add_font_from_memory(struct sth_stash* stash, unsigned char* buffer)

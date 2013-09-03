@@ -256,6 +256,8 @@ namespace fea
             {
                 renderMode.second->updateProjection(&projection[0]);
             }
+            
+            sth_set_projection(stash, projection);
 
             viewport = &view;
         }
