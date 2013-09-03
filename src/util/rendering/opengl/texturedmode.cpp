@@ -13,6 +13,7 @@ namespace fea
                 "\n"
                 "attribute vec4 vertex;\n"
                 "attribute vec2 texCoords;\n"
+                "uniform mat4 projection;\n"
                 "uniform vec2 position;\n"
                 "uniform vec2 zoom;\n"
                 "uniform mat2 rotation;\n"
@@ -24,7 +25,7 @@ namespace fea
                 "{\n"
                 "    vec2 transformedPoint = rotation * (zoom * (vertex.xy - position * parallax)) + halfViewSize;\n"
                 "    gl_Position = vec4(transformedPoint.xy, vertex.zw);\n"
-                "    gl_Position = gl_ProjectionMatrix * (gl_Position);\n"
+                "    gl_Position = projection * (gl_Position);\n"
                 "    vTex = texCoords;\n"
                 "}\n"
                 "";

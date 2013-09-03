@@ -38,6 +38,7 @@ namespace fea
                 std::unordered_map<int32_t, GLuint> textures;
                 int32_t nextTextureId;
                 std::unordered_map<int32_t, GLuint> renderTargets;
+                void createOrthoProjection(GLfloat left, GLfloat right, GLfloat top, GLfloat bottom, GLfloat near, GLfloat far, GLfloat* matrix) const;
                 int32_t nextRenderTargetId;
                 std::unordered_map<std::string, std::shared_ptr<OpenGLRenderMode> > renderModes;
                 std::weak_ptr<OpenGLRenderMode> currentMode;

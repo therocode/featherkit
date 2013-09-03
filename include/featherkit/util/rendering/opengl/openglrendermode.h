@@ -15,6 +15,7 @@ namespace fea
                 GLuint getShader() const;
                 GLint getVertexLocation() const;
                 GLint getTexCoordsLocation() const;
+                void updateProjection(float* matrix) const;
             protected:
                 GLuint shaderProgram;
                 GLint vertexLocation;

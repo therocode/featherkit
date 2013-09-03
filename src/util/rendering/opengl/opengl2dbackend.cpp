@@ -1,6 +1,7 @@
 #include <featherkit/util/rendering/opengl/opengl2dbackend.h>
 #include <glm/gtc/type_ptr.hpp>
 #include <featherkit/util/rendering/opengl/glslloader.h>
+#include <iostream>
 
 namespace fea
 {
@@ -243,10 +244,18 @@ namespace fea
             const glm::uvec2& viewSize = view.getSize();
             const glm::ivec2& viewPos = view.getPosition();
             glViewport(viewPos.x, viewPos.y, (GLsizei)viewSize.x, (GLsizei)viewSize.y);
-            glMatrixMode(GL_PROJECTION);
-            glLoadIdentity();
-            gluOrtho2D(0.0f, viewSize.x, viewSize.y, 0.0f);
-            glMatrixMode(GL_MODELVIEW);
+            //glMatrixMode(GL_PROJECTION);
+            //glLoadIdentity();
+            //gluOrtho2D(0.0f, viewSize.x, viewSize.y, 0.0f);
+            //glMatrixMode(GL_MODELVIEW);
+            float projection[16];
+
+            createOrthoProjection(0.0f, viewSize.x, 0.0f, viewSize.y, 0.000000001f, 100.0f, &projection[0]);
+
+            for(auto& renderMode : renderModes)
+            {
+                renderMode.second->updateProjection(&projection[0]);
+            }
 
             viewport = &view;
         }
@@ -316,6 +325,36 @@ namespace fea
         {
             glDeleteFramebuffers(1, &renderTargets.at(id));
             renderTargets.erase(id);
+        }
+
+        void OpenGL2DBackend::createOrthoProjection(GLfloat left, GLfloat right, GLfloat top, GLfloat bottom, GLfloat near, GLfloat far, GLfloat* matrix) const
+        {
+            GLfloat r_l = right - left;
+            GLfloat t_b = top - bottom;
+            GLfloat f_n = far - near;
+            GLfloat tx = -(right + left) / (right - left);
+            GLfloat ty = -(top + bottom) / (top - bottom);
+            GLfloat tz = -(far + near) / (far - near);
+
+            matrix[0] = 2.0f / r_l;
+            matrix[1] = 0.0f;
+            matrix[2] = 0.0f;
+            matrix[3] = tx;
+
+            matrix[4] = 0.0f;
+            matrix[5] = 2.0f / t_b;
+            matrix[6] = 0.0f;
+            matrix[7] = ty;
+
+            matrix[8] = 0.0f;
+            matrix[9] = 0.0f;
+            matrix[10] = 2.0f / f_n;
+            matrix[11] = tz;
+
+            matrix[12] = 0.0f;
+            matrix[13] = 0.0f;
+            matrix[14] = 0.0f;
+            matrix[15] = 1.0f;
         }
     }
 }

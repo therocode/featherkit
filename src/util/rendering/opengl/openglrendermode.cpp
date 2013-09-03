@@ -18,5 +18,12 @@ namespace fea
         {
             return texCoordsLocation;
         }
+        
+        void OpenGLRenderMode::updateProjection(float* matrix) const
+        {
+            glUseProgram(shaderProgram);
+            GLint projectionLocation = glGetUniformLocation(shaderProgram, "projection");
+            glUniformMatrix4fv(projectionLocation, 1, true, matrix);
+        }
     }
 }
