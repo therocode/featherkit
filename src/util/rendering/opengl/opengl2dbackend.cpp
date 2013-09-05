@@ -144,7 +144,7 @@ namespace fea
 
             glDisable(GL_TEXTURE_2D);
 
-            glColor4f(textData.colour.r, textData.colour.g, textData.colour.b, textData.opacity);
+            //glColor4f(textData.colour.r, textData.colour.g, textData.colour.b, textData.opacity);
 
             glm::vec2 point = glm::vec2(textData.position.x, textData.position.y);
 
@@ -166,7 +166,7 @@ namespace fea
 
             glEnable(GL_TEXTURE_2D);
 
-            glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+            //glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
             
             glUseProgram(currentMode.lock()->shaderProgram);
         }

@@ -63,8 +63,11 @@ static std::string vertexShaderSource = "\n"
                 "    vTex = texCoords;\n"
                 "}\n"
                 "";
-
+#ifdef EMSCRIPTEN
 static std::string fragmentShaderSource = "precision mediump float;\n"
+#else
+static std::string fragmentShaderSource = "\n"
+#endif
                 "uniform sampler2D texture;\n"
                 "varying vec2 vTex;\n"
                 "\n"

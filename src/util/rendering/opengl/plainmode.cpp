@@ -28,7 +28,11 @@ namespace fea
                 "}\n"
                 "";
 
+#ifdef EMSCRIPTEN
             std::string fragmentShaderSource = "precision mediump float;\n"
+#else
+            std::string fragmentShaderSource = "\n"
+#endif
                 "\n"
                 "uniform vec2 constrainX;\n"
                 "uniform vec2 constrainY;\n"
