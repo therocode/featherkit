@@ -9,7 +9,7 @@ namespace fea
         void TexturedMode::setup()
         {
 
-            std::string vertexShaderSource = "#version 120\n"
+            std::string vertexShaderSource = "\n"
                 "\n"
                 "attribute vec4 vertex;\n"
                 "attribute vec2 texCoords;\n"
@@ -30,7 +30,7 @@ namespace fea
                 "}\n"
                 "";
 
-            std::string fragmentShaderSource = "#version 120\n"
+            std::string fragmentShaderSource = "precision mediump float;\n"
                 "uniform sampler2D texture;\n"
                 "uniform vec2 constrainX;\n"
                 "uniform vec2 constrainY;\n"
@@ -50,7 +50,7 @@ namespace fea
                 "    \n"
                 "    val = val - lowerBound;\n"
                 "    float rangeSize = upperBound - lowerBound;\n"
-                "    if(rangeSize == 0)\n"
+                "    if(rangeSize == 0.0)\n"
                 "    {\n"
                 "        return upperBound;\n"
                 "    }\n"
@@ -69,15 +69,15 @@ namespace fea
 
             GLSLLoader loader;
             shaderProgram = loader.createShader(vertexShaderSource, fragmentShaderSource);
-            vertexLocation = glGetAttribLocation(shaderProgram, "vertex");
-            texCoordsLocation = glGetAttribLocation(shaderProgram, "texCoords");
+            textureUniform = glGetUniformLocation(shaderProgram, "texture");
+
+            cacheUniforms();
         }
 
         void TexturedMode::preRender()
         {
             glUseProgram(shaderProgram);
 
-            GLint textureUniform = glGetUniformLocation(shaderProgram, "texture");
             glActiveTexture(GL_TEXTURE0);
             glUniform1i(textureUniform, 0);
         }

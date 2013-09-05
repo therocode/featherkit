@@ -10,6 +10,8 @@ namespace fea
             virtual void setup() override;
             virtual void preRender() override;
             virtual void postRender() override;
+            private:
+            GLint textureUniform;
         };
     }
 }

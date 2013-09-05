@@ -31,7 +31,6 @@
 #endif
 
 #include <string>
-#include <iostream>
 
 /* @rlyeh: removed STB_TRUETYPE_IMPLENTATION. We link it externally */
 #include <featherkit/fontstash/stb_truetype.h>
@@ -52,7 +51,7 @@ static GLint vertexLocation = 0;
 static GLint texCoordsLocation = 0;
 static GLint projectionLocation = 0;
 
-static std::string vertexShaderSource = "#version 120\n"
+static std::string vertexShaderSource = "\n"
                 "attribute vec4 vertex;\n"
                 "attribute vec2 texCoords;\n"
                 "uniform mat4 projection;\n"
@@ -65,7 +64,7 @@ static std::string vertexShaderSource = "#version 120\n"
                 "}\n"
                 "";
 
-static std::string fragmentShaderSource = "#version 120\n"
+static std::string fragmentShaderSource = "precision mediump float;\n"
                 "uniform sampler2D texture;\n"
                 "varying vec2 vTex;\n"
                 "\n"
@@ -238,7 +237,7 @@ error:
 void sth_set_projection(struct sth_stash* stash, float* matrix)
 {
     glUseProgram(shader);
-    glUniformMatrix4fv(projectionLocation, 1, true, matrix);
+    glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, matrix);
 }
 
 int sth_add_font_from_memory(struct sth_stash* stash, unsigned char* buffer)

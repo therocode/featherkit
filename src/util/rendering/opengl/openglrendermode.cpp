@@ -4,26 +4,29 @@ namespace fea
 {
     namespace util
     {
-        GLuint OpenGLRenderMode::getShader() const
+        void OpenGLRenderMode::cacheUniforms()
         {
-            return shaderProgram;
-        }
-        
-        GLint OpenGLRenderMode::getVertexLocation() const
-        {
-            return vertexLocation;
-        }
+            glUseProgram(shaderProgram);
+            vertexLocation = glGetAttribLocation(shaderProgram, "vertex");
+            texCoordsLocation = glGetAttribLocation(shaderProgram, "texCoords");
+            projectionLocation = glGetUniformLocation(shaderProgram, "projection");
 
-        GLint OpenGLRenderMode::getTexCoordsLocation() const
-        {
-            return texCoordsLocation;
+            positionUniform = glGetUniformLocation(shaderProgram, "position");
+            zoomUniform = glGetUniformLocation(shaderProgram, "zoom");
+            rotationUniform = glGetUniformLocation(shaderProgram, "rotation");
+            halfSizeUniform = glGetUniformLocation(shaderProgram, "halfViewSize");
+            constrainXUniform = glGetUniformLocation(shaderProgram, "constrainX");
+            constrainYUniform = glGetUniformLocation(shaderProgram, "constrainY");
+            textureScroll = glGetUniformLocation(shaderProgram, "textureScroll");
+            parallax = glGetUniformLocation(shaderProgram, "parallax");
+            colour = glGetUniformLocation(shaderProgram, "colour");
+            opacity = glGetUniformLocation(shaderProgram, "opacity");
         }
         
         void OpenGLRenderMode::updateProjection(float* matrix) const
         {
             glUseProgram(shaderProgram);
-            GLint projectionLocation = glGetUniformLocation(shaderProgram, "projection");
-            glUniformMatrix4fv(projectionLocation, 1, true, matrix);
+            glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, matrix);
         }
     }
 }

@@ -45,7 +45,11 @@ namespace fea
 
         bool SDLInputBackend::isKeyPressed(Keyboard::Code code)
         {
+#ifdef EMSCRIPTEN
+            uint8_t* keymap = SDL_GetKeyboardState(0);
+#else
             uint8_t* keymap = SDL_GetKeyState(0);
+#endif
             return keymap[feaKeyCodeToSdl(code)];
         }
 

@@ -1,7 +1,6 @@
 #include <featherkit/util/rendering/opengl/opengl2dbackend.h>
 #include <glm/gtc/type_ptr.hpp>
 #include <featherkit/util/rendering/opengl/glslloader.h>
-#include <iostream>
 
 namespace fea
 {
@@ -53,30 +52,28 @@ namespace fea
 
             //glEnableClientState(GL_VERTEX_ARRAY);
             //glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-            glEnableVertexAttribArray(currentMode.lock()->getVertexLocation());
-            glEnableVertexAttribArray(currentMode.lock()->getTexCoordsLocation());
+            auto mode = currentMode.lock();
+            glEnableVertexAttribArray(mode->vertexLocation);
+            glEnableVertexAttribArray(mode->texCoordsLocation);
 
-            currentMode.lock()->preRender();
-            GLuint shaderProgram = currentMode.lock()->getShader();
+            mode->preRender();
+            GLuint shaderProgram = mode->shaderProgram;
 
             glm::mat2x2 rotation = glm::inverse(viewport->getCamera().getRotationMatrix());
 
-            GLint positionUniform = glGetUniformLocation(shaderProgram, "position");
-            glUniform2fv(positionUniform, 1, glm::value_ptr(viewport->getCamera().getPosition()));
+            glUniform2fv(mode->positionUniform, 1, glm::value_ptr(viewport->getCamera().getPosition()));
 
-            GLint zoomUniform = glGetUniformLocation(shaderProgram, "zoom");
-            glUniform2fv(zoomUniform, 1, glm::value_ptr(viewport->getCamera().getZoom()));
+            glUniform2fv(mode->zoomUniform, 1, glm::value_ptr(viewport->getCamera().getZoom()));
 
-            GLint rotationUniform = glGetUniformLocation(shaderProgram, "rotation");
-            glUniformMatrix2fv(rotationUniform, 1, false, glm::value_ptr(rotation));
+            glUniformMatrix2fv(mode->rotationUniform, 1, false, glm::value_ptr(rotation));
 
-            GLint halfSizeUniform = glGetUniformLocation(shaderProgram, "halfViewSize");
-            glUniform2fv(halfSizeUniform, 1, glm::value_ptr((glm::vec2)viewSize * 0.5f));
+            glUniform2fv(mode->halfSizeUniform, 1, glm::value_ptr((glm::vec2)viewSize * 0.5f));
         }
 
         void OpenGL2DBackend::render(const RenderData& renderData)
         {
-            GLuint shaderProgram = currentMode.lock()->getShader();
+            auto mode = currentMode.lock();
+            GLuint shaderProgram = mode->shaderProgram;
             std::vector<float> vertices = renderData.vertices;
             std::vector<float> texCoords = renderData.texCoords;
             glm::vec2 vertex;
@@ -87,27 +84,21 @@ namespace fea
                 GLuint texture = textures.at(renderData.texture);
                 glBindTexture(GL_TEXTURE_2D, texture);
 
-                glm::ivec2 size;
-                glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &size[0]);
-                glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &size[1]);
+                //glm::ivec2 size;
+                //glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &size[0]);
+                //glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &size[1]);
 
-                GLint constrainXUniform = glGetUniformLocation(shaderProgram, "constrainX");
-                glUniform2fv(constrainXUniform, 1, glm::value_ptr(renderData.constrainX));
+                glUniform2fv(mode->constrainXUniform, 1, glm::value_ptr(renderData.constrainX));
 
-                GLint constrainYUniform = glGetUniformLocation(shaderProgram, "constrainY");
-                glUniform2fv(constrainYUniform, 1, glm::value_ptr(renderData.constrainY));
+                glUniform2fv(mode->constrainYUniform, 1, glm::value_ptr(renderData.constrainY));
 
-                GLint textureScroll = glGetUniformLocation(shaderProgram, "textureScroll");
-                glUniform2fv(textureScroll, 1, glm::value_ptr(renderData.textureScroll));
+                glUniform2fv(mode->textureScroll, 1, glm::value_ptr(renderData.textureScroll));
 
-                GLint parallax = glGetUniformLocation(shaderProgram, "parallax");
-                glUniform1fv(parallax, 1, &renderData.parallax);
+                glUniform1fv(mode->parallax, 1, &renderData.parallax);
                 
-                GLint colour = glGetUniformLocation(shaderProgram, "colour");
-                glUniform3fv(colour, 1, glm::value_ptr(renderData.colour));
+                glUniform3fv(mode->colour, 1, glm::value_ptr(renderData.colour));
 
-                GLint opacity = glGetUniformLocation(shaderProgram, "opacity");
-                glUniform1fv(opacity, 1, &renderData.opacity);
+                glUniform1fv(mode->opacity, 1, &renderData.opacity);
             }
             else
             {
@@ -116,8 +107,8 @@ namespace fea
 
             //glVertexPointer(2, GL_FLOAT, 0, &vertices[0]);
             //glTexCoordPointer(2, GL_FLOAT, 0, &texCoords[0]);
-            glVertexAttribPointer(currentMode.lock()->getVertexLocation(), 2, GL_FLOAT, false, 0, &vertices[0]);
-            glVertexAttribPointer(currentMode.lock()->getTexCoordsLocation(), 2, GL_FLOAT, false, 0, &texCoords[0]);
+            glVertexAttribPointer(mode->vertexLocation, 2, GL_FLOAT, false, 0, &vertices[0]);
+            glVertexAttribPointer(mode->texCoordsLocation, 2, GL_FLOAT, false, 0, &texCoords[0]);
             glDrawArrays(GL_TRIANGLES, 0, quadAmount);
         }
         
@@ -137,8 +128,8 @@ namespace fea
             glBindTexture(GL_TEXTURE_2D, 0);
             //glDisableClientState(GL_VERTEX_ARRAY);
             //glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-            glDisableVertexAttribArray(currentMode.lock()->getVertexLocation());
-            glDisableVertexAttribArray(currentMode.lock()->getTexCoordsLocation());
+            glDisableVertexAttribArray(currentMode.lock()->vertexLocation);
+            glDisableVertexAttribArray(currentMode.lock()->texCoordsLocation);
         }
 
         void OpenGL2DBackend::renderText(const TextData& textData)
@@ -148,8 +139,8 @@ namespace fea
             glBindTexture(GL_TEXTURE_2D, 0);
             //glDisableClientState(GL_VERTEX_ARRAY);
             //glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-            glDisableVertexAttribArray(currentMode.lock()->getVertexLocation());
-            glDisableVertexAttribArray(currentMode.lock()->getTexCoordsLocation());
+            glDisableVertexAttribArray(currentMode.lock()->vertexLocation);
+            glDisableVertexAttribArray(currentMode.lock()->texCoordsLocation);
 
             glDisable(GL_TEXTURE_2D);
 
@@ -170,14 +161,14 @@ namespace fea
 
             //glEnableClientState(GL_VERTEX_ARRAY);
             //glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-            glEnableVertexAttribArray(currentMode.lock()->getVertexLocation());
-            glEnableVertexAttribArray(currentMode.lock()->getTexCoordsLocation());
+            glEnableVertexAttribArray(currentMode.lock()->vertexLocation);
+            glEnableVertexAttribArray(currentMode.lock()->texCoordsLocation);
 
             glEnable(GL_TEXTURE_2D);
 
             glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
             
-            glUseProgram(currentMode.lock()->getShader());
+            glUseProgram(currentMode.lock()->shaderProgram);
         }
         
         void OpenGL2DBackend::renderText(const TextData& textData, const RenderTarget& target)
@@ -271,8 +262,8 @@ namespace fea
             glBindTexture(GL_TEXTURE_2D, id);
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLsizei)w, (GLsizei)h, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
 
-            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, smooth ? GL_LINEAR : GL_NEAREST);
-            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, smooth ? GL_LINEAR : GL_NEAREST);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
             glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, smooth ? GL_LINEAR : GL_NEAREST);
             glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, smooth ? GL_LINEAR : GL_NEAREST);
 
@@ -302,12 +293,12 @@ namespace fea
             glGenTextures(1, &textureId);
             glBindTexture(GL_TEXTURE_2D, textureId);
 
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, (GLsizei)w, (GLsizei)h, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLsizei)w, (GLsizei)h, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, smooth ? GL_LINEAR : GL_NEAREST);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, smooth ? GL_LINEAR : GL_NEAREST);
-            glGenerateMipmap(GL_TEXTURE_2D);
+            //glGenerateMipmap(GL_TEXTURE_2D);
 
             glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureId, 0);
 
@@ -339,23 +330,23 @@ namespace fea
             GLfloat tz = -(far + near) / (far - near);
 
             matrix[0] = 2.0f / r_l;
-            matrix[1] = 0.0f;
-            matrix[2] = 0.0f;
-            matrix[3] = tx;
-
             matrix[4] = 0.0f;
-            matrix[5] = 2.0f / t_b;
-            matrix[6] = 0.0f;
-            matrix[7] = ty;
-
             matrix[8] = 0.0f;
-            matrix[9] = 0.0f;
-            matrix[10] = 2.0f / f_n;
-            matrix[11] = tz;
+            matrix[12] = tx;
 
-            matrix[12] = 0.0f;
-            matrix[13] = 0.0f;
-            matrix[14] = 0.0f;
+            matrix[1] = 0.0f;
+            matrix[5] = 2.0f / t_b;
+            matrix[9] = 0.0f;
+            matrix[13] = ty;
+
+            matrix[2] = 0.0f;
+            matrix[6] = 0.0f;
+            matrix[10] = 2.0f / f_n;
+            matrix[14] = tz;
+
+            matrix[3] = 0.0f;
+            matrix[7] = 0.0f;
+            matrix[11] = 0.0f;
             matrix[15] = 1.0f;
         }
     }

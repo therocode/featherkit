@@ -8,9 +8,9 @@ namespace fea
             Application();
             void run();
             void quit();
+            virtual void loop() = 0;
         protected:
             virtual void setup() = 0;
-            virtual void loop() = 0;
             virtual void destroy() = 0;
         private:
             bool shutDown;

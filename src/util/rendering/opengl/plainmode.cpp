@@ -9,7 +9,7 @@ namespace fea
         void PlainMode::setup()
         {
 
-            std::string vertexShaderSource = "#version 120\n"
+            std::string vertexShaderSource = "\n"
                 "\n"
                 "attribute vec4 vertex;\n"
                 "attribute vec2 texCoords;\n"
@@ -28,7 +28,7 @@ namespace fea
                 "}\n"
                 "";
 
-            std::string fragmentShaderSource = "#version 120\n"
+            std::string fragmentShaderSource = "precision mediump float;\n"
                 "\n"
                 "uniform vec2 constrainX;\n"
                 "uniform vec2 constrainY;\n"
@@ -45,8 +45,8 @@ namespace fea
 
             GLSLLoader loader;
             shaderProgram = loader.createShader(vertexShaderSource, fragmentShaderSource);
-            vertexLocation = glGetAttribLocation(shaderProgram, "vertex");
-            texCoordsLocation = glGetAttribLocation(shaderProgram, "texCoords");
+
+            cacheUniforms();
         }
 
         void PlainMode::preRender()

@@ -13,11 +13,11 @@ namespace fea
         const char* vertexShaderSourcePointer = &vertexSource[0];
         const char* fragmentShaderSourcePointer = &fragmentSource[0];
 
-        GLuint vertexShader = glCreateShaderObjectARB(GL_VERTEX_SHADER);
+        GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
         glShaderSource(vertexShader, 1, &vertexShaderSourcePointer, NULL);
         glCompileShader(vertexShader);
 
-        GLuint fragmentShader = glCreateShaderObjectARB(GL_FRAGMENT_SHADER);
+        GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
         glShaderSource(fragmentShader, 1, &fragmentShaderSourcePointer, NULL);
         glCompileShader(fragmentShader);
 

@@ -3,7 +3,6 @@
 #include <featherkit/entity/entity.h>
 #include <featherkit/entity/entitygroup.h>
 #include <sstream>
-#include <iostream>
 
 namespace fea
 {

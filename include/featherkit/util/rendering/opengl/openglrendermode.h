@@ -12,14 +12,23 @@ namespace fea
                 virtual void setup() override = 0;
                 virtual void preRender() override = 0;
                 virtual void postRender() override = 0;
-                GLuint getShader() const;
-                GLint getVertexLocation() const;
-                GLint getTexCoordsLocation() const;
+                void cacheUniforms();
                 void updateProjection(float* matrix) const;
-            protected:
+          
                 GLuint shaderProgram;
                 GLint vertexLocation;
                 GLint texCoordsLocation;
+                GLint projectionLocation;
+                GLint positionUniform;
+                GLint zoomUniform;
+                GLint rotationUniform;
+                GLint halfSizeUniform;
+                GLint constrainXUniform;
+                GLint constrainYUniform;
+                GLint textureScroll;
+                GLint parallax;
+                GLint colour;
+                GLint opacity;
         };
     }
 }
