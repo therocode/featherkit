@@ -80,7 +80,7 @@ static std::string fragmentShaderSource = "\n"
                 "void main()\n"
                 "{\n"
                 "\n"
-                "    gl_FragColor = texture2D(texture, vTex) + vec4(colour, 0.0f) * opacity;\n"
+                "    gl_FragColor = texture2D(texture, vTex) + vec4(colour, 0.0) * opacity;\n"
                 "}\n"
                 "";
 
