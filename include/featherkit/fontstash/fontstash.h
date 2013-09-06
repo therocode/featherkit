@@ -31,6 +31,8 @@ void sth_add_glyph(struct sth_stash* stash, int idx, GLuint id, const char* s,  
                   short size, short base, int x, int y, int w, int h,
                   float xoffset, float yoffset, float xadvance);
 
+void sth_font_colour(struct sth_stash* stash, float r, float g, float b, GLfloat opacity);
+
 void sth_begin_draw(struct sth_stash* stash);
 void sth_end_draw(struct sth_stash* stash);
 

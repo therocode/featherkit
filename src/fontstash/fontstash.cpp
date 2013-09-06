@@ -23,6 +23,8 @@
 #include <math.h> /* @rlyeh: floorf() */
 
 #include <GL/glew.h>  /* @rlyeh: before including GL. doesnt hurt and makes life better */
+#include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #ifdef __MACOSX__
 #include <OpenGL/gl.h>
@@ -50,6 +52,8 @@ static GLuint shader = 0;
 static GLint vertexLocation = 0;
 static GLint texCoordsLocation = 0;
 static GLint projectionLocation = 0;
+static GLint colourLocation = 0;
+static GLint opacityLocation = 0;
 
 static std::string vertexShaderSource = "\n"
                 "attribute vec4 vertex;\n"
@@ -69,12 +73,14 @@ static std::string fragmentShaderSource = "precision mediump float;\n"
 static std::string fragmentShaderSource = "\n"
 #endif
                 "uniform sampler2D texture;\n"
+                "uniform vec3 colour;\n"
+                "uniform float opacity;\n"
                 "varying vec2 vTex;\n"
                 "\n"
                 "void main()\n"
                 "{\n"
                 "\n"
-                "    gl_FragColor = texture2D(texture, vTex);\n"
+                "    gl_FragColor = texture2D(texture, vTex) + vec4(colour, 0.0f) * opacity;\n"
                 "}\n"
                 "";
 
@@ -226,6 +232,8 @@ struct sth_stash* sth_create(int cachew, int cacheh)
     vertexLocation = glGetAttribLocation(shader, "vertex");
     texCoordsLocation = glGetAttribLocation(shader, "texCoords");
     projectionLocation = glGetUniformLocation(shader, "projection");
+    colourLocation = glGetUniformLocation(shader, "colour");
+    opacityLocation = glGetUniformLocation(shader, "opacity");
 
     return stash;
 
@@ -598,7 +606,7 @@ static void flush_draw(struct sth_stash* stash)
     {
         if (texture->nverts > 0)
         {			
-            glEnable(GL_TEXTURE_2D);
+            //glEnable(GL_TEXTURE_2D);
             glUseProgram(shader);
             glBindTexture(GL_TEXTURE_2D, texture->id);
 
@@ -615,7 +623,7 @@ static void flush_draw(struct sth_stash* stash)
             glVertexAttribPointer(vertexLocation, 2, GL_FLOAT, false, VERT_STRIDE, texture->verts);
             glVertexAttribPointer(texCoordsLocation, 2, GL_FLOAT, false, VERT_STRIDE, texture->verts+2);
             glDrawArrays(GL_TRIANGLES, 0, texture->nverts);
-            glDisable(GL_TEXTURE_2D);
+            //glDisable(GL_TEXTURE_2D);
             //glDisableClientState(GL_VERTEX_ARRAY);
             //glDisableClientState(GL_TEXTURE_COORD_ARRAY);
             glDisableVertexAttribArray(vertexLocation);
@@ -630,6 +638,13 @@ static void flush_draw(struct sth_stash* stash)
             tt = 0;
         }
     }
+}
+
+void sth_font_colour(struct sth_stash* stash, float r, float g, float b, GLfloat opacity)
+{
+    glUseProgram(shader);
+    glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(r,g,b)));
+    glUniform1fv(opacityLocation, 1, &opacity);
 }
 
 void sth_begin_draw(struct sth_stash* stash)

@@ -13,7 +13,7 @@ namespace fea
         void OpenGL2DBackend::setup()
         {
             glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-            glEnable(GL_TEXTURE_2D);
+            //glEnable(GL_TEXTURE_2D);
             glDisable(GL_DEPTH_TEST);
             glEnable(GL_BLEND);
             glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -142,9 +142,10 @@ namespace fea
             glDisableVertexAttribArray(currentMode.lock()->vertexLocation);
             glDisableVertexAttribArray(currentMode.lock()->texCoordsLocation);
 
-            glDisable(GL_TEXTURE_2D);
+            //glDisable(GL_TEXTURE_2D);
 
             //glColor4f(textData.colour.r, textData.colour.g, textData.colour.b, textData.opacity);
+            sth_font_colour(stash, textData.colour.r, textData.colour.g, textData.colour.b, textData.opacity);
 
             glm::vec2 point = glm::vec2(textData.position.x, textData.position.y);
 
@@ -164,7 +165,7 @@ namespace fea
             glEnableVertexAttribArray(currentMode.lock()->vertexLocation);
             glEnableVertexAttribArray(currentMode.lock()->texCoordsLocation);
 
-            glEnable(GL_TEXTURE_2D);
+            //glEnable(GL_TEXTURE_2D);
 
             //glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
             

@@ -12,10 +12,14 @@ namespace fea
     {
         if(instance != nullptr)
         {
-            instance->loop();
-        }
-        else
-        {
+            if(!instance->shuttingDown())
+                instance->loop();
+            else
+            {
+                instance->destroy();
+                instance = nullptr;
+                emscripten_cancel_main_loop();
+            }
         }
     }
 #endif
@@ -40,5 +44,10 @@ namespace fea
     void Application::quit()
     {
         shutDown = true;
+    }
+    
+    bool Application::shuttingDown()
+    {
+        return shutDown;
     }
 }
