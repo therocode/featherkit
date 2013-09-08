@@ -350,8 +350,28 @@ namespace fea
                             positionPercent[dim] = positionPercent[dim] * 2.0f;
                         }
                     }
-                    targetNodeIndex = currentNode->children[childIndex];
-                    currentNode = &nodes[currentNode->children[childIndex]];
+                    if(StaticAllocation)
+                    {
+                        targetNodeIndex = currentNode->children[childIndex];
+                        currentNode = &nodes[currentNode->children[childIndex]];
+                    }
+                    else
+                    {
+                        if(currentNode->children[childIndex] == 0)
+                        {
+                            if(usedNodesCount == allocatedNodesCount)
+                            {
+                                std::cout << "size is " << usedNodesCount << " and allocated is " << allocatedNodesCount << " therefore we resize\n";
+                                increaseSize();
+                            }
+
+                            currentNode->children[childIndex] = usedNodesCount; //issue, goes out of bouds. needs resizing
+                            nodes[usedNodesCount].parent = targetNodeIndex;
+                            usedNodesCount++;
+                        }
+                        targetNodeIndex = currentNode->children[childIndex];
+                        currentNode = &nodes[currentNode->children[childIndex]];
+                    }
                 }
                 entries.emplace(targetNodeIndex, entry);
                 entryLocations.emplace(entry, targetNodeIndex);
@@ -465,6 +485,19 @@ namespace fea
             void setSize(const Vector& s)
             {
                 size = s;
+            }
+
+            void increaseSize()
+            {
+                std::cout << "resizing!\n";
+                uint32_t newSize = allocatedNodesCount * 2;
+                Node* newNodes = new Node[newSize];
+
+                std::copy(nodes, nodes + allocatedNodesCount, newNodes);
+                delete [] nodes;
+                nodes = newNodes;
+
+                allocatedNodesCount = newSize;
             }
 
             Vector size;
