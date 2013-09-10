@@ -114,7 +114,7 @@ namespace fea
         
         SDLWindowBackend::~SDLWindowBackend()
         {
-            delete window;
+            free(window);
         }
     }
 }
