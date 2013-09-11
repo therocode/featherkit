@@ -149,7 +149,7 @@ namespace fea
             {
                 if(!s.isPositive())
                 {
-                    throw LooseNTreeException("Error! Cannot create a tree with a negative size");
+                    throw LooseNTreeException("Error! Tree size must be bigger than zero in all dimensions!");
                 }
 
                 if(StaticAllocation)
@@ -224,8 +224,7 @@ namespace fea
                     nextLooseBounds = nextLooseBounds / 2.0f;
                 }
                 placeEntryInDepth(id, pos, depth - 1); //correct it
-                //////std::cout << "added id " << id << " so now i am printing\n";
-                //printNode(0);
+                ////////std::cout << "added id " << id << " so now i am printing\n";
             }
 
             void remove(uint32_t id)
@@ -245,21 +244,15 @@ namespace fea
                     uint32_t currentNode = previousNode;
                     while(currentNode)
                     {
-                        //std::cout << "putting in for removal checking: " << currentNode << "\n";
+                        ////std::cout << "putting in for removal checking: " << currentNode << "\n";
                         nodesToCheck.push_back(currentNode);
                         currentNode = nodes[currentNode].parent;
                     }
                     for(int32_t i = 0; i < nodesToCheck.size(); i++)
                     {
-                        //std::cout << "removal checking: " << nodesToCheck[i] << "\n";
+                        ////std::cout << "removal checking: " << nodesToCheck[i] << "\n";
                         checkForRemoval(nodesToCheck[i], nodesToCheck);
                     }
-                    if(!checkSane(0))
-                    {
-                        ////std::cout << "wrong on eigth\n";
-                        printNode(0);
-                        exit(4);
-                    } 
                 }
             }
 
@@ -286,35 +279,16 @@ namespace fea
 
                 uint32_t currentNodeId = entryLocations.at(id);
 
-                ////std::cout << "i want to check the depth of node " << currentNodeId << "\n";
+                //////std::cout << "i want to check the depth of node " << currentNodeId << "\n";
                 while(currentNodeId != 0)
                 {
                     depth++;
                     currentNodeId = nodes[currentNodeId].parent;
-                    ////std::cout << "now node id is " << currentNodeId << "\n";
-                    if(depth > 15)
-                    {
-                        ////std::cout << "that's it, depth became fucked... time to die\n";
-                       //printNode(0);
-                        exit(4);
-                    }
                 }
 
                 uint32_t previousNode = entryLocations.at(id);
                 removeEntry(id);
-                if(!checkSane(0))
-                {
-                    ////std::cout << "wrong on sixth\n";
-                    printNode(0);
-                    exit(4);
-                } 
                 placeEntryInDepth(id, pos, depth);
-                if(!checkSane(0))
-                {
-                    ////std::cout << "wrong on seventh\n";
-                    printNode(0);
-                    exit(4);
-                } 
 
                 if(!StaticAllocation)
                 {
@@ -322,21 +296,15 @@ namespace fea
                     uint32_t currentNode = previousNode;
                     while(currentNode)
                     {
-                        //std::cout << "putting in for removal checking: " << currentNode << "\n";
+                        ////std::cout << "putting in for removal checking: " << currentNode << "\n";
                         nodesToCheck.push_back(currentNode);
                         currentNode = nodes[currentNode].parent;
                     }
                     for(int32_t i = 0; i < nodesToCheck.size(); i++)
                     {
-                        //std::cout << "removal checking: " << nodesToCheck[i] << "\n";
+                        ////std::cout << "removal checking: " << nodesToCheck[i] << "\n";
                         checkForRemoval(nodesToCheck[i], nodesToCheck);
                     }
-                    if(!checkSane(0))
-                    {
-                        ////std::cout << "wrong on eigth\n";
-                        printNode(0);
-                        exit(4);
-                    } 
                 }
             }
 
@@ -378,12 +346,6 @@ namespace fea
         private:
             void placeEntryInDepth(const Entry& entry, const Vector& pos, uint32_t depth)
             {
-                if(!checkSane(0))
-                {
-                    ////std::cout << "wrong on fourth\n";
-                    printNode(0);
-                    exit(4);
-                } 
                 Vector positionPercent = pos / size;
                 Node* currentNode = &nodes[0];
                 uint32_t targetNodeIndex = 0;
@@ -414,48 +376,14 @@ namespace fea
                         {
                             if(usedNodesCount == allocatedNodesCount)
                             {
-                                //////std::cout << "size is " << usedNodesCount << " and allocated is " << allocatedNodesCount << " therefore we resize\n";
                                 uint32_t pointerDistance = currentNode - nodes;
-                                //////std::cout << "pointer distance is " << pointerDistance << "\n";
-                                if(!checkSane(0))
-                                {
-                                    ////std::cout << "wrong on ninth\n";
-                                    printNode(0);
-                                    exit(4);
-                                } 
                                 increaseSize();
-                                if(!checkSane(0))
-                                {
-                                    ////std::cout << "wrong on tenth\n";
-                                    printNode(0);
-                                    exit(4);
-                                } 
                                 currentNode = nodes + pointerDistance;
                             }
                             
-                            if(!checkSane(0))
-                            {
-                                ////std::cout << "wrong on twelwth\n";
-                                printNode(0);
-                                exit(4);
-                            } 
-                            //////std::cout << "will place a kid in " << childIndex << "\n";
-                            //här kanskeldas fdlASDFafsdfsdf
-                            ////std::cout << "setting the child of the current node to be " << usedNodesCount << "\n";
                             currentNode->children[childIndex] = usedNodesCount;
-                            ////std::cout << "setting the parent of that node to " << targetNodeIndex << "\n";
                             nodes[usedNodesCount].parent = targetNodeIndex;
-                            ////std::cout << "plussing nodesCount\n";
                             usedNodesCount++;
-                            std::cout << "nodesCount is now " << usedNodesCount << "\n";
-                            //////std::cout << "spawned a kid with ID " << usedNodesCount -1 << " and the child index is " << childIndex << " and the parent of this kid is " << targetNodeIndex << " and now it looks like:\n";
-                            //printNode(0);
-                            if(!checkSane(0))
-                            {
-                                ////std::cout << "wrong on eleventh\n";
-                                printNode(0);
-                                exit(4);
-                            } 
                         }
                         targetNodeIndex = currentNode->children[childIndex];
                         currentNode = &nodes[currentNode->children[childIndex]];
@@ -463,12 +391,6 @@ namespace fea
                 }
                 entries.emplace(targetNodeIndex, entry);
                 entryLocations.emplace(entry, targetNodeIndex);
-                if(!checkSane(0))
-                {
-                    ////std::cout << "wrong on fifth\n";
-                    printNode(0);
-                    exit(4);
-                } 
             }
 
             void removeEntry(uint32_t id)
@@ -489,7 +411,7 @@ namespace fea
 
                 if(!existed)
                 {
-                    std::cout << "shouldn't happen ever\n";
+                    //std::cout << "shouldn't happen ever\n";
                     exit(3);
                     //std::stringstream ss; 
                     //ss << "Error! Cannot remove subscription to message " << index.name() << " on receiver " << receiverPtr << " since the subscription does not exist!\n";
@@ -609,9 +531,6 @@ namespace fea
 
             void increaseSize()
             {
-                //////std::cout << "resizing!\n";
-                //////std::cout << "before resize: \n";
-                //printNode(0);
                 uint32_t newSize = allocatedNodesCount * 2;
                 Node* newNodes = new Node[newSize];
 
@@ -620,17 +539,14 @@ namespace fea
                 nodes = newNodes;
 
                 allocatedNodesCount = newSize;
-
-                //////std::cout << "after resize: \n";
-                //printNode(0);
             }
 
             void checkForRemoval(uint32_t nodeIndex, std::vector<uint32_t>& toCheck)
             {
-                ////std::cout << "checking node " << nodeIndex << " to see if it should be a goner\n";
+                //////std::cout << "checking node " << nodeIndex << " to see if it should be a goner\n";
                 if(nodeIndex == 0)
                 {
-                    ////std::cout << "shiiet it was root, can't delete that!\n";
+                    //////std::cout << "shiiet it was root, can't delete that!\n";
                     return;
                 }
 
@@ -641,123 +557,34 @@ namespace fea
                     {
                         if(currentNode->children[child] != 0)
                         {
-                            ////std::cout << "one of the kids was an actual node. then we can't delete it\n";
+                            //////std::cout << "one of the kids was an actual node. then we can't delete it\n";
                             return;
                         }
                         
                     }
-                //////std::cout << "\nshiiiet before removinf from the tree!\n";
-                //printNode(0);
-                    ////std::cout << "removing the node\n";
                     removeNode(nodeIndex, toCheck);
-                }
-            }
-
-            bool checkSane(uint32_t id)
-            {
-                std::set<uint32_t> passed;
-                return checkSane(id, passed, 0);
-            }
-
-            bool checkSane(uint32_t id, std::set<uint32_t>& passed, uint32_t parent)
-            {
-                bool sane = true;
-                passed.insert(id);
-
-                if(nodes[id].parent != parent && id != 0)
-                    sane = false;
-
-                for(uint32_t child = 0; child < Pow<2, Dimensions>::value; child++)
-                {
-                    if(nodes[id].children[child] != 0)
-                    {
-                        if(passed.find(nodes[id].children[child]) != passed.end())
-                        {
-                            ////std::cout << "bloody hell, something is insane now, shit!\n";
-                            sane = false;
-                        }
-                        sane = checkSane(nodes[id].children[child], passed, id) && sane;
-                    }
-                }
-                return sane;
-            }
-
-            void printNode(uint32_t id)
-            {
-                std::set<uint32_t> passed;
-                printNode(id, passed);
-            }
-
-            void printNode(uint32_t id, std::set<uint32_t>& passed)
-            {
-                passed.insert(id);
-                if(id == 0)
-                    //std::cout << "\n";
-                //std::cout << "I am node id " << id << " and my kids are:  ";
-                for(uint32_t child = 0; child < Pow<2, Dimensions>::value; child++)
-                {
-                    //std::cout << nodes[id].children[child] << "  ";
-                }
-                //std::cout << "\n";
-                for(uint32_t child = 0; child < Pow<2, Dimensions>::value; child++)
-                {
-                    if(nodes[id].children[child] != 0)
-                    {
-                        //std::cout << "diving into child number " << child << " (id " << nodes[id].children[child] << ") of node id " << id << "\n";
-                        if(passed.find(nodes[id].children[child]) != passed.end())
-                        {
-                            //std::cout << "bloody hell, something is wrong now, shit!\n";
-                            return;
-                        }
-                        printNode(nodes[id].children[child], passed);
-                    }
                 }
             }
 
             void removeNode(uint32_t nodeIndex, std::vector<uint32_t>& toCheck)
             {
-                ////std::cout << "will erase " << nodeIndex << "\n";
-                if(!checkSane(0))
-                {
-                    ////std::cout << "wrong on first\n";
-                    printNode(0);
-                    exit(4);
-                } 
-                //std::cout << "removing node number " << nodeIndex << "\n";
                 uint32_t parentId = nodes[nodeIndex].parent;
                 Node* parent = &nodes[parentId];
-                bool yay = false;
                 for(uint32_t child = 0; child < Pow<2, Dimensions>::value; child++)
                 {
-                    //std::cout << "checking this child number " << parent->children[child] << " if it is similar to " << nodeIndex << "...\n";
+                    ////std::cout << "checking this child number " << parent->children[child] << " if it is similar to " << nodeIndex << "...\n";
                     if(parent->children[child] == nodeIndex)
                     {
-                        //std::cout << "found the right child and is now eradicating it!\n";
+                        ////std::cout << "found the right child and is now eradicating it!\n";
                         parent->children[child] = 0;
-                        yay = true;
                         break;
                     }
                 }
-                if(!yay)
-                {
-                    printNode(0);
-                    exit(3);
-                }
-                //////std::cout << "\nshiiiet printing the tree!\n";
-                //printNode(0);
-                //exit(3);
-                //MIGHT BE BAD UNDER THIS LINE HELVETTE!
                 uint32_t lastNode = usedNodesCount - 1;
                 usedNodesCount--;
-                std::cout << "nodesCount is nowa " << usedNodesCount << "\n";
+                //std::cout << "nodesCount is nowa " << usedNodesCount << "\n";
                 if(lastNode == nodeIndex)
                 {
-                    if(!checkSane(0))
-                    {
-                        ////std::cout << "wrong on third\n";
-                        printNode(0);
-                        exit(4);
-                    } 
                     return;
                 }
 
@@ -768,28 +595,19 @@ namespace fea
                 }
 
                 Node* parentOfLast = &nodes[nodes[lastNode].parent];
-                //BLIX
-                bool found = false;
                 for(uint32_t child = 0; child < Pow<2, Dimensions>::value; child++)
                 {
-                    ////std::cout << "checking this child to change its parent...\n";
+                    //////std::cout << "checking this child to change its parent...\n";
                     if(parentOfLast->children[child] == lastNode)
                     {
-                        ////std::cout << "found the right child and is now changing it!\n";
+                        //////std::cout << "found the right child and is now changing it!\n";
                         parentOfLast->children[child] = nodeIndex;
-                        found = true;
                         break;
                     }
                 }
-                if(!found)
-                {
-                    ////std::cout << "wtf! and last node index was " << lastNode << "\n";
-                    printNode(0);
-                    exit(3);
-                }
             
                 Node* lastNodeP = &nodes[lastNode];
-                //std::cout << "swapping node " << lastNode << " with the deleted " << nodeIndex << "\n";
+                ////std::cout << "swapping node " << lastNode << " with the deleted " << nodeIndex << "\n";
                 for(uint32_t child = 0; child < Pow<2, Dimensions>::value; child++)
                 {
                     if(lastNodeP->children[child] != 0)
@@ -802,7 +620,7 @@ namespace fea
                     nodes[nodeIndex].children[child] = lastNodeP->children[child];
                     lastNodeP->children[child] = 0;
                 }
-                ////std::cout << "lowered usedNodesCount and it is now " << usedNodesCount << "\n";
+                //////std::cout << "lowered usedNodesCount and it is now " << usedNodesCount << "\n";
                 
                 uint32_t ii = 0;
                 auto range = entries.equal_range(lastNode);
@@ -819,13 +637,6 @@ namespace fea
                 {
                     entries.emplace(nodeIndex, entry);
                 }
-                ////std::cout << "done erasing " << nodeIndex << "\n";
-                if(!checkSane(0))
-                {
-                    ////std::cout << "wrong on second\n";
-                    printNode(0);
-                    exit(4);
-                } 
             }
 
             Vector size;
