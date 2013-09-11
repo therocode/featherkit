@@ -517,6 +517,18 @@ namespace fea
                 allocatedNodesCount = newSize;
             }
 
+            void decreaseSize()
+            {
+                uint32_t newSize = allocatedNodesCount / 4;
+                Node* newNodes = new Node[newSize];
+
+                std::copy(nodes, nodes + newSize, newNodes);
+                delete [] nodes;
+                nodes = newNodes;
+
+                allocatedNodesCount = newSize;
+            }
+
             void checkForRemoval(uint32_t nodeIndex, std::vector<uint32_t>& toCheck)
             {
                 if(nodeIndex == 0)
@@ -601,6 +613,9 @@ namespace fea
                 {
                     entries.emplace(nodeIndex, entry);
                 }
+
+                if(usedNodesCount <= allocatedNodesCount / 4 && allocatedNodesCount > 16)
+                    decreaseSize();
             }
 
             Vector size;
