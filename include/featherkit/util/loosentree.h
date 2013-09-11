@@ -36,9 +36,6 @@ namespace fea
             {
                 public:
                     LooseNTreeException(std::string message) : std::runtime_error(message) { }
-                    //Entry id;
-                    //Vector position;
-                    //Vector size;
             };
 
             class Vector
@@ -224,7 +221,6 @@ namespace fea
                     nextLooseBounds = nextLooseBounds / 2.0f;
                 }
                 placeEntryInDepth(id, pos, depth - 1); //correct it
-                ////////std::cout << "added id " << id << " so now i am printing\n";
             }
 
             void remove(uint32_t id)
@@ -244,13 +240,11 @@ namespace fea
                     uint32_t currentNode = previousNode;
                     while(currentNode)
                     {
-                        ////std::cout << "putting in for removal checking: " << currentNode << "\n";
                         nodesToCheck.push_back(currentNode);
                         currentNode = nodes[currentNode].parent;
                     }
                     for(int32_t i = 0; i < nodesToCheck.size(); i++)
                     {
-                        ////std::cout << "removal checking: " << nodesToCheck[i] << "\n";
                         checkForRemoval(nodesToCheck[i], nodesToCheck);
                     }
                 }
@@ -279,7 +273,6 @@ namespace fea
 
                 uint32_t currentNodeId = entryLocations.at(id);
 
-                //////std::cout << "i want to check the depth of node " << currentNodeId << "\n";
                 while(currentNodeId != 0)
                 {
                     depth++;
@@ -296,13 +289,11 @@ namespace fea
                     uint32_t currentNode = previousNode;
                     while(currentNode)
                     {
-                        ////std::cout << "putting in for removal checking: " << currentNode << "\n";
                         nodesToCheck.push_back(currentNode);
                         currentNode = nodes[currentNode].parent;
                     }
                     for(int32_t i = 0; i < nodesToCheck.size(); i++)
                     {
-                        ////std::cout << "removal checking: " << nodesToCheck[i] << "\n";
                         checkForRemoval(nodesToCheck[i], nodesToCheck);
                     }
                 }
@@ -324,12 +315,6 @@ namespace fea
                 getFromNode(start / size, end / size, 0, result);
 
                 return result;
-            }
-
-            void renderTree()
-            {
-                glTranslatef(size[0]/2.0f, size[1]/2.0f, 0.0f);
-                glLoadIdentity();
             }
 
             void clear()
@@ -408,15 +393,6 @@ namespace fea
                     }
                 }
                 entryLocations.erase(id);
-
-                if(!existed)
-                {
-                    //std::cout << "shouldn't happen ever\n";
-                    exit(3);
-                    //std::stringstream ss; 
-                    //ss << "Error! Cannot remove subscription to message " << index.name() << " on receiver " << receiverPtr << " since the subscription does not exist!\n";
-                    //throw MessageException(ss.str());
-                }
             }
 
             void getFromNode(const Vector& positionPercentage, uint32_t nodeId, std::vector<Entry>& result) const
@@ -543,10 +519,8 @@ namespace fea
 
             void checkForRemoval(uint32_t nodeIndex, std::vector<uint32_t>& toCheck)
             {
-                //////std::cout << "checking node " << nodeIndex << " to see if it should be a goner\n";
                 if(nodeIndex == 0)
                 {
-                    //////std::cout << "shiiet it was root, can't delete that!\n";
                     return;
                 }
 
@@ -557,7 +531,6 @@ namespace fea
                     {
                         if(currentNode->children[child] != 0)
                         {
-                            //////std::cout << "one of the kids was an actual node. then we can't delete it\n";
                             return;
                         }
                         
@@ -572,17 +545,14 @@ namespace fea
                 Node* parent = &nodes[parentId];
                 for(uint32_t child = 0; child < Pow<2, Dimensions>::value; child++)
                 {
-                    ////std::cout << "checking this child number " << parent->children[child] << " if it is similar to " << nodeIndex << "...\n";
                     if(parent->children[child] == nodeIndex)
                     {
-                        ////std::cout << "found the right child and is now eradicating it!\n";
                         parent->children[child] = 0;
                         break;
                     }
                 }
                 uint32_t lastNode = usedNodesCount - 1;
                 usedNodesCount--;
-                //std::cout << "nodesCount is nowa " << usedNodesCount << "\n";
                 if(lastNode == nodeIndex)
                 {
                     return;
@@ -597,17 +567,14 @@ namespace fea
                 Node* parentOfLast = &nodes[nodes[lastNode].parent];
                 for(uint32_t child = 0; child < Pow<2, Dimensions>::value; child++)
                 {
-                    //////std::cout << "checking this child to change its parent...\n";
                     if(parentOfLast->children[child] == lastNode)
                     {
-                        //////std::cout << "found the right child and is now changing it!\n";
                         parentOfLast->children[child] = nodeIndex;
                         break;
                     }
                 }
             
                 Node* lastNodeP = &nodes[lastNode];
-                ////std::cout << "swapping node " << lastNode << " with the deleted " << nodeIndex << "\n";
                 for(uint32_t child = 0; child < Pow<2, Dimensions>::value; child++)
                 {
                     if(lastNodeP->children[child] != 0)
@@ -620,16 +587,13 @@ namespace fea
                     nodes[nodeIndex].children[child] = lastNodeP->children[child];
                     lastNodeP->children[child] = 0;
                 }
-                //////std::cout << "lowered usedNodesCount and it is now " << usedNodesCount << "\n";
                 
-                uint32_t ii = 0;
                 auto range = entries.equal_range(lastNode);
                 std::vector<Entry> entriesToMove;
                 for(auto iter = range.first; iter != range.second; iter++)
                 {
                     entriesToMove.push_back(iter->second);
                     entryLocations[iter->second] = nodeIndex;
-                    ii++;
                 }
                 entries.erase(lastNode);
 
