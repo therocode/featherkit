@@ -36,9 +36,6 @@ namespace fea
             {
                 public:
                     LooseNTreeException(std::string message) : std::runtime_error(message) { }
-                    //Entry id;
-                    //Vector position;
-                    //Vector size;
             };
 
             class Vector
@@ -134,13 +131,11 @@ namespace fea
 
             struct Node
             {
-                Node() : empty(true), parent(0)
+                Node() : parent(0)
                 {
                     for(int32_t i = 0; i < Pow<2, Dimensions>::value; i++)
                         children[i] = 0;
                 }
-
-                bool empty;
                 uint32_t children[Pow<2, Dimensions>::value];
                 uint32_t parent;
             };
@@ -151,7 +146,7 @@ namespace fea
             {
                 if(!s.isPositive())
                 {
-                    throw LooseNTreeException("Error! Cannot create a tree with a negative size");
+                    throw LooseNTreeException("Error! Tree size must be bigger than zero in all dimensions!");
                 }
 
                 if(StaticAllocation)
@@ -236,28 +231,23 @@ namespace fea
                     ss << "Error! Cannot remove id " << id << " since it doesn't exist.";
                     throw LooseNTreeException(ss.str());
                 }
-                
-                auto range = entries.equal_range(entryLocations.at(id));
-                bool existed = false;
+                uint32_t previousNode = entryLocations.at(id);
+                removeEntry(id);
 
-                for(auto iter = range.first; iter != range.second; iter++)
+                if(!StaticAllocation)
                 {
-                    if(iter->second == id)
+                    std::vector<uint32_t> nodesToCheck;
+                    uint32_t currentNode = previousNode;
+                    while(currentNode)
                     {
-                        entries.erase(iter);
-                        existed = true;
-                        break;
+                        nodesToCheck.push_back(currentNode);
+                        currentNode = nodes[currentNode].parent;
+                    }
+                    for(int32_t i = 0; i < nodesToCheck.size(); i++)
+                    {
+                        checkForRemoval(nodesToCheck[i], nodesToCheck);
                     }
                 }
-                entryLocations.erase(id);
-
-                if(!existed)
-                {
-                    //std::stringstream ss; 
-                    //ss << "Error! Cannot remove subscription to message " << index.name() << " on receiver " << receiverPtr << " since the subscription does not exist!\n";
-                    //throw MessageException(ss.str());
-                }
-
             }
 
             void move(uint32_t id, const Vector& pos)
@@ -289,8 +279,24 @@ namespace fea
                     currentNodeId = nodes[currentNodeId].parent;
                 }
 
-                remove(id);
+                uint32_t previousNode = entryLocations.at(id);
+                removeEntry(id);
                 placeEntryInDepth(id, pos, depth);
+
+                if(!StaticAllocation)
+                {
+                    std::vector<uint32_t> nodesToCheck;
+                    uint32_t currentNode = previousNode;
+                    while(currentNode)
+                    {
+                        nodesToCheck.push_back(currentNode);
+                        currentNode = nodes[currentNode].parent;
+                    }
+                    for(int32_t i = 0; i < nodesToCheck.size(); i++)
+                    {
+                        checkForRemoval(nodesToCheck[i], nodesToCheck);
+                    }
+                }
             }
 
             std::vector<Entry> get(const Vector& point) const
@@ -309,12 +315,6 @@ namespace fea
                 getFromNode(start / size, end / size, 0, result);
 
                 return result;
-            }
-
-            void renderTree()
-            {
-                glTranslatef(size[0]/2.0f, size[1]/2.0f, 0.0f);
-                glLoadIdentity();
             }
 
             void clear()
@@ -350,11 +350,49 @@ namespace fea
                             positionPercent[dim] = positionPercent[dim] * 2.0f;
                         }
                     }
-                    targetNodeIndex = currentNode->children[childIndex];
-                    currentNode = &nodes[currentNode->children[childIndex]];
+                    if(StaticAllocation)
+                    {
+                        targetNodeIndex = currentNode->children[childIndex];
+                        currentNode = &nodes[currentNode->children[childIndex]];
+                    }
+                    else
+                    {
+                        if(currentNode->children[childIndex] == 0)
+                        {
+                            if(usedNodesCount == allocatedNodesCount)
+                            {
+                                uint32_t pointerDistance = currentNode - nodes;
+                                increaseSize();
+                                currentNode = nodes + pointerDistance;
+                            }
+                            
+                            currentNode->children[childIndex] = usedNodesCount;
+                            nodes[usedNodesCount].parent = targetNodeIndex;
+                            usedNodesCount++;
+                        }
+                        targetNodeIndex = currentNode->children[childIndex];
+                        currentNode = &nodes[currentNode->children[childIndex]];
+                    }
                 }
                 entries.emplace(targetNodeIndex, entry);
                 entryLocations.emplace(entry, targetNodeIndex);
+            }
+
+            void removeEntry(uint32_t id)
+            {
+                auto range = entries.equal_range(entryLocations.at(id));
+                bool existed = false;
+
+                for(auto iter = range.first; iter != range.second; iter++)
+                {
+                    if(iter->second == id)
+                    {
+                        entries.erase(iter);
+                        existed = true;
+                        break;
+                    }
+                }
+                entryLocations.erase(id);
             }
 
             void getFromNode(const Vector& positionPercentage, uint32_t nodeId, std::vector<Entry>& result) const
@@ -467,13 +505,126 @@ namespace fea
                 size = s;
             }
 
+            void increaseSize()
+            {
+                uint32_t newSize = allocatedNodesCount * 2;
+                Node* newNodes = new Node[newSize];
+
+                std::copy(nodes, nodes + allocatedNodesCount, newNodes);
+                delete [] nodes;
+                nodes = newNodes;
+
+                allocatedNodesCount = newSize;
+            }
+
+            void decreaseSize()
+            {
+                uint32_t newSize = allocatedNodesCount / 4;
+                Node* newNodes = new Node[newSize];
+
+                std::copy(nodes, nodes + newSize, newNodes);
+                delete [] nodes;
+                nodes = newNodes;
+
+                allocatedNodesCount = newSize;
+            }
+
+            void checkForRemoval(uint32_t nodeIndex, std::vector<uint32_t>& toCheck)
+            {
+                if(nodeIndex == 0)
+                {
+                    return;
+                }
+
+                if(entries.find(nodeIndex) == entries.end())
+                {
+                    Node* currentNode = &nodes[nodeIndex];
+                    for(uint32_t child = 0; child < Pow<2, Dimensions>::value; child++)
+                    {
+                        if(currentNode->children[child] != 0)
+                        {
+                            return;
+                        }
+                        
+                    }
+                    removeNode(nodeIndex, toCheck);
+                }
+            }
+
+            void removeNode(uint32_t nodeIndex, std::vector<uint32_t>& toCheck)
+            {
+                uint32_t parentId = nodes[nodeIndex].parent;
+                Node* parent = &nodes[parentId];
+                for(uint32_t child = 0; child < Pow<2, Dimensions>::value; child++)
+                {
+                    if(parent->children[child] == nodeIndex)
+                    {
+                        parent->children[child] = 0;
+                        break;
+                    }
+                }
+                uint32_t lastNode = usedNodesCount - 1;
+                usedNodesCount--;
+                if(lastNode == nodeIndex)
+                {
+                    return;
+                }
+
+                for(auto& node : toCheck)
+                {
+                    if(node == lastNode)
+                        node = nodeIndex;
+                }
+
+                Node* parentOfLast = &nodes[nodes[lastNode].parent];
+                for(uint32_t child = 0; child < Pow<2, Dimensions>::value; child++)
+                {
+                    if(parentOfLast->children[child] == lastNode)
+                    {
+                        parentOfLast->children[child] = nodeIndex;
+                        break;
+                    }
+                }
+            
+                Node* lastNodeP = &nodes[lastNode];
+                for(uint32_t child = 0; child < Pow<2, Dimensions>::value; child++)
+                {
+                    if(lastNodeP->children[child] != 0)
+                        nodes[lastNodeP->children[child]].parent = nodeIndex;
+                }
+                nodes[nodeIndex].parent = lastNodeP->parent;
+                lastNodeP->parent = 0;
+                for(uint32_t child = 0; child < Pow<2, Dimensions>::value; child++)
+                {
+                    nodes[nodeIndex].children[child] = lastNodeP->children[child];
+                    lastNodeP->children[child] = 0;
+                }
+                
+                auto range = entries.equal_range(lastNode);
+                std::vector<Entry> entriesToMove;
+                for(auto iter = range.first; iter != range.second; iter++)
+                {
+                    entriesToMove.push_back(iter->second);
+                    entryLocations[iter->second] = nodeIndex;
+                }
+                entries.erase(lastNode);
+
+                for(auto entry : entriesToMove)
+                {
+                    entries.emplace(nodeIndex, entry);
+                }
+
+                if(usedNodesCount <= allocatedNodesCount / 4 && allocatedNodesCount > 16)
+                    decreaseSize();
+            }
+
             Vector size;
 
             Node* nodes;
             uint32_t allocatedNodesCount;
             uint32_t usedNodesCount;
-            std::unordered_multimap<uint32_t, Entry> entries;
             std::unordered_map<Entry, uint32_t> entryLocations;
+            std::unordered_multimap<uint32_t, Entry> entries;
             float moveCache[Pow<2, Dimensions>::value][Dimensions];
     };
 }
