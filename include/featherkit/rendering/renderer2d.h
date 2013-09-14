@@ -35,6 +35,8 @@ namespace fea
             void setClearColour(const glm::vec3& colour);
             void setBlendMode(BlendMode mode);
             Texture createTexture(uint32_t w, uint32_t h, const uint8_t* imageData, bool smooth = false);
+            Texture createTexture(uint32_t w, uint32_t h, const glm::vec3& colour, bool smooth = false);
+            Texture createTexture(uint32_t w, uint32_t h, float r, float g, float b, bool smooth = false);
             RenderTarget createRenderTarget(uint32_t w, uint32_t h, bool smooth = false);
         private:
             std::unique_ptr<Renderer2DBackend> backend;

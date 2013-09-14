@@ -154,6 +154,32 @@ namespace fea
         return backend->createTexture(w, h, imageData, smooth);
     }
     
+    Texture Renderer2D::createTexture(uint32_t w, uint32_t h, const glm::vec3& colour, bool smooth)
+    {
+        return createTexture(w, h, colour.r, colour.g, colour.b, smooth);
+    }
+
+    Texture Renderer2D::createTexture(uint32_t w, uint32_t h, float r, float g, float b, bool smooth)
+    {
+        uint8_t* pixels = new uint8_t[w * h * 4];
+        uint8_t red = 255 * r;
+        uint8_t green = 255 * g;
+        uint8_t blue = 255 * b;
+
+        for(uint32_t x = 0; x < w; x++)
+        {
+            for(uint32_t y = 0; y < h; y++)
+            {
+                pixels[(x + y * w) * 4 + 0] = red;
+                pixels[(x + y * w) * 4 + 1] = green;
+                pixels[(x + y * w) * 4 + 2] = blue;
+                pixels[(x + y * w) * 4 + 3] = 255;
+            }
+        }
+        return createTexture(w, h, pixels, smooth);
+        delete [] pixels;
+    }
+    
     RenderTarget Renderer2D::createRenderTarget(uint32_t w, uint32_t h, bool smooth)
     {
         return backend->createRenderTarget(w, h, smooth);
