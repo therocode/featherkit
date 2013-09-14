@@ -76,7 +76,7 @@ namespace fea
      *  @struct TileDefinition
      *  @brief Data container describing a type of tile.
      *  
-     *  Tile definition contains information about how a tile should be displayed and animated. The display information is texture coordinates of the tile texture.
+     *  Tile definition contains information about how a tile should be displayed and animated. The display information is coordinates of the tile texture.
      *
      *  Animation works by simply switching to a different tile definition after a set amount of ticks. For instance, if a water animation involving two different tile images of water is needed, two tile definitions, one for each desired texture must be created. They are then setup so that the first tile switches to the other after a desired amount of ticks, and the second tile switches to the first. This will naturally create a cyclic animation.
      *
@@ -84,19 +84,19 @@ namespace fea
      ***
      *  @fn TileDefinition::TileDefinition(glm::uvec2 texPos, TileId nextId = 0, uint32_t ticks = 0)
      *  @brief Construct a TileDefinition.
-     *  @param texPos Texture coordinates of the tile.
+     *  @param texPos Coordinates of the subrectangle to use as texture.
      *  @param nextId TileDefinition to change to. Only needed if the tile is animated.
      *  @param ticks Amount of ticks until the tile is changed. Only needed if the tile is animated.
      ***
      *  @fn TileDefinition::TileDefinition(uint32_t texX, uint32_t texY, TileId nextId = 0, uint32_t ticks = 0)
      *  @brief Construct a TileDefinition.
-     *  @param texX X Texture coordinates of the tile.
-     *  @param texY Y Texture coordinates of the tile.
+     *  @param texX X Coordinates of the subrectangle to use as texture.
+     *  @param texY Y Coordinates of the subrectangle to use as texture.
      *  @param nextId TileDefinition to change to. Only needed if the tile is animated.
      *  @param ticks Amount of ticks until the tile is changed. Only needed if the tile is animated.
      ***
      *  @var TileDefinition::tileTexPosition
-     *  @brief Texture coordinates describing the top-left corner of a tile in a tile map texture.
+     *  @brief Coordinates describing the position of the subrect of the texture to use for this tile. For example if the map tile in the upper left corner is to be used, this variable should be (0,0). If the tile next to it is to be used, it should be (1,0).
      ***
      *  @var TileDefinition::nextTileId
      *  @brief If the tile is meant to be animated, this should be set to the ID of the tile to switch to.
