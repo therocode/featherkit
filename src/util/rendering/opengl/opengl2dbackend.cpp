@@ -26,6 +26,15 @@ namespace fea
             }
 
             stash = sth_create(512, 512);
+
+            uint8_t white[4*4*4];
+
+            for(uint32_t i = 0; i < 4*4*4; i++)
+            {
+                white[i] = 255;
+            }
+
+            defaultTexture = createTexture(4, 4, &white[0]);
         }
 
         void OpenGL2DBackend::destroy()
@@ -79,31 +88,30 @@ namespace fea
             glm::vec2 vertex;
             GLsizei quadAmount = (GLsizei) vertices.size() / 2;
 
-            if(renderData.texture != -1)
+            if(renderData.texture == -1)
             {
-                GLuint texture = textures.at(renderData.texture);
-                glBindTexture(GL_TEXTURE_2D, texture);
-
-                //glm::ivec2 size;
-                //glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &size[0]);
-                //glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &size[1]);
-
-                glUniform2fv(mode->constrainXUniform, 1, glm::value_ptr(renderData.constrainX));
-
-                glUniform2fv(mode->constrainYUniform, 1, glm::value_ptr(renderData.constrainY));
-
-                glUniform2fv(mode->textureScroll, 1, glm::value_ptr(renderData.textureScroll));
-
-                glUniform1fv(mode->parallax, 1, &renderData.parallax);
-                
-                glUniform3fv(mode->colour, 1, glm::value_ptr(renderData.colour));
-
-                glUniform1fv(mode->opacity, 1, &renderData.opacity);
+                glBindTexture(GL_TEXTURE_2D, textures.at(defaultTexture.getId()));
             }
             else
             {
-                glBindTexture(GL_TEXTURE_2D, 0);
+                GLuint texture = textures.at(renderData.texture);
+                glBindTexture(GL_TEXTURE_2D, texture);
             }
+            //glm::ivec2 size;
+            //glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &size[0]);
+            //glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &size[1]);
+
+            glUniform2fv(mode->constrainXUniform, 1, glm::value_ptr(renderData.constrainX));
+
+            glUniform2fv(mode->constrainYUniform, 1, glm::value_ptr(renderData.constrainY));
+
+            glUniform2fv(mode->textureScroll, 1, glm::value_ptr(renderData.textureScroll));
+
+            glUniform1fv(mode->parallax, 1, &renderData.parallax);
+
+            glUniform3fv(mode->colour, 1, glm::value_ptr(renderData.colour));
+
+            glUniform1fv(mode->opacity, 1, &renderData.opacity);
 
             //glVertexPointer(2, GL_FLOAT, 0, &vertices[0]);
             //glTexCoordPointer(2, GL_FLOAT, 0, &texCoords[0]);
@@ -256,7 +264,6 @@ namespace fea
         
         Texture OpenGL2DBackend::createTexture(uint32_t w, uint32_t h, const uint8_t* imageData, bool smooth)
         {
-
             GLuint id;
 
             glGenTextures(1, &id);

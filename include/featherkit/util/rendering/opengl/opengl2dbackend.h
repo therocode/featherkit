@@ -46,6 +46,8 @@ namespace fea
                 Viewport* viewport;
 
                 sth_stash* stash;
+
+                Texture defaultTexture;
         };
     }
 }
