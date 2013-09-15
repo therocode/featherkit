@@ -6,7 +6,7 @@ namespace fea
 {
     namespace util
     {
-        OpenGL2DBackend::OpenGL2DBackend() : nextTextureId(0), nextRenderTargetId(0)
+        OpenGL2DBackend::OpenGL2DBackend()
         {
         }
 
@@ -27,14 +27,7 @@ namespace fea
 
             stash = sth_create(512, 512);
 
-            uint8_t white[4*4*4];
-
-            for(uint32_t i = 0; i < 4*4*4; i++)
-            {
-                white[i] = 255;
-            }
-
-            defaultTexture = createTexture(4, 4, &white[0]);
+            defaultTexture.create(4, 4, 1.0f, 1.0f, 1.0f);
         }
 
         void OpenGL2DBackend::destroy()
@@ -48,7 +41,7 @@ namespace fea
         
         void OpenGL2DBackend::clear(const RenderTarget& target)
         {
-            glBindFramebuffer(GL_FRAMEBUFFER, renderTargets.at(target.getId()));
+            glBindFramebuffer(GL_FRAMEBUFFER, target.getId());
 
             glClear(GL_COLOR_BUFFER_BIT);
 
@@ -90,11 +83,11 @@ namespace fea
 
             if(renderData.texture == -1)
             {
-                glBindTexture(GL_TEXTURE_2D, textures.at(defaultTexture.getId()));
+                glBindTexture(GL_TEXTURE_2D, defaultTexture.getId());
             }
             else
             {
-                GLuint texture = textures.at(renderData.texture);
+                GLuint texture = renderData.texture;
                 glBindTexture(GL_TEXTURE_2D, texture);
             }
             //glm::ivec2 size;
@@ -122,7 +115,7 @@ namespace fea
         
         void OpenGL2DBackend::render(const RenderData& renderData, const RenderTarget& target)
         {
-            glBindFramebuffer(GL_FRAMEBUFFER, renderTargets.at(target.getId()));
+            glBindFramebuffer(GL_FRAMEBUFFER, target.getId());
 
             render(renderData);
 
@@ -182,7 +175,7 @@ namespace fea
         
         void OpenGL2DBackend::renderText(const TextData& textData, const RenderTarget& target)
         {
-            glBindFramebuffer(GL_FRAMEBUFFER, renderTargets.at(target.getId()));
+            glBindFramebuffer(GL_FRAMEBUFFER, target.getId());
 
             renderText(textData);
 
@@ -260,72 +253,6 @@ namespace fea
             sth_set_projection(stash, projection);
 
             viewport = &view;
-        }
-        
-        Texture OpenGL2DBackend::createTexture(uint32_t w, uint32_t h, const uint8_t* imageData, bool smooth)
-        {
-            GLuint id;
-
-            glGenTextures(1, &id);
-            glBindTexture(GL_TEXTURE_2D, id);
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLsizei)w, (GLsizei)h, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
-
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, smooth ? GL_LINEAR : GL_NEAREST);
-            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, smooth ? GL_LINEAR : GL_NEAREST);
-
-            glBindTexture(GL_TEXTURE_2D, 0);
-
-            Texture newTexture(*this, nextTextureId);
-            textures.emplace(nextTextureId, id);
-            nextTextureId++;
-            
-            return newTexture;
-        }
-        
-        void OpenGL2DBackend::destroyTexture(int32_t id)
-        {
-            glDeleteTextures(1, &textures.at(id));
-            textures.erase(id);
-        }
-        
-        RenderTarget OpenGL2DBackend::createRenderTarget(uint32_t w, uint32_t h, bool smooth)
-        {
-            GLuint targetId;
-            GLuint textureId;
-
-            glGenFramebuffers(1, &targetId);
-            glBindFramebuffer(GL_FRAMEBUFFER, targetId);
-
-            glGenTextures(1, &textureId);
-            glBindTexture(GL_TEXTURE_2D, textureId);
-
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLsizei)w, (GLsizei)h, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, smooth ? GL_LINEAR : GL_NEAREST);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, smooth ? GL_LINEAR : GL_NEAREST);
-            //glGenerateMipmap(GL_TEXTURE_2D);
-
-            glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureId, 0);
-
-            glBindFramebuffer(GL_FRAMEBUFFER, 0);
-            glBindTexture(GL_TEXTURE_2D, 0);
-            
-            RenderTarget newTarget(*this, nextRenderTargetId, w, h, Texture(*this, nextTextureId));
-            renderTargets.emplace(nextRenderTargetId, targetId);
-            textures.emplace(nextTextureId, textureId);
-            nextTextureId++;
-            nextRenderTargetId++;
-
-            return newTarget;
-        }
-
-        void OpenGL2DBackend::destroyRenderTarget(int32_t id)
-        {
-            glDeleteFramebuffers(1, &renderTargets.at(id));
-            renderTargets.erase(id);
         }
 
         void OpenGL2DBackend::createOrthoProjection(GLfloat left, GLfloat right, GLfloat top, GLfloat bottom, GLfloat near, GLfloat far, GLfloat* matrix) const

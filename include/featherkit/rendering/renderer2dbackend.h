@@ -31,10 +31,6 @@ namespace fea
             virtual void setClearColour(const glm::vec3& colour) = 0;
             virtual void setBlendMode(BlendMode mode) = 0;
             virtual void setViewport(Viewport& view) = 0;
-            virtual Texture createTexture(uint32_t w, uint32_t h, const uint8_t* imageData, bool smooth = false) = 0;
-            virtual void destroyTexture(int32_t id) = 0;
-            virtual RenderTarget createRenderTarget(uint32_t w, uint32_t h, bool smooth = false) = 0;
-            virtual void destroyRenderTarget(int32_t id) = 0;
     };
     /** @addtogroup Render2D
      *@{

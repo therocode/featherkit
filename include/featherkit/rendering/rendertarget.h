@@ -11,17 +11,18 @@ namespace fea
     {
         public:
             RenderTarget();
-            RenderTarget(Renderer2DBackend& backend, int32_t i, uint32_t w, uint32_t h, Texture&& tex);
+            RenderTarget(Renderer2DBackend& backend, int32_t i, uint32_t w, uint32_t h);
             RenderTarget(RenderTarget&& other);
             RenderTarget(const RenderTarget& other) = delete;
             RenderTarget& operator=(RenderTarget&& other);
-            int32_t getId() const;
+            GLuint getId() const;
             glm::uvec2 getSize() const;
             const Texture& getTexture() const;
+            void create(uint32_t w, uint32_t h, bool smooth);
             ~RenderTarget();
         private:
             Renderer2DBackend* creator;
-            int32_t id;
+            GLuint id;
             uint32_t width;
             uint32_t height;
             Texture texture;

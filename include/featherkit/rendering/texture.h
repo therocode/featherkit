@@ -1,23 +1,24 @@
 #pragma once
 #include <stdint.h>
+#include <featherkit/util/rendering/opengl/opengl.h>
+#include <glm/glm.hpp>
 
 namespace fea
 {
-    class Renderer2DBackend;
-
     class Texture
     {
         public:
             Texture();
-            Texture(Renderer2DBackend& backend, int32_t i);
             Texture(Texture&& other);
             Texture(const Texture& other) = delete;
             Texture& operator=(Texture&& other);
-            int32_t getId() const;
+            GLuint getId() const;
+            void create(uint32_t w, uint32_t h, const uint8_t* imageData, bool smooth = false);
+            void create(uint32_t w, uint32_t h, const glm::vec3& colour, bool smooth = false);
+            void create(uint32_t w, uint32_t h, float r, float g, float b, bool smooth = false);
             ~Texture();
         private:
-            Renderer2DBackend* creator;
-            int32_t id;
+            GLuint id;
     };
     /** @addtogroup Render2D
      *@{

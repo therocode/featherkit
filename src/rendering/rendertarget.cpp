@@ -7,7 +7,7 @@ namespace fea
     {
     }
 
-    RenderTarget::RenderTarget(Renderer2DBackend& backend, int32_t i, uint32_t w, uint32_t h, Texture&& tex) : creator(&backend), id(i), width(w), height(h), texture(std::move(tex))
+    RenderTarget::RenderTarget(Renderer2DBackend& backend, int32_t i, uint32_t w, uint32_t h) : creator(&backend), id(i), width(w), height(h)
     {
     }
 
@@ -28,7 +28,7 @@ namespace fea
         return *this;
     }
 
-    int32_t RenderTarget::getId() const
+    GLuint RenderTarget::getId() const
     {
         return id;
     }
@@ -43,11 +43,24 @@ namespace fea
         return texture;
     }
 
+    void RenderTarget::create(uint32_t w, uint32_t h, bool smooth)
+    {
+        GLuint textureId;
+
+        glGenFramebuffers(1, &id);
+        glBindFramebuffer(GL_FRAMEBUFFER, id);
+
+        texture.create(w, h, nullptr);
+    
+        glBindTexture(GL_TEXTURE_2D, texture.getId());
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture.getId(), 0);
+
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        glBindTexture(GL_TEXTURE_2D, 0);
+    }
+
     RenderTarget::~RenderTarget()
     {
-        if(creator != nullptr)
-        {
-            creator->destroyRenderTarget(id);
-        }
+        glDeleteFramebuffers(1, &id);
     }
 }

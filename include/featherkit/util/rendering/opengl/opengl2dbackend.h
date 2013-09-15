@@ -30,16 +30,8 @@ namespace fea
                 void setClearColour(const glm::vec3& colour) override;
                 void setBlendMode(BlendMode mode) override;
                 void setViewport(Viewport& view) override;
-                Texture createTexture(uint32_t w, uint32_t h, const uint8_t* imageData, bool smooth = false) override;
-                void destroyTexture(int32_t id) override;
-                RenderTarget createRenderTarget(uint32_t w, uint32_t h, bool smooth = false) override;
-                void destroyRenderTarget(int32_t id) override;
             private:
-                std::unordered_map<int32_t, GLuint> textures;
-                int32_t nextTextureId;
-                std::unordered_map<int32_t, GLuint> renderTargets;
                 void createOrthoProjection(GLfloat left, GLfloat right, GLfloat top, GLfloat bottom, GLfloat near, GLfloat far, GLfloat* matrix) const;
-                int32_t nextRenderTargetId;
                 std::unordered_map<std::string, std::shared_ptr<OpenGLRenderMode> > renderModes;
                 std::weak_ptr<OpenGLRenderMode> currentMode;
 
