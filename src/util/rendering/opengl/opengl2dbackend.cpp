@@ -81,7 +81,7 @@ namespace fea
             glm::vec2 vertex;
             GLsizei quadAmount = (GLsizei) vertices.size() / 2;
 
-            if(renderData.texture == -1)
+            if(renderData.texture == 0)
             {
                 glBindTexture(GL_TEXTURE_2D, defaultTexture.getId());
             }

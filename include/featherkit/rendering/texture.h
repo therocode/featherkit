@@ -16,6 +16,7 @@ namespace fea
             void create(uint32_t w, uint32_t h, const uint8_t* imageData, bool smooth = false);
             void create(uint32_t w, uint32_t h, const glm::vec3& colour, bool smooth = false);
             void create(uint32_t w, uint32_t h, float r, float g, float b, bool smooth = false);
+            void destroy();
             ~Texture();
         private:
             GLuint id;

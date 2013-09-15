@@ -7,9 +7,9 @@ namespace fea
     {
     }
     
-    Texture::Texture(Texture&& other) : id(other.id)
+    Texture::Texture(Texture&& other)
     {
-        other.id = 0;
+        std::swap(id, other.id);
     }
     
     Texture& Texture::operator=(Texture&& other)
@@ -25,6 +25,11 @@ namespace fea
     
     void Texture::create(uint32_t w, uint32_t h, const uint8_t* imageData, bool smooth)
     {
+        if(id)
+        {
+            destroy();
+        }
+
         glGenTextures(1, &id);
         glBindTexture(GL_TEXTURE_2D, id);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLsizei)w, (GLsizei)h, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
@@ -62,9 +67,21 @@ namespace fea
         create(w, h, pixels, smooth);
         delete [] pixels;
     }
+
+    void Texture::destroy()
+    {
+        if(id)
+        {
+            glDeleteTextures(1, &id);
+            id = 0;
+        }
+    }
     
     Texture::~Texture()
     {
-        glDeleteTextures(1, &id);
+        if(id)
+        {
+            destroy();
+        }
     }
 }
