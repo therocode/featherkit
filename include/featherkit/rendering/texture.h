@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include <featherkit/util/rendering/opengl/opengl.h>
 #include <glm/glm.hpp>
+#include <functional>
 
 namespace fea
 {
@@ -20,6 +21,7 @@ namespace fea
             void setInteractive(bool interactive);
             void setPixel(uint32_t x, uint32_t y, float r, float g, float b, float a = 1.0f);
             void setPixelAsByte(uint32_t x, uint32_t y, uint8_t r, uint8_t g, uint8_t b, uint8_t a = 255);
+            void setPixels(std::function<void(uint32_t x, uint32_t y, uint8_t* pixels)> f);
             glm::vec4 getPixel(uint32_t x, uint32_t y) const;
             glm::uvec4 getPixelAsByte(uint32_t x, uint32_t y) const;
             void update();

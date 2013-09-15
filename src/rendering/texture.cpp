@@ -121,6 +121,11 @@ namespace fea
         pixelData[pixelIndex + 2] = b;
         pixelData[pixelIndex + 3] = a;
     }
+    
+    void Texture::setPixels(std::function<void(uint32_t x, uint32_t y, uint8_t* pixels)> f)
+    {
+        f(width, height, pixelData);
+    }
 
     glm::vec4 Texture::getPixel(uint32_t x, uint32_t y) const
     {
