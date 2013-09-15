@@ -1,20 +1,27 @@
 #include <featherkit/rendering/texture.h>
 #include <utility>
+#include <iostream>
 
 namespace fea
 {
-    Texture::Texture() : id(0)
+    Texture::Texture() : id(0), width(0), height(0), pixelData(nullptr)
     {
     }
     
-    Texture::Texture(Texture&& other)
+    Texture::Texture(Texture&& other) : id(0), width(0), height(0), pixelData(nullptr)
     {
         std::swap(id, other.id);
+        std::swap(width, other.width);
+        std::swap(height, other.height);
+        std::swap(pixelData, other.pixelData);
     }
     
     Texture& Texture::operator=(Texture&& other)
     {
         std::swap(id, other.id);
+        std::swap(width, other.width);
+        std::swap(height, other.height);
+        std::swap(pixelData, other.pixelData);
         return *this;
     }
 
@@ -25,12 +32,17 @@ namespace fea
     
     void Texture::create(uint32_t w, uint32_t h, const uint8_t* imageData, bool smooth)
     {
+        width = w;
+        height = h;
+
         if(id)
         {
             destroy();
         }
-
+        
+        std::cout << "creating a texture, the id is now " << id << "\n";
         glGenTextures(1, &id);
+        std::cout << "now it is" << id << "\n";
         glBindTexture(GL_TEXTURE_2D, id);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLsizei)w, (GLsizei)h, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
 
@@ -74,6 +86,63 @@ namespace fea
         {
             glDeleteTextures(1, &id);
             id = 0;
+            width = 0;
+            height = 0;
+            delete [] pixelData;
+            pixelData = nullptr;
+        }
+    }
+
+    void Texture::setInteractive(bool interactive)
+    {
+        if(interactive && !pixelData)
+        {
+            pixelData = new uint8_t[width * height * 4];
+            glBindTexture(GL_TEXTURE_2D, id);
+            glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixelData);
+        }
+        else if(!interactive && pixelData)
+        {
+            delete [] pixelData;
+            pixelData = nullptr;
+        }
+    }
+    
+    void Texture::setPixel(uint32_t x, uint32_t y, float r, float g, float b, float a)
+    {
+        setPixelAsByte(x, y, r * 255, g * 255, b * 255, a * 255);
+    }
+    
+    void Texture::setPixelAsByte(uint32_t x, uint32_t y, uint8_t r, uint8_t g, uint8_t b, uint8_t a)
+    {
+        uint32_t pixelIndex = (x + y * width) * 4;
+        pixelData[pixelIndex    ] = r;
+        pixelData[pixelIndex + 1] = g;
+        pixelData[pixelIndex + 2] = b;
+        pixelData[pixelIndex + 3] = a;
+    }
+
+    glm::vec4 Texture::getPixel(uint32_t x, uint32_t y) const
+    {
+        return ((glm::vec4)getPixelAsByte(x, y)) / 255.0f;
+    }
+
+    glm::uvec4 Texture::getPixelAsByte(uint32_t x, uint32_t y) const
+    {
+        uint32_t pixelIndex = (x + y * width) * 4;
+        return glm::uvec4(pixelData[pixelIndex],
+                         pixelData[pixelIndex + 1],
+                         pixelData[pixelIndex + 2],
+                         pixelData[pixelIndex + 3]);
+    }
+
+    void Texture::update()
+    {
+        if(pixelData)
+        {
+            std::cout << "HEJ " << width << " " << height << "\n";
+            glBindTexture(GL_TEXTURE_2D, id);
+            glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, pixelData);
         }
     }
     
@@ -81,6 +150,7 @@ namespace fea
     {
         if(id)
         {
+            std::cout << "id was " << id << " so i'll delete it!\n";
             destroy();
         }
     }

@@ -7,7 +7,7 @@ namespace fea
     {
     }
 
-    RenderTarget::RenderTarget(RenderTarget&& other)
+    RenderTarget::RenderTarget(RenderTarget&& other) : id(0), width(0), height(0)
     {
         std::swap(id, other.id);
         std::swap(width, other.width);
