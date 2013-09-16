@@ -1,6 +1,7 @@
 #include <featherkit/rendering/texture.h>
 #include <utility>
 #include <iostream>
+#include <cstring>
 
 namespace fea
 {
@@ -30,7 +31,7 @@ namespace fea
         return id;
     }
     
-    void Texture::create(uint32_t w, uint32_t h, const uint8_t* imageData, bool smooth)
+    void Texture::create(uint32_t w, uint32_t h, const uint8_t* imageData, bool smooth, bool interactive)
     {
         width = w;
         height = h;
@@ -52,14 +53,21 @@ namespace fea
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, smooth ? GL_LINEAR : GL_NEAREST);
 
         glBindTexture(GL_TEXTURE_2D, 0);
+
+        if(interactive)
+        {
+            uint32_t byteAmount = width * height * 4;
+            pixelData = new uint8_t[byteAmount];
+            memcpy(pixelData, imageData, byteAmount);
+        }
     }
 
-    void Texture::create(uint32_t w, uint32_t h, const glm::vec3& colour, bool smooth)
+    void Texture::create(uint32_t w, uint32_t h, const glm::vec3& colour, bool smooth, bool interactive)
     {
-        create(w, h, colour.r, colour.g, colour.b, smooth);
+        create(w, h, colour.r, colour.g, colour.b, smooth, interactive);
     }
 
-    void Texture::create(uint32_t w, uint32_t h, float r, float g, float b, bool smooth)
+    void Texture::create(uint32_t w, uint32_t h, float r, float g, float b, bool smooth, bool interactive)
     {
         uint8_t* pixels = new uint8_t[w * h * 4];
         uint8_t red = 255 * r;
@@ -76,7 +84,7 @@ namespace fea
                 pixels[(x + y * w) * 4 + 3] = 255;
             }
         }
-        create(w, h, pixels, smooth);
+        create(w, h, pixels, smooth, interactive);
         delete [] pixels;
     }
 
@@ -88,21 +96,6 @@ namespace fea
             id = 0;
             width = 0;
             height = 0;
-            delete [] pixelData;
-            pixelData = nullptr;
-        }
-    }
-
-    void Texture::setInteractive(bool interactive)
-    {
-        if(interactive && !pixelData)
-        {
-            pixelData = new uint8_t[width * height * 4];
-            glBindTexture(GL_TEXTURE_2D, id);
-            glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixelData);
-        }
-        else if(!interactive && pixelData)
-        {
             delete [] pixelData;
             pixelData = nullptr;
         }

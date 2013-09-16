@@ -14,11 +14,10 @@ namespace fea
             Texture(const Texture& other) = delete;
             Texture& operator=(Texture&& other);
             GLuint getId() const;
-            void create(uint32_t w, uint32_t h, const uint8_t* imageData, bool smooth = false);
-            void create(uint32_t w, uint32_t h, const glm::vec3& colour, bool smooth = false);
-            void create(uint32_t w, uint32_t h, float r, float g, float b, bool smooth = false);
+            void create(uint32_t w, uint32_t h, const uint8_t* imageData, bool smooth = false, bool interactive = false);
+            void create(uint32_t w, uint32_t h, const glm::vec3& colour, bool smooth = false, bool interactive = false);
+            void create(uint32_t w, uint32_t h, float r, float g, float b, bool smooth = false, bool interactive = false);
             void destroy();
-            void setInteractive(bool interactive);
             void setPixel(uint32_t x, uint32_t y, float r, float g, float b, float a = 1.0f);
             void setPixelAsByte(uint32_t x, uint32_t y, uint8_t r, uint8_t g, uint8_t b, uint8_t a = 255);
             void setPixels(std::function<void(uint32_t x, uint32_t y, uint8_t* pixels)> f);
