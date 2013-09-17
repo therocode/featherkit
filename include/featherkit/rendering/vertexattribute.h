@@ -1,3 +1,6 @@
+#pragma once
+#include <cstdint>
+
 namespace fea
 {
     class VertexAttribute

@@ -10,7 +10,6 @@ namespace fea
 {
     class RenderMode;
 
-    enum BlendMode { NONE, ALPHA, ADD, MULTIPLY, MULTIPLY2X };
 
     class Renderer2DBackend
     {

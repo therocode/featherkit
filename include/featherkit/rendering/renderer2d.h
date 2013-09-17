@@ -1,5 +1,4 @@
 #pragma once
-#include <featherkit/rendering/renderer2dbackend.h>
 #include <featherkit/rendering/viewport.h>
 #include <stdexcept>
 #include <memory>
@@ -17,27 +16,29 @@ namespace fea
     class Renderer2D
     {
         public:
-            Renderer2D(Renderer2DBackend* b, Viewport v);
+            Renderer2D(const Viewport& v);
             void setup();
             void destroy();
-            void clear();
-            void clear(const RenderTarget& target);
-            void preRender();
-            void render(const Drawable2D& drawable);
-            void render(const Drawable2D& drawable, const RenderTarget& target);
-            void postRender();
+            void clear(float r, float g, float b);
+            void clear(const glm::vec3& colour = glm::vec3());
+            void clear(const RenderTarget& target, float r, float g, float b);
+            void clear(const RenderTarget& target, const glm::vec3& colour = glm::vec3());
+            void queue(const Drawable2D& drawable);
             void setViewport(const Viewport& viewport);
             Viewport& getViewport();
             int32_t addFont(uint8_t* fontData);
-            void addRenderMode(const std::string& name, RenderMode* newMode);
-            void setRenderMode(const std::string& mode);
-            void setClearColour(float r, float g, float b);
-            void setClearColour(const glm::vec3& colour);
             void setBlendMode(BlendMode mode);
         private:
             std::unique_ptr<Renderer2DBackend> backend;
             Viewport currentViewport;
-            uint32_t clock;
+
+            sth_stash* stash;
+
+            Texture defaultTexture;
+            float projection[16];
+
+            //cache
+            glm::vec3 clearColour;
     };
     /** @addtogroup Render2D
      *@{

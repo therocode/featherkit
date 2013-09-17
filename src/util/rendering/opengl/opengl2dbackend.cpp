@@ -6,47 +6,6 @@ namespace fea
 {
     namespace util
     {
-        OpenGL2DBackend::OpenGL2DBackend()
-        {
-        }
-
-        void OpenGL2DBackend::setup()
-        {
-            glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-            //glEnable(GL_TEXTURE_2D);
-            glDisable(GL_DEPTH_TEST);
-            glEnable(GL_BLEND);
-            glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-            glewInit();
-
-            for(auto& mode : renderModes)
-            {
-                mode.second->setup();
-            }
-
-            stash = sth_create(512, 512);
-
-            defaultTexture.create(4, 4, 1.0f, 1.0f, 1.0f);
-        }
-
-        void OpenGL2DBackend::destroy()
-        {
-        }
-
-        void OpenGL2DBackend::clear()
-        {
-            glClear(GL_COLOR_BUFFER_BIT);
-        }
-        
-        void OpenGL2DBackend::clear(const RenderTarget& target)
-        {
-            glBindFramebuffer(GL_FRAMEBUFFER, target.getId());
-
-            glClear(GL_COLOR_BUFFER_BIT);
-
-            glBindFramebuffer(GL_FRAMEBUFFER, 0);
-        }
 
         void OpenGL2DBackend::preRender()
         {
@@ -182,16 +141,6 @@ namespace fea
             glBindFramebuffer(GL_FRAMEBUFFER, 0);
         }
 
-        int32_t OpenGL2DBackend::addFont(uint8_t* fontData)
-        {
-            int font = sth_add_font_from_memory(stash, fontData);
-            if(font == 0)
-            {
-                //throw font error
-            }
-            return font;
-        }
-        
         void OpenGL2DBackend::addRenderMode(const std::string& name, RenderMode* newMode)
         {
             renderModes.emplace(name, std::shared_ptr<OpenGLRenderMode>((OpenGLRenderMode*) newMode));
@@ -202,35 +151,6 @@ namespace fea
             currentMode = renderModes.at(mode);
         }
         
-        void OpenGL2DBackend::setClearColour(const glm::vec3& colour)
-        {
-            glClearColor(colour.r, colour.g, colour.b, 0.0f);
-        }
-        
-        void OpenGL2DBackend::setBlendMode(BlendMode mode)
-        {
-            switch(mode)
-            {
-                case NONE:
-                    glBlendFunc(GL_ONE, GL_ZERO);
-                    break;
-                case ALPHA:
-                    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-                    break;
-                case ADD:
-                    glBlendFunc(GL_ONE, GL_ONE);
-                    break;
-                case MULTIPLY:
-                    glBlendFunc(GL_DST_COLOR, GL_ZERO);
-                    break;
-                case MULTIPLY2X:
-                    glBlendFunc(GL_DST_COLOR, GL_SRC_COLOR);
-                    break;
-                default:
-                    glBlendFunc(GL_ONE, GL_ZERO);
-                    break;
-            }
-        }
 
         void OpenGL2DBackend::setViewport(Viewport& view)
         {

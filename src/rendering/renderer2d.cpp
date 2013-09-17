@@ -10,98 +10,87 @@ namespace fea
     {
     }
 
-    Renderer2D::Renderer2D(Renderer2DBackend* b, Viewport v) : backend(b), currentViewport(v), clock(0)
+    Renderer2D::Renderer2D(const Viewport& v) : currentViewport(v)
     {
+    }
+    
+    void Renderer2D::setup()
+    {
+        glewInit();
+
+        glDisable(GL_DEPTH_TEST);
+        glEnable(GL_BLEND);
+        glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+
+        stash = sth_create(512, 512);
+
+        defaultTexture.create(4, 4, 1.0f, 1.0f, 1.0f);
+
+        setViewport(currentViewport);
+    }
+
+    void Renderer2D::destroy()
+    {
+        sth_delete(stash);
+        defaultTexture.destroy();
     }
 
     void Renderer2D::clear()
     {
         backend->clear();
     }
+
+    void clear(float r, float g, float b)
+    {
+        clear(glm::vec3(r, g, b);
+    }
+
+    void clear(const glm::vec3& colour = glm::vec3())
+    {
+        if(clearColour != colour)
+        {
+            glClearColor(colour.r, colour.g, colour.b, 0.0f);
+            clearColour = colour;
+        }
+
+        glClear(GL_COLOR_BUFFER_BIT);
+    }
+
+    void clear(const RenderTarget& target, float r, float g, float b)
+    {
+        clear(target, glm::vec3(r, g, b));
+    }
+
+    void clear(const RenderTarget& target, const glm::vec3& colour = glm::vec3())
+    {
+        if(clearColour != colour)
+        {
+            glClearColor(colour.r, colour.g, colour.b, 0.0f);
+            clearColour = colour;
+        }
+
+        glBindFramebuffer(GL_FRAMEBUFFER, target.getId());
+        glClear(GL_COLOR_BUFFER_BIT);
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    }
     
-    void Renderer2D::clear(const RenderTarget& target)
+    void queue(const Drawable2D& drawable)
     {
-        backend->clear(target);
-    }
-    
-    void Renderer2D::setup()
-    {
-        backend->setup();
-        backend->setViewport(currentViewport);
-    }
+        RenderInfo = drawable.getRenderInfo();
 
-    void Renderer2D::destroy()
-    {
-        backend->destroy();
-    }
-
-    void Renderer2D::preRender()
-    {
-        backend->preRender();
-    }
-
-    void Renderer2D::render(const Drawable2D& drawable)
-    {
-        if(drawable.isText)
-        {
-            const Text& text = (const Text&) drawable;
-            TextData temp;
-            temp.text = text.getText();
-            temp.position = text.getPosition();
-            temp.colour = text.getColour();
-            temp.size = text.getTextSize();
-            temp.font = text.getFont();
-            temp.parallax = text.getParallax();
-            temp.opacity = text.getOpacity();
-
-            backend->renderText(temp);
-        }
-        else
-        {
-            RenderData temp;
-
-            drawable.getRenderData(temp, clock);
-
-            backend->render(temp);
-        }
-    }
-
-    void Renderer2D::render(const Drawable2D& drawable, const RenderTarget& target)
-    {
-        if(drawable.isText)
-        {
-            const Text& text = (const Text&) drawable;
-            TextData temp;
-            temp.text = text.getText();
-            temp.position = text.getPosition();
-            temp.colour = text.getColour();
-            temp.size = text.getTextSize();
-            temp.font = text.getFont();
-            temp.parallax = text.getParallax();
-            temp.opacity = text.getOpacity();
-
-            backend->renderText(temp, target);
-        }
-        else
-        {
-            RenderData temp;
-
-            drawable.getRenderData(temp, clock);
-
-            backend->render(temp, target);
-        }
-    }
-
-    void Renderer2D::postRender()
-    {
-        backend->postRender();
-        clock++;
+        //queueing!
     }
 
     void Renderer2D::setViewport(const Viewport& viewport)
     {
         currentViewport = viewport;
-        backend->setViewport(currentViewport);
+        const glm::uvec2& viewSize = view.getSize();
+        const glm::ivec2& viewPos = view.getPosition();
+        glViewport(viewPos.x, viewPos.y, (GLsizei)viewSize.x, (GLsizei)viewSize.y);
+
+        createOrthoProjection(0.0f, viewSize.x, 0.0f, viewSize.y, 0.000000001f, 100.0f, &projection[0]);
+        sth_set_projection(stash, projection);
     }
     
     Viewport& Renderer2D::getViewport()
@@ -111,7 +100,8 @@ namespace fea
     
     int32_t Renderer2D::addFont(uint8_t* fontData)
     {
-        int32_t font = backend->addFont(fontData);
+        int32_t font = sth_add_font_from_memory(stash, fontData);
+        
         if(font != 0)
         {
             return font;
@@ -124,28 +114,28 @@ namespace fea
         }
     }
     
-    void Renderer2D::addRenderMode(const std::string& name, RenderMode* newMode)
-    {
-        backend->addRenderMode(name, newMode);
-    }
-    
-    void Renderer2D::setRenderMode(const std::string& mode)
-    {
-        backend->setRenderMode(mode);
-    }
-    
-    void Renderer2D::setClearColour(float r, float g, float b)
-    {
-        backend->setClearColour(glm::vec3(r, g, b));
-    }
-    
-    void Renderer2D::setClearColour(const glm::vec3& colour)
-    {
-        backend->setClearColour(colour);
-    }
-    
     void Renderer2D::setBlendMode(BlendMode mode)
     {
-        backend->setBlendMode(mode);
+        switch(mode)
+        {
+            case NONE:
+                glBlendFunc(GL_ONE, GL_ZERO);
+                break;
+            case ALPHA:
+                glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+                break;
+            case ADD:
+                glBlendFunc(GL_ONE, GL_ONE);
+                break;
+            case MULTIPLY:
+                glBlendFunc(GL_DST_COLOR, GL_ZERO);
+                break;
+            case MULTIPLY2X:
+                glBlendFunc(GL_DST_COLOR, GL_SRC_COLOR);
+                break;
+            default:
+                glBlendFunc(GL_ONE, GL_ZERO);
+                break;
+        }
     }
 }

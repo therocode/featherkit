@@ -1,3 +1,6 @@
+#pragma once
+#include <cstdint>
+
 namespace fea
 {
     enum UniformType{FLOAT, VEC2, VEC3};
@@ -12,6 +15,6 @@ namespace fea
                 float floatVal;
                 glm::vec2 vec2Val;
                 glm::vec3 vec3Val;
-            }
+            };
     };
 }

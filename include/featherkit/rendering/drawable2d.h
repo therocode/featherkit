@@ -1,18 +1,23 @@
 #pragma once
 #include <vector>
 #include <glm/glm.hpp>
-#include <featherkit/rendering/renderdata.h>
+#include <featherkit/rendering/renderinfo.h>
 #include <stdint.h>
 #include <string>
 
 namespace fea
 {
+    struct AABB
+    {
+        glm::vec2 start;
+        glm::vec2 end;
+    };
+
     class Drawable2D
     {
         public:
             Drawable2D();
             const std::vector<float>& getVertices() const;
-            std::vector<float> getVerticesTransformed() const;
             void setPosition(const float x, const float y);
             void setPosition(const glm::vec2& p);
             const glm::vec2& getPosition() const;
@@ -36,14 +41,9 @@ namespace fea
             glm::vec3 getColour() const;
             void setOpacity(float o);
             float getOpacity() const;
-            void addTransformation(const glm::mat2x2& t);
-            const glm::mat2x2& getTransformation(uint32_t index) const;
-            uint32_t getTransformationCount() const;
-            void clearTransformations();
-            virtual void getRenderData(RenderData& renderData, uint32_t time) const;
             AABB getAABB() const;
 
-            bool isText; //OJOJOJOJOJOJ ugly hack
+            virtual RenderInfo getRenderInfo() const;
         protected:
             std::vector<float> vertices;
             glm::vec2 position;
