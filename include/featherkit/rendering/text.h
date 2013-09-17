@@ -31,9 +31,10 @@ namespace fea
      *  Texts have a font associated with them which must be added to the Renderer2D before any text of that font is rendered.
      *
      *  Texts can be scaled and positioned, but not rotated.
+     *  Texts are coloured black by default.
      ***
      *  @fn Text::Text(const std::string& t)
-     *  @brief Construct a Text drawable with the given string.
+     *  @brief Construct a Text drawable with the given string with the default colour black.
      *  @param t Text string.
      ***
      *  @fn Text::Text(const std::string& t, float r, float g, float b)
