@@ -11,34 +11,6 @@ namespace fea
         return vertices;
     }
     
-    std::vector<float> Drawable2D::getVerticesTransformed() const
-    {
-        std::vector<float> result;
-
-        glm::vec2 point;
-
-        float sin = glm::sin(rotation);
-        float cos = glm::cos(rotation);
-        glm::mat2x2 rot = glm::mat2x2(cos, sin, -sin, cos);
-
-        glm::mat2x2 transformation;
-
-        for(uint32_t i = 0; i < transformations.size(); i++)
-        {
-            transformation *= transformations[i];
-        }
-
-        for(uint32_t i = 0; i < vertices.size(); i+=2)
-        {
-            point = glm::vec2(vertices[i], vertices[i+1]);
-            point = (rot * ( transformation * (scaling * point) - origin)) + position;
-            result.push_back(point.x);
-            result.push_back(point.y);
-        }
-        
-        return result;
-    }
-    
     void Drawable2D::setPosition(const float x, const float y)
     {
         position.x = x;
@@ -154,25 +126,15 @@ namespace fea
     {
         return opacity;
     }
-    
-    void Drawable2D::addTransformation(const glm::mat2x2& t)
+
+    void setDrawMode(GLenum mode)
     {
-        transformations.push_back(t);
+        drawMode = mode;
     }
 
-    const glm::mat2x2& Drawable2D::getTransformation(uint32_t index) const
+    GLenum getDrawMode() const
     {
-        return transformations[index];
-    }
-
-    uint32_t Drawable2D::getTransformationCount() const
-    {
-        return (uint32_t)transformations.size();
-    }
-
-    void Drawable2D::clearTransformations()
-    {
-        transformations.clear();
+        return drawMode;
     }
     
     void Drawable2D::getRenderData(RenderData& renderData, uint32_t time) const
@@ -206,5 +168,25 @@ namespace fea
         }
 
         return result;
+    }
+
+    RenderInfo Drawable2D::getRenderInfo() const
+    {
+        RenderInfo temp;
+        std::hash<std::string> stringHasher;
+
+        temp.drawMode = drawMode;
+        temp.uniforms.push_back(Uniform(stringHasher("texture"), Uniform::TEXTURE, 0)); //fixi
+        temp.uniforms.push_back(Uniform(stringHasher("constraints"), Uniform::VEC4, glm::vec4(0.0f, 0.0f, 1.0f, 1.0f)); //fixi
+        temp.uniforms.push_back(Uniform(stringHasher("parallax"), Uniform::FLOAT, parallax);
+        temp.uniforms.push_back(Uniform(stringHasher("colour"), Uniform::VEC3, colour));
+        temp.uniforms.push_back(Uniform(stringHasher("opacity"), Uniform::FLOAT, opacity);
+        temp.uniforms.push_back(Uniform(stringHasher("origin"), Uniform::VEC2, origin);
+        temp.uniforms.push_back(Uniform(stringHasher("rotation"), Uniform::FLOAT, rotation);
+        temp.uniforms.push_back(Uniform(stringHasher("scaling"), Uniform::VEC2, scaling);
+
+        temp.vertexAttributes.push_back(stringHasher("position"), vertices.size(), &vertices[0]);
+        temp.vertexAttributes.push_back(stringHasher("texcoords"), 0, nullptr); //ajaj?
+        return temp;
     }
 }

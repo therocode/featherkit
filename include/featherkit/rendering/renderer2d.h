@@ -24,6 +24,10 @@ namespace fea
             void clear(const RenderTarget& target, float r, float g, float b);
             void clear(const RenderTarget& target, const glm::vec3& colour = glm::vec3());
             void queue(const Drawable2D& drawable);
+            void render();
+            void render(const RenderTarget& target);
+            void render(const Shader& shader);
+            void render(const RenderTarget& target, const Shader& shader);
             void setViewport(const Viewport& viewport);
             Viewport& getViewport();
             int32_t addFont(uint8_t* fontData);
@@ -35,7 +39,11 @@ namespace fea
             sth_stash* stash;
 
             Texture defaultTexture;
+            Shader defaultShader;
             float projection[16];
+
+            BlendMode currentBlendMode;
+            std::vector<RenderInfo> renderQueue;
 
             //cache
             glm::vec3 clearColour;

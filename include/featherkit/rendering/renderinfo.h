@@ -9,6 +9,7 @@ namespace fea
 
     struct RenderInfo
     {
+        uint32_t getDrawAmount() const;
         std::vector<Uniform> uniforms;
         std::vector<VertexAttribute> vertexAttributes;
         BlendMode blendMode;

@@ -41,12 +41,12 @@ namespace fea
         backend->clear();
     }
 
-    void clear(float r, float g, float b)
+    void Renderer2D::clear(float r, float g, float b)
     {
         clear(glm::vec3(r, g, b);
     }
 
-    void clear(const glm::vec3& colour = glm::vec3())
+    void Renderer2D::clear(const glm::vec3& colour = glm::vec3())
     {
         if(clearColour != colour)
         {
@@ -57,12 +57,12 @@ namespace fea
         glClear(GL_COLOR_BUFFER_BIT);
     }
 
-    void clear(const RenderTarget& target, float r, float g, float b)
+    void Renderer2D::clear(const RenderTarget& target, float r, float g, float b)
     {
         clear(target, glm::vec3(r, g, b));
     }
 
-    void clear(const RenderTarget& target, const glm::vec3& colour = glm::vec3())
+    void Renderer2D::clear(const RenderTarget& target, const glm::vec3& colour = glm::vec3())
     {
         if(clearColour != colour)
         {
@@ -75,11 +75,49 @@ namespace fea
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }
     
-    void queue(const Drawable2D& drawable)
+    void Renderer2D::queue(const Drawable2D& drawable)
     {
-        RenderInfo = drawable.getRenderInfo();
+        renderQueue.push_back(drawable.getRenderInfo());
+        renderQueue.end()->blendMode = currentBlendMode;
+    }
 
-        //queueing!
+    void Renderer2D::render()
+    {
+        render(defaultShader);
+    }
+
+    void Renderer2D::render(const RenderTarget& target)
+    {
+        render(target, defaultShader);
+    }
+
+    void Renderer2D::render(const Shader& shader)
+    {
+        shader.activate();
+        for(auto renderOperation& : renderQueue)
+        {
+            //setBlendMode
+
+            for(auto uniform& : renderOperation.uniforms)
+            {
+                shader.setUniform(uniform.index, uniform.type, &uniform.value);
+            }
+            
+            for(auto vertexAttribute& : renderOperation.vertexAttributes)
+            {
+                shader.setVertexAttribute(vertexAttribute.index, vertexAttribute.data);
+            }
+
+            glDrawArrays(renderOperation.drawMode, 0, renderOperation.drawAmount());
+        }
+        shader.deactivate();
+    }
+
+    void Renderer2D::render(const RenderTarget& target, const Shader& shader)
+    {
+        glBindFramebuffer(GL_FRAMEBUFFER, target.getId());
+        render(shader);
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }
 
     void Renderer2D::setViewport(const Viewport& viewport)
