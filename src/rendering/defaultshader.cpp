@@ -21,7 +21,11 @@ varying vec2 vTex;
 
 void main()
 {
-    vec2 worldSpaceCoords;// = //hejja bejja vertex.xy
+    float sinRot = sin(rotation);
+    float cosRot = cos(rotation);
+    mat2 rotMat = mat2(cosRot, sinRot, -sinRot, cosRot);
+
+    vec2 worldSpaceCoords = (rotMat * (scaling * vertex.xy - origin)) + position;
     vec2 transformedPoint = camRotation * (camZoom * (worldSpaceCoords - camPosition * parallax)) + halfViewSize;
     gl_Position = projection* vec4(transformedPoint.xy, vertex.zw);
     vTex = texCoords;
