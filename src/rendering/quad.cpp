@@ -1,4 +1,5 @@
 #include <featherkit/rendering/quad.h>
+#include <iostream>
 
 namespace fea
 {
@@ -119,8 +120,8 @@ namespace fea
         if(texture != nullptr)
             temp.uniforms.push_back(Uniform(stringHasher("texture"), TEXTURE, getTexture().getId()));
 
-        temp.vertexAttributes.push_back(VertexAttribute(stringHasher("texcoords"), 0, &texCoords[0])); //ajaj?
-
+        temp.vertexAttributes.push_back(VertexAttribute(stringHasher("texCoords"), &texCoords[0])); //ajaj?
+        
         return temp;
     }
 }

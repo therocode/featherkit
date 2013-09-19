@@ -63,7 +63,7 @@ namespace fea
 
         temp.uniforms.push_back(Uniform(stringHasher("texture"), TEXTURE, getTexture().getId()));
 
-        temp.vertexAttributes.push_back(VertexAttribute(stringHasher("texcoords"), texCoords.size(), &texCoords[0]));
+        temp.vertexAttributes.push_back(VertexAttribute(stringHasher("texCoords"), &texCoords[0]));
 
         return temp;
     }

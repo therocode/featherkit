@@ -1,6 +1,7 @@
 #include <featherkit/rendering/shader.h>
 #include <vector>
 #include <sstream>
+#include <iostream>
 
 namespace fea
 {
@@ -29,22 +30,35 @@ namespace fea
         switch(type)
         {
             case FLOAT:
+            {
                 glUniform1f(uniformLocations.at(index), *((float*)value));
                 break;
+            }
             case VEC2:
-                glUniform2f(uniformLocations.at(index), *((float*)value), *(((float*)value) + 1));
+            {
+                const glm::vec2& val2 = *((glm::vec2*)value);
+                glUniform2f(uniformLocations.at(index), val2.x, val2.y);
                 break;
+            }
             case VEC3:
-                glUniform3f(uniformLocations.at(index), *((float*)value), *(((float*)value) + 1), *(((float*)value) + 2));
+            {
+                const glm::vec3& val3 = *((glm::vec3*)value);
+                glUniform3f(uniformLocations.at(index), val3.x, val3.y, val3.z);
                 break;
+            }
             case VEC4:
-                glUniform4f(uniformLocations.at(index), *((float*)value), *(((float*)value) + 1), *(((float*)value) + 2), *(((float*)value) + 3));
+            {
+                const glm::vec4& val4 = *((glm::vec4*)value);
+                glUniform4f(uniformLocations.at(index), val4[0], val4[1], val4[2], val4[3]);
                 break;
+            }
             case TEXTURE:
+            {
                 glActiveTexture(GL_TEXTURE0);
                 glUniform1i(uniformLocations.at(index), 0);
                 glBindTexture(GL_TEXTURE_2D, *((GLuint*)value));
                 break;
+            }
         }
     }
     
@@ -106,12 +120,14 @@ namespace fea
         {
             if(line.find("attribute") != std::string::npos)
             {
-                std::string name = line.substr( line.find_last_of(" ") + 1, std::string::npos);
+                std::string name = line.substr( line.find_first_of(" ", line.find_first_of(" ") + 1) + 1, line.find_first_of(";") - line.find_first_of(" ", line.find_first_of(" ") + 1));
+                name.resize(name.size() - 1);
                 vertexAttributeLocations.emplace(stringHasher(name), glGetAttribLocation(programId , name.c_str()));
             }
             else if(line.find("uniform") != std::string::npos)
             {
-                std::string name = line.substr( line.find_last_of(" ") + 1, std::string::npos);
+                std::string name = line.substr( line.find_first_of(" ", line.find_first_of(" ") + 1) + 1, line.find_first_of(";") - line.find_first_of(" ", line.find_first_of(" ") + 1));
+                name.resize(name.size() - 1);
                 uniformLocations.emplace(stringHasher(name), glGetUniformLocation(programId , name.c_str()));
             }
         }
@@ -122,12 +138,14 @@ namespace fea
         {
             if(line.find("attribute") != std::string::npos)
             {
-                std::string name = line.substr( line.find_last_of(" ") + 1, std::string::npos);
+                std::string name = line.substr( line.find_first_of(" ", line.find_first_of(" ") + 1) + 1, line.find_first_of(";") - line.find_first_of(" ", line.find_first_of(" ") + 1));
+                name.resize(name.size() - 1);
                 vertexAttributeLocations.emplace(stringHasher(name), glGetAttribLocation(programId , name.c_str()));
             }
             else if(line.find("uniform") != std::string::npos)
             {
-                std::string name = line.substr( line.find_last_of(" ") + 1, std::string::npos);
+                std::string name = line.substr( line.find_first_of(" ", line.find_first_of(" ") + 1) + 1, line.find_first_of(";") - line.find_first_of(" ", line.find_first_of(" ") + 1));
+                name.resize(name.size() - 1);
                 uniformLocations.emplace(stringHasher(name), glGetUniformLocation(programId , name.c_str()));
             }
         }

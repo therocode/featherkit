@@ -2,7 +2,9 @@
 #include <featherkit/rendering/renderer2d.h>
 #include <featherkit/rendering/drawable2d.h>
 #include <featherkit/rendering/projection.h>
+#include <featherkit/rendering/defaultshader.h>
 #include <sstream>
+#include <iostream>
 
 namespace fea
 {
@@ -26,6 +28,9 @@ namespace fea
         stash = sth_create(512, 512);
 
         defaultTexture.create(4, 4, 1.0f, 1.0f, 1.0f);
+
+        defaultShader.setSource(DefaultShader::vertexSource, DefaultShader::fragmentSource);
+        defaultShader.compile();
 
         setViewport(currentViewport);
     }
@@ -73,7 +78,7 @@ namespace fea
     void Renderer2D::queue(const Drawable2D& drawable)
     {
         renderQueue.push_back(drawable.getRenderInfo());
-        renderQueue.end()->blendMode = currentBlendMode;
+        renderQueue[renderQueue.size() - 1].blendMode = currentBlendMode;
     }
 
     void Renderer2D::render()
@@ -89,10 +94,10 @@ namespace fea
     void Renderer2D::render(const Shader& shader)
     {
         shader.activate();
+        uint32_t i = 0;
         for(auto& renderOperation : renderQueue)
         {
             //setBlendMode
-
             for(auto& uniform : renderOperation.uniforms)
             {
                 shader.setUniform(uniform.index, uniform.type, &uniform.floatVal);
@@ -103,9 +108,11 @@ namespace fea
                 shader.setVertexAttribute(vertexAttribute.index, vertexAttribute.data);
             }
 
-            glDrawArrays(renderOperation.drawMode, 0, renderOperation.getDrawAmount());
+            glDrawArrays(renderOperation.drawMode, 0, renderOperation.elementAmount);
+            i++;
         }
         shader.deactivate();
+        renderQueue.clear();
     }
 
     void Renderer2D::render(const RenderTarget& target, const Shader& shader)

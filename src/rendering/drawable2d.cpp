@@ -1,4 +1,5 @@
 #include <featherkit/rendering/drawable2d.h>
+#include <iostream>
 
 namespace fea
 {
@@ -168,17 +169,21 @@ namespace fea
         std::hash<std::string> stringHasher;
 
         temp.drawMode = drawMode;
-        temp.uniforms.push_back(Uniform(stringHasher("texture"), TEXTURE, (GLuint)0)); //fixi
-        temp.uniforms.push_back(Uniform(stringHasher("constraints"), VEC4, glm::vec4(0.0f, 0.0f, 1.0f, 1.0f))); //fixi
-        temp.uniforms.push_back(Uniform(stringHasher("parallax"), FLOAT, parallax));
-        temp.uniforms.push_back(Uniform(stringHasher("colour"), VEC3, colour));
-        temp.uniforms.push_back(Uniform(stringHasher("opacity"), FLOAT, opacity));
+        temp.elementAmount = vertices.size() / 2 / 3;
+
+        temp.vertexAttributes.push_back(VertexAttribute(stringHasher("vertex"), &vertices[0]));
+        temp.vertexAttributes.push_back(VertexAttribute(stringHasher("texCoords"), nullptr)); //ajaj?
+
+        temp.uniforms.push_back(Uniform(stringHasher("position"), VEC2, position));
         temp.uniforms.push_back(Uniform(stringHasher("origin"), VEC2, origin));
         temp.uniforms.push_back(Uniform(stringHasher("rotation"), FLOAT, rotation));
         temp.uniforms.push_back(Uniform(stringHasher("scaling"), VEC2, scaling));
+        temp.uniforms.push_back(Uniform(stringHasher("parallax"), FLOAT, parallax));
+        temp.uniforms.push_back(Uniform(stringHasher("texture"), TEXTURE, (GLuint)0));
+        temp.uniforms.push_back(Uniform(stringHasher("constraints"), VEC4, glm::vec4(0.0f, 0.0f, 1.0f, 1.0f)));
+        temp.uniforms.push_back(Uniform(stringHasher("colour"), VEC3, colour));
+        temp.uniforms.push_back(Uniform(stringHasher("opacity"), FLOAT, opacity));
 
-        temp.vertexAttributes.push_back(VertexAttribute(stringHasher("position"), vertices.size(), &vertices[0]));
-        temp.vertexAttributes.push_back(VertexAttribute(stringHasher("texcoords"), 0, nullptr)); //ajaj?
         return temp;
     }
 }
