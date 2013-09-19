@@ -1,8 +1,9 @@
 #include <featherkit/rendering/projection.h>
+#include <glm/gtc/type_ptr.hpp>
 
 namespace fea
 {
-    void Projection::createOrthoProjection(GLfloat left, GLfloat right, GLfloat top, GLfloat bottom, GLfloat near, GLfloat far, GLfloat* matrix) const
+    glm::mat4x4 Projection::createOrthoProjection(GLfloat left, GLfloat right, GLfloat top, GLfloat bottom, GLfloat near, GLfloat far) const
     {
         GLfloat r_l = right - left;
         GLfloat t_b = top - bottom;
@@ -10,6 +11,8 @@ namespace fea
         GLfloat tx = -(right + left) / (right - left);
         GLfloat ty = -(top + bottom) / (top - bottom);
         GLfloat tz = -(far + near) / (far - near);
+
+        float matrix[16];
 
         matrix[0] = 2.0f / r_l;
         matrix[4] = 0.0f;
@@ -30,5 +33,9 @@ namespace fea
         matrix[7] = 0.0f;
         matrix[11] = 0.0f;
         matrix[15] = 1.0f;
+
+        glm::mat4x4 glmMat = glm::make_mat4(matrix);
+
+        return glmMat;
     }
 }

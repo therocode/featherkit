@@ -93,8 +93,17 @@ namespace fea
 
     void Renderer2D::render(const Shader& shader)
     {
+        std::hash<std::string> stringHasher;
         shader.activate();
-        uint32_t i = 0;
+
+        shader.setUniform(stringHasher("camPosition"), VEC2, &currentViewport.getCamera().getPosition());
+        shader.setUniform(stringHasher("camZoom"), VEC2, &currentViewport.getCamera().getZoom());
+        glm::mat2x2 camRot = currentViewport.getCamera().getRotationMatrix();
+        shader.setUniform(stringHasher("camRotation"), MAT2X2, &camRot);
+        glm::uvec2 halfViewSize = currentViewport.getSize() / (uint32_t)2;
+        shader.setUniform(stringHasher("halfViewSize"), VEC2, &halfViewSize);
+        shader.setUniform(stringHasher("projection"), MAT4X4, &projection);
+
         for(auto& renderOperation : renderQueue)
         {
             //setBlendMode
@@ -109,7 +118,6 @@ namespace fea
             }
 
             glDrawArrays(renderOperation.drawMode, 0, renderOperation.elementAmount);
-            i++;
         }
         shader.deactivate();
         renderQueue.clear();
@@ -130,7 +138,7 @@ namespace fea
         glViewport(viewPos.x, viewPos.y, (GLsizei)viewSize.x, (GLsizei)viewSize.y);
 
         Projection proj;
-        proj.createOrthoProjection(0.0f, viewSize.x, 0.0f, viewSize.y, 0.000000001f, 100.0f, &projection[0]);
+        projection = proj.createOrthoProjection(0.0f, viewSize.x, 0.0f, viewSize.y, 0.000000001f, 100.0f);
         sth_set_projection(stash, projection);
     }
     

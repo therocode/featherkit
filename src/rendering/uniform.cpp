@@ -30,6 +30,20 @@ namespace fea
         vec4Val = val;
     }
 
+    Uniform::Uniform(size_t i, UniformType t, glm::mat2x2 val)
+    {
+        index = i;
+        type = t;
+        mat2x2Val = val;
+    }
+
+    Uniform::Uniform(size_t i, UniformType t, glm::mat4x4 val)
+    {
+        index = i;
+        type = t;
+        mat4x4Val = val;
+    }
+
     Uniform::Uniform(size_t i, UniformType t, GLuint val)
     {
         index = i;
@@ -55,6 +69,12 @@ namespace fea
                 break;
             case VEC4:
                 vec4Val = other.vec4Val;
+                break;
+            case MAT2X2:
+                mat2x2Val = other.mat2x2Val;
+                break;
+            case MAT4X4:
+                mat4x4Val = other.mat4x4Val;
                 break;
             case TEXTURE:
                 textureVal = other.textureVal;

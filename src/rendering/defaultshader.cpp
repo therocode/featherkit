@@ -3,10 +3,11 @@
 namespace fea
 {
     std::string DefaultShader::vertexSource = R"(
-uniform mat4 projection;   //missing
-uniform vec2 camZoom;      //missing
-uniform vec2 camPosition;  //missing
-uniform vec2 halfViewSize; //missing
+uniform mat4 projection;   
+uniform vec2 camZoom;      
+uniform vec2 camPosition;  
+uniform mat2 camRotation;  
+uniform vec2 halfViewSize; 
 
 attribute vec4 vertex;
 attribute vec2 texCoords;
@@ -21,7 +22,7 @@ varying vec2 vTex;
 void main()
 {
     vec2 worldSpaceCoords;// = //hejja bejja vertex.xy
-    vec2 transformedPoint = rotation * (camZoom * (worldSpaceCoords - camPosition * parallax)) + halfViewSize;
+    vec2 transformedPoint = camRotation * (camZoom * (worldSpaceCoords - camPosition * parallax)) + halfViewSize;
     gl_Position = projection* vec4(transformedPoint.xy, vertex.zw);
     vTex = texCoords;
 })";

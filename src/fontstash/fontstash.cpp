@@ -235,10 +235,10 @@ error:
     return NULL;
 }
 
-void sth_set_projection(struct sth_stash* stash, float* matrix)
+void sth_set_projection(struct sth_stash* stash, const glm::mat4x4& matrix)
 {
     glUseProgram(shader);
-    glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, matrix);
+    glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, glm::value_ptr(matrix));
 }
 
 int sth_add_font_from_memory(struct sth_stash* stash, unsigned char* buffer)

@@ -2,6 +2,7 @@
 #include <vector>
 #include <sstream>
 #include <iostream>
+#include <glm/gtc/type_ptr.hpp>
 
 namespace fea
 {
@@ -51,6 +52,16 @@ namespace fea
                 const glm::vec4& val4 = *((glm::vec4*)value);
                 glUniform4f(uniformLocations.at(index), val4[0], val4[1], val4[2], val4[3]);
                 break;
+            }
+            case MAT2X2:
+            {
+                const glm::mat2x2 mat = *((glm::mat2x2*)value);
+                glUniformMatrix2fv(uniformLocations.at(index), 1, GL_FALSE, glm::value_ptr(mat));
+            }
+            case MAT4X4:
+            {
+                const glm::mat4x4 mat = *((glm::mat4x4*)value);
+                glUniformMatrix4fv(uniformLocations.at(index), 1, GL_FALSE, glm::value_ptr(mat));
             }
             case TEXTURE:
             {

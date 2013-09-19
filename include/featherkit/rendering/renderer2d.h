@@ -43,7 +43,7 @@ namespace fea
 
             Texture defaultTexture;
             Shader defaultShader;
-            float projection[16];
+            glm::mat4 projection;
 
             BlendMode currentBlendMode;
             std::vector<RenderInfo> renderQueue;
