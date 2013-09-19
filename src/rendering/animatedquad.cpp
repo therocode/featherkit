@@ -44,16 +44,19 @@ namespace fea
         return *currentAnimation;
     }
 
-    void AnimatedQuad::getRenderData(RenderData& renderData, uint32_t time) const
+    RenderInfo AnimatedQuad::getRenderInfo() const
     {
-        Quad::getRenderData(renderData, time);
+        RenderInfo temp = Quad::getRenderInfo();
+        std::hash<std::string> stringHasher;
 
         if(currentAnimation != nullptr)
         {
-            currentAnimation->getConstraints(renderData.constrainX, renderData.constrainY, currentFrame);
+            //currentAnimation->getConstraints(renderData.constrainX, renderData.constrainY, currentFrame);  FIXI
         }
+
+        return temp;
     }
-    
+
     void AnimatedQuad::tick()
     {
         if(animate && currentAnimation != nullptr)

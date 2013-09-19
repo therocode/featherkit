@@ -1,9 +1,9 @@
 #include <glm/glm.hpp>
 #include <featherkit/rendering/renderer2d.h>
 #include <featherkit/rendering/drawable2d.h>
+#include <featherkit/rendering/projection.h>
 #include <sstream>
 
-#include <featherkit/rendering/text.h> //TEMPHACK
 namespace fea
 {
     InvalidFontException::InvalidFontException(const std::string& message) : std::runtime_error(message)
@@ -36,17 +36,12 @@ namespace fea
         defaultTexture.destroy();
     }
 
-    void Renderer2D::clear()
-    {
-        backend->clear();
-    }
-
     void Renderer2D::clear(float r, float g, float b)
     {
-        clear(glm::vec3(r, g, b);
+        clear(glm::vec3(r, g, b));
     }
 
-    void Renderer2D::clear(const glm::vec3& colour = glm::vec3())
+    void Renderer2D::clear(const glm::vec3& colour)
     {
         if(clearColour != colour)
         {
@@ -62,7 +57,7 @@ namespace fea
         clear(target, glm::vec3(r, g, b));
     }
 
-    void Renderer2D::clear(const RenderTarget& target, const glm::vec3& colour = glm::vec3())
+    void Renderer2D::clear(const RenderTarget& target, const glm::vec3& colour)
     {
         if(clearColour != colour)
         {
@@ -94,21 +89,21 @@ namespace fea
     void Renderer2D::render(const Shader& shader)
     {
         shader.activate();
-        for(auto renderOperation& : renderQueue)
+        for(auto& renderOperation : renderQueue)
         {
             //setBlendMode
 
-            for(auto uniform& : renderOperation.uniforms)
+            for(auto& uniform : renderOperation.uniforms)
             {
-                shader.setUniform(uniform.index, uniform.type, &uniform.value);
+                shader.setUniform(uniform.index, uniform.type, &uniform.floatVal);
             }
             
-            for(auto vertexAttribute& : renderOperation.vertexAttributes)
+            for(auto& vertexAttribute : renderOperation.vertexAttributes)
             {
                 shader.setVertexAttribute(vertexAttribute.index, vertexAttribute.data);
             }
 
-            glDrawArrays(renderOperation.drawMode, 0, renderOperation.drawAmount());
+            glDrawArrays(renderOperation.drawMode, 0, renderOperation.getDrawAmount());
         }
         shader.deactivate();
     }
@@ -123,11 +118,12 @@ namespace fea
     void Renderer2D::setViewport(const Viewport& viewport)
     {
         currentViewport = viewport;
-        const glm::uvec2& viewSize = view.getSize();
-        const glm::ivec2& viewPos = view.getPosition();
+        const glm::uvec2& viewSize = viewport.getSize();
+        const glm::ivec2& viewPos = viewport.getPosition();
         glViewport(viewPos.x, viewPos.y, (GLsizei)viewSize.x, (GLsizei)viewSize.y);
 
-        createOrthoProjection(0.0f, viewSize.x, 0.0f, viewSize.y, 0.000000001f, 100.0f, &projection[0]);
+        Projection proj;
+        proj.createOrthoProjection(0.0f, viewSize.x, 0.0f, viewSize.y, 0.000000001f, 100.0f, &projection[0]);
         sth_set_projection(stash, projection);
     }
     

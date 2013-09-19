@@ -1,21 +1,30 @@
 #pragma once
+#include <featherkit/rendering/uniform.h>
+#include <featherkit/rendering/vertexattribute.h>
+#include <unordered_map>
 
 namespace fea
 {
+    class GLSLException : public std::runtime_error 
+    {
+        public:
+            GLSLException(const std::string& message);
+    };
+
     class Shader
     {
         public:
             void setSource(const std::string& vertSource, const std::string& fragSource);
-            void activate();
-            void deactivate();
-            void setUniform(uint32_t index, Uniform::Type type, void* value);
-            void setVertexAttribute(uint32_t index, float* data);
+            void activate() const;
+            void deactivate() const;
+            void setUniform(size_t index, UniformType type, const void* value) const;
+            void setVertexAttribute(size_t index, const float* data) const;
             void compile();
         private:
             GLuint programId;
             std::unordered_map<size_t, GLint> uniformLocations;
             std::unordered_map<size_t, GLint> vertexAttributeLocations;
             std::string vertexSource;
-            std::String fragmentSource;
+            std::string fragmentSource;
     };
 }

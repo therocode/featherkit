@@ -43,7 +43,7 @@ namespace fea
             float getOpacity() const;
             void setDrawMode(GLenum mode);
             GLenum getDrawMode() const;
-            AABB getAABB() const;
+            //AABB getAABB() const;
 
             virtual RenderInfo getRenderInfo() const;
         protected:

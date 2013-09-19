@@ -14,7 +14,7 @@ namespace fea
             AnimatedQuad(const glm::vec2& size);
             void setAnimation(const Animation& animation, bool play = true);
             const Animation& getAnimation() const;
-            virtual void getRenderData(RenderData& renderData, uint32_t time) const override;
+            virtual RenderInfo getRenderInfo() const override;
             void tick();
             void playAnimation(uint32_t startFrame = 0);
             void stopAnimation();

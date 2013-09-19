@@ -2,5 +2,4 @@
 #include <featherkit/rendering/subrectquad.h>
 #include <featherkit/rendering/repeatedquad.h>
 #include <featherkit/rendering/text.h>
-#include <featherkit/rendering/shape.h>
 #include <featherkit/rendering/tilemap.h>

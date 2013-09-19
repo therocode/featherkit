@@ -36,7 +36,6 @@
 
 /* @rlyeh: removed STB_TRUETYPE_IMPLENTATION. We link it externally */
 #include <featherkit/fontstash/stb_truetype.h>
-#include <featherkit/util/rendering/opengl/glslloader.h>
 
 #define HASH_LUT_SIZE 256
 #define MAX_ROWS 128
@@ -225,15 +224,6 @@ struct sth_stash* sth_create(int cachew, int cacheh)
     glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA, cachew, cacheh, 0, GL_ALPHA, GL_UNSIGNED_BYTE, empty_data);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    // Create the shader
-    fea::GLSLLoader loader;
-    shader = loader.createShader(vertexShaderSource, fragmentShaderSource);
-    vertexLocation = glGetAttribLocation(shader, "vertex");
-    texCoordsLocation = glGetAttribLocation(shader, "texCoords");
-    projectionLocation = glGetUniformLocation(shader, "projection");
-    colourLocation = glGetUniformLocation(shader, "colour");
-    opacityLocation = glGetUniformLocation(shader, "opacity");
 
     return stash;
 

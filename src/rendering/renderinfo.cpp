@@ -4,6 +4,6 @@ namespace fea
 {
     uint32_t RenderInfo::getDrawAmount() const
     {
-        return vertexAttributes[0].size / 3;
+        return vertexAttributes[0].size / 2 / 3;
     }
 }

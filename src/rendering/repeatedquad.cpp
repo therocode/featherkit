@@ -32,7 +32,7 @@ namespace fea
         return tileSize;
     }
     
-    void RepeatedQuad::setScrollSpeed(float xSpeed, float ySpeed)
+    void RepeatedQuad::setScrollSpeed(float xSpeed, float ySpeed) //FIX
     {
         scrollSpeed = glm::vec2(xSpeed, ySpeed);
     }
@@ -46,7 +46,18 @@ namespace fea
     {
         return scrollSpeed;
     }
+
+    RenderInfo RepeatedQuad::getRenderInfo() const
+    {
+        RenderInfo temp = AnimatedQuad::getRenderInfo();
+        std::hash<std::string> stringHasher;
+
+        temp.vertexAttributes.push_back(VertexAttribute(stringHasher("texcoords"), 0, &texCoords[0]));
+
+        return temp;
+    }
     
+    /*
     void RepeatedQuad::getRenderData(RenderData& renderData, uint32_t time) const
     {
         AnimatedQuad::getRenderData(renderData, time);
@@ -55,11 +66,11 @@ namespace fea
         //float texMaxX = texMax.x;
         //float texMaxY = texMax.y;
 
-        /*
+        \*
         renderData.texCoords =  {0.0f, 0.0f,
                                  0.0f, texMaxY,
                                  texMaxX, texMaxY,
-                                 texMaxX, 0.0f};*/
+                                 texMaxX, 0.0f};*\
 
         renderData.textureScroll = scrollSpeed * (float)time;
 
@@ -71,5 +82,5 @@ namespace fea
             renderData.texCoords[i+1] = newCoords.y;
         }
         //currentScroll = currentScroll + scrollSpeed; must be done later
-    }
+    }*/
 }

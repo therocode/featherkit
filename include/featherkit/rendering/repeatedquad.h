@@ -15,7 +15,7 @@ namespace fea
             void setScrollSpeed(const glm::vec2& speed);
             void setScrollSpeed(float w, float h);
             const glm::vec2& getScrollSpeed() const;
-            virtual void getRenderData(RenderData& renderData, uint32_t time) const override;
+            virtual RenderInfo getRenderInfo() const override;
         private:
             glm::vec2 tileSize;
             glm::vec2 scrollSpeed;

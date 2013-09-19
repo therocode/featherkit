@@ -56,13 +56,16 @@ namespace fea
         texCoords[arrayIndex + 10] = endCoords.x; texCoords[arrayIndex + 11] = endCoords.y;
     }
 
-    void TileChunk::getRenderData(RenderData& renderData, uint32_t time) const
+    RenderInfo TileChunk::getRenderInfo() const
     {
-        Drawable2D::getRenderData(renderData, time);
+        RenderInfo temp = Drawable2D::getRenderInfo();
+        std::hash<std::string> stringHasher;
 
-        renderData.texture = getTexture().getId();
+        temp.uniforms.push_back(Uniform(stringHasher("texture"), TEXTURE, getTexture().getId()));
 
-        renderData.texCoords = texCoords;
+        temp.vertexAttributes.push_back(VertexAttribute(stringHasher("texcoords"), texCoords.size(), &texCoords[0]));
+
+        return temp;
     }
     
     uint32_t TileChunk::getTileIndex(uint32_t x, uint32_t y)

@@ -11,7 +11,7 @@ namespace fea
             void setTexture(const Texture& tex);
             const Texture& getTexture() const;
             void setTileTexCoords(uint32_t x, uint32_t y, const glm::vec2 startCoords, const glm::vec2 endCoords);
-            virtual void getRenderData(RenderData& renderData, uint32_t time) const override;
+            virtual RenderInfo getRenderInfo() const override;
         private:
             uint32_t getTileIndex(uint32_t x, uint32_t y);
             glm::uvec2 gridSize;

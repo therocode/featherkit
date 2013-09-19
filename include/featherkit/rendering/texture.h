@@ -1,6 +1,6 @@
 #pragma once
 #include <stdint.h>
-#include <featherkit/util/rendering/opengl/opengl.h>
+#include <featherkit/rendering/opengl.h>
 #include <glm/glm.hpp>
 #include <functional>
 

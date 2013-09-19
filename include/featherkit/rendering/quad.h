@@ -17,11 +17,12 @@ namespace fea
             const Texture& getTexture() const;
             void setHFlip(bool enabled);
             void setVFlip(bool enabled);
-            virtual void getRenderData(RenderData& renderData, uint32_t time) const override;
+            virtual RenderInfo getRenderInfo() const override;
         protected:
             float hFlip;
             float vFlip;
             const Texture* texture;
+            std::vector<float> texCoords;
     };
     /** @addtogroup Render2D
      *@{

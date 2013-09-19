@@ -1,5 +1,9 @@
 #pragma once
 #include <featherkit/rendering/viewport.h>
+#include <featherkit/rendering/rendertarget.h>
+#include <featherkit/rendering/shader.h>
+#include <featherkit/rendering/renderinfo.h>
+#include <featherkit/fontstash/fontstash.h>
 #include <stdexcept>
 #include <memory>
 
@@ -33,7 +37,6 @@ namespace fea
             int32_t addFont(uint8_t* fontData);
             void setBlendMode(BlendMode mode);
         private:
-            std::unique_ptr<Renderer2DBackend> backend;
             Viewport currentViewport;
 
             sth_stash* stash;

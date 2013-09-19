@@ -11,6 +11,16 @@ namespace fea
                     -1.0f,  1.0f, 
                      1.0f,  1.0f};
         origin = glm::vec2(-1.0f, -1.0f);
+
+        glm::vec2 texCoordsX = glm::vec2(0.0f, 1.0f);
+        glm::vec2 texCoordsY = glm::vec2(0.0f, 1.0f);
+
+        texCoords =  {texCoordsX[0], texCoordsY[0],
+                      texCoordsX[0], texCoordsY[1],
+                      texCoordsX[1], texCoordsY[0],
+                      texCoordsX[1], texCoordsY[0],
+                      texCoordsX[0], texCoordsY[1],
+                      texCoordsX[1], texCoordsY[1]};
     }
 
     Quad::Quad(float w, float h) : hFlip(1.0f), vFlip(1.0f), texture(nullptr)
@@ -25,6 +35,16 @@ namespace fea
                     -xnum,  ynum, 
                      xnum,  ynum};
         origin = glm::vec2(-xnum, -ynum);
+
+        glm::vec2 texCoordsX = glm::vec2(0.0f, 1.0f);
+        glm::vec2 texCoordsY = glm::vec2(0.0f, 1.0f);
+
+        texCoords =  {texCoordsX[0], texCoordsY[0],
+                      texCoordsX[0], texCoordsY[1],
+                      texCoordsX[1], texCoordsY[0],
+                      texCoordsX[1], texCoordsY[0],
+                      texCoordsX[0], texCoordsY[1],
+                      texCoordsX[1], texCoordsY[1]};
     }
     
     Quad::Quad(const glm::vec2& size) : Quad(size.x, size.y)
@@ -71,6 +91,16 @@ namespace fea
             hFlip = -1.0f;
         else
             hFlip = 1.0f;
+
+        glm::vec2 texCoordsX = glm::vec2(0.0f, 1.0f) * hFlip;
+        glm::vec2 texCoordsY = glm::vec2(0.0f, 1.0f) * vFlip;
+
+        texCoords =  {texCoordsX[0], texCoordsY[0],
+                      texCoordsX[0], texCoordsY[1],
+                      texCoordsX[1], texCoordsY[0],
+                      texCoordsX[1], texCoordsY[0],
+                      texCoordsX[0], texCoordsY[1],
+                      texCoordsX[1], texCoordsY[1]};
     }
 
     void Quad::setVFlip(bool enabled)
@@ -80,23 +110,17 @@ namespace fea
         else
             vFlip = 1.0f;
     }
-
-    void Quad::getRenderData(RenderData& renderData, uint32_t time) const
-    {
-        Drawable2D::getRenderData(renderData, time);
-
-        glm::vec2 texCoordsX = glm::vec2(0.0f, 1.0f) * hFlip;
-        glm::vec2 texCoordsY = glm::vec2(0.0f, 1.0f) * vFlip;
-
     
-        if(texture != nullptr)
-            renderData.texture = getTexture().getId();
+    RenderInfo Quad::getRenderInfo() const
+    {
+        RenderInfo temp = Drawable2D::getRenderInfo();
+        std::hash<std::string> stringHasher;
 
-        renderData.texCoords =  {texCoordsX[0], texCoordsY[0],
-                                 texCoordsX[0], texCoordsY[1],
-                                 texCoordsX[1], texCoordsY[0],
-                                 texCoordsX[1], texCoordsY[0],
-                                 texCoordsX[0], texCoordsY[1],
-                                 texCoordsX[1], texCoordsY[1]};
+        if(texture != nullptr)
+            temp.uniforms.push_back(Uniform(stringHasher("texture"), TEXTURE, getTexture().getId()));
+
+        temp.vertexAttributes.push_back(VertexAttribute(stringHasher("texcoords"), 0, &texCoords[0])); //ajaj?
+
+        return temp;
     }
 }

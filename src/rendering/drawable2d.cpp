@@ -2,7 +2,7 @@
 
 namespace fea
 {
-    Drawable2D::Drawable2D() : isText(false), rotation(0.0f), scaling(glm::vec2(1.0f, 1.0f)), parallax(1.0f), colour(1.0f, 1.0f, 1.0f), opacity(1.0f)
+    Drawable2D::Drawable2D() : rotation(0.0f), scaling(glm::vec2(1.0f, 1.0f)), parallax(1.0f), colour(1.0f, 1.0f, 1.0f), opacity(1.0f)
     {
     }
 
@@ -127,29 +127,21 @@ namespace fea
         return opacity;
     }
 
-    void setDrawMode(GLenum mode)
+    void Drawable2D::setDrawMode(GLenum mode)
     {
         drawMode = mode;
     }
 
-    GLenum getDrawMode() const
+    GLenum Drawable2D::getDrawMode() const
     {
         return drawMode;
     }
     
-    void Drawable2D::getRenderData(RenderData& renderData, uint32_t time) const
-    {
-        (void) time; //getting rid of unused parameter warning
-        renderData.vertices = getVerticesTransformed();
-        renderData.parallax = parallax;
-        renderData.colour = colour;
-        renderData.opacity = opacity;
-    }
-    
+    /*
     AABB Drawable2D::getAABB() const
     {
         AABB result;
-        std::vector<float> transformed = getVerticesTransformed();
+        //std::vector<float> transformed = getVerticesTransformed();
         result.start.x = transformed[0];
         result.start.y = transformed[1];
         result.end.x = transformed[0];
@@ -168,7 +160,7 @@ namespace fea
         }
 
         return result;
-    }
+    }*/
 
     RenderInfo Drawable2D::getRenderInfo() const
     {
@@ -176,17 +168,17 @@ namespace fea
         std::hash<std::string> stringHasher;
 
         temp.drawMode = drawMode;
-        temp.uniforms.push_back(Uniform(stringHasher("texture"), Uniform::TEXTURE, 0)); //fixi
-        temp.uniforms.push_back(Uniform(stringHasher("constraints"), Uniform::VEC4, glm::vec4(0.0f, 0.0f, 1.0f, 1.0f)); //fixi
-        temp.uniforms.push_back(Uniform(stringHasher("parallax"), Uniform::FLOAT, parallax);
-        temp.uniforms.push_back(Uniform(stringHasher("colour"), Uniform::VEC3, colour));
-        temp.uniforms.push_back(Uniform(stringHasher("opacity"), Uniform::FLOAT, opacity);
-        temp.uniforms.push_back(Uniform(stringHasher("origin"), Uniform::VEC2, origin);
-        temp.uniforms.push_back(Uniform(stringHasher("rotation"), Uniform::FLOAT, rotation);
-        temp.uniforms.push_back(Uniform(stringHasher("scaling"), Uniform::VEC2, scaling);
+        temp.uniforms.push_back(Uniform(stringHasher("texture"), TEXTURE, (GLuint)0)); //fixi
+        temp.uniforms.push_back(Uniform(stringHasher("constraints"), VEC4, glm::vec4(0.0f, 0.0f, 1.0f, 1.0f))); //fixi
+        temp.uniforms.push_back(Uniform(stringHasher("parallax"), FLOAT, parallax));
+        temp.uniforms.push_back(Uniform(stringHasher("colour"), VEC3, colour));
+        temp.uniforms.push_back(Uniform(stringHasher("opacity"), FLOAT, opacity));
+        temp.uniforms.push_back(Uniform(stringHasher("origin"), VEC2, origin));
+        temp.uniforms.push_back(Uniform(stringHasher("rotation"), FLOAT, rotation));
+        temp.uniforms.push_back(Uniform(stringHasher("scaling"), VEC2, scaling));
 
-        temp.vertexAttributes.push_back(stringHasher("position"), vertices.size(), &vertices[0]);
-        temp.vertexAttributes.push_back(stringHasher("texcoords"), 0, nullptr); //ajaj?
+        temp.vertexAttributes.push_back(VertexAttribute(stringHasher("position"), vertices.size(), &vertices[0]));
+        temp.vertexAttributes.push_back(VertexAttribute(stringHasher("texcoords"), 0, nullptr)); //ajaj?
         return temp;
     }
 }

@@ -11,7 +11,7 @@ namespace fea
             SubrectQuad(const glm::vec2& size);
             void setSubrect(float startX, float startY, float endX, float endY);
             void setSubrect(const glm::vec2& srStart, const glm::vec2& srEnd);
-            virtual void getRenderData(RenderData& renderData, uint32_t time) const override;
+            virtual RenderInfo getRenderInfo() const override;
         private:
             glm::vec2 subrectStart;
             glm::vec2 subrectEnd;
