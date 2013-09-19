@@ -32,6 +32,7 @@ namespace fea
                 texCoords.push_back(1.0f); texCoords.push_back(1.0f);
             }
         }
+        drawMode = GL_TRIANGLES;
     }
     
     void TileChunk::setTexture(const Texture& tex)

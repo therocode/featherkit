@@ -18,11 +18,17 @@ namespace fea
 
     void Shader::activate() const
     {
+        std::cout << "using shader id " << programId << "\n";
         glUseProgram(programId);
     }
 
     void Shader::deactivate() const
     {
+        for(auto location : enabledVertexAttributes)
+        {
+            glDisableVertexAttribArray(location);
+        }
+        enabledVertexAttributes.clear();
         glUseProgram(0);
     }
 
@@ -57,11 +63,13 @@ namespace fea
             {
                 const glm::mat2x2 mat = *((glm::mat2x2*)value);
                 glUniformMatrix2fv(uniformLocations.at(index), 1, GL_FALSE, glm::value_ptr(mat));
+                break;
             }
             case MAT4X4:
             {
                 const glm::mat4x4 mat = *((glm::mat4x4*)value);
                 glUniformMatrix4fv(uniformLocations.at(index), 1, GL_FALSE, glm::value_ptr(mat));
+                break;
             }
             case TEXTURE:
             {
@@ -75,6 +83,8 @@ namespace fea
     
     void Shader::setVertexAttribute(size_t index, const float* data) const
     {
+        glEnableVertexAttribArray(vertexAttributeLocations.at(index));
+        enabledVertexAttributes.push_back(vertexAttributeLocations.at(index));
         glVertexAttribPointer(vertexAttributeLocations.at(index), 2, GL_FLOAT, false, 0, data);
     }
 

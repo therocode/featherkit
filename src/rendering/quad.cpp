@@ -22,6 +22,8 @@ namespace fea
                       texCoordsX[1], texCoordsY[0],
                       texCoordsX[0], texCoordsY[1],
                       texCoordsX[1], texCoordsY[1]};
+
+        drawMode = GL_TRIANGLES;
     }
 
     Quad::Quad(float w, float h) : hFlip(1.0f), vFlip(1.0f), texture(nullptr)
@@ -46,6 +48,7 @@ namespace fea
                       texCoordsX[1], texCoordsY[0],
                       texCoordsX[0], texCoordsY[1],
                       texCoordsX[1], texCoordsY[1]};
+        drawMode = GL_TRIANGLES;
     }
     
     Quad::Quad(const glm::vec2& size) : Quad(size.x, size.y)

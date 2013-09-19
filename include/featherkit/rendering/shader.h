@@ -2,6 +2,7 @@
 #include <featherkit/rendering/uniform.h>
 #include <featherkit/rendering/vertexattribute.h>
 #include <unordered_map>
+#include <vector>
 
 namespace fea
 {
@@ -26,5 +27,6 @@ namespace fea
             std::unordered_map<size_t, GLint> vertexAttributeLocations;
             std::string vertexSource;
             std::string fragmentSource;
+            mutable std::vector<GLint> enabledVertexAttributes;
     };
 }

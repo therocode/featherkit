@@ -3,7 +3,7 @@
 
 namespace fea
 {
-    Drawable2D::Drawable2D() : rotation(0.0f), scaling(glm::vec2(1.0f, 1.0f)), parallax(1.0f), colour(1.0f, 1.0f, 1.0f), opacity(1.0f)
+    Drawable2D::Drawable2D() : drawMode(0), rotation(0.0f), scaling(glm::vec2(1.0f, 1.0f)), parallax(1.0f), colour(1.0f, 1.0f, 1.0f), opacity(1.0f)
     {
     }
 
@@ -127,16 +127,6 @@ namespace fea
     {
         return opacity;
     }
-
-    void Drawable2D::setDrawMode(GLenum mode)
-    {
-        drawMode = mode;
-    }
-
-    GLenum Drawable2D::getDrawMode() const
-    {
-        return drawMode;
-    }
     
     /*
     AABB Drawable2D::getAABB() const
@@ -169,10 +159,10 @@ namespace fea
         std::hash<std::string> stringHasher;
 
         temp.drawMode = drawMode;
-        temp.elementAmount = vertices.size() / 2 / 3;
+        temp.elementAmount = vertices.size() / 2;
 
         temp.vertexAttributes.push_back(VertexAttribute(stringHasher("vertex"), &vertices[0]));
-        temp.vertexAttributes.push_back(VertexAttribute(stringHasher("texCoords"), nullptr)); //ajaj?
+        //temp.vertexAttributes.push_back(VertexAttribute(stringHasher("texCoords"), nullptr)); //ajaj?
 
         temp.uniforms.push_back(Uniform(stringHasher("position"), VEC2, position));
         temp.uniforms.push_back(Uniform(stringHasher("origin"), VEC2, origin));

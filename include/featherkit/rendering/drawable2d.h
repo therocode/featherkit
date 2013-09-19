@@ -41,13 +41,12 @@ namespace fea
             glm::vec3 getColour() const;
             void setOpacity(float o);
             float getOpacity() const;
-            void setDrawMode(GLenum mode);
-            GLenum getDrawMode() const;
             //AABB getAABB() const;
 
             virtual RenderInfo getRenderInfo() const;
         protected:
             std::vector<float> vertices;
+            GLenum drawMode;
             glm::vec2 position;
             glm::vec2 origin;
             float rotation;
@@ -55,7 +54,6 @@ namespace fea
             float parallax;
             glm::vec3 colour;
             float opacity;
-            GLenum drawMode;
 
             std::vector<glm::mat2x2> transformations;
     };

@@ -94,12 +94,14 @@ namespace fea
     void Renderer2D::render(const Shader& shader)
     {
         std::hash<std::string> stringHasher;
+        std::cout << "gl1 error is " << glGetError() << "\n";
         shader.activate();
 
         shader.setUniform(stringHasher("camPosition"), VEC2, &currentViewport.getCamera().getPosition());
         shader.setUniform(stringHasher("camZoom"), VEC2, &currentViewport.getCamera().getZoom());
         glm::mat2x2 camRot = currentViewport.getCamera().getRotationMatrix();
         shader.setUniform(stringHasher("camRotation"), MAT2X2, &camRot);
+        std::cout << "gl2 error is " << glGetError() << "\n";
         glm::uvec2 halfViewSize = currentViewport.getSize() / (uint32_t)2;
         shader.setUniform(stringHasher("halfViewSize"), VEC2, &halfViewSize);
         shader.setUniform(stringHasher("projection"), MAT4X4, &projection);
@@ -115,10 +117,19 @@ namespace fea
             for(auto& vertexAttribute : renderOperation.vertexAttributes)
             {
                 shader.setVertexAttribute(vertexAttribute.index, vertexAttribute.data);
+    
+                std::cout << "element amount is " << renderOperation.elementAmount << "\n";
+                for(int i = 0; i < renderOperation.elementAmount * 2; i++)
+                    std::cout << vertexAttribute.data[i] << " ";
+                std::cout << "\n";
             }
 
+            std::cout << "drawmode is " << renderOperation.drawMode << " and it should be " << GL_TRIANGLES << "\n";
             glDrawArrays(renderOperation.drawMode, 0, renderOperation.elementAmount);
         }
+
+        std::cout << "gl3 error is " << glGetError() << "\n";
+
         shader.deactivate();
         renderQueue.clear();
     }
