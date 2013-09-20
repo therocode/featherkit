@@ -37,6 +37,7 @@ namespace fea
                 currentFrame = (uint32_t)rand() % currentAnimation->getFrameAmount();
             }
         }
+        currentAnimation->getConstraints(constraints, currentFrame);
     }
     
     const Animation& AnimatedQuad::getAnimation() const
@@ -95,6 +96,7 @@ namespace fea
             animate = true;
             clock = startFrame * currentAnimation->getDelay();
         }
+        currentAnimation->getConstraints(constraints, currentFrame);
     }
     
     void AnimatedQuad::stopAnimation()
@@ -105,6 +107,7 @@ namespace fea
     void AnimatedQuad::setAnimationFrame(uint32_t frame)
     {
         currentFrame = frame;
+        currentAnimation->getConstraints(constraints, currentFrame);
     }
     
     uint32_t AnimatedQuad::getAnimationFrame() const
