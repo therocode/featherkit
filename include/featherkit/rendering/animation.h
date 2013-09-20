@@ -14,7 +14,7 @@ namespace fea
             Animation();
             Animation(float fStartX, float fStartY, float fWidth, float fHeight, uint32_t fAmount = 1, uint32_t d = 1, bool l = true, AnimationBehaviour ab = FORWARDS);
             Animation(glm::vec2 fStart, glm::vec2 fSize, uint32_t fAmount = 1, uint32_t d = 1, bool l = true, AnimationBehaviour ab = FORWARDS);
-            void getConstraints(glm::vec2& constraintX, glm::vec2& constraintY, uint32_t frame) const;
+            void getConstraints(glm::vec4& constraints, uint32_t frame) const;
             uint32_t getFrameAmount() const;
             uint32_t getDelay() const;
             bool getLoop() const;

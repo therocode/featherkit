@@ -14,12 +14,12 @@ namespace fea
     {
     }
 
-    void Animation::getConstraints(glm::vec2& constraintX, glm::vec2& constraintY, uint32_t frame) const
+    void Animation::getConstraints(glm::vec4& constraints, uint32_t frame) const
     {
-        constraintX[0] = start.x + frameSize.x * (float)frame;
-        constraintX[1] = start.x + frameSize.x + frameSize.x * (float)frame;
-        constraintY[0] = start.y;
-        constraintY[1] = start.y + frameSize.y;
+        constraints[0] = start.x + frameSize.x * (float)frame;
+        constraints[1] = start.x + frameSize.x + frameSize.x * (float)frame;
+        constraints[2] = start.y;
+        constraints[3] = start.y + frameSize.y;
     }
 
     uint32_t Animation::getFrameAmount() const

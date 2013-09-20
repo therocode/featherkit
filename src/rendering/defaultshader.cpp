@@ -32,11 +32,11 @@ void main()
 })";
 
     std::string DefaultShader::fragmentSource = R"(
-#ifdef EMSCRIPTEN
-precision mediump float;
-#else
+//#ifdef EMSCRIPTEN
+//precision mediump float;
+//#else
 
-#endif
+//#endif
 uniform sampler2D texture;
 uniform vec4 constraints;
 uniform vec3 colour;

@@ -24,6 +24,7 @@ namespace fea
                       texCoordsX[1], texCoordsY[1]};
 
         drawMode = GL_TRIANGLES;
+        constraints = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
     }
 
     Quad::Quad(float w, float h) : hFlip(1.0f), vFlip(1.0f), texture(nullptr)
@@ -49,6 +50,7 @@ namespace fea
                       texCoordsX[0], texCoordsY[1],
                       texCoordsX[1], texCoordsY[1]};
         drawMode = GL_TRIANGLES;
+        constraints = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
     }
     
     Quad::Quad(const glm::vec2& size) : Quad(size.x, size.y)
@@ -124,6 +126,7 @@ namespace fea
             temp.uniforms.push_back(Uniform(stringHasher("texture"), TEXTURE, getTexture().getId()));
 
         temp.vertexAttributes.push_back(VertexAttribute(stringHasher("texCoords"), &texCoords[0])); //ajaj?
+        temp.uniforms.push_back(Uniform(stringHasher("constraints"), VEC4, constraints));
         
         return temp;
     }

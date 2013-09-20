@@ -23,6 +23,7 @@ namespace fea
             float vFlip;
             const Texture* texture;
             std::vector<float> texCoords;
+            glm::vec4 constraints;
     };
     /** @addtogroup Render2D
      *@{

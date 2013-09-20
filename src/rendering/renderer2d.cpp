@@ -100,7 +100,7 @@ namespace fea
         shader.setUniform(stringHasher("camZoom"), VEC2, &currentViewport.getCamera().getZoom());
         glm::mat2x2 camRot = currentViewport.getCamera().getRotationMatrix();
         shader.setUniform(stringHasher("camRotation"), MAT2X2, &camRot);
-        glm::uvec2 halfViewSize = currentViewport.getSize() / (uint32_t)2;
+        glm::vec2 halfViewSize = glm::vec2((float)currentViewport.getSize().x / 2.0f, (float)currentViewport.getSize().y / 2.0f);
         shader.setUniform(stringHasher("halfViewSize"), VEC2, &halfViewSize);
         shader.setUniform(stringHasher("projection"), MAT4X4, &projection);
 
@@ -117,11 +117,8 @@ namespace fea
                 shader.setVertexAttribute(vertexAttribute.index, vertexAttribute.data);
             }
 
-            std::cout << "drawmode is " << renderOperation.drawMode << " and it should be " << GL_TRIANGLES << "\n";
             glDrawArrays(renderOperation.drawMode, 0, renderOperation.elementAmount);
         }
-
-        std::cout << "gl3 error is " << glGetError() << "\n";
 
         shader.deactivate();
         renderQueue.clear();
