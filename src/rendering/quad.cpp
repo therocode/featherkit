@@ -107,6 +107,8 @@ namespace fea
                       texCoordsX[1], texCoordsY[0],
                       texCoordsX[0], texCoordsY[1],
                       texCoordsX[1], texCoordsY[1]};
+                      
+                      //Make nice
     }
 
     void Quad::setVFlip(bool enabled)
@@ -115,6 +117,16 @@ namespace fea
             vFlip = -1.0f;
         else
             vFlip = 1.0f;
+
+        glm::vec2 texCoordsX = glm::vec2(0.0f, 1.0f) * hFlip;
+        glm::vec2 texCoordsY = glm::vec2(0.0f, 1.0f) * vFlip;
+
+        texCoords =  {texCoordsX[0], texCoordsY[0],
+                      texCoordsX[0], texCoordsY[1],
+                      texCoordsX[1], texCoordsY[0],
+                      texCoordsX[1], texCoordsY[0],
+                      texCoordsX[0], texCoordsY[1],
+                      texCoordsX[1], texCoordsY[1]};
     }
     
     RenderInfo Quad::getRenderInfo() const
