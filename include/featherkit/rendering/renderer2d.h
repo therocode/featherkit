@@ -37,6 +37,7 @@ namespace fea
             int32_t addFont(uint8_t* fontData);
             void setBlendMode(BlendMode mode);
         private:
+            void setBlendModeGl(BlendMode mode);
             Viewport currentViewport;
 
             sth_stash* stash;

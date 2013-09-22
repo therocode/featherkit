@@ -106,7 +106,7 @@ namespace fea
 
         for(auto& renderOperation : renderQueue)
         {
-            //setBlendMode
+            setBlendModeGl(renderOperation.blendMode);
             for(auto& uniform : renderOperation.uniforms)
             {
                 shader.setUniform(uniform.index, uniform.type, &uniform.floatVal);
@@ -120,6 +120,7 @@ namespace fea
             glDrawArrays(renderOperation.drawMode, 0, renderOperation.elementAmount);
         }
 
+        setBlendMode(ALPHA);
         shader.deactivate();
         renderQueue.clear();
     }
@@ -165,6 +166,11 @@ namespace fea
     }
     
     void Renderer2D::setBlendMode(BlendMode mode)
+    {
+        currentBlendMode = mode;
+    }
+    
+    void Renderer2D::setBlendModeGl(BlendMode mode)
     {
         switch(mode)
         {

@@ -10,7 +10,7 @@ namespace fea
             RepeatedQuad(float w, float h);
             RepeatedQuad(const glm::vec2& size);
             virtual void setSize(float w, float h) override;
-            virtual void setSize(glm::vec2 size) override;
+                virtual void setSize(glm::vec2 size) override;
             void setTileSize(float w, float h);
             void setTileSize(const glm::vec2& size);
             const glm::vec2& getTileSize();
