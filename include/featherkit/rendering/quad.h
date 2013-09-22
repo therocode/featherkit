@@ -10,8 +10,8 @@ namespace fea
             Quad();
             Quad(float w, float h);
             Quad(const glm::vec2& size);
-            void setSize(float w, float h);
-            void setSize(glm::vec2 size);
+            virtual void setSize(float w, float h);
+            virtual void setSize(glm::vec2 size);
             glm::vec2 getSize() const;
             void setTexture(const Texture& tex);
             const Texture& getTexture() const;

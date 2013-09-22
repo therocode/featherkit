@@ -9,16 +9,18 @@ namespace fea
             RepeatedQuad();
             RepeatedQuad(float w, float h);
             RepeatedQuad(const glm::vec2& size);
+            virtual void setSize(float w, float h) override;
+            virtual void setSize(glm::vec2 size) override;
             void setTileSize(float w, float h);
             void setTileSize(const glm::vec2& size);
             const glm::vec2& getTileSize();
             void setScrollSpeed(const glm::vec2& speed);
             void setScrollSpeed(float w, float h);
             const glm::vec2& getScrollSpeed() const;
-            virtual RenderInfo getRenderInfo() const override;
         private:
+            void updateConstraints();
             glm::vec2 tileSize;
-            glm::vec2 scrollSpeed;
+            glm::vec2 scrollSpeed; //FIX with tick
             glm::vec2 currentScroll;
     };
     /** @addtogroup Render2D
