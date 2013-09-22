@@ -162,7 +162,7 @@ namespace fea
         temp.elementAmount = vertices.size() / 2;
 
         temp.vertexAttributes.push_back(VertexAttribute(stringHasher("vertex"), &vertices[0]));
-        //temp.vertexAttributes.push_back(VertexAttribute(stringHasher("texCoords"), nullptr)); //ajaj?
+        temp.vertexAttributes.push_back(VertexAttribute(stringHasher("texCoords"), &texCoords[0]));
 
         temp.uniforms.push_back(Uniform(stringHasher("position"), VEC2, position));
         temp.uniforms.push_back(Uniform(stringHasher("origin"), VEC2, origin));
@@ -170,7 +170,7 @@ namespace fea
         temp.uniforms.push_back(Uniform(stringHasher("scaling"), VEC2, scaling));
         temp.uniforms.push_back(Uniform(stringHasher("parallax"), FLOAT, parallax));
         temp.uniforms.push_back(Uniform(stringHasher("texture"), TEXTURE, (GLuint)0));
-        //temp.uniforms.push_back(Uniform(stringHasher("constraints"), VEC4, glm::vec4(0.0f, 1.0f, 0.0f, 1.0f)));
+        temp.uniforms.push_back(Uniform(stringHasher("constraints"), VEC4, glm::vec4(0.0f, 1.0f, 0.0f, 1.0f)));
         temp.uniforms.push_back(Uniform(stringHasher("colour"), VEC3, colour));
         temp.uniforms.push_back(Uniform(stringHasher("opacity"), FLOAT, opacity));
 

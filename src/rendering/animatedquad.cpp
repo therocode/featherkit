@@ -1,34 +1,34 @@
 #include <featherkit/rendering/animatedquad.h>
 
-namespace fea
-{
-    AnimatedQuad::AnimatedQuad() : Quad(), currentAnimation(nullptr), clock(0), currentFrame(0), animate(false), back(false)
+    namespace fea
     {
-    }
-
-    AnimatedQuad::AnimatedQuad(float w, float h) : Quad(w, h), currentAnimation(nullptr), clock(0), currentFrame(0), animate(false), back(false)
-    {
-    }
-
-    AnimatedQuad::AnimatedQuad(const glm::vec2& size) : Quad(size), currentAnimation(nullptr), clock(0), currentFrame(0), animate(false), back(false)
-    {
-    }
-
-    void AnimatedQuad::setAnimation(const Animation& animation, bool play)
-    {
-        clock = 0;
-        if(&animation != currentAnimation)
+        AnimatedQuad::AnimatedQuad() : Quad(), currentAnimation(nullptr), clock(0), currentFrame(0), animate(false), back(false)
         {
-            currentAnimation = &animation;
-            animate = play;
+        }
 
-            AnimationBehaviour animBehaviour = currentAnimation->getAnimationBehaviour();
+        AnimatedQuad::AnimatedQuad(float w, float h) : Quad(w, h), currentAnimation(nullptr), clock(0), currentFrame(0), animate(false), back(false)
+        {
+        }
 
-            if(animBehaviour == FORWARDS || animBehaviour == BOUNCE)
+        AnimatedQuad::AnimatedQuad(const glm::vec2& size) : Quad(size), currentAnimation(nullptr), clock(0), currentFrame(0), animate(false), back(false)
+        {
+        }
+
+        void AnimatedQuad::setAnimation(const Animation& animation, bool play)
+        {
+            clock = 0;
+            if(&animation != currentAnimation)
             {
-                currentFrame = 0;
-            }
-            else if(animBehaviour == BACKWARDS || animBehaviour == INV_BOUNCE)
+                currentAnimation = &animation;
+                animate = play;
+
+                AnimationBehaviour animBehaviour = currentAnimation->getAnimationBehaviour();
+
+                if(animBehaviour == FORWARDS || animBehaviour == BOUNCE)
+                {
+                    currentFrame = 0;
+                }
+                else if(animBehaviour == BACKWARDS || animBehaviour == INV_BOUNCE)
             {
                 currentFrame = currentAnimation->getFrameAmount() - 1;
             }

@@ -46,6 +46,7 @@ namespace fea
             virtual RenderInfo getRenderInfo() const;
         protected:
             std::vector<float> vertices;
+            std::vector<float> texCoords;
             GLenum drawMode;
             glm::vec2 position;
             glm::vec2 origin;

@@ -17,7 +17,7 @@ namespace fea
             GLuint getId() const;
             glm::uvec2 getSize() const;
             const Texture& getTexture() const;
-            void create(uint32_t w, uint32_t h, bool smooth);
+            void create(uint32_t w, uint32_t h, bool smooth = false);
             void destroy();
             ~RenderTarget();
         private:

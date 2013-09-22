@@ -137,7 +137,6 @@ namespace fea
         if(texture != nullptr)
             temp.uniforms.push_back(Uniform(stringHasher("texture"), TEXTURE, getTexture().getId()));
 
-        temp.vertexAttributes.push_back(VertexAttribute(stringHasher("texCoords"), &texCoords[0])); //ajaj?
         temp.uniforms.push_back(Uniform(stringHasher("constraints"), VEC4, constraints));
         
         return temp;
