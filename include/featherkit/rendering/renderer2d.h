@@ -40,8 +40,6 @@ namespace fea
             void setBlendModeGl(BlendMode mode);
             Viewport currentViewport;
 
-            sth_stash* stash;
-
             Texture defaultTexture;
             Shader defaultShader;
             glm::mat4 projection;

@@ -25,7 +25,7 @@ namespace fea
         glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
-        stash = sth_create(512, 512);
+        sth_create(512, 512);
 
         defaultTexture.create(4, 4, 1.0f, 1.0f, 1.0f);
 
@@ -37,7 +37,7 @@ namespace fea
 
     void Renderer2D::destroy()
     {
-        sth_delete(stash);
+        sth_delete();
         defaultTexture.destroy();
     }
 
@@ -141,7 +141,6 @@ namespace fea
 
         Projection proj;
         projection = proj.createOrthoProjection(0.0f, viewSize.x, 0.0f, viewSize.y, 0.000000001f, 100.0f);
-        sth_set_projection(stash, projection);
     }
     
     Viewport& Renderer2D::getViewport()
@@ -151,7 +150,7 @@ namespace fea
     
     int32_t Renderer2D::addFont(uint8_t* fontData)
     {
-        int32_t font = sth_add_font_from_memory(stash, fontData);
+        int32_t font = sth_add_font_from_memory(fontData);
         
         if(font != 0)
         {

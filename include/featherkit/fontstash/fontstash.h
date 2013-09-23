@@ -22,31 +22,29 @@
 
 struct sth_stash* sth_create(int cachew, int cacheh);
 
-int sth_add_font(struct sth_stash* stash, const char* path);
-void sth_set_projection(struct sth_stash* stash, const glm::mat4x4& matrix);
-int sth_add_font_from_memory(struct sth_stash* stash, unsigned char* buffer);
+int sth_add_font(const char* path);
+void sth_set_projection(const glm::mat4x4& matrix);
+int sth_add_font_from_memory(unsigned char* buffer);
 
-int  sth_add_bitmap_font(struct sth_stash* stash, int ascent, int descent, int line_gap);
-void sth_add_glyph(struct sth_stash* stash, int idx, GLuint id, const char* s,  /* @rlyeh: function does not return int */
+int  sth_add_bitmap_font(int ascent, int descent, int line_gap);
+void sth_add_glyph(int idx, GLuint id, const char* s,  /* @rlyeh: function does not return int */
                   short size, short base, int x, int y, int w, int h,
                   float xoffset, float yoffset, float xadvance);
 
-void sth_font_colour(struct sth_stash* stash, float r, float g, float b, GLfloat opacity);
+void sth_font_colour(float r, float g, float b, GLfloat opacity);
 
-void sth_begin_draw(struct sth_stash* stash);
-void sth_end_draw(struct sth_stash* stash);
+void sth_begin_draw();
+void sth_end_draw();
 
-void sth_draw_text(struct sth_stash* stash,
-				   int idx, float size,
+void sth_draw_text(int idx, float size,
 				   float x, float y, const char* string, float* dx);
 
-void sth_dim_text(struct sth_stash* stash, int idx, float size, const char* string,
+void sth_dim_text(int idx, float size, const char* string,
 				  float* minx, float* miny, float* maxx, float* maxy);
 
-void sth_vmetrics(struct sth_stash* stash,
-				  int idx, float size,
+void sth_vmetrics(int idx, float size,
 				  float* ascender, float* descender, float * lineh);
 
-void sth_delete(struct sth_stash* stash);
+void sth_delete();
 
 #endif // FONTSTASH_H

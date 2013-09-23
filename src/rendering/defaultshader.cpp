@@ -31,12 +31,10 @@ void main()
     vTex = texCoords;
 })";
 
+#ifdef EMSCRIPTEN
     std::string DefaultShader::fragmentSource = R"(
-//#ifdef EMSCRIPTEN
-//precision mediump float;
-//#else
+precision mediump float;
 
-//#endif
 uniform sampler2D texture;
 uniform vec4 constraints;
 uniform vec3 colour;
@@ -71,4 +69,43 @@ void main()
     texCoords = vec2(boundBetween(texCoords.s, constraints[0], constraints[1]), boundBetween(texCoords.t, constraints[2], constraints[3]));
     gl_FragColor = texture2D(texture, texCoords) * vec4(colour, opacity);
 })";
+
+#else
+    std::string DefaultShader::fragmentSource = R"(
+
+uniform sampler2D texture;
+uniform vec4 constraints;
+uniform vec3 colour;
+uniform float opacity;
+uniform vec2 textureScroll; //hmmmm
+
+varying vec2 vTex;
+
+float boundBetween(float val, float lowerBound, float upperBound)
+{
+    if(lowerBound > upperBound)
+    {
+        float temp = lowerBound;
+        lowerBound = upperBound;
+        upperBound = temp;
+    }
+    
+    val = val - lowerBound;
+    float rangeSize = upperBound - lowerBound;
+    if(rangeSize == 0.0)
+    {
+        return upperBound;
+    }
+    return val - (rangeSize * floor(val/rangeSize)) + lowerBound;
+}
+
+void main()
+{
+
+    vec2 constraintSize = abs(vec2(constraints[1] - constraints[0] , constraints[3] - constraints[2]));
+    vec2 texCoords = constraintSize * vTex.st + vec2(constraints[0], constraints[2]) - textureScroll;
+    texCoords = vec2(boundBetween(texCoords.s, constraints[0], constraints[1]), boundBetween(texCoords.t, constraints[2], constraints[3]));
+    gl_FragColor = texture2D(texture, texCoords) * vec4(colour, opacity);
+})";
+#endif
 }
