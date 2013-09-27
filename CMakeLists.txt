@@ -101,6 +101,10 @@ if(BUILD_RENDERING)
         include_directories(${WINFIX} ${GLM_INCLUDE_DIRS})
     endif()
     
+    set(FREETYPE_GL_PATH "." CACHE PATH "Path to the freetype-gl library.")
+    include_directories(${FREETYPE_GL_PATH})
+    link_directories(${FREETYPE_GL_PATH})
+    
     if(${BUILD_OPENGLBACKENDS})
         find_package(OpenGL REQUIRED)
         if(OPENGL_FOUND)
@@ -125,6 +129,9 @@ if(BUILD_RENDERING)
             target_link_libraries(${project_name}-rendering ${OPENGL_LIBRARIES})
         endif(OPENGL_FOUND)
     endif()
+
+    target_link_libraries(${project_name}-rendering freetype-gl)
+
 endif()
 
 if(BUILD_UI)
