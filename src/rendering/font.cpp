@@ -1,6 +1,8 @@
 #include <featherkit/rendering/font.h>
+#include <featherkit/rendering/textsurface.h>
 #include <iostream>
 #include <sstream>
+#include <sys/stat.h>
 
 namespace fea
 {
@@ -8,49 +10,37 @@ namespace fea
     {
     }
 
-    void Font::createFromPath(const std::string& path)
+    Font::Font(TextSurface& surface) : textureFont(nullptr), owner(&surface)
     {
-        FILE* fp = fopen(path.c_str(), "rb");
-        if(!fp)
-        {
-            std::cout << "errorperror!\n";
-            exit(3);
-        }
-
-        fseek(fp, 0, SEEK_END);
-        int datasize = (int)ftell(fp);
-        fseek(fp, 0, SEEK_SET);
-        unsigned char* data = (unsigned char*)malloc(datasize);
-        if(data == NULL) 
-        {
-            std::cout << "perrorerror!\n";
-            exit(3);
-        }
-        fread(data, 1, datasize, fp);
-        fclose(fp);
-        createFromData(data);
+    }
+    
+    Font::Font(TextSurface& surface, const std::string& path, const float fontSize) : owner(&surface)
+    {
+        fontPath = path;
+        textureFont = texture_font_new(owner->atlas, path.c_str(), fontSize);
     }
 
-    void Font::createFromData(uint8_t* fontData)
+    Font::~Font()
     {
-        sth_create(512, 512); //will work once
-        //sth_delete(); //must make static shared singleton out of it for now
-        int32_t font = sth_add_font_from_memory(fontData);
-        
-        if(font != 0)
-        {
-            fontId = font;
-        }
-        else
-        {
-            std::stringstream ss;
-            ss << "Error! While creating font!\n";
-            throw(InvalidFontException(ss.str()));
-        }
+        if(textureFont)
+            texture_font_delete(textureFont);
     }
 
-    int32_t Font::getId() const
+    void Font::createFont(const std::string& path, const float fontSize)
     {
-        return fontId;
+        fontPath = path;
+        if(textureFont)
+            texture_font_delete(textureFont);
+
+        textureFont = texture_font_new(owner->atlas, path.c_str(), fontSize);
+    }
+            
+    void Font::resize(const float fontSize)
+    {
+        if(textureFont)
+        {
+            texture_font_delete(textureFont);
+            textureFont = texture_font_new(owner->atlas, fontPath.c_str(), fontSize);
+        }
     }
 }

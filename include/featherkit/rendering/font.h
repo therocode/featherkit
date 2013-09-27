@@ -2,6 +2,7 @@
 #include <featherkit/fontstash/fontstash.h>
 #include <string>
 #include <stdexcept>
+#include <texture-font.h>
 
 namespace fea
 {
@@ -10,14 +11,20 @@ namespace fea
         public:
             InvalidFontException(const std::string& message);
     };
+
+    class TextSurface;
     
     class Font
     {
         public:
-            void createFromPath(const std::string& path);
-            void createFromData(uint8_t* fontData);
-            int32_t getId() const;
+            Font(TextSurface& surface);
+            Font(TextSurface& surface, const std::string& path, const float fontSize = 12.0f);
+            ~Font();
+            void createFont(const std::string& path, const float fontSize = 12.0f);
+            void resize(const float fontSize);
         private:
-            int32_t fontId;
+            std::string fontPath;
+            texture_font_t* textureFont;
+            TextSurface* owner;
     };
 }
