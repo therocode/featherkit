@@ -16,11 +16,13 @@ namespace fea
     {
         position.x = x;
         position.y = y;
+        positionChanged();
     }
     
     void Drawable2D::setPosition(const glm::vec2& p)
     {
         position = p;
+        positionChanged();
     }
     
     const glm::vec2& Drawable2D::getPosition() const
@@ -31,21 +33,25 @@ namespace fea
     void Drawable2D::translate(const float x, const float y)
     {
         position += glm::vec2(x, y);
+        positionChanged();
     }
     
     void Drawable2D::translate(const glm::vec2& p)
     {
         position += p;
+        positionChanged();
     }
     
     void Drawable2D::setOrigin(const float x, const float y)
     {
         origin = glm::vec2(x, y);
+        positionChanged();
     }
 
     void Drawable2D::setOrigin(const glm::vec2& p)
     {
         origin = p;
+        positionChanged();
     }
 
     const glm::vec2& Drawable2D::getOrigin() const
@@ -175,5 +181,9 @@ namespace fea
         temp.uniforms.push_back(Uniform(stringHasher("opacity"), FLOAT, opacity));
 
         return temp;
+    }
+    
+    void Drawable2D::positionChanged()
+    {
     }
 }

@@ -20,19 +20,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <vector>
 #include <math.h> /* @rlyeh: floorf() */
 
 #include <GL/glew.h>  /* @rlyeh: before including GL. doesnt hurt and makes life better */
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#ifdef __MACOSX__
-#include <OpenGL/gl.h>
-#else
-#include <GL/gl.h>
-#endif
-
 #include <string>
+#include <iostream>
 
 /* @rlyeh: removed STB_TRUETYPE_IMPLENTATION. We link it externally */
 #include <featherkit/fontstash/stb_truetype.h>
@@ -154,7 +150,7 @@ struct sth_stash
     int drawing;
 };
 
-static sth_stash* global_stash = nullptr;
+sth_stash* global_stash = nullptr;
 
 // Copyright (c) 2008-2009 Bjoern Hoehrmann <bjoern@hoehrmann.de>
 // See http://bjoern.hoehrmann.de/utf-8/decoder/dfa/ for details.
@@ -191,49 +187,53 @@ static unsigned int decutf8(unsigned int* state, unsigned int* codep, unsigned i
 
 
 
-struct sth_stash* sth_create(int cachew, int cacheh)
+void sth_create(int cachew, int cacheh)
 {
-    struct sth_stash* stash = NULL;
-    GLubyte* empty_data = NULL;
-    struct sth_texture* texture = NULL;
+    if(!global_stash)
+    {
+        struct sth_stash* stash = NULL;
+        GLubyte* empty_data = NULL;
+        struct sth_texture* texture = NULL;
 
-    // Allocate memory for the font stash.
-    stash = (struct sth_stash*)malloc(sizeof(struct sth_stash));
-    if (stash == NULL) goto error;
-    memset(stash,0,sizeof(struct sth_stash));
+        // Allocate memory for the font stash.
+        stash = (struct sth_stash*)malloc(sizeof(struct sth_stash));
+        if (stash == NULL) goto error;
+        memset(stash,0,sizeof(struct sth_stash));
 
-    // Create data for clearing the textures
-    empty_data = (GLubyte*) malloc((size_t)(cachew * cacheh));
-    if (empty_data == NULL) goto error;
-    memset(empty_data, 0, size_t(cachew * cacheh));
+        // Create data for clearing the textures
+        empty_data = (GLubyte*) malloc((size_t)(cachew * cacheh));
+        if (empty_data == NULL) goto error;
+        memset(empty_data, 0, size_t(cachew * cacheh));
 
-    // Allocate memory for the first texture
-    texture = (struct sth_texture*)malloc(sizeof(struct sth_texture));
-    if (texture == NULL) goto error;
-    memset(texture,0,sizeof(struct sth_texture));
+        // Allocate memory for the first texture
+        texture = (struct sth_texture*)malloc(sizeof(struct sth_texture));
+        if (texture == NULL) goto error;
+        memset(texture,0,sizeof(struct sth_texture));
 
-    // Create first texture for the cache.
-    stash->tw = cachew;
-    stash->th = cacheh;
-    stash->itw = 1.0f/(float)cachew;
-    stash->ith = 1.0f/(float)cacheh;
-    stash->empty_data = empty_data;
-    stash->tt_textures = texture;
-    glGenTextures(1, &texture->id);
-    if (!texture->id) goto error;
-    glBindTexture(GL_TEXTURE_2D, texture->id);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA, cachew, cacheh, 0, GL_ALPHA, GL_UNSIGNED_BYTE, empty_data);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        // Create first texture for the cache.
+        stash->tw = cachew;
+        stash->th = cacheh;
+        stash->itw = 1.0f/(float)cachew;
+        stash->ith = 1.0f/(float)cacheh;
+        stash->empty_data = empty_data;
+        stash->tt_textures = texture;
+        glGenTextures(1, &texture->id);
+        if (!texture->id) goto error;
+        glBindTexture(GL_TEXTURE_2D, texture->id);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA, cachew, cacheh, 0, GL_ALPHA, GL_UNSIGNED_BYTE, empty_data);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    global_stash = stash;
+        std::cout << " created the stash1\n";
+        global_stash = stash;
+        return;
 
 error:
     if (stash != NULL)
         free(stash);
     if (texture != NULL)
         free(texture);
-    return NULL;
+    }
 }
 
 int sth_add_font_from_memory(unsigned char* buffer)
@@ -582,37 +582,26 @@ static float* setv(float* v, float x, float y, float s, float t)
     return v+4;
 }
 
-static void flush_draw()
+static void flush_draw(std::vector<float>& vertices, std::vector<float>& texCoords, GLuint& textureId)
 {
     struct sth_texture* texture = global_stash->tt_textures;
     short tt = 1;
     while (texture)
     {
         if (texture->nverts > 0)
-        {			
-            //glEnable(GL_TEXTURE_2D);
-            glUseProgram(shader);
-            glBindTexture(GL_TEXTURE_2D, texture->id);
+        {		
+            textureId = texture->id;
+            std::cout << "added this texture: " << texture->id << "\n";
+            for(uint32_t i = 0; i < texture->nverts * 4; i+=4)
+            {
+                vertices.push_back(texture->verts[i]);
+                vertices.push_back(texture->verts[i+1]);
+                texCoords.push_back(texture->verts[i+2]);
+                texCoords.push_back(texture->verts[i+3]);
 
-            GLint textureUniform = glGetUniformLocation(shader, "texture");
-            glActiveTexture(GL_TEXTURE0);
-            glUniform1i(textureUniform, 0);
-
-            //glEnableClientState(GL_VERTEX_ARRAY);
-            //glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-            glEnableVertexAttribArray(vertexLocation);
-            glEnableVertexAttribArray(texCoordsLocation);
-            //glVertexPointer(2, GL_FLOAT, VERT_STRIDE, texture->verts);
-            //glTexCoordPointer(2, GL_FLOAT, VERT_STRIDE, texture->verts+2);
-            glVertexAttribPointer(vertexLocation, 2, GL_FLOAT, false, VERT_STRIDE, texture->verts);
-            glVertexAttribPointer(texCoordsLocation, 2, GL_FLOAT, false, VERT_STRIDE, texture->verts+2);
-            glDrawArrays(GL_TRIANGLES, 0, texture->nverts);
-            //glDisable(GL_TEXTURE_2D);
-            //glDisableClientState(GL_VERTEX_ARRAY);
-            //glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-            glDisableVertexAttribArray(vertexLocation);
-            glDisableVertexAttribArray(texCoordsLocation);
-            glUseProgram(0);
+                std::cout << "added these vertices: " << texture->verts[i] << " " << texture->verts[i+1] << "\n";
+                std::cout << "added these tex coords: " << texture->verts[i+2] << " " << texture->verts[i+3] << "\n";
+            }
             texture->nverts = 0;
         }
         texture = texture->next;
@@ -622,24 +611,18 @@ static void flush_draw()
             tt = 0;
         }
     }
-}
-
-void sth_font_colour(float r, float g, float b, GLfloat opacity)
-{
-    glUseProgram(shader);
-    glUniform3fv(colourLocation, 1, glm::value_ptr(glm::vec3(r,g,b)));
-    glUniform1fv(opacityLocation, 1, &opacity);
+    std::cout << " rendered the text\n";
 }
 
 void sth_begin_draw()
 {
     if (global_stash == NULL) return;
-    if (global_stash->drawing)
-        flush_draw();
+    //if (global_stash->drawing)
+    //    flush_draw();
     global_stash->drawing = 1;
 }
 
-void sth_end_draw()
+void sth_end_draw(std::vector<float>& vertices, std::vector<float>& texCoords, GLuint& textureId)
 {
     if (global_stash == NULL) return;
     if (!global_stash->drawing) return;
@@ -663,7 +646,7 @@ void sth_end_draw()
     }
      */
 
-    flush_draw();
+    flush_draw(vertices, texCoords, textureId);
     global_stash->drawing = 0;
 }
 
@@ -692,8 +675,8 @@ void sth_draw_text(int idxx, float size,
         glyph = get_glyph(fnt, codepoint, isize);
         if (!glyph) continue;
         texture = glyph->texture;
-        if (texture->nverts+6 >= VERT_COUNT)
-            flush_draw();
+        //if (texture->nverts+6 >= VERT_COUNT)
+        //    flush_draw();
 
         if (!get_quad(fnt, glyph, isize, &x, &y, &q)) continue;
 

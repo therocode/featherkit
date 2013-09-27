@@ -20,10 +20,17 @@
 #ifndef FONTSTASH_H
 #define FONTSTASH_H
 
-struct sth_stash* sth_create(int cachew, int cacheh);
+#include <vector>
+
+#ifdef __MACOSX__
+#include <OpenGL/gl.h>
+#else
+#include <GL/gl.h>
+#endif
+
+void sth_create(int cachew, int cacheh);
 
 int sth_add_font(const char* path);
-void sth_set_projection(const glm::mat4x4& matrix);
 int sth_add_font_from_memory(unsigned char* buffer);
 
 int  sth_add_bitmap_font(int ascent, int descent, int line_gap);
@@ -31,10 +38,8 @@ void sth_add_glyph(int idx, GLuint id, const char* s,  /* @rlyeh: function does 
                   short size, short base, int x, int y, int w, int h,
                   float xoffset, float yoffset, float xadvance);
 
-void sth_font_colour(float r, float g, float b, GLfloat opacity);
-
 void sth_begin_draw();
-void sth_end_draw();
+void sth_end_draw(std::vector<float>& vertices, std::vector<float>& texCoords, GLuint& textureId);
 
 void sth_draw_text(int idx, float size,
 				   float x, float y, const char* string, float* dx);

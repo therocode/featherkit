@@ -3,19 +3,11 @@
 #include <featherkit/rendering/rendertarget.h>
 #include <featherkit/rendering/shader.h>
 #include <featherkit/rendering/renderinfo.h>
-#include <featherkit/fontstash/fontstash.h>
-#include <stdexcept>
 #include <memory>
 
 namespace fea
 {
     class Drawable2D;
-
-    class InvalidFontException : public std::runtime_error 
-    {
-        public:
-            InvalidFontException(const std::string& message);
-    };
 
     class Renderer2D
     {
@@ -34,7 +26,6 @@ namespace fea
             void render(const RenderTarget& target, const Shader& shader);
             void setViewport(const Viewport& viewport);
             Viewport& getViewport();
-            int32_t addFont(uint8_t* fontData);
             void setBlendMode(BlendMode mode);
         private:
             void setBlendModeGl(BlendMode mode);

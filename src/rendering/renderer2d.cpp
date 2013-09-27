@@ -8,11 +8,7 @@
 
 namespace fea
 {
-    InvalidFontException::InvalidFontException(const std::string& message) : std::runtime_error(message)
-    {
-    }
-
-    Renderer2D::Renderer2D(const Viewport& v) : currentViewport(v)
+    Renderer2D::Renderer2D(const Viewport& v) : currentViewport(v), currentBlendMode(ALPHA)
     {
     }
     
@@ -20,12 +16,10 @@ namespace fea
     {
         glewInit();
 
-        glDisable(GL_DEPTH_TEST);
+        glEnable(GL_DEPTH_TEST);
         glEnable(GL_BLEND);
         glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-
-        sth_create(512, 512);
 
         defaultTexture.create(4, 4, 1.0f, 1.0f, 1.0f);
 
@@ -37,7 +31,6 @@ namespace fea
 
     void Renderer2D::destroy()
     {
-        sth_delete();
         defaultTexture.destroy();
     }
 
@@ -54,7 +47,7 @@ namespace fea
             clearColour = colour;
         }
 
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
     void Renderer2D::clear(const RenderTarget& target, float r, float g, float b)
@@ -146,22 +139,6 @@ namespace fea
     Viewport& Renderer2D::getViewport()
     {
         return currentViewport;
-    }
-    
-    int32_t Renderer2D::addFont(uint8_t* fontData)
-    {
-        int32_t font = sth_add_font_from_memory(fontData);
-        
-        if(font != 0)
-        {
-            return font;
-        }
-        else
-        {
-            std::stringstream ss;
-            ss << "Error! While adding font to the renderer!\n";
-            throw(InvalidFontException(ss.str()));
-        }
     }
     
     void Renderer2D::setBlendMode(BlendMode mode)
