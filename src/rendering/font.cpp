@@ -43,4 +43,9 @@ namespace fea
             textureFont = texture_font_new(owner->atlas, fontPath.c_str(), fontSize);
         }
     }
+    
+    texture_font_t* Font::getInternalFont() const
+    {
+        return textureFont;
+    }
 }

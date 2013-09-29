@@ -1,5 +1,4 @@
 #pragma once
-#include <featherkit/fontstash/fontstash.h>
 #include <string>
 #include <stdexcept>
 #include <texture-font.h>
@@ -22,6 +21,7 @@ namespace fea
             ~Font();
             void createFont(const std::string& path, const float fontSize = 12.0f);
             void resize(const float fontSize);
+            texture_font_t* getInternalFont() const;
         private:
             std::string fontPath;
             texture_font_t* textureFont;

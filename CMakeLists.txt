@@ -130,7 +130,9 @@ if(BUILD_RENDERING)
         endif(OPENGL_FOUND)
     endif()
 
-    target_link_libraries(${project_name}-rendering freetype-gl)
+    FIND_PACKAGE( Freetype REQUIRED )
+
+    target_link_libraries(${project_name}-rendering freetype-gl ${FREETYPE_LIBRARY})
 
 endif()
 
