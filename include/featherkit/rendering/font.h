@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include <stdexcept>
-#include <texture-font.h>
+#include <freetype-gl.h>
 
 namespace fea
 {

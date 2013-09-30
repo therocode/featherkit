@@ -18,6 +18,7 @@ namespace fea
     {
         fontPath = path;
         textureFont = texture_font_new(owner->atlas, path.c_str(), fontSize);
+        std::cout << "added the font\n";
     }
 
     Font::~Font()
@@ -33,6 +34,8 @@ namespace fea
             texture_font_delete(textureFont);
 
         textureFont = texture_font_new(owner->atlas, path.c_str(), fontSize);
+        texture_font_load_glyphs(textureFont, L"baj");
+        std::cout << "added the font\n";
     }
             
     void Font::resize(const float fontSize)
