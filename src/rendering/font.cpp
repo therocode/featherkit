@@ -9,46 +9,33 @@ namespace fea
     InvalidFontException::InvalidFontException(const std::string& message) : std::runtime_error(message)
     {
     }
-
-    Font::Font(TextSurface& surface) : textureFont(nullptr), owner(&surface)
+    
+    Font::Font(const std::string& path, const float size) : fontPath(path), fontSize(size)
     {
     }
     
-    Font::Font(TextSurface& surface, const std::string& path, const float fontSize) : owner(&surface)
+    void Font::setPath(const std::string& path)
     {
         fontPath = path;
-        textureFont = texture_font_new(owner->atlas, path.c_str(), fontSize);
-        std::cout << "added the font\n";
+    }
+    
+    void Font::setSize(const float size)
+    {
+        fontSize = size;
     }
 
-    Font::~Font()
+    const std::string& Font::getPath() const
     {
-        if(textureFont)
-            texture_font_delete(textureFont);
+        return fontPath;
     }
-
-    void Font::createFont(const std::string& path, const float fontSize)
+    
+    float Font::getSize() const
     {
-        fontPath = path;
-        if(textureFont)
-            texture_font_delete(textureFont);
-
-        textureFont = texture_font_new(owner->atlas, path.c_str(), fontSize);
-        texture_font_load_glyphs(textureFont, L"baj");
-        std::cout << "added the font\n";
+        return fontSize;
     }
             
-    void Font::resize(const float fontSize)
+    bool Font::operator==(const Font& other) const
     {
-        if(textureFont)
-        {
-            texture_font_delete(textureFont);
-            textureFont = texture_font_new(owner->atlas, fontPath.c_str(), fontSize);
-        }
-    }
-    
-    texture_font_t* Font::getInternalFont() const
-    {
-        return textureFont;
+        return fontPath == other.fontPath && (uint32_t)(fontSize * 100.0f) == (uint32_t)(other.fontSize * 100.0f);
     }
 }
