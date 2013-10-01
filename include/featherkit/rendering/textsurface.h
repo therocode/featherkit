@@ -27,7 +27,10 @@ namespace fea
             void setHorizontalAlign(const float coord);
             void newLine(const float distance, const float indentation = 0.0f);
             virtual RenderInfo getRenderInfo() const override;
+            void rewrite();
+            void clear();
         private:
+            void addText(const std::wstring& text);
             texture_atlas_t* atlas;
             const Font* currentFont;
             glm::vec2 pen;
