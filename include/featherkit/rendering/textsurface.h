@@ -31,10 +31,12 @@ namespace fea
             void clear();
         private:
             void addText(const std::wstring& text);
+            void cacheFont(const Font& font);
             texture_atlas_t* atlas;
             const Font* currentFont;
             glm::vec2 pen;
             float horizontalAlign;
+            uint32_t atlasSize;
 
             std::unordered_map<Font, texture_font_t*> fontCache;
             std::vector<Writing> writings;

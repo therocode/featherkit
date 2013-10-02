@@ -10,7 +10,8 @@ namespace fea
     
     TextSurface::TextSurface()
     {
-        atlas = texture_atlas_new(512, 512, 1);
+        atlasSize = 64;
+        atlas = texture_atlas_new(atlasSize, atlasSize, 1);
         drawMode = GL_TRIANGLES;
         currentFont = nullptr;
     }
@@ -33,11 +34,7 @@ namespace fea
             
     void TextSurface::setPenFont(const Font& font)
     {
-        if(fontCache.find(font) == fontCache.end())
-        {
-            texture_font_t* created = texture_font_new(atlas, font.getPath().c_str(), font.getSize());
-            fontCache.emplace(font, created);
-        }
+        cacheFont(font);
         currentFont = &font;
     }
 
@@ -78,6 +75,7 @@ namespace fea
         {
             pen = writing.penPosition;
             currentFont = writing.font;
+            cacheFont(*currentFont);
             addText(writing.text);
         }
 
@@ -97,6 +95,10 @@ namespace fea
         size_t i;
         //float r = color->red, g = color->green, b = color->blue, a = color->alpha;
 
+        std::vector<float> verticesToAdd;
+        std::vector<float> texCoordsToAdd;
+        glm::vec2 penTempPosition = pen;
+
 
         for(i = 0; i < text.size(); ++i )
         {
@@ -104,7 +106,19 @@ namespace fea
 
             if(glyph == nullptr)
             {
-                //resize, empty font cache, redo writing, return; but hmmm the problem is that the pen won't be moved if you return
+                atlasSize *= 2;
+                texture_atlas_delete(atlas);
+                atlas = texture_atlas_new(atlasSize, atlasSize, 1);
+
+                for(auto font : fontCache)
+                {
+                    texture_font_delete(font.second);
+                }
+                fontCache.clear();
+
+                rewrite();
+                addText(text);
+                return;
             }
 
             int kerning = 0;
@@ -112,9 +126,9 @@ namespace fea
             {
                 kerning = texture_glyph_get_kerning( glyph, text[i-1] );
             }
-            pen.x += kerning;
-            int x0  = (int)( pen.x + glyph->offset_x );
-            int y0  = (int)( pen.y - glyph->offset_y );
+            penTempPosition.x += kerning;
+            int x0  = (int)( penTempPosition.x + glyph->offset_x );
+            int y0  = (int)( penTempPosition.y - glyph->offset_y );
             int x1  = (int)( x0 + glyph->width );
             int y1  = (int)( y0 + glyph->height );
             float s0 = glyph->s0;
@@ -122,19 +136,33 @@ namespace fea
             float s1 = glyph->s1;
             float t1 = glyph->t1;
 
-            vertices.insert(vertices.end(), {x0, y0,
+            verticesToAdd.insert(verticesToAdd.end(), {x0, y0,
                     x0, y1,
                     x1, y1,
                     x0, y0,
                     x1, y1,
                     x1, y0});
-            texCoords.insert(texCoords.end(), {s0, t0,
+            texCoordsToAdd.insert(texCoordsToAdd.end(), {s0, t0,
                     s0, t1,
                     s1, t1,
                     s0, t0,
                     s1, t1,
                     s1, t0});
-            pen.x += glyph->advance_x;
+            penTempPosition.x += glyph->advance_x;
+        }
+
+        pen = penTempPosition;
+        vertices.insert(vertices.end(), verticesToAdd.begin(), verticesToAdd.end());
+        texCoords.insert(texCoords.end(), texCoordsToAdd.begin(), texCoordsToAdd.end());
+    }
+
+
+    void TextSurface::cacheFont(const Font& font)
+    {
+        if(fontCache.find(font) == fontCache.end())
+        {
+            texture_font_t* created = texture_font_new(atlas, font.getPath().c_str(), font.getSize());
+            fontCache.emplace(font, created);
         }
     }
 }
