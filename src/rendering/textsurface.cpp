@@ -4,11 +4,11 @@
 
 namespace fea
 {
-    Writing::Writing(const std::wstring& t, const Font* f, const glm::vec2& p) : text(t), font(f), penPosition(p)
+    Writing::Writing(const std::wstring& t, const Font* f, const glm::vec2& p, const float s) : text(t), font(f), penPosition(p), scale(s)
     {
     }
     
-    TextSurface::TextSurface()
+    TextSurface::TextSurface() : scale(1.0f)
     {
         atlasSize = 64;
         atlas = texture_atlas_new(atlasSize, atlasSize, 1);
@@ -28,7 +28,7 @@ namespace fea
 
     void TextSurface::write(const std::wstring& text)
     {
-        writings.push_back(Writing(text, currentFont, pen));
+        writings.push_back(Writing(text, currentFont, pen, scale));
         addText(text);
     }
             
@@ -43,6 +43,11 @@ namespace fea
         pen = pos;
     }
     
+    void TextSurface::setPenScale(const float s)
+    {
+        scale = s;
+    }
+    
     void TextSurface::setHorizontalAlign(const float coord)
     {
         horizontalAlign = coord;
@@ -50,8 +55,8 @@ namespace fea
 
     void TextSurface::newLine(const float distance, const float indentation)
     {
-        pen.x = horizontalAlign + indentation;
-        pen.y += distance;
+        pen.x = horizontalAlign + indentation * scale;
+        pen.y += distance * scale;
     }
 
     RenderInfo TextSurface::getRenderInfo() const
@@ -70,17 +75,20 @@ namespace fea
 
         const glm::vec2 originalPosition = pen;
         const Font* originalFont = currentFont;
+        const float originalScale = scale;
 
         for(auto& writing : writings)
         {
             pen = writing.penPosition;
             currentFont = writing.font;
             cacheFont(*currentFont);
+            scale = writing.scale;
             addText(writing.text);
         }
 
         pen = originalPosition;
         currentFont = originalFont;
+        scale = originalScale;
     }
 
     void TextSurface::clear()
@@ -121,16 +129,17 @@ namespace fea
                 return;
             }
 
-            int kerning = 0;
+            float kerning = 0.0f;
             if( i > 0)
             {
                 kerning = texture_glyph_get_kerning( glyph, text[i-1] );
             }
-            penTempPosition.x += kerning;
-            int x0  = (int)( penTempPosition.x + glyph->offset_x );
-            int y0  = (int)( penTempPosition.y - glyph->offset_y );
-            int x1  = (int)( x0 + glyph->width );
-            int y1  = (int)( y0 + glyph->height );
+            penTempPosition.x += kerning * scale;
+            std::cout << "kerning was " << kerning << "\n";
+            float x0  = ( penTempPosition.x + glyph->offset_x * scale );
+            float y0  = ( penTempPosition.y - glyph->offset_y * scale);
+            float x1  = ( x0 + glyph->width * scale );
+            float y1  = ( y0 + glyph->height * scale);
             float s0 = glyph->s0;
             float t0 = glyph->t0;
             float s1 = glyph->s1;
@@ -148,7 +157,7 @@ namespace fea
                     s0, t0,
                     s1, t1,
                     s1, t0});
-            penTempPosition.x += glyph->advance_x;
+            penTempPosition.x += glyph->advance_x * scale;
         }
 
         pen = penTempPosition;
