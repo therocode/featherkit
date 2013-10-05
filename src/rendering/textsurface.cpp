@@ -4,7 +4,7 @@
 
 namespace fea
 {
-    Writing::Writing(const std::wstring& t, const Font* f, const glm::vec2& p, const float s) : text(t), font(f), penPosition(p), scale(s)
+    Writing::Writing(const std::wstring& t, const Font* f, const glm::vec2& p, const float s, const glm::vec3& c) : text(t), font(f), penPosition(p), scale(s), colour(c)
     {
     }
     
@@ -28,7 +28,7 @@ namespace fea
 
     void TextSurface::write(const std::wstring& text)
     {
-        writings.push_back(Writing(text, currentFont, pen, scale));
+        writings.push_back(Writing(text, currentFont, pen, scale, colour));
         addText(text);
     }
             
@@ -46,6 +46,11 @@ namespace fea
     void TextSurface::setPenScale(const float s)
     {
         scale = s;
+    }
+    
+    void TextSurface::setPenColour(const glm::vec3& col)
+    {
+        colour = col;
     }
     
     void TextSurface::setHorizontalAlign(const float coord)
@@ -76,6 +81,7 @@ namespace fea
         const glm::vec2 originalPosition = pen;
         const Font* originalFont = currentFont;
         const float originalScale = scale;
+        const glm::vec3 originalColour = colour;
 
         for(auto& writing : writings)
         {
@@ -83,12 +89,14 @@ namespace fea
             currentFont = writing.font;
             cacheFont(*currentFont);
             scale = writing.scale;
+            colour = writing.colour;
             addText(writing.text);
         }
 
         pen = originalPosition;
         currentFont = originalFont;
         scale = originalScale;
+        colour = originalColour;
     }
 
     void TextSurface::clear()
@@ -164,12 +172,12 @@ namespace fea
         vertices.insert(vertices.end(), verticesToAdd.begin(), verticesToAdd.end());
         texCoords.insert(texCoords.end(), texCoordsToAdd.begin(), texCoordsToAdd.end());
 
-        vertexColours.push_back(1.0f); vertexColours.push_back(1.0f); vertexColours.push_back(1.0f); vertexColours.push_back(1.0f);
-        vertexColours.push_back(1.0f); vertexColours.push_back(1.0f); vertexColours.push_back(1.0f); vertexColours.push_back(1.0f);
-        vertexColours.push_back(1.0f); vertexColours.push_back(1.0f); vertexColours.push_back(1.0f); vertexColours.push_back(1.0f);
-        vertexColours.push_back(1.0f); vertexColours.push_back(1.0f); vertexColours.push_back(1.0f); vertexColours.push_back(1.0f);
-        vertexColours.push_back(1.0f); vertexColours.push_back(1.0f); vertexColours.push_back(1.0f); vertexColours.push_back(1.0f);
-        vertexColours.push_back(1.0f); vertexColours.push_back(1.0f); vertexColours.push_back(1.0f); vertexColours.push_back(1.0f);
+        vertexColours.push_back(colour.r); vertexColours.push_back(colour.g); vertexColours.push_back(colour.b); vertexColours.push_back(1.0f);
+        vertexColours.push_back(colour.r); vertexColours.push_back(colour.g); vertexColours.push_back(colour.b); vertexColours.push_back(1.0f);
+        vertexColours.push_back(colour.r); vertexColours.push_back(colour.g); vertexColours.push_back(colour.b); vertexColours.push_back(1.0f);
+        vertexColours.push_back(colour.r); vertexColours.push_back(colour.g); vertexColours.push_back(colour.b); vertexColours.push_back(1.0f);
+        vertexColours.push_back(colour.r); vertexColours.push_back(colour.g); vertexColours.push_back(colour.b); vertexColours.push_back(1.0f);
+        vertexColours.push_back(colour.r); vertexColours.push_back(colour.g); vertexColours.push_back(colour.b); vertexColours.push_back(1.0f);
     }
 
 

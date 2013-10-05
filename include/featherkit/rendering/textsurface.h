@@ -9,11 +9,12 @@ namespace fea
 {
     struct Writing
     {
-        Writing(const std::wstring& t, const Font* f, const glm::vec2& p, const float s);
+        Writing(const std::wstring& t, const Font* f, const glm::vec2& p, const float s, const glm::vec3& c);
         const std::wstring text;
         const Font* font;
         const glm::vec2 penPosition;
         const float scale;
+        const glm::vec3 colour;
     };
 
     class TextSurface : public Drawable2D
@@ -26,6 +27,7 @@ namespace fea
             void setPenFont(const Font& font);
             void setPenPosition(const glm::vec2 pos);
             void setPenScale(const float s);
+            void setPenColour(const glm::vec3& col);
             void setHorizontalAlign(const float coord);
             void newLine(const float distance, const float indentation = 0.0f);
             virtual RenderInfo getRenderInfo() const override;
@@ -38,6 +40,7 @@ namespace fea
             const Font* currentFont;
             glm::vec2 pen;
             float scale;
+            glm::vec3 colour;
             float horizontalAlign;
             uint32_t atlasSize;
 

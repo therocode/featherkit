@@ -31,12 +31,12 @@ namespace fea
                 texCoords.push_back(0.0f); texCoords.push_back(1.0f);
                 texCoords.push_back(1.0f); texCoords.push_back(1.0f);
 
-                vertexColours.push_back(1.0f); vertexColours.push_back(1.0f); vertexColours.push_back(1.0f); vertexColours.push_back(1.0f);
-                vertexColours.push_back(1.0f); vertexColours.push_back(1.0f); vertexColours.push_back(1.0f); vertexColours.push_back(1.0f);
-                vertexColours.push_back(1.0f); vertexColours.push_back(1.0f); vertexColours.push_back(1.0f); vertexColours.push_back(1.0f);
-                vertexColours.push_back(1.0f); vertexColours.push_back(1.0f); vertexColours.push_back(1.0f); vertexColours.push_back(1.0f);
-                vertexColours.push_back(1.0f); vertexColours.push_back(1.0f); vertexColours.push_back(1.0f); vertexColours.push_back(1.0f);
-                vertexColours.push_back(1.0f); vertexColours.push_back(1.0f); vertexColours.push_back(1.0f); vertexColours.push_back(1.0f);
+                vertexColours.push_back(0.0f); vertexColours.push_back(0.0f); vertexColours.push_back(0.0f); vertexColours.push_back(0.0f);
+                vertexColours.push_back(0.0f); vertexColours.push_back(0.0f); vertexColours.push_back(0.0f); vertexColours.push_back(0.0f);
+                vertexColours.push_back(0.0f); vertexColours.push_back(0.0f); vertexColours.push_back(0.0f); vertexColours.push_back(0.0f);
+                vertexColours.push_back(0.0f); vertexColours.push_back(0.0f); vertexColours.push_back(0.0f); vertexColours.push_back(0.0f);
+                vertexColours.push_back(0.0f); vertexColours.push_back(0.0f); vertexColours.push_back(0.0f); vertexColours.push_back(0.0f);
+                vertexColours.push_back(0.0f); vertexColours.push_back(0.0f); vertexColours.push_back(0.0f); vertexColours.push_back(0.0f);
             }
         }
         drawMode = GL_TRIANGLES;

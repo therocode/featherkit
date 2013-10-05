@@ -71,7 +71,7 @@ void main()
     vec2 constraintSize = abs(vec2(constraints[1] - constraints[0] , constraints[3] - constraints[2]));
     vec2 texCoords = constraintSize * vTex.st + vec2(constraints[0], constraints[2]) - textureScroll;
     texCoords = vec2(boundBetween(texCoords.s, constraints[0], constraints[1]), boundBetween(texCoords.t, constraints[2], constraints[3]));
-    gl_FragColor = texture2D(texture, texCoords) * vec4(colour, opacity) * vColour;
+    gl_FragColor = texture2D(texture, texCoords) * vec4(colour, opacity) + vec4(vColour.rgb, 0.0);
 })";
 
 #else
@@ -109,7 +109,7 @@ void main()
     vec2 constraintSize = abs(vec2(constraints[1] - constraints[0] , constraints[3] - constraints[2]));
     vec2 texCoords = constraintSize * vTex.st + vec2(constraints[0], constraints[2]) - textureScroll;
     texCoords = vec2(boundBetween(texCoords.s, constraints[0], constraints[1]), boundBetween(texCoords.t, constraints[2], constraints[3]));
-    gl_FragColor = texture2D(texture, texCoords) * vec4(colour, opacity) * vColour;
+    gl_FragColor = texture2D(texture, texCoords) * vec4(colour, opacity) + vec4(vColour.rgb, 0.0);
 })";
 #endif
 }
