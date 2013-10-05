@@ -48,6 +48,7 @@ namespace fea
             virtual void positionChanged();
             std::vector<float> vertices;
             std::vector<float> texCoords;
+            std::vector<float> vertexColours;
             GLenum drawMode;
             glm::vec2 position;
             glm::vec2 origin;

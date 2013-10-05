@@ -167,8 +167,9 @@ namespace fea
         temp.drawMode = drawMode;
         temp.elementAmount = vertices.size() / 2;
 
-        temp.vertexAttributes.push_back(VertexAttribute(stringHasher("vertex"), &vertices[0]));
-        temp.vertexAttributes.push_back(VertexAttribute(stringHasher("texCoords"), &texCoords[0]));
+        temp.vertexAttributes.push_back(VertexAttribute(stringHasher("vertex"), 2, &vertices[0]));
+        temp.vertexAttributes.push_back(VertexAttribute(stringHasher("texCoords"), 2, &texCoords[0]));
+        temp.vertexAttributes.push_back(VertexAttribute(stringHasher("colours"), 4, &vertexColours[0]));
 
         temp.uniforms.push_back(Uniform(stringHasher("position"), VEC2, position));
         temp.uniforms.push_back(Uniform(stringHasher("origin"), VEC2, origin));

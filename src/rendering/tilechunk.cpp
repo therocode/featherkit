@@ -30,6 +30,13 @@ namespace fea
                 texCoords.push_back(1.0f); texCoords.push_back(0.0f);
                 texCoords.push_back(0.0f); texCoords.push_back(1.0f);
                 texCoords.push_back(1.0f); texCoords.push_back(1.0f);
+
+                vertexColours.push_back(1.0f); vertexColours.push_back(1.0f); vertexColours.push_back(1.0f); vertexColours.push_back(1.0f);
+                vertexColours.push_back(1.0f); vertexColours.push_back(1.0f); vertexColours.push_back(1.0f); vertexColours.push_back(1.0f);
+                vertexColours.push_back(1.0f); vertexColours.push_back(1.0f); vertexColours.push_back(1.0f); vertexColours.push_back(1.0f);
+                vertexColours.push_back(1.0f); vertexColours.push_back(1.0f); vertexColours.push_back(1.0f); vertexColours.push_back(1.0f);
+                vertexColours.push_back(1.0f); vertexColours.push_back(1.0f); vertexColours.push_back(1.0f); vertexColours.push_back(1.0f);
+                vertexColours.push_back(1.0f); vertexColours.push_back(1.0f); vertexColours.push_back(1.0f); vertexColours.push_back(1.0f);
             }
         }
         drawMode = GL_TRIANGLES;
@@ -64,7 +71,7 @@ namespace fea
 
         temp.uniforms.push_back(Uniform(stringHasher("texture"), TEXTURE, getTexture().getId()));
 
-        temp.vertexAttributes.push_back(VertexAttribute(stringHasher("texCoords"), &texCoords[0]));
+        temp.vertexAttributes.push_back(VertexAttribute(stringHasher("texCoords"), 2, &texCoords[0]));
 
         return temp;
     }

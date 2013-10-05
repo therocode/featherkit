@@ -163,6 +163,13 @@ namespace fea
         pen = penTempPosition;
         vertices.insert(vertices.end(), verticesToAdd.begin(), verticesToAdd.end());
         texCoords.insert(texCoords.end(), texCoordsToAdd.begin(), texCoordsToAdd.end());
+
+        vertexColours.push_back(1.0f); vertexColours.push_back(1.0f); vertexColours.push_back(1.0f); vertexColours.push_back(1.0f);
+        vertexColours.push_back(1.0f); vertexColours.push_back(1.0f); vertexColours.push_back(1.0f); vertexColours.push_back(1.0f);
+        vertexColours.push_back(1.0f); vertexColours.push_back(1.0f); vertexColours.push_back(1.0f); vertexColours.push_back(1.0f);
+        vertexColours.push_back(1.0f); vertexColours.push_back(1.0f); vertexColours.push_back(1.0f); vertexColours.push_back(1.0f);
+        vertexColours.push_back(1.0f); vertexColours.push_back(1.0f); vertexColours.push_back(1.0f); vertexColours.push_back(1.0f);
+        vertexColours.push_back(1.0f); vertexColours.push_back(1.0f); vertexColours.push_back(1.0f); vertexColours.push_back(1.0f);
     }
 
 

@@ -107,7 +107,7 @@ namespace fea
             
             for(auto& vertexAttribute : renderOperation.vertexAttributes)
             {
-                shader.setVertexAttribute(vertexAttribute.index, vertexAttribute.data);
+                shader.setVertexAttribute(vertexAttribute.index, vertexAttribute.floatAmount, vertexAttribute.data);
             }
 
             glDrawArrays(renderOperation.drawMode, 0, renderOperation.elementAmount);

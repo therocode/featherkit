@@ -40,7 +40,7 @@ namespace fea
         RenderInfo temp = Quad::getRenderInfo();
         std::hash<std::string> stringHasher;
 
-        temp.vertexAttributes.push_back(VertexAttribute(stringHasher("texCoords"), &texCoords[0]));
+        temp.vertexAttributes.push_back(VertexAttribute(stringHasher("texCoords"), 2, &texCoords[0]));
 
         return temp;
     }

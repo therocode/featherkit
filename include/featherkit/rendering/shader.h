@@ -20,7 +20,7 @@ namespace fea
             void activate() const;
             void deactivate() const;
             void setUniform(size_t index, UniformType type, const void* value) const;
-            void setVertexAttribute(size_t index, const float* data) const;
+            void setVertexAttribute(size_t index, const uint32_t floatAmount, const float* data) const;
             void compile();
         private:
             GLuint programId;

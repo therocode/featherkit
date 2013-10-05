@@ -11,6 +11,7 @@ uniform vec2 halfViewSize;
 
 attribute vec4 vertex;
 attribute vec2 texCoords;
+attribute vec4 colours;
 uniform vec2 position;
 uniform vec2 origin;
 uniform float rotation;
@@ -18,6 +19,7 @@ uniform vec2 scaling;
 uniform float parallax;
 
 varying vec2 vTex;
+varying vec4 vColour;
 
 void main()
 {
@@ -29,6 +31,7 @@ void main()
     vec2 transformedPoint = camRotation * (camZoom * (worldSpaceCoords - camPosition * parallax)) + halfViewSize;
     gl_Position = projection* vec4(transformedPoint.xy, vertex.zw);
     vTex = texCoords;
+    vColour = colours;
 })";
 
 #ifdef EMSCRIPTEN
@@ -42,6 +45,7 @@ uniform float opacity;
 uniform vec2 textureScroll; //hmmmm
 
 varying vec2 vTex;
+varying vec4 vColour;
 
 float boundBetween(float val, float lowerBound, float upperBound)
 {
@@ -67,7 +71,7 @@ void main()
     vec2 constraintSize = abs(vec2(constraints[1] - constraints[0] , constraints[3] - constraints[2]));
     vec2 texCoords = constraintSize * vTex.st + vec2(constraints[0], constraints[2]) - textureScroll;
     texCoords = vec2(boundBetween(texCoords.s, constraints[0], constraints[1]), boundBetween(texCoords.t, constraints[2], constraints[3]));
-    gl_FragColor = texture2D(texture, texCoords) * vec4(colour, opacity);
+    gl_FragColor = texture2D(texture, texCoords) * vec4(colour, opacity) * vColour;
 })";
 
 #else
@@ -80,6 +84,7 @@ uniform float opacity;
 uniform vec2 textureScroll; //hmmmm
 
 varying vec2 vTex;
+varying vec4 vColour;
 
 float boundBetween(float val, float lowerBound, float upperBound)
 {
@@ -104,7 +109,7 @@ void main()
     vec2 constraintSize = abs(vec2(constraints[1] - constraints[0] , constraints[3] - constraints[2]));
     vec2 texCoords = constraintSize * vTex.st + vec2(constraints[0], constraints[2]) - textureScroll;
     texCoords = vec2(boundBetween(texCoords.s, constraints[0], constraints[1]), boundBetween(texCoords.t, constraints[2], constraints[3]));
-    gl_FragColor = texture2D(texture, texCoords) * vec4(colour, opacity);
+    gl_FragColor = texture2D(texture, texCoords) * vec4(colour, opacity) * vColour;
 })";
 #endif
 }

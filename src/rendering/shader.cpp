@@ -81,11 +81,11 @@ namespace fea
         }
     }
     
-    void Shader::setVertexAttribute(size_t index, const float* data) const
+    void Shader::setVertexAttribute(size_t index, const uint32_t floatAmount, const float* data) const
     {
         glEnableVertexAttribArray(vertexAttributeLocations.at(index));
         enabledVertexAttributes.push_back(vertexAttributeLocations.at(index));
-        glVertexAttribPointer(vertexAttributeLocations.at(index), 2, GL_FLOAT, false, 0, data);
+        glVertexAttribPointer(vertexAttributeLocations.at(index), floatAmount, GL_FLOAT, false, 0, data);
     }
 
     void Shader::compile()
