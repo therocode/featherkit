@@ -31,7 +31,7 @@ namespace fea
 namespace std
 {
     template<>
-    struct std::hash<fea::Font>
+    struct hash<fea::Font>
     {
         public:
             std::size_t operator()(fea::Font const& font) const 
