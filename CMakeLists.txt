@@ -19,7 +19,6 @@ set(BUILD_UI TRUE CACHE BOOL "Selects if the UI module should be built")
 
 set(BUILD_SFMLBACKENDS FALSE CACHE BOOL "Selects if the SFML backends should be built")
 set(BUILD_SDLBACKENDS FALSE CACHE BOOL "Selects if the SDL backends should be built")
-set(BUILD_OPENGLBACKENDS FALSE CACHE BOOL "Selects if the OpenGL rendering backends should be built")
 
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)  #for shared libs
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)   #for static libs
@@ -101,38 +100,23 @@ if(BUILD_RENDERING)
         include_directories(${WINFIX} ${GLM_INCLUDE_DIRS})
     endif()
     
-    set(FREETYPE_GL_PATH "." CACHE PATH "Path to the freetype-gl library.")
-    include_directories(${FREETYPE_GL_PATH})
-    link_directories(${FREETYPE_GL_PATH})
-    
-    if(${BUILD_OPENGLBACKENDS})
-        find_package(OpenGL REQUIRED)
-        if(OPENGL_FOUND)
-            include_directories(${OPENGL_INCLUDE_DIRS})
-        endif(OPENGL_FOUND)
-        find_package(GLew REQUIRED)
-        if(GLEW_FOUND)
-            include_directories(${GLEW_INCLUDE_DIRS})
-        endif(GLEW_FOUND)
+    find_package(OpenGL REQUIRED)
+    if(OPENGL_FOUND)
+        include_directories(${OPENGL_INCLUDE_DIRS})
+    endif(OPENGL_FOUND)
+    find_package(GLew REQUIRED)
+    if(GLEW_FOUND)
+        include_directories(${GLEW_INCLUDE_DIRS})
+    endif(GLEW_FOUND)
 
-        file(GLOB rendering_opengl_backend_source_files "src/util/rendering/opengl/*.cpp" "src/util/rendering/opengl/*.cpp")
-        file(GLOB rendering_opengl_backend_header_files "include/featherkit/util/rendering/opengl/*.h" "include/featherkit/util/rendering/opengl/*.h")
-    endif()
+    file(GLOB rendering_opengl_backend_source_files "src/util/rendering/opengl/*.cpp" "src/util/rendering/opengl/*.cpp")
+    file(GLOB rendering_opengl_backend_header_files "include/featherkit/util/rendering/opengl/*.h" "include/featherkit/util/rendering/opengl/*.h")
 
     add_library(${project_name}-rendering ${SHARED_OR_STATIC} ${rendering_source_files} ${rendering_header_files} ${rendering_util_source_files} ${rendering_util_header_files} ${fontstash_source_files} ${fontstash_header_files} ${rendering_opengl_backend_source_files} ${rendering_opengl_backend_header_files})
 
-    if(${BUILD_OPENGLBACKENDS})
-        if(GLEW_FOUND)
-            target_link_libraries(${project_name}-rendering ${GLEW_LIBRARIES})
-        endif(GLEW_FOUND)
-        if(OPENGL_FOUND)
-            target_link_libraries(${project_name}-rendering ${OPENGL_LIBRARIES})
-        endif(OPENGL_FOUND)
-    endif()
-
     FIND_PACKAGE( Freetype REQUIRED )
 
-    target_link_libraries(${project_name}-rendering freetype-gl ${FREETYPE_LIBRARY})
+    target_link_libraries(${project_name}-rendering freetype-gl ${FREETYPE_LIBRARY} ${GLEW_LIBRARIES} ${OPENGL_LIBRARIES})
 
 endif()
 
