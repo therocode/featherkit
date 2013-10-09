@@ -92,8 +92,8 @@ if(BUILD_RENDERING)
     file(GLOB rendering_util_source_files "src/util/rendering/*.cpp")
     file(GLOB rendering_util_header_files "include/featherkit/util/rendering/*.h")
 
-    file(GLOB fontstash_source_files "src/fontstash/*.cpp")
-    file(GLOB fontstash_header_files "include/featherkit/fontstash/*.cpp")
+    file(GLOB freetype-gl_source_files "src/freetype-gl/*.c")
+    file(GLOB freetype-gl_header_files "include/featherkit/freetype-gl/*.h")
 
     find_package(GLM REQUIRED)
     if(GLM_FOUND)
@@ -112,11 +112,12 @@ if(BUILD_RENDERING)
     file(GLOB rendering_opengl_backend_source_files "src/util/rendering/opengl/*.cpp" "src/util/rendering/opengl/*.cpp")
     file(GLOB rendering_opengl_backend_header_files "include/featherkit/util/rendering/opengl/*.h" "include/featherkit/util/rendering/opengl/*.h")
 
-    add_library(${project_name}-rendering ${SHARED_OR_STATIC} ${rendering_source_files} ${rendering_header_files} ${rendering_util_source_files} ${rendering_util_header_files} ${fontstash_source_files} ${fontstash_header_files} ${rendering_opengl_backend_source_files} ${rendering_opengl_backend_header_files})
+    add_library(${project_name}-rendering ${SHARED_OR_STATIC} ${rendering_source_files} ${rendering_header_files} ${rendering_util_source_files} ${rendering_util_header_files} ${freetype-gl_source_files} ${freetype-gl_header_files} ${rendering_opengl_backend_source_files} ${rendering_opengl_backend_header_files})
 
     FIND_PACKAGE( Freetype REQUIRED )
+    include_directories(${FREETYPE_INCLUDE_DIRS})
 
-    target_link_libraries(${project_name}-rendering freetype-gl ${FREETYPE_LIBRARY} ${GLEW_LIBRARIES} ${OPENGL_LIBRARIES})
+    target_link_libraries(${project_name}-rendering ${FREETYPE_LIBRARY} ${GLEW_LIBRARIES} ${OPENGL_LIBRARIES})
 
 endif()
 
