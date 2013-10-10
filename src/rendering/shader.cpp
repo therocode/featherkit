@@ -1,7 +1,6 @@
 #include <featherkit/rendering/shader.h>
 #include <vector>
 #include <sstream>
-#include <iostream>
 #include <glm/gtc/type_ptr.hpp>
 
 namespace fea
@@ -18,7 +17,6 @@ namespace fea
 
     void Shader::activate() const
     {
-        std::cout << "using shader id " << programId << "\n";
         glUseProgram(programId);
     }
 
