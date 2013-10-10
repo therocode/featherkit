@@ -1,5 +1,4 @@
 #include <featherkit/rendering/quad.h>
-#include <iostream>
 
 namespace fea
 {

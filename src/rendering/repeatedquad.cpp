@@ -1,5 +1,4 @@
 #include <featherkit/rendering/repeatedquad.h>
-#include <iostream>
 
 namespace fea
 {
@@ -68,8 +67,6 @@ namespace fea
     void RepeatedQuad::updateConstraints()
     {
         glm::vec2 hej = getSize() / tileSize;
-        std::cout << "ojojojoj the sizes were " << getSize().x << " " << getSize().y << " tile: " << tileSize.x << " " << tileSize.y << " hej " << hej.x << " "<< hej.y << "\n";
-        std::cout << "and constraints are " << constraints[0] << " " << constraints[1] << " " << constraints[2] << " " << constraints[3] << "\n";
 
         glm::vec2 texCoordsX = glm::vec2(0.0f, 1.0f) * hFlip;
         glm::vec2 texCoordsY = glm::vec2(0.0f, 1.0f) * vFlip;

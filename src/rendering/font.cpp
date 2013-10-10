@@ -1,6 +1,5 @@
 #include <featherkit/rendering/font.h>
 #include <featherkit/rendering/textsurface.h>
-#include <iostream>
 #include <sstream>
 #include <sys/stat.h>
 

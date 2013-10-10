@@ -1,6 +1,5 @@
 #include <featherkit/rendering/textsurface.h>
 #include <featherkit/rendering/font.h>
-#include <iostream>
 
 namespace fea
 {
@@ -70,7 +69,6 @@ namespace fea
         std::hash<std::string> stringHasher;
 
         temp.uniforms.push_back(Uniform(stringHasher("texture"), TEXTURE, atlas->id));
-        std::cout << "added the special surface texture with id " << atlas->id << "\n";
         return temp;
     }
     
@@ -143,7 +141,6 @@ namespace fea
                 kerning = texture_glyph_get_kerning( glyph, text[i-1] );
             }
             penTempPosition.x += kerning * scale;
-            std::cout << "kerning was " << kerning << "\n";
             float x0  = ( penTempPosition.x + glyph->offset_x * scale );
             float y0  = ( penTempPosition.y - glyph->offset_y * scale);
             float x1  = ( x0 + glyph->width * scale );

@@ -1,5 +1,4 @@
 #include <featherkit/rendering/drawable2d.h>
-#include <iostream>
 
 namespace fea
 {

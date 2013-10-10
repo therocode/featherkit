@@ -1,6 +1,5 @@
 #include <featherkit/rendering/texture.h>
 #include <utility>
-#include <iostream>
 #include <cstring>
 
 namespace fea
@@ -41,9 +40,7 @@ namespace fea
             destroy();
         }
         
-        std::cout << "creating a texture, the id is now " << id << "\n";
         glGenTextures(1, &id);
-        std::cout << "now it is" << id << "\n";
         glBindTexture(GL_TEXTURE_2D, id);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLsizei)w, (GLsizei)h, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
 
@@ -138,7 +135,6 @@ namespace fea
     {
         if(pixelData)
         {
-            std::cout << "HEJ " << width << " " << height << "\n";
             glBindTexture(GL_TEXTURE_2D, id);
             glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, pixelData);
         }
@@ -148,7 +144,6 @@ namespace fea
     {
         if(id)
         {
-            std::cout << "id was " << id << " so i'll delete it!\n";
             destroy();
         }
     }

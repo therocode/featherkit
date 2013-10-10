@@ -4,7 +4,6 @@
 #include <featherkit/rendering/projection.h>
 #include <featherkit/rendering/defaultshader.h>
 #include <sstream>
-#include <iostream>
 
 namespace fea
 {
