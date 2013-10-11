@@ -121,6 +121,11 @@ if(BUILD_RENDERING)
 
 endif()
 
+    find_package(GLM REQUIRED)
+    if(GLM_FOUND)
+        include_directories(${WINFIX} ${GLM_INCLUDE_DIRS})
+    endif()
+
 if(BUILD_UI)
     ##UI module##
 
