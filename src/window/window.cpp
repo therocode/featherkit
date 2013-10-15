@@ -89,8 +89,7 @@ namespace fea
 
 	void Window::lockCursor(bool lock)
 	{
-		printf("SHIT\n");
-		//windowBackend->lockCursor(lock);
+		windowBackend->lockCursor(lock);
 	}
 
 }
