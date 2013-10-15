@@ -87,5 +87,10 @@ namespace fea
         windowBackend->swapBuffers();
     }
 
+	void Window::lockCursor(bool lock)
+	{
+		printf("SHIT\n");
+		//windowBackend->lockCursor(lock);
+	}
 
 }

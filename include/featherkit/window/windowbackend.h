@@ -26,6 +26,7 @@ namespace fea
             virtual void setFramerateLimit(uint32_t limit) = 0;
             virtual bool setRenderingActive(bool active=true) const = 0;
             virtual void swapBuffers() = 0;
+			virtual void lockCursor(bool lock) = 0;
             virtual ~WindowBackend(){};
     };
     /** @addtogroup UserInterface

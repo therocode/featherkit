@@ -35,6 +35,7 @@ namespace fea
             void setFramerateLimit(uint32_t limit);
             bool setRenderingActive(bool active = true) const;
             void swapBuffers();
+			void lockCursor(bool lock);
         private:
             std::unique_ptr<WindowBackend> windowBackend;
     };
