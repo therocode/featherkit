@@ -1,4 +1,6 @@
 #pragma once
+#include <vector>
+#include <string>
 
 namespace fea
 {
@@ -6,13 +8,13 @@ namespace fea
     {
         public:
             Application();
-            void run();
+            void run(int argc = 0, char** argv = nullptr);
             void quit();
             virtual void loop() = 0;
             bool shuttingDown();
             virtual void destroy() = 0;
         protected:
-            virtual void setup() = 0;
+            virtual void setup(const std::vector<std::string>& args) = 0;
         private:
             bool shutDown;
     };

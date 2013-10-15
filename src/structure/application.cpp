@@ -28,9 +28,16 @@ namespace fea
     {
     }
 
-    void Application::run()
+    void Application::run(int argc, char** argv)
     {
-        setup();
+        std::vector<std::string> args;
+
+        for(int i = 0; i < argc; ++i)
+        {
+            args.push_back(std::string(argv[i]));
+        }
+
+        setup(args);
 #ifdef EMSCRIPTEN
         instance = this;
         emscripten_set_main_loop(trampoline, 60, true);

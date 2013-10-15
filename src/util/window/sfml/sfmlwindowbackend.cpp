@@ -1,5 +1,5 @@
 #include <featherkit/util/window/sfml/sfmlwindowbackend.h>
-#include <windows.h>
+//#include <windows.h>
 namespace fea
 {
     namespace util
@@ -96,6 +96,7 @@ namespace fea
 		
 		void SFMLWindowBackend::lockCursor(bool lock)
 		{
+            /*
 			HWND hwnd = (HWND)window.getSystemHandle();
 
 			if (lock) {
@@ -106,7 +107,7 @@ namespace fea
 				ClipCursor(&rect);
 			} else {
 				ClipCursor(NULL);
-			}
+			}*/
 		}
 		
 		//For X11
