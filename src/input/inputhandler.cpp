@@ -106,4 +106,9 @@ namespace fea
     {
         inputBackend->setKeyRepeatEnabled(enabled);
     }
+    
+    void InputHandler::lockCursor(bool lock)
+    {
+        inputBackend->lockCursor(lock);
+    }
 }

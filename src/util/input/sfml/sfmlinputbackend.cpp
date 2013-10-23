@@ -4,7 +4,7 @@ namespace fea
 {
     namespace util
     {
-        SFMLInputBackend::SFMLInputBackend(sf::Window& w) : window(w)
+        SFMLInputBackend::SFMLInputBackend(sf::Window& w) : window(w), ignoreMouseMove(false)
         {
         }
 
@@ -12,6 +12,10 @@ namespace fea
         {
             sf::Event event;
             std::queue<Event> result;
+
+            int32_t movedX = 0;
+            int32_t movedY = 0;
+                glm::ivec2 mouse = getMouseGlobalPosition();
 
             while (window.pollEvent(event))
             {
@@ -36,7 +40,25 @@ namespace fea
                 else if(event.type == sf::Event::MouseButtonReleased)
                     result.push(mouseButtonReleased(event));
                 else if(event.type == sf::Event::MouseMoved)
-                    result.push(mouseMoved(event));
+                {
+                    if(!ignoreMouseMove)
+                    {
+                        if(cursorLocked)
+                        {
+                            result.push(mouseMoved(event));
+                            movedX += event.mouseMove.x;
+                            movedY += event.mouseMove.y;
+                        }
+                        else
+                        {
+                            result.push(mouseMoved(event));
+                        }
+                    }
+                    else
+                    {
+                        ignoreMouseMove = false;
+                    }
+                }
                 else if(event.type == sf::Event::MouseEntered)
                     result.push(mouseEntered());
                 else if(event.type == sf::Event::MouseLeft)
@@ -52,6 +74,13 @@ namespace fea
                 else if(event.type == sf::Event::JoystickDisconnected)
                     result.push(gamepadDisconnected(event));
             }
+
+            if(movedX || movedY)
+            {
+                ignoreMouseMove = true;
+                setMouseGlobalPosition(500, 500);
+            }
+
 
             return result;
         }

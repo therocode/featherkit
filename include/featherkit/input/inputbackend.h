@@ -26,6 +26,12 @@ namespace fea
 
             virtual void setGamepadThreshold(float threshold) = 0;
             virtual void setKeyRepeatEnabled(bool enabled) = 0;
+            virtual void lockCursor(bool lock)
+            {
+                cursorLocked = lock;
+            }
+        protected:
+            bool cursorLocked = false;
     };
 
     /** @addtogroup UserInterface

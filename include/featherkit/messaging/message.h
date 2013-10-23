@@ -9,6 +9,7 @@ namespace fea
     {
         Message(typename std::enable_if<sizeof...(DataTypes) >= 1>) {}
         Message(DataTypes... d) : data(d...) { }
+        Message(const std::tuple<DataTypes...>& d) : data(d) { }
         std::tuple<DataTypes...> data;
 
 
