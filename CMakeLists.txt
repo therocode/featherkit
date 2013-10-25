@@ -181,7 +181,10 @@ if(BUILD_UI)
     endif(GLEW_FOUND)
 	
     add_library(${project_name}-ui ${SHARED_OR_STATIC} ${glew_file} ${ui_header_files} ${ui_source_files} ${ui_util_source_files} ${ui_util_header_files} ${ui_sfml_backend_source_files} ${ui_sfml_backend_header_files} ${ui_sdl_backend_source_files} ${ui_sdl_backend_header_files})
-
+	
+	if(GLEW_FOUND)
+		target_link_libraries(${project_name}-ui glew)
+	endif(GLEW_FOUND)
     if(${BUILD_SFMLBACKENDS})
         if(SFML_FOUND)
             target_link_libraries(${project_name}-ui ${SFML_LIBRARIES})
