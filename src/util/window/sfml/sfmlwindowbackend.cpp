@@ -1,11 +1,15 @@
 #include <featherkit/util/window/sfml/sfmlwindowbackend.h>
-//#include <windows.h>
+#ifdef __WIN32__
+#include <windows.h>
+#endif
 namespace fea
 {
     namespace util
     {
         SFMLWindowBackend::SFMLWindowBackend(sf::Window& w) : window(w)
         {
+			mUserLockedCursor = false;
+			mWindowFocused = false;
         }
 
         void SFMLWindowBackend::create(VideoMode mode, const std::string& title, uint32_t style, const ContextSettings& settings)
@@ -96,7 +100,8 @@ namespace fea
 		
 		void SFMLWindowBackend::lockCursor(bool lock)
 		{
-            /*
+		
+			#ifdef __WIN32__
 			HWND hwnd = (HWND)window.getSystemHandle();
 
 			if (lock) {
@@ -107,7 +112,8 @@ namespace fea
 				ClipCursor(&rect);
 			} else {
 				ClipCursor(NULL);
-			}*/
+			}
+			#endif
 		}
 		
 		//For X11

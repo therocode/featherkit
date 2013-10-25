@@ -2,6 +2,9 @@
 #define NO_SDL_GLEXT
 #include <featherkit/window/windowbackend.h>
 #include <glm/glm.hpp>
+#ifndef GLEW_STATIC
+#define GLEW_STATIC
+#endif
 #include <GL/glew.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
