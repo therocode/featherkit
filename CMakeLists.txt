@@ -14,12 +14,12 @@ set(SHARED_BUILD TRUE CACHE BOOL "Set this to false if you want a static build")
 set(BUILD_STRUCTURE TRUE CACHE BOOL "Selects if the structure module should be built")
 set(BUILD_ENTITY TRUE CACHE BOOL "Selects if the entity module should be built")
 set(BUILD_MESSAGING TRUE CACHE BOOL "Selects if the messaging module should be built")
-set(BUILD_RENDERING TRUE CACHE BOOL "Selects if the rendering module should be built")
+set(BUILD_RENDERING FALSE CACHE BOOL "Selects if the rendering module should be built")
 set(BUILD_UI TRUE CACHE BOOL "Selects if the UI module should be built")
 
 set(BUILD_SFMLBACKENDS FALSE CACHE BOOL "Selects if the SFML backends should be built")
 set(BUILD_SDLBACKENDS FALSE CACHE BOOL "Selects if the SDL backends should be built")
-set(BUILD_SDL2BACKENDS FALSE CACHE BOOL "Selects if the SDL2 backends should be built")
+set(BUILD_SDL2BACKENDS TRUE CACHE BOOL "Selects if the SDL2 backends should be built")
 
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)  #for shared libs
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)   #for static libs
