@@ -34,6 +34,8 @@ namespace fea
             {
                 int32_t x;
                 int32_t y;
+				int32_t relx;
+				int32_t rely;
             };
 
             struct MouseButtonEvent
@@ -162,6 +164,12 @@ namespace fea
      ***
      *  @var Event::MouseMoveEvent::y
      *  @brief Y coordinate.
+     ***
+     *  @var Event::MouseMoveEvent::relx
+     *  @brief Relative x coordinate.
+     ***
+     *  @var Event::MouseMoveEvent::rely
+     *  @brief Relative Y coordinate.
      ***
      *  @struct Event::MouseButtonEvent
      *  @brief Data structure containing data for mouse button events.

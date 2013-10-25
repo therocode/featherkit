@@ -19,6 +19,7 @@ set(BUILD_UI TRUE CACHE BOOL "Selects if the UI module should be built")
 
 set(BUILD_SFMLBACKENDS FALSE CACHE BOOL "Selects if the SFML backends should be built")
 set(BUILD_SDLBACKENDS FALSE CACHE BOOL "Selects if the SDL backends should be built")
+set(BUILD_SDL2BACKENDS FALSE CACHE BOOL "Selects if the SDL2 backends should be built")
 
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)  #for shared libs
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)   #for static libs
@@ -156,6 +157,16 @@ if(BUILD_UI)
         file(GLOB ui_sdl_backend_header_files "include/featherkit/util/window/sdl/*.h" "include/featherkit/util/input/sdl/*.h")
     endif()
 
+	if(${BUILD_SDL2BACKENDS})
+		find_package(SDL2 REQUIRED)
+		if(SDL2_FOUND)
+			include_directories(${SDL2_INCLUDE_DIR})
+			message("wow found sdl2")
+		endif(SDL2_FOUND)
+        file(GLOB ui_sdl_backend_source_files "src/util/window/sdl2/*.cpp" "src/util/input/sdl2/*.cpp")
+        file(GLOB ui_sdl_backend_header_files "include/featherkit/util/window/sdl2/*.h" "include/featherkit/util/input/sdl2/*.h")
+	endif()
+
     add_library(${project_name}-ui ${SHARED_OR_STATIC} ${ui_header_files} ${ui_source_files} ${ui_util_source_files} ${ui_util_header_files} ${ui_sfml_backend_source_files} ${ui_sfml_backend_header_files} ${ui_sdl_backend_source_files} ${ui_sdl_backend_header_files})
 
     if(${BUILD_SFMLBACKENDS})
@@ -168,6 +179,11 @@ if(BUILD_UI)
             target_link_libraries(${project_name}-ui ${SDL_LIBRARY})
         endif()
     endif()
+	if(${BUILD_SDL2BACKENDS})
+		if(SDL2_FOUND)
+			target_link_libraries(${project_name}-ui ${SDL2_LIBRARY})
+		endif()
+	endif()
 endif()
 
 install(
