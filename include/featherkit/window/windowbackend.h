@@ -111,5 +111,9 @@ namespace fea
      ***
      *  @fn virtual WindowBackend::~WindowBackend()
      *  @brief Destructor.
-     **/
+	 ***
+     *  @fn void WindowBackend::lockCursor(bool lock)
+     *  @brief Clips the cursor to the window bounds.
+     *  @param lock wether or not to lock.
+     ***/
 }

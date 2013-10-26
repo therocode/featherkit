@@ -14,6 +14,8 @@ namespace fea
 			//todo: fix style
 			(void) style;
 			(void) settings;
+			SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+			SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
 			window = SDL_CreateWindow(title.c_str(), 
 					SDL_WINDOWPOS_CENTERED, 
 					SDL_WINDOWPOS_CENTERED, 
@@ -30,6 +32,7 @@ namespace fea
 			window = nullptr;
 		}
 
+		
 		bool SDL2WindowBackend::isOpen() const
 		{
 			return window != nullptr;
