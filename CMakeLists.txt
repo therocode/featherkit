@@ -125,12 +125,12 @@ if(BUILD_RENDERING)
 
 endif()
 
-    find_package(GLM)
-	if(GLM_FOUND)
-		include_directories(${GLM_INCLUDE_DIRS})
-	else(GLM_FOUND)
-		include_directories(${CMAKE_CURRENT_SOURCE_DIR}/extlibs/glm)
-	endif(GLM_FOUND)
+find_package(GLM)
+if(GLM_FOUND)
+	include_directories(${GLM_INCLUDE_DIRS})
+else(GLM_FOUND)
+	include_directories(${CMAKE_CURRENT_SOURCE_DIR}/extlibs/glm)
+endif(GLM_FOUND)
 
 if(BUILD_UI)
     ##UI module##
@@ -184,10 +184,7 @@ if(BUILD_UI)
     endif(GLEW_FOUND)
 	
     add_library(${project_name}-ui ${SHARED_OR_STATIC} ${glew_file} ${ui_header_files} ${ui_source_files} ${ui_util_source_files} ${ui_util_header_files} ${ui_sfml_backend_source_files} ${ui_sfml_backend_header_files} ${ui_sdl_backend_source_files} ${ui_sdl_backend_header_files})
-	
-    if(NOT GLEW_FOUND)
-		target_link_libraries(${project_name}-ui glew)
-    endif(NOT GLEW_FOUND)
+
     if(${BUILD_SFMLBACKENDS})
         if(SFML_FOUND)
             target_link_libraries(${project_name}-ui ${SFML_LIBRARIES})
