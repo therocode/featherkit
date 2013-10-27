@@ -22,7 +22,7 @@ namespace fea
 					mode.width, mode.height, 
 					SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 			glContext = SDL_GL_CreateContext(window);
-			SDL_GL_SetSwapInterval(-1);
+			setVSyncEnabled(true);
 		}
 
 		void SDL2WindowBackend::close()
@@ -119,6 +119,13 @@ namespace fea
 		{
 			//should be fixed
 			(void) enabled;
+			if(enabled)
+			{
+				SDL_GL_SetSwapInterval(1);
+			}else
+			{
+				SDL_GL_SetSwapInterval(0);
+			}
 		}
 
 		void SDL2WindowBackend::setMouseCursorVisible(bool visible)
