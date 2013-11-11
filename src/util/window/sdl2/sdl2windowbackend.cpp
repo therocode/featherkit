@@ -103,11 +103,7 @@ namespace fea
 
 		void SDL2WindowBackend::setIcon(uint32_t width, uint32_t height, const uint8_t* pixels)
 		{
-			//should be fixed
-
-			//SDL_RWops *rw = SDL_RWFromMem(pixels, width * height * 4);//Really hardcoded now, trying to make it work quickly.00000000
 			SDL_Surface* f = SDL_CreateRGBSurfaceFrom((void*)pixels, width, height, 32, width*4, 0x00ff0000,0x0000ff00,0x000000ff,0xff000000);
-
 			if(f == NULL){
 				printf("Window icon could not be loaded: %s\n", SDL_GetError());
 				//return;
