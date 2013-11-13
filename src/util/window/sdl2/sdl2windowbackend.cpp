@@ -16,10 +16,10 @@ namespace fea
 			(void) settings;
 			SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 			SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
-			window = SDL_CreateWindow(title.c_str(), 
-					SDL_WINDOWPOS_CENTERED, 
-					SDL_WINDOWPOS_CENTERED, 
-					mode.width, mode.height, 
+			window = SDL_CreateWindow(title.c_str(),
+					SDL_WINDOWPOS_CENTERED,
+					SDL_WINDOWPOS_CENTERED,
+					mode.width, mode.height,
 					SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 			glContext = SDL_GL_CreateContext(window);
 			setVSyncEnabled(true);
@@ -32,7 +32,7 @@ namespace fea
 			window = nullptr;
 		}
 
-		
+
 		bool SDL2WindowBackend::isOpen() const
 		{
 			return window != nullptr;

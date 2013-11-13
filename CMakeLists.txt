@@ -100,7 +100,7 @@ if(BUILD_RENDERING)
     if(GLM_FOUND)
         include_directories(${WINFIX} ${GLM_INCLUDE_DIRS})
     endif()
-    
+
     find_package(OpenGL REQUIRED)
     if(OPENGL_FOUND)
         include_directories(${OPENGL_INCLUDE_DIRS})
@@ -175,14 +175,14 @@ if(BUILD_UI)
         file(GLOB ui_sdl_backend_header_files "include/featherkit/util/window/sdl2/*.h" "include/featherkit/util/input/sdl2/*.h")
 	endif()
 
-	find_package(GLew)
-    if(GLEW_FOUND)
-        include_directories(${GLEW_INCLUDE_DIRS})
-	else(GLEW_FOUND)
-		include_directories(${CMAKE_CURRENT_SOURCE_DIR}/extlibs/glew/include)
-		set(glew_file ${CMAKE_CURRENT_SOURCE_DIR}/extlibs/glew/glew.c ${glew_file})
-    endif(GLEW_FOUND)
-	
+	# find_package(GLew)
+    # if(GLEW_FOUND)
+        # include_directories(${GLEW_INCLUDE_DIRS})
+	# else(GLEW_FOUND)
+		# include_directories(${CMAKE_CURRENT_SOURCE_DIR}/extlibs/glew/include)
+		# set(glew_file ${CMAKE_CURRENT_SOURCE_DIR}/extlibs/glew/glew.c ${glew_file})
+    # endif(GLEW_FOUND)
+
     add_library(${project_name}-ui ${SHARED_OR_STATIC} ${glew_file} ${ui_header_files} ${ui_source_files} ${ui_util_source_files} ${ui_util_header_files} ${ui_sfml_backend_source_files} ${ui_sfml_backend_header_files} ${ui_sdl_backend_source_files} ${ui_sdl_backend_header_files})
 
     if(${BUILD_SFMLBACKENDS})
@@ -208,7 +208,7 @@ install(
     DIRECTORY include
     DESTINATION .
 )
- 
+
 install(
     TARGETS ${BUILT_TARGETS}
     RUNTIME DESTINATION bin COMPONENT bin
