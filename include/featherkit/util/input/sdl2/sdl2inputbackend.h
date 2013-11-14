@@ -44,6 +44,7 @@ namespace fea
                 Event gamepadButtonPressed(SDL_Event& event);
                 Event gamepadButtonReleased(SDL_Event& event);
                 Event gamepadMoved(SDL_Event& event);
+                Event mouseWheel(SDL_Event& event);
                 Keyboard::Code sdlKeyCodeToFea(SDL_Keycode sdlCode) const;
                 SDL_Keycode feaKeyCodeToSdl(Keyboard::Code feaCode) const;
                 uint8_t feaMouseButtonToSdl(Mouse::Button feaMouseButton) const;

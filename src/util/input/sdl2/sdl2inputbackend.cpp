@@ -34,6 +34,8 @@ namespace fea
                     result.push(keyReleased(event));
                 else if(event.type == SDL_MOUSEBUTTONDOWN)
                     result.push(mouseButtonPressed(event));
+                else if(event.type == SDL_MOUSEWHEEL)
+                    result.push(mouseWheel(event));
                 else if(event.type == SDL_MOUSEBUTTONUP)
                     result.push(mouseButtonReleased(event));
                 else if(event.type == SDL_MOUSEMOTION)
@@ -48,6 +50,7 @@ namespace fea
 
             return result;
         }
+
 
         bool SDL2InputBackend::isKeyPressed(Keyboard::Code code)
         {
@@ -205,21 +208,20 @@ namespace fea
 
             uint32_t button = event.button.button;
 
-            if(button == 1 || button == 2 || button == 3)
+            if(button == SDL_BUTTON_LEFT || button == SDL_BUTTON_MIDDLE || button == SDL_BUTTON_RIGHT || button == SDL_BUTTON_X1 || button == SDL_BUTTON_X2)
             {
                 result.type = Event::MOUSEBUTTONPRESSED;
                 result.mouseButton.button = sdlMouseButtonToFea(button);
             }
-            else if(button == 4 || button == 5)
-            {
-                result.type = Event::MOUSEWHEELMOVED;
 
-                if(button == 4)
-                    result.mouseWheel.delta = -1;
-                else
-                    result.mouseWheel.delta = 1;
-            }
-
+            return result;
+        }
+        Event SDL2InputBackend::mouseWheel(SDL_Event& event){
+            Event result;
+            result.type = Event::MOUSEWHEELMOVED;
+            result.mouseWheel.delta = event.wheel.y;
+            result.mouseWheel.x = event.wheel.x;
+            result.mouseWheel.y = event.wheel.y;
             return result;
         }
 
@@ -718,34 +720,38 @@ namespace fea
                     return SDLK_PAUSE;
             }
         }
-        
+
         uint8_t SDL2InputBackend::feaMouseButtonToSdl(Mouse::Button feaMouseButton) const
         {
             switch(feaMouseButton)
             {
                 case Mouse::LEFT:
-                    return 1;
+                    return SDL_BUTTON_LEFT;
                 case Mouse::RIGHT:
-                    return 3;
+                    return SDL_BUTTON_RIGHT;
                 case Mouse::MIDDLE:
-                    return 2;
+                    return SDL_BUTTON_MIDDLE;
                 case Mouse::XBUTTON1:
-                    return 1;
+                    return SDL_BUTTON_X1;
                 case Mouse::XBUTTON2:
-                    return 3;
+                    return SDL_BUTTON_X2;
             }
         }
-        
+
         Mouse::Button SDL2InputBackend::sdlMouseButtonToFea(uint32_t sdlMouseButton) const
         {
             switch(sdlMouseButton)
             {
-                case 1:
+                case SDL_BUTTON_LEFT:
                     return Mouse::LEFT;
-                case 3:
+                case SDL_BUTTON_RIGHT:
                     return Mouse::RIGHT;
-                case 2:
+                case SDL_BUTTON_MIDDLE:
                     return Mouse::MIDDLE;
+                case SDL_BUTTON_X1:
+                    return Mouse::XBUTTON1;
+                case SDL_BUTTON_X2:
+                    return Mouse::XBUTTON2;
                 default:
                     return Mouse::LEFT;
             }

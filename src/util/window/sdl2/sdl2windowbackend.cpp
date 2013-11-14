@@ -16,10 +16,10 @@ namespace fea
 			(void) settings;
 			SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 			SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
-			window = SDL_CreateWindow(title.c_str(), 
-					SDL_WINDOWPOS_CENTERED, 
-					SDL_WINDOWPOS_CENTERED, 
-					mode.width, mode.height, 
+			window = SDL_CreateWindow(title.c_str(),
+					SDL_WINDOWPOS_CENTERED,
+					SDL_WINDOWPOS_CENTERED,
+					mode.width, mode.height,
 					SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 			glContext = SDL_GL_CreateContext(window);
 			setVSyncEnabled(true);
@@ -32,7 +32,7 @@ namespace fea
 			window = nullptr;
 		}
 
-		
+
 		bool SDL2WindowBackend::isOpen() const
 		{
 			return window != nullptr;
@@ -103,10 +103,12 @@ namespace fea
 
 		void SDL2WindowBackend::setIcon(uint32_t width, uint32_t height, const uint8_t* pixels)
 		{
-			//should be fixed
-			(void)width;
-			(void)height;
-			//SDL_WM_SetCaption("shouldbetitle", (char*)pixels);
+			SDL_Surface* f = SDL_CreateRGBSurfaceFrom((void*)pixels, width, height, 32, width*4, 0x00ff0000,0x0000ff00,0x000000ff,0xff000000);
+			if(f == NULL){
+				printf("Window icon could not be loaded: %s\n", SDL_GetError());
+				//return;
+			}
+			SDL_SetWindowIcon(window, f);
 		}
 
 		void SDL2WindowBackend::setVisible(bool visible)
