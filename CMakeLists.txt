@@ -112,6 +112,7 @@ if(BUILD_RENDERING)
         add_definitions(-DGLEW_STATIC)
 		include_directories(${CMAKE_CURRENT_SOURCE_DIR}/extlibs/glew/include)
 		set(glew_files ${CMAKE_CURRENT_SOURCE_DIR}/extlibs/glew/glew.c ${glew_files})
+        add_definitions(GLEW_STATIC)
     endif(GLEW_FOUND)
 
     file(GLOB rendering_opengl_backend_source_files "src/util/rendering/opengl/*.cpp" "src/util/rendering/opengl/*.cpp")

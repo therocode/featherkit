@@ -207,11 +207,21 @@ namespace fea
             result.mouseButton.y = event.button.y;
 
             uint32_t button = event.button.button;
-
+            
             if(button == SDL_BUTTON_LEFT || button == SDL_BUTTON_MIDDLE || button == SDL_BUTTON_RIGHT || button == SDL_BUTTON_X1 || button == SDL_BUTTON_X2)
             {
                 result.type = Event::MOUSEBUTTONPRESSED;
                 result.mouseButton.button = sdlMouseButtonToFea(button);
+            }else if(button == 6 || button == 7){
+                result.type = Event::MOUSEWHEELMOVED;
+                result.mouseWheel.delta = 0;
+                result.mouseWheel.y = 0;
+                result.mouseWheel.x = 0;
+                if(button == 6){
+                    result.mouseWheel.x = -1;
+                }else if(button == 7){
+                    result.mouseWheel.x =  1;
+                }
             }
 
             return result;
