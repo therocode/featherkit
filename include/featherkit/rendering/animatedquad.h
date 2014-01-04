@@ -71,11 +71,6 @@ namespace fea
      *  @brief Get current animation.
      *  @return Current animation ID.
      ***
-     *  @fn virtual void AnimatedQuad::getRenderData(RenderData& renderData, uint32_t time) const override
-     *  @brief Overrides Quad::getRenderData.
-     *  @param renderData See Quad::getRenderData.
-     *  @param time See Quad::getRenderData.
-     ***
      *  @fn void AnimatedQuad::tick()
      *  @brief Advance the animation one tick.
      *  

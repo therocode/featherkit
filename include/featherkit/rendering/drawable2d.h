@@ -76,10 +76,6 @@ namespace fea
      *  @brief Get all the vertices of a drawable.
      *  @return Vector containing the vertices.
      ***
-     *  @fn std::vector<float> Drawable2D::getVerticesTransformed() const
-     *  @brief Get all the vertices with the objects' transformation applied. The resulting vertices are described in world space.
-     *  @return Vector containing the transformed vertices.
-     ***
      *  @fn void Drawable2D::setPosition(const float x, const float y)
      *  @brief Set the position.
      *  @param x X position.
@@ -182,40 +178,6 @@ namespace fea
      *  @fn void Drawable2D::setColour(const glm::vec3& col)
      *  @brief Set the colour.
      *  @param col Vector containing the colour.
-     ***
-     *  @fn void Drawable2D::addTransformation(const glm::mat2x2& t)
-     *  @brief Add a transformation matrix.
-     *
-     *  Using this function, an arbitrary number of transformation matrices can be added. They will all be accounted for in the Drawable2D::getVerticesTransformed function.
-     *  @param t Matrix to add.
-     ***
-     *  @fn const glm::mat2x2& Drawable2D::getTransformation(uint32_t index) const
-     *  @brief Get a specific transformation matrix.
-     *  @param index Index of the matrix to get.
-     *  @return The matrix.
-     ***
-     *  @fn uint32_t Drawable2D::getTransformationCount() const
-     *  @brief Get the amount of transformation matrices added using the Drawable2D::addTransformation function.
-     *  @return Amount of matrices.
-     ***
-     *  @fn void Drawable2D::clearTransformations()
-     *  @brief Remove all added transformations.
-     ***
-     *  @fn virtual void Drawable2D::getRenderData(RenderData& renderData, uint32_t time) const
-     *  @brief Generate RenderData which can be given to a Renderer2DBackend instance for rendering.
-     *  
-     *  This function is called by the Renderer2D when a drawable is rendered. The resulting RenderData is sent to the backend for drawing. By inheriting this class, the RenderData can be filled differently.
-     *  @param renderData RenderData reference in which to store the resulting render data.
-     *  @param time Counter keeping track of the time. Can be used to do animations and other time dependant things.
-     ***
-     *  @fn AABB Drawable2D::getAABB() const
-     *  @brief Generate an Axis Aligned Bounding Box around the vertices.
-     *  
-     *  Will generate it around the vertices transformed into world space.
-     *  @return The bounding box.
-     ***
-     *  @var Drawable2D::isText
-     *  @brief Defines if the object is meant to be rendered as text or not.
      ***
      *  @var Drawable2D::vertices
      *  @brief List of all vertices.

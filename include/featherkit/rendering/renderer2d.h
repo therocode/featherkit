@@ -83,39 +83,50 @@ namespace fea
      *
      *  Used after setup has been called and when the renderer is not needed anymore. The underlying purpose of this function may vary depending on the backend used.
      ***
-     *  @fn void Renderer2D::clear()
-     *  @brief Clear the screen.
+     *  @fn void Renderer2D::clear(float r, float g, float b)
+     *  @brief Clear the screen, filling it with the given colour.
      *
-     *  Usually used once every frame as a first step of the rendering process to clear out what was drawn the last frame.
+     *  Usually called once every frame as a first step of the rendering process to clear out what was drawn the last frame.
+     *  @param r Red component. Given in the range of 0 to 1.
+     *  @param g Red component. Given in the range of 0 to 1.
+     *  @param b Red component. Given in the range of 0 to 1.
      ***
-     *  @fn void Renderer2D::clear(const RenderTarget& target)
-     *  @brief Clear the given RenderTarget.
+     *  @fn void Renderer2D::clear(const glm::vec3& colour = glm::vec3())
+     *  @brief Clear the screen, filling it with the given colour.
      *
-     *  Usually used once every frame as a first step of the rendering process to clear out what was drawn the last frame.
+     *  Usually called once every frame as a first step of the rendering process to clear out what was drawn the last frame.
+     *  @param colour Vector containing colour components. Given in the range of 0 to 1.
+     ***
+     *  @fn void Renderer2D::clear(const RenderTarget& target, float r, float g, float b)
+     *  @brief Clear the given RenderTarget, filling it with the given colour.
+     *
+     *  Usually called once every frame as a first step of the rendering process to clear out what was drawn the last frame.
      *  @param target RenderTarget to clear.
+     *  @param r Red component. Given in the range of 0 to 1.
+     *  @param g Red component. Given in the range of 0 to 1.
+     *  @param b Red component. Given in the range of 0 to 1.
      ***
-     *  @fn void Renderer2D::preRender()
-     *  @brief Prepare the renderer for rendering.
+     *  @fn void Renderer2D::clear(const RenderTarget& target, const glm::vec3& colour = glm::vec3())
+     *  @brief Clear the given RenderTarget, filling it with the given colour.
      *
-     *  Needs to be called once every frame before the drawables are rendered. If the camera is moved or other settings changed, it has to be called again.
+     *  Usually called once every frame as a first step of the rendering process to clear out what was drawn the last frame.
+     *  @param target RenderTarget to clear.
+     *  @param colour Vector containing colour components. Given in the range of 0 to 1.
      ***
-     *  @fn void Renderer2D::render(const Drawable2D& drawable)
-     *  @brief Render the given drawable to the screen.
+     *  @fn void Renderer2D::queue(const Drawable2D& drawable)
+     *  @brief Queue a drawable for rendering.
      *
-     *  Can take any object which inherits from the Drawable2D base class. The drawables will be rendered offset and transformed depending on the current Viewport of the renderer.
-     *  @param drawable Object to draw to the screen.
+     *  Can take any object which inherits from the Drawable2D base class. The drawable will be rendered offset and transformed depending on the current Viewport of the renderer.
+     *
+     *  @param drawable Object to queue.
      ***
-     *  @fn void Renderer2D::render(const Drawable2D& drawable, const RenderTarget& target)
-     *  @brief Render the given drawable to the given RenderTarget.
-     *
-     *  Can take any object which inherits from the Drawable2D base class. The drawables will be rendered offset and transformed depending on the current Viewport of the renderer.
-     *  @param drawable Object to draw.
-     *  @param target RenderTarget to draw on.
+     *  @fn void Renderer2D::render()
+     *  @brief Render all queued drawables to the screen.
      ***
-     *  @fn void Renderer2D::postRender()
-     *  @brief Finalise the rendering procedure of the current frame.
+     *  @fn void Renderer2D::render(const RenderTarget& target)
+     *  @brief Render all queued drawables to a RenderTarget.
      *
-     *  Call this when all drawables that should be drawn this frame has been drawn. Depending on the backend, nothing may be visible on the screen until this function has been called.
+     *  @param target RenderTarget to render to.
      ***
      *  @fn void Renderer2D::setViewport(const Viewport& viewport)
      *  @brief Set the Viewport of the renderer
@@ -127,65 +138,11 @@ namespace fea
      *  Returns a reference, so this can be used to modify the Viewport.
      *  @return A reference to the Viewport.
      ***
-     *  @fn int32_t Renderer2D::addFont(uint8_t* fontData)
-     *  @brief Add a font to the renderer from memory.
-     *  
-     *  The font has to be loaded into a char array. That array is then passed to this function. If the font is added correctly, a numerical value which is not zero is returned. Otherwise a InvalidFontException is thrown.
-     *
-     *  Only ttf fonts are supported.
-     *  @param fontData Array with font data.
-     *  @return Number representing the font.
-     ***
-     *  @fn void Renderer2D::addRenderMode(const std::string& name, RenderMode* newMode)
-     *  @brief Add a render mode.
-     *  
-     *  A render mode specifies how things are rendered. For example, it could render things textured, or without textures.
-     *  @param name Name of the render mode.
-     *  @param newMode Pointer to the new mode.
-     ***
-     *  @fn void Renderer2D::setRenderMode(const std::string& mode)
-     *  @brief Set which render mode to use.
-     *  @param mode Name of the render mode.
-     ***
-     *  @fn void Renderer2D::setClearColour(float r, float g, float b)
-     *  @brief Set the colour to use for clearing.
-     *
-     *  Values should be between 0 and 1 where 1 is full colour.  
-     *
-     *  @param r Red component.
-     *  @param g Green component.
-     *  @param b Blue component.
-     ***
-     *  @fn void Renderer2D::setClearColour(const glm::vec3& colour)
-     *  @brief Set the colour to use for clearing.
-     *
-     *  Values should be between 0 and 1 where 1 is full colour.  
-     *  
-     *  @param colour Colour to set it to.
-     ***
      *  @fn void Renderer2D::setBlendMode(BlendMode mode)
      *  @brief Set which blend mode to use.
      *
      *  The blend mode decides how drawables are blended with the background when they are drawn.
      * 
      *  @param mode Blend mode.
-     ***
-     *  @fn Texture Renderer2D::createTexture(uint32_t w, uint32_t h, const uint8_t* imageData, bool smooth = false)
-     *  @brief Create a Texture.
-     *
-     *  The created Texture can be used by quads. Keep in mind that a Texture has to be stored and kept alive as long as there are quads using it. The function takes a pointer to image data which will be used for the Texture. It has to be raw RGBA pixel data.
-     *
-     *  @param w Width of the Texture.
-     *  @param h Height of the Texture.
-     *  @param imageData Pointer to raw image data.
-     *  @param smooth Set this to true to make the Texture appear smooth instead of pixellated when scaled. Default is false.
-     ***
-     *  @fn RenderTarget Renderer2D::createRenderTarget(uint32_t w, uint32_t h, bool smooth = false)
-     *  @brief Create a RenderTarget.
-     *
-     *  The created RenderTarget can be both drawn on and be used as a Texture to display what was drawn on it on a quad. Keep in mind that a RenderTarget has to be stored and kept alive as long as it is being used.
-     *  @param w Width of the RenderTarget.
-     *  @param h Height of the RenderTarget.
-     *  @param smooth Set this to true to make the Texture of the RenderTarget appear smooth instead of pixellated when scaled. Default is false.
      ***/
 }

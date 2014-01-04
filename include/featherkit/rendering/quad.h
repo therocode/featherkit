@@ -81,11 +81,6 @@ namespace fea
      *  For instance, a texture of a tree would turn into an upside down tree.
      *  @param enabled If true, vertical flip will be enabled.
      ***
-     *  @fn virtual void Quad::getRenderData(RenderData& renderData, uint32_t time) const override
-     *  @brief Overrides Drawable2D::getRenderData.
-     *  @param renderData See Drawable2D::getRenderData.
-     *  @param time See Drawable2D::getRenderData.
-     ***
      *  @var Quad::hFlip
      *  @brief Internal variable representing if the Quad will be drawn mirrored horizontally or not.
      ***
