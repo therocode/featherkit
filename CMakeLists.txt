@@ -85,6 +85,7 @@ if(BUILD_MESSAGING)
 endif()
 
 if(BUILD_RENDERING)
+    set(BUILD_RENDERING_TEXT TRUE CACHE BOOL "Selects if text rendering should be built (requires freetype2)")
     ##Rendering module##
 
     set(BUILT_TARGETS ${BUILT_TARGETS} ${project_name}-rendering)
@@ -95,8 +96,15 @@ if(BUILD_RENDERING)
     file(GLOB rendering_util_source_files "src/util/rendering/*.cpp")
     file(GLOB rendering_util_header_files "include/featherkit/util/rendering/*.h")
 
-    file(GLOB freetype-gl_source_files "src/freetype-gl/*.c")
-    file(GLOB freetype-gl_header_files "include/featherkit/freetype-gl/*.h")
+    if(BUILD_RENDERING_TEXT)
+        file(GLOB freetype-gl_source_files "src/freetype-gl/*.c")
+        file(GLOB freetype-gl_header_files "include/featherkit/freetype-gl/*.h")
+    else(BUILD_RENDERING_TEXT)
+        list(REMOVE_ITEM rendering_source_files ${CMAKE_CURRENT_LIST_DIR}/src/rendering/textsurface.cpp ${CMAKE_CURRENT_LIST_DIR}/src/rendering/text.cpp ${CMAKE_CURRENT_LIST_DIR}/src/rendering/font.cpp)
+        list(REMOVE_ITEM rendering_header_files ${CMAKE_CURRENT_LIST_DIR}/src/rendering/textsurface.h ${CMAKE_CURRENT_LIST_DIR}/src/rendering/text.h ${CMAKE_CURRENT_LIST_DIR}/src/rendering/font.h)
+        message(${rendering_source_files})
+    endif(BUILD_RENDERING_TEXT)
+
 
     find_package(GLM REQUIRED)
     if(GLM_FOUND)
@@ -122,8 +130,10 @@ if(BUILD_RENDERING)
 
     add_library(${project_name}-rendering ${SHARED_OR_STATIC} ${glew_files} ${rendering_source_files} ${rendering_header_files} ${rendering_util_source_files} ${rendering_util_header_files} ${freetype-gl_source_files} ${freetype-gl_header_files} ${rendering_opengl_backend_source_files} ${rendering_opengl_backend_header_files})
 
-    FIND_PACKAGE( Freetype REQUIRED )
-    include_directories(${FREETYPE_INCLUDE_DIRS})
+    if(BUILD_RENDERING_TEXT)
+        FIND_PACKAGE( Freetype REQUIRED )
+        include_directories(${FREETYPE_INCLUDE_DIRS})
+    endif(BUILD_RENDERING_TEXT)
 
     target_link_libraries(${project_name}-rendering ${FREETYPE_LIBRARY} ${GLEW_LIBRARIES} ${OPENGL_LIBRARIES})
 
