@@ -11,8 +11,6 @@ namespace fea
         Message(DataTypes... d) : data(d...) { }
         Message(const std::tuple<DataTypes...>& d) : data(d) { }
         std::tuple<DataTypes...> data;
-        bool isLocal = true;
-        bool onlyLocal = false;
     };
     /** @addtogroup Messaging
      *@{
@@ -44,11 +42,5 @@ namespace fea
      ***
      *  @var Message::data 
      *  @brief Packed tuple of all data the Message is carrying.
-     ***
-     * @var Message::isLocal
-     * @brief bool if the message has been created locally, or if it's sent from a server.
-     ***
-     * @var Message::onlyLocal
-     * @brief whether or not the message should be sent to the server or not.
      **/
 }
