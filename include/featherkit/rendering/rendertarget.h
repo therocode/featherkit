@@ -43,16 +43,6 @@ namespace fea
      *
      *  RenderTargets created this way need to be set to a valid RenderTarget returned by the Renderer2D::createRenderTarget function.
      ***
-     *  @fn RenderTarget::RenderTarget(Renderer2DBackend& backend, int32_t i, uint32_t w, uint32_t h, Texture&& tex)
-     *  @brief Construct a RenderTarget.
-     *
-     *  This constructor is used internally by the Renderer2D when the Renderer2D::createRenderTarget function is called and is not meant to be used directly.
-     *  @param backend Backend to store a reference to.
-     *  @param i Id of the new RenderTarget.
-     *  @param w Width.
-     *  @param h Height.
-     *  @param tex Texture tied to the RenderTarget.
-     ***
      *  @fn RenderTarget::RenderTarget(RenderTarget&& other)
      *  @brief Move constructor.
      *  @param other Other instance.

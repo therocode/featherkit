@@ -57,10 +57,5 @@ namespace fea
      *  The regions are given in percent of total texture size.
      *  @param srStart Coordinates of the top-left corner of the region.
      *  @param srEnd Coordinates of the bottom-right corner of the region.
-     ***
-     *  @fn virtual void SubrectQuad::getRenderData(RenderData& renderData, uint32_t time) const override
-     *  @brief Overrides Quad::getRenderData.
-     *  @param renderData See Quad::getRenderData.
-     *  @param time See Quad::getRenderData.
      ***/
 }

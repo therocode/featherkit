@@ -48,13 +48,6 @@ namespace fea
      *
      *  Textures created this way need to be set to a valid Texture returned by the Renderer2D::createTexture function.
      ***
-     *  @fn Texture::Texture(Renderer2DBackend& backend, int32_t i)
-     *  @brief Construct a Texture.
-     *
-     *  This constructor is used internally by the Renderer2D when the Renderer2D::createTexture function is called and is not meant to be used directly.
-     *  @param backend Backend to store a reference to.
-     *  @param i Id of the new Texture.
-     ***
      *  @fn Texture::Texture(Texture&& other)
      *  @brief Move constructor.
      *  @param other Other instance.

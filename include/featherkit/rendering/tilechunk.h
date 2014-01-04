@@ -55,10 +55,5 @@ namespace fea
      *  @param y Y coordinate of the tile to change.
      *  @param startCoords Vector containing the upper left coordinates of the texture rectangle to use to display this tile. Given in percent.
      *  @param endCoords Vector containing the bottom right coordinates of the texture rectangle to use to display this tile. Given in percent.
-     ***
-     *  @fn virtual void TileChunk::getRenderData(RenderData& renderData, uint32_t time) const override
-     *  @brief Overrides Drawable2D::getRenderData.
-     *  @param renderData See Drawable2D::getRenderData.
-     *  @param time See Drawable2D::getRenderData.
      ***/
 }
