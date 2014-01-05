@@ -67,10 +67,9 @@ namespace fea
      *
      *  A backend must be given upon construction. The backend is an implementation of the abstract class Renderer2DBackend. This is the one actually doing the rendering and may be implemented using various rendering methods.
      ***
-     *  @fn Renderer2D::Renderer2D(Renderer2DBackend* b, Viewport v)
-     *  @brief Construct a renderer with the given backend and Viewport.
+     *  @fn Renderer2D::Renderer2D(Viewport v)
+     *  @brief Construct a renderer with the given Viewport.
      *
-     *  @param b Backend to store as an std::unique_ptr. The memory will be managed internally.
      *  @param v Viewport to use.
      *** 
      *  @fn void Renderer2D::setup()
@@ -127,6 +126,17 @@ namespace fea
      *  @brief Render all queued drawables to a RenderTarget.
      *
      *  @param target RenderTarget to render to.
+     ***
+     *  @fn void Renderer2D::render(const Shader& shader)
+     *  @brief Render all queued drawables using a custom shader.
+     *
+     *  @param shader Shader object to use.
+     ***
+     *  @fn void Renderer2D::render(const RenderTarget& target, const Shader& shader)
+     *  @brief Render all queued drawables to a RenderTarget using a custom shader.
+     *
+     *  @param target RenderTarget to render to.
+     *  @param shader Shader object to use.
      ***
      *  @fn void Renderer2D::setViewport(const Viewport& viewport)
      *  @brief Set the Viewport of the renderer
