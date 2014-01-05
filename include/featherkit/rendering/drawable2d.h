@@ -35,11 +35,9 @@ namespace fea
             glm::vec3 getColour() const;
             void setOpacity(float o);
             float getOpacity() const;
-            //AABB getAABB() const;
 
             virtual RenderInfo getRenderInfo() const;
         protected:
-            virtual void positionChanged();
             std::vector<float> vertices;
             std::vector<float> texCoords;
             std::vector<float> vertexColours;
@@ -51,8 +49,6 @@ namespace fea
             float parallax;
             glm::vec3 colour;
             float opacity;
-
-            std::vector<glm::mat2x2> transformations;
     };
     /** @addtogroup Render2D
      *@{
@@ -173,8 +169,25 @@ namespace fea
      *  @brief Set the colour.
      *  @param col Vector containing the colour.
      ***
+     *  @fn virtual RenderInfo Drawable2D::getRenderInfo() const
+     *  @brief Returns data used for rendering.
+     *
+     *  The returned RenderInfo struct contains vertex information useful for rendering with OpenGL or similar. See RenderInfo for more information.
+     *  @return Render information.
+     ***
      *  @var Drawable2D::vertices
      *  @brief List of all vertices.
+     ***
+     *  @var Drawable2D::texCoords
+     *  @brief List of all texture coordinates.
+     ***
+     *  @var Drawable2D::vertexColours
+     *  @brief List of all vertex colours.
+     ***
+     *  @var Drawable2D::drawMode
+     *  @brief Which GL drawmode to use to render this drawable. 
+     *
+     *  See OpenGL documentation for available draw modes. 
      ***
      *  @var Drawable2D::position
      *  @brief Stores the position.
@@ -196,8 +209,5 @@ namespace fea
      ***
      *  @var Drawable2D::colour
      *  @brief Stores the colour.
-     ***
-     *  @var Drawable2D::transformations
-     *  @brief List of all current transformations.
      ***/
 }

@@ -89,5 +89,10 @@ namespace fea
      ***
      *  @var Quad::texture
      *  @brief Pointer to the current texture in use.
+     ***
+     *  @var Quad::constraints
+     *  @brief Vector describing the texture constraints.
+     *
+     *  Texture constraints are used to "lock" the texture displayed on the quad to a certain region of the texture. This can be used for instance to create animations or wrapping type of effects. The first two floats define the starting point of the constraint rectangle and the second two floats define the end poing.
      ***/
 }

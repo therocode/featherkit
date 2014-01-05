@@ -63,12 +63,11 @@ namespace fea
      *  @param l Describes if the animation is looping or not.
      *  @param ab Can currently be FORWARDS or BACKWARDS, and defines if the frame is animated backwards or not.
      ***
-     *  @fn void Animation::getConstraints(glm::vec2& constraintX, glm::vec2& constraintY, uint32_t frame) const
+     *  @fn void Animation::getConstraints(glm::vec4& constraints, uint32_t frame) const
      *  @brief Get constraints.
      *
-     *  The constraints are used by the Renderer2D to display the correct subrectangle of the sprite sheet. They define a rectangle which the current frame lies in. This function is called automatically in the rendering process and is seldom used manually.
-     *  @param constraintX Vector in which to put the X constraints.
-     *  @param constraintY Vector in which to put the Y constraints.
+     *  The constraints are used by the Renderer2D to display the correct subrectangle of the texture. They define a rectangle which the current frame lies in. This function is called automatically in the rendering process and is seldom used manually.
+     *  @param constraints Vector in which to put the constraints.
      *  @param frame Frame to get the constraints of.
      ***
      *  @fn uint32_t Animation::getFrameAmount() const

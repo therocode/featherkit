@@ -58,6 +58,12 @@ namespace fea
      *
      *  The application is given its logic by implementing this function. It is not meant to be called directly, instead it will automatically be called over and over, from Application::run.
      ***
+     *  @fn bool Application::shuttingDown()
+     *  @brief Check if the application is under the process of shutting down.
+     *
+     *  If the appication is shutting down, the current frame will be the last one.
+     *  @return True if the application is shutting down.
+     ***
      *  @fn virtual void Application::destroy() = 0
      *  @brief Run clean up procedures and shut down the application.
      *
