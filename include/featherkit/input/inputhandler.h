@@ -33,7 +33,7 @@ namespace fea
             void setGamepadThreshold(float threshold);
             void setKeyRepeatEnabled(bool enabled);
 
-            void lockCursor(bool lock);
+            void lockCursor(bool enabled);
         private:
             std::unique_ptr<InputBackend> inputBackend;
             std::queue<Event> eventQueue;
@@ -128,6 +128,10 @@ namespace fea
      ***
      *  @fn void InputHandler::setKeyRepeatEnabled(bool enabled)
      *  @brief Set Event::KEYPRESSED events to only fire once instead of continuously if a key is being pressed down.
+     *  @param enabled True for on, false for off.
+     ***
+     *  @fn void InputHandler::lockCursor(bool enabled)
+     *  @brief Lock the cursor to the window.
      *  @param enabled True for on, false for off.
      ***/
 }

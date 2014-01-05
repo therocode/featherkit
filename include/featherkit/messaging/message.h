@@ -40,6 +40,10 @@ namespace fea
      *  @brief Construct a message containing the given data.
      *  @param d Data.
      ***
+     *  @fn Message::Message(const std::tuple<DataTypes...>& d)
+     *  @brief Construct a message from a ready packed tuple.
+     *  @param d Tuple.
+     ***
      *  @var Message::data 
      *  @brief Packed tuple of all data the Message is carrying.
      **/

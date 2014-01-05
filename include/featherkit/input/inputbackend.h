@@ -26,12 +26,7 @@ namespace fea
 
             virtual void setGamepadThreshold(float threshold) = 0;
             virtual void setKeyRepeatEnabled(bool enabled) = 0;
-            virtual void lockCursor(bool lock)
-            {
-                cursorLocked = lock;
-            }
-        protected:
-            bool cursorLocked = false;
+            virtual void lockCursor(bool enabled) = 0;
     };
 
     /** @addtogroup UserInterface
@@ -110,6 +105,10 @@ namespace fea
      ***
      *  @fn virtual void InputBackend::setKeyRepeatEnabled(bool enabled)
      *  @brief Set Event::KEYPRESSED events to only fire once instead of continuously if a key is being pressed down.
+     *  @param enabled True for on, false for off.
+     ***
+     *  @fn virtual void InputBackend::lockCursor(bool enabled)
+     *  @brief Lock the cursor to the window.
      *  @param enabled True for on, false for off.
      ***/
 }

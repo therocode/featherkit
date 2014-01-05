@@ -51,6 +51,7 @@ namespace fea
                 Event gamepadDisconnected(sf::Event& event);
                 sf::Window& window;
                 bool ignoreMouseMove;
+                bool cursorLocked;
         };
     }
 }
