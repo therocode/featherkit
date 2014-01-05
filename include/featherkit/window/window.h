@@ -35,7 +35,7 @@ namespace fea
             void setFramerateLimit(uint32_t limit);
             bool setRenderingActive(bool active = true) const;
             void swapBuffers();
-			void lockCursor(bool lock);
+			void lockCursor(bool enabled);
         private:
             std::unique_ptr<WindowBackend> windowBackend;
     };
@@ -125,5 +125,9 @@ namespace fea
      ***
      *  @fn void Window::swapBuffers()
      *  @brief Swaps the front and back buffers, causing what has been rendered on the Window so far to be displayed.
+	 ***
+     *  @fn void Window::lockCursor(bool enabled)
+     *  @brief Locks the cursor to the window.
+     *  @param enabled True to lock, false to unlock.
      **/
 }

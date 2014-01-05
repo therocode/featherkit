@@ -87,9 +87,8 @@ namespace fea
         windowBackend->swapBuffers();
     }
 
-	void Window::lockCursor(bool lock)
+	void Window::lockCursor(bool enabled)
 	{
-		windowBackend->lockCursor(lock);
+		windowBackend->lockCursor(enabled);
 	}
-
 }
