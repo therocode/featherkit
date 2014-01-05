@@ -7,12 +7,6 @@
 
 namespace fea
 {
-    struct AABB
-    {
-        glm::vec2 start;
-        glm::vec2 end;
-    };
-
     class Drawable2D
     {
         public:

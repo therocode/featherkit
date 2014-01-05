@@ -16,4 +16,12 @@ namespace fea
         GLenum drawMode;
         uint32_t elementAmount;
     };
+    /** @addtogroup Render2D
+     *@{
+     *  @class RenderInfo
+     *@}
+     ***
+     *  @class RenderInfo
+     *  @brief Contains
+     ***/
 }
