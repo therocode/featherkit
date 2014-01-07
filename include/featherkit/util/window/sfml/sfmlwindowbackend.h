@@ -33,7 +33,6 @@ namespace fea
 				void lockCursor(bool lock) override;
             private:
                 sf::Window& window;
-				bool mUserLockedCursor, mWindowFocused;
         };
     }
 }

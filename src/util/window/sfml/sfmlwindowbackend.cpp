@@ -8,8 +8,6 @@ namespace fea
     {
         SFMLWindowBackend::SFMLWindowBackend(sf::Window& w) : window(w)
         {
-			mUserLockedCursor = false;
-			mWindowFocused = false;
         }
 
         void SFMLWindowBackend::create(VideoMode mode, const std::string& title, uint32_t style, const ContextSettings& settings)
@@ -101,19 +99,19 @@ namespace fea
 		void SFMLWindowBackend::lockCursor(bool lock)
 		{
 		
-			#ifdef __WIN32__
-			HWND hwnd = (HWND)window.getSystemHandle();
+			//#ifdef __WIN32__
+			//HWND hwnd = (HWND)window.getSystemHandle();
 
-			if (lock) {
-				RECT rect;
-				GetClientRect(hwnd, &rect);
-				ClientToScreen(hwnd, (LPPOINT) & rect);
-				ClientToScreen(hwnd, (LPPOINT) & rect + 1);
-				ClipCursor(&rect);
-			} else {
-				ClipCursor(NULL);
-			}
-			#endif
+			//if (lock) {
+			//	RECT rect;
+			//	GetClientRect(hwnd, &rect);
+			//	ClientToScreen(hwnd, (LPPOINT) & rect);
+			//	ClientToScreen(hwnd, (LPPOINT) & rect + 1);
+			//	ClipCursor(&rect);
+			//} else {
+			//	ClipCursor(NULL);
+			//}
+			//#endif
 		}
 		
 		//For X11
