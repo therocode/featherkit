@@ -4,7 +4,7 @@ namespace fea
 {
     namespace util
     {
-        SDL2InputBackend::SDL2InputBackend() : cursorLocked(false)
+        SDL2InputBackend::SDL2InputBackend()
         {
             //SDL_EnableKeyRepeat(500, 30);
         }
@@ -765,11 +765,6 @@ namespace fea
                 default:
                     return Mouse::LEFT;
             }
-        }
-
-        void SDL2InputBackend::lockCursor(bool enabled)
-        {
-            cursorLocked = enabled;
         }
     }
 }

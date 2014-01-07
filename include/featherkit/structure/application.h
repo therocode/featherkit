@@ -48,10 +48,11 @@ namespace fea
      *
      *  After this function is called, it will leave the main loop after the current iteration is finished.
      ***
-     *  @fn virtual void Application::setup() = 0
+     *  @fn virtual void Application::setup(const std::vector<std::string>& args) = 0
      *  @brief Run setup procedures for the application.
      *
-     *  This function is automatically called once before it starts looping the Application::loop() function when Application::run() is called.
+     *  This function is automatically called once before it starts looping the Application::loop() function when Application::run() is called. The string vector passed to the function contains the command line arguments passed to the executable.
+     *  @param args Vector with command line arguments.
      ***
      *  @fn virtual void Application::loop() = 0
      *  @brief Iterate the main loop.

@@ -31,8 +31,6 @@ namespace fea
 
                 void setGamepadThreshold(float threshold) override;
                 void setKeyRepeatEnabled(bool enabled) override;
-            
-                void lockCursor(bool enabled) override;
             private:
                 Event closed();
                 Event resized(SDL_Event& event);
@@ -51,7 +49,6 @@ namespace fea
                 SDL_Keycode feaKeyCodeToSdl(Keyboard::Code feaCode) const;
                 uint8_t feaMouseButtonToSdl(Mouse::Button feaMouseButton) const;
                 Mouse::Button sdlMouseButtonToFea(uint32_t sdlMouseButton) const;
-                bool cursorLocked;
         };
     }
 }
