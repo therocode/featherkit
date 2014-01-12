@@ -59,13 +59,7 @@ namespace fea
      *
      *  This class provides a complete interface for rendering to the screen. Only objects which inherit from the Drawable2D base class may be rendered.
      *
-     *  Rendered drawables provide vertices translated to worldspace to the renderer via the Drawable2D::getVerticesTransformed function. This means that for any custom drawable, this function is meant to return the vertex coordinates in world space. 
-     *
      *  The Renderer2D keeps a Viewport describing the size of the render area as well as the current camera data.
-     *
-     *  The functions Renderer2D::preRender and Renderer2D::postRender must be called every frame surrounding all calls to Renderer2D::render. Otherwise rendering may not function properly. 
-     *
-     *  A backend must be given upon construction. The backend is an implementation of the abstract class Renderer2DBackend. This is the one actually doing the rendering and may be implemented using various rendering methods.
      ***
      *  @fn Renderer2D::Renderer2D(Viewport v)
      *  @brief Construct a renderer with the given Viewport.
