@@ -68,7 +68,7 @@ namespace fea
             //will be local only, not global
             int x, y;
             SDL_GetMouseState(&x, &y);
-            return glm::ivec2(x, y);
+            return glm::ivec2(0, 0);
         }
 
         glm::ivec2 SDL2InputBackend::getMouseWindowPosition()
@@ -127,6 +127,21 @@ namespace fea
             return 0.0f;
         }
 
+        void SDL2InputBackend::setGamepadThreshold(float threshold)
+        {
+            //TBI
+            //window.setJoystickThreshold(threshold);
+            (void) threshold;
+        }
+
+        void SDL2InputBackend::setKeyRepeatEnabled(bool enabled)
+        {
+            //TBI
+            //window.setKeyRepeatEnabled(enabled);
+            (void) enabled;
+        }
+
+
         Event SDL2InputBackend::closed()
         {
             Event result;
@@ -157,16 +172,6 @@ namespace fea
 
 			return result;
 		}
-        Event SDL2InputBackend::active(SDL_Event& event)
-        {
-            //TBI
-            (void) event;
-            Event result;
-
-            result.type = Event::LOSTFOCUS;
-
-            return result;
-        }
 
         Event SDL2InputBackend::keyPressed(SDL_Event& event)
         {
@@ -293,21 +298,6 @@ namespace fea
             //result.gamepadMove.position = event.joystickMove.position;
             return result;
         }
-
-        void SDL2InputBackend::setGamepadThreshold(float threshold)
-        {
-            //TBI
-            //window.setJoystickThreshold(threshold);
-            (void) threshold;
-        }
-
-        void SDL2InputBackend::setKeyRepeatEnabled(bool enabled)
-        {
-            //TBI
-            //window.setKeyRepeatEnabled(enabled);
-            (void) enabled;
-        }
-
 
         Keyboard::Code SDL2InputBackend::sdlKeyCodeToFea(SDL_Keycode sdlCode) const
         {

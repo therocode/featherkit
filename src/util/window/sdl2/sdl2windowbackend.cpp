@@ -22,7 +22,6 @@ namespace fea
 					mode.width, mode.height,
 					SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 			glContext = SDL_GL_CreateContext(window);
-			setVSyncEnabled(true);
 		}
 
 		void SDL2WindowBackend::close()
@@ -46,48 +45,33 @@ namespace fea
 
 		Vec2I SDL2WindowBackend::getPosition() const
 		{
-			//not sure
-			//SDL_getenv("SDL_VIDEO_WINDOW_POS");
-			int x, y;
-			x = 0;
-			y = 0;
-			if(isOpen())
-				SDL_GetWindowPosition(window, &x, &y);
-
 			Vec2I s;
-			s.x = x;
-			s.y = y;
-			return s;
+            s.x = 0;
+            s.y = 0;
+
+			if(isOpen())
+				SDL_GetWindowPosition(window, &s.x, &s.y);
+			
+            return s;
 		}
 
 		void SDL2WindowBackend::setPosition(int32_t x, int32_t y)
 		{
-			(void)x;
-			(void)y;
 			if(isOpen())
 			{
-				int _x = x;
-				int _y = y;
-				SDL_SetWindowPosition(window, _x, _y);
+				SDL_SetWindowPosition(window, x, y);
 			}
-			//not sure
-			//std::stringstream ss;
-			//ss << "SDL_VIDEO_WINDOW_POS=" << x << ", " << y;
-			//SDL_putenv(ss.str());
 		}
 
 		Vec2I SDL2WindowBackend::getSize() const
 		{
-			int w, h;
-			w = -1;
-			h = -1;
-			if(isOpen())
-			{
-				SDL_GetWindowSize(window, &w, &h);
-			}
 			Vec2I s;
-			s.x = w;
-			s.y = h;
+			s.x = 0;
+			s.y = 0;
+
+			if(isOpen())
+				SDL_GetWindowSize(window, &s.x, &s.y);
+
 			return s;
 		}
 
@@ -119,15 +103,7 @@ namespace fea
 
 		void SDL2WindowBackend::setVSyncEnabled(bool enabled)
 		{
-			//should be fixed
-			(void) enabled;
-			if(enabled)
-			{
-				SDL_GL_SetSwapInterval(1);
-			}else
-			{
-				SDL_GL_SetSwapInterval(0);
-			}
+            SDL_GL_SetSwapInterval(enabled?1:0);
 		}
 
 		void SDL2WindowBackend::setMouseCursorVisible(bool visible)

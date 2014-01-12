@@ -61,9 +61,7 @@ namespace fea
         glm::ivec2 SDLInputBackend::getMouseGlobalPosition()
         {
             //will be local only, not global
-            int x, y;
-            SDL_GetMouseState(&x, &y);
-            return glm::ivec2(x, y);
+            return glm::ivec2(0, 0);
         }
 
         glm::ivec2 SDLInputBackend::getMouseWindowPosition()
@@ -75,8 +73,10 @@ namespace fea
 
         void SDLInputBackend::setMouseGlobalPosition(int32_t x, int32_t y)
         {
+            (void)x;
+            (void)y;
             //works locally, not globlaly
-            SDL_WarpMouse((uint16_t)x, (uint16_t)y);
+            //SDL_WarpMouse((uint16_t)x, (uint16_t)y);
         }
 
         void SDLInputBackend::setMouseWindowPosition(int32_t x, int32_t y)

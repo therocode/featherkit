@@ -30,7 +30,7 @@ namespace fea
 
                 bool setRenderingActive(bool active = true) const override;
                 void swapBuffers() override;
-				void lockCursor(bool lock) override;
+				void lockCursor(bool lock) override; //Not supported
             private:
                 sf::Window& window;
         };

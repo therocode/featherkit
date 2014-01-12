@@ -113,6 +113,16 @@ namespace fea
             return sf::Joystick::getAxisPosition(id, (sf::Joystick::Axis) axis);
         }
 
+        void SFMLInputBackend::setGamepadThreshold(float threshold)
+        {
+            window.setJoystickThreshold(threshold);
+        }
+
+        void SFMLInputBackend::setKeyRepeatEnabled(bool enabled)
+        {
+            window.setKeyRepeatEnabled(enabled);
+        }
+
         Event SFMLInputBackend::closed()
         {
             Event result;
@@ -292,16 +302,6 @@ namespace fea
             result.type = Event::GAMEPADDISCONNECTED;
             result.gamepadConnect.gamepadId = event.joystickConnect.joystickId;
             return result;
-        }
-
-        void SFMLInputBackend::setGamepadThreshold(float threshold)
-        {
-            window.setJoystickThreshold(threshold);
-        }
-
-        void SFMLInputBackend::setKeyRepeatEnabled(bool enabled)
-        {
-            window.setKeyRepeatEnabled(enabled);
         }
     }
 }

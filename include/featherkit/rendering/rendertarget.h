@@ -5,8 +5,6 @@
 
 namespace fea
 {
-    class Renderer2DBackend;
-
     class RenderTarget
     {
         public:
