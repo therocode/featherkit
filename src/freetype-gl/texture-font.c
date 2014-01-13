@@ -525,7 +525,6 @@ texture_font_load_glyphs( texture_font_t * self,
         if ( region.x < 0 )
         {
             missed++;
-            fprintf( stderr, "Texture atlas is full (line %d)\n",  __LINE__ );
             continue;
         }
         w = w - 1;
@@ -613,7 +612,6 @@ texture_font_get_glyph( texture_font_t * self,
                                             -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1};
         if ( region.x < 0 )
         {
-            fprintf( stderr, "Texture atlas is full (line %d)\n",  __LINE__ );
             return NULL;
         }
         texture_atlas_set_region( self->atlas, region.x, region.y, 4, 4, data, 0 );
