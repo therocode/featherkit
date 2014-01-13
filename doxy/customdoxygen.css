@@ -676,6 +676,7 @@ div.directory {
 }
 
 .directory table {
+        width: 100%;
         border-collapse:collapse;
 }
 
@@ -700,7 +701,6 @@ div.directory {
 }
 
 .directory td.desc {
-        width: 100%;
         padding-left: 6px;
 	padding-right: 6px;
 	padding-top: 3px;
