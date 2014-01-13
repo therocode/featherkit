@@ -111,6 +111,11 @@ namespace fea
         {
             SDL_GL_SwapBuffers();
         }
+
+        void SDLWindowBackend::lockCursor(bool lock)
+        {
+            (void)lock;
+        }
         
         SDLWindowBackend::~SDLWindowBackend()
         {

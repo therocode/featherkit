@@ -33,6 +33,7 @@ namespace fea
 
                 bool setRenderingActive(bool active = true) const override; //not supported
                 void swapBuffers() override;
+                void lockCursor(bool lock) override; //not supported
                 ~SDLWindowBackend();
             private:
                 SDL_Surface* window;
