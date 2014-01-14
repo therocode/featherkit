@@ -232,6 +232,6 @@ install(
 )
 
 install(
-    FILES readme.txt license.txt
+    FILES README.md license.txt
     DESTINATION ${FEATHERKIT_MISC_DIR}
 )
