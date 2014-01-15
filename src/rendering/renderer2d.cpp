@@ -20,7 +20,7 @@ namespace fea
         glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
-        defaultTexture.create(4, 4, 1.0f, 1.0f, 1.0f);
+        defaultTexture.create(16, 16, 1.0f, 1.0f, 1.0f);
 
         defaultShader.setSource(DefaultShader::vertexSource, DefaultShader::fragmentSource);
         defaultShader.compile();
@@ -96,9 +96,13 @@ namespace fea
         shader.setUniform(stringHasher("halfViewSize"), VEC2, &halfViewSize);
         shader.setUniform(stringHasher("projection"), MAT4X4, &projection);
 
+        GLuint defaultTextureId = defaultTexture.getId();
+
         for(auto& renderOperation : renderQueue)
         {
+            shader.setUniform(stringHasher("texture"), TEXTURE, &defaultTextureId); //may be overriden
             setBlendModeGl(renderOperation.blendMode);
+
             for(auto& uniform : renderOperation.uniforms)
             {
                 shader.setUniform(uniform.index, uniform.type, &uniform.floatVal);

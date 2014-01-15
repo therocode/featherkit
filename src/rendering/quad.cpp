@@ -149,7 +149,9 @@ namespace fea
         std::hash<std::string> stringHasher;
 
         if(texture != nullptr)
+        {
             temp.uniforms.push_back(Uniform(stringHasher("texture"), TEXTURE, getTexture().getId()));
+        }
 
         temp.uniforms.push_back(Uniform(stringHasher("constraints"), VEC4, constraints));
         
