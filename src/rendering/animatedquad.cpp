@@ -1,4 +1,5 @@
 #include <featherkit/rendering/animatedquad.h>
+#include <cstdlib>
 
     namespace fea
     {
