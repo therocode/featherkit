@@ -23,7 +23,6 @@ namespace fea
             TileMapException(const std::string& message);
     };
 
-
     class TileMap
     {
         struct AnimatedTile
@@ -40,10 +39,15 @@ namespace fea
             void setTexture(const Texture& tex);
             const Texture& getTexture() const;
             void addTileDefinition(const std::string& name, const TileDefinition& tileDef);
-            void setTileByName(uint32_t x, uint32_t y, std::string name);
-            void setTileByName(const glm::uvec2& pos, std::string name);
-            void setTileById(uint32_t x, uint32_t y, TileId id);
-            void setTileById(const glm::uvec2& pos, TileId id);
+            void setTile(uint32_t x, uint32_t y, const std::string& name);
+            void setTile(const glm::uvec2& pos, const std::string& name);
+            void setTile(uint32_t x, uint32_t y, TileId id);
+            void setTile(const glm::uvec2& pos, TileId id);
+            void unsetTile(uint32_t x, uint32_t y);
+            void unsetTile(const glm::uvec2& pos);
+            void fill(const std::string& name);
+            void fill(TileId id);
+            void clear();
             TileId getTileId(const std::string& name) const;
             glm::uvec2 getTileByCoordinates(float x, float y) const;
             glm::uvec2 getTileByCoordinates(const glm::vec2& coordinates) const;
@@ -169,27 +173,51 @@ namespace fea
      *  @param name Name of the tile to add.
      *  @param tileDef Tile definition.
      ***
-     *  @fn void TileMap::setTileByName(uint32_t x, uint32_t y, std::string name)
+     *  @fn void TileMap::setTile(uint32_t x, uint32_t y, const std::string& name)
      *  @brief Set a tile at the given coordinate.
      *  @param x X coordinate.
      *  @param y Y coordinate.
      *  @param name Name of the tile definition to change it to.
      ***
-     *  @fn void TileMap::setTileByName(const glm::uvec2& position, std::string name)
+     *  @fn void TileMap::setTile(const glm::uvec2& position, const std::string& name)
      *  @brief Set a tile at the given coordinate.
      *  @param position Coordinate of the tile to set,
      *  @param name Name of the tile definition to change it to.
      ***
-     *  @fn void TileMap::setTileById(uint32_t x, uint32_t y, TileId id)
+     *  @fn void TileMap::setTile(uint32_t x, uint32_t y, TileId id)
      *  @brief Set a tile at the given coordinate.
      *  @param x X coordinate.
      *  @param y Y coordinate.
      *  @param id ID of the tile definition to change to.
      ***
-     *  @fn void TileMap::setTileById(const glm::uvec2& position, TileId id)
+     *  @fn void TileMap::setTile(const glm::uvec2& position, TileId id)
      *  @brief Set a tile at the given coordinate.
      *  @param position Coordinate of the tile to set.
      *  @param id ID of the tile definition to change to.
+     ***
+     *  @fn void TileMap::unsetTile(uint32_t x, uint32_t y)
+     *  @brief Set a tile to be transparent.
+     *  
+     *  This is the default state of tiles.
+     *  @param x X coordinate.
+     *  @param y Y coordinate.
+     ***
+     *  @fn void TileMap::unsetTile(const glm::uvec2& pos)
+     *  @brief Set a tile to be transparent.
+     *  
+     *  This is the default state of tiles.
+     *  @param pos Coordinate of the tile to unset.
+     ***
+     *  @fn void TileMap::fill(const std::string& name)
+     *  @brief Fill the whole tile map with a single tile type.
+     *  @param name Name of the tile to fill with.
+     ***
+     *  @fn void TileMap::fill(TileId id)
+     *  @brief Fill the whole tile map with a single tile type.
+     *  @param id Id of the tile to fill with.
+     ***
+     *  @fn void TileMap::clear();
+     *  @brief Clear the tile map of all tiles.
      ***
      *  @fn TileId TileMap::getTileId(const std::string& name) const
      *  @brief Get the registered tile definition ID for the given name.

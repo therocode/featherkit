@@ -62,7 +62,7 @@ namespace fea
                 {
                     for(uint32_t chunkY = 0; chunkY < newChunkHeight; chunkY++)
                     {
-                        newChunk.setTileTexCoords(chunkX, chunkY, glm::vec2(0.0f, 0.0f), textureTileSize);
+                        //newChunk.setTileTexCoords(chunkX, chunkY, glm::vec2(0.0f, 0.0f), textureTileSize);
                     }
                 }
 
@@ -132,7 +132,7 @@ namespace fea
         tileDefs.emplace(hasher(name), tileDef);
     }
 
-    void TileMap::setTileByName(uint32_t x, uint32_t y, std::string name)
+    void TileMap::setTile(uint32_t x, uint32_t y, const std::string& name)
     {
         if(isOutOfBounds(x, y))
         {
@@ -141,10 +141,10 @@ namespace fea
             throw TileMapException(ss.str());
         }
 
-        setTileById(x, y, hasher(name));
+        setTile(x, y, hasher(name));
     }
 
-    void TileMap::setTileByName(const glm::uvec2& pos, std::string name)
+    void TileMap::setTile(const glm::uvec2& pos, const std::string& name)
     {
         if(isOutOfBounds(pos.x, pos.y))
         {
@@ -153,10 +153,10 @@ namespace fea
             throw TileMapException(ss.str());
         }
 
-        setTileById(pos.x, pos.y, hasher(name));
+        setTile(pos.x, pos.y, hasher(name));
     }
 
-    void TileMap::setTileById(uint32_t x, uint32_t y, TileId id)
+    void TileMap::setTile(uint32_t x, uint32_t y, TileId id)
     {
         if(isOutOfBounds(x, y))
         {
@@ -197,9 +197,82 @@ namespace fea
         }
     }
 
-    void TileMap::setTileById(const glm::uvec2& pos, TileId id)
+    void TileMap::setTile(const glm::uvec2& pos, TileId id)
     {
-        setTileById(pos.x, pos.y, id);
+        setTile(pos.x, pos.y, id);
+    }
+
+    void TileMap::unsetTile(uint32_t x, uint32_t y)
+    {
+        if(isOutOfBounds(x, y))
+        {
+            std::stringstream ss;
+            ss << "Error! Coordinates " << x << " and " << y << " out of range (" << gridSize.x << "," << gridSize.y << ")\n";
+            throw TileMapException(ss.str());
+        }
+
+        uint32_t chunkX = x / chunkSize.x;
+        uint32_t chunkY = y / chunkSize.y;
+        uint32_t chunkIndex = chunkX + chunkY * chunkGridSize.x;
+
+        chunks[chunkIndex].unsetTileTexCoords(x - chunkX * chunkSize.x, y - chunkY * chunkSize.y);
+
+        if(animatedTiles.find(glm::uvec2(x, y)) != animatedTiles.end())
+        {
+            animatedTiles.erase(glm::uvec2(x, y));
+        }
+    }
+
+    void TileMap::unsetTile(const glm::uvec2& pos)
+    {
+        unsetTile(pos.x, pos.y);
+    }
+
+    void TileMap::fill(const std::string& name)
+    {
+        fill(hasher(name));
+    }
+
+    void TileMap::fill(TileId id)
+    {
+        auto tileIter = tileDefs.find(id);
+        if(tileIter == tileDefs.end())
+        {
+            throw(TileMapException("Error! Tile does not exist!\n"));
+        }
+
+        TileDefinition tileDef = tileIter->second;
+
+        glm::uvec2 texPos = tileDef.tileTexPosition;
+
+        for(auto& chunk : chunks)
+            chunk.fillTexCoords(glm::vec2((float)texPos.x * textureTileSize.x, (float)texPos.y * textureTileSize.y),
+                                glm::vec2((float)texPos.x * textureTileSize.x + textureTileSize.x, (float)texPos.y * textureTileSize.y + textureTileSize.y));
+
+        animatedTiles.clear();
+
+        if(tileDef.ticksUntilChange > 0)
+        {
+            AnimatedTile animation;
+            animation.next = tileDef.nextTileId;
+            animation.timeLeft = tileDef.ticksUntilChange;
+
+            for(uint32_t x = 0; x < gridSize.x; x++)
+            {
+                for(uint32_t y = 0; y < gridSize.y; y++)
+                {
+                    animatedTiles.emplace(glm::uvec2(x, y), animation);
+                }
+            }
+        }
+    }
+    
+    void TileMap::clear()
+    {
+        for(auto& chunk : chunks)
+            chunk.clear();
+
+        animatedTiles.clear();
     }
     
     TileId TileMap::getTileId(const std::string& name) const
@@ -274,7 +347,7 @@ namespace fea
         }
         for(uint32_t i = 0; i < toSet.size(); i++)
         {
-            setTileById(toSet[i].x, toSet[i].y, ids[i]);
+            setTile(toSet[i].x, toSet[i].y, ids[i]);
         }
     }
 }
