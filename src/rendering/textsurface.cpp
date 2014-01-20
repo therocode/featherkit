@@ -3,7 +3,7 @@
 
 namespace fea
 {
-    Writing::Writing(const std::wstring& t, const Font* f, const glm::vec2& p, const float s, const glm::vec3& c) : text(t), font(f), penPosition(p), scale(s), colour(c)
+    Writing::Writing(const std::wstring& t, const Font* f, const glm::vec2& p, const float s, const Colour& c) : text(t), font(f), penPosition(p), scale(s), colour(c)
     {
     }
     
@@ -47,7 +47,7 @@ namespace fea
         scale = s;
     }
     
-    void TextSurface::setPenColour(const glm::vec3& col)
+    void TextSurface::setPenColour(const Colour& col)
     {
         colour = col;
     }
@@ -79,7 +79,7 @@ namespace fea
         const glm::vec2 originalPosition = pen;
         const Font* originalFont = currentFont;
         const float originalScale = scale;
-        const glm::vec3 originalColour = colour;
+        const Colour originalColour = colour;
 
         for(auto& writing : writings)
         {
@@ -169,12 +169,12 @@ namespace fea
         vertices.insert(vertices.end(), verticesToAdd.begin(), verticesToAdd.end());
         texCoords.insert(texCoords.end(), texCoordsToAdd.begin(), texCoordsToAdd.end());
 
-        vertexColours.push_back(colour.r); vertexColours.push_back(colour.g); vertexColours.push_back(colour.b); vertexColours.push_back(1.0f);
-        vertexColours.push_back(colour.r); vertexColours.push_back(colour.g); vertexColours.push_back(colour.b); vertexColours.push_back(1.0f);
-        vertexColours.push_back(colour.r); vertexColours.push_back(colour.g); vertexColours.push_back(colour.b); vertexColours.push_back(1.0f);
-        vertexColours.push_back(colour.r); vertexColours.push_back(colour.g); vertexColours.push_back(colour.b); vertexColours.push_back(1.0f);
-        vertexColours.push_back(colour.r); vertexColours.push_back(colour.g); vertexColours.push_back(colour.b); vertexColours.push_back(1.0f);
-        vertexColours.push_back(colour.r); vertexColours.push_back(colour.g); vertexColours.push_back(colour.b); vertexColours.push_back(1.0f);
+        vertexColours.push_back(colour.r()); vertexColours.push_back(colour.g()); vertexColours.push_back(colour.b()); vertexColours.push_back(1.0f);
+        vertexColours.push_back(colour.r()); vertexColours.push_back(colour.g()); vertexColours.push_back(colour.b()); vertexColours.push_back(1.0f);
+        vertexColours.push_back(colour.r()); vertexColours.push_back(colour.g()); vertexColours.push_back(colour.b()); vertexColours.push_back(1.0f);
+        vertexColours.push_back(colour.r()); vertexColours.push_back(colour.g()); vertexColours.push_back(colour.b()); vertexColours.push_back(1.0f);
+        vertexColours.push_back(colour.r()); vertexColours.push_back(colour.g()); vertexColours.push_back(colour.b()); vertexColours.push_back(1.0f);
+        vertexColours.push_back(colour.r()); vertexColours.push_back(colour.g()); vertexColours.push_back(colour.b()); vertexColours.push_back(1.0f);
     }
 
 
