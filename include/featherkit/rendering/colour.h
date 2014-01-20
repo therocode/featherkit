@@ -1,4 +1,6 @@
 #pragma once
+#include <stdint.h>
+#include <algorithm>
 
 namespace fea
 {
@@ -22,15 +24,15 @@ namespace fea
             bool operator==(const Colour& other) const;
             bool operator!=(const Colour& other) const;
 
-            float r();
-            float g();
-            float b();
-            float a();
+            float r() const;
+            float g() const;
+            float b() const;
+            float a() const;
 
-            uint8_t rAsByte();
-            uint8_t gAsByte();
-            uint8_t bAsByte();
-            uint8_t aAsByte();
+            uint8_t rAsByte() const;
+            uint8_t gAsByte() const;
+            uint8_t bAsByte() const;
+            uint8_t aAsByte() const;
 
         private:
             float red;

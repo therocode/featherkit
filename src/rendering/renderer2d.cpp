@@ -33,32 +33,22 @@ namespace fea
         defaultTexture.destroy();
     }
 
-    void Renderer2D::clear(float r, float g, float b)
-    {
-        clear(glm::vec3(r, g, b));
-    }
-
-    void Renderer2D::clear(const glm::vec3& colour)
+    void Renderer2D::clear(const Colour& colour)
     {
         if(clearColour != colour)
         {
-            glClearColor(colour.r, colour.g, colour.b, 0.0f);
+            glClearColor(colour.r(), colour.g(), colour.b(), 0.0f);
             clearColour = colour;
         }
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
-    void Renderer2D::clear(const RenderTarget& target, float r, float g, float b)
-    {
-        clear(target, glm::vec3(r, g, b));
-    }
-
-    void Renderer2D::clear(const RenderTarget& target, const glm::vec3& colour)
+    void Renderer2D::clear(const RenderTarget& target, const Colour& colour)
     {
         if(clearColour != colour)
         {
-            glClearColor(colour.r, colour.g, colour.b, 0.0f);
+            glClearColor(colour.r(), colour.g(), colour.b(), 0.0f);
             clearColour = colour;
         }
 

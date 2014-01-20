@@ -1,4 +1,5 @@
 #pragma once
+#include <featherkit/rendering/colour.h>
 #include <featherkit/rendering/viewport.h>
 #include <featherkit/rendering/rendertarget.h>
 #include <featherkit/rendering/shader.h>
@@ -15,10 +16,8 @@ namespace fea
             Renderer2D(const Viewport& v);
             void setup();
             void destroy();
-            void clear(float r, float g, float b);
-            void clear(const glm::vec3& colour = glm::vec3());
-            void clear(const RenderTarget& target, float r, float g, float b);
-            void clear(const RenderTarget& target, const glm::vec3& colour = glm::vec3());
+            void clear(const Colour& colour = Colour());
+            void clear(const RenderTarget& target, const Colour& colour = Colour());
             void queue(const Drawable2D& drawable);
             void render();
             void render(const RenderTarget& target);
@@ -39,7 +38,7 @@ namespace fea
             std::vector<RenderInfo> renderQueue;
 
             //cache
-            glm::vec3 clearColour;
+            Colour clearColour;
     };
     /** @addtogroup Render2D
      *@{
@@ -76,35 +75,18 @@ namespace fea
      *
      *  Used after setup has been called and when the renderer is not needed anymore. The underlying purpose of this function may vary depending on the backend used.
      ***
-     *  @fn void Renderer2D::clear(float r, float g, float b)
+     *  @fn void clear(const Colour& colour = Colour())
      *  @brief Clear the screen, filling it with the given colour.
      *
      *  Usually called once every frame as a first step of the rendering process to clear out what was drawn the last frame.
-     *  @param r Red component. Given in the range of 0 to 1.
-     *  @param g Red component. Given in the range of 0 to 1.
-     *  @param b Red component. Given in the range of 0 to 1.
+     *  @param colour Colour object. Black by default.
      ***
-     *  @fn void Renderer2D::clear(const glm::vec3& colour = glm::vec3())
-     *  @brief Clear the screen, filling it with the given colour.
-     *
-     *  Usually called once every frame as a first step of the rendering process to clear out what was drawn the last frame.
-     *  @param colour Vector containing colour components. Given in the range of 0 to 1.
-     ***
-     *  @fn void Renderer2D::clear(const RenderTarget& target, float r, float g, float b)
-     *  @brief Clear the given RenderTarget, filling it with the given colour.
+     *  @fn void Renderer2D::clear(const RenderTarget& target, const Colour& = Colour())
+     *  @brief Clear the given RenderTarget, filling it with the given colour. 
      *
      *  Usually called once every frame as a first step of the rendering process to clear out what was drawn the last frame.
      *  @param target RenderTarget to clear.
-     *  @param r Red component. Given in the range of 0 to 1.
-     *  @param g Red component. Given in the range of 0 to 1.
-     *  @param b Red component. Given in the range of 0 to 1.
-     ***
-     *  @fn void Renderer2D::clear(const RenderTarget& target, const glm::vec3& colour = glm::vec3())
-     *  @brief Clear the given RenderTarget, filling it with the given colour.
-     *
-     *  Usually called once every frame as a first step of the rendering process to clear out what was drawn the last frame.
-     *  @param target RenderTarget to clear.
-     *  @param colour Vector containing colour components. Given in the range of 0 to 1.
+     *  @param colour Colour object. Black by default.
      ***
      *  @fn void Renderer2D::queue(const Drawable2D& drawable)
      *  @brief Queue a drawable for rendering.

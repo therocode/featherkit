@@ -4,6 +4,10 @@ namespace fea
 {
     Colour::Colour()
     {
+        red = 0.0f;
+        green = 0.0f;
+        blue = 0.0f;
+        alpha = 1.0f;
     }
 
     Colour::Colour(float r, float g, float b, float a)
@@ -207,42 +211,42 @@ namespace fea
     }
 
 
-    float Colour::r()
+    float Colour::r() const
     {
         return red;
     }
 
-    float Colour::g()
+    float Colour::g() const
     {
         return green;
     }
 
-    float Colour::b()
+    float Colour::b() const
     {
         return blue;
     }
 
-    float Colour::a()
+    float Colour::a() const
     {
         return alpha;
     }
 
-    uint8_t Colour::rAsByte()
+    uint8_t Colour::rAsByte() const
     {
         return red * 255;
     }
 
-    uint8_t Colour::gAsByte()
+    uint8_t Colour::gAsByte() const
     {
         return green * 255;
     }
 
-    uint8_t Colour::bAsByte()
+    uint8_t Colour::bAsByte() const
     {
         return blue * 255;
     }
 
-    uint8_t Colour::aAsByte()
+    uint8_t Colour::aAsByte() const
     {
         return alpha * 255;
     }
