@@ -2,7 +2,7 @@
 
 namespace fea
 {
-    Drawable2D::Drawable2D() : drawMode(0), rotation(0.0f), scaling(glm::vec2(1.0f, 1.0f)), parallax(1.0f), colour(1.0f, 1.0f, 1.0f), opacity(1.0f)
+    Drawable2D::Drawable2D() : drawMode(0), rotation(0.0f), scaling(glm::vec2(1.0f, 1.0f)), parallax(1.0f), colour(1.0f, 1.0f, 1.0f, 1.0f)
     {
     }
 
@@ -102,60 +102,33 @@ namespace fea
         return parallax;
     }
         
-    void Drawable2D::setColour(float r, float g, float b)
-    {
-        colour = glm::vec3(r, g, b);
-    }
-    
-    void Drawable2D::setColour(const glm::vec3& c)
+    void Drawable2D::setColour(const Colour& c)
     {
         colour = c;
     }
     
-    glm::vec3 Drawable2D::getColour() const
+    Colour Drawable2D::getColour() const
     {
         return colour;
     }
     
     void Drawable2D::setOpacity(float o)
     {
-        opacity = o;
+        colour.setA(o);
     }
 
     float Drawable2D::getOpacity() const
     {
-        return opacity;
+        return colour.a();
     }
-    
-    /*
-    AABB Drawable2D::getAABB() const
-    {
-        AABB result;
-        //std::vector<float> transformed = getVerticesTransformed();
-        result.start.x = transformed[0];
-        result.start.y = transformed[1];
-        result.end.x = transformed[0];
-        result.end.y = transformed[1];
-
-        for(uint32_t i = 0; i < transformed.size(); i+=2)
-        {
-            if(transformed[i] < result.start.x)
-                result.start.x = transformed[i];
-            if(transformed[i+1] < result.start.y)
-                result.start.y = transformed[i+1];
-            if(transformed[i] > result.end.x)
-                result.end.x = transformed[i];
-            if(transformed[i+1] > result.end.y)
-                result.end.y = transformed[i+1];
-        }
-
-        return result;
-    }*/
 
     RenderInfo Drawable2D::getRenderInfo() const
     {
         RenderInfo temp;
         std::hash<std::string> stringHasher;
+
+        glm::vec3 colourInfo = glm::vec3(colour.r(), colour.g(), colour.b());
+        float opacity = colour.a();
 
         temp.drawMode = drawMode;
         temp.elementAmount = vertices.size() / 2;
@@ -171,7 +144,7 @@ namespace fea
         temp.uniforms.push_back(Uniform(stringHasher("parallax"), FLOAT, parallax));
         //temp.uniforms.push_back(Uniform(stringHasher("texture"), TEXTURE, (GLuint)0)); maybe not needed
         temp.uniforms.push_back(Uniform(stringHasher("constraints"), VEC4, glm::vec4(0.0f, 1.0f, 0.0f, 1.0f)));
-        temp.uniforms.push_back(Uniform(stringHasher("colour"), VEC3, colour));
+        temp.uniforms.push_back(Uniform(stringHasher("colour"), VEC3, colourInfo));
         temp.uniforms.push_back(Uniform(stringHasher("opacity"), FLOAT, opacity));
 
         return temp;

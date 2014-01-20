@@ -2,6 +2,7 @@
 #include <vector>
 #include <glm/glm.hpp>
 #include <featherkit/rendering/renderinfo.h>
+#include <featherkit/rendering/colour.h>
 #include <stdint.h>
 #include <string>
 
@@ -30,9 +31,8 @@ namespace fea
             void scale(const glm::vec2& s);
             void setParallax(float p);
             float getParallax() const;
-            void setColour(float r, float g, float b);
-            void setColour(const glm::vec3& c);
-            glm::vec3 getColour() const;
+            void setColour(const Colour& c);
+            Colour getColour() const;
             void setOpacity(float o);
             float getOpacity() const;
 
@@ -47,8 +47,7 @@ namespace fea
             float rotation;
             glm::vec2 scaling;
             float parallax;
-            glm::vec3 colour;
-            float opacity;
+            Colour colour;
     };
     /** @addtogroup Render2D
      *@{
@@ -155,19 +154,14 @@ namespace fea
      *  @brief Get the opacity.
      *  @return Opacity.
      ***
-     *  @fn glm::vec3 Drawable2D::getColour() const
+     *  @fn Colour Drawable2D::getColour() const
      *  @brief Get the colour.
-     *  @return Vector containing the colour.
+     *  @return The colour of the drawable.
      ***
-     *  @fn void Drawable2D::setColour(float r, float g, float b)
-     *  @brief Set the colour.
-     *  @param r Amount of red.
-     *  @param g Amount of green.
-     *  @param b Amount of blue.
      ***
-     *  @fn void Drawable2D::setColour(const glm::vec3& col)
+     *  @fn void Drawable2D::setColour(const glm::vec3& c)
      *  @brief Set the colour.
-     *  @param col Vector containing the colour.
+     *  @param Colour to set to.
      ***
      *  @fn virtual RenderInfo Drawable2D::getRenderInfo() const
      *  @brief Returns data used for rendering.
@@ -203,9 +197,6 @@ namespace fea
      ***
      *  @var Drawable2D::parallax
      *  @brief Stores the parallax factor.
-     ***
-     *  @var Drawable2D::opacity
-     *  @brief Stores the opacity.
      ***
      *  @var Drawable2D::colour
      *  @brief Stores the colour.

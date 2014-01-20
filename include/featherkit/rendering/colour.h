@@ -34,6 +34,16 @@ namespace fea
             uint8_t bAsByte() const;
             uint8_t aAsByte() const;
 
+            void setR(float r);
+            void setG(float g);
+            void setB(float b);
+            void setA(float a);
+
+            void setRAsByte(int32_t r);
+            void setGAsByte(int32_t g);
+            void setBAsByte(int32_t b);
+            void setAAsByte(int32_t a);
+
         private:
             float red;
             float green;

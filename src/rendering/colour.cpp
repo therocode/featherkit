@@ -250,4 +250,44 @@ namespace fea
     {
         return alpha * 255;
     }
+
+    void Colour::setR(float r)
+    {
+        red = std::max(0.0f, std::min(1.0f, r));
+    }
+
+    void Colour::setG(float g)
+    {
+        green = std::max(0.0f, std::min(1.0f, g));
+    }
+
+    void Colour::setB(float b)
+    {
+        blue = std::max(0.0f, std::min(1.0f, b));
+    }
+
+    void Colour::setA(float a)
+    {
+        alpha = std::max(0.0f, std::min(1.0f, a));
+    }
+
+    void Colour::setRAsByte(int32_t r)
+    {
+        red = std::max(0, std::min(255, r));
+    }
+
+    void Colour::setGAsByte(int32_t g)
+    {
+        green = std::max(0, std::min(255, g));
+    }
+
+    void Colour::setBAsByte(int32_t b)
+    {
+        blue = std::max(0, std::min(255, b));
+    }
+
+    void Colour::setAAsByte(int32_t a)
+    {
+        alpha = std::max(0, std::min(255, a));
+    }
 }
