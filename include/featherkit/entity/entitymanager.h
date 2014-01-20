@@ -11,12 +11,12 @@
 namespace fea
 {
     class Entity;
-    class EntityGroup;
 
     using EntityPtr = std::shared_ptr<Entity>;
     using WeakEntityPtr = std::weak_ptr<Entity>;
     using EntityTemplate = std::string;
     using EntityId = uint32_t;
+    using EntitySet = std::set<WeakEntityPtr, std::owner_less<WeakEntityPtr>>;
     
     struct EntityTemplateData
     {
@@ -31,7 +31,7 @@ namespace fea
             WeakEntityPtr createEntity(const EntityTemplate& templates);
             WeakEntityPtr getEntity(EntityId id) const;
             void removeEntity(const EntityId id);
-            void removeEntities(const EntityGroup entities);
+            void removeEntities(const EntitySet entities);
             template<class DataType>
             void getAttribute(const std::string& attribute, const EntityId id, DataType* outData) const;
             template<class DataType>
@@ -44,7 +44,7 @@ namespace fea
             void registerEntityTemplate(const EntityTemplate& temp, const std::map<std::string, std::string>& attributes);
             void registerEntityTemplates(const std::map<EntityTemplate, std::map<std::string, std::string> > templates);
             void registerDefaultSetter(std::string attribute, std::function<void(std::string, std::vector<std::string>&, WeakEntityPtr)> defaultFunc);
-            EntityGroup getAll() const;
+            EntitySet getAll() const;
             void removeAll();
             void reset();
         private:
@@ -123,6 +123,9 @@ namespace fea
      *  @typedef EntityId
      *  @brief The ID of an Entity instance. This is a normal 32 bit unsigned integer.
      *
+     *  @typedef EntitySet
+     *  @brief An std::set containing a number of entities represented with WeakEntityPtr instances.
+     *
      *  @class EntityManager
      *  @brief Takes care of managing multiple Entity instances. 
      *
@@ -158,11 +161,11 @@ namespace fea
      *  If a non-existing Entity is given, it will throw an EntityException.
      *  @param id ID of the Entity to remove.
      ***
-     *  @fn void EntityManager::removeEntities(const EntityGroup entities)
-     *  @brief Remove a whole EntityGroup at once.
+     *  @fn void EntityManager::removeEntities(const EntitySet entities)
+     *  @brief Remove a whole EntitySet at once.
      *  
      *  See EntityManager::removeEntity for more information.
-     *  @param entities Group to remove.
+     *  @param entities Set to remove.
      ***
      *  @fn void EntityManager::getAttribute(const std::string& attribute, const EntityId id, DataType* outData) const
      *  @brief Retrieve the value of an attribute of a selected Entity. 
@@ -270,8 +273,8 @@ namespace fea
      *  @param attribute Name of the attribute.
      *  @param defaultFunc Pointer to the default setter function.
      ***
-     *  @fn EntityGroup EntityManager::getAll() const
-     *  @brief Retrieve an EntityGroup filled with all entities currently managed by the EntityManager.
+     *  @fn EntitySet EntityManager::getAll() const
+     *  @brief Retrieve an EntitySet filled with all entities currently managed by the EntityManager.
      *  @return All entities in a group.
      ***
      *  @fn void EntityManager::removeAll()

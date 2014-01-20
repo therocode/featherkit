@@ -1,7 +1,6 @@
 #include <featherkit/entity/entitymanager.h>
 #include <featherkit/entity/entityexceptions.h>
 #include <featherkit/entity/entity.h>
-#include <featherkit/entity/entitygroup.h>
 #include <sstream>
 
 namespace fea
@@ -58,7 +57,7 @@ namespace fea
         entities.erase(id);
     }
     
-    void EntityManager::removeEntities(const EntityGroup group)
+    void EntityManager::removeEntities(const EntitySet group)
     {
         for(auto entity : group)
             removeEntity(entity.lock()->getId());
@@ -127,11 +126,11 @@ namespace fea
         }
     }
 
-    EntityGroup EntityManager::getAll() const
+    EntitySet EntityManager::getAll() const
     {
-        EntityGroup all;
+        EntitySet all;
         for(const auto& pair : entities)
-            all.add(pair.second);
+            all.insert(pair.second);
         return all;
     }
     
