@@ -24,7 +24,7 @@ namespace fea
         {
             public:
                 AlignedEntityBackend();
-                EntityId addEntity(AttributeList attributeList) override;
+                EntityId addEntity(AttributeSet attributeSet) override;
                 void removeEntity(const EntityId id) override;
                 void registerAttribute(const AttributeHash identifier, const ElementSize elementSize) override;
                 void setData(const AttributeHash identifier, const EntityId id, const char* inData) override;
@@ -40,16 +40,16 @@ namespace fea
                 void swapDownEntityThroughGroups(const uint32_t startEntityPosition, const uint32_t stopGroupIndex); 
                 void swapDownEntityThroughGroups(const uint32_t startEntityPosition, const uint32_t stopGroupIndex, bool newGroup); 
                 void swapDownGroups(const uint32_t startIndex, const uint32_t stopIndex); 
-                void setSlotsValid(const AttributeList& attributeList, const uint32_t position, const bool state); 
+                void setSlotsValid(const AttributeSet& attributeSet, const uint32_t position, const bool state); 
                 EntityId assignEntityAtEnd(uint32_t& arrayPos);
-                void validateAttributeList(AttributeList attributeList) const;
-                uint32_t findSuitableAttributeGroupIndex(AttributeList attributeList) const; 
-                uint32_t getSubsetGroupArrayPosition(AttributeList& attributeList) const;
+                void validateAttributeSet(AttributeSet attributeSet) const;
+                uint32_t findSuitableAttributeGroupIndex(AttributeSet attributeSet) const; 
+                uint32_t getSubsetGroupArrayPosition(AttributeSet& attributeSet) const;
                 uint32_t getAttributeGroupIndexFromPosition(uint32_t position) const;
                 uint32_t getLastDataOfGroup(uint32_t currentGroup) const;
                 void removeAttributeGroup(uint32_t group);
                 feai::BiMap<uint32_t, EntityId> posIdMap;
-                feai::BiMap<AttributeList, uint32_t> attributeGroupIndex;
+                feai::BiMap<AttributeSet, uint32_t> attributeGroupIndex;
                 std::vector<uint32_t> attributeGroupLocation;
                 ArrayHolder dataArrays;
                 std::stack<EntityId> freeEntityIds;
@@ -88,9 +88,9 @@ namespace fea
          *
          *  This EntityBackend implementation internally stores the Entity data in per-attribute arrays. These arrays are accessable for efficient iteration using the function AlignedEntityBackend::getIterableData. For situations where a lot of intensive processing has to be done for many entities, this may prove much more efficient than for instance the BasicEntityBackend. This implementation however, has a bigger memory footprint.
          ***
-         *  @fn int AlignedEntityBackend::addEntity(AttributeList attributeList)
-         *  @brief Create a new Entity with the attributes from the given AttributeList.
-         *  @param attributeList The attributes the Entity should have.
+         *  @fn int AlignedEntityBackend::addEntity(AttributeSet attributeSet)
+         *  @brief Create a new Entity with the attributes from the given AttributeSet.
+         *  @param attributeSet The attributes the Entity should have.
          ***
          *  @fn void AlignedEntityBackend::removeEntity(const int id)
          *  @brief Remove an Entity stored in the AlignedEntityBackend.

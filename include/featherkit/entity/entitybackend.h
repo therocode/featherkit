@@ -1,17 +1,19 @@
 #pragma once
-#include <featherkit/entity/attributelist.h>
 #include <stdint.h>
+#include <stdlib.h>
+#include <set>
 
 namespace fea
 {
     using EntityId = uint32_t;
     using ElementSize = uint32_t;
-    using AttributeHash = std::size_t;
+    using AttributeHash = size_t;
+    using AttributeSet = std::set<AttributeHash>;
 
     class EntityBackend
     {
             public:
-                virtual EntityId addEntity(AttributeList attributeList) = 0;
+                virtual EntityId addEntity(AttributeSet attributeSet) = 0;
                 virtual void removeEntity(const EntityId id) = 0;
                 virtual void registerAttribute(const AttributeHash identifier, const ElementSize elementSize) = 0;
                 virtual void setData(const AttributeHash identifier, const EntityId id, const char* inData) = 0;
@@ -30,9 +32,9 @@ namespace fea
      *
      *  The EntityBackend serves as a storage unit for the EntityManager which won't function without one. With different implementations, it is possible to specialise how Entity data should be stored which may be needed when tailoring the Entity system for your needs.
      ***
-     *  @fn virtual int EntityBackend::addEntity(AttributeList attributeList) = 0
-     *  @brief Create a new Entity with the attributes from the given AttributeList.
-     *  @param attributeList The attributes the Entity should have.
+     *  @fn virtual int EntityBackend::addEntity(AttributeSet attributeSet) = 0
+     *  @brief Create a new Entity with the attributes from the given AttributeSet.
+     *  @param attributeSet The attributes the Entity should have.
      ***
      *  @fn virtual void EntityBackend::removeEntity(const int id) = 0
      *  @brief Remove an Entity stored in the EntityBackend.

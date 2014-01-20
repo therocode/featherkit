@@ -13,17 +13,17 @@ namespace fea
             nextEmptyArraySlot = 0;
         }
 
-        EntityId AlignedEntityBackend::addEntity(AttributeList attributeList)
+        EntityId AlignedEntityBackend::addEntity(AttributeSet attributeSet)
         {
-            validateAttributeList(attributeList);
+            validateAttributeSet(attributeSet);
 
             EntityId createdEntityId = 0;
-            if(attributeGroupIndex.keyExists(attributeList))
+            if(attributeGroupIndex.keyExists(attributeSet))
             {
-                uint32_t attributeIndex = attributeGroupIndex.getValueAtKey(attributeList);
+                uint32_t attributeIndex = attributeGroupIndex.getValueAtKey(attributeSet);
                 uint32_t entityArrayLocation;
                 createdEntityId = assignEntityAtEnd(entityArrayLocation);
-                setSlotsValid(attributeList, entityArrayLocation, true);
+                setSlotsValid(attributeSet, entityArrayLocation, true);
                 swapDownEntityThroughGroups(entityArrayLocation, attributeIndex, false);
 
                 for(uint32_t i = (uint32_t)attributeGroupLocation.size() - 1; i > attributeIndex; i--)
@@ -31,10 +31,10 @@ namespace fea
             }
             else
             {
-                uint32_t newAttributeTargetIndex = findSuitableAttributeGroupIndex(attributeList);
+                uint32_t newAttributeTargetIndex = findSuitableAttributeGroupIndex(attributeSet);
                 uint32_t newAttributeCreatedIndex = (uint32_t)attributeGroupLocation.size();
 
-                attributeGroupIndex.addKeyValuePair(attributeList, newAttributeCreatedIndex);
+                attributeGroupIndex.addKeyValuePair(attributeSet, newAttributeCreatedIndex);
                 swapDownGroups(newAttributeCreatedIndex, newAttributeTargetIndex);
 
                 uint32_t attribGroupLocationSize = (uint32_t)attributeGroupLocation.size();
@@ -57,7 +57,7 @@ namespace fea
 
                 uint32_t entityArrayLocation;
                 createdEntityId = assignEntityAtEnd(entityArrayLocation);
-                setSlotsValid(attributeList, entityArrayLocation, true);
+                setSlotsValid(attributeSet, entityArrayLocation, true);
 
                 swapDownEntityThroughGroups(entityArrayLocation, newAttributeTargetIndex, true);
             }
@@ -242,14 +242,14 @@ namespace fea
             sort(attributeList.begin(), attributeList.end());
         }
 
-        uint32_t AlignedEntityBackend::findSuitableAttributeGroupIndex(AttributeList attributeList) const
+        uint32_t AlignedEntityBackend::findSuitableAttributeGroupIndex(AttributeSet attributeSet) const
         {
             uint32_t groupAmount = (uint32_t)attributeGroupIndex.size();
             uint32_t indexToChoose = groupAmount;
 
             for(uint32_t i = 0; i < groupAmount; i++)
             {
-                if(attributeList.size() <= attributeGroupIndex.getKeyAtValue(i).size())
+                if(attributeSet.size() <= attributeGroupIndex.getKeyAtValue(i).size())
                 {
                     indexToChoose = i;
                     break;
@@ -258,17 +258,17 @@ namespace fea
             return indexToChoose;
         }
 
-        uint32_t AlignedEntityBackend::getSubsetGroupArrayPosition(AttributeList& attributeList) const
+        uint32_t AlignedEntityBackend::getSubsetGroupArrayPosition(AttributeSet& attributeSet) const
         {
             uint32_t result = (uint32_t)-1;
             for(uint32_t i = 0; i < attributeGroupLocation.size(); i++)
             {
                 bool found = true;
 
-                AttributeList tempAttributeList = attributeGroupIndex.getKeyAtValue(i);
-                for(uint32_t j = 0; j < attributeList.size(); j++)
+                AttributeSet tempAttributeSet = attributeGroupIndex.getKeyAtValue(i);
+                for(uint32_t j = 0; j < attributeSet.size(); j++)
                 {
-                    if(!tempAttributeList.hasAttributes(attributeList))
+                    if(std::includes(tempAttributeSet.begin(), tempAttributeSet.end(), attributeSet.begin(), attributeSet.end()))
                         found = false;
                 }
 
@@ -307,9 +307,9 @@ namespace fea
             }
         }
 
-        void AlignedEntityBackend::setSlotsValid(const AttributeList& attributeList, const uint32_t position, const bool state)
+        void AlignedEntityBackend::setSlotsValid(const AttributeSet& attributeSet, const uint32_t position, const bool state)
         {
-            for(auto attribute : attributeList.getSet())
+            for(auto attribute : attributeSet)
             {
                 dataArrays.setEntryValid(attribute, position, state);
             }
@@ -344,14 +344,14 @@ namespace fea
             return createdId;
         }
 
-        void AlignedEntityBackend::validateAttributeList(AttributeList attributeList) const
+        void AlignedEntityBackend::validateAttributeSet(AttributeSet attributeSet) const
         {
-            if(attributeList.size() == 0)
+            if(attributeSet.size() == 0)
             {
                 throw InvalidAttributeException("Error! Zero attributes given", 0);
             }
 
-            for(auto& attribute : attributeList.getSet())
+            for(auto& attribute : attributeSet)
             {
                 if(!dataArrays.attributeIsValid(attribute))
                 {
@@ -418,20 +418,20 @@ namespace fea
                 return result;
 
             std::hash<std::string> hasher;
-            AttributeList attributeList;
+            AttributeSet attributeSet;
             for(auto& attributeString : stringList)
             {
-                attributeList.addAttribute(hasher(attributeString));
+                attributeSet.insert(hasher(attributeString));
             }
 
-            uint32_t arrayPosition = getSubsetGroupArrayPosition(attributeList);
+            uint32_t arrayPosition = getSubsetGroupArrayPosition(attributeSet);
 
             if(arrayPosition == (uint32_t)-1)
             {
                 return result;
             }
 
-            for(auto& attribute : attributeList.getSet())
+            for(auto& attribute : attributeSet)
             {
                 DataContainer tempCont;
                 tempCont.data = dataArrays.getDataPointer(attribute, arrayPosition);

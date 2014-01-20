@@ -18,7 +18,7 @@ namespace fea
             ss << "Error! Entity template '" << temp << "' does not exist!\n";
             throw(EntityException(ss.str()));
         }
-        EntityId createdId = backend->addEntity(entityTemplates.at(temp).attributeList);
+        EntityId createdId = backend->addEntity(entityTemplates.at(temp).attributeSet);
         EntityPtr created = std::make_shared<Entity>(createdId, *this);
         entities.insert(std::pair<EntityId, EntityPtr>(createdId, created));
 
@@ -88,7 +88,7 @@ namespace fea
 
             for(const auto& pair : attributes)
             {
-                tempData.attributeList.addAttribute(hasher(pair.first));
+                tempData.attributeSet.insert(hasher(pair.first));
 
 
                 if(pair.second != "")

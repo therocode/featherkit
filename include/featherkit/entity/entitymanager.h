@@ -6,6 +6,7 @@
 #include <vector>
 #include <stdexcept>
 #include <sstream>
+#include <stdint.h>
 
 namespace fea
 {
@@ -19,7 +20,7 @@ namespace fea
     
     struct EntityTemplateData
     {
-        AttributeList attributeList;
+        AttributeSet attributeSet;
         std::map<std::string, std::string> defaultStrings;
     };
 
