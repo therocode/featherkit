@@ -13,7 +13,7 @@ namespace fea
             class BasicBackendEntity
             {
                 public:
-                    BasicBackendEntity(AttributeList attributeList, BasicEntityBackend& p);
+                    BasicBackendEntity(AttributeSet attributeSet, BasicEntityBackend& p);
                     void setData(const AttributeHash identifier, const char* inData);
                     void getData(const AttributeHash identifier, char* outData) const;
                     bool hasData(const AttributeHash identifier) const;
@@ -24,7 +24,7 @@ namespace fea
 
             public:
             BasicEntityBackend();
-            EntityId addEntity(AttributeList attributeList) override;
+            EntityId addEntity(AttributeSet attributeSet) override;
             void removeEntity(const EntityId id) override;
             void registerAttribute(const AttributeHash identifier, const ElementSize elementSize) override;
             void setData(const AttributeHash identifier, const EntityId id, const char* inData) override;
@@ -49,9 +49,9 @@ namespace fea
          *
          *  This basic implementation is appropriate for most situations where there are not any special needs or demands on the entity system. It implements Entity data storage using std::unordered_map instances that get gradually filled as Entity instances are added. It has no functions in addition to the ones overriden from the EntityBackend base class.
          ***
-         *  @fn virtual int BasicEntityBackend::addEntity(AttributeList attributeList)
-         *  @brief Create a new Entity with the attributes from the given AttributeList.
-         *  @param attributeList The attributes the Entity should have.
+         *  @fn virtual int BasicEntityBackend::addEntity(AttributeSet attributeSet)
+         *  @brief Create a new Entity with the attributes from the given AttributeSet.
+         *  @param attributeSet The attributes the Entity should have.
          ***
          *  @fn virtual void BasicEntityBackend::removeEntity(const int id)
          *  @brief Remove an Entity stored in the BasicEntityBackend.

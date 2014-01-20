@@ -1,7 +1,6 @@
 #include <featherkit/entity/entitymanager.h>
 #include <featherkit/entity/entityexceptions.h>
 #include <featherkit/entity/entity.h>
-#include <featherkit/entity/entitygroup.h>
 #include <sstream>
 
 namespace fea
@@ -18,7 +17,7 @@ namespace fea
             ss << "Error! Entity template '" << temp << "' does not exist!\n";
             throw(EntityException(ss.str()));
         }
-        EntityId createdId = backend->addEntity(entityTemplates.at(temp).attributeList);
+        EntityId createdId = backend->addEntity(entityTemplates.at(temp).attributeSet);
         EntityPtr created = std::make_shared<Entity>(createdId, *this);
         entities.insert(std::pair<EntityId, EntityPtr>(createdId, created));
 
@@ -58,7 +57,7 @@ namespace fea
         entities.erase(id);
     }
     
-    void EntityManager::removeEntities(const EntityGroup group)
+    void EntityManager::removeEntities(const EntitySet group)
     {
         for(auto entity : group)
             removeEntity(entity.lock()->getId());
@@ -88,7 +87,7 @@ namespace fea
 
             for(const auto& pair : attributes)
             {
-                tempData.attributeList.addAttribute(hasher(pair.first));
+                tempData.attributeSet.insert(hasher(pair.first));
 
 
                 if(pair.second != "")
@@ -127,11 +126,11 @@ namespace fea
         }
     }
 
-    EntityGroup EntityManager::getAll() const
+    EntitySet EntityManager::getAll() const
     {
-        EntityGroup all;
+        EntitySet all;
         for(const auto& pair : entities)
-            all.add(pair.second);
+            all.insert(pair.second);
         return all;
     }
     

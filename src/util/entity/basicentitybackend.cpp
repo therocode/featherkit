@@ -7,9 +7,9 @@ namespace fea
 {
     namespace util
     {
-        BasicEntityBackend::BasicBackendEntity::BasicBackendEntity(AttributeList attributeLists, BasicEntityBackend& p) : parent(p)
+        BasicEntityBackend::BasicBackendEntity::BasicBackendEntity(AttributeSet attributeSet, BasicEntityBackend& p) : parent(p)
         {
-            for(auto attribute : attributeLists.getSet())
+            for(auto attribute : attributeSet)
             {
                 attributeData.insert(std::pair<AttributeHash, std::shared_ptr<char> >(attribute, std::shared_ptr<char>(new char[parent.attributes.at(attribute)], [](char* arr) { delete [] arr;} )));
             }
@@ -53,11 +53,11 @@ namespace fea
             nextEntityId = 0;
         }
 
-        EntityId BasicEntityBackend::addEntity(AttributeList attributeList)
+        EntityId BasicEntityBackend::addEntity(AttributeSet attributeSet)
         {
-            if(attributeList.size() > 0)
+            if(attributeSet.size() > 0)
             {
-                for(auto attribute : attributeList.getSet())
+                for(auto attribute : attributeSet)
                 {
                     if(attributes.find(attribute) == attributes.end())
                     {
@@ -77,7 +77,7 @@ namespace fea
                     nextEntityId++;
                 }
 
-                entities.insert(std::pair<EntityId, BasicBackendEntity>(createdId, BasicBackendEntity(attributeList, *this)));
+                entities.insert(std::pair<EntityId, BasicBackendEntity>(createdId, BasicBackendEntity(attributeSet, *this)));
                 return createdId;
             }
             else
