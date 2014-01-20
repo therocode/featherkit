@@ -59,26 +59,18 @@ namespace fea
         }
     }
 
-    void Texture::create(uint32_t w, uint32_t h, const glm::vec3& colour, bool smooth, bool interactive)
-    {
-        create(w, h, colour.r, colour.g, colour.b, smooth, interactive);
-    }
-
-    void Texture::create(uint32_t w, uint32_t h, float r, float g, float b, bool smooth, bool interactive)
+    void Texture::create(uint32_t w, uint32_t h, const Colour& colour, bool smooth, bool interactive)
     {
         uint8_t* pixels = new uint8_t[w * h * 4];
-        uint8_t red = 255 * r;
-        uint8_t green = 255 * g;
-        uint8_t blue = 255 * b;
 
         for(uint32_t x = 0; x < w; x++)
         {
             for(uint32_t y = 0; y < h; y++)
             {
-                pixels[(x + y * w) * 4 + 0] = red;
-                pixels[(x + y * w) * 4 + 1] = green;
-                pixels[(x + y * w) * 4 + 2] = blue;
-                pixels[(x + y * w) * 4 + 3] = 255;
+                pixels[(x + y * w) * 4 + 0] = colour.rAsByte();
+                pixels[(x + y * w) * 4 + 1] = colour.gAsByte();
+                pixels[(x + y * w) * 4 + 2] = colour.bAsByte();
+                pixels[(x + y * w) * 4 + 3] = colour.aAsByte();
             }
         }
         create(w, h, pixels, smooth, interactive);
@@ -98,18 +90,13 @@ namespace fea
         }
     }
     
-    void Texture::setPixel(uint32_t x, uint32_t y, float r, float g, float b, float a)
-    {
-        setPixelAsByte(x, y, r * 255, g * 255, b * 255, a * 255);
-    }
-    
-    void Texture::setPixelAsByte(uint32_t x, uint32_t y, uint8_t r, uint8_t g, uint8_t b, uint8_t a)
+    void Texture::setPixel(uint32_t x, uint32_t y, const Colour& colour)
     {
         uint32_t pixelIndex = (x + y * width) * 4;
-        pixelData[pixelIndex    ] = r;
-        pixelData[pixelIndex + 1] = g;
-        pixelData[pixelIndex + 2] = b;
-        pixelData[pixelIndex + 3] = a;
+        pixelData[pixelIndex    ] = colour.rAsByte();
+        pixelData[pixelIndex + 1] = colour.gAsByte();
+        pixelData[pixelIndex + 2] = colour.bAsByte();
+        pixelData[pixelIndex + 3] = colour.aAsByte();
     }
     
     void Texture::setPixels(std::function<void(uint32_t x, uint32_t y, uint8_t* pixels)> f)
@@ -117,15 +104,10 @@ namespace fea
         f(width, height, pixelData);
     }
 
-    glm::vec4 Texture::getPixel(uint32_t x, uint32_t y) const
-    {
-        return ((glm::vec4)getPixelAsByte(x, y)) / 255.0f;
-    }
-
-    glm::uvec4 Texture::getPixelAsByte(uint32_t x, uint32_t y) const
+    Colour Texture::getPixelAsByte(uint32_t x, uint32_t y) const
     {
         uint32_t pixelIndex = (x + y * width) * 4;
-        return glm::uvec4(pixelData[pixelIndex],
+        return Colour(pixelData[pixelIndex],
                          pixelData[pixelIndex + 1],
                          pixelData[pixelIndex + 2],
                          pixelData[pixelIndex + 3]);

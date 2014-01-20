@@ -1,6 +1,7 @@
 #pragma once
 #include <stdint.h>
 #include <featherkit/rendering/opengl.h>
+#include <featherkit/rendering/colour.h>
 #include <glm/glm.hpp>
 #include <functional>
 
@@ -15,14 +16,11 @@ namespace fea
             Texture& operator=(Texture&& other);
             GLuint getId() const;
             void create(uint32_t w, uint32_t h, const uint8_t* imageData, bool smooth = false, bool interactive = false);
-            void create(uint32_t w, uint32_t h, const glm::vec3& colour, bool smooth = false, bool interactive = false);
-            void create(uint32_t w, uint32_t h, float r, float g, float b, bool smooth = false, bool interactive = false);
+            void create(uint32_t w, uint32_t h, const Colour& colour, bool smooth = false, bool interactive = false);
             void destroy();
-            void setPixel(uint32_t x, uint32_t y, float r, float g, float b, float a = 1.0f);
-            void setPixelAsByte(uint32_t x, uint32_t y, uint8_t r, uint8_t g, uint8_t b, uint8_t a = 255);
+            void setPixel(uint32_t x, uint32_t y, const Colour& colour);
             void setPixels(std::function<void(uint32_t x, uint32_t y, uint8_t* pixels)> f);
-            glm::vec4 getPixel(uint32_t x, uint32_t y) const;
-            glm::uvec4 getPixelAsByte(uint32_t x, uint32_t y) const;
+            Colour getPixelAsByte(uint32_t x, uint32_t y) const;
             void update();
             ~Texture();
         private:
@@ -72,7 +70,7 @@ namespace fea
      *  @param smooth If this is true, the texture will be smoothed using nearest neighbour interpolation.
      *  @param interactive If this is true, pixels can be accessed and updated using the setPixel and getPixel methods.
      ***
-     *  @fn void Texture::create(uint32_t w, uint32_t h, const glm::vec3& colour, bool smooth = false, bool interactive = false)
+     *  @fn void Texture::create(uint32_t w, uint32_t h, const Colour& colour, bool smooth = false, bool interactive = false)
      *  @brief Create a texture filled with a colour.
      *  
      *  When the texture is successfully created, it can be used by drawables. Keep in mind that the texture must be kept alive as long as it is in use by any drawable. If the texture is created in interactive mode, it can be used to access and updated pixels at any time.
@@ -83,43 +81,16 @@ namespace fea
      *  @param smooth If this is true, the texture will be smoothed using nearest neighbour interpolation.
      *  @param interactive If this is true, pixels can be accessed and updated using the setPixel and getPixel methods.
      ***
-     *  @fn void Texture::create(uint32_t w, uint32_t h, float r, float g, float b, bool smooth = false, bool interactive = false)
-     *  @brief Create a texture filled with a colour.
-     *  
-     *  When the texture is successfully created, it can be used by drawables. Keep in mind that the texture must be kept alive as long as it is in use by any drawable. If the texture is created in interactive mode, it can be used to access and updated pixels at any time.
-     *
-     *  @param w Width of the texture in pixels.
-     *  @param h Height of the texture in pixels.
-     *  @param r Red component of the colour to fill the texture with.
-     *  @param g Green component of the colour to fill the texture with.
-     *  @param b Blue component of the colour to fill the texture with.
-     *  @param smooth If this is true, the texture will be smoothed using nearest neighbour interpolation.
-     *  @param interactive If this is true, pixels can be accessed and updated using the Texture::setPixel and Texture::getPixel methods.
-     ***
      *  @fn void Texture::destroy()
      *  @brief Release the resources used by the texture. The texture will be invalid afterwards.
      ***
-     *  @fn void Texture::setPixel(uint32_t x, uint32_t y, float r, float g, float b, float a = 1.0f)
+     *  @fn void Texture::setPixel(uint32_t x, uint32_t y, const Colour& colour)
      *  @brief Set the colour of a particular pixel.
      *
      *  Setting a pixel using this method does not change the Texture until the Texture::update method has been called. This method requires the texture to be set to interactive.
      *  @param x X index of the pixel.
      *  @param y Y index of the pixel.
-     *  @param r Red component of the colour to set it to.
-     *  @param g Green component of the colour to set it to.
-     *  @param b Blue component of the colour to set it to.
-     *  @param a Alpha component of the colour to set it to.
-     ***
-     *  @fn void Texture::setPixelAsByte(uint32_t x, uint32_t y, uint8_t r, uint8_t g, uint8_t b, uint8_t a = 255)
-     *  @brief Set the colour of a particular pixel using a byte format.
-     *
-     *  Setting a pixel using this method does not change the Texture until the Texture::update method has been called. This method requires the texture to be set to interactive.
-     *  @param x X index of the pixel.
-     *  @param y Y index of the pixel.
-     *  @param r Red component of the colour to set it to.
-     *  @param g Green component of the colour to set it to.
-     *  @param b Blue component of the colour to set it to.
-     *  @param a Alpha component of the colour to set it to.
+     *  @param colour Colour to set the pixel to.
      ***
      *  @fn void Texture::setPixels(std::function<void(uint32_t x, uint32_t y, uint8_t* pixels)> f)
      *  @brief Set several pixels at once using an arbitrary function.
@@ -127,19 +98,12 @@ namespace fea
      *  Setting pixels using this method does not change the Texture until the Texture::update method has been called. This method requires the texture to be set to interactive.
      *  @param f Function to perform the change operation. The function will be called with the texture's dimensions and image data as arguments.
      ***
-     *  @fn glm::vec4 Texture::getPixel(uint32_t x, uint32_t y) const
-     *  @brief Access the colour value of a pixel.
-     *
-     *  This method requires the texture to be set to interactive.
-     *
-     *  @return Vector with the colour.
-     ***
-     *  @fn glm::uvec4 Texture::getPixelAsByte(uint32_t x, uint32_t y) const
+     *  @fn Colour Texture::getPixelAsByte(uint32_t x, uint32_t y) const
      *  @brief Access the colour value of a pixel in a byte format.
      *
      *  This method requires the texture to be set to interactive.
      *
-     *  @return Vector with the colour.
+     *  @return The colour value of the pixel.
      ***
      *  @fn void Texture::update()
      *  @brief Update the texture with any changes made using any of the Texture::setPixel methods.
