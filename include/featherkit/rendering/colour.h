@@ -50,8 +50,6 @@ namespace fea
             float blue;
             float alpha;
     };
-}
-
     /** @addtogroup Render2D
      *@{
      *  @class Colour
@@ -206,3 +204,4 @@ namespace fea
      *  @param The value of the alpha channel to set from 0 to 255.
      ***
      */
+}
