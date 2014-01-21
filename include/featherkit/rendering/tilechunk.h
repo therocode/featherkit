@@ -69,7 +69,7 @@ namespace fea
      *  @param x X coordinate of the tile to unset.
      *  @param y Y coordinate of the tile to unset.
      ***
-     *  @fn void TileChunk::fill(const glm::vec2& startCoords, const glm::vec2& endCoords)
+     *  @fn void TileChunk::fillTexCoords(const glm::vec2& startCoords, const glm::vec2& endCoords)
      *  @brief Set all tiles in the chunk to a specific value.
      *  
      *  @param startCoords Vector containing the upper left coordinates of the texture rectangle to use to display the tiles. Given in percent.

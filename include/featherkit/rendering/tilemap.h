@@ -107,12 +107,6 @@ namespace fea
      ***
      *  @var TileDefinition::ticksUntilChange
      *  @brief The amount of ticks to display this tile before it is changed to the one defined using TileDefinition::nextTileId.
-     *
-     *  Texts can be scaled and positioned, but not rotated.
-     ***
-     *  @fn Text::Text(const std::string& t)
-     *  @brief Construct a Text drawable with the given string.
-     *  @param t Text string.
      ***
      *  @class TileMapException
      *  @brief Exception used by the TileMap when something goes wrong.

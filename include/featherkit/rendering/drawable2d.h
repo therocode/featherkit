@@ -161,7 +161,7 @@ namespace fea
      ***
      *  @fn void Drawable2D::setColour(const glm::vec3& c)
      *  @brief Set the colour.
-     *  @param Colour to set to.
+     *  @param c Colour to set to.
      ***
      *  @fn virtual RenderInfo Drawable2D::getRenderInfo() const
      *  @brief Returns data used for rendering.

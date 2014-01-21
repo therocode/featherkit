@@ -75,7 +75,7 @@ namespace fea
      *
      *  Used after setup has been called and when the renderer is not needed anymore. The underlying purpose of this function may vary depending on the backend used.
      ***
-     *  @fn void clear(const Colour& colour = Colour())
+     *  @fn void Renderer2D::clear(const Colour& colour = Colour())
      *  @brief Clear the screen, filling it with the given colour.
      *
      *  Usually called once every frame as a first step of the rendering process to clear out what was drawn the last frame.

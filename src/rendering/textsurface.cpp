@@ -3,7 +3,7 @@
 
 namespace fea
 {
-    Writing::Writing(const std::wstring& t, const Font* f, const glm::vec2& p, const float s, const Colour& c) : text(t), font(f), penPosition(p), scale(s), colour(c)
+    TextSurface::Writing::Writing(const std::wstring& t, const Font* f, const glm::vec2& p, const float s, const Colour& c) : text(t), font(f), penPosition(p), scale(s), colour(c)
     {
     }
     
@@ -101,6 +101,7 @@ namespace fea
     {
         vertices.clear();
         texCoords.clear();
+        vertexColours.clear();
     }
             
     void TextSurface::addText(const std::wstring& text)
@@ -111,6 +112,7 @@ namespace fea
 
         std::vector<float> verticesToAdd;
         std::vector<float> texCoordsToAdd;
+        std::vector<float> coloursToAdd;
         glm::vec2 penTempPosition = pen;
 
 
@@ -162,19 +164,19 @@ namespace fea
                     s0, t0,
                     s1, t1,
                     s1, t0});
+            coloursToAdd.insert(coloursToAdd.end(), {colour.r(), colour.g(), colour.b(), 1.0f,
+                                colour.r(), colour.g(), colour.b(), 1.0f,
+                                colour.r(), colour.g(), colour.b(), 1.0f,
+                                colour.r(), colour.g(), colour.b(), 1.0f,
+                                colour.r(), colour.g(), colour.b(), 1.0f,
+                                colour.r(), colour.g(), colour.b(), 1.0f});
             penTempPosition.x += glyph->advance_x * scale;
         }
 
         pen = penTempPosition;
         vertices.insert(vertices.end(), verticesToAdd.begin(), verticesToAdd.end());
         texCoords.insert(texCoords.end(), texCoordsToAdd.begin(), texCoordsToAdd.end());
-
-        vertexColours.push_back(colour.r()); vertexColours.push_back(colour.g()); vertexColours.push_back(colour.b()); vertexColours.push_back(1.0f);
-        vertexColours.push_back(colour.r()); vertexColours.push_back(colour.g()); vertexColours.push_back(colour.b()); vertexColours.push_back(1.0f);
-        vertexColours.push_back(colour.r()); vertexColours.push_back(colour.g()); vertexColours.push_back(colour.b()); vertexColours.push_back(1.0f);
-        vertexColours.push_back(colour.r()); vertexColours.push_back(colour.g()); vertexColours.push_back(colour.b()); vertexColours.push_back(1.0f);
-        vertexColours.push_back(colour.r()); vertexColours.push_back(colour.g()); vertexColours.push_back(colour.b()); vertexColours.push_back(1.0f);
-        vertexColours.push_back(colour.r()); vertexColours.push_back(colour.g()); vertexColours.push_back(colour.b()); vertexColours.push_back(1.0f);
+        vertexColours.insert(vertexColours.end(), coloursToAdd.begin(), coloursToAdd.end());
     }
 
 
