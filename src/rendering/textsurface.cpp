@@ -3,7 +3,7 @@
 
 namespace fea
 {
-    Writing::Writing(const std::wstring& t, const Font* f, const glm::vec2& p, const float s, const Colour& c) : text(t), font(f), penPosition(p), scale(s), colour(c)
+    TextSurface::Writing::Writing(const std::wstring& t, const Font* f, const glm::vec2& p, const float s, const Colour& c) : text(t), font(f), penPosition(p), scale(s), colour(c)
     {
     }
     
@@ -66,7 +66,7 @@ namespace fea
     RenderInfo TextSurface::getRenderInfo() const
     {
         RenderInfo temp = Drawable2D::getRenderInfo();
-        std::hash<std::string> stringHasher;
+        std::hash<std:string> stringHasher;
 
         temp.uniforms.push_back(Uniform(stringHasher("texture"), TEXTURE, atlas->id));
         return temp;
