@@ -28,16 +28,15 @@ namespace fea
         enum { value = 1};
     };
 
+    class LooseNTreeException : public std::runtime_error
+    {
+        public:
+            LooseNTreeException(std::string message) : std::runtime_error(message) { }
+    };
+
     template<uint32_t Dimensions, uint32_t Depth, bool StaticAllocation>
     class LooseNTree
     {
-        public:
-            class LooseNTreeException : public std::runtime_error
-            {
-                public:
-                    LooseNTreeException(std::string message) : std::runtime_error(message) { }
-            };
-
             class Vector
             {
                 public:
@@ -140,7 +139,8 @@ namespace fea
                 uint32_t parent;
             };
 
-            using Entry = uint32_t;
+        public:
+            using TreeEntry = size_t;
 
             LooseNTree(const Vector& s) : size(s)
             {
@@ -220,7 +220,7 @@ namespace fea
                     }
                     nextLooseBounds = nextLooseBounds / 2.0f;
                 }
-                placeEntryInDepth(id, pos, depth - 1); //correct it
+                placeTreeEntryInDepth(id, pos, depth - 1); //correct it
             }
 
             void remove(uint32_t id)
@@ -232,7 +232,7 @@ namespace fea
                     throw LooseNTreeException(ss.str());
                 }
                 uint32_t previousNode = entryLocations.at(id);
-                removeEntry(id);
+                removeTreeEntry(id);
 
                 if(!StaticAllocation)
                 {
@@ -280,8 +280,8 @@ namespace fea
                 }
 
                 uint32_t previousNode = entryLocations.at(id);
-                removeEntry(id);
-                placeEntryInDepth(id, pos, depth);
+                removeTreeEntry(id);
+                placeTreeEntryInDepth(id, pos, depth);
 
                 if(!StaticAllocation)
                 {
@@ -299,18 +299,18 @@ namespace fea
                 }
             }
 
-            std::vector<Entry> get(const Vector& point) const
+            std::vector<TreeEntry> get(const Vector& point) const
             {
-                std::vector<Entry> result;
+                std::vector<TreeEntry> result;
 
                 getFromNode(point / size, 0, result);
 
                 return result;
             }
 
-            std::vector<Entry> get(const Vector& start, const Vector& end) const
+            std::vector<TreeEntry> get(const Vector& start, const Vector& end) const
             {
-                std::vector<Entry> result;
+                std::vector<TreeEntry> result;
 
                 getFromNode(start / size, end / size, 0, result);
 
@@ -329,7 +329,7 @@ namespace fea
             }
 
         private:
-            void placeEntryInDepth(const Entry& entry, const Vector& pos, uint32_t depth)
+            void placeTreeEntryInDepth(const TreeEntry& entry, const Vector& pos, uint32_t depth)
             {
                 Vector positionPercent = pos / size;
                 Node* currentNode = &nodes[0];
@@ -378,7 +378,7 @@ namespace fea
                 entryLocations.emplace(entry, targetNodeIndex);
             }
 
-            void removeEntry(uint32_t id)
+            void removeTreeEntry(uint32_t id)
             {
                 auto range = entries.equal_range(entryLocations.at(id));
                 bool existed = false;
@@ -395,7 +395,7 @@ namespace fea
                 entryLocations.erase(id);
             }
 
-            void getFromNode(const Vector& positionPercentage, uint32_t nodeId, std::vector<Entry>& result) const
+            void getFromNode(const Vector& positionPercentage, uint32_t nodeId, std::vector<TreeEntry>& result) const
             {
                 auto contained = entries.equal_range(nodeId);
                 
@@ -446,7 +446,7 @@ namespace fea
                 }
             }
 
-            void getFromNode(const Vector& startPercentage, const Vector& endPercentage, uint32_t nodeId, std::vector<Entry>& result) const
+            void getFromNode(const Vector& startPercentage, const Vector& endPercentage, uint32_t nodeId, std::vector<TreeEntry>& result) const
             {
                 auto contained = entries.equal_range(nodeId);
                 
@@ -601,7 +601,7 @@ namespace fea
                 }
                 
                 auto range = entries.equal_range(lastNode);
-                std::vector<Entry> entriesToMove;
+                std::vector<TreeEntry> entriesToMove;
                 for(auto iter = range.first; iter != range.second; iter++)
                 {
                     entriesToMove.push_back(iter->second);
@@ -623,8 +623,76 @@ namespace fea
             Node* nodes;
             uint32_t allocatedNodesCount;
             uint32_t usedNodesCount;
-            std::unordered_map<Entry, uint32_t> entryLocations;
-            std::unordered_multimap<uint32_t, Entry> entries;
+            std::unordered_map<TreeEntry, uint32_t> entryLocations;
+            std::unordered_multimap<uint32_t, TreeEntry> entries;
             float moveCache[Pow<2, Dimensions>::value][Dimensions];
     };
+
+    /** @addtogroup Structure
+     *@{
+     *  @typedef TreeEntry
+     *  @class LooseNTreeException
+     *  @class LooseNTree
+     *@}
+     ***
+     *  @typedef TreeEntry
+     *  @brief An entry in the tree.
+     ***
+     *  @class LooseNTreeException
+     *  @brief Exception used by the LooseNTree when something goes wrong.
+     ***
+     *  @fn LooseNTreeException::LooseNTreeException(std::string message)
+     *  @brief Construct an exception to throw containing a message.
+     *  @param message Message further describing the error.
+     ***
+     *  @class LooseNTree
+     *  @brief Tree structure for keeping track of possibly overlapping objects.
+     *
+     *  This class generalises the concept of a loose quadtree/octree to make it work in any dimension. The amount of dimensions are passed as template parameters. The tree can be used to track objects with a position and size, to return possible overlaps. The node depth of the tree is also configured with a template parameter as well as if the tree should allocate all memory possibly needed at once, or if it should dynamically grow depending on need.
+     *
+     *  @tparam Dimensions Amount of dimensions. 2 makes a quadtree and 3 makes an octree.
+     *  @tparam Depth Node depth. The deeper the tree, the bigger memory footprint, but might reduce false positives when returning possible overlaps.
+     *  @tparam StaticAllocation If this is set to true, the tree allocates all nodes at once. This increases performance of the tree, but with bigger depth and dimensions, the memory usage quickly goes out of hand.
+     ***
+     *  @fn LooseNTree::LooseNTree(const Vector& s)
+     *  @brief Construct a tree with the given size.
+     *  @param s Size.
+     ***
+     *  @fn void LooseNTree::add(uint32_t id, const Vector& pos, const Vector& s)
+     *  @brief Add an object to track.
+     *  
+     *  The added object must have a unique ID. If the object moves, the position must be updated using the LooseNTree::move function.
+     *  @param id ID of the object to track.
+     *  @pos Position of the object.
+     *  @s Size of the object. Given as an Axis aligned bounding box.
+     ***
+     *  @fn void LooseNTree::remove(uint32_t id)
+     *  @brief Stop tracking an object.
+     *  
+     *  @param id ID of the object to stop tracking.
+     ***
+     *  @fn void LooseNTree::move(uint32_t id, const Vector& pos)
+     *  @brief Move a tracked object.
+     *
+     *  This must be called to keep tracked objects up to date.
+     *  @param id ID of the object to move.
+     *  @param pos New position of the object.
+     ***
+     *  @fn std::vector<TreeEntry> LooseNTree::get(const Vector& point) const
+     *  @brief Return all tracked objects which possibly overlaps a certain point.
+     *  @param point Point to check at.
+     *  @return Objects that might overlap the point.
+     ***
+     *  @fn std::vector<TreeEntry> LooseNTree::get(const Vector& start, const Vector& end) const
+     *  @brief Return all tracked objects which possible overlaps a certain box.
+     *  @param start Starting corner of the box to check against.
+     *  @param end Ending corner of the box to check against.
+     *  @return Objects that might overlap the box.
+     ***
+     *  @fn void LooseNTree::clear()
+     *  @brief Stop tracking all objects.
+     ***
+     *  @fn LooseNTree::~LooseNTree()
+     *  @brief Destroy the tree.
+     ***/
 }
