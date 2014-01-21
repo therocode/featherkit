@@ -66,7 +66,7 @@ namespace fea
     RenderInfo TextSurface::getRenderInfo() const
     {
         RenderInfo temp = Drawable2D::getRenderInfo();
-        std::hash<std:string> stringHasher;
+        std::hash<std::string> stringHasher;
 
         temp.uniforms.push_back(Uniform(stringHasher("texture"), TEXTURE, atlas->id));
         return temp;
