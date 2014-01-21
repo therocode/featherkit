@@ -15,7 +15,7 @@ namespace fea
         const Font* font;
         const glm::vec2 penPosition;
         const float scale;
-        const Colour colour;//
+        const Colour colour;
     };
 
     class TextSurface : public Drawable2D
