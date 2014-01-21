@@ -106,6 +106,6 @@ namespace fea
      *  @param indentation Optional indentation to deviate from the horizontal alignment.
      ***
      *  @fn void TextSurface::clear()
-     *  @Clear all text written on the text area.
+     *  @brief Clear all text written on the text area.
      ***/
 }

@@ -50,7 +50,7 @@ namespace fea
      *  @brief Set the size of the font.
      *  @param size Size to set to.
      ***
-     *  @fn const Font::std::string& getPath() const
+     *  @fn const std::string& Font::getPath() const
      *  @brief Get the current path in use.
      *  @return The path.
      ***
