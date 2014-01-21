@@ -663,8 +663,8 @@ namespace fea
      *  
      *  The added object must have a unique ID. If the object moves, the position must be updated using the LooseNTree::move function.
      *  @param id ID of the object to track.
-     *  @pos Position of the object.
-     *  @s Size of the object. Given as an Axis aligned bounding box.
+     *  @param pos Position of the object.
+     *  @param s Size of the object. Given as an Axis aligned bounding box.
      ***
      *  @fn void LooseNTree::remove(uint32_t id)
      *  @brief Stop tracking an object.
