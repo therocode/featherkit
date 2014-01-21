@@ -630,12 +630,12 @@ namespace fea
 
     /** @addtogroup Structure
      *@{
-     *  @typedef TreeEntry
+     *  @typedef LooseNTree::TreeEntry
      *  @class LooseNTreeException
      *  @class LooseNTree
      *@}
      ***
-     *  @typedef TreeEntry
+     *  @typedef LooseNTree::TreeEntry
      *  @brief An entry in the tree.
      ***
      *  @class LooseNTreeException
