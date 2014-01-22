@@ -187,15 +187,6 @@ if(BUILD_UI)
         file(GLOB ui_sdl2_backend_header_files "include/featherkit/util/window/sdl2/*.h" "include/featherkit/util/input/sdl2/*.h")
 	endif()
 
-	#find_package(GLew)
-    #if(GLEW_FOUND)
-    #    include_directories(${GLEW_INCLUDE_DIRS})
-	#elseif(SDK_PATH)
-    #    add_definitions(-DGLEW_STATIC)
-    #   include_directories(${SDK_PATH}/glew/include)
-	#	set(glew_file ${SDK_PATH}/glew/glew.c ${glew_file})
-    #endif(GLEW_FOUND)
-
     add_library(${project_name}-ui ${SHARED_OR_STATIC} ${glew_file} ${ui_header_files} ${ui_source_files} ${ui_util_source_files} ${ui_util_header_files} ${ui_sfml_backend_source_files} ${ui_sfml_backend_header_files} ${ui_sdl_backend_source_files} ${ui_sdl_backend_header_files} ${ui_sdl2_backend_source_files} ${ui_sdl2_backend_header_files})
 
     if(${BUILD_SFMLBACKENDS})

@@ -1,5 +1,4 @@
 #pragma once
-#define NO_SDL_GLEXT
 #include <featherkit/input/inputbackend.h>
 #include <glm/glm.hpp>
 #include <SDL.h>
