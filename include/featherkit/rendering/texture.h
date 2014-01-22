@@ -20,7 +20,7 @@ namespace fea
             void destroy();
             void setPixel(uint32_t x, uint32_t y, const Colour& colour);
             void setPixels(std::function<void(uint32_t x, uint32_t y, uint8_t* pixels)> f);
-            Colour getPixelAsByte(uint32_t x, uint32_t y) const;
+            Colour getPixel(uint32_t x, uint32_t y) const;
             void update();
             ~Texture();
         private:
@@ -98,8 +98,8 @@ namespace fea
      *  Setting pixels using this method does not change the Texture until the Texture::update method has been called. This method requires the texture to be set to interactive.
      *  @param f Function to perform the change operation. The function will be called with the texture's dimensions and image data as arguments.
      ***
-     *  @fn Colour Texture::getPixelAsByte(uint32_t x, uint32_t y) const
-     *  @brief Access the colour value of a pixel in a byte format.
+     *  @fn Colour Texture::getPixel(uint32_t x, uint32_t y) const
+     *  @brief Access the colour value of a pixel.
      *
      *  This method requires the texture to be set to interactive.
      *
