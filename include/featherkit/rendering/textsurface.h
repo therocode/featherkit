@@ -2,7 +2,6 @@
 #include <featherkit/freetype-gl/texture-atlas.h>
 #include <featherkit/freetype-gl/texture-font.h>
 #include <featherkit/rendering/drawable2d.h>
-#include <featherkit/rendering/text.h>
 #include <featherkit/rendering/font.h>
 #include <unordered_map>
 
