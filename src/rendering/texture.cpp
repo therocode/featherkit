@@ -104,7 +104,7 @@ namespace fea
         f(width, height, pixelData);
     }
 
-    Colour Texture::getPixelAsByte(uint32_t x, uint32_t y) const
+    Colour Texture::getPixel(uint32_t x, uint32_t y) const
     {
         uint32_t pixelIndex = (x + y * width) * 4;
         return Colour(pixelData[pixelIndex],
