@@ -5,10 +5,6 @@
 
 namespace fea
 {
-    EntityManager::EntityManager(EntityBackend* b) : backend(b)
-    {
-    }
-
     WeakEntityPtr EntityManager::createEntity(const EntityTemplate& temp)
     {
         if(entityTemplates.find(temp) == entityTemplates.end())
@@ -17,7 +13,7 @@ namespace fea
             ss << "Error! Entity template '" << temp << "' does not exist!\n";
             throw(EntityException(ss.str()));
         }
-        EntityId createdId = backend->addEntity(entityTemplates.at(temp).attributeSet);
+        EntityId createdId;// = dataStorage->addEntity(entityTemplates.at(temp).attributeSet);
         EntityPtr created = std::make_shared<Entity>(createdId, *this);
         entities.insert(std::pair<EntityId, EntityPtr>(createdId, created));
 
@@ -53,7 +49,7 @@ namespace fea
     
     void EntityManager::removeEntity(const EntityId id)
     {
-        backend->removeEntity(id);
+        //dataStorage->removeEntity(id);
         entities.erase(id);
     }
     
@@ -66,7 +62,7 @@ namespace fea
     void EntityManager::registerAttribute(const std::string& attribute, const uint32_t size)
     {
         std::hash<std::string> hasher;
-        backend->registerAttribute(hasher(attribute), size);
+        //dataStorage->registerAttribute(hasher(attribute), size);
     }
 
     void EntityManager::registerAttributes(const std::map<std::string, uint32_t>& attributes)
@@ -74,7 +70,7 @@ namespace fea
         std::hash<std::string> hasher;
         for(const auto& pair : attributes)
         {
-            backend->registerAttribute(hasher(pair.first), pair.second);
+            //dataStorage->registerAttribute(hasher(pair.first), pair.second);
         }
     }
 
@@ -114,16 +110,16 @@ namespace fea
     void EntityManager::registerDefaultSetter(std::string attribute, std::function<void(std::string, std::vector<std::string>&, WeakEntityPtr)> defaultFunc)
     {
         std::hash<std::string> hasher;
-        if(backend->attributeIsValid(hasher(attribute)))
-        {
-            defaultSetters.insert(std::pair<std::string, std::function<void(std::string, std::vector<std::string>&, WeakEntityPtr)> >(attribute, defaultFunc));
-        }
-        else
-        {
-            std::stringstream ss;
-            ss << "Error! Cannot register default function for attribute '" << attribute << "' since it isn't valid!\n";
-            throw(EntityException(ss.str()));
-        }
+        //if(dataStorage->attributeIsValid(hasher(attribute)))
+        //{
+        //    defaultSetters.insert(std::pair<std::string, std::function<void(std::string, std::vector<std::string>&, WeakEntityPtr)> >(attribute, defaultFunc));
+        //}
+        //else
+        //{
+        //    std::stringstream ss;
+        //    ss << "Error! Cannot register default function for attribute '" << attribute << "' since it isn't valid!\n";
+        //    throw(EntityException(ss.str()));
+        //}
     }
 
     EntitySet EntityManager::getAll() const
@@ -137,7 +133,7 @@ namespace fea
     bool EntityManager::hasAttribute(const std::string& attribute, const EntityId id) const
     {
         std::hash<std::string> hasher;
-        return backend->hasData(hasher(attribute), id);
+        return true;//dataStorage->hasData(hasher(attribute), id);
     }
 
     void EntityManager::removeAll()
@@ -151,6 +147,6 @@ namespace fea
         entities.clear();
         entityTemplates.clear();
         defaultSetters.clear();
-        backend->clear();
+        //dataStorage->clear();
     }
 }

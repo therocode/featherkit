@@ -1,5 +1,4 @@
 #pragma once
-#include <featherkit/entity/entitybackend.h>
 #include <featherkit/entity/entityexceptions.h>
 #include <memory>
 #include <map>
@@ -7,6 +6,7 @@
 #include <stdexcept>
 #include <sstream>
 #include <stdint.h>
+#include <set>
 
 namespace fea
 {
@@ -17,7 +17,9 @@ namespace fea
     using EntityTemplate = std::string;
     using EntityId = uint32_t;
     using EntitySet = std::set<WeakEntityPtr, std::owner_less<WeakEntityPtr>>;
-    
+    using AttributeHash = size_t;
+    using AttributeSet = std::set<AttributeHash>;
+
     struct EntityTemplateData
     {
         AttributeSet attributeSet;
@@ -27,7 +29,6 @@ namespace fea
     class EntityManager
     {
         public:
-            EntityManager(EntityBackend* b);
             WeakEntityPtr createEntity(const EntityTemplate& templates);
             WeakEntityPtr getEntity(EntityId id) const;
             void removeEntity(const EntityId id);
@@ -48,7 +49,6 @@ namespace fea
             void removeAll();
             void reset();
         private:
-            std::unique_ptr<EntityBackend> backend;
             std::map<EntityTemplate, EntityTemplateData> entityTemplates;
             std::map<EntityId, EntityPtr> entities;
             std::map<std::string, std::function<void(std::string, std::vector<std::string>&, WeakEntityPtr)> > defaultSetters;
@@ -60,7 +60,7 @@ namespace fea
         std::hash<std::string> hasher;
         try
         {
-            backend->getData(hasher(attribute), id, (char*) outData);
+            //backend->getData(hasher(attribute), id, (char*) outData);
         }
         catch(InvalidAttributeException)
         {
@@ -76,7 +76,7 @@ namespace fea
         std::hash<std::string> hasher;
         try
         {
-            backend->setData(hasher(attribute), id, (char*) inData);
+            //backend->setData(hasher(attribute), id, (char*) inData);
         }
         catch(InvalidAttributeException)
         {
@@ -93,10 +93,10 @@ namespace fea
         size_t hashed = hasher(attribute);
 
         DataType temp;
-        backend->getData(hashed, id, (char*) &temp);
+        //backend->getData(hashed, id, (char*) &temp);
         temp = temp + *inData;
 
-        backend->setData(hashed, id, (char*) &temp);
+        //backend->setData(hashed, id, (char*) &temp);
     }
     /** @addtogroup EntitySystem
      *@{
@@ -136,10 +136,6 @@ namespace fea
      *  Prior to creating any Entity instances, attributes and entity templates must be registered. If an entity template is used which is either not registered, or has unregistered attributes, an appropriate exception will be thrown. Registration is done using EntityManager::registerAttribute and EntityManager::registerEntityTemplate. Using the functions EntityManager::registerAttributes and EntityManager::registerEntityTemplates, templates and attributes can be loaded many at once, which is useful when for instance loading from file. 
      *
      *  The EntityManager relies on an EntityBackend which is responsible of providing a data structure for the EntityManager to store its data in. The underlying implementation of these may vary and have different pros and cons. 
-     ***
-     *  @fn EntityManager::EntityManager(EntityBackend* b)
-     *  @brief Construct an EntityManager that will use the provided EntityBackend.
-     *  @param b Backend to be used. The backend is stored internally as an std::unique_ptr and the memory of it will therefore be managed.
      ***
      *  @fn WeakEntityPtr EntityManager::createEntity(const EntityTemplate& temp)
      *  @brief Create an Entity of the given EntityTemplate.

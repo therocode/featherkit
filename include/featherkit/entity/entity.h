@@ -23,15 +23,15 @@ namespace fea
             EntityId getId() const;
         private:
             EntityId id;
-            EntityManager& entityManager;
+            EntityManager& entityDatabase;
     };
 
     template<class DataType>
     bool Entity::getAttributeSafe(const std::string& attribute, DataType* outData) const
     {
-        if(entityManager.hasAttribute(attribute, id))
+        if(entityDatabase.hasAttribute(attribute, id))
         {
-            entityManager.getAttribute<DataType>(attribute, id, outData);
+            entityDatabase.getAttribute<DataType>(attribute, id, outData);
             return true;
         }
         return false;
@@ -40,9 +40,9 @@ namespace fea
     template<class DataType>
     bool Entity::setAttributeSafe(const std::string& attribute, const DataType* inData) const
     {
-        if(entityManager.hasAttribute(attribute, id))
+        if(entityDatabase.hasAttribute(attribute, id))
         {
-            entityManager.setAttribute<DataType>(attribute, id, inData);
+            entityDatabase.setAttribute<DataType>(attribute, id, inData);
             return true;
         }
         return false;
@@ -51,9 +51,9 @@ namespace fea
     template<class DataType>
     bool Entity::addToAttributeSafe(const std::string& attribute, const DataType* inData) const
     {
-        if(entityManager.hasAttribute(attribute, id))
+        if(entityDatabase.hasAttribute(attribute, id))
         {
-            entityManager.addToAttribute<DataType>(attribute, id, inData);
+            entityDatabase.addToAttribute<DataType>(attribute, id, inData);
             return true;
         }
         return false;
@@ -63,20 +63,20 @@ namespace fea
     DataType Entity::getAttribute(const std::string& attribute) const
     {
         DataType result;
-        entityManager.getAttribute<DataType>(attribute, id, &result);
+        entityDatabase.getAttribute<DataType>(attribute, id, &result);
         return result;
     }
 
     template<class DataType>
     void Entity::setAttribute(const std::string& attribute, DataType value) const
     {
-        entityManager.setAttribute<DataType>(attribute, id, &value);
+        entityDatabase.setAttribute<DataType>(attribute, id, &value);
     }
 
     template<class DataType>
     void Entity::addToAttribute(const std::string& attribute, DataType value) const
     {
-        entityManager.addToAttribute<DataType>(attribute, id, &value);
+        entityDatabase.addToAttribute<DataType>(attribute, id, &value);
     }
 
     /** @addtogroup EntitySystem
