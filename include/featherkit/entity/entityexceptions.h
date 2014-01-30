@@ -14,8 +14,8 @@ namespace fea
     class InvalidAttributeException : public std::runtime_error 
     {
         public:
-            InvalidAttributeException(const std::string& m, const AttributeHash h);
-            AttributeHash hash;
+            InvalidAttributeException(const std::string& m, const std::string& n);
+            std::string name;
     };
 
     class EntityException : public std::runtime_error 
@@ -45,7 +45,7 @@ namespace fea
      *  @fn InvalidAttributeException::InvalidAttributeException
      *  @brief Construct an exception to throw containing a message.
      *  @param m Message further describing the error.
-     *  @param h AttributeHash describing which attribute the error is related to.
+     *  @param h String describing which attribute the error is related to.
      ***
      *  @var InvalidAttributeException::hash 
      *  @brief The AttributeHash given to the constructor will be stored here.

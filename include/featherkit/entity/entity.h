@@ -8,17 +8,11 @@ namespace fea
         public:
             Entity(EntityId i, EntityManager& m);
             template<class DataType>
-            bool getAttributeSafe(const std::string& attribute, DataType* outData) const;
-            template<class DataType>
-            bool setAttributeSafe(const std::string& attribute, const DataType* inData) const;
-            template<class DataType>
-            bool addToAttributeSafe(const std::string& attribute, const DataType* inData) const;
-            template<class DataType>
             DataType getAttribute(const std::string& attribute) const;
             template<class DataType>
-            void setAttribute(const std::string& attribute, DataType value) const;
+            void setAttribute(const std::string& attribute, const DataType& value) const;
             template<class DataType>
-            void addToAttribute(const std::string& attribute, DataType value) const;
+            void addToAttribute(const std::string& attribute, const DataType& value) const;
             bool hasAttribute(const std::string& attribute) const;
             EntityId getId() const;
         private:
@@ -27,56 +21,21 @@ namespace fea
     };
 
     template<class DataType>
-    bool Entity::getAttributeSafe(const std::string& attribute, DataType* outData) const
-    {
-        if(entityDatabase.hasAttribute(attribute, id))
-        {
-            entityDatabase.getAttribute<DataType>(attribute, id, outData);
-            return true;
-        }
-        return false;
-    }
-
-    template<class DataType>
-    bool Entity::setAttributeSafe(const std::string& attribute, const DataType* inData) const
-    {
-        if(entityDatabase.hasAttribute(attribute, id))
-        {
-            entityDatabase.setAttribute<DataType>(attribute, id, inData);
-            return true;
-        }
-        return false;
-    }
-
-    template<class DataType>
-    bool Entity::addToAttributeSafe(const std::string& attribute, const DataType* inData) const
-    {
-        if(entityDatabase.hasAttribute(attribute, id))
-        {
-            entityDatabase.addToAttribute<DataType>(attribute, id, inData);
-            return true;
-        }
-        return false;
-    }
-
-    template<class DataType>
     DataType Entity::getAttribute(const std::string& attribute) const
     {
-        DataType result;
-        entityDatabase.getAttribute<DataType>(attribute, id, &result);
-        return result;
+        return entityDatabase.getAttribute<DataType>(id, attribute);
     }
 
     template<class DataType>
-    void Entity::setAttribute(const std::string& attribute, DataType value) const
+    void Entity::setAttribute(const std::string& attribute, const DataType& value) const
     {
-        entityDatabase.setAttribute<DataType>(attribute, id, &value);
+        entityDatabase.setAttribute<DataType>(id, attribute, value);
     }
 
     template<class DataType>
-    void Entity::addToAttribute(const std::string& attribute, DataType value) const
+    void Entity::addToAttribute(const std::string& attribute, const DataType& value) const
     {
-        entityDatabase.addToAttribute<DataType>(attribute, id, &value);
+        entityDatabase.addToAttribute<DataType>(id, attribute, value);
     }
 
     /** @addtogroup EntitySystem
@@ -100,42 +59,10 @@ namespace fea
      *  @param i ID of the new entity.
      *  @param m EntityManager that the entity will use.
      ***
-     *  @fn bool Entity::getAttributeSafe(const std::string& attribute, DataType* outData) const
-     *  @brief Retrieve the value of an attribute of the Entity in a safe way.
-     *
-     *  As opposed to Entity::getAttribute, this function will not throw an exception when the requested attribute does not exist. Instead the function returns false and the return value is undefined.
-     *
-     *  @tparam Type of the attribute to get.
-     *  @param attribute Name of the attribute to get.
-     *  @param outData Pointer to a variable in which to store the return value.
-     *  @return True if the requested attribute existed. Otherwise false.
-     ***
-     *  @fn bool Entity::setAttributeSafe(const std::string& attribute, DataType* inData)
-     *  @brief Set the value of an attribute of the Entity in a safe way.
-     *
-     *  As opposed to Entity::setAttribute, this function will not throw an exception when the requested attribute does not exist. Instead the function returns false and no attribute is modified.
-     *
-     *  @tparam Type of the attribute to set.
-     *  @param attribute Name of the attribute to set.
-     *  @param inData Pointer to a variable containing the new value of the attribute.
-     *  @return True if the specified attribute existed. Otherwise false.
-     ***
-     *  @fn bool Entity::addToAttributeSafe(const std::string& attribute, DataType* inData)
-     *  @brief Add the given value to an attribute of the Entity in a safe way.
-     *
-     *  The given value will be added to the already existing value. Needs the operator+ function to be implemented for the target type.
-     *
-     *  As opposed to Entity::addToAttribute, this function will not throw an exception when the requested attribute does not exist. Instead the function returns false and no attribute is modified.
-     *
-     *  @tparam Type of the attribute to add to.
-     *  @param attribute Name of the attribute to add to.
-     *  @param inData Pointer to a variable containing the value to add to the attribute.
-     *  @return True if the specified attribute existed. Otherwise false.
-     ***
      *  @fn DataType Entity::getAttribute(const std::string& attribute) const
      *  @brief Get the value of an attribute of the entity.
      *
-     *  If the given attribute does not exist, this function will cause an InvalidAttributeException to be thrown. For a safe way to get attributes, see Entity::getAttributeSafe.
+     *  If the given attribute does not exist, this function will cause an InvalidAttributeException to be thrown.
      *  
      *  @tparam Type of the attribute to get.
      *  @param attribute Name of the attribute to get.
@@ -144,7 +71,7 @@ namespace fea
      *  @fn void Entity::setAttribute(const std::string& attribute, DataType value) const
      *  @brief Set the value of an attribute of the entity.
      *
-     *  If the given attribute does not exist, this function will cause an InvalidAttributeException to be thrown. For a safe way to set attributes, see Entity::setAttributeSafe.
+     *  If the given attribute does not exist, this function will cause an InvalidAttributeException to be thrown.
      *  
      *  @tparam Type of the attribute to set.
      *  @param attribute Name of the attribute to set.
@@ -155,7 +82,7 @@ namespace fea
      *
      *  The given value will be added to the already existing value. Needs the operator+ function to be implemented for the target type.
      *
-     *  If the given attribute does not exist, this function will cause an InvalidAttributeException to be thrown. For a safe way to set attributes, see Entity::setAttributeSafe.
+     *  If the given attribute does not exist, this function will cause an InvalidAttributeException to be thrown.
      *  
      *  @tparam Type of the attribute to add to.
      *  @param attribute Name of the attribute to add to.

@@ -8,7 +8,7 @@ namespace fea
 
     bool Entity::hasAttribute(const std::string& attribute) const
     {
-        return entityDatabase.hasAttribute(attribute, id);
+        return entityDatabase.hasAttribute(id, attribute);
     }
     
     EntityId Entity::getId() const

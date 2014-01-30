@@ -1,6 +1,6 @@
 #pragma once
-#include <map>
 #include <unordered_map>
+#include <vector>
 #include <string>
 #include <featherkit/util/filenotfoundexception.h>
 
@@ -11,13 +11,9 @@ namespace fea
         class JsonEntityLoader
         {
             public:
-                JsonEntityLoader();
-                std::map<std::string, uint32_t> loadAttributesJson(const std::string& path);
-                std::map<std::string, std::map<std::string, std::string> > loadEntitiesJson(const std::string& path);
-                void registerType(std::string type, uint32_t size);
-            private:
-                std::unordered_map<std::string, uint32_t> registeredTypes;
+                std::unordered_map<std::string, std::vector<std::pair<std::string, std::string>>> loadEntityTemplates(const std::string& path);
         };
+        //:TODO: update documentation
         /** @addtogroup EntitySystem
          *@{
          *  @class FileNotFoundException
@@ -38,7 +34,7 @@ namespace fea
          *  @class JsonEntityLoader
          *  @brief This class is for loading json files describing attribute and Entity templates.
          *
-         *  The output of the loading functions of this class can directly be passed to the EntityManager to register the attribute and Entity templates. To register attributes, pass the output of JsonEntityLoader::loadAttributesJson into EntityManager::registerAttributes and to register Entity templates, pass the output of JsonEntityLoader::loadEntitiesJson into EntityManager::registerEntityTemplates. The attribute types must be loaded before the Entity templates.
+         *  The output of the loading functions of this class can directly be passed to the EntityManager to register the attribute and Entity templates. To register attributes, pass the output of JsonEntityLoader::loadAttributesJson into EntityManager::registerAttributes and to register Entity templates, pass the output of JsonEntityLoader::loadEntityTemplates into EntityManager::registerEntityTemplates. The attribute types must be loaded before the Entity templates.
          *
          *  Here is an example of how an attribute file should be formatted:
          *  @code
@@ -79,14 +75,14 @@ namespace fea
          *  @endcode
          *  The file is divided into Entity template definitions. The two entities defined in this files are "particle" and "spawner". Every Entity template internally defines a sequence of attributes that they should have. The attributes might come with default values. For instance, the first attribute of the Entity template "particle" is "position" with a default value of "20.0f,40.0".
          ***
-         *  @fn std::map<std::string, int> JsonEntityLoader::loadAttributesJson(const std::string& path)
+         *  @fn std::unordered_map<std::string, int> JsonEntityLoader::loadAttributesJson(const std::string& path)
          *  @brief Load a json file defining Entity attributes.
          *
          *  Use this function to load an attribute file. The return value can be given to the EntityManager::loadAttributes function.
          *  @param path File to open.
          *  @return A map with the attributes, to pass to the EntityManager.
          ***
-         *  @fn std::map<std::string, std::map<std::string, std::string> > JsonEntityLoader::loadEntitiesJson(const std::string& path)
+         *  @fn std::unordered_map<std::string, std::vector<std::pair<std::string, std::string>>> JsonEntityLoader::loadEntityTemplates(const std::string& path)
          *  @brief Load a json file defining Entity templates.
          *
         *  Use this function to load an Entity template file. The return value can be given to the EntityManager::loadEntityTemplates function.
