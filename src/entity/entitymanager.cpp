@@ -20,8 +20,13 @@ namespace fea
     
     void EntityManager::removeEntity(const EntityId id)
     {
-        //dataStorage->removeEntity(id);
+        storage.removeEntity(id);
         entities.erase(id);
+    }
+    
+    void EntityManager::removeEntity(WeakEntityPtr entity)
+    {
+        removeEntity(entity.lock()->getId());
     }
     
     bool EntityManager::attributeIsValid(const std::string& attributeName) const

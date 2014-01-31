@@ -12,11 +12,11 @@ namespace fea
     WeakEntityPtr EntityFactory::createEntity(const std::string& templateName)
     {
         WeakEntityPtr created;
-        const std::vector<std::pair<std::string, std::string>> entityTemplate;
+        std::vector<std::pair<std::string, std::string>> entityTemplate;
 
         try
         {
-            entityTemplates.at(templateName);
+            entityTemplate = entityTemplates.at(templateName);
         }
         catch(std::out_of_range)
         {

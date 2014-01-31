@@ -52,9 +52,11 @@ namespace fea
         }
         catch(InvalidAttributeException)
         {
-            std::stringstream ss;
-            ss << "Error! Trying to get the attribute '" << attribute << "' which does not exist on entity ID " << id << "!\n";
-            throw InvalidAttributeException(ss.str(), attribute);
+            throw InvalidAttributeException("Error! Trying to get the attribute '" + attribute + "' which does not exist on entity ID " + std::to_string(id) + "!\n", attribute);
+        }
+        catch(EntityException)
+        {
+            throw InvalidAttributeException("Error! Trying to get the attribute '" + attribute + "' on entity ID " + std::to_string(id) + " but there is no such entity!\n", attribute);
         }
     }
 
@@ -67,9 +69,11 @@ namespace fea
         }
         catch(InvalidAttributeException)
         {
-            std::stringstream ss;
-            ss << "Error! Trying to set the attribute '" << attribute << "' which does not exist on entity ID " << id << "!\n";
-            throw InvalidAttributeException(ss.str(), attribute);
+            throw InvalidAttributeException("Error! Trying to set the attribute '" + attribute + "' which does not exist on entity ID " + std::to_string(id) + "!\n", attribute);
+        }
+        catch(EntityException)
+        {
+            throw InvalidAttributeException("Error! Trying to set the attribute '" + attribute + "' on entity ID " + std::to_string(id) + " but there is no such entity!\n", attribute);
         }
     }
 

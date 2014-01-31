@@ -3,14 +3,6 @@
 
 namespace fea
 {
-    using AttributeHash = std::size_t;
-
-    class InvalidIdException : public std::runtime_error 
-    {
-        public:
-            InvalidIdException(const std::string& message);
-    };
-
     class InvalidAttributeException : public std::runtime_error 
     {
         public:
@@ -25,19 +17,10 @@ namespace fea
     };
     /** @addtogroup EntitySystem
      *@{
-     *  @class InvalidIdException
-     *  
      *  @class InvalidAttributeException
      *
      *  @class EntityException
      *@}
-     ***
-     *  @class InvalidIdException
-     *  @brief Exception used by the Entity System when something related to EntityId handling goes wrong.
-     ***
-     *  @fn InvalidIdException::InvalidIdException(const std::string& message)
-     *  @brief Construct an exception to throw containing a message.
-     *  @param message Message further describing the error.
      ***
      *  @class InvalidAttributeException
      *  @brief Exception used by the Entity System when something related to attribute handling goes wrong.
