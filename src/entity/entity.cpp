@@ -2,13 +2,13 @@
 
 namespace fea
 {
-    Entity::Entity(EntityId i, EntityManager& m) : id(i), entityManager(m)
+    Entity::Entity(EntityId i, EntityManager& d) : id(i), entityDatabase(d)
     {
     }
 
     bool Entity::hasAttribute(const std::string& attribute) const
     {
-        return entityManager.hasAttribute(attribute, id);
+        return entityDatabase.hasAttribute(id, attribute);
     }
     
     EntityId Entity::getId() const

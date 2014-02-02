@@ -1,93 +1,24 @@
 #pragma once
-#include <featherkit/entity/entityexceptions.h>
-#include <featherkit/entity/entitystorage.h>
-#include <memory>
 #include <unordered_map>
 #include <vector>
-#include <stdexcept>
-#include <sstream>
-#include <stdint.h>
-#include <set>
+#include <featherkit/entity/entitymanager.h>
 
 namespace fea
 {
-    class Entity;
-
-    using EntityPtr = std::shared_ptr<Entity>;
-    using WeakEntityPtr = std::weak_ptr<Entity>;
-    using EntityId = uint32_t;
-    using EntitySet = std::set<WeakEntityPtr, std::owner_less<WeakEntityPtr>>;
-
-    class EntityManager
+    class EntityFactory
     {
         public:
-            WeakEntityPtr createEntity(const std::vector<std::string>& attributes);
-            WeakEntityPtr getEntity(EntityId id) const;
-            void removeEntity(const EntityId id);
-            void removeEntity(WeakEntityPtr entity);
-            template<class DataType>
-            DataType getAttribute(const EntityId id, const std::string& attribute) const;
-            template<class DataType>
-            void setAttribute(const EntityId id, const std::string& attribute, const DataType& attributeData);
-            template<class DataType>
-            void addToAttribute(const EntityId id, const std::string& attribute, const DataType& attributeData);
-            bool hasAttribute(const EntityId id, const std::string& attribute) const;
-            template<class DataType>
-            void registerAttribute(const std::string& attributeName);
-            bool attributeIsValid(const std::string& attributeName) const;
-            EntitySet getAll() const;
-            void removeAll();
+            EntityFactory(EntityManager& manager);
+            WeakEntityPtr createEntity(const std::string& templateName);
+            void registerEntityTemplate(const std::string& templateName, const std::vector<std::pair<std::string, std::string>>& attributes);
+            void registerEntityTemplates(const std::unordered_map<std::string, std::vector<std::pair<std::string, std::string>>>& templates);
+            void registerDefaultSetter(const std::string& attribute, std::function<void(const std::string&, const std::vector<std::string>&, WeakEntityPtr)> defaultFunc);
             void clear();
         private:
-            std::unordered_map<EntityId, EntityPtr> entities;
-            EntityStorage storage;
+            fea::EntityManager& entityManager;
+            std::unordered_map<std::string, std::vector<std::pair<std::string, std::string>>> entityTemplates;
+            std::unordered_map<std::string, std::function<void(std::string, std::vector<std::string>&, WeakEntityPtr)>> defaultSetters;
     };
-
-    template<class DataType>
-    DataType EntityManager::getAttribute(const EntityId id, const std::string& attribute) const
-    {
-        try
-        {
-            return storage.getData<DataType>(id, attribute);
-        }
-        catch(InvalidAttributeException)
-        {
-            throw InvalidAttributeException("Error! Trying to get the attribute '" + attribute + "' which does not exist on entity ID " + std::to_string(id) + "!\n", attribute);
-        }
-        catch(EntityException)
-        {
-            throw InvalidAttributeException("Error! Trying to get the attribute '" + attribute + "' on entity ID " + std::to_string(id) + " but there is no such entity!\n", attribute);
-        }
-    }
-
-    template<class DataType>
-    void EntityManager::setAttribute(const EntityId id, const std::string& attribute, const DataType& attributeData)
-    {
-        try
-        {
-            storage.setData(id, attribute, attributeData);
-        }
-        catch(InvalidAttributeException)
-        {
-            throw InvalidAttributeException("Error! Trying to set the attribute '" + attribute + "' which does not exist on entity ID " + std::to_string(id) + "!\n", attribute);
-        }
-        catch(EntityException)
-        {
-            throw InvalidAttributeException("Error! Trying to set the attribute '" + attribute + "' on entity ID " + std::to_string(id) + " but there is no such entity!\n", attribute);
-        }
-    }
-
-    template<class DataType>
-    void EntityManager::addToAttribute(const EntityId id, const std::string& attribute, const DataType& attributeData)
-    {
-        storage.setData(id, attribute, storage.getData<DataType>(id, attribute) + attributeData);
-    }
-
-    template<class DataType>
-    void EntityManager::registerAttribute(const std::string& attribute)
-    {
-        storage.registerAttribute<DataType>(attribute);
-    }
     /** @addtogroup EntitySystem
      *@{
      *  @class EntityManager
@@ -266,7 +197,7 @@ namespace fea
      *  @fn void EntityManager::removeAll()
      *  @brief Remove all Entity instances managed by the EntityManager, leaving all pointers to them invalid.
      ***
-     *  @fn void EntityManager::clear()
+     *  @fn void EntityManager::reset()
      *  @brief Reset the whole state of the EntityManager to the original state. Effectively removing all Entity instances, leaving all pointers to them invalid, as well as clearing out any registered attributes, Entity templates and default setter functions. Not to be confused with EntityManager::removeAll which only removes all entities.
      ***/
 }

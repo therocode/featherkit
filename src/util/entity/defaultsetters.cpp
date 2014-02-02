@@ -8,43 +8,43 @@ namespace fea
         {
         }
 
-        void floatSetter(std::string attribute, std::vector<std::string>& arguments, fea::WeakEntityPtr entity)
+        void floatSetter(const std::string& attribute, const std::vector<std::string>& arguments, fea::WeakEntityPtr entity)
         {
             float val = std::stof(arguments[0]);
 
             entity.lock()->setAttribute(attribute, val);
         }
-        void doubleSetter(std::string attribute, std::vector<std::string>& arguments, fea::WeakEntityPtr entity)
+        void doubleSetter(const std::string& attribute, const std::vector<std::string>& arguments, fea::WeakEntityPtr entity)
         {
             double val = std::stod(arguments[0]);
 
             entity.lock()->setAttribute(attribute, val);
         }
-        void int32Setter(std::string attribute, std::vector<std::string>& arguments, fea::WeakEntityPtr entity)
+        void int32Setter(const std::string& attribute, const std::vector<std::string>& arguments, fea::WeakEntityPtr entity)
         {
             int32_t val = std::stoi(arguments[0]);
 
             entity.lock()->setAttribute(attribute, val);
         }
-        void uint32Setter(std::string attribute, std::vector<std::string>& arguments, fea::WeakEntityPtr entity)
+        void uint32Setter(const std::string& attribute, const std::vector<std::string>& arguments, fea::WeakEntityPtr entity)
         {
             uint32_t val = (uint32_t)std::stoul(arguments[0]);
 
             entity.lock()->setAttribute(attribute, val);
         }
-        void boolSetter(std::string attribute, std::vector<std::string>& arguments, fea::WeakEntityPtr entity)
+        void boolSetter(const std::string& attribute, const std::vector<std::string>& arguments, fea::WeakEntityPtr entity)
         {
             bool val = ((arguments[0] != "false") && (arguments[0] != "0"));
 
             entity.lock()->setAttribute(attribute, val);
         }
-        void byteSetter(std::string attribute, std::vector<std::string>& arguments, fea::WeakEntityPtr entity)
+        void byteSetter(const std::string& attribute, const std::vector<std::string>& arguments, fea::WeakEntityPtr entity)
         {
             uint8_t val = (uint8_t)std::stoul(arguments[0]);
 
             entity.lock()->setAttribute(attribute, val);
         }
-        void idSetter(std::string attribute, std::vector<std::string>& arguments, fea::WeakEntityPtr entity)
+        void idSetter(const std::string& attribute, const std::vector<std::string>& arguments, fea::WeakEntityPtr entity)
         {
             if(arguments[0] == "#ID#")
             {

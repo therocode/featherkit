@@ -74,7 +74,9 @@ namespace fea
     
     void TextSurface::rewrite()
     {
-        clear();
+        vertices.clear();
+        texCoords.clear();
+        vertexColours.clear();
 
         const glm::vec2 originalPosition = pen;
         const Font* originalFont = currentFont;
@@ -102,6 +104,8 @@ namespace fea
         vertices.clear();
         texCoords.clear();
         vertexColours.clear();
+
+        writings.clear();
     }
             
     void TextSurface::addText(const std::wstring& text)
