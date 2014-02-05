@@ -1,5 +1,6 @@
 #include <featherkit/rendering/texture.h>
 #include <utility>
+#include <iostream>
 
 namespace fea
 {
@@ -23,6 +24,7 @@ namespace fea
         }
         
         glGenTextures(1, &id);
+        std::cout << "xreated texture ID was " << id << " \n";
         glBindTexture(GL_TEXTURE_2D, id);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLsizei)w, (GLsizei)h, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
 
