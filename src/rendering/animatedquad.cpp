@@ -93,7 +93,7 @@
     
     void AnimatedQuad::playAnimation(uint32_t startFrame)
     {
-        FEA_ASSERT(currentAnimation != nullptr, "No animation set!");
+        FEA_ASSERT(currentAnimation != nullptr, "No animation set when calling playAnimation!");
         animate = true;
         clock = startFrame * currentAnimation->getDelay();
         currentAnimation->getConstraints(constraints, currentFrame);
