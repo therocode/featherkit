@@ -5,7 +5,7 @@
 #include <vector>
 #include <typeindex>
 #include <featherkit/entity/entityexceptions.h>
-#include <cassert>
+#include <featherkit/assert.h>
 
 namespace fea
 {
@@ -69,10 +69,8 @@ namespace fea
         {
             auto& valuePointer = attributeData.at(attribute);
 
-            if(!valuePointer)
-                ;//TODO: exception about uninitialised value
-            else
-                return *std::static_pointer_cast<DataType>(valuePointer);
+            FEA_ASSERT(valuePointer, "Calling getData on attribute '" + attribute + "' which is not initialised!");
+            return *std::static_pointer_cast<DataType>(valuePointer);
         }
         catch(std::out_of_range)
         {
@@ -98,7 +96,7 @@ namespace fea
     {
         try
         {
-            assert(std::type_index(typeid(DataType)) == attributes.at(attribute));
+            FEA_ASSERT(std::type_index(typeid(DataType)) == attributes.at(attribute), "Trying to set attibute '" + attribute + "' as a '" + std::type_index(typeid(DataType)).name() + std::string(" but it is of type '") + std::string(attributes.at(attribute).name()) + "'");
             entities.at(id).setData(attribute, inData);
         }
         catch(std::out_of_range)
@@ -112,7 +110,7 @@ namespace fea
     {
         try
         {
-            assert(std::type_index(typeid(DataType)) == attributes.at(attribute));
+            FEA_ASSERT(std::type_index(typeid(DataType)) == attributes.at(attribute), "Trying to get attibute '" + attribute + "' as a '" + std::type_index(typeid(DataType)).name() + std::string(" but it is of type '") + std::string(attributes.at(attribute).name()) + "'");
             return entities.at(id).getData<DataType>(attribute);
         }
         catch(std::out_of_range)
