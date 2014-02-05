@@ -1,6 +1,7 @@
 #include <featherkit/rendering/texture.h>
+#include <featherkit/assert.h>
 #include <utility>
-#include <iostream>
+
 
 namespace fea
 {
@@ -24,7 +25,7 @@ namespace fea
         }
         
         glGenTextures(1, &id);
-        std::cout << "xreated texture ID was " << id << " \n";
+        FEA_ASSERT(id != 0, "Failed to create texture. Make sure there is a valid OpenGL context available!\n");
         glBindTexture(GL_TEXTURE_2D, id);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLsizei)w, (GLsizei)h, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
 
