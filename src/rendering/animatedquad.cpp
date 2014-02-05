@@ -1,4 +1,5 @@
 #include <featherkit/rendering/animatedquad.h>
+#include <featherkit/assert.h>
 #include <cstdlib>
 
     namespace fea
@@ -43,6 +44,7 @@
     
     const Animation& AnimatedQuad::getAnimation() const
     {
+        FEA_ASSERT(currentAnimation != nullptr, "No animation set!");
         return *currentAnimation;
     }
 
@@ -85,18 +87,15 @@
                 default:
                     break;
             }
-
+            currentAnimation->getConstraints(constraints, currentFrame);
         }
-        currentAnimation->getConstraints(constraints, currentFrame);
     }
     
     void AnimatedQuad::playAnimation(uint32_t startFrame)
     {
-        if(currentAnimation != nullptr)
-        {
-            animate = true;
-            clock = startFrame * currentAnimation->getDelay();
-        }
+        FEA_ASSERT(currentAnimation != nullptr, "No animation set!");
+        animate = true;
+        clock = startFrame * currentAnimation->getDelay();
         currentAnimation->getConstraints(constraints, currentFrame);
     }
     
@@ -107,8 +106,11 @@
 
     void AnimatedQuad::setAnimationFrame(uint32_t frame)
     {
-        currentFrame = frame;
-        currentAnimation->getConstraints(constraints, currentFrame);
+        if(currentAnimation != nullptr)
+        {
+            currentFrame = frame;
+            currentAnimation->getConstraints(constraints, currentFrame);
+        }
     }
     
     uint32_t AnimatedQuad::getAnimationFrame() const
