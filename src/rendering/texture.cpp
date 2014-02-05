@@ -1,28 +1,10 @@
 #include <featherkit/rendering/texture.h>
 #include <utility>
-#include <cstring>
 
 namespace fea
 {
     Texture::Texture() : id(0), width(0), height(0), pixelData(nullptr)
     {
-    }
-    
-    Texture::Texture(Texture&& other) : id(0), width(0), height(0), pixelData(nullptr)
-    {
-        std::swap(id, other.id);
-        std::swap(width, other.width);
-        std::swap(height, other.height);
-        std::swap(pixelData, other.pixelData);
-    }
-    
-    Texture& Texture::operator=(Texture&& other)
-    {
-        std::swap(id, other.id);
-        std::swap(width, other.width);
-        std::swap(height, other.height);
-        std::swap(pixelData, other.pixelData);
-        return *this;
     }
 
     GLuint Texture::getId() const
@@ -54,14 +36,14 @@ namespace fea
         if(interactive)
         {
             uint32_t byteAmount = width * height * 4;
-            pixelData = new uint8_t[byteAmount];
-            memcpy(pixelData, imageData, byteAmount);
+            pixelData = std::unique_ptr<uint8_t[]>(new uint8_t[byteAmount]);
+            std::copy(imageData, imageData + byteAmount, pixelData.get());
         }
     }
 
     void Texture::create(uint32_t w, uint32_t h, const Colour& colour, bool smooth, bool interactive)
     {
-        uint8_t* pixels = new uint8_t[w * h * 4];
+        std::unique_ptr<uint8_t[]> pixels = std::unique_ptr<uint8_t[]>(new uint8_t[w * h * 4]);
 
         for(uint32_t x = 0; x < w; x++)
         {
@@ -73,8 +55,7 @@ namespace fea
                 pixels[(x + y * w) * 4 + 3] = colour.aAsByte();
             }
         }
-        create(w, h, pixels, smooth, interactive);
-        delete [] pixels;
+        create(w, h, pixels.get(), smooth, interactive);
     }
 
     void Texture::destroy()
@@ -85,8 +66,7 @@ namespace fea
             id = 0;
             width = 0;
             height = 0;
-            delete [] pixelData;
-            pixelData = nullptr;
+            pixelData.release();
         }
     }
     
@@ -99,7 +79,7 @@ namespace fea
         pixelData[pixelIndex + 3] = colour.aAsByte();
     }
     
-    void Texture::setPixels(std::function<void(uint32_t x, uint32_t y, uint8_t* pixels)> f)
+    void Texture::setPixels(std::function<void(uint32_t x, uint32_t y, std::unique_ptr<uint8_t[]>& pixels)> f)
     {
         f(width, height, pixelData);
     }
@@ -118,7 +98,7 @@ namespace fea
         if(pixelData)
         {
             glBindTexture(GL_TEXTURE_2D, id);
-            glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, pixelData);
+            glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, pixelData.get());
         }
     }
     

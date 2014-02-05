@@ -4,6 +4,7 @@
 #include <featherkit/rendering/colour.h>
 #include <glm/glm.hpp>
 #include <functional>
+#include <memory>
 
 namespace fea
 {
@@ -11,15 +12,16 @@ namespace fea
     {
         public:
             Texture();
-            Texture(Texture&& other);
             Texture(const Texture& other) = delete;
-            Texture& operator=(Texture&& other);
+            Texture(Texture&& other) = default;
+            Texture& operator=(const Texture& other) = delete;
+            Texture& operator=(Texture&& other) = default;
             GLuint getId() const;
             void create(uint32_t w, uint32_t h, const uint8_t* imageData, bool smooth = false, bool interactive = false);
             void create(uint32_t w, uint32_t h, const Colour& colour, bool smooth = false, bool interactive = false);
             void destroy();
             void setPixel(uint32_t x, uint32_t y, const Colour& colour);
-            void setPixels(std::function<void(uint32_t x, uint32_t y, uint8_t* pixels)> f);
+            void setPixels(std::function<void(uint32_t x, uint32_t y, std::unique_ptr<uint8_t[]>& pixels)> f);
             Colour getPixel(uint32_t x, uint32_t y) const;
             void update();
             ~Texture();
@@ -27,7 +29,7 @@ namespace fea
             GLuint id;
             uint32_t width;
             uint32_t height;
-            uint8_t* pixelData;
+            std::unique_ptr<uint8_t[]> pixelData;
     };
     /** @addtogroup Render2D
      *@{
