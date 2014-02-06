@@ -9,6 +9,23 @@ namespace fea
     {
     }
 
+    Texture::Texture(Texture&& other) : id(0), width(0), height(0), pixelData(nullptr)
+    {
+        std::swap(id, other.id);
+        std::swap(width, other.width);
+        std::swap(height, other.height);
+        pixelData = std::move(other.pixelData);
+    }
+    
+    Texture& Texture::operator=(Texture&& other)
+    {
+        std::swap(id, other.id);
+        std::swap(width, other.width);
+        std::swap(height, other.height);
+        pixelData = std::move(other.pixelData);
+        return *this;
+    }
+
     GLuint Texture::getId() const
     {
         return id;
