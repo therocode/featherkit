@@ -29,6 +29,7 @@ namespace fea
             GLuint id;
             uint32_t width;
             uint32_t height;
+            bool interactive;
             std::unique_ptr<uint8_t[]> pixelData;
     };
     /** @addtogroup Render2D
