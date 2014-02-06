@@ -13,9 +13,10 @@ namespace fea
     {
         return id;
     }
-    
+
     void Texture::create(uint32_t w, uint32_t h, const uint8_t* imageData, bool smooth, bool interactive)
     {
+        FEA_ASSERT(w > 0 && h > 0, "Cannot create a texture with a width or height smaller than zero! Given dimensions are " + std::to_string(w) + " " + std::to_string(h));
         width = w;
         height = h;
 
@@ -25,7 +26,7 @@ namespace fea
         }
         
         glGenTextures(1, &id);
-        FEA_ASSERT(id != 0, "Failed to create texture. Make sure there is a valid OpenGL context available!\n");
+        FEA_ASSERT(id != 0, "Failed to create texture. Make sure there is a valid OpenGL context available!");
         glBindTexture(GL_TEXTURE_2D, id);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLsizei)w, (GLsizei)h, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
 
@@ -75,6 +76,7 @@ namespace fea
     
     void Texture::setPixel(uint32_t x, uint32_t y, const Colour& colour)
     {
+        FEA_ASSERT(x > 0 && y > 0 && x < width && y < height, "Trying to access pixel outside of the bounds of the texture. Accessing at " + std::to_string(x) + " " + std::to_string(y));
         uint32_t pixelIndex = (x + y * width) * 4;
         pixelData[pixelIndex    ] = colour.rAsByte();
         pixelData[pixelIndex + 1] = colour.gAsByte();
