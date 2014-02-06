@@ -21,8 +21,8 @@ namespace fea
             void create(uint32_t w, uint32_t h, const Colour& colour, bool smooth = false, bool interactive = false);
             void destroy();
             void setPixel(uint32_t x, uint32_t y, const Colour& colour);
-            void setPixels(std::function<void(uint32_t x, uint32_t y, std::unique_ptr<uint8_t[]>& pixels)> f);
             Colour getPixel(uint32_t x, uint32_t y) const;
+            uint8_t* getPixelData();
             void update();
             ~Texture();
         private:
@@ -95,18 +95,18 @@ namespace fea
      *  @param y Y index of the pixel.
      *  @param colour Colour to set the pixel to.
      ***
-     *  @fn void Texture::setPixels(std::function<void(uint32_t x, uint32_t y, uint8_t* pixels)> f)
-     *  @brief Set several pixels at once using an arbitrary function.
-     *
-     *  Setting pixels using this method does not change the Texture until the Texture::update method has been called. This method requires the texture to be set to interactive.
-     *  @param f Function to perform the change operation. The function will be called with the texture's dimensions and image data as arguments.
-     ***
      *  @fn Colour Texture::getPixel(uint32_t x, uint32_t y) const
      *  @brief Access the colour value of a pixel.
      *
      *  This method requires the texture to be set to interactive.
      *
      *  @return The colour value of the pixel.
+     ***
+     *  @fn uint8_t* Texture::getPixelData()
+     *  @brief Get internal pixel data.
+     *
+     *  Accessing the internal data can be important for intense manipulation of many pixels where performance is crucial. To be used with caution.
+     *  @return Data.
      ***
      *  @fn void Texture::update()
      *  @brief Update the texture with any changes made using any of the Texture::setPixel methods.

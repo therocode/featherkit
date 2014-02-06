@@ -105,11 +105,6 @@ namespace fea
         pixelData[pixelIndex + 2] = colour.bAsByte();
         pixelData[pixelIndex + 3] = colour.aAsByte();
     }
-    
-    void Texture::setPixels(std::function<void(uint32_t x, uint32_t y, std::unique_ptr<uint8_t[]>& pixels)> f)
-    {
-        f(width, height, pixelData);
-    }
 
     Colour Texture::getPixel(uint32_t x, uint32_t y) const
     {
@@ -120,6 +115,12 @@ namespace fea
                          pixelData[pixelIndex + 2],
                          pixelData[pixelIndex + 3]);
     }
+
+    uint8_t* Texture::getPixelData()
+    {
+        return pixelData.get();
+    }
+
 
     void Texture::update()
     {
