@@ -2,7 +2,7 @@
 
 namespace fea
 {
-        ContextSettings::ContextSettings(uint32_t depth, uint32_t stencil, uint32_t antialiasing, uint32_t major, uint32_t minor) : depthBits(depth), stencilBits(stencil), antialiasingLevel(antialiasing), majorVersion(major), minorVersion(minor)
+        ContextSettings::ContextSettings(uint32_t depthBits, uint32_t stencilBits, uint32_t antialiasingLevel, uint32_t majorVersion, uint32_t minorVersion) : mDepthBits(depthBits), mStencilBits(stencilBits), mAntialiasingLevel(antialiasingLevel), mMajorVersion(majorVersion), mMinorVersion(minorVersion)
         {
         }
 }

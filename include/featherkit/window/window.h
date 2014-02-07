@@ -5,7 +5,7 @@
 #include <featherkit/window/vec2i.h>
 #include <string>
 #include <memory>
-            /* hej this is from VidyaMöåd and should be here
+            /* from videomode and should be here
             static VideoMode getDesktopMode();
             static const std::vector<VideoMode>& getFullscreenModes();
             bool isValid() const; */
@@ -18,7 +18,7 @@ namespace fea
     {
 
         public:
-            Window(WindowBackend* backend);
+            Window(WindowBackend* windowBackend);
             void create(VideoMode mode, const std::string& title, uint32_t style = Style::Default, const ContextSettings& settings = ContextSettings());
             void close();
             bool isOpen() const;
@@ -37,7 +37,7 @@ namespace fea
             void swapBuffers();
 			void lockCursor(bool enabled);
         private:
-            std::unique_ptr<WindowBackend> windowBackend;
+            std::unique_ptr<WindowBackend> mWindowBackend;
     };
     /** @addtogroup UserInterface
      *@{
@@ -50,9 +50,9 @@ namespace fea
      *
      *  The API of this class is heavily inspired by the window class of [SFML](http://www.sfml-dev.org/).
      ***
-     *  @fn Window::Window(WindowBackend* backend)
+     *  @fn Window::Window(WindowBackend* windowBackend)
      *  @brief Construct a window using the specified backend.
-     *  @param backend Backend to use with the window instance. Will be stored as an std::unique_ptr and therefore memory will be managed.
+     *  @param windowBackend Backend to use with the window instance. Will be stored as an std::unique_ptr and therefore memory will be managed.
      ***
      *  @fn void Window::create(VideoMode mode, const std::string& title, uint32_t style=Style::Default, const ContextSettings& settings=ContextSettings())
      *  @brief Create a window and open it.

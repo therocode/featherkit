@@ -3,92 +3,92 @@
 
 namespace fea
 {
-    Window::Window(WindowBackend* backend) : windowBackend(backend)
+    Window::Window(WindowBackend* windowBackend) : mWindowBackend(windowBackend)
     {
     }
 
     void Window::create(VideoMode mode, const std::string& title, uint32_t style, const ContextSettings& settings)
     {
-        windowBackend->create(mode, title, style, settings);
+        mWindowBackend->create(mode, title, style, settings);
     }
 
     void Window::close()
     {
-        windowBackend->close();
+        mWindowBackend->close();
     }
 
     bool Window::isOpen() const
     {
-        return windowBackend->isOpen();
+        return mWindowBackend->isOpen();
     }
 
     const ContextSettings Window::getSettings() const
     {
-        return windowBackend->getSettings();
+        return mWindowBackend->getSettings();
     }
 
     Vec2I Window::getPosition() const
     {
-        return windowBackend->getPosition();
+        return mWindowBackend->getPosition();
     }
 
     void Window::setPosition(int32_t x, int32_t y)
     {
-        windowBackend->setPosition(x, y);
+        mWindowBackend->setPosition(x, y);
     }
 
     Vec2I Window::getSize() const
     {
-        return windowBackend->getSize();
+        return mWindowBackend->getSize();
     }
 
     void Window::setSize(int32_t w, int32_t h)
     {
-        windowBackend->setSize(w, h);
+        mWindowBackend->setSize(w, h);
     }
     
     void Window::setTitle(const std::string& title)
     {
-        windowBackend->setTitle(title);
+        mWindowBackend->setTitle(title);
     }
 
     void Window::setIcon(uint32_t width, uint32_t height, const uint8_t* pixels)
     {
-        windowBackend->setIcon(width, height, pixels);
+        mWindowBackend->setIcon(width, height, pixels);
     }
     
     void Window::setVisible(bool visible)
     {
-        windowBackend->setVisible(visible);
+        mWindowBackend->setVisible(visible);
     }
 
     void Window::setVSyncEnabled(bool enabled)
     {
-        windowBackend->setVSyncEnabled(enabled);
+        mWindowBackend->setVSyncEnabled(enabled);
     }
 
     void Window::setMouseCursorVisible(bool visible)
     {
-        windowBackend->setMouseCursorVisible(visible);
+        mWindowBackend->setMouseCursorVisible(visible);
     }
 
     void Window::setFramerateLimit(uint32_t limit)
     {
-        windowBackend->setFramerateLimit(limit);
+        mWindowBackend->setFramerateLimit(limit);
     }
 
     bool Window::setRenderingActive(bool active) const
     {
-        return windowBackend->setRenderingActive(active);
+        return mWindowBackend->setRenderingActive(active);
     }
 
     void Window::swapBuffers()
     {
-        windowBackend->swapBuffers();
+        mWindowBackend->swapBuffers();
     }
 
 	void Window::lockCursor(bool enabled)
 	{
-		windowBackend->lockCursor(enabled);
+		mWindowBackend->lockCursor(enabled);
 	}
 }

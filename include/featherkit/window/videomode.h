@@ -6,11 +6,11 @@ namespace fea
     struct VideoMode
     {
             VideoMode();
-            VideoMode(uint32_t w, uint32_t h, uint32_t bitDepth = 32);
+            VideoMode(uint32_t width, uint32_t height, uint32_t bitDepth = 32);
 
-            uint32_t width;
-            uint32_t height;
-            uint32_t bitsPerPixel;
+            uint32_t mWidth;
+            uint32_t mHeight;
+            uint32_t mBitDepth;
     };
 
     /** @addtogroup UserInterface
@@ -25,17 +25,17 @@ namespace fea
      *  @fn VideoMode::VideoMode(uint32_t w, uint32_t h, uint32_t bitDepth=32) 
      *  @brief Default constructor.
      *
-     *  @param w Width in pixels.
-     *  @param h Width in pixels.
+     *  @param width Width in pixels.
+     *  @param height Height in pixels.
      *  @param bitDepth Pixel depth in bits per pixel.
      ***
-     *  @var VideoMode::width
+     *  @var VideoMode::mWidth
      *  @brief The width of the video mode in pixels.
      ***
-     *  @var VideoMode::height
+     *  @var VideoMode::mHeight
      *  @brief The height of the video mode in pixels.
      ***
-     *  @var VideoMode::bitsPerPixel
+     *  @var VideoMode::mBitDepth
      *  @brief The depth of the video mode in bits per pixels.
      ***/
 
