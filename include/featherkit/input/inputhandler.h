@@ -33,8 +33,8 @@ namespace fea
             void setGamepadThreshold(float threshold);
             void setKeyRepeatEnabled(bool enabled);
         private:
-            std::unique_ptr<InputBackend> inputBackend;
-            std::queue<Event> eventQueue;
+            std::unique_ptr<InputBackend> mInputBackend;
+            std::queue<Event> mEventQueue;
     };
 
     /** @addtogroup UserInterface
