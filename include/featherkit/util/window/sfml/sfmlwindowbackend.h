@@ -11,7 +11,7 @@ namespace fea
         class SFMLWindowBackend : public WindowBackend
         {
             public:
-                SFMLWindowBackend(sf::Window& w);
+                SFMLWindowBackend(sf::Window& window);
 
                 void create(VideoMode mode, const std::string& title, uint32_t style = Style::Default, const ContextSettings& settings = ContextSettings()) override;
                 void close() override;

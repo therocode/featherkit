@@ -19,7 +19,7 @@ namespace fea
 			mWindow = SDL_CreateWindow(title.c_str(),
 					SDL_WINDOWPOS_CENTERED,
 					SDL_WINDOWPOS_CENTERED,
-					mode.width, mode.height,
+					mode.mWidth, mode.mHeight,
 					SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 			mGlContext = SDL_GL_CreateContext(mWindow);
 		}

@@ -3,14 +3,14 @@ namespace fea
 {
     namespace util
     {
-        SFMLWindowBackend::SFMLWindowBackend(sf::Window& w) : mWindow(w)
+        SFMLWindowBackend::SFMLWindowBackend(sf::Window& window) : mWindow(window)
         {
         }
 
         void SFMLWindowBackend::create(VideoMode mode, const std::string& title, uint32_t style, const ContextSettings& settings)
         {
-            sf::VideoMode vidMode(mode.width, mode.height, mode.bitsPerPixel);
-            sf::ContextSettings conSettings(settings.depthBits, settings.stencilBits, settings.antialiasingLevel, settings.majorVersion, settings.minorVersion);
+            sf::VideoMode vidMode(mode.mWidth, mode.mHeight, mode.mBitDepth);
+            sf::ContextSettings conSettings(settings.mDepthBits, settings.mStencilBits, settings.mAntialiasingLevel, settings.mMajorVersion, settings.mMinorVersion);
             mWindow.create(vidMode, title, style, conSettings);
         }
 
@@ -97,7 +97,7 @@ namespace fea
 		{
 		
 			//#ifdef __WIN32__
-			//HWND hwnd = (HWND)window.getSystemHandle();
+			//HWND hwnd = (HWND)mWindow.getSystemHandle();
 
 			//if (lock) {
 			//	RECT rect;
