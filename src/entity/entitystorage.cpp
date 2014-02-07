@@ -14,7 +14,7 @@ namespace fea
     }
 
 
-    EntityStorage::EntityStorage() : nextId(0)
+    EntityStorage::EntityStorage() : mNextId(0)
     {
     }
 
@@ -22,32 +22,32 @@ namespace fea
     {
         uint32_t newId;
 
-        if(freeIds.size() != 0)
+        if(mFreeIds.size() != 0)
         {
-            newId = freeIds.top();
-            freeIds.pop();
+            newId = mFreeIds.top();
+            mFreeIds.pop();
         }
         else
         {
-            newId = nextId;
-            nextId++;
+            newId = mNextId;
+            mNextId++;
         }
 
-        entities.emplace(newId, StorageEntity(attributeList));
+        mEntities.emplace(newId, StorageEntity(attributeList));
         return newId;
     }
     
     void EntityStorage::removeEntity(uint32_t id)
     {
-        entities.erase(id);
-        freeIds.push(id);
+        mEntities.erase(id);
+        mFreeIds.push(id);
     }
 
     bool EntityStorage::hasData(const uint32_t id, const std::string& attribute) const
     {
         try
         {
-            return entities.at(id).hasData(attribute); 
+            return mEntities.at(id).hasData(attribute); 
         }
         catch(std::out_of_range)
         {
@@ -57,14 +57,14 @@ namespace fea
 
     bool EntityStorage::attributeIsValid(const std::string& attribute) const
     {
-        return attributes.find(attribute) != attributes.end();
+        return mAttributes.find(attribute) != mAttributes.end();
     }
 
     void EntityStorage::clear()
     {
-        attributes.clear();
-        entities.clear();
-        freeIds = std::stack<uint32_t>();
-        nextId = 0;
+        mAttributes.clear();
+        mEntities.clear();
+        mFreeIds = std::stack<uint32_t>();
+        mNextId = 0;
     }
 }

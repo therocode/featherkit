@@ -2,7 +2,7 @@
 
 namespace fea
 {
-    InvalidAttributeException::InvalidAttributeException(const std::string& m, const std::string& n) : std::runtime_error(m), name(n) 
+    InvalidAttributeException::InvalidAttributeException(const std::string& message, const std::string& attribute) : std::runtime_error(message), mAttribute(attribute) 
     {
     }
     

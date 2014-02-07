@@ -8,16 +8,16 @@ namespace fea
     class EntityFactory
     {
         public:
-            EntityFactory(EntityManager& manager);
+            EntityFactory(EntityManager& entityManager);
             WeakEntityPtr createEntity(const std::string& templateName);
             void registerEntityTemplate(const std::string& templateName, const std::vector<std::pair<std::string, std::string>>& attributes);
             void registerEntityTemplates(const std::unordered_map<std::string, std::vector<std::pair<std::string, std::string>>>& templates);
             void registerDefaultSetter(const std::string& attribute, std::function<void(const std::string&, const std::vector<std::string>&, WeakEntityPtr)> defaultFunc);
             void clear();
         private:
-            fea::EntityManager& entityManager;
-            std::unordered_map<std::string, std::vector<std::pair<std::string, std::string>>> entityTemplates;
-            std::unordered_map<std::string, std::function<void(std::string, std::vector<std::string>&, WeakEntityPtr)>> defaultSetters;
+            fea::EntityManager& mEntityManager;
+            std::unordered_map<std::string, std::vector<std::pair<std::string, std::string>>> mEntityTemplates;
+            std::unordered_map<std::string, std::function<void(std::string, std::vector<std::string>&, WeakEntityPtr)>> mDefaultSetters;
     };
     /** @addtogroup EntitySystem
      *@{

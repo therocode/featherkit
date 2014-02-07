@@ -5,7 +5,7 @@
 
 namespace fea
 {
-    EntityFactory::EntityFactory(EntityManager& manager) : entityManager(manager)
+    EntityFactory::EntityFactory(EntityManager& entityManager) : mEntityManager(entityManager)
     {
     }
 
@@ -16,7 +16,7 @@ namespace fea
 
         try
         {
-            entityTemplate = entityTemplates.at(templateName);
+            entityTemplate = mEntityTemplates.at(templateName);
         }
         catch(std::out_of_range)
         {
@@ -28,7 +28,7 @@ namespace fea
         for(const auto& pair : entityTemplate)
             attributes.push_back(pair.first);
 
-        created = entityManager.createEntity(attributes);
+        created = mEntityManager.createEntity(attributes);
         
         for(const auto& pair : entityTemplate)
         {
@@ -39,7 +39,7 @@ namespace fea
             std::function<void(std::string, std::vector<std::string>&, WeakEntityPtr)> defaultSetter;
             try
             {
-                defaultSetter = defaultSetters.at(pair.first);
+                defaultSetter = mDefaultSetters.at(pair.first);
             }
             catch(std::out_of_range)
             {
@@ -58,9 +58,9 @@ namespace fea
 
     void EntityFactory::registerEntityTemplate(const std::string& templateName, const std::vector<std::pair<std::string, std::string>>& attributes)
     {
-        if(entityTemplates.find(templateName) == entityTemplates.end())
+        if(mEntityTemplates.find(templateName) == mEntityTemplates.end())
         {
-            entityTemplates.emplace(templateName, attributes);
+            mEntityTemplates.emplace(templateName, attributes);
         }
         else
         {
@@ -78,9 +78,9 @@ namespace fea
     
     void EntityFactory::registerDefaultSetter(const std::string& attribute, std::function<void(const std::string&, const std::vector<std::string>&, WeakEntityPtr)> defaultFunc)
     {
-        if(entityManager.attributeIsValid(attribute))
+        if(mEntityManager.attributeIsValid(attribute))
         {
-            defaultSetters.emplace(attribute, defaultFunc);
+            mDefaultSetters.emplace(attribute, defaultFunc);
         }
         else
         {
@@ -90,7 +90,7 @@ namespace fea
 
     void EntityFactory::clear()
     {
-        entityTemplates.clear();
-        defaultSetters.clear();
+        mEntityTemplates.clear();
+        mDefaultSetters.clear();
     }
 }

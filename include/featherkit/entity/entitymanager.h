@@ -39,8 +39,8 @@ namespace fea
             void removeAll();
             void clear();
         private:
-            std::unordered_map<EntityId, EntityPtr> entities;
-            EntityStorage storage;
+            std::unordered_map<EntityId, EntityPtr> mEntities;
+            EntityStorage mStorage;
     };
 
     template<class DataType>
@@ -48,7 +48,7 @@ namespace fea
     {
         try
         {
-            return storage.getData<DataType>(id, attribute);
+            return mStorage.getData<DataType>(id, attribute);
         }
         catch(InvalidAttributeException)
         {
@@ -65,7 +65,7 @@ namespace fea
     {
         try
         {
-            storage.setData(id, attribute, attributeData);
+            mStorage.setData(id, attribute, attributeData);
         }
         catch(InvalidAttributeException)
         {
@@ -80,13 +80,13 @@ namespace fea
     template<class DataType>
     void EntityManager::addToAttribute(const EntityId id, const std::string& attribute, const DataType& attributeData)
     {
-        storage.setData(id, attribute, storage.getData<DataType>(id, attribute) + attributeData);
+        mStorage.setData(id, attribute, mStorage.getData<DataType>(id, attribute) + attributeData);
     }
 
     template<class DataType>
     void EntityManager::registerAttribute(const std::string& attribute)
     {
-        storage.registerAttribute<DataType>(attribute);
+        mStorage.registerAttribute<DataType>(attribute);
     }
     /** @addtogroup EntitySystem
      *@{

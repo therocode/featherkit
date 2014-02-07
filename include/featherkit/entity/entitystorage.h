@@ -38,10 +38,10 @@ namespace fea
         bool attributeIsValid(const std::string& attribute) const;
         void clear();
 
-        std::unordered_map<std::string, std::type_index> attributes;
-        std::unordered_map<uint32_t, StorageEntity> entities;
-        std::stack<uint32_t> freeIds;
-        uint32_t nextId;
+        std::unordered_map<std::string, std::type_index> mAttributes;
+        std::unordered_map<uint32_t, StorageEntity> mEntities;
+        std::stack<uint32_t> mFreeIds;
+        uint32_t mNextId;
     };
     
     template<class DataType>
@@ -81,9 +81,9 @@ namespace fea
     template<class DataType>
     void EntityStorage::registerAttribute(const std::string& attribute)
     {
-        if(attributes.find(attribute) == attributes.end())
+        if(mAttributes.find(attribute) == mAttributes.end())
         {
-            attributes.emplace(attribute, typeid(DataType));
+            mAttributes.emplace(attribute, typeid(DataType));
         }
         else
         {
@@ -96,8 +96,8 @@ namespace fea
     {
         try
         {
-            FEA_ASSERT(std::type_index(typeid(DataType)) == attributes.at(attribute), "Trying to set attibute '" + attribute + "' as a '" + std::type_index(typeid(DataType)).name() + std::string(" but it is of type '") + std::string(attributes.at(attribute).name()) + "'");
-            entities.at(id).setData(attribute, inData);
+            FEA_ASSERT(std::type_index(typeid(DataType)) == mAttributes.at(attribute), "Trying to set attibute '" + attribute + "' as a '" + std::type_index(typeid(DataType)).name() + std::string(" but it is of type '") + std::string(mAttributes.at(attribute).name()) + "'");
+            mEntities.at(id).setData(attribute, inData);
         }
         catch(std::out_of_range)
         {
@@ -110,8 +110,8 @@ namespace fea
     {
         try
         {
-            FEA_ASSERT(std::type_index(typeid(DataType)) == attributes.at(attribute), "Trying to get attibute '" + attribute + "' as a '" + std::type_index(typeid(DataType)).name() + std::string(" but it is of type '") + std::string(attributes.at(attribute).name()) + "'");
-            return entities.at(id).getData<DataType>(attribute);
+            FEA_ASSERT(std::type_index(typeid(DataType)) == mAttributes.at(attribute), "Trying to get attibute '" + attribute + "' as a '" + std::type_index(typeid(DataType)).name() + std::string(" but it is of type '") + std::string(mAttributes.at(attribute).name()) + "'");
+            return mEntities.at(id).getData<DataType>(attribute);
         }
         catch(std::out_of_range)
         {
