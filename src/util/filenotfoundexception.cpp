@@ -9,7 +9,7 @@ namespace fea
         {
         }
 
-        FileNotFoundException::FileNotFoundException(std::string msg):runtime_error(msg.c_str())
+        FileNotFoundException::FileNotFoundException(const std::string& message):runtime_error(message.c_str())
         {
         }
     }

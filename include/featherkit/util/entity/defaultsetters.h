@@ -10,7 +10,7 @@ namespace fea
         class DefaultSetterException : public std::runtime_error 
         {
             public:
-                DefaultSetterException(const std::string& m);
+                DefaultSetterException(const std::string& message);
         };
 
         void floatSetter(const std::string& attribute, const std::vector<std::string>& arguments, fea::WeakEntityPtr entity);
@@ -50,7 +50,7 @@ namespace fea
          *  @class DefaultSetterException
          *  @brief Exception used by the default setter functions system.
          *
-         *  @fn DefaultSetterException::DefaultSetterException(const std::string& m)
+         *  @fn DefaultSetterException::DefaultSetterException(const std::string& message)
          *  @brief Construct an exception to throw containing a message.
          *  @param m Message further describing the error.
          ***/

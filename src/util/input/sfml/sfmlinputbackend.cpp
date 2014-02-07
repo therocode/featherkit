@@ -4,7 +4,7 @@ namespace fea
 {
     namespace util
     {
-        SFMLInputBackend::SFMLInputBackend(sf::Window& w) : window(w)
+        SFMLInputBackend::SFMLInputBackend(sf::Window& window) : mWindow(window)
         {
         }
 
@@ -13,7 +13,7 @@ namespace fea
             sf::Event event;
             std::queue<Event> result;
 
-            while (window.pollEvent(event))
+            while (mWindow.pollEvent(event))
             {
                 if(event.type == sf::Event::Closed)
                     result.push(closed());
@@ -74,7 +74,7 @@ namespace fea
 
         glm::ivec2 SFMLInputBackend::getMouseWindowPosition()
         {
-            sf::Vector2i pos = sf::Mouse::getPosition(window);
+            sf::Vector2i pos = sf::Mouse::getPosition(mWindow);
             return glm::ivec2(pos.x, pos.y);
         }
 
@@ -85,7 +85,7 @@ namespace fea
 
         void SFMLInputBackend::setMouseWindowPosition(int32_t x, int32_t y)
         {
-            sf::Mouse::setPosition({x, y}, window);
+            sf::Mouse::setPosition({x, y}, mWindow);
         }
 
         bool SFMLInputBackend::isGamepadConnected(uint32_t id)
@@ -115,12 +115,12 @@ namespace fea
 
         void SFMLInputBackend::setGamepadThreshold(float threshold)
         {
-            window.setJoystickThreshold(threshold);
+            mWindow.setJoystickThreshold(threshold);
         }
 
         void SFMLInputBackend::setKeyRepeatEnabled(bool enabled)
         {
-            window.setKeyRepeatEnabled(enabled);
+            mWindow.setKeyRepeatEnabled(enabled);
         }
 
         Event SFMLInputBackend::closed()

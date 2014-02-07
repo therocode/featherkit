@@ -36,7 +36,7 @@ namespace fea
                 void lockCursor(bool lock) override; //not supported
                 ~SDLWindowBackend();
             private:
-                SDL_Surface* window;
+                SDL_Surface* mWindow;
         };
     }
 }

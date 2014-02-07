@@ -32,7 +32,7 @@ namespace fea
                 void swapBuffers() override;
 				void lockCursor(bool lock) override; //Not supported
             private:
-                sf::Window& window;
+                sf::Window& mWindow;
         };
     }
 }

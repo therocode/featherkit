@@ -5,7 +5,7 @@ namespace fea
 {
     namespace util
     {
-        SDLWindowBackend::SDLWindowBackend() : window(nullptr)
+        SDLWindowBackend::SDLWindowBackend() : mWindow(nullptr)
         {
             SDL_Init(SDL_INIT_VIDEO);
         }
@@ -15,19 +15,19 @@ namespace fea
             //todo: fix style
             (void) style;
             (void) settings;
-            window = SDL_SetVideoMode((int32_t)mode.width, (int32_t)mode.height, (int32_t)mode.bitsPerPixel, SDL_OPENGL | SDL_RESIZABLE);
+            mWindow = SDL_SetVideoMode((int32_t)mode.width, (int32_t)mode.height, (int32_t)mode.bitsPerPixel, SDL_OPENGL | SDL_RESIZABLE);
             SDL_WM_SetCaption(title.c_str(), nullptr);
         }
 
         void SDLWindowBackend::close()
         {
             SDL_Quit();
-            window = nullptr;
+            mWindow = nullptr;
         }
 
         bool SDLWindowBackend::isOpen() const
         {
-            return window != nullptr;
+            return mWindow != nullptr;
         }
 
         const ContextSettings SDLWindowBackend::getSettings() const
@@ -61,7 +61,7 @@ namespace fea
 
         void SDLWindowBackend::setSize(int32_t w, int32_t h)
         {
-            window = SDL_SetVideoMode(w, h, 32, SDL_OPENGL | SDL_RESIZABLE);
+            mWindow = SDL_SetVideoMode(w, h, 32, SDL_OPENGL | SDL_RESIZABLE);
         }
 
         void SDLWindowBackend::setTitle(const std::string& title)
@@ -120,7 +120,7 @@ namespace fea
         
         SDLWindowBackend::~SDLWindowBackend()
         {
-            free(window);
+            free(mWindow);
         }
     }
 }

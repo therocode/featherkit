@@ -10,7 +10,7 @@ namespace fea
         class SFMLInputBackend : public InputBackend
         {
             public:
-                SFMLInputBackend(sf::Window& w);
+                SFMLInputBackend(sf::Window& window);
 
                 std::queue<Event> fetchEvents() override;
 
@@ -49,7 +49,7 @@ namespace fea
                 Event gamepadMoved(sf::Event& event);
                 Event gamepadConnected(sf::Event& event);
                 Event gamepadDisconnected(sf::Event& event);
-                sf::Window& window;
+                sf::Window& mWindow;
         };
     }
 }

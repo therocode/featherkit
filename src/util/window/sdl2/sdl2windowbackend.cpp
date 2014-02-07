@@ -4,7 +4,7 @@ namespace fea
 {
 	namespace util
 	{
-		SDL2WindowBackend::SDL2WindowBackend() : window(nullptr)
+		SDL2WindowBackend::SDL2WindowBackend() : mWindow(nullptr)
 		{
 			SDL_Init(SDL_INIT_VIDEO);
 		}
@@ -16,25 +16,25 @@ namespace fea
 			(void) settings;
 			//SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 			//SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
-			window = SDL_CreateWindow(title.c_str(),
+			mWindow = SDL_CreateWindow(title.c_str(),
 					SDL_WINDOWPOS_CENTERED,
 					SDL_WINDOWPOS_CENTERED,
 					mode.width, mode.height,
 					SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
-			glContext = SDL_GL_CreateContext(window);
+			mGlContext = SDL_GL_CreateContext(mWindow);
 		}
 
 		void SDL2WindowBackend::close()
 		{
-			SDL_DestroyWindow(window);
+			SDL_DestroyWindow(mWindow);
 			SDL_Quit();
-			window = nullptr;
+			mWindow = nullptr;
 		}
 
 
 		bool SDL2WindowBackend::isOpen() const
 		{
-			return window != nullptr;
+			return mWindow != nullptr;
 		}
 
 		const ContextSettings SDL2WindowBackend::getSettings() const
@@ -50,7 +50,7 @@ namespace fea
             s.y = 0;
 
 			if(isOpen())
-				SDL_GetWindowPosition(window, &s.x, &s.y);
+				SDL_GetWindowPosition(mWindow, &s.x, &s.y);
 			
             return s;
 		}
@@ -59,7 +59,7 @@ namespace fea
 		{
 			if(isOpen())
 			{
-				SDL_SetWindowPosition(window, x, y);
+				SDL_SetWindowPosition(mWindow, x, y);
 			}
 		}
 
@@ -70,19 +70,19 @@ namespace fea
 			s.y = 0;
 
 			if(isOpen())
-				SDL_GetWindowSize(window, &s.x, &s.y);
+				SDL_GetWindowSize(mWindow, &s.x, &s.y);
 
 			return s;
 		}
 
 		void SDL2WindowBackend::setSize(int32_t w, int32_t h)
 		{
-			SDL_SetWindowSize(window, w, h);
+			SDL_SetWindowSize(mWindow, w, h);
 		}
 
 		void SDL2WindowBackend::setTitle(const std::string& title)
 		{
-			SDL_SetWindowTitle(window, title.c_str());
+			SDL_SetWindowTitle(mWindow, title.c_str());
 		}
 
 		void SDL2WindowBackend::setIcon(uint32_t width, uint32_t height, const uint8_t* pixels)
@@ -92,7 +92,7 @@ namespace fea
 				printf("Window icon could not be loaded: %s\n", SDL_GetError());
 				//return;
 			}
-			SDL_SetWindowIcon(window, f);
+			SDL_SetWindowIcon(mWindow, f);
 		}
 
 		void SDL2WindowBackend::setVisible(bool visible)
@@ -127,7 +127,7 @@ namespace fea
 
 		void SDL2WindowBackend::swapBuffers()
 		{
-			SDL_GL_SwapWindow(window);
+			SDL_GL_SwapWindow(mWindow);
 		}
 
 		void SDL2WindowBackend::lockCursor(bool lock)
@@ -135,13 +135,13 @@ namespace fea
 			if(isOpen())
 			{
 				SDL_SetRelativeMouseMode((SDL_bool)lock);
-				SDL_SetWindowGrab(window, (SDL_bool)lock);
+				SDL_SetWindowGrab(mWindow, (SDL_bool)lock);
 			}
 		}
 
 		SDL2WindowBackend::~SDL2WindowBackend()
 		{
-			free(window);
+			free(mWindow);
 		}
 	}
 }

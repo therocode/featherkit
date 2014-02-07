@@ -9,7 +9,7 @@ namespace fea
         {
             public:
                 FileNotFoundException();
-                FileNotFoundException(std::string msg);
+                FileNotFoundException(const std::string& message);
         };
     }
 }

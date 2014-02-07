@@ -4,7 +4,7 @@ namespace fea
 {
     namespace util
     {
-        DefaultSetterException::DefaultSetterException(const std::string& m) : std::runtime_error(m)
+        DefaultSetterException::DefaultSetterException(const std::string& message) : std::runtime_error(message)
         {
         }
 
