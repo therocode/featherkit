@@ -26,8 +26,8 @@ namespace fea
             ~GameStateMachine();
         private:
             void switchState(const std::string& nextName);
-            std::weak_ptr<GameState> currentState;
-            std::string currentStateName;
+            std::weak_ptr<GameState> mCurrentState;
+            std::string mCurrentStateName;
             std::map<StateName, std::shared_ptr<GameState> > gameStates;
     };
     

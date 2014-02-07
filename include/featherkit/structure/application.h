@@ -16,7 +16,7 @@ namespace fea
         protected:
             virtual void setup(const std::vector<std::string>& args) = 0;
         private:
-            bool shutDown;
+            bool mShutDown;
     };
     /** @addtogroup Structure
      *@{
