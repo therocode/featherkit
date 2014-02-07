@@ -32,9 +32,9 @@ namespace fea
             void clearBindings();
             void clearActions();
         private:
-            std::map<ActionTrigger, Action> primaryBindings;
-            std::map<ActionTrigger, Action> secondaryBindings;
-            std::queue<Action> actions;
+            std::map<ActionTrigger, Action> mPrimaryBindings;
+            std::map<ActionTrigger, Action> mSecondaryBindings;
+            std::queue<Action> mActions;
     };
 
     template<class Action>
@@ -89,16 +89,16 @@ namespace fea
             }
             
             
-            binding = primaryBindings.find(trigger);
+            binding = mPrimaryBindings.find(trigger);
 
-            if(binding != primaryBindings.end())
+            if(binding != mPrimaryBindings.end())
             {
                 newActions.push(binding->second);
             }
             else
             {
-                binding = secondaryBindings.find(trigger);
-                if(binding != secondaryBindings.end())
+                binding = mSecondaryBindings.find(trigger);
+                if(binding != mSecondaryBindings.end())
                 {
                     newActions.push(binding->second);
                 }
@@ -109,23 +109,23 @@ namespace fea
         {
             while(newActions.size() > 0)
             {
-                actions.push(newActions.front());
+                mActions.push(newActions.front());
                 newActions.pop();
             }
         }
         else
         {
-            actions = newActions;
+            mActions = newActions;
         }
     }
     
     template<class Action>
     bool ActionHandler<Action>::pollAction(Action& action)
     {
-        if(actions.size() > 0)
+        if(mActions.size() > 0)
         {
-            action = actions.front();
-            actions.pop();
+            action = mActions.front();
+            mActions.pop();
             return true;
         }
         else
@@ -141,25 +141,25 @@ namespace fea
 
         if(!secondary)
         {
-            for(auto bound = primaryBindings.begin(); bound != primaryBindings.end();)
+            for(auto bound = mPrimaryBindings.begin(); bound != mPrimaryBindings.end();)
             {
                 if(bound->second == action)
-                    bound = primaryBindings.erase(bound);
+                    bound = mPrimaryBindings.erase(bound);
                 else
                     bound++;
             }
-            primaryBindings[trigger] = action;
+            mPrimaryBindings[trigger] = action;
         }
         else
         {
-            for(auto bound = secondaryBindings.begin(); bound != secondaryBindings.end();)
+            for(auto bound = mSecondaryBindings.begin(); bound != mSecondaryBindings.end();)
             {
                 if(bound->second == action)
-                    bound = secondaryBindings.erase(bound);
+                    bound = mSecondaryBindings.erase(bound);
                 else
                     bound++;
             }
-            secondaryBindings[trigger] = action;
+            mSecondaryBindings[trigger] = action;
         }
     }
 
@@ -172,25 +172,25 @@ namespace fea
 
         if(!secondary)
         {
-            for(auto bound = primaryBindings.begin(); bound != primaryBindings.end();)
+            for(auto bound = mPrimaryBindings.begin(); bound != mPrimaryBindings.end();)
             {
                 if(bound->second == action)
-                    bound = primaryBindings.erase(bound);
+                    bound = mPrimaryBindings.erase(bound);
                 else
                     bound++;
             }
-            primaryBindings[trigger] = action;
+            mPrimaryBindings[trigger] = action;
         }
         else
         {
-            for(auto bound = secondaryBindings.begin(); bound != secondaryBindings.end();)
+            for(auto bound = mSecondaryBindings.begin(); bound != mSecondaryBindings.end();)
             {
                 if(bound->second == action)
-                    bound = secondaryBindings.erase(bound);
+                    bound = mSecondaryBindings.erase(bound);
                 else
                     bound++;
             }
-            secondaryBindings[trigger] = action;
+            mSecondaryBindings[trigger] = action;
         }
     }
 
@@ -203,25 +203,25 @@ namespace fea
 
         if(!secondary)
         {
-            for(auto bound = primaryBindings.begin(); bound != primaryBindings.end();)
+            for(auto bound = mPrimaryBindings.begin(); bound != mPrimaryBindings.end();)
             {
                 if(bound->second == action)
-                    bound = primaryBindings.erase(bound);
+                    bound = mPrimaryBindings.erase(bound);
                 else
                     bound++;
             }
-            primaryBindings[trigger] = action;
+            mPrimaryBindings[trigger] = action;
         }
         else
         {
-            for(auto bound = secondaryBindings.begin(); bound != secondaryBindings.end();)
+            for(auto bound = mSecondaryBindings.begin(); bound != mSecondaryBindings.end();)
             {
                 if(bound->second == action)
-                    bound = secondaryBindings.erase(bound);
+                    bound = mSecondaryBindings.erase(bound);
                 else
                     bound++;
             }
-            secondaryBindings[trigger] = action;
+            mSecondaryBindings[trigger] = action;
         }
     }
 
@@ -234,25 +234,25 @@ namespace fea
 
         if(!secondary)
         {
-            for(auto bound = primaryBindings.begin(); bound != primaryBindings.end();)
+            for(auto bound = mPrimaryBindings.begin(); bound != mPrimaryBindings.end();)
             {
                 if(bound->second == action)
-                    bound = primaryBindings.erase(bound);
+                    bound = mPrimaryBindings.erase(bound);
                 else
                     bound++;
             }
-            primaryBindings[trigger] = action;
+            mPrimaryBindings[trigger] = action;
         }
         else
         {
-            for(auto bound = secondaryBindings.begin(); bound != secondaryBindings.end();)
+            for(auto bound = mSecondaryBindings.begin(); bound != mSecondaryBindings.end();)
             {
                 if(bound->second == action)
-                    bound = secondaryBindings.erase(bound);
+                    bound = mSecondaryBindings.erase(bound);
                 else
                     bound++;
             }
-            secondaryBindings[trigger] = action;
+            mSecondaryBindings[trigger] = action;
         }
     }
 
@@ -266,25 +266,25 @@ namespace fea
         
         if(!secondary)
         {
-            for(auto bound = primaryBindings.begin(); bound != primaryBindings.end();)
+            for(auto bound = mPrimaryBindings.begin(); bound != mPrimaryBindings.end();)
             {
                 if(bound->second == action)
-                    bound = primaryBindings.erase(bound);
+                    bound = mPrimaryBindings.erase(bound);
                 else
                     bound++;
             }
-            primaryBindings[trigger] = action;
+            mPrimaryBindings[trigger] = action;
         }
         else
         {
-            for(auto bound = secondaryBindings.begin(); bound != secondaryBindings.end();)
+            for(auto bound = mSecondaryBindings.begin(); bound != mSecondaryBindings.end();)
             {
                 if(bound->second == action)
-                    bound = secondaryBindings.erase(bound);
+                    bound = mSecondaryBindings.erase(bound);
                 else
                     bound++;
             }
-            secondaryBindings[trigger] = action;
+            mSecondaryBindings[trigger] = action;
         }
     }
 
@@ -298,59 +298,59 @@ namespace fea
         
         if(!secondary)
         {
-            for(auto bound = primaryBindings.begin(); bound != primaryBindings.end();)
+            for(auto bound = mPrimaryBindings.begin(); bound != mPrimaryBindings.end();)
             {
                 if(bound->second == action)
-                    bound = primaryBindings.erase(bound);
+                    bound = mPrimaryBindings.erase(bound);
                 else
                     bound++;
             }
-            primaryBindings[trigger] = action;
+            mPrimaryBindings[trigger] = action;
         }
         else
         {
-            for(auto bound = secondaryBindings.begin(); bound != secondaryBindings.end();)
+            for(auto bound = mSecondaryBindings.begin(); bound != mSecondaryBindings.end();)
             {
                 if(bound->second == action)
-                    bound = secondaryBindings.erase(bound);
+                    bound = mSecondaryBindings.erase(bound);
                 else
                     bound++;
             }
-            secondaryBindings[trigger] = action;
+            mSecondaryBindings[trigger] = action;
         }
     }
 
     template<class Action>
     const std::map<ActionTrigger, Action>& ActionHandler<Action>::getPrimaryBindings()
     {
-        return primaryBindings;
+        return mPrimaryBindings;
     }
     
     template<class Action>
     const std::map<ActionTrigger, Action>& ActionHandler<Action>::getSecondaryBindings()
     {
-        return secondaryBindings;
+        return mSecondaryBindings;
     }
     
     template<class Action>        
     void ActionHandler<Action>::setPrimaryBindings(const std::map<ActionTrigger, Action>& bindings)
     {
-        primaryBindings = bindings;
+        mPrimaryBindings = bindings;
     }
 
     template<class Action>
     void ActionHandler<Action>::setSecondaryBindings(const std::map<ActionTrigger, Action>& bindings)
     {
-        secondaryBindings = bindings;
+        mSecondaryBindings = bindings;
     }
     
     template<class Action>
     void ActionHandler<Action>::removePrimaryBinding(const Action& action)
     {
-        for(auto bound = primaryBindings.begin(); bound != primaryBindings.end();)
+        for(auto bound = mPrimaryBindings.begin(); bound != mPrimaryBindings.end();)
         {
             if(bound->second == action)
-                bound = primaryBindings.erase(bound);
+                bound = mPrimaryBindings.erase(bound);
             else
                 bound++;
         }
@@ -359,10 +359,10 @@ namespace fea
     template<class Action>
     void ActionHandler<Action>::removeSecondaryBinding(const Action& action)
     {
-        for(auto bound = secondaryBindings.begin(); bound != secondaryBindings.end();)
+        for(auto bound = mSecondaryBindings.begin(); bound != mSecondaryBindings.end();)
         {
             if(bound->second == action)
-                bound = secondaryBindings.erase(bound);
+                bound = mSecondaryBindings.erase(bound);
             else
                 bound++;
         }
@@ -371,14 +371,14 @@ namespace fea
     template<class Action>
     void ActionHandler<Action>::clearBindings()
     {
-        primaryBindings.clear();
-        secondaryBindings.clear();
+        mPrimaryBindings.clear();
+        mSecondaryBindings.clear();
     }
     
     template<class Action>
     void ActionHandler<Action>::clearActions()
     {
-        actions = std::queue<Action>();
+        mActions = std::queue<Action>();
     }
 
     /** @addtogroup UserInterface

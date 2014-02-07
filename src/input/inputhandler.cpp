@@ -3,32 +3,32 @@
 
 namespace fea
 {
-    InputHandler::InputHandler(InputBackend* backend) : inputBackend(backend)
+    InputHandler::InputHandler(InputBackend* backend) : mInputBackend(backend)
     {
     }
 
     void InputHandler::processEvents(bool keepLast)
     {
-        std::queue<Event> newEvents = inputBackend->fetchEvents();
+        std::queue<Event> newEvents = mInputBackend->fetchEvents();
 
         if(keepLast)
         {
             while(newEvents.size() > 0)
-                eventQueue.push(newEvents.front());
+                mEventQueue.push(newEvents.front());
                 newEvents.pop();
         }
         else
         {
-            eventQueue = newEvents;
+            mEventQueue = newEvents;
         }
     }
     
     bool InputHandler::pollEvent(Event& event)
     {
-        if(eventQueue.size() > 0)
+        if(mEventQueue.size() > 0)
         {
-            event = eventQueue.front();
-            eventQueue.pop();
+            event = mEventQueue.front();
+            mEventQueue.pop();
             return true;
         }
         else 
@@ -39,71 +39,71 @@ namespace fea
     
     const std::queue<Event>& InputHandler::getEventQueue() const
     {
-        return eventQueue;
+        return mEventQueue;
     }
     
     bool InputHandler::isKeyPressed(Keyboard::Code code) const
     {
-        return inputBackend->isKeyPressed(code);
+        return mInputBackend->isKeyPressed(code);
     }
     
     bool InputHandler::isMouseButtonPressed(Mouse::Button b) const
     {
-        return inputBackend->isMouseButtonPressed(b);
+        return mInputBackend->isMouseButtonPressed(b);
     }
     
     glm::ivec2 InputHandler::getMouseGlobalPosition() const
     {
-        return inputBackend->getMouseGlobalPosition();
+        return mInputBackend->getMouseGlobalPosition();
     }
 
     glm::ivec2 InputHandler::getMouseWindowPosition() const
     {
-        return inputBackend->getMouseWindowPosition();
+        return mInputBackend->getMouseWindowPosition();
     }
     
     void InputHandler::setMouseGlobalPosition(int32_t x, int32_t y)
     {
-        inputBackend->setMouseGlobalPosition(x, y);
+        mInputBackend->setMouseGlobalPosition(x, y);
     }
     
     void InputHandler::setMouseWindowPosition(int32_t x, int32_t y)
     {
-        inputBackend->setMouseWindowPosition(x, y);
+        mInputBackend->setMouseWindowPosition(x, y);
     }
 
     bool InputHandler::isGamepadConnected(uint32_t id) const
     {
-        return inputBackend->isGamepadConnected(id);
+        return mInputBackend->isGamepadConnected(id);
     }
 
     uint32_t InputHandler::getGamepadButtonCount(uint32_t id) const
     {
-        return inputBackend->getGamepadButtonCount(id);
+        return mInputBackend->getGamepadButtonCount(id);
     }
 
     bool InputHandler::isGamepadButtonPressed(uint32_t id, uint32_t button) const
     {
-        return inputBackend->isGamepadButtonPressed(id, button);
+        return mInputBackend->isGamepadButtonPressed(id, button);
     }
 
     bool InputHandler::gamepadHasAxis(uint32_t id, Gamepad::Axis axis) const
     {
-        return inputBackend->gamepadHasAxis(id, axis);
+        return mInputBackend->gamepadHasAxis(id, axis);
     }
 
     float InputHandler::getGamepadAxisPosition(uint32_t id, Gamepad::Axis axis) const
     {
-        return inputBackend->getGamepadAxisPosition(id, axis);
+        return mInputBackend->getGamepadAxisPosition(id, axis);
     }
 
     void InputHandler::setGamepadThreshold(float threshold)
     {
-        inputBackend->setGamepadThreshold(threshold);
+        mInputBackend->setGamepadThreshold(threshold);
     }
 
     void InputHandler::setKeyRepeatEnabled(bool enabled)
     {
-        inputBackend->setKeyRepeatEnabled(enabled);
+        mInputBackend->setKeyRepeatEnabled(enabled);
     }
 }

@@ -21,15 +21,15 @@ namespace fea
                     const std::map<ActionTrigger, Action> getPrimaryBindings() const;
                     const std::map<ActionTrigger, Action> getSecondaryBindings() const;
                 private:
-                    std::map<ActionTrigger, Action> primaryBindings;
-                    std::map<ActionTrigger, Action> secondaryBindings;
+                    std::map<ActionTrigger, Action> mPrimaryBindings;
+                    std::map<ActionTrigger, Action> mSecondaryBindings;
             };
 
         template<class Action>
             void JsonActionIOHandler<Action>::loadBindingsFile(const std::string& path, std::function<std::string(Action)> stringToAction)
             {
-                primaryBindings.clear();
-                secondaryBindings.clear();
+                mPrimaryBindings.clear();
+                mSecondaryBindings.clear();
 
                 std::ifstream file(path);
 
@@ -90,7 +90,7 @@ namespace fea
                             tempTrigger.gamepadId = (uint32_t) std::stoi(binding.GetStringMember("gamepadid"));
                         }
 
-                        primaryBindings.insert(std::pair<ActionTrigger, Action>(tempTrigger, tempAction));
+                        mPrimaryBindings.insert(std::pair<ActionTrigger, Action>(tempTrigger, tempAction));
                     }
                 }
 
@@ -140,7 +140,7 @@ namespace fea
                             tempTrigger.gamepadId = (uint32_t) std::stoi(binding.GetStringMember("gamepadid"));
                         }
 
-                        secondaryBindings.insert(std::pair<ActionTrigger, Action>(tempTrigger, tempAction));
+                        mSecondaryBindings.insert(std::pair<ActionTrigger, Action>(tempTrigger, tempAction));
                     }
                 }
             }
@@ -283,13 +283,13 @@ namespace fea
         template<class Action>
             const std::map<ActionTrigger, Action> JsonActionIOHandler<Action>::getPrimaryBindings() const
             {
-                return primaryBindings;
+                return mPrimaryBindings;
             }
 
         template<class Action>
             const std::map<ActionTrigger, Action> JsonActionIOHandler<Action>::getSecondaryBindings() const
             {
-                return secondaryBindings;
+                return mSecondaryBindings;
             }
 
         /** @addtogroup UserInterface

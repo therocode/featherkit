@@ -1,6 +1,7 @@
 #include <set>
 #include <sstream>
 #include <unordered_map>
+#include <featherkit/assert.h>
 
 namespace fea
 {
@@ -31,7 +32,7 @@ namespace fea
                     }
                     Vector(std::initializer_list<float> args)
                     {
-                        float* start = coords;
+                        float* start = mCoords;
                         for(auto coord : args)
                         {
                             *start = coord;
@@ -41,18 +42,18 @@ namespace fea
 
                     float& operator[](const int32_t i)
                     {
-                        return coords[i];
+                        return mCoords[i];
                     }
 
                     float operator[](const int32_t i) const
                     {
-                        return coords[i];
+                        return mCoords[i];
                     }
 
                     bool operator<=(const Vector& other) const
                     {
                         for(uint32_t d = 0; d < Dimensions; d++)
-                            if(coords[d] > other.coords[d])
+                            if(mCoords[d] > other.mCoords[d])
                                 return false;
 
                         return true;
@@ -62,7 +63,7 @@ namespace fea
                     {
                         Vector result;
                         for(uint32_t d = 0; d < Dimensions; d++)
-                            result[d] = coords[d] * other.coords[d];
+                            result[d] = mCoords[d] * other.mCoords[d];
 
                         return result;
                     }
@@ -71,7 +72,7 @@ namespace fea
                     {
                         Vector result;
                         for(uint32_t d = 0; d < Dimensions; d++)
-                            result[d] = coords[d] * multiplier;
+                            result[d] = mCoords[d] * multiplier;
 
                         return result;
                     }
@@ -80,7 +81,7 @@ namespace fea
                     {
                         Vector result;
                         for(uint32_t d = 0; d < Dimensions; d++)
-                            result[d] = coords[d] / other.coords[d];
+                            result[d] = mCoords[d] / other.mCoords[d];
 
                         return result;
                     }
@@ -89,7 +90,7 @@ namespace fea
                     {
                         Vector result;
                         for(uint32_t d = 0; d < Dimensions; d++)
-                            result[d] = coords[d] / divisor;
+                            result[d] = mCoords[d] / divisor;
 
                         return result;
                     }
@@ -97,50 +98,47 @@ namespace fea
                     Vector& operator=(const Vector& other)
                     {
                         for(uint32_t d = 0; d < Dimensions; d++)
-                            coords[d] = other.coords[d];
+                            mCoords[d] = other.mCoords[d];
                         return *this;
                     }
 
                     bool isPositive() const
                     {
                         for(uint32_t d = 0; d < Dimensions; d++)
-                            if(coords[d] <= 0.0f)
+                            if(mCoords[d] <= 0.0f)
                                 return false;
                         return true;
                     }
 
                 private:
 
-                    float coords[Dimensions];
+                    float mCoords[Dimensions];
             };
 
             struct Node
             {
-                Node() : parent(0)
+                Node() : mParent(0)
                 {
                     for(int32_t i = 0; i < Pow(2, Dimensions); i++)
-                        children[i] = 0;
+                        mChildren[i] = 0;
                 }
-                uint32_t children[Pow(2, Dimensions)];
-                uint32_t parent;
+                uint32_t mChildren[Pow(2, Dimensions)];
+                uint32_t mParent;
             };
 
         public:
             using TreeEntry = size_t;
 
-            LooseNTree(const Vector& s) : size(s)
+            LooseNTree(const Vector& s) : mSize(s)
             {
-                if(!s.isPositive())
-                {
-                    throw LooseNTreeException("Error! Tree size must be bigger than zero in all dimensions!");
-                }
+                FEA_ASSERT(s.isPositive(), "Tree size must be bigger than zero in all dimensions!");
 
                 if(StaticAllocation)
                 {
                     //allocate all nodes ever and make them all used
-                    allocatedNodesCount = NodeAmount(Depth, Dimensions, 0);
-                    nodes = new Node[allocatedNodesCount];
-                    usedNodesCount = allocatedNodesCount;
+                    mAllocatedNodesCount = NodeAmount(Depth, Dimensions, 0);
+                    mNodes = new Node[mAllocatedNodesCount];
+                    mUsedNodesCount = mAllocatedNodesCount;
 
                     //setup nodes
                     uint32_t nextFreeIndex = 1;
@@ -148,24 +146,24 @@ namespace fea
                     {
                         for(uint32_t j = 0; j < Pow(2, Dimensions); j++)
                         {
-                            nodes[nextFreeIndex].parent = i;
-                            nodes[i].children[j] = nextFreeIndex++;
+                            mNodes[nextFreeIndex].mParent = i;
+                            mNodes[i].mChildren[j] = nextFreeIndex++;
                         }
                     }
                 }
                 else
                 {
                     //allocate a basic amount of 8 nodes, of which 1 will be used, the root.
-                    allocatedNodesCount = 8;
-                    nodes = new Node[allocatedNodesCount];
-                    usedNodesCount = 1;
+                    mAllocatedNodesCount = 8;
+                    mNodes = new Node[mAllocatedNodesCount];
+                    mUsedNodesCount = 1;
                 }
                 
                 for(uint32_t child = 0; child < Pow(2, Dimensions); child++)
                 {
                     for(uint32_t dim = 0; dim < Dimensions; dim++)
                     {
-                        moveCache[child][dim] = ((float)((uint32_t)(child / pow(2, dim)) % 2) - 0.5f) / 2.0f;
+                        mMoveCache[child][dim] = ((float)((uint32_t)(child / pow(2, dim)) % 2) - 0.5f) / 2.0f;
                     }
                 }
             }
@@ -177,7 +175,7 @@ namespace fea
                     throw LooseNTreeException("Error! Added objects must have a size bigger than zero.");
                 }
                 
-                if(entryLocations.find(id) != entryLocations.end())
+                if(mEntryLocations.find(id) != mEntryLocations.end())
                 {
                     std::stringstream ss;
                     ss << "Error! Cannot add id " << id << " twice.";
@@ -186,7 +184,7 @@ namespace fea
 
                 for(uint32_t dim = 0; dim < Dimensions; dim++)
                 {
-                    if(pos[dim] < 0.0f || pos[dim] > size[dim])
+                    if(pos[dim] < 0.0f || pos[dim] > mSize[dim])
                     {
                         std::stringstream ss;
                         ss << "Error! Cannot add id " << id << " out of the tree's bounds.";
@@ -196,7 +194,7 @@ namespace fea
 
                 uint32_t depth;
 
-                Vector nextLooseBounds = size;
+                Vector nextLooseBounds = mSize;
                 for(depth = 0; depth < Depth; depth++)
                 {
                     if(!(s <= nextLooseBounds))
@@ -211,13 +209,13 @@ namespace fea
 
             void remove(uint32_t id)
             {
-                if(entryLocations.find(id) == entryLocations.end())
+                if(mEntryLocations.find(id) == mEntryLocations.end())
                 {
                     std::stringstream ss;
                     ss << "Error! Cannot remove id " << id << " since it doesn't exist.";
                     throw LooseNTreeException(ss.str());
                 }
-                uint32_t previousNode = entryLocations.at(id);
+                uint32_t previousNode = mEntryLocations.at(id);
                 removeTreeEntry(id);
 
                 if(!StaticAllocation)
@@ -227,7 +225,7 @@ namespace fea
                     while(currentNode)
                     {
                         nodesToCheck.push_back(currentNode);
-                        currentNode = nodes[currentNode].parent;
+                        currentNode = mNodes[currentNode].mParent;
                     }
                     for(int32_t i = 0; i < nodesToCheck.size(); i++)
                     {
@@ -238,7 +236,7 @@ namespace fea
 
             void move(uint32_t id, const Vector& pos)
             {
-                if(entryLocations.find(id) == entryLocations.end())
+                if(mEntryLocations.find(id) == mEntryLocations.end())
                 {
                     std::stringstream ss;
                     ss << "Error! Cannot move id " << id << " since it doesn't exist.";
@@ -247,7 +245,7 @@ namespace fea
 
                 for(uint32_t dim = 0; dim < Dimensions; dim++)
                 {
-                    if(pos[dim] < 0.0f || pos[dim] > size[dim])
+                    if(pos[dim] < 0.0f || pos[dim] > mSize[dim])
                     {
                         std::stringstream ss;
                         ss << "Error! Cannot move id " << id << " out of the tree's bounds.";
@@ -257,15 +255,15 @@ namespace fea
 
                 uint32_t depth = 0;
 
-                uint32_t currentNodeId = entryLocations.at(id);
+                uint32_t currentNodeId = mEntryLocations.at(id);
 
                 while(currentNodeId != 0)
                 {
                     depth++;
-                    currentNodeId = nodes[currentNodeId].parent;
+                    currentNodeId = mNodes[currentNodeId].mParent;
                 }
 
-                uint32_t previousNode = entryLocations.at(id);
+                uint32_t previousNode = mEntryLocations.at(id);
                 removeTreeEntry(id);
                 placeTreeEntryInDepth(id, pos, depth);
 
@@ -276,7 +274,7 @@ namespace fea
                     while(currentNode)
                     {
                         nodesToCheck.push_back(currentNode);
-                        currentNode = nodes[currentNode].parent;
+                        currentNode = mNodes[currentNode].mParent;
                     }
                     for(int32_t i = 0; i < nodesToCheck.size(); i++)
                     {
@@ -289,7 +287,7 @@ namespace fea
             {
                 std::vector<TreeEntry> result;
 
-                getFromNode(point / size, 0, result);
+                getFromNode(point / mSize, 0, result);
 
                 return result;
             }
@@ -298,27 +296,27 @@ namespace fea
             {
                 std::vector<TreeEntry> result;
 
-                getFromNode(start / size, end / size, 0, result);
+                getFromNode(start / mSize, end / mSize, 0, result);
 
                 return result;
             }
 
             void clear()
             {
-                entries.clear();
-                entryLocations.clear();
+                mEntries.clear();
+                mEntryLocations.clear();
             }
  
             ~LooseNTree()
             {
-                delete [] nodes;
+                delete [] mNodes;
             }
 
         private:
             void placeTreeEntryInDepth(const TreeEntry& entry, const Vector& pos, uint32_t depth)
             {
-                Vector positionPercent = pos / size;
-                Node* currentNode = &nodes[0];
+                Vector positionPercent = pos / mSize;
+                Node* currentNode = &mNodes[0];
                 uint32_t targetNodeIndex = 0;
 
                 for(uint32_t d = 0; d < depth; d++)
@@ -338,52 +336,52 @@ namespace fea
                     }
                     if(StaticAllocation)
                     {
-                        targetNodeIndex = currentNode->children[childIndex];
-                        currentNode = &nodes[currentNode->children[childIndex]];
+                        targetNodeIndex = currentNode->mChildren[childIndex];
+                        currentNode = &mNodes[currentNode->mChildren[childIndex]];
                     }
                     else
                     {
-                        if(currentNode->children[childIndex] == 0)
+                        if(currentNode->mChildren[childIndex] == 0)
                         {
-                            if(usedNodesCount == allocatedNodesCount)
+                            if(mUsedNodesCount == mAllocatedNodesCount)
                             {
-                                uint32_t pointerDistance = currentNode - nodes;
+                                uint32_t pointerDistance = currentNode - mNodes;
                                 increaseSize();
-                                currentNode = nodes + pointerDistance;
+                                currentNode = mNodes + pointerDistance;
                             }
                             
-                            currentNode->children[childIndex] = usedNodesCount;
-                            nodes[usedNodesCount].parent = targetNodeIndex;
-                            usedNodesCount++;
+                            currentNode->mChildren[childIndex] = mUsedNodesCount;
+                            mNodes[mUsedNodesCount].mParent = targetNodeIndex;
+                            mUsedNodesCount++;
                         }
-                        targetNodeIndex = currentNode->children[childIndex];
-                        currentNode = &nodes[currentNode->children[childIndex]];
+                        targetNodeIndex = currentNode->mChildren[childIndex];
+                        currentNode = &mNodes[currentNode->mChildren[childIndex]];
                     }
                 }
-                entries.emplace(targetNodeIndex, entry);
-                entryLocations.emplace(entry, targetNodeIndex);
+                mEntries.emplace(targetNodeIndex, entry);
+                mEntryLocations.emplace(entry, targetNodeIndex);
             }
 
             void removeTreeEntry(uint32_t id)
             {
-                auto range = entries.equal_range(entryLocations.at(id));
+                auto range = mEntries.equal_range(mEntryLocations.at(id));
                 bool existed = false;
 
                 for(auto iter = range.first; iter != range.second; iter++)
                 {
                     if(iter->second == id)
                     {
-                        entries.erase(iter);
+                        mEntries.erase(iter);
                         existed = true;
                         break;
                     }
                 }
-                entryLocations.erase(id);
+                mEntryLocations.erase(id);
             }
 
             void getFromNode(const Vector& positionPercentage, uint32_t nodeId, std::vector<TreeEntry>& result) const
             {
-                auto contained = entries.equal_range(nodeId);
+                auto contained = mEntries.equal_range(nodeId);
                 
                 for(auto iter = contained.first; iter != contained.second; iter++)
                 {
@@ -394,7 +392,7 @@ namespace fea
 
                 for(uint32_t child = 0; child < Pow(2, Dimensions); child++)
                 {
-                    if(nodes[nodeId].children[child] == 0)
+                    if(mNodes[nodeId].mChildren[child] == 0)
                     {
                         continue;
                     }
@@ -402,7 +400,7 @@ namespace fea
                     bool wasInside = true;
                     for(uint32_t dim = 0; dim < Dimensions; dim++)
                     {
-                        float moveIt = moveCache[child][dim];
+                        float moveIt = mMoveCache[child][dim];
                         overHalf[dim] = moveIt > 0.0f;
 
                         if(positionPercentage[dim] < moveIt || positionPercentage[dim] > 1.0f + moveIt)
@@ -427,14 +425,14 @@ namespace fea
                             }
                         }
 
-                        getFromNode(percentAdapted, nodes[nodeId].children[child], result);
+                        getFromNode(percentAdapted, mNodes[nodeId].mChildren[child], result);
                     }
                 }
             }
 
             void getFromNode(const Vector& startPercentage, const Vector& endPercentage, uint32_t nodeId, std::vector<TreeEntry>& result) const
             {
-                auto contained = entries.equal_range(nodeId);
+                auto contained = mEntries.equal_range(nodeId);
                 
                 for(auto iter = contained.first; iter != contained.second; iter++)
                 {
@@ -445,7 +443,7 @@ namespace fea
 
                 for(uint32_t child = 0; child < Pow(2, Dimensions); child++)
                 {
-                    if(nodes[nodeId].children[child] == 0)
+                    if(mNodes[nodeId].mChildren[child] == 0)
                     {
                         continue;
                     }
@@ -453,7 +451,7 @@ namespace fea
                     bool wasInside = true;
                     for(uint32_t dim = 0; dim < Dimensions; dim++)
                     {
-                        float moveIt = moveCache[child][dim];
+                        float moveIt = mMoveCache[child][dim];
                         overHalf[dim] = moveIt > 0.0f;
 
                         if(endPercentage[dim] < moveIt || startPercentage[dim] > 1.0f + moveIt)
@@ -481,38 +479,38 @@ namespace fea
                             }
                         }
 
-                        getFromNode(startPercentAdapted, endPercentAdapted, nodes[nodeId].children[child], result);
+                        getFromNode(startPercentAdapted, endPercentAdapted, mNodes[nodeId].mChildren[child], result);
                     }
                 }
             }
 
             void setSize(const Vector& s)
             {
-                size = s;
+                mSize = s;
             }
 
             void increaseSize()
             {
-                uint32_t newSize = allocatedNodesCount * 2;
+                uint32_t newSize = mAllocatedNodesCount * 2;
                 Node* newNodes = new Node[newSize];
 
-                std::copy(nodes, nodes + allocatedNodesCount, newNodes);
-                delete [] nodes;
-                nodes = newNodes;
+                std::copy(mNodes, mNodes + mAllocatedNodesCount, newNodes);
+                delete [] mNodes;
+                mNodes = newNodes;
 
-                allocatedNodesCount = newSize;
+                mAllocatedNodesCount = newSize;
             }
 
             void decreaseSize()
             {
-                uint32_t newSize = allocatedNodesCount / 4;
+                uint32_t newSize = mAllocatedNodesCount / 4;
                 Node* newNodes = new Node[newSize];
 
-                std::copy(nodes, nodes + newSize, newNodes);
-                delete [] nodes;
-                nodes = newNodes;
+                std::copy(mNodes, mNodes + newSize, newNodes);
+                delete [] mNodes;
+                mNodes = newNodes;
 
-                allocatedNodesCount = newSize;
+                mAllocatedNodesCount = newSize;
             }
 
             void checkForRemoval(uint32_t nodeIndex, std::vector<uint32_t>& toCheck)
@@ -522,12 +520,12 @@ namespace fea
                     return;
                 }
 
-                if(entries.find(nodeIndex) == entries.end())
+                if(mEntries.find(nodeIndex) == mEntries.end())
                 {
-                    Node* currentNode = &nodes[nodeIndex];
+                    Node* currentNode = &mNodes[nodeIndex];
                     for(uint32_t child = 0; child < Pow(2, Dimensions); child++)
                     {
-                        if(currentNode->children[child] != 0)
+                        if(currentNode->mChildren[child] != 0)
                         {
                             return;
                         }
@@ -539,18 +537,18 @@ namespace fea
 
             void removeNode(uint32_t nodeIndex, std::vector<uint32_t>& toCheck)
             {
-                uint32_t parentId = nodes[nodeIndex].parent;
-                Node* parent = &nodes[parentId];
+                uint32_t parentId = mNodes[nodeIndex].mParent;
+                Node* parent = &mNodes[parentId];
                 for(uint32_t child = 0; child < Pow(2, Dimensions); child++)
                 {
-                    if(parent->children[child] == nodeIndex)
+                    if(parent->mChildren[child] == nodeIndex)
                     {
-                        parent->children[child] = 0;
+                        parent->mChildren[child] = 0;
                         break;
                     }
                 }
-                uint32_t lastNode = usedNodesCount - 1;
-                usedNodesCount--;
+                uint32_t lastNode = mUsedNodesCount - 1;
+                mUsedNodesCount--;
                 if(lastNode == nodeIndex)
                 {
                     return;
@@ -562,56 +560,56 @@ namespace fea
                         node = nodeIndex;
                 }
 
-                Node* parentOfLast = &nodes[nodes[lastNode].parent];
+                Node* parentOfLast = &mNodes[mNodes[lastNode].mParent];
                 for(uint32_t child = 0; child < Pow(2, Dimensions); child++)
                 {
-                    if(parentOfLast->children[child] == lastNode)
+                    if(parentOfLast->mChildren[child] == lastNode)
                     {
-                        parentOfLast->children[child] = nodeIndex;
+                        parentOfLast->mChildren[child] = nodeIndex;
                         break;
                     }
                 }
             
-                Node* lastNodeP = &nodes[lastNode];
+                Node* lastNodeP = &mNodes[lastNode];
                 for(uint32_t child = 0; child < Pow(2, Dimensions); child++)
                 {
-                    if(lastNodeP->children[child] != 0)
-                        nodes[lastNodeP->children[child]].parent = nodeIndex;
+                    if(lastNodeP->mChildren[child] != 0)
+                        mNodes[lastNodeP->mChildren[child]].mParent = nodeIndex;
                 }
-                nodes[nodeIndex].parent = lastNodeP->parent;
-                lastNodeP->parent = 0;
+                mNodes[nodeIndex].mParent = lastNodeP->mParent;
+                lastNodeP->mParent = 0;
                 for(uint32_t child = 0; child < Pow(2, Dimensions); child++)
                 {
-                    nodes[nodeIndex].children[child] = lastNodeP->children[child];
-                    lastNodeP->children[child] = 0;
+                    mNodes[nodeIndex].mChildren[child] = lastNodeP->mChildren[child];
+                    lastNodeP->mChildren[child] = 0;
                 }
                 
-                auto range = entries.equal_range(lastNode);
+                auto range = mEntries.equal_range(lastNode);
                 std::vector<TreeEntry> entriesToMove;
                 for(auto iter = range.first; iter != range.second; iter++)
                 {
                     entriesToMove.push_back(iter->second);
-                    entryLocations[iter->second] = nodeIndex;
+                    mEntryLocations[iter->second] = nodeIndex;
                 }
-                entries.erase(lastNode);
+                mEntries.erase(lastNode);
 
                 for(auto entry : entriesToMove)
                 {
-                    entries.emplace(nodeIndex, entry);
+                    mEntries.emplace(nodeIndex, entry);
                 }
 
-                if(usedNodesCount <= allocatedNodesCount / 4 && allocatedNodesCount > 16)
+                if(mUsedNodesCount <= mAllocatedNodesCount / 4 && mAllocatedNodesCount > 16)
                     decreaseSize();
             }
 
-            Vector size;
+            Vector mSize;
 
-            Node* nodes;
-            uint32_t allocatedNodesCount;
-            uint32_t usedNodesCount;
-            std::unordered_map<TreeEntry, uint32_t> entryLocations;
-            std::unordered_multimap<uint32_t, TreeEntry> entries;
-            float moveCache[Pow(2, Dimensions)][Dimensions];
+            Node* mNodes;
+            uint32_t mAllocatedNodesCount;
+            uint32_t mUsedNodesCount;
+            std::unordered_map<TreeEntry, uint32_t> mEntryLocations;
+            std::unordered_multimap<uint32_t, TreeEntry> mEntries;
+            float mMoveCache[Pow(2, Dimensions)][Dimensions];
     };
 
     /** @addtogroup Structure

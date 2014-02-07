@@ -35,8 +35,8 @@ namespace fea
 				void lockCursor(bool lock) override;
                 ~SDL2WindowBackend();
             private:
-                SDL_Window* window;
-				SDL_GLContext glContext;
+                SDL_Window* mWindow;
+				SDL_GLContext mGlContext;
         };
     }
 }
