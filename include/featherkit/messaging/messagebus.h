@@ -19,7 +19,7 @@ namespace fea
             void send(const Message& mess);
         private:
             bool subscriptionExists(std::type_index id, MessageReceiverBase* receiver) const;
-            std::unordered_multimap<std::type_index, MessageReceiverBase*> subscribers;
+            std::unordered_multimap<std::type_index, MessageReceiverBase*> mSubscribers;
     };
 
     template<class Message>
@@ -32,7 +32,7 @@ namespace fea
 
         if(!existed)
         {
-            subscribers.emplace(index, receiverPtr);
+            mSubscribers.emplace(index, receiverPtr);
         }
         else
         {
@@ -48,14 +48,14 @@ namespace fea
         MessageReceiverBase* receiverPtr = (MessageReceiverBase*) &receiver;
         std::type_index index = std::type_index(typeid(Message));
 
-        auto range = subscribers.equal_range(index);
+        auto range = mSubscribers.equal_range(index);
         bool existed = false;
 
         for(auto iter = range.first; iter != range.second; iter++)
         {
             if(iter->second == receiverPtr)
             {
-                subscribers.erase(iter);
+                mSubscribers.erase(iter);
                 existed = true;
                 break;
             }
@@ -72,8 +72,8 @@ namespace fea
     template<class Message>
     void MessageBus::send(const Message& mess)
     {
-        auto range = subscribers.equal_range(std::type_index(typeid(Message)));
-        if(range.first != subscribers.end() || range.second != subscribers.end())
+        auto range = mSubscribers.equal_range(std::type_index(typeid(Message)));
+        if(range.first != mSubscribers.end() || range.second != mSubscribers.end())
         {
             std::for_each (range.first, range.second, [&](std::unordered_multimap<std::type_index, MessageReceiverBase*>::value_type& subscription){ ((MessageReceiver<Message>*)subscription.second)->handleMessage(mess);});
         }
