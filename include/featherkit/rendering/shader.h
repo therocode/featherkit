@@ -17,18 +17,18 @@ namespace fea
     class Shader
     {
         public:
-            void setSource(const std::string& vertSource, const std::string& fragSource);
+            void setSource(const std::string& vertexSource, const std::string& fragmentSource);
             void activate() const;
             void deactivate() const;
             void setUniform(size_t index, UniformType type, const void* value) const;
             void setVertexAttribute(size_t index, const uint32_t floatAmount, const float* data) const;
             void compile();
         private:
-            GLuint programId;
-            std::unordered_map<size_t, GLint> uniformLocations;
-            std::unordered_map<size_t, GLint> vertexAttributeLocations;
-            std::string vertexSource;
-            std::string fragmentSource;
-            mutable std::vector<GLint> enabledVertexAttributes;
+            GLuint mProgramId;
+            std::unordered_map<size_t, GLint> mUniformLocations;
+            std::unordered_map<size_t, GLint> mVertexAttributeLocations;
+            std::string mVertexSource;
+            std::string mFragmentSource;
+            mutable std::vector<GLint> mEnabledVertexAttributes;
     };
 }
