@@ -11,8 +11,8 @@ namespace fea
         public:
             enum ActionType {KEYPRESS, KEYRELEASE, MOUSEPRESS, MOUSERELEASE, GAMEPADPRESS, GAMEPADRELEASE};
 
-            ActionType mType;
-            uint32_t mGamepadId;
+            ActionType type;
+            uint32_t gamepadId;
             union
             {
                 Keyboard::Code keyCode;         ///< Numerical value representing the key needed to trigger this action.
