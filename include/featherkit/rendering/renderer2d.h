@@ -15,7 +15,6 @@ namespace fea
         public:
             Renderer2D(const Viewport& v);
             void setup();
-            void destroy();
             void clear(const Colour& colour = Colour());
             void clear(const RenderTarget& target, const Colour& colour = Colour());
             void queue(const Drawable2D& drawable);
@@ -69,11 +68,6 @@ namespace fea
      *  @brief Perform one-time setup for the renderer.
      *  
      *  When the renderer is setup, it is ready to be used. The underlying purpose of this function may vary depending on the backend used.
-     ***
-     *  @fn void Renderer2D::destroy()
-     *  @brief Perform destruction of the renderer.
-     *
-     *  Used after setup has been called and when the renderer is not needed anymore. The underlying purpose of this function may vary depending on the backend used.
      ***
      *  @fn void Renderer2D::clear(const Colour& colour = Colour())
      *  @brief Clear the screen, filling it with the given colour.
