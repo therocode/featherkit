@@ -7,21 +7,21 @@ namespace fea
 {
     WeakEntityPtr EntityManager::createEntity(const std::vector<std::string>& attributes)
     {
-        EntityId createdId = storage.addEntity(attributes);
+        EntityId createdId = mStorage.addEntity(attributes);
         EntityPtr created = std::make_shared<Entity>(createdId, *this);
-        entities.insert(std::pair<EntityId, EntityPtr>(createdId, created));
+        mEntities.insert(std::pair<EntityId, EntityPtr>(createdId, created));
         return WeakEntityPtr(created);
     }
 
     WeakEntityPtr EntityManager::getEntity(EntityId id) const
     {
-        return entities.at(id);
+        return mEntities.at(id);
     }
     
     void EntityManager::removeEntity(const EntityId id)
     {
-        storage.removeEntity(id);
-        entities.erase(id);
+        mStorage.removeEntity(id);
+        mEntities.erase(id);
     }
     
     void EntityManager::removeEntity(WeakEntityPtr entity)
@@ -31,31 +31,31 @@ namespace fea
     
     bool EntityManager::attributeIsValid(const std::string& attributeName) const
     {
-        return storage.attributeIsValid(attributeName);
+        return mStorage.attributeIsValid(attributeName);
     }
 
     EntitySet EntityManager::getAll() const
     {
         EntitySet all;
-        for(const auto& pair : entities)
+        for(const auto& pair : mEntities)
             all.insert(pair.second);
         return all;
     }
     
     bool EntityManager::hasAttribute(const EntityId id, const std::string& attribute) const
     {
-        return storage.hasData(id, attribute);
+        return mStorage.hasData(id, attribute);
     }
 
     void EntityManager::removeAll()
     {
-        while(entities.size() > 0)
-            removeEntity(entities.begin()->first);
+        while(mEntities.size() > 0)
+            removeEntity(mEntities.begin()->first);
     }
 
     void EntityManager::clear()
     {
-        entities.clear();
-        storage.clear();
+        mEntities.clear();
+        mStorage.clear();
     }
 }

@@ -6,7 +6,7 @@ namespace fea
     class Entity
     {
         public:
-            Entity(EntityId i, EntityManager& m);
+            Entity(EntityId id, EntityManager& entityManager);
             template<class DataType>
             DataType getAttribute(const std::string& attribute) const;
             template<class DataType>
@@ -16,26 +16,26 @@ namespace fea
             bool hasAttribute(const std::string& attribute) const;
             EntityId getId() const;
         private:
-            EntityId id;
-            EntityManager& entityDatabase;
+            EntityId mId;
+            EntityManager& mEntityManager;
     };
 
     template<class DataType>
     DataType Entity::getAttribute(const std::string& attribute) const
     {
-        return entityDatabase.getAttribute<DataType>(id, attribute);
+        return mEntityManager.getAttribute<DataType>(mId, attribute);
     }
 
     template<class DataType>
     void Entity::setAttribute(const std::string& attribute, const DataType& value) const
     {
-        entityDatabase.setAttribute<DataType>(id, attribute, value);
+        mEntityManager.setAttribute<DataType>(mId, attribute, value);
     }
 
     template<class DataType>
     void Entity::addToAttribute(const std::string& attribute, const DataType& value) const
     {
-        entityDatabase.addToAttribute<DataType>(id, attribute, value);
+        mEntityManager.addToAttribute<DataType>(mId, attribute, value);
     }
 
     /** @addtogroup EntitySystem
