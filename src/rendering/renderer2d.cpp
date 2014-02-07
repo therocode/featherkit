@@ -3,6 +3,7 @@
 #include <featherkit/rendering/drawable2d.h>
 #include <featherkit/rendering/projection.h>
 #include <featherkit/rendering/defaultshader.h>
+#include <featherkit/assert.h>
 #include <sstream>
 
 namespace fea
@@ -13,7 +14,7 @@ namespace fea
     
     void Renderer2D::setup()
     {
-        glewInit();
+        FEA_ASSERT(glewInit() == GLEW_OK, "Could not initialise the renderer! Make sure there is a valid OpenGL context!");
 
         //glEnable(GL_DEPTH_TEST);
         glEnable(GL_BLEND);
@@ -26,11 +27,6 @@ namespace fea
         defaultShader.compile();
 
         setViewport(currentViewport);
-    }
-
-    void Renderer2D::destroy()
-    {
-        defaultTexture.destroy();
     }
 
     void Renderer2D::clear(const Colour& colour)

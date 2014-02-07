@@ -5,15 +5,16 @@
 
 namespace fea
 {
-    Texture::Texture() : id(0), width(0), height(0), pixelData(nullptr)
+    Texture::Texture() : id(0), width(0), height(0), interactive(false), pixelData(nullptr)
     {
     }
 
-    Texture::Texture(Texture&& other) : id(0), width(0), height(0), pixelData(nullptr)
+    Texture::Texture(Texture&& other) : id(0), width(0), height(0), interactive(false), pixelData(nullptr)
     {
         std::swap(id, other.id);
         std::swap(width, other.width);
         std::swap(height, other.height);
+        std::swap(interactive, other.interactive);
         pixelData = std::move(other.pixelData);
     }
     
@@ -22,6 +23,7 @@ namespace fea
         std::swap(id, other.id);
         std::swap(width, other.width);
         std::swap(height, other.height);
+        std::swap(interactive, other.interactive);
         pixelData = std::move(other.pixelData);
         return *this;
     }
@@ -31,8 +33,9 @@ namespace fea
         return id;
     }
 
-    void Texture::create(uint32_t w, uint32_t h, const uint8_t* imageData, bool smooth, bool interactive)
+    void Texture::create(uint32_t w, uint32_t h, const uint8_t* imageData, bool smooth, bool inter)
     {
+        interactive = inter;
         FEA_ASSERT(w > 0 && h > 0, "Cannot create a texture with a width or height smaller than zero! Given dimensions are " + std::to_string(w) + " " + std::to_string(h));
         width = w;
         height = h;
@@ -58,7 +61,9 @@ namespace fea
         {
             uint32_t byteAmount = width * height * 4;
             pixelData = std::unique_ptr<uint8_t[]>(new uint8_t[byteAmount]);
-            std::copy(imageData, imageData + byteAmount, pixelData.get());
+
+            if(imageData)
+                std::copy(imageData, imageData + byteAmount, pixelData.get());
         }
     }
 
@@ -93,21 +98,17 @@ namespace fea
     
     void Texture::setPixel(uint32_t x, uint32_t y, const Colour& colour)
     {
-        FEA_ASSERT(x > 0 && y > 0 && x < width && y < height, "Trying to access pixel outside of the bounds of the texture. Accessing at " + std::to_string(x) + " " + std::to_string(y));
+        FEA_ASSERT(x >= 0 && y >= 0 && x < width && y < height, "Trying to access pixel outside of the bounds of the texture. Accessing at " + std::to_string(x) + " " + std::to_string(y));
         uint32_t pixelIndex = (x + y * width) * 4;
         pixelData[pixelIndex    ] = colour.rAsByte();
         pixelData[pixelIndex + 1] = colour.gAsByte();
         pixelData[pixelIndex + 2] = colour.bAsByte();
         pixelData[pixelIndex + 3] = colour.aAsByte();
     }
-    
-    void Texture::setPixels(std::function<void(uint32_t x, uint32_t y, std::unique_ptr<uint8_t[]>& pixels)> f)
-    {
-        f(width, height, pixelData);
-    }
 
     Colour Texture::getPixel(uint32_t x, uint32_t y) const
     {
+        FEA_ASSERT(x >= 0 && y >= 0 && x < width && y < height, "Trying to access pixel outside of the bounds of the texture. Accessing at " + std::to_string(x) + " " + std::to_string(y));
         uint32_t pixelIndex = (x + y * width) * 4;
         return Colour(pixelData[pixelIndex],
                          pixelData[pixelIndex + 1],
@@ -115,13 +116,17 @@ namespace fea
                          pixelData[pixelIndex + 3]);
     }
 
+    uint8_t* Texture::getPixelData()
+    {
+        return pixelData.get();
+    }
+
+
     void Texture::update()
     {
-        if(pixelData)
-        {
-            glBindTexture(GL_TEXTURE_2D, id);
-            glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, pixelData.get());
-        }
+        FEA_ASSERT(interactive, "Cannot modify a non-interactive texture!");
+        glBindTexture(GL_TEXTURE_2D, id);
+        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, pixelData.get());
     }
     
     Texture::~Texture()

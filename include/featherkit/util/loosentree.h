@@ -4,28 +4,14 @@
 
 namespace fea
 {
-    template<int32_t B, int32_t N>
-    struct Pow 
+    constexpr int32_t Pow(int32_t base, int32_t expo)
     {
-        enum { value = B*Pow<B, N-1>::value };
-    };
+        return(expo != 0 )? base * Pow(base, expo -1) : 1;
+    }
 
-    template< int32_t B >
-    struct Pow<B, 0> 
+    constexpr int32_t NodeAmount(int32_t depth, int32_t dimensions, int32_t recursion)
     {
-        enum { value = 1 };
-    };
-
-    template<uint32_t Depth, uint32_t Dimensions, uint32_t Recursion>
-    struct NodeAmount
-    {
-        enum { value = Pow<2, Dimensions * Recursion>::value + NodeAmount<Depth, Dimensions, Recursion+1>::value };
-    };
-
-    template<uint32_t Depth, uint32_t Dimensions>
-    struct NodeAmount<Depth, Dimensions, Depth>
-    {
-        enum { value = 1};
+        return(recursion != 0)? (Pow(2, dimensions * recursion) + NodeAmount(depth, dimensions, recursion+1)) : 1;
     };
 
     class LooseNTreeException : public std::runtime_error
@@ -132,10 +118,10 @@ namespace fea
             {
                 Node() : parent(0)
                 {
-                    for(int32_t i = 0; i < Pow<2, Dimensions>::value; i++)
+                    for(int32_t i = 0; i < Pow(2, Dimensions); i++)
                         children[i] = 0;
                 }
-                uint32_t children[Pow<2, Dimensions>::value];
+                uint32_t children[Pow(2, Dimensions)];
                 uint32_t parent;
             };
 
@@ -152,15 +138,15 @@ namespace fea
                 if(StaticAllocation)
                 {
                     //allocate all nodes ever and make them all used
-                    allocatedNodesCount = NodeAmount<Depth, Dimensions, 0>::value;
+                    allocatedNodesCount = NodeAmount(Depth, Dimensions, 0);
                     nodes = new Node[allocatedNodesCount];
                     usedNodesCount = allocatedNodesCount;
 
                     //setup nodes
                     uint32_t nextFreeIndex = 1;
-                    for(uint32_t i = 0; i < NodeAmount<Depth - 1, Dimensions, 0>::value - 1; i++)
+                    for(uint32_t i = 0; i < NodeAmount(Depth - 1, Dimensions, 0) - 1; i++)
                     {
-                        for(uint32_t j = 0; j < Pow<2, Dimensions>::value; j++)
+                        for(uint32_t j = 0; j < Pow(2, Dimensions); j++)
                         {
                             nodes[nextFreeIndex].parent = i;
                             nodes[i].children[j] = nextFreeIndex++;
@@ -175,7 +161,7 @@ namespace fea
                     usedNodesCount = 1;
                 }
                 
-                for(uint32_t child = 0; child < Pow<2, Dimensions>::value; child++)
+                for(uint32_t child = 0; child < Pow(2, Dimensions); child++)
                 {
                     for(uint32_t dim = 0; dim < Dimensions; dim++)
                     {
@@ -406,7 +392,7 @@ namespace fea
 
                 bool overHalf[Dimensions];
 
-                for(uint32_t child = 0; child < Pow<2, Dimensions>::value; child++)
+                for(uint32_t child = 0; child < Pow(2, Dimensions); child++)
                 {
                     if(nodes[nodeId].children[child] == 0)
                     {
@@ -457,7 +443,7 @@ namespace fea
 
                 bool overHalf[Dimensions];
 
-                for(uint32_t child = 0; child < Pow<2, Dimensions>::value; child++)
+                for(uint32_t child = 0; child < Pow(2, Dimensions); child++)
                 {
                     if(nodes[nodeId].children[child] == 0)
                     {
@@ -539,7 +525,7 @@ namespace fea
                 if(entries.find(nodeIndex) == entries.end())
                 {
                     Node* currentNode = &nodes[nodeIndex];
-                    for(uint32_t child = 0; child < Pow<2, Dimensions>::value; child++)
+                    for(uint32_t child = 0; child < Pow(2, Dimensions); child++)
                     {
                         if(currentNode->children[child] != 0)
                         {
@@ -555,7 +541,7 @@ namespace fea
             {
                 uint32_t parentId = nodes[nodeIndex].parent;
                 Node* parent = &nodes[parentId];
-                for(uint32_t child = 0; child < Pow<2, Dimensions>::value; child++)
+                for(uint32_t child = 0; child < Pow(2, Dimensions); child++)
                 {
                     if(parent->children[child] == nodeIndex)
                     {
@@ -577,7 +563,7 @@ namespace fea
                 }
 
                 Node* parentOfLast = &nodes[nodes[lastNode].parent];
-                for(uint32_t child = 0; child < Pow<2, Dimensions>::value; child++)
+                for(uint32_t child = 0; child < Pow(2, Dimensions); child++)
                 {
                     if(parentOfLast->children[child] == lastNode)
                     {
@@ -587,14 +573,14 @@ namespace fea
                 }
             
                 Node* lastNodeP = &nodes[lastNode];
-                for(uint32_t child = 0; child < Pow<2, Dimensions>::value; child++)
+                for(uint32_t child = 0; child < Pow(2, Dimensions); child++)
                 {
                     if(lastNodeP->children[child] != 0)
                         nodes[lastNodeP->children[child]].parent = nodeIndex;
                 }
                 nodes[nodeIndex].parent = lastNodeP->parent;
                 lastNodeP->parent = 0;
-                for(uint32_t child = 0; child < Pow<2, Dimensions>::value; child++)
+                for(uint32_t child = 0; child < Pow(2, Dimensions); child++)
                 {
                     nodes[nodeIndex].children[child] = lastNodeP->children[child];
                     lastNodeP->children[child] = 0;
@@ -625,7 +611,7 @@ namespace fea
             uint32_t usedNodesCount;
             std::unordered_map<TreeEntry, uint32_t> entryLocations;
             std::unordered_multimap<uint32_t, TreeEntry> entries;
-            float moveCache[Pow<2, Dimensions>::value][Dimensions];
+            float moveCache[Pow(2, Dimensions)][Dimensions];
     };
 
     /** @addtogroup Structure

@@ -12,6 +12,7 @@ namespace fea
             RenderTarget(RenderTarget&& other);
             RenderTarget(const RenderTarget& other) = delete;
             RenderTarget& operator=(RenderTarget&& other);
+            RenderTarget& operator=(const RenderTarget& other) = delete;
             GLuint getId() const;
             glm::uvec2 getSize() const;
             const Texture& getTexture() const;
