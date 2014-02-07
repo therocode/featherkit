@@ -3,6 +3,7 @@
 #include <featherkit/rendering/drawable2d.h>
 #include <featherkit/rendering/projection.h>
 #include <featherkit/rendering/defaultshader.h>
+#include <featherkit/assert.h>
 #include <sstream>
 
 namespace fea
