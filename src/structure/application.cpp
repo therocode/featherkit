@@ -24,7 +24,7 @@ namespace fea
     }
 #endif
 
-    Application::Application() : shutDown(false)
+    Application::Application() : mShutDown(false)
     {
     }
 
@@ -42,7 +42,7 @@ namespace fea
         instance = this;
         emscripten_set_main_loop(trampoline, 60, true);
 #else
-        while(!shutDown)
+        while(!mShutDown)
             loop();
 #endif
         destroy();
@@ -50,11 +50,11 @@ namespace fea
 
     void Application::quit()
     {
-        shutDown = true;
+        mShutDown = true;
     }
     
     bool Application::shuttingDown()
     {
-        return shutDown;
+        return mShutDown;
     }
 }

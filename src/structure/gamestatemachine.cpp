@@ -11,7 +11,7 @@ namespace fea
     {
     }
 
-    GameStateMachine::GameStateMachine() : currentStateName("NONE")
+    GameStateMachine::GameStateMachine() : mCurrentStateName("NONE")
     {
     }
 
@@ -25,11 +25,11 @@ namespace fea
     {
         if(gameStates.find(name) != gameStates.end())
         {
-            if(currentState.expired())
+            if(mCurrentState.expired())
             {
-                currentState = gameStates.at(name);
-                currentState.lock()->activate("");
-                currentStateName = name;
+                mCurrentState = gameStates.at(name);
+                mCurrentState.lock()->activate("");
+                mCurrentStateName = name;
             }
             else
             {
@@ -46,7 +46,7 @@ namespace fea
     
     bool GameStateMachine::isFinished() const
     {
-        return currentState.expired();
+        return mCurrentState.expired();
     }
 
     GameStateMachine::~GameStateMachine()
@@ -59,24 +59,24 @@ namespace fea
 
     void GameStateMachine::switchState(const std::string& nextStateName)
     {
-        if(nextStateName == currentStateName)
+        if(nextStateName == mCurrentStateName)
         {
             return;
         }
 
         if(gameStates.find(nextStateName) != gameStates.end())
         {
-            currentState.lock()->deactivate(nextStateName);
+            mCurrentState.lock()->deactivate(nextStateName);
 
-            std::weak_ptr<GameState> previousState = currentState;
-            std::string previousStateName = currentStateName;
+            std::weak_ptr<GameState> previousState = mCurrentState;
+            std::string previousStateName = mCurrentStateName;
 
-            currentState = gameStates.at(nextStateName);
-            currentStateName = nextStateName;
+            mCurrentState = gameStates.at(nextStateName);
+            mCurrentStateName = nextStateName;
 
-            currentState.lock()->handOver(previousState, previousStateName);
+            mCurrentState.lock()->handOver(previousState, previousStateName);
 
-            currentState.lock()->activate(previousStateName);
+            mCurrentState.lock()->activate(previousStateName);
         }
         else
         {
@@ -88,15 +88,15 @@ namespace fea
     
     void GameStateMachine::run()
     {
-        if(currentStateName != "NONE")
+        if(mCurrentStateName != "NONE")
         {
-            std::string returned = currentState.lock()->run();
+            std::string returned = mCurrentState.lock()->run();
             if(returned != "")
             {
                 if(returned == "NONE")
                 {
-                    currentState.reset();
-                    currentStateName = "NONE";
+                    mCurrentState.reset();
+                    mCurrentStateName = "NONE";
                 }
                 else
                 {
