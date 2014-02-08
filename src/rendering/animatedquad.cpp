@@ -38,7 +38,7 @@
                 mCurrentFrame = (uint32_t)rand() % currentAnimation->getFrameAmount();
             }
         }
-        currentAnimation->getConstraints(constraints, mCurrentFrame);
+        currentAnimation->getConstraints(mConstraints, mCurrentFrame);
     }
     
     const Animation& AnimatedQuad::getAnimation() const
@@ -86,7 +86,7 @@
                 default:
                     break;
             }
-            currentAnimation->getConstraints(constraints, mCurrentFrame);
+            currentAnimation->getConstraints(mConstraints, mCurrentFrame);
         }
     }
     
@@ -95,7 +95,7 @@
         FEA_ASSERT(currentAnimation != nullptr, "No animation set when calling playAnimation!");
         mAnimate = true;
         mClock = startFrame * currentAnimation->getDelay();
-        currentAnimation->getConstraints(constraints, mCurrentFrame);
+        currentAnimation->getConstraints(mConstraints, mCurrentFrame);
     }
     
     void AnimatedQuad::stopAnimation()
@@ -108,7 +108,7 @@
         if(currentAnimation != nullptr)
         {
             mCurrentFrame = frame;
-            currentAnimation->getConstraints(constraints, mCurrentFrame);
+            currentAnimation->getConstraints(mConstraints, mCurrentFrame);
         }
     }
     

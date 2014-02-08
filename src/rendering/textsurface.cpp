@@ -12,7 +12,7 @@ namespace fea
     {
         mAtlasSize = 64;
         mAtlas = texture_atlas_new(mAtlasSize, mAtlasSize, 1);
-        drawMode = GL_TRIANGLES;
+        mDrawMode = GL_TRIANGLES;
         mCurrentFont = nullptr;
     }
 
@@ -69,7 +69,7 @@ namespace fea
         RenderInfo temp = Drawable2D::getRenderInfo();
         std::hash<std::string> stringHasher;
 
-        temp.uniforms.push_back(Uniform(stringHasher("texture"), TEXTURE, mAtlas->id));
+        temp.mUniforms.push_back(Uniform(stringHasher("texture"), TEXTURE, mAtlas->id));
         return temp;
     }
     
@@ -97,7 +97,7 @@ namespace fea
         mPenPosition = originalPosition;
         mCurrentFont = originalFont;
         mScale = originalScale;
-        colour = originalColour;
+        mColour = originalColour;
     }
 
     void TextSurface::clear()
@@ -169,12 +169,12 @@ namespace fea
                     s0, t0,
                     s1, t1,
                     s1, t0});
-            coloursToAdd.insert(coloursToAdd.end(), {colour.r(), colour.g(), colour.b(), 1.0f,
-                                colour.r(), colour.g(), colour.b(), 1.0f,
-                                colour.r(), colour.g(), colour.b(), 1.0f,
-                                colour.r(), colour.g(), colour.b(), 1.0f,
-                                colour.r(), colour.g(), colour.b(), 1.0f,
-                                colour.r(), colour.g(), colour.b(), 1.0f});
+            coloursToAdd.insert(coloursToAdd.end(), {mColour.r(), mColour.g(), mColour.b(), 1.0f,
+                                mColour.r(), mColour.g(), mColour.b(), 1.0f,
+                                mColour.r(), mColour.g(), mColour.b(), 1.0f,
+                                mColour.r(), mColour.g(), mColour.b(), 1.0f,
+                                mColour.r(), mColour.g(), mColour.b(), 1.0f,
+                                mColour.r(), mColour.g(), mColour.b(), 1.0f});
             penTempPosition.x += glyph->advance_x * mScale;
         }
 

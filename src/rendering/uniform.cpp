@@ -4,59 +4,59 @@ namespace fea
 {
     Uniform::Uniform(size_t i, UniformType t, float val)
     {
-        index = i;
-        type = t;
+        mIndex = i;
+        mType = t;
         mFloatVal = val;
     }
 
     Uniform::Uniform(size_t i, UniformType t, glm::vec2 val)
     {
-        index = i;
-        type = t;
+        mIndex = i;
+        mType = t;
         mVec2Val = val;
     }
 
     Uniform::Uniform(size_t i, UniformType t, glm::vec3 val)
     {
-        index = i;
-        type = t;
+        mIndex = i;
+        mType = t;
         mVec3Val = val;
     }
 
     Uniform::Uniform(size_t i, UniformType t, glm::vec4 val)
     {
-        index = i;
-        type = t;
+        mIndex = i;
+        mType = t;
         mVec4Val = val;
     }
 
     Uniform::Uniform(size_t i, UniformType t, glm::mat2x2 val)
     {
-        index = i;
-        type = t;
+        mIndex = i;
+        mType = t;
         mMat2x2Val = val;
     }
 
     Uniform::Uniform(size_t i, UniformType t, glm::mat4x4 val)
     {
-        index = i;
-        type = t;
+        mIndex = i;
+        mType = t;
         mMat4x4Val = val;
     }
 
     Uniform::Uniform(size_t i, UniformType t, GLuint val)
     {
-        index = i;
-        type = t;
+        mIndex = i;
+        mType = t;
         mTextureVal = val;
     }
     
     Uniform::Uniform(const Uniform& other)
     {
-        index = other.index;
-        type = other.type;
+        mIndex = other.mIndex;
+        mType = other.mType;
         
-        switch(type)
+        switch(mType)
         {
             case FLOAT:
                 mFloatVal = other.mFloatVal;

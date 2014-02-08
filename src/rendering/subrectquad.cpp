@@ -15,10 +15,10 @@ namespace fea
         mSubrectStart = subrectStart;
         mSubrectEnd = subrectEnd;
 
-        glm::vec2 texCoordsX = glm::vec2(mSubrectStart.x, mSubrectEnd.x) * hFlip;
-        glm::vec2 texCoordsY = glm::vec2(mSubrectStart.y, mSubrectEnd.y) * vFlip;
+        glm::vec2 texCoordsX = glm::vec2(mSubrectStart.x, mSubrectEnd.x) * mHFlip;
+        glm::vec2 texCoordsY = glm::vec2(mSubrectStart.y, mSubrectEnd.y) * mVFlip;
 
-        texCoords =  {texCoordsX[0], texCoordsY[0],
+        mTexCoords =  {texCoordsX[0], texCoordsY[0],
                       texCoordsX[0], texCoordsY[1],
                       texCoordsX[1], texCoordsY[0],
                       texCoordsX[1], texCoordsY[0],
@@ -31,7 +31,7 @@ namespace fea
         RenderInfo temp = Quad::getRenderInfo();
         std::hash<std::string> stringHasher;
 
-        temp.vertexAttributes.push_back(VertexAttribute(stringHasher("texCoords"), 2, &texCoords[0]));
+        temp.mVertexAttributes.push_back(VertexAttribute(stringHasher("texCoords"), 2, &mTexCoords[0]));
 
         return temp;
     }

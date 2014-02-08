@@ -56,7 +56,7 @@ namespace fea
     void Renderer2D::queue(const Drawable2D& drawable)
     {
         mRenderQueue.push_back(drawable.getRenderInfo());
-        mRenderQueue[mRenderQueue.size() - 1].blendMode = mCurrentBlendMode;
+        mRenderQueue[mRenderQueue.size() - 1].mBlendMode = mCurrentBlendMode;
     }
 
     void Renderer2D::render()
@@ -87,19 +87,19 @@ namespace fea
         for(auto& renderOperation : mRenderQueue)
         {
             shader.setUniform(stringHasher("texture"), TEXTURE, &defaultTextureId); //may be overriden
-            setBlendModeGl(renderOperation.blendMode);
+            setBlendModeGl(renderOperation.mBlendMode);
 
-            for(auto& uniform : renderOperation.uniforms)
+            for(auto& uniform : renderOperation.mUniforms)
             {
-                shader.setUniform(uniform.index, uniform.type, &uniform.floatVal);
+                shader.setUniform(uniform.mIndex, uniform.mType, &uniform.mFloatVal);
             }
             
-            for(auto& vertexAttribute : renderOperation.vertexAttributes)
+            for(auto& vertexAttribute : renderOperation.mVertexAttributes)
             {
-                shader.setVertexAttribute(vertexAttribute.index, vertexAttribute.floatAmount, vertexAttribute.data);
+                shader.setVertexAttribute(vertexAttribute.mIndex, vertexAttribute.mFloatAmount, vertexAttribute.mData);
             }
 
-            glDrawArrays(renderOperation.drawMode, 0, renderOperation.elementAmount);
+            glDrawArrays(renderOperation.mDrawMode, 0, renderOperation.mElementAmount);
         }
 
         setBlendMode(ALPHA);

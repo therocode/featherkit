@@ -5,13 +5,13 @@
 
 namespace fea
 {
-    Texture::Texture() : id(0), mWidth(0), mHeight(0), mInteractive(false), pixelData(nullptr)
+    Texture::Texture() : mId(0), mWidth(0), mHeight(0), mInteractive(false), pixelData(nullptr)
     {
     }
 
-    Texture::Texture(Texture&& other) : id(0), mWidth(0), mHeight(0), mInteractive(false), pixelData(nullptr)
+    Texture::Texture(Texture&& other) : mId(0), mWidth(0), mHeight(0), mInteractive(false), pixelData(nullptr)
     {
-        std::swap(id, other.id);
+        std::swap(mId, other.mId);
         std::swap(mWidth, other.mWidth);
         std::swap(mHeight, other.mHeight);
         std::swap(mInteractive, other.mInteractive);
@@ -20,7 +20,7 @@ namespace fea
     
     Texture& Texture::operator=(Texture&& other)
     {
-        std::swap(id, other.id);
+        std::swap(mId, other.mId);
         std::swap(mWidth, other.mWidth);
         std::swap(mHeight, other.mHeight);
         std::swap(mInteractive, other.mInteractive);
@@ -30,7 +30,7 @@ namespace fea
 
     GLuint Texture::getId() const
     {
-        return id;
+        return mId;
     }
 
     void Texture::create(uint32_t width, uint32_t height, const uint8_t* imageData, bool smooth, bool interactive)
@@ -40,15 +40,15 @@ namespace fea
         mWidth = width;
         mHeight = height;
 
-        if(id)
+        if(mId)
         {
             destroy();
         }
         
-        glGenTextures(1, &id);
-        FEA_ASSERT(id != 0, "Failed to create texture. Make sure there is a valid OpenGL context available!");
-        glBindTexture(GL_TEXTURE_2D, id);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLsizei)w, (GLsizei)h, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
+        glGenTextures(1, &mId);
+        FEA_ASSERT(mId != 0, "Failed to create texture. Make sure there is a valid OpenGL context available!");
+        glBindTexture(GL_TEXTURE_2D, mId);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLsizei)width, (GLsizei)height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
 
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
@@ -69,7 +69,7 @@ namespace fea
 
     void Texture::create(uint32_t width, uint32_t height, const Colour& colour, bool smooth, bool interactive)
     {
-        std::unique_ptr<uint8_t[]> pixels = std::unique_ptr<uint8_t[]>(new uint8_t[weight * height * 4]);
+        std::unique_ptr<uint8_t[]> pixels = std::unique_ptr<uint8_t[]>(new uint8_t[width * height * 4]);
 
         for(uint32_t x = 0; x < width; x++)
         {
@@ -86,10 +86,10 @@ namespace fea
 
     void Texture::destroy()
     {
-        if(id)
+        if(mId)
         {
-            glDeleteTextures(1, &id);
-            id = 0;
+            glDeleteTextures(1, &mId);
+            mId = 0;
             mWidth = 0;
             mHeight = 0;
             pixelData.release();
@@ -125,13 +125,13 @@ namespace fea
     void Texture::update()
     {
         FEA_ASSERT(mInteractive, "Cannot modify a non-interactive texture!");
-        glBindTexture(GL_TEXTURE_2D, id);
+        glBindTexture(GL_TEXTURE_2D, mId);
         glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, mWidth, mHeight, GL_RGBA, GL_UNSIGNED_BYTE, pixelData.get());
     }
     
     Texture::~Texture()
     {
-        if(id)
+        if(mId)
         {
             destroy();
         }

@@ -4,33 +4,33 @@ namespace fea
 {
     Quad::Quad() : mHFlip(1.0f), mVFlip(1.0f), mTexture(nullptr)
     {
-        vertices = {-1.0f, -1.0f, 
+        mVertices = {-1.0f, -1.0f, 
                     -1.0f,  1.0f, 
                      1.0f, -1.0f, 
                      1.0f, -1.0f, 
                     -1.0f,  1.0f, 
                      1.0f,  1.0f};
-        origin = glm::vec2(-1.0f, -1.0f);
+        mOrigin = glm::vec2(-1.0f, -1.0f);
 
         glm::vec2 texCoordsX = glm::vec2(0.0f, 1.0f);
         glm::vec2 texCoordsY = glm::vec2(0.0f, 1.0f);
 
-        texCoords =  {texCoordsX[0], texCoordsY[0],
+        mTexCoords =  {texCoordsX[0], texCoordsY[0],
                       texCoordsX[0], texCoordsY[1],
                       texCoordsX[1], texCoordsY[0],
                       texCoordsX[1], texCoordsY[0],
                       texCoordsX[0], texCoordsY[1],
                       texCoordsX[1], texCoordsY[1]};
 
-        vertexColours = {0.0f, 0.0f, 0.0f, 0.0f,
+        mVertexColours = {0.0f, 0.0f, 0.0f, 0.0f,
                          0.0f, 0.0f, 0.0f, 0.0f,
                          0.0f, 0.0f, 0.0f, 0.0f,
                          0.0f, 0.0f, 0.0f, 0.0f,
                          0.0f, 0.0f, 0.0f, 0.0f,
                          0.0f, 0.0f, 0.0f, 0.0f};
 
-        drawMode = GL_TRIANGLES;
-        mContraints = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
+        mDrawMode = GL_TRIANGLES;
+        mConstraints = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
     }
 
     Quad::Quad(float w, float h) : mHFlip(1.0f), mVFlip(1.0f), mTexture(nullptr)
@@ -38,33 +38,33 @@ namespace fea
         float xnum = w * 0.5f;
         float ynum = h * 0.5f;
 
-        vertices = {-xnum, -ynum, 
+        mVertices = {-xnum, -ynum, 
                     -xnum,  ynum, 
                      xnum, -ynum, 
                      xnum, -ynum, 
                     -xnum,  ynum, 
                      xnum,  ynum};
-        origin = glm::vec2(-xnum, -ynum);
+        mOrigin = glm::vec2(-xnum, -ynum);
 
         glm::vec2 texCoordsX = glm::vec2(0.0f, 1.0f);
         glm::vec2 texCoordsY = glm::vec2(0.0f, 1.0f);
 
-        texCoords =  {texCoordsX[0], texCoordsY[0],
+        mTexCoords =  {texCoordsX[0], texCoordsY[0],
                       texCoordsX[0], texCoordsY[1],
                       texCoordsX[1], texCoordsY[0],
                       texCoordsX[1], texCoordsY[0],
                       texCoordsX[0], texCoordsY[1],
                       texCoordsX[1], texCoordsY[1]};
 
-        vertexColours = {0.0f, 0.0f, 0.0f, 0.0f,
+        mVertexColours = {0.0f, 0.0f, 0.0f, 0.0f,
                          0.0f, 0.0f, 0.0f, 0.0f,
                          0.0f, 0.0f, 0.0f, 0.0f,
                          0.0f, 0.0f, 0.0f, 0.0f,
                          0.0f, 0.0f, 0.0f, 0.0f,
                          0.0f, 0.0f, 0.0f, 0.0f};
 
-        drawMode = GL_TRIANGLES;
-        mContraints = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
+        mDrawMode = GL_TRIANGLES;
+        mConstraints = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
     }
     
     Quad::Quad(const glm::vec2& size) : Quad(size.x, size.y)
@@ -76,13 +76,13 @@ namespace fea
         float xnum = w * 0.5f;
         float ynum = h * 0.5f;
 
-        vertices = {-xnum, -ynum, 
+        mVertices = {-xnum, -ynum, 
                     -xnum,  ynum, 
                      xnum, -ynum, 
                      xnum, -ynum, 
                     -xnum,  ynum, 
                      xnum,  ynum};
-        origin = glm::vec2(-xnum, -ynum);
+        mOrigin = glm::vec2(-xnum, -ynum);
     }
 
     void Quad::setSize(glm::vec2 size)
@@ -92,7 +92,7 @@ namespace fea
             
     glm::vec2 Quad::getSize() const
     {
-        return glm::vec2(vertices[4] * 2.0f, vertices[3] * 2.0f);
+        return glm::vec2(mVertices[4] * 2.0f, mVertices[3] * 2.0f);
     }
     
     void Quad::setTexture(const Texture& tex)
@@ -115,7 +115,7 @@ namespace fea
         glm::vec2 texCoordsX = glm::vec2(0.0f, 1.0f) * mHFlip;
         glm::vec2 texCoordsY = glm::vec2(0.0f, 1.0f) * mVFlip;
 
-        texCoords =  {texCoordsX[0], texCoordsY[0],
+        mTexCoords =  {texCoordsX[0], texCoordsY[0],
                       texCoordsX[0], texCoordsY[1],
                       texCoordsX[1], texCoordsY[0],
                       texCoordsX[1], texCoordsY[0],
@@ -135,7 +135,7 @@ namespace fea
         glm::vec2 texCoordsX = glm::vec2(0.0f, 1.0f) * mHFlip;
         glm::vec2 texCoordsY = glm::vec2(0.0f, 1.0f) * mVFlip;
 
-        texCoords =  {texCoordsX[0], texCoordsY[0],
+        mTexCoords =  {texCoordsX[0], texCoordsY[0],
                       texCoordsX[0], texCoordsY[1],
                       texCoordsX[1], texCoordsY[0],
                       texCoordsX[1], texCoordsY[0],
@@ -150,10 +150,10 @@ namespace fea
 
         if(mTexture != nullptr)
         {
-            temp.uniforms.push_back(Uniform(stringHasher("texture"), TEXTURE, getTexture().getId()));
+            temp.mUniforms.push_back(Uniform(stringHasher("texture"), TEXTURE, getTexture().getId()));
         }
 
-        temp.uniforms.push_back(Uniform(stringHasher("constraints"), VEC4, mContraints));
+        temp.mUniforms.push_back(Uniform(stringHasher("constraints"), VEC4, mConstraints));
         
         return temp;
     }

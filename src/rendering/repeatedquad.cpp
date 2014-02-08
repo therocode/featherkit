@@ -68,8 +68,8 @@ namespace fea
     {
         glm::vec2 hej = getSize() / mTileSize;
 
-        glm::vec2 texCoordsX = glm::vec2(0.0f, 1.0f) * hFlip;
-        glm::vec2 texCoordsY = glm::vec2(0.0f, 1.0f) * vFlip;
+        glm::vec2 texCoordsX = glm::vec2(0.0f, 1.0f) * mHFlip;
+        glm::vec2 texCoordsY = glm::vec2(0.0f, 1.0f) * mVFlip;
 
         mTexCoords =  {texCoordsX[0], texCoordsY[0],
                       texCoordsX[0], texCoordsY[1],
@@ -80,7 +80,7 @@ namespace fea
 
         for(uint32_t i = 0; i < 12; i += 2)
         {
-            glm::vec2 newCoords = glm::vec2(texCoords[i], texCoords[i+1]) * hej;
+            glm::vec2 newCoords = glm::vec2(mTexCoords[i], mTexCoords[i+1]) * hej;
             mTexCoords[i] = newCoords.x;
             mTexCoords[i+1] = newCoords.y;
         }

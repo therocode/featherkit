@@ -10,7 +10,7 @@ namespace fea
         mTilesSet.resize(width * height);
         std::fill(mTilesSet.begin(), mTilesSet.end(), false);
 
-        origin = glm::vec2(0.0f, 0.0f);
+        mOrigin = glm::vec2(0.0f, 0.0f);
         mGridSize = glm::uvec2(width, height);
 
         for(uint32_t y = 0; y < height; y++)
@@ -42,7 +42,7 @@ namespace fea
                 mVertexColoursCached.push_back(0.0f); mVertexColoursCached.push_back(0.0f); mVertexColoursCached.push_back(0.0f); mVertexColoursCached.push_back(0.0f);
             }
         }
-        drawMode = GL_TRIANGLES;
+        mDrawMode = GL_TRIANGLES;
     }
     
     void TileChunk::setTexture(const Texture& tex)
@@ -69,8 +69,8 @@ namespace fea
         mTilesSet[getTileIndex(x, y)] = true;
 
         mTexCoords.clear();
-        vertexColours.clear();
-        vertices.clear();
+        mVertexColours.clear();
+        mVertices.clear();
 
         for(uint32_t yy = 0; yy < mGridSize.y; yy++)
         {
@@ -80,8 +80,8 @@ namespace fea
                 if(mTilesSet[index])
                 {
                     mTexCoords.insert(mTexCoords.end(), mTexCoordsCached.begin() + index * 12, mTexCoordsCached.begin() + index * 12 + 12);
-                    vertexColours.insert(vertexColours.end(), mVertexColoursCached.begin() + index * 24, mVertexColoursCached.begin() + index * 24 + 24);
-                    vertices.insert(vertices.end(), mVerticesCached.begin() + index * 12, mVerticesCached.begin() + index * 12 + 12);
+                    mVertexColours.insert(mVertexColours.end(), mVertexColoursCached.begin() + index * 24, mVertexColoursCached.begin() + index * 24 + 24);
+                    mVertices.insert(mVertices.end(), mVerticesCached.begin() + index * 12, mVerticesCached.begin() + index * 12 + 12);
                 }
             }
         }
@@ -92,8 +92,8 @@ namespace fea
         mTilesSet[getTileIndex(x, y)] = false;
 
         mTexCoords.clear();
-        vertexColours.clear();
-        vertices.clear();
+        mVertexColours.clear();
+        mVertices.clear();
 
         for(uint32_t yy = 0; yy < mGridSize.y; yy++)
         {
@@ -103,8 +103,8 @@ namespace fea
                 if(mTilesSet[index])
                 {
                     mTexCoords.insert(mTexCoords.end(), mTexCoordsCached.begin() + index * 12, mTexCoordsCached.begin() + index * 12 + 12);
-                    vertexColours.insert(vertexColours.end(), mVertexColoursCached.begin() + index * 24, mVertexColoursCached.begin() + index * 24 + 24);
-                    vertices.insert(vertices.end(), mVerticesCached.begin() + index * 12, mVerticesCached.begin() + index * 12 + 12);
+                    mVertexColours.insert(mVertexColours.end(), mVertexColoursCached.begin() + index * 24, mVertexColoursCached.begin() + index * 24 + 24);
+                    mVertices.insert(mVertices.end(), mVerticesCached.begin() + index * 12, mVerticesCached.begin() + index * 12 + 12);
                 }
             }
         }
@@ -126,8 +126,8 @@ namespace fea
         }
 
         mTexCoords = mTexCoordsCached;
-        vertexColours = mVertexColoursCached;
-        vertices = mVerticesCached;
+        mVertexColours = mVertexColoursCached;
+        mVertices = mVerticesCached;
     }
     
     void TileChunk::clear()
@@ -135,8 +135,8 @@ namespace fea
         std::fill(mTilesSet.begin(), mTilesSet.end(), false);
 
         mTexCoords.clear();
-        vertexColours.clear();
-        vertices.clear();
+        mVertexColours.clear();
+        mVertices.clear();
     }
 
     RenderInfo TileChunk::getRenderInfo() const
@@ -144,9 +144,9 @@ namespace fea
         RenderInfo temp = Drawable2D::getRenderInfo();
         std::hash<std::string> stringHasher;
 
-        temp.uniforms.push_back(Uniform(stringHasher("texture"), TEXTURE, getTexture().getId()));
+        temp.mUniforms.push_back(Uniform(stringHasher("texture"), TEXTURE, getTexture().getId()));
 
-        temp.vertexAttributes.push_back(VertexAttribute(stringHasher("texCoords"), 2, &mTexCoords[0]));
+        temp.mVertexAttributes.push_back(VertexAttribute(stringHasher("texCoords"), 2, &mTexCoords[0]));
 
         return temp;
     }

@@ -18,8 +18,8 @@ namespace fea
         Uniform(size_t i, UniformType t, glm::mat4x4 val);
         Uniform(size_t i, UniformType t, GLuint val);
         Uniform(const Uniform& other);
-        size_t index;
-        UniformType type;
+        size_t mIndex;
+        UniformType mType;
         union
         {
             float mFloatVal;
