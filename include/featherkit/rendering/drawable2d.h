@@ -13,22 +13,22 @@ namespace fea
         public:
             Drawable2D();
             const std::vector<float>& getVertices() const;
-            void setPosition(const glm::vec2& p);
+            void setPosition(const glm::vec2& position);
             const glm::vec2& getPosition() const;
-            void translate(const glm::vec2& p);
-            void setOrigin(const glm::vec2& p);
+            void translate(const glm::vec2& amount);
+            void setOrigin(const glm::vec2& position);
             const glm::vec2& getOrigin() const;
             void setRotation(const float radians);
             float getRotation() const;
             void rotate(const float radians);
-            void setScale(const glm::vec2& s);
+            void setScale(const glm::vec2& scale);
             const glm::vec2& getScale() const;
-            void scale(const glm::vec2& s);
-            void setParallax(float p);
+            void scale(const glm::vec2& amount);
+            void setParallax(float parallax);
             float getParallax() const;
-            void setColour(const Colour& c);
+            void setColour(const Colour& colour);
             Colour getColour() const;
-            void setOpacity(float o);
+            void setOpacity(float opacity);
             float getOpacity() const;
 
             virtual RenderInfo getRenderInfo() const;
@@ -60,23 +60,23 @@ namespace fea
      *  @brief Get all the vertices of a drawable.
      *  @return Vector containing the vertices.
      ***
-     *  @fn void Drawable2D::setPosition(const glm::vec2& p)
+     *  @fn void Drawable2D::setPosition(const glm::vec2& position)
      *  @brief Set the position using a vector.
-     *  @param p Vector with the position.
+     *  @param position Vector with the position.
      ***
      *  @fn const glm::vec2& Drawable2D::getPosition() const
      *  @brief Get the current position.
      *  @return A vector containing the position.
      ***
-     *  @fn void Drawable2D::translate(const glm::vec2& p)
+     *  @fn void Drawable2D::translate(const glm::vec2& amount)
      *  @brief Move the Drawable2D using a vector.
-     *  @param p Vector containing the amount to move.
+     *  @param amount Vector containing the amount to move.
      ***
-     *  @fn void Drawable2D::setOrigin(const glm::vec2& p)
+     *  @fn void Drawable2D::setOrigin(const glm::vec2& position)
      *  @brief Set the origin point of the Drawable2D, using a vector.
      *  
      *  The origin serves as the centre point. This is where the object will be centered and all rotation and scaling will happen around this point. Also, if the position is set, the origin will be equivalent to that position. 
-     *  @param p Position to set the origin to.
+     *  @param position Position to set the origin to.
      ***
      *  @fn const glm::vec2& Drawable2D::getOrigin() const
      *  @brief Get the origin point of the Drawable2D.
@@ -94,29 +94,29 @@ namespace fea
      *  @brief Rotate the Drawable2D a specific amount.
      *  @param radians Amount in radians to rotate the Drawable2D.
      ***
-     *  @fn void Drawable2D::setScale(const glm::vec2& s)
+     *  @fn void Drawable2D::setScale(const glm::vec2& scale)
      *  @brief Set the scale factor using a vector.
-     *  @param s Vector containing the scale factor.
+     *  @param scale Vector containing the scale factor.
      ***
      *  @fn const glm::vec2& Drawable2D::getScale() const
      *  @brief Get the current scale.
      *  @return Vector containing the scale.
      ***
-     *  @fn void Drawable2D::scale(const glm::vec2& s)
+     *  @fn void Drawable2D::scale(const glm::vec2& amount)
      *  @brief Scale the Drawable2D using a vector.
-     *  @param s Scale factor.
+     *  @param amount Scale factor.
      ***
-     *  @fn void Drawable2D::setParallax(float p)
+     *  @fn void Drawable2D::setParallax(float parallax)
      *  @brief Set the parallax.
-     *  @param p Parallax factor.
+     *  @param parallax Parallax factor.
      ***
      *  @fn float Drawable2D::getParallax() const
      *  @brief Get the parallax.
      *  @return Parallax factor.
      ***
-     *  @fn void Drawable2D::setOpacity(float o)
+     *  @fn void Drawable2D::setOpacity(float opacity)
      *  @brief Set the opacity.
-     *  @param o Opacity.
+     *  @param opacity Opacity.
      ***
      *  @fn float Drawable2D::getOpacity() const
      *  @brief Get the opacity.
@@ -126,9 +126,9 @@ namespace fea
      *  @brief Get the colour.
      *  @return The colour of the drawable.
      ***
-     *  @fn void Drawable2D::setColour(const Colour& c)
+     *  @fn void Drawable2D::setColour(const Colour& colour)
      *  @brief Set the colour.
-     *  @param c Colour to set to.
+     *  @param colour Colour to set to.
      ***
      *  @fn virtual RenderInfo Drawable2D::getRenderInfo() const
      *  @brief Returns data used for rendering.

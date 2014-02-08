@@ -12,7 +12,7 @@ namespace fea
     {
         public:
             Animation();
-            Animation(const glm::vec2& frameStart, const glm::vec2& frameSize, uint32_t fAmount = 1, uint32_t d = 1, bool l = true, AnimationBehaviour ab = FORWARDS);
+            Animation(const glm::vec2& frameStart, const glm::vec2& frameSize, uint32_t frameAmount = 1, uint32_t delay = 1, bool loop = true, AnimationBehaviour animationBehaviour = FORWARDS);
             void getConstraints(glm::vec4& constraints, uint32_t frame) const;
             uint32_t getFrameAmount() const;
             uint32_t getDelay() const;
@@ -42,14 +42,14 @@ namespace fea
      *
      *  All values defining location on the sprite sheet is in percent of the total texture size.
      ***
-     *  @fn Animation::Animation(const glm::vec2& frameStart, const glm::vec2& frameSize, uint32_t fAmount = 1, uint32_t d = 1, bool l = true, AnimationBehaviour ab = FORWARDS)
+     *  @fn Animation::Animation(const glm::vec2& frameStart, const glm::vec2& frameSize, uint32_t frameAmount = 1, uint32_t delay = 1, bool loop = true, AnimationBehaviour animationBehaviour = FORWARDS)
      *  @brief Construct an animation. All positioning values are in percent (between 0.0 and 1.0) of the total texture size.
      *  @param frameStart Starting point. The top left corner of the first animation frame.
      *  @param frameSize Width and height of one animation frame.
-     *  @param fAmount Total amount of frames in the animation.
-     *  @param d Amount of ticks between every animation frame.
-     *  @param l Describes if the animation is looping or not.
-     *  @param ab Can currently be FORWARDS or BACKWARDS, and defines if the frame is animated backwards or not.
+     *  @param frameAmount Total amount of frames in the animation.
+     *  @param delay Amount of ticks between every animation frame.
+     *  @param loop Describes if the animation is looping or not.
+     *  @param animationBehaviour Can currently be FORWARDS or BACKWARDS, and defines if the frame is animated backwards or not.
      ***
      *  @fn void Animation::getConstraints(glm::vec4& constraints, uint32_t frame) const
      *  @brief Get constraints.

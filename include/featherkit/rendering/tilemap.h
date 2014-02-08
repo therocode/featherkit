@@ -35,7 +35,7 @@ namespace fea
             void setPosition(const glm::vec2& position);
             const glm::vec2& getPosition() const;
             const std::vector<TileChunk>& getTileChunks() const;
-            void setTexture(const Texture& tex);
+            void setTexture(const Texture& texture);
             const Texture& getTexture() const;
             void addTileDefinition(const std::string& name, const TileDefinition& tileDef);
             void setTile(const glm::uvec2& pos, const std::string& name);
@@ -141,9 +141,9 @@ namespace fea
      *  This function is what is used to render the TileMap. The list of the TileChunk instances can be iterated through, to pass the content to the rendered.
      *  @return List of tile chunks.
      ***
-     *  @fn void TileMap::setTexture(const Texture& tex)
+     *  @fn void TileMap::setTexture(const Texture& texture)
      *  @brief Set the texture to use.
-     *  @param tex Texture.
+     *  @param texture Texture.
      ***
      *  @fn const std::string& TileMap::getTexture() const
      *  @brief Get the current texture.

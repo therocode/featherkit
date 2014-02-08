@@ -11,7 +11,7 @@ namespace fea
             Quad(const glm::vec2& size);
             virtual void setSize(const glm::vec2& size);
             glm::vec2 getSize() const;
-            void setTexture(const Texture& tex);
+            void setTexture(const Texture& texture);
             const Texture& getTexture() const;
             void setHFlip(bool enabled);
             void setVFlip(bool enabled);
@@ -49,9 +49,9 @@ namespace fea
      *  @brief Get the size.
      *  @return Size as a vector.
      ***
-     *  @fn void Quad::setTexture(const std::string& tex)
+     *  @fn void Quad::setTexture(const std::string& texture)
      *  @brief Set the texture.
-     *  @param tex Name of the texture to set.
+     *  @param texture Name of the texture to set.
      ***
      *  @fn const std::string& Quad::getTexture() const
      *  @brief Get the texture.

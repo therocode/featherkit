@@ -7,11 +7,11 @@ namespace fea
     {
         public:
             Camera();
-            Camera(glm::vec2 p, glm::vec2 z = glm::vec2(1.0f, 1.0f));
-            void setPosition(glm::vec2 p);
+            Camera(glm::vec2 position, glm::vec2 zoom = glm::vec2(1.0f, 1.0f));
+            void setPosition(glm::vec2 position);
             const glm::vec2& getPosition() const;
-            void translate(glm::vec2 p);
-            void setZoom(glm::vec2 z);
+            void translate(glm::vec2 position);
+            void setZoom(glm::vec2 zoom);
             const glm::vec2& getZoom() const;
             void setRotation(float radians);
             float getRotation() const;
@@ -37,28 +37,28 @@ namespace fea
      *
      *  The constructed Camera will have a position of 0.0f, 0.0f, and neutral zoom and rotation.
      ***
-     *  @fn Camera::Camera(glm::vec2 p, glm::vec2 z = glm::vec2(1.0f, 1.0f))
+     *  @fn Camera::Camera(glm::vec2 position, glm::vec2 zoom = glm::vec2(1.0f, 1.0f))
      *  @brief Construct a Camera with the given position and zoom, given as vectors.
      *
      *  The rotation of the Camera will be neutral.
-     *  @param p Vector containing the position.
-     *  @param z Vector containing the zoom, default is 1.0f, 1.0f.
+     *  @param position Vector containing the position.
+     *  @param zoom Vector containing the zoom, default is 1.0f, 1.0f.
      ***
-     *  @fn void Camera::setPosition(glm::vec2 p)
+     *  @fn void Camera::setPosition(glm::vec2 position)
      *  @brief Set the position of the Camera using a vector.
-     *  @param p Vector with the new position.
+     *  @param position Vector with the new position.
      ***
      *  @fn const glm::vec2& Camera::getPosition() const
      *  @brief Get the position of the Camera.
      *  @return Camera position.
      ***
-     *  @fn void Camera::translate(glm::vec2 p)
+     *  @fn void Camera::translate(glm::vec2 position)
      *  @brief Move the Camera an amount of units given as a vector.
-     *  @param p Amount to move the Camera.
+     *  @param position Amount to move the Camera.
      ***
-     *  @fn void Camera::setZoom(glm::vec2 z)
+     *  @fn void Camera::setZoom(glm::vec2 zoom)
      *  @brief Set the zoom factor of the Camera given as a vector.
-     *  @param z Zoom factor to set.
+     *  @param zoom Zoom factor to set.
      ***
      *  @fn const glm::vec2& Camera::getZoom() const
      *  @brief Get the zoom factor of the Camera.

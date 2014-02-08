@@ -13,7 +13,7 @@ namespace fea
     class Renderer2D
     {
         public:
-            Renderer2D(const Viewport& v);
+            Renderer2D(const Viewport& viewport);
             void setup();
             void clear(const Colour& colour = Colour());
             void clear(const RenderTarget& target, const Colour& colour = Colour());
@@ -59,10 +59,10 @@ namespace fea
      *
      *  The Renderer2D keeps a Viewport describing the size of the render area as well as the current camera data.
      ***
-     *  @fn Renderer2D::Renderer2D(Viewport v)
+     *  @fn Renderer2D::Renderer2D(Viewport viewport)
      *  @brief Construct a renderer with the given Viewport.
      *
-     *  @param v Viewport to use.
+     *  @param viewport Viewport to use.
      *** 
      *  @fn void Renderer2D::setup()
      *  @brief Perform one-time setup for the renderer.

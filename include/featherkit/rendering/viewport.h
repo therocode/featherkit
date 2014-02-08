@@ -8,10 +8,10 @@ namespace fea
     {
         public:
             Viewport();
-            Viewport(const glm::uvec2& s, const glm::ivec2& pos = glm::ivec2(), const Camera& cam = Camera());
+            Viewport(const glm::uvec2& size, const glm::ivec2& position = glm::ivec2(), const Camera& camera = Camera());
             const glm::ivec2& getPosition() const;
             const glm::uvec2& getSize() const;
-            void setCamera(const Camera& cam);
+            void setCamera(const Camera& camera);
             Camera& getCamera();
             glm::vec2 transformPoint(const glm::vec2 point) const;
             glm::vec2 untransformPoint(const glm::vec2 point) const;
@@ -35,12 +35,12 @@ namespace fea
      *  
      *  The default constructor constructs a Viewport with no translation and the viewing rectangle set to a width of 1.0f and a size of 1.0f.
      ***
-     *  @fn Viewport::Viewport(const glm::uvec2& s, const glm::ivec2& pos = glm::ivec2(), const Camera& cam = Camera())
+     *  @fn Viewport::Viewport(const glm::uvec2& size, const glm::ivec2& position = glm::ivec2(), const Camera& camera = Camera())
      *  @brief Construct a Viewport with the given size, position and camera.
      *
-     *  @param s Size of the new Viewport.
-     *  @param pos Position of the top-left corner. Default is 0,0.
-     *  @param cam Camera to use.
+     *  @param size Size of the new Viewport.
+     *  @param position Position of the top-left corner. Default is 0,0.
+     *  @param camera Camera to use.
      ***
      *  @fn const glm::ivec2& Viewport::getPosition() const
      *  @brief Get the position of the top-left corner.
@@ -50,9 +50,9 @@ namespace fea
      *  @brief Get the size of the Viewport.
      *  @return Vector containing the current size.
      ***
-     *  @fn void Viewport::setCamera(const Camera& cam)
+     *  @fn void Viewport::setCamera(const Camera& camera)
      *  @brief Set the Camera of the Viewport.
-     *  @param cam Camera to set it to.
+     *  @param camera Camera to set it to.
      ***
      *  @fn Camera& Viewport::getCamera()
      *  @brief Get the Camera currently in use by the Viewport. The camera might be modified external.

@@ -11,8 +11,8 @@ namespace fea
     struct Message
     {
         Message(typename std::enable_if<sizeof...(DataTypes) >= 1>) {}
-        Message(DataTypes... d) : mData(d...) { }
-        Message(const std::tuple<DataTypes...>& d) : mData(d) { }
+        Message(DataTypes... data) : mData(data...) { }
+        Message(const std::tuple<DataTypes...>& data) : mData(data) { }
         std::tuple<DataTypes...> mData;
     };
     /** @addtogroup Messaging
@@ -39,13 +39,13 @@ namespace fea
      *  @fn Message::Message(typename std::enable_if<sizeof...(DataTypes) >= 1>)
      *  @brief Construct a message.
      ***
-     *  @fn Message::Message(DataTypes... d)
+     *  @fn Message::Message(DataTypes... data)
      *  @brief Construct a message containing the given data.
-     *  @param d Data.
+     *  @param data Data.
      ***
-     *  @fn Message::Message(const std::tuple<DataTypes...>& d)
+     *  @fn Message::Message(const std::tuple<DataTypes...>& data)
      *  @brief Construct a message from a ready packed tuple.
-     *  @param d Tuple.
+     *  @param data Tuple.
      ***
      *  @var Message::mData 
      *  @brief Packed tuple of all data the Message is carrying.

@@ -8,7 +8,7 @@ namespace fea
     {
         public:
             TileChunk(uint32_t width, uint32_t height, uint32_t tileWidth, uint32_t tileHeight);
-            void setTexture(const Texture& tex);
+            void setTexture(const Texture& texture);
             const Texture& getTexture() const;
             void setTileTexCoords(uint32_t x, uint32_t y, const glm::vec2& startCoords, const glm::vec2& endCoords);
             void unsetTileTexCoords(uint32_t x, uint32_t y);
@@ -44,11 +44,11 @@ namespace fea
      *  @param tileWidth Width of a single tile.
      *  @param tileHeight Height of a single tile.
      ***
-     *  @fn void TileChunk::setTexture(const std::string& tex)
+     *  @fn void TileChunk::setTexture(const Texture& texture)
      *  @brief Set the texture to use.
      *
      *  Typically a texture with many tiles.
-     *  @param tex Texture name.
+     *  @param texture Texture
      ***
      *  @fn const std::string& TileChunk::getTexture() const
      *  @brief Get the texture in use.

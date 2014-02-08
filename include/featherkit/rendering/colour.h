@@ -8,10 +8,10 @@ namespace fea
     {
         public:
             Colour();
-            Colour(float r, float g, float b, float a = 1.0f);
-            Colour(int32_t r, int32_t g, int32_t b, int32_t a = 255);
-            Colour(int32_t hexValue, float a);
-            Colour(int32_t hexValue, int32_t a = 255);
+            Colour(float red, float green, float blue, float alpha = 1.0f);
+            Colour(int32_t red, int32_t green, int32_t blue, int32_t alpha = 255);
+            Colour(int32_t hexValue, float alpha);
+            Colour(int32_t hexValue, int32_t alpha = 255);
 
             Colour operator+(const Colour& other) const;
             Colour& operator+=(const Colour& other);
@@ -34,15 +34,15 @@ namespace fea
             uint8_t bAsByte() const;
             uint8_t aAsByte() const;
 
-            void setR(float r);
-            void setG(float g);
-            void setB(float b);
-            void setA(float a);
+            void setR(float red);
+            void setG(float green);
+            void setB(float blue);
+            void setA(float alpha);
 
-            void setRAsByte(int32_t r);
-            void setGAsByte(int32_t g);
-            void setBAsByte(int32_t b);
-            void setAAsByte(int32_t a);
+            void setRAsByte(int32_t red);
+            void setGAsByte(int32_t green);
+            void setBAsByte(int32_t blue);
+            void setAAsByte(int32_t alpha);
 
         private:
             float mRed;
@@ -65,29 +65,29 @@ namespace fea
      *
      *  The colour will by default be black with full opacity.
      ***
-     *  @fn Colour::Colour(float r, float g, float b, float a = 1.0f)
+     *  @fn Colour::Colour(float red, float green, float blue, float alpha = 1.0f)
      *  @brief Construct a colour with the given colour values in floats with a range from 0.0f to 1.0f.
-     *  @param r Red channel value from 0.0f to 1.0f.
-     *  @param g Green channel value from 0.0f to 1.0f.
-     *  @param b Blue channel value from 0.0f to 1.0f.
-     *  @param a Alpha channel value from 0.0f to 1.0f.
+     *  @param red Red channel value from 0.0f to 1.0f.
+     *  @param green Green channel value from 0.0f to 1.0f.
+     *  @param blue Blue channel value from 0.0f to 1.0f.
+     *  @param alpha Alpha channel value from 0.0f to 1.0f.
      ***
-     *  @fn Colour::Colour(int32_t r, int32_t g, int32_t b, int32_t a = 255);
+     *  @fn Colour::Colour(int32_t red, int32_t green, int32_t blue, int32_t alpha = 255);
      *  @brief Construct a colour with the given colour values in ints with a range from 0 to 255.
-     *  @param r Red channel value from 0 to 255.
-     *  @param g Green channel value from 0 to 255.
-     *  @param b Blue channel value from 0 to 255.
-     *  @param a Alpha channel value from 0 to 255.
+     *  @param red Red channel value from 0 to 255.
+     *  @param green Green channel value from 0 to 255.
+     *  @param blue Blue channel value from 0 to 255.
+     *  @param alpha Alpha channel value from 0 to 255.
      ***
-     *  @fn Colour::Colour(int32_t hexValue, int32_t a = 255);
+     *  @fn Colour::Colour(int32_t hexValue, int32_t alpha = 255);
      *  @brief Construct a colour from a hexadecimal value and its alpha channel from a float.
      *  @param hexValue The colour value from 0x000000 to 0xFFFFFF.
-     *  @param a Alpha channel value from 0 to 255.
+     *  @param alpha Alpha channel value from 0 to 255.
      ***
-     *  @fn Colour::Colour(int32_t hexValue, float a);
+     *  @fn Colour::Colour(int32_t hexValue, float alpha);
      *  @brief Construct a colour from a hexadecimal value and its alpha channel from a float.
      *  @param hexValue The colour value from 0x000000 to 0xFFFFFF.
-     *  @param a Alpha channel value from 0.0f to 1.0f.
+     *  @param alpha Alpha channel value from 0.0f to 1.0f.
      ***
      *  @fn Colour Colour::operator+(const Colour& other) const
      *  @brief Add two colour instances together.
@@ -171,37 +171,36 @@ namespace fea
      *  @brief Get the value of the alpha channel.
      *  @return The value of the alpha channel from 0 to 255.
      ***
-     *  @fn void Colour::setR(float r)
+     *  @fn void Colour::setR(float red)
      *  @brief Set the value of the colour's red channel.
-     *  @param r The value of the red channel to set from 0.0f to 1.0f.
+     *  @param red The value of the red channel to set from 0.0f to 1.0f.
      ***
-     *  @fn void Colour::setG(float g)
+     *  @fn void Colour::setG(float green)
      *  @brief Set the value of the colour's green channel.
-     *  @param g The value of the green channel to set from 0.0f to 1.0f.
+     *  @param green The value of the green channel to set from 0.0f to 1.0f.
      ***
-     *  @fn void Colour::setB(float b)
+     *  @fn void Colour::setB(float blue)
      *  @brief Set the value of the colour's blue channel.
-     *  @param b The value of the blue channel to set from 0.0f to 1.0f.
+     *  @param blue The value of the blue channel to set from 0.0f to 1.0f.
      ***
-     *  @fn void Colour::setA(float a)
+     *  @fn void Colour::setA(float alpha)
      *  @brief Set the value of the colour's alpha channel.
-     *  @param a The value of the alpha channel to set from 0.0f to 1.0f.
+     *  @param alpha The value of the alpha channel to set from 0.0f to 1.0f.
      ***
-     *  @fn void Colour::setRAsByte(int32_t r)
+     *  @fn void Colour::setRAsByte(int32_t red)
      *  @brief Set the value of the colour's red channel.
-     *  @param r The value of the red channel to set from 0 to 255.
+     *  @param red The value of the red channel to set from 0 to 255.
      ***
-     *  @fn void Colour::setGAsByte(int32_t g)
+     *  @fn void Colour::setGAsByte(int32_t green)
      *  @brief Set the value of the colour's green channel.
-     *  @param g The value of the green channel to set from 0 to 255.
+     *  @param green The value of the green channel to set from 0 to 255.
      ***
-     *  @fn void Colour::setBAsByte(int32_t b)
+     *  @fn void Colour::setBAsByte(int32_t blue)
      *  @brief Set the value of the colour's blue channel.
-     *  @param b The value of the blue channel to set from 0 to 255.
+     *  @param blue The value of the blue channel to set from 0 to 255.
      ***
-     *  @fn void Colour::setAAsByte(int32_t a)
+     *  @fn void Colour::setAAsByte(int32_t alpha)
      *  @brief Set the value of the colour's alpha channel.
-     *  @param a The value of the alpha channel to set from 0 to 255.
-     ***
+     *  @param alpha The value of the alpha channel to set from 0 to 255.
      */
 }

@@ -16,7 +16,7 @@ namespace fea
             GLuint getId() const;
             glm::uvec2 getSize() const;
             const Texture& getTexture() const;
-            void create(uint32_t w, uint32_t h, bool smooth = false);
+            void create(uint32_t width, uint32_t height, bool smooth = false);
             void destroy();
             ~RenderTarget();
         private:
@@ -69,12 +69,12 @@ namespace fea
      *  Using the Texture returned by this function, the content of the RenderTarget can be displayed on a drawable.
      *  @return The Texture.
      ***
-     *  @fn void RenderTarget::create(uint32_t w, uint32_t h, bool smooth = false)
+     *  @fn void RenderTarget::create(uint32_t width, uint32_t height, bool smooth = false)
      *  @brief Create a RenderTarget with the given size.
      *
      *  This method has to be called prior to using the RenderTarget. 
-     *  @param w Width of the RenderTarget.
-     *  @param h Height of the RenderTarget.
+     *  @param width Width of the RenderTarget.
+     *  @param height Height of the RenderTarget.
      *  @param smooth If this is true, the internal texture used by the RenderTarget will be smoothed using a nearest neighbour algorithm.
      ***
      *  @fn void RenderTarget::destroy()
