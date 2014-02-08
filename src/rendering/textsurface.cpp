@@ -3,7 +3,7 @@
 
 namespace fea
 {
-    TextSurface::Writing::Writing(const std::wstring& text, const Font* font, const glm::vec2& penPosition, const float scale, const Colour& colour)
+    TextSurface::Writing::Writing(const std::u32string& text, const Font* font, const glm::vec2& penPosition, const float scale, const Colour& colour)
         : mText(text), mFont(font), mPenPosition(penPosition), mScale(scale), mColour(colour)
     {
     }
@@ -23,10 +23,10 @@ namespace fea
 
     void TextSurface::write(const std::string& text)
     {
-        write(std::wstring(text.begin(), text.end()));
+        write(std::u32string(text.begin(), text.end()));
     }
 
-    void TextSurface::write(const std::wstring& text)
+    void TextSurface::write(const std::u32string& text)
     {
         mWritings.push_back(Writing(text, mCurrentFont, mPenPosition, mScale, mColour));
         addText(text);
@@ -109,7 +109,7 @@ namespace fea
         mWritings.clear();
     }
             
-    void TextSurface::addText(const std::wstring& text)
+    void TextSurface::addText(const std::u32string& text)
     {
         //void add_text( vertex_buffer_t * buffer, texture_font_t * font, wchar_t * text, vec4 * color, vec2 * pen )
         size_t i;
