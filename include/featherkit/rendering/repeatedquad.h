@@ -7,15 +7,11 @@ namespace fea
     {
         public:
             RepeatedQuad();
-            RepeatedQuad(float w, float h);
             RepeatedQuad(const glm::vec2& size);
-            virtual void setSize(float w, float h) override;
-                virtual void setSize(glm::vec2 size) override;
-            void setTileSize(float w, float h);
+            virtual void setSize(const glm::vec2& size) override;
             void setTileSize(const glm::vec2& size);
             const glm::vec2& getTileSize();
             void setScrollSpeed(const glm::vec2& speed);
-            void setScrollSpeed(float w, float h);
             const glm::vec2& getScrollSpeed() const;
         private:
             void updateConstraints();
@@ -37,13 +33,6 @@ namespace fea
      *
      *  Uses the AnimatedQuad::AnimatedQuad() constructor.
      ***
-     *  @fn RepeatedQuad::RepeatedQuad(float w, float h)
-     *  @brief Construct a RepeatedQuad with a specific size.
-     *
-     *  Uses the AnimatedQuad::AnimatedQuad(float w, float h) constructor.
-     *  @param w Width.
-     *  @param h Height.
-     ***
      *  @fn RepeatedQuad::RepeatedQuad(const glm::vec2& size)
      *  @brief Construct a RepeatedQuad with a specific size.
      *
@@ -54,11 +43,6 @@ namespace fea
      *  @brief Set the size of every repeated texture cell.
      *  @param size Vector containing the size.
      ***
-     *  @fn void RepeatedQuad::setTileSize(float w, float h)
-     *  @brief Set the size of every repeated texture cell.
-     *  @param w Tile width.
-     *  @param h Tile height.
-     ***
      *  @fn const glm::vec2& RepeatedQuad::getTileSize()
      *  @brief Get the texture cell size.
      ***
@@ -67,13 +51,6 @@ namespace fea
      *
      *  Texture scrolling makes the wrapped texture image glide over the RepeatedQuad. Can be used to make clouds moving in the wind or a scrolling space background for instance.
      *  @param speed Vector containing the rate of which the texture scrolls.
-     ***
-     *  @fn void RepeatedQuad::setScrollSpeed(float x, float y)
-     *  @brief Set the rate at which the texture is scrolled.
-     *
-     *  Texture scrolling makes the wrapped texture image glide over the RepeatedQuad. Can be used to make clouds moving in the wind or a scrolling space background for instance.
-     *  @param x Speed of the scrolling along the X axis.
-     *  @param y Speed of the scrolling along the Y axis.
      ***
      *  @fn const glm::vec2& RepeatedQuad::getScrollSpeed() const
      *  @brief Get the rate at which the texture is scrolled.

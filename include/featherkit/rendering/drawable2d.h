@@ -13,21 +13,16 @@ namespace fea
         public:
             Drawable2D();
             const std::vector<float>& getVertices() const;
-            void setPosition(const float x, const float y);
             void setPosition(const glm::vec2& p);
             const glm::vec2& getPosition() const;
-            void translate(const float x, const float y);
             void translate(const glm::vec2& p);
-            void setOrigin(const float x, const float y);
             void setOrigin(const glm::vec2& p);
             const glm::vec2& getOrigin() const;
             void setRotation(const float radians);
             float getRotation() const;
             void rotate(const float radians);
-            void setScale(const float x, const float y);
             void setScale(const glm::vec2& s);
             const glm::vec2& getScale() const;
-            void scale(const float x, const float y);
             void scale(const glm::vec2& s);
             void setParallax(float p);
             float getParallax() const;
@@ -65,11 +60,6 @@ namespace fea
      *  @brief Get all the vertices of a drawable.
      *  @return Vector containing the vertices.
      ***
-     *  @fn void Drawable2D::setPosition(const float x, const float y)
-     *  @brief Set the position.
-     *  @param x X position.
-     *  @param y Y position.
-     ***
      *  @fn void Drawable2D::setPosition(const glm::vec2& p)
      *  @brief Set the position using a vector.
      *  @param p Vector with the position.
@@ -78,21 +68,9 @@ namespace fea
      *  @brief Get the current position.
      *  @return A vector containing the position.
      ***
-     *  @fn void Drawable2D::translate(const float x, const float y)
-     *  @brief Move the Drawable2D.
-     *  @param x Amount to move along the X axis.
-     *  @param y Amount to move along the Y axis.
-     ***
      *  @fn void Drawable2D::translate(const glm::vec2& p)
      *  @brief Move the Drawable2D using a vector.
      *  @param p Vector containing the amount to move.
-     ***
-     *  @fn void Drawable2D::setOrigin(const float x, const float y)
-     *  @brief Set the origin point of the Drawable2D.
-     *  
-     *  The origin serves as the centre point. This is where the object will be centered and all rotation and scaling will happen around this point. Also, if the position is set, the origin will be equivalent to that position. 
-     *  @param x X coordinate for the origin.
-     *  @param y Y coordinate for the origin.
      ***
      *  @fn void Drawable2D::setOrigin(const glm::vec2& p)
      *  @brief Set the origin point of the Drawable2D, using a vector.
@@ -116,11 +94,6 @@ namespace fea
      *  @brief Rotate the Drawable2D a specific amount.
      *  @param radians Amount in radians to rotate the Drawable2D.
      ***
-     *  @fn void Drawable2D::setScale(const float x, const float y)
-     *  @brief Set the scale factor.
-     *  @param x Scale factor in the X axis.
-     *  @param y Scale factor in the Y axis.
-     ***
      *  @fn void Drawable2D::setScale(const glm::vec2& s)
      *  @brief Set the scale factor using a vector.
      *  @param s Vector containing the scale factor.
@@ -128,11 +101,6 @@ namespace fea
      *  @fn const glm::vec2& Drawable2D::getScale() const
      *  @brief Get the current scale.
      *  @return Vector containing the scale.
-     ***
-     *  @fn void Drawable2D::scale(const float x, const float y)
-     *  @brief Scale the Drawable2D.
-     *  @param x X scale factor.
-     *  @param y Y scale factor.
      ***
      *  @fn void Drawable2D::scale(const glm::vec2& s)
      *  @brief Scale the Drawable2D using a vector.
@@ -158,8 +126,7 @@ namespace fea
      *  @brief Get the colour.
      *  @return The colour of the drawable.
      ***
-     ***
-     *  @fn void Drawable2D::setColour(const glm::vec3& c)
+     *  @fn void Drawable2D::setColour(const Colour& c)
      *  @brief Set the colour.
      *  @param c Colour to set to.
      ***

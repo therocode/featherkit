@@ -8,33 +8,15 @@ namespace fea
         updateConstraints();
     }
 
-    RepeatedQuad::RepeatedQuad(float w, float h) : AnimatedQuad(w, h) 
-    {
-        mTileSize = getSize();
-        updateConstraints();
-    }
-
     RepeatedQuad::RepeatedQuad(const glm::vec2& size) : AnimatedQuad(size)
     {
         mTileSize = getSize();
         updateConstraints();
     }
 
-    void RepeatedQuad::setSize(float w, float h)
-    {
-        Quad::setSize(w, h);
-        updateConstraints();
-    }
-
-    void RepeatedQuad::setSize(glm::vec2 size)
+    void RepeatedQuad::setSize(const glm::vec2& size)
     {
         Quad::setSize(size);
-        updateConstraints();
-    }
-
-    void RepeatedQuad::setTileSize(float w, float h)
-    {
-        mTileSize = glm::vec2(w, h);
         updateConstraints();
     }
 
@@ -47,11 +29,6 @@ namespace fea
     const glm::vec2& RepeatedQuad::getTileSize()
     {
         return mTileSize;
-    }
-    
-    void RepeatedQuad::setScrollSpeed(float xSpeed, float ySpeed) //FIX
-    {
-        mScrollSpeed = glm::vec2(xSpeed, ySpeed);
     }
     
     void RepeatedQuad::setScrollSpeed(const glm::vec2& speed)

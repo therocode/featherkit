@@ -10,7 +10,6 @@ namespace fea
     {
         public:
             AnimatedQuad();
-            AnimatedQuad(float w, float h);
             AnimatedQuad(const glm::vec2& size);
             void setAnimation(const Animation& animation, bool play = true);
             const Animation& getAnimation() const;
@@ -46,13 +45,6 @@ namespace fea
      *  @brief Construct an AnimatedQuad.
      *  
      *  Uses the Quad::Quad() constructor.
-     ***
-     *  @fn AnimatedQuad::AnimatedQuad(float w, float h)
-     *  @brief Construct an AnimatedQuad with the given size.
-     *  
-     *  Uses the Quad::Quad(float w, float h) constructor.
-     *  @param w Width.
-     *  @param h Height.
      ***
      *  @fn AnimatedQuad::AnimatedQuad(const glm::vec2& size)
      *  @brief Construct an AnimatedQuad with the given size.

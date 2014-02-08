@@ -33,10 +33,10 @@ namespace fea
         mConstraints = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
     }
 
-    Quad::Quad(float w, float h) : mHFlip(1.0f), mVFlip(1.0f), mTexture(nullptr)
+    Quad::Quad(const glm::vec2& size) : mHFlip(1.0f), mVFlip(1.0f), mTexture(nullptr)
     {
-        float xnum = w * 0.5f;
-        float ynum = h * 0.5f;
+        float xnum = size.x * 0.5f;
+        float ynum = size.y * 0.5f;
 
         mVertices = {-xnum, -ynum, 
                     -xnum,  ynum, 
@@ -67,14 +67,10 @@ namespace fea
         mConstraints = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
     }
     
-    Quad::Quad(const glm::vec2& size) : Quad(size.x, size.y)
+    void Quad::setSize(const glm::vec2& size)
     {
-    }
-    
-    void Quad::setSize(float w, float h)
-    {
-        float xnum = w * 0.5f;
-        float ynum = h * 0.5f;
+        float xnum = size.x * 0.5f;
+        float ynum = size.y * 0.5f;
 
         mVertices = {-xnum, -ynum, 
                     -xnum,  ynum, 
@@ -85,11 +81,6 @@ namespace fea
         mOrigin = glm::vec2(-xnum, -ynum);
     }
 
-    void Quad::setSize(glm::vec2 size)
-    {
-        setSize(size.x, size.y);
-    }
-            
     glm::vec2 Quad::getSize() const
     {
         return glm::vec2(mVertices[4] * 2.0f, mVertices[3] * 2.0f);

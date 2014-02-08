@@ -8,10 +8,8 @@ namespace fea
     {
         public:
             Quad();
-            Quad(float w, float h);
             Quad(const glm::vec2& size);
-            virtual void setSize(float w, float h);
-            virtual void setSize(glm::vec2 size);
+            virtual void setSize(const glm::vec2& size);
             glm::vec2 getSize() const;
             void setTexture(const Texture& tex);
             const Texture& getTexture() const;
@@ -39,19 +37,9 @@ namespace fea
      *
      *  The size will be 1.0f * 1.0f.
      ***
-     *  @fn Quad::Quad(float w, float h)
-     *  @brief Construct a quad with the given size.
-     *  @param w Width.
-     *  @param h Height.
-     ***
      *  @fn Quad::Quad(const glm::vec2& size)
      *  @brief Construct a quad with the given size.
      *  @param size Size.
-     ***
-     *  @fn Quad::void Quad::setSize(float w, float h)
-     *  @brief Resize the Quad.
-     *  @param w New width.
-     *  @param h New height.
      ***
      *  @fn void Quad::setSize(glm::vec2 size)
      *  @brief Resize the quad.

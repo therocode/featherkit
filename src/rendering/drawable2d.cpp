@@ -11,12 +11,6 @@ namespace fea
         return mVertices;
     }
     
-    void Drawable2D::setPosition(const float x, const float y)
-    {
-        mPosition.x = x;
-        mPosition.y = y;
-    }
-    
     void Drawable2D::setPosition(const glm::vec2& p)
     {
         mPosition = p;
@@ -26,22 +20,12 @@ namespace fea
     {
         return mPosition;
     }
-
-    void Drawable2D::translate(const float x, const float y)
-    {
-        mPosition += glm::vec2(x, y);
-    }
     
     void Drawable2D::translate(const glm::vec2& p)
     {
         mPosition += p;
     }
     
-    void Drawable2D::setOrigin(const float x, const float y)
-    {
-        mOrigin = glm::vec2(x, y);
-    }
-
     void Drawable2D::setOrigin(const glm::vec2& p)
     {
         mOrigin = p;
@@ -67,11 +51,6 @@ namespace fea
         mRotation += radians;
     }
 
-    void Drawable2D::setScale(const float x, const float y)
-    {
-        mScaling = glm::vec2(x, y);
-    }
-
     void Drawable2D::setScale(const glm::vec2& s)
     {
         mScaling = s;
@@ -80,11 +59,6 @@ namespace fea
     const glm::vec2& Drawable2D::getScale() const
     {
         return mScaling;
-    }
-
-    void Drawable2D::scale(const float x, const float y)
-    {
-        mScaling *= glm::vec2(x, y);
     }
 
     void Drawable2D::scale(const glm::vec2& s)

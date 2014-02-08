@@ -72,21 +72,6 @@ namespace fea
         }
     }
 
-    void TileMap::setPosition(float xPos, float yPos)
-    {
-        mPosition = glm::vec2(xPos, yPos);
-
-        for(uint32_t y = 0; y < mChunkGridSize.y; y++)
-        {
-            for(uint32_t x = 0; x < mChunkGridSize.x; x++)
-            {
-                glm::vec2 chunkPosition = glm::vec2(mPosition.x + (float)(x * mChunkSize.x * mTileSize.x), mPosition.y + (float)(y * mChunkSize.y * mTileSize.y));
-
-                mChunks[x + y * mChunkGridSize.x].setPosition(chunkPosition);
-            }
-        }
-    }
-
     void TileMap::setPosition(const glm::vec2& pos)
     {
         mPosition = pos;
@@ -132,100 +117,26 @@ namespace fea
         mTileDefs.emplace(mHasher(name), tileDef);
     }
 
-    void TileMap::setTile(uint32_t x, uint32_t y, const std::string& name)
-    {
-        if(isOutOfBounds(x, y))
-        {
-            std::stringstream ss;
-            ss << "Error! Coordinates " << x << " and " << y << " out of range (" << mGridSize.x << "," << mGridSize.y << ")\n";
-            throw TileMapException(ss.str());
-        }
-
-        setTile(x, y, mHasher(name));
-    }
-
     void TileMap::setTile(const glm::uvec2& pos, const std::string& name)
     {
-        if(isOutOfBounds(pos.x, pos.y))
+        if(isOutOfBounds(pos))
         {
             std::stringstream ss;
             ss << "Error! Coordinates " << pos.x << " and " << pos.y << " out of range (" << mGridSize.x << "," << mGridSize.y << ")\n";
             throw TileMapException(ss.str());
         }
 
-        setTile(pos.x, pos.y, mHasher(name));
-    }
-
-    void TileMap::setTile(uint32_t x, uint32_t y, TileId id)
-    {
-        if(isOutOfBounds(x, y))
-        {
-            std::stringstream ss;
-            ss << "Error! Coordinates " << x << " and " << y << " out of range (" << mGridSize.x << "," << mGridSize.y << ")\n";
-            throw TileMapException(ss.str());
-        }
-
-        uint32_t chunkX = x / mChunkSize.x;
-        uint32_t chunkY = y / mChunkSize.y;
-        uint32_t chunkIndex = chunkX + chunkY * mChunkGridSize.x;
-
-        auto tileIter = mTileDefs.find(id);
-        if(tileIter == mTileDefs.end())
-        {
-            throw(TileMapException("Error! Tile does not exist!\n"));
-        }
-
-        TileDefinition tileDef = tileIter->second;
-
-        glm::uvec2 texPos = tileDef.mTileTexPosition;
-
-        mChunks[chunkIndex].setTileTexCoords(x - chunkX * mChunkSize.x, y - chunkY * mChunkSize.y, 
-                                            glm::vec2((float)texPos.x * mTextureTileSize.x, (float)texPos.y * mTextureTileSize.y),
-                                            glm::vec2((float)texPos.x * mTextureTileSize.x + mTextureTileSize.x, (float)texPos.y * mTextureTileSize.y + mTextureTileSize.y));
-
-        if(mAnimatedTiles.find(glm::uvec2(x, y)) != mAnimatedTiles.end())
-        {
-            mAnimatedTiles.erase(glm::uvec2(x, y));
-        }
-
-        if(tileDef.mTicksUntilChange > 0)
-        {
-            AnimatedTile animation;
-            animation.mNext = tileDef.mNextTileId;
-            animation.mTimeLeft = tileDef.mTicksUntilChange;
-            mAnimatedTiles.emplace(glm::uvec2(x, y), animation);
-        }
+        setTile(pos, mHasher(name));
     }
 
     void TileMap::setTile(const glm::uvec2& pos, TileId id)
     {
-        setTile(pos.x, pos.y, id);
-    }
-
-    void TileMap::unsetTile(uint32_t x, uint32_t y)
-    {
-        if(isOutOfBounds(x, y))
-        {
-            std::stringstream ss;
-            ss << "Error! Coordinates " << x << " and " << y << " out of range (" << mGridSize.x << "," << mGridSize.y << ")\n";
-            throw TileMapException(ss.str());
-        }
-
-        uint32_t chunkX = x / mChunkSize.x;
-        uint32_t chunkY = y / mChunkSize.y;
-        uint32_t chunkIndex = chunkX + chunkY * mChunkGridSize.x;
-
-        mChunks[chunkIndex].unsetTileTexCoords(x - chunkX * mChunkSize.x, y - chunkY * mChunkSize.y);
-
-        if(mAnimatedTiles.find(glm::uvec2(x, y)) != mAnimatedTiles.end())
-        {
-            mAnimatedTiles.erase(glm::uvec2(x, y));
-        }
+        setTile(pos, id);
     }
 
     void TileMap::unsetTile(const glm::uvec2& pos)
     {
-        unsetTile(pos.x, pos.y);
+        unsetTile(pos);
     }
 
     void TileMap::fill(const std::string& name)
@@ -280,25 +191,12 @@ namespace fea
         return mHasher(name);
     }
     
-    glm::uvec2 TileMap::getTileByCoordinates(float x, float y) const
-    {
-        if(isOutOfBounds(((uint32_t)x) / mTileSize.x, ((uint32_t)y) / mTileSize.y))
-            throw TileMapException("coordinates out of range");
-
-        return glm::uvec2((uint32_t)x / mTileSize.x, (uint32_t)y / mTileSize.y);
-    }
-    
     glm::uvec2 TileMap::getTileByCoordinates(const glm::vec2& coordinate) const
     {
-        if(isOutOfBounds(((uint32_t)coordinate.x) / mTileSize.x, ((uint32_t)coordinate.y) / mTileSize.y))
+        if(isOutOfBounds((glm::uvec2)coordinate))
             throw TileMapException("coordinates out of range");
 
         return glm::uvec2((uint32_t)coordinate.x / mTileSize.x, (uint32_t)coordinate.y / mTileSize.y);
-    }
-            
-    bool TileMap::isOutOfBounds(uint32_t x, uint32_t y) const
-    {
-        return (x >= mGridSize.x) || (y >= mGridSize.y);
     }
             
     bool TileMap::isOutOfBounds(const glm::uvec2& pos) const
@@ -347,7 +245,7 @@ namespace fea
         }
         for(uint32_t i = 0; i < toSet.size(); i++)
         {
-            setTile(toSet[i].x, toSet[i].y, ids[i]);
+            setTile(toSet[i], ids[i]);
         }
     }
 }

@@ -6,17 +6,8 @@ namespace fea
     {
     }
 
-    Camera::Camera(float x, float y, float xZoom, float yZoom) : mPosition(glm::vec2(x, y)), mZoom(glm::vec2(xZoom, yZoom)), mRotation(0.0f)
-    {
-    }
-
     Camera::Camera(glm::vec2 p, glm::vec2 z) : mPosition(p), mZoom(z), mRotation(0.0f)
     {
-    }
-
-    void Camera::setPosition(float x, float y)
-    {
-        mPosition = glm::vec2(x, y);
     }
 
     void Camera::setPosition(glm::vec2 p)
@@ -29,21 +20,11 @@ namespace fea
         return mPosition;
     }
             
-    void Camera::translate(float x, float y)
-    {
-        mPosition += glm::vec2(x, y);
-    }
-    
     void Camera::translate(glm::vec2 p)
     {
         mPosition += p;
     }
     
-    void Camera::setZoom(float x, float y)
-    {
-        mZoom = glm::vec2(x, y);
-    }
-
     void Camera::setZoom(glm::vec2 z)
     {
         mZoom = z;

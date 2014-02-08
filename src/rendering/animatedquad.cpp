@@ -7,10 +7,6 @@
         {
         }
 
-        AnimatedQuad::AnimatedQuad(float w, float h) : Quad(w, h), currentAnimation(nullptr), mClock(0), mCurrentFrame(0), mAnimate(false), mBack(false)
-        {
-        }
-
         AnimatedQuad::AnimatedQuad(const glm::vec2& size) : Quad(size), currentAnimation(nullptr), mClock(0), mCurrentFrame(0), mAnimate(false), mBack(false)
         {
         }
