@@ -1,4 +1,4 @@
-#include <featherkit/util/window/sfml/sfmlwindowbackend.h>
+#include <featherkit/util/window/sfmlwindowbackend.h>
 namespace fea
 {
     namespace util

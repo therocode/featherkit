@@ -1,4 +1,4 @@
-#include <featherkit/util/input/sdl/sdlinputbackend.h>
+#include <featherkit/util/input/sdlinputbackend.h>
 
 namespace fea
 {

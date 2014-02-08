@@ -1,4 +1,4 @@
-#include <featherkit/util/window/sdl2/sdl2windowbackend.h>
+#include <featherkit/util/window/sdl2windowbackend.h>
 
 namespace fea
 {

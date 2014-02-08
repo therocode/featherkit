@@ -1,4 +1,4 @@
-#include <featherkit/util/window/sdl/sdlwindowbackend.h>
+#include <featherkit/util/window/sdlwindowbackend.h>
 #include <cstdlib>
 
 namespace fea
@@ -15,7 +15,7 @@ namespace fea
             //todo: fix style
             (void) style;
             (void) settings;
-            mWindow = SDL_SetVideoMode((int32_t)mode.width, (int32_t)mode.height, (int32_t)mode.bitsPerPixel, SDL_OPENGL | SDL_RESIZABLE);
+            mWindow = SDL_SetVideoMode((int32_t)mode.mWidth, (int32_t)mode.mHeight, (int32_t)mode.mBitDepth, SDL_OPENGL | SDL_RESIZABLE);
             SDL_WM_SetCaption(title.c_str(), nullptr);
         }
 
