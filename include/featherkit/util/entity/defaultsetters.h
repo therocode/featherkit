@@ -52,7 +52,7 @@ namespace fea
          *
          *  @fn DefaultSetterException::DefaultSetterException(const std::string& message)
          *  @brief Construct an exception to throw containing a message.
-         *  @param m Message further describing the error.
+         *  @param message Message further describing the error.
          ***/
     }
 }

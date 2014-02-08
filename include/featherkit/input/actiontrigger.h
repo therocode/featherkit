@@ -47,7 +47,7 @@ namespace fea
      *  @param other ActionTrigger instance to compare to.
      *  @return True if the left side instance is less than the right side one.
      ***
-     *  @var ActionTrigger::mType
+     *  @var ActionTrigger::type
      *  @brief The type of an ActionTrigger.
      ***
      *  @var ActionTrigger::gamepadId

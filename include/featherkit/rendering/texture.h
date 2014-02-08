@@ -61,6 +61,10 @@ namespace fea
      *  @brief Move assignment operator.
      *  @param other Other instance.
      ***
+     *  @fn Texture& Texture::operator=(const Texture& other)
+     *  @brief Deleted assignment operator.
+     *  @param other Other instance.
+     ***
      *  @fn int32_t Texture::getId() const
      *  @brief Get the ID of the internal texture.
      ***

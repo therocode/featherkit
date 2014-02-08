@@ -77,7 +77,7 @@ namespace fea
      *  If the text is too grainy or has a lot of artifacts, try increasing the size of the font.
      *  @param font Font to use.
      ***
-     *  @fn void TextSurface::setPenPosition(const glm::vec2 postion)
+     *  @fn void TextSurface::setPenPosition(const glm::vec2 position)
      *  @brief Set the current pen position.
      *  @param position New position.
      ***

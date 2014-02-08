@@ -21,33 +21,10 @@ namespace fea
     };
     /** @addtogroup EntitySystem
      *@{
-     *  @class EntityManager
-     *
-     *  @typedef EntityPtr
-     *  
-     *  @typedef WeakEntityPtr
-     *
-     *  @typedef EntityTemplate
-     *
-     *  @typedef EntityId
+     *  @class EntityFactory
      *@}
      ***
-     *  @typedef EntityPtr
-     *  @brief A shared pointer to an Entity instance.
-     *
-     *  @typedef WeakEntityPtr
-     *  @brief A weak pointer to an Entity instance.
-     *
-     *  @typedef EntityTemplate
-     *  @brief Template name. This is a normal std::string.
-     *
-     *  @typedef EntityId
-     *  @brief The ID of an Entity instance. This is a normal 32 bit unsigned integer.
-     *
-     *  @typedef EntitySet
-     *  @brief An std::set containing a number of entities represented with WeakEntityPtr instances.
-     *
-     *  @class EntityManager
+     *  @class EntityFactory
      *  @brief Takes care of managing multiple Entity instances. 
      *
      *  This class is needed to create Entity instances. All entities will be owned by the EntityManager. It provides ways of accessing and deleting Entity instances of a given entity ID.

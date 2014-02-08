@@ -52,6 +52,10 @@ namespace fea
      *  @brief Move assignment operator.
      *  @param other Other instance.
      ***
+     *  @fn RenderTarget& RenderTarget::operator=(const RenderTarget& other)
+     *  @brief Deleted assignment operator.
+     *  @param other Other instance.
+     ***
      *  @fn int32_t RenderTarget::getId() const
      *  @brief Get the ID of the internal render target.
      ***

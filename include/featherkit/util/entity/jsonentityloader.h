@@ -13,23 +13,10 @@ namespace fea
             public:
                 std::unordered_map<std::string, std::vector<std::pair<std::string, std::string>>> loadEntityTemplates(const std::string& path);
         };
-        //:TODO: update documentation
         /** @addtogroup EntitySystem
          *@{
-         *  @class FileNotFoundException
-         *
          *  @class JsonEntityLoader
          *@}
-         ***
-         *  @class FileNotFoundException
-         *  @brief Exception used when a file is not found.
-         ***
-         *  @fn FileNotFoundException::FileNotFoundException()
-         *  @brief Construct a FileNotFoundException instance to throw.
-         ***
-         *  @fn FileNotFoundException::FileNotFoundException(std::string msg)
-         *  @brief Construct a FileNotFoundException instance to throw.
-         *  @param msg Message further explaining the error.
          ***
          *  @class JsonEntityLoader
          *  @brief This class is for loading json files describing attribute and Entity templates.
@@ -75,24 +62,12 @@ namespace fea
          *  @endcode
          *  The file is divided into Entity template definitions. The two entities defined in this files are "particle" and "spawner". Every Entity template internally defines a sequence of attributes that they should have. The attributes might come with default values. For instance, the first attribute of the Entity template "particle" is "position" with a default value of "20.0f,40.0".
          ***
-         *  @fn std::unordered_map<std::string, int> JsonEntityLoader::loadAttributesJson(const std::string& path)
-         *  @brief Load a json file defining Entity attributes.
-         *
-         *  Use this function to load an attribute file. The return value can be given to the EntityManager::loadAttributes function.
-         *  @param path File to open.
-         *  @return A map with the attributes, to pass to the EntityManager.
-         ***
-         *  @fn std::unordered_map<std::string, std::vector<std::pair<std::string, std::string>>> JsonEntityLoader::loadEntityTemplates(const std::string& path)
+         *  @fn std::unordered_map<std::string, std::vector<std::pair<std::string, std::string> > > JsonEntityLoader::loadEntityTemplates(const std::string& path)
          *  @brief Load a json file defining Entity templates.
          *
-        *  Use this function to load an Entity template file. The return value can be given to the EntityManager::loadEntityTemplates function.
-            *  @param path File to open.
-            *  @return A map with the Entity templates, to pass to the EntityManager.
-            ***
-            *  @fn void JsonEntityLoader::registerType(std::string type, uint32_t size)
-            *  @brief Register a data type so that it can be used in the loaded file.
-            *  @param type String with the type name to register. The convention of the default types is that the names should be surrounded by ##.
-            *  @param size Size in bytes of the data type. A good idea is to use the result of the sizeof operator.
-            **/
+         *  Use this function to load an Entity template file. The return value can be given to the EntityFactory::loadEntityTemplates function.
+         *  @param path File to open.
+         *  @return A map with the Entity templates, to pass to the EntityManager.
+         **/
     }
 }

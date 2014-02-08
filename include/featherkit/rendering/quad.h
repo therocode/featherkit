@@ -69,16 +69,16 @@ namespace fea
      *  For instance, a texture of a tree would turn into an upside down tree.
      *  @param enabled If true, vertical flip will be enabled.
      ***
-     *  @var Quad::hFlip
+     *  @var Quad::mHFlip
      *  @brief Internal variable representing if the Quad will be drawn mirrored horizontally or not.
      ***
-     *  @var Quad::vFlip
+     *  @var Quad::mVFlip
      *  @brief Internal variable representing if the Quad will be drawn mirrored vertically or not.
      ***
-     *  @var Quad::texture
+     *  @var Quad::mTexture
      *  @brief Pointer to the current texture in use.
      ***
-     *  @var Quad::constraints
+     *  @var Quad::mConstraints
      *  @brief Vector describing the texture constraints.
      *
      *  Texture constraints are used to "lock" the texture displayed on the quad to a certain region of the texture. This can be used for instance to create animations or wrapping type of effects. The first two floats define the starting point of the constraint rectangle and the second two floats define the end poing.

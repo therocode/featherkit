@@ -136,36 +136,36 @@ namespace fea
      *  The returned RenderInfo struct contains vertex information useful for rendering with OpenGL or similar. See RenderInfo for more information.
      *  @return Render information.
      ***
-     *  @var Drawable2D::vertices
+     *  @var Drawable2D::mVertices
      *  @brief List of all vertices.
      ***
-     *  @var Drawable2D::texCoords
+     *  @var Drawable2D::mTexCoords
      *  @brief List of all texture coordinates.
      ***
-     *  @var Drawable2D::vertexColours
+     *  @var Drawable2D::mVertexColours
      *  @brief List of all vertex colours.
      ***
-     *  @var Drawable2D::drawMode
+     *  @var Drawable2D::mDrawMode
      *  @brief Which GL drawmode to use to render this drawable. 
      *
      *  See OpenGL documentation for available draw modes. 
      ***
-     *  @var Drawable2D::position
+     *  @var Drawable2D::mPosition
      *  @brief Stores the position.
      ***
-     *  @var Drawable2D::origin
+     *  @var Drawable2D::mOrigin
      *  @brief Stores the origin point.
      ***
-     *  @var Drawable2D::rotation
+     *  @var Drawable2D::mRotation
      *  @brief Rotation in radians.
      ***
-     *  @var Drawable2D::scaling
+     *  @var Drawable2D::mScaling
      *  @brief Stores the scale factor.
      ***
-     *  @var Drawable2D::parallax
+     *  @var Drawable2D::mParallax
      *  @brief Stores the parallax factor.
      ***
-     *  @var Drawable2D::colour
+     *  @var Drawable2D::mColour
      *  @brief Stores the colour.
      ***/
 }

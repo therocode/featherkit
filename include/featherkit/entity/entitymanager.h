@@ -96,8 +96,6 @@ namespace fea
      *  
      *  @typedef WeakEntityPtr
      *
-     *  @typedef EntityTemplate
-     *
      *  @typedef EntityId
      *@}
      ***
@@ -106,9 +104,6 @@ namespace fea
      *
      *  @typedef WeakEntityPtr
      *  @brief A weak pointer to an Entity instance.
-     *
-     *  @typedef EntityTemplate
-     *  @brief Template name. This is a normal std::string.
      *
      *  @typedef EntityId
      *  @brief The ID of an Entity instance. This is a normal 32 bit unsigned integer.

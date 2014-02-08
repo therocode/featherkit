@@ -33,7 +33,7 @@ namespace fea
      *  Uses the Quad::Quad(const glm::vec2& size) constructor.
      *  @param size Size.
      ***
-     *  @fn void SubrectQuad::setSubrect(const glm::vec2& srStart, const glm::vec2& srEnd)
+     *  @fn void SubrectQuad::setSubrect(const glm::vec2& subrectStart, const glm::vec2& subrectEnd)
      *  @brief Define which region of the Texture that should be displayed.
      *  
      *  The regions are given in percent of total texture size.

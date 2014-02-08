@@ -22,7 +22,7 @@ namespace fea
      *  @brief Defines a video mode used to set up windows at creation time.
      *
      ***
-     *  @fn VideoMode::VideoMode(uint32_t w, uint32_t h, uint32_t bitDepth=32) 
+     *  @fn VideoMode::VideoMode(uint32_t width, uint32_t height, uint32_t bitDepth=32) 
      *  @brief Default constructor.
      *
      *  @param width Width in pixels.
