@@ -5,9 +5,9 @@
 
 namespace fea
 {
-    constexpr int32_t Pow(int32_t base, int32_t expo)
+    constexpr int32_t Pow(int32_t base, int32_t exponent)
     {
-        return(expo != 0 )? base * Pow(base, expo -1) : 1;
+        return(expo != 0 )? base * Pow(base, exponent -1) : 1;
     }
 
     constexpr int32_t NodeAmount(int32_t depth, int32_t dimensions, int32_t recursion)
@@ -129,9 +129,9 @@ namespace fea
         public:
             using TreeEntry = size_t;
 
-            LooseNTree(const Vector& s) : mSize(s)
+            LooseNTree(const Vector& size) : mSize(size)
             {
-                FEA_ASSERT(s.isPositive(), "Tree size must be bigger than zero in all dimensions!");
+                FEA_ASSERT(size.isPositive(), "Tree size must be bigger than zero in all dimensions!");
 
                 if(StaticAllocation)
                 {
@@ -168,9 +168,9 @@ namespace fea
                 }
             }
 
-            void add(uint32_t id, const Vector& pos, const Vector& s)
+            void add(uint32_t id, const Vector& position, const Vector& size)
             {
-                if(!s.isPositive())
+                if(!size.isPositive())
                 {
                     throw LooseNTreeException("Error! Added objects must have a size bigger than zero.");
                 }
@@ -184,7 +184,7 @@ namespace fea
 
                 for(uint32_t dim = 0; dim < Dimensions; dim++)
                 {
-                    if(pos[dim] < 0.0f || pos[dim] > mSize[dim])
+                    if(position[dim] < 0.0f || position[dim] > mSize[dim])
                     {
                         std::stringstream ss;
                         ss << "Error! Cannot add id " << id << " out of the tree's bounds.";
@@ -197,14 +197,14 @@ namespace fea
                 Vector nextLooseBounds = mSize;
                 for(depth = 0; depth < Depth; depth++)
                 {
-                    if(!(s <= nextLooseBounds))
+                    if(!(size <= nextLooseBounds))
                     {
                         depth++; //one too much
                         break;
                     }
                     nextLooseBounds = nextLooseBounds / 2.0f;
                 }
-                placeTreeEntryInDepth(id, pos, depth - 1); //correct it
+                placeTreeEntryInDepth(id, position, depth - 1); //correct it
             }
 
             void remove(uint32_t id)
@@ -234,7 +234,7 @@ namespace fea
                 }
             }
 
-            void move(uint32_t id, const Vector& pos)
+            void move(uint32_t id, const Vector& position)
             {
                 if(mEntryLocations.find(id) == mEntryLocations.end())
                 {
@@ -245,7 +245,7 @@ namespace fea
 
                 for(uint32_t dim = 0; dim < Dimensions; dim++)
                 {
-                    if(pos[dim] < 0.0f || pos[dim] > mSize[dim])
+                    if(position[dim] < 0.0f || position[dim] > mSize[dim])
                     {
                         std::stringstream ss;
                         ss << "Error! Cannot move id " << id << " out of the tree's bounds.";
@@ -265,7 +265,7 @@ namespace fea
 
                 uint32_t previousNode = mEntryLocations.at(id);
                 removeTreeEntry(id);
-                placeTreeEntryInDepth(id, pos, depth);
+                placeTreeEntryInDepth(id, position, depth);
 
                 if(!StaticAllocation)
                 {
@@ -313,9 +313,9 @@ namespace fea
             }
 
         private:
-            void placeTreeEntryInDepth(const TreeEntry& entry, const Vector& pos, uint32_t depth)
+            void placeTreeEntryInDepth(const TreeEntry& entry, const Vector& position, uint32_t depth)
             {
-                Vector positionPercent = pos / mSize;
+                Vector positionPercent = position / mSize;
                 Node* currentNode = &mNodes[0];
                 uint32_t targetNodeIndex = 0;
 
@@ -484,9 +484,9 @@ namespace fea
                 }
             }
 
-            void setSize(const Vector& s)
+            void setSize(const Vector& size)
             {
-                mSize = s;
+                mSize = size;
             }
 
             void increaseSize()
@@ -638,29 +638,29 @@ namespace fea
      *  @tparam Depth Node depth. The deeper the tree, the bigger memory footprint, but might reduce false positives when returning possible overlaps.
      *  @tparam StaticAllocation If this is set to true, the tree allocates all nodes at once. This increases performance of the tree, but with bigger depth and dimensions, the memory usage quickly goes out of hand.
      ***
-     *  @fn LooseNTree::LooseNTree(const Vector& s)
+     *  @fn LooseNTree::LooseNTree(const Vector& size)
      *  @brief Construct a tree with the given size.
-     *  @param s Size.
+     *  @param size Size.
      ***
-     *  @fn void LooseNTree::add(uint32_t id, const Vector& pos, const Vector& s)
+     *  @fn void LooseNTree::add(uint32_t id, const Vector& position, const Vector& size)
      *  @brief Add an object to track.
      *  
      *  The added object must have a unique ID. If the object moves, the position must be updated using the LooseNTree::move function.
      *  @param id ID of the object to track.
-     *  @param pos Position of the object.
-     *  @param s Size of the object. Given as an Axis aligned bounding box.
+     *  @param position Position of the object.
+     *  @param size Size of the object. Given as an Axis aligned bounding box.
      ***
      *  @fn void LooseNTree::remove(uint32_t id)
      *  @brief Stop tracking an object.
      *  
      *  @param id ID of the object to stop tracking.
      ***
-     *  @fn void LooseNTree::move(uint32_t id, const Vector& pos)
+     *  @fn void LooseNTree::move(uint32_t id, const Vector& position)
      *  @brief Move a tracked object.
      *
      *  This must be called to keep tracked objects up to date.
      *  @param id ID of the object to move.
-     *  @param pos New position of the object.
+     *  @param position New position of the object.
      ***
      *  @fn std::vector<TreeEntry> LooseNTree::get(const Vector& point) const
      *  @brief Return all tracked objects which possibly overlaps a certain point.
