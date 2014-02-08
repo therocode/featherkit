@@ -19,6 +19,7 @@ namespace fea
             GLuint getId() const;
             void create(uint32_t width, uint32_t height, const uint8_t* imageData, bool smooth = false, bool interactive = false);
             void create(uint32_t width, uint32_t height, const Colour& colour, bool smooth = false, bool interactive = false);
+            glm::uvec2 getSize() const;
             void destroy();
             void setPixel(uint32_t x, uint32_t y, const Colour& colour);
             Colour getPixel(uint32_t x, uint32_t y) const;

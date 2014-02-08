@@ -83,6 +83,11 @@ namespace fea
         }
         create(width, height, pixels.get(), smooth, interactive);
     }
+    
+    glm::uvec2 Texture::getSize() const
+    {
+        return glm::uvec2(mWidth, mHeight);
+    }
 
     void Texture::destroy()
     {
