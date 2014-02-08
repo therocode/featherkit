@@ -17,13 +17,13 @@ namespace fea
             virtual RenderInfo getRenderInfo() const override;
         private:
             uint32_t getTileIndex(uint32_t x, uint32_t y);
-            glm::uvec2 gridSize;
-            const Texture* texture;
-            std::vector<float> texCoords;
-            std::vector<float> texCoordsCached;
-            std::vector<float> verticesCached;
-            std::vector<float> vertexColoursCached;
-            std::vector<bool> tilesSet;
+            glm::uvec2 mGridSize;
+            const Texture* mTexture;
+            std::vector<float> mTexCoords;
+            std::vector<float> mTexCoordsCached;
+            std::vector<float> mVerticesCached;
+            std::vector<float> mVertexColoursCached;
+            std::vector<bool> mTilesSet;
     };
     /** @addtogroup Render2D
      *@{
