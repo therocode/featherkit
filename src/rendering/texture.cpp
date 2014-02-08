@@ -103,7 +103,7 @@ namespace fea
     
     void Texture::setPixel(uint32_t x, uint32_t y, const Colour& colour)
     {
-        FEA_ASSERT(x >= 0 && y >= 0 && x < mWidth && y < mHeight, "Trying to access pixel outside of the bounds of the texture. Accessing at " + std::to_string(x) + " " + std::to_string(y));
+        FEA_ASSERT(x >= 0 && y >= 0 && x < mWidth && y < mHeight, "Trying to access pixel outside of the bounds of the texture. Accessing at " + std::to_string(x) + " " + std::to_string(y) + " and texture dimensions are " + std::to_string(mWidth) + " " + std::to_string(mHeight));
         uint32_t pixelIndex = (x + y * mWidth) * 4;
         pixelData[pixelIndex    ] = colour.rAsByte();
         pixelData[pixelIndex + 1] = colour.gAsByte();
@@ -113,7 +113,7 @@ namespace fea
 
     Colour Texture::getPixel(uint32_t x, uint32_t y) const
     {
-        FEA_ASSERT(x >= 0 && y >= 0 && x < mWidth && y < mHeight, "Trying to access pixel outside of the bounds of the texture. Accessing at " + std::to_string(x) + " " + std::to_string(y));
+        FEA_ASSERT(x >= 0 && y >= 0 && x < mWidth && y < mHeight, "Trying to access pixel outside of the bounds of the texture. Accessing at " + std::to_string(x) + " " + std::to_string(y) + " and texture dimensions are " + std::to_string(mWidth) + " " + std::to_string(mHeight));
         uint32_t pixelIndex = (x + y * mWidth) * 4;
         return Colour(pixelData[pixelIndex],
                          pixelData[pixelIndex + 1],
