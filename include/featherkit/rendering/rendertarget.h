@@ -20,10 +20,10 @@ namespace fea
             void destroy();
             ~RenderTarget();
         private:
-            GLuint id;
-            uint32_t width;
-            uint32_t height;
-            Texture texture;
+            GLuint mId;
+            uint32_t mWidth;
+            uint32_t mHeight;
+            Texture mTexture;
     };
     /** @addtogroup Render2D
      *@{

@@ -8,7 +8,7 @@
 
 namespace fea
 {
-    Renderer2D::Renderer2D(const Viewport& v) : currentViewport(v), currentBlendMode(ALPHA)
+    Renderer2D::Renderer2D(const Viewport& v) : mCurrentViewport(v), mCurrentBlendMode(ALPHA)
     {
     }
     
@@ -21,20 +21,20 @@ namespace fea
         glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
-        defaultTexture.create(16, 16, fea::Colour(1.0f, 1.0f, 1.0f));
+        mDefaultTexture.create(16, 16, fea::Colour(1.0f, 1.0f, 1.0f));
 
-        defaultShader.setSource(DefaultShader::vertexSource, DefaultShader::fragmentSource);
-        defaultShader.compile();
+        mDefaultShader.setSource(DefaultShader::vertexSource, DefaultShader::fragmentSource);
+        mDefaultShader.compile();
 
-        setViewport(currentViewport);
+        setViewport(mCurrentViewport);
     }
 
     void Renderer2D::clear(const Colour& colour)
     {
-        if(clearColour != colour)
+        if(mClearColour != colour)
         {
             glClearColor(colour.r(), colour.g(), colour.b(), 0.0f);
-            clearColour = colour;
+            mClearColour = colour;
         }
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -42,10 +42,10 @@ namespace fea
 
     void Renderer2D::clear(const RenderTarget& target, const Colour& colour)
     {
-        if(clearColour != colour)
+        if(mClearColour != colour)
         {
             glClearColor(colour.r(), colour.g(), colour.b(), 0.0f);
-            clearColour = colour;
+            mClearColour = colour;
         }
 
         glBindFramebuffer(GL_FRAMEBUFFER, target.getId());
@@ -55,18 +55,18 @@ namespace fea
     
     void Renderer2D::queue(const Drawable2D& drawable)
     {
-        renderQueue.push_back(drawable.getRenderInfo());
-        renderQueue[renderQueue.size() - 1].blendMode = currentBlendMode;
+        mRenderQueue.push_back(drawable.getRenderInfo());
+        mRenderQueue[mRenderQueue.size() - 1].blendMode = mCurrentBlendMode;
     }
 
     void Renderer2D::render()
     {
-        render(defaultShader);
+        render(mDefaultShader);
     }
 
     void Renderer2D::render(const RenderTarget& target)
     {
-        render(target, defaultShader);
+        render(target, mDefaultShader);
     }
 
     void Renderer2D::render(const Shader& shader)
@@ -74,17 +74,17 @@ namespace fea
         std::hash<std::string> stringHasher;
         shader.activate();
 
-        shader.setUniform(stringHasher("camPosition"), VEC2, &currentViewport.getCamera().getPosition());
-        shader.setUniform(stringHasher("camZoom"), VEC2, &currentViewport.getCamera().getZoom());
-        glm::mat2x2 camRot = currentViewport.getCamera().getRotationMatrix();
+        shader.setUniform(stringHasher("camPosition"), VEC2, &mCurrentViewport.getCamera().getPosition());
+        shader.setUniform(stringHasher("camZoom"), VEC2, &mCurrentViewport.getCamera().getZoom());
+        glm::mat2x2 camRot = mCurrentViewport.getCamera().getRotationMatrix();
         shader.setUniform(stringHasher("camRotation"), MAT2X2, &camRot);
-        glm::vec2 halfViewSize = glm::vec2((float)currentViewport.getSize().x / 2.0f, (float)currentViewport.getSize().y / 2.0f);
+        glm::vec2 halfViewSize = glm::vec2((float)mCurrentViewport.getSize().x / 2.0f, (float)mCurrentViewport.getSize().y / 2.0f);
         shader.setUniform(stringHasher("halfViewSize"), VEC2, &halfViewSize);
-        shader.setUniform(stringHasher("projection"), MAT4X4, &projection);
+        shader.setUniform(stringHasher("projection"), MAT4X4, &mProjection);
 
-        GLuint defaultTextureId = defaultTexture.getId();
+        GLuint defaultTextureId = mDefaultTexture.getId();
 
-        for(auto& renderOperation : renderQueue)
+        for(auto& renderOperation : mRenderQueue)
         {
             shader.setUniform(stringHasher("texture"), TEXTURE, &defaultTextureId); //may be overriden
             setBlendModeGl(renderOperation.blendMode);
@@ -104,7 +104,7 @@ namespace fea
 
         setBlendMode(ALPHA);
         shader.deactivate();
-        renderQueue.clear();
+        mRenderQueue.clear();
     }
 
     void Renderer2D::render(const RenderTarget& target, const Shader& shader)
@@ -116,23 +116,23 @@ namespace fea
 
     void Renderer2D::setViewport(const Viewport& viewport)
     {
-        currentViewport = viewport;
+        mCurrentViewport = viewport;
         const glm::uvec2& viewSize = viewport.getSize();
         const glm::ivec2& viewPos = viewport.getPosition();
         glViewport(viewPos.x, viewPos.y, (GLsizei)viewSize.x, (GLsizei)viewSize.y);
 
         Projection proj;
-        projection = proj.createOrthoProjection(0.0f, viewSize.x, 0.0f, viewSize.y, 0.000000001f, 100.0f);
+        mProjection = proj.createOrthoProjection(0.0f, viewSize.x, 0.0f, viewSize.y, 0.000000001f, 100.0f);
     }
     
     Viewport& Renderer2D::getViewport()
     {
-        return currentViewport;
+        return mCurrentViewport;
     }
     
     void Renderer2D::setBlendMode(BlendMode mode)
     {
-        currentBlendMode = mode;
+        mCurrentBlendMode = mode;
     }
     
     void Renderer2D::setBlendModeGl(BlendMode mode)

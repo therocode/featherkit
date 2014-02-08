@@ -38,16 +38,16 @@ namespace fea
 
             virtual RenderInfo getRenderInfo() const;
         protected:
-            std::vector<float> vertices;
-            std::vector<float> texCoords;
-            std::vector<float> vertexColours;
-            GLenum drawMode;
-            glm::vec2 position;
-            glm::vec2 origin;
-            float rotation;
-            glm::vec2 scaling;
-            float parallax;
-            Colour colour;
+            std::vector<float> mVertices;
+            std::vector<float> mTexCoords;
+            std::vector<float> mVertexColours;
+            GLenum mDrawMode;
+            glm::vec2 mPosition;
+            glm::vec2 mOrigin;
+            float mRotation;
+            glm::vec2 mScaling;
+            float mParallax;
+            Colour mColour;
     };
     /** @addtogroup Render2D
      *@{

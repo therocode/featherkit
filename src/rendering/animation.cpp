@@ -2,43 +2,39 @@
 
 namespace fea
 {
-    Animation::Animation() : frameAmount(0), delay(0), loop(true), animBehaviour(FORWARDS)
+    Animation::Animation() : mFrameAmount(0), mDelay(0), mLoop(true), mAnimBehaviour(FORWARDS)
     {
     }
 
-    Animation::Animation(float fStartX, float fStartY, float fWidth, float fHeight, uint32_t fAmount, uint32_t d, bool l, AnimationBehaviour ab) : start(glm::vec2(fStartX, fStartY)), frameSize(glm::vec2(fWidth, fHeight)), frameAmount(fAmount), delay(d), loop(l), animBehaviour(ab)
-    {
-    }
-
-    Animation::Animation(glm::vec2 fStart, glm::vec2 fSize, uint32_t fAmount, uint32_t d, bool l, AnimationBehaviour ab) : start(fStart), frameSize(fSize), frameAmount(fAmount), delay(d), loop(l), animBehaviour(ab)
+    Animation::Animation(const glm::vec2& frameStart, const glm::vec2& frameSize, uint32_t fAmount, uint32_t d, bool l, AnimationBehaviour ab) : mStart(frameStart), mFrameSize(frameSize), mFrameAmount(fAmount), mDelay(d), mLoop(l), mAnimBehaviour(ab)
     {
     }
 
     void Animation::getConstraints(glm::vec4& constraints, uint32_t frame) const
     {
-        constraints[0] = start.x + frameSize.x * (float)frame;
-        constraints[1] = start.x + frameSize.x + frameSize.x * (float)frame;
-        constraints[2] = start.y;
-        constraints[3] = start.y + frameSize.y;
+        constraints[0] = mStart.x + mFrameSize.x * (float)frame;
+        constraints[1] = mStart.x + mFrameSize.x + mFrameSize.x * (float)frame;
+        constraints[2] = mStart.y;
+        constraints[3] = mStart.y + mFrameSize.y;
     }
 
     uint32_t Animation::getFrameAmount() const
     {
-        return frameAmount;
+        return mFrameAmount;
     }
 
     uint32_t Animation::getDelay() const
     {
-        return delay;
+        return mDelay;
     }
             
     bool Animation::getLoop() const
     {
-        return loop;
+        return mLoop;
     }
 
     AnimationBehaviour Animation::getAnimationBehaviour() const
     {
-        return animBehaviour;
+        return mAnimBehaviour;
     }
 }

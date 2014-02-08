@@ -22,9 +22,9 @@ namespace fea
             void rotate(float radians);
             glm::mat2x2 getRotationMatrix() const;
         private:
-            glm::vec2 position;
-            glm::vec2 zoom;
-            float rotation;
+            glm::vec2 mPosition;
+            glm::vec2 mZoom;
+            float mRotation;
     };
     /** @addtogroup Render2D
      *@{

@@ -10,11 +10,11 @@ namespace fea
 
     struct RenderInfo
     {
-        std::vector<Uniform> uniforms;
-        std::vector<VertexAttribute> vertexAttributes;
-        BlendMode blendMode;
-        GLenum drawMode;
-        uint32_t elementAmount;
+        std::vector<Uniform> mUniforms;
+        std::vector<VertexAttribute> mVertexAttributes;
+        BlendMode mBlendMode;
+        GLenum mDrawMode;
+        uint32_t mElementAmount;
     };
     /** @addtogroup Render2D
      *@{
@@ -24,19 +24,19 @@ namespace fea
      *  @class RenderInfo
      *  @brief Contains the data needed for rendering a drawable.
      ***
-     *  @var RenderInfo::uniforms
+     *  @var RenderInfo::mUniforms
      *  @brief List of uniforms to use in the rendering process.
      ***
-     *  @var RenderInfo::vertexAttributes
+     *  @var RenderInfo::mVertexAttributes
      *  @brief List of vertex attributes to use in the rendering process. The first one describes the vertex positions.
      ***
-     *  @var RenderInfo::blendMode
+     *  @var RenderInfo::mBlendMode
      *  @brief Describes which blending mode the drawable should use.
      ***
-     *  @var RenderInfo::drawMode
+     *  @var RenderInfo::mDrawMode
      *  @brief Describes which GL draw mode should be used to render the drawable.
      ***
-     *  @var RenderInfo::elementAmount
+     *  @var RenderInfo::mElementAmount
      *  @brief Describes the amount of render elements 
      ***/
 }

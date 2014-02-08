@@ -19,10 +19,10 @@ namespace fea
             void setVFlip(bool enabled);
             virtual RenderInfo getRenderInfo() const override;
         protected:
-            float hFlip;
-            float vFlip;
-            const Texture* texture;
-            glm::vec4 constraints;
+            float mHFlip;
+            float mVFlip;
+            const Texture* mTexture;
+            glm::vec4 mConstraints;
     };
     /** @addtogroup Render2D
      *@{

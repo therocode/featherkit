@@ -19,9 +19,8 @@ namespace fea
             const glm::vec2& getScrollSpeed() const;
         private:
             void updateConstraints();
-            glm::vec2 tileSize;
-            glm::vec2 scrollSpeed; //FIX with tick
-            glm::vec2 currentScroll;
+            glm::vec2 mTileSize;
+            glm::vec2 mScrollSpeed; //FIX with tick
     };
     /** @addtogroup Render2D
      *@{

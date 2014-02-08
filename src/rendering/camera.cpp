@@ -2,79 +2,79 @@
 
 namespace fea
 {
-    Camera::Camera() : position(glm::vec2(0.0f, 0.0f)), zoom(glm::vec2(1.0f, 1.0f)), rotation(0.0f)
+    Camera::Camera() : mPosition(glm::vec2(0.0f, 0.0f)), mZoom(glm::vec2(1.0f, 1.0f)), mRotation(0.0f)
     {
     }
 
-    Camera::Camera(float x, float y, float xZoom, float yZoom) : position(glm::vec2(x, y)), zoom(glm::vec2(xZoom, yZoom)), rotation(0.0f)
+    Camera::Camera(float x, float y, float xZoom, float yZoom) : mPosition(glm::vec2(x, y)), mZoom(glm::vec2(xZoom, yZoom)), mRotation(0.0f)
     {
     }
 
-    Camera::Camera(glm::vec2 p, glm::vec2 z) : position(p), zoom(z), rotation(0.0f)
+    Camera::Camera(glm::vec2 p, glm::vec2 z) : mPosition(p), mZoom(z), mRotation(0.0f)
     {
     }
 
     void Camera::setPosition(float x, float y)
     {
-        position = glm::vec2(x, y);
+        mPosition = glm::vec2(x, y);
     }
 
     void Camera::setPosition(glm::vec2 p)
     {
-        position = p;
+        mPosition = p;
     }
     
     const glm::vec2& Camera::getPosition() const
     {
-        return position;
+        return mPosition;
     }
             
     void Camera::translate(float x, float y)
     {
-        position += glm::vec2(x, y);
+        mPosition += glm::vec2(x, y);
     }
     
     void Camera::translate(glm::vec2 p)
     {
-        position += p;
+        mPosition += p;
     }
     
     void Camera::setZoom(float x, float y)
     {
-        zoom = glm::vec2(x, y);
+        mZoom = glm::vec2(x, y);
     }
 
     void Camera::setZoom(glm::vec2 z)
     {
-        zoom = z;
+        mZoom = z;
     }
     
     const glm::vec2& Camera::getZoom() const
     {
-        return zoom;
+        return mZoom;
     }
 
     void Camera::setRotation(float radians)
     {
-        rotation = radians;
+        mRotation = radians;
     }
 
     float Camera::getRotation() const
     {
-        return rotation;
+        return mRotation;
     }
     
     void Camera::rotate(float radians)
     {
-        rotation += radians;
+        mRotation += radians;
     }
 
         glm::mat2x2 Camera::getRotationMatrix() const
     {
         glm::mat2x2 result;
 
-        float sin = glm::sin(rotation);
-        float cos = glm::cos(rotation);
+        float sin = glm::sin(mRotation);
+        float cos = glm::cos(mRotation);
 
         glm::mat2x2 rot = glm::mat2x2(cos, sin, -sin, cos);
 

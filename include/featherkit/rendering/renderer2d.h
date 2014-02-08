@@ -27,17 +27,17 @@ namespace fea
             void setBlendMode(BlendMode mode);
         private:
             void setBlendModeGl(BlendMode mode);
-            Viewport currentViewport;
+            Viewport mCurrentViewport;
 
-            Texture defaultTexture;
-            Shader defaultShader;
-            glm::mat4 projection;
+            Texture mDefaultTexture;
+            Shader mDefaultShader;
+            glm::mat4 mProjection;
 
-            BlendMode currentBlendMode;
-            std::vector<RenderInfo> renderQueue;
+            BlendMode mCurrentBlendMode;
+            std::vector<RenderInfo> mRenderQueue;
 
             //cache
-            Colour clearColour;
+            Colour mClearColour;
     };
     /** @addtogroup Render2D
      *@{

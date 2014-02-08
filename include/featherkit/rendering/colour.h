@@ -45,10 +45,10 @@ namespace fea
             void setAAsByte(int32_t a);
 
         private:
-            float red;
-            float green;
-            float blue;
-            float alpha;
+            float mRed;
+            float mGreen;
+            float mBlue;
+            float mAlpha;
     };
     /** @addtogroup Render2D
      *@{

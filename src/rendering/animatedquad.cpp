@@ -1,45 +1,44 @@
 #include <featherkit/rendering/animatedquad.h>
 #include <featherkit/assert.h>
-#include <cstdlib>
 
     namespace fea
     {
-        AnimatedQuad::AnimatedQuad() : Quad(), currentAnimation(nullptr), clock(0), currentFrame(0), animate(false), back(false)
+        AnimatedQuad::AnimatedQuad() : Quad(), currentAnimation(nullptr), mClock(0), mCurrentFrame(0), mAnimate(false), mBack(false)
         {
         }
 
-        AnimatedQuad::AnimatedQuad(float w, float h) : Quad(w, h), currentAnimation(nullptr), clock(0), currentFrame(0), animate(false), back(false)
+        AnimatedQuad::AnimatedQuad(float w, float h) : Quad(w, h), currentAnimation(nullptr), mClock(0), mCurrentFrame(0), mAnimate(false), mBack(false)
         {
         }
 
-        AnimatedQuad::AnimatedQuad(const glm::vec2& size) : Quad(size), currentAnimation(nullptr), clock(0), currentFrame(0), animate(false), back(false)
+        AnimatedQuad::AnimatedQuad(const glm::vec2& size) : Quad(size), currentAnimation(nullptr), mClock(0), mCurrentFrame(0), mAnimate(false), mBack(false)
         {
         }
 
         void AnimatedQuad::setAnimation(const Animation& animation, bool play)
         {
-            clock = 0;
+            mClock = 0;
             if(&animation != currentAnimation)
             {
                 currentAnimation = &animation;
-                animate = play;
+                mAnimate = play;
 
                 AnimationBehaviour animBehaviour = currentAnimation->getAnimationBehaviour();
 
                 if(animBehaviour == FORWARDS || animBehaviour == BOUNCE)
                 {
-                    currentFrame = 0;
+                    mCurrentFrame = 0;
                 }
                 else if(animBehaviour == BACKWARDS || animBehaviour == INV_BOUNCE)
             {
-                currentFrame = currentAnimation->getFrameAmount() - 1;
+                mCurrentFrame = currentAnimation->getFrameAmount() - 1;
             }
             else if(animBehaviour == RANDOM)
             {
-                currentFrame = (uint32_t)rand() % currentAnimation->getFrameAmount();
+                mCurrentFrame = (uint32_t)rand() % currentAnimation->getFrameAmount();
             }
         }
-        currentAnimation->getConstraints(constraints, currentFrame);
+        currentAnimation->getConstraints(constraints, mCurrentFrame);
     }
     
     const Animation& AnimatedQuad::getAnimation() const
@@ -50,9 +49,9 @@
 
     void AnimatedQuad::tick()
     {
-        if(animate && currentAnimation != nullptr)
+        if(mAnimate && currentAnimation != nullptr)
         {
-            clock++;
+            mClock++;
             
             uint32_t delay = currentAnimation->getDelay();
             uint32_t frameAmount = currentAnimation->getFrameAmount();
@@ -78,54 +77,54 @@
                     break;
                 case RANDOM:
 
-                    if(clock == delay)
+                    if(mClock == delay)
                     {
-                        currentFrame = (uint32_t)rand() % frameAmount;
-                        clock = 0;
+                        mCurrentFrame = (uint32_t)rand() % frameAmount;
+                        mClock = 0;
                     }
                     break;
                 default:
                     break;
             }
-            currentAnimation->getConstraints(constraints, currentFrame);
+            currentAnimation->getConstraints(constraints, mCurrentFrame);
         }
     }
     
     void AnimatedQuad::playAnimation(uint32_t startFrame)
     {
         FEA_ASSERT(currentAnimation != nullptr, "No animation set when calling playAnimation!");
-        animate = true;
-        clock = startFrame * currentAnimation->getDelay();
-        currentAnimation->getConstraints(constraints, currentFrame);
+        mAnimate = true;
+        mClock = startFrame * currentAnimation->getDelay();
+        currentAnimation->getConstraints(constraints, mCurrentFrame);
     }
     
     void AnimatedQuad::stopAnimation()
     {
-        animate = false;
+        mAnimate = false;
     }
 
     void AnimatedQuad::setAnimationFrame(uint32_t frame)
     {
         if(currentAnimation != nullptr)
         {
-            currentFrame = frame;
-            currentAnimation->getConstraints(constraints, currentFrame);
+            mCurrentFrame = frame;
+            currentAnimation->getConstraints(constraints, mCurrentFrame);
         }
     }
     
     uint32_t AnimatedQuad::getAnimationFrame() const
     {
-        return currentFrame;
+        return mCurrentFrame;
     }
     
     bool AnimatedQuad::isPlaying() const
     {
-        return animate;
+        return mAnimate;
     }
     
     void AnimatedQuad::onAnimationEnd(std::function<void(void)> callback)
     {
-        onEnd = callback;
+        mOnEnd = callback;
     }
 
     void AnimatedQuad::animateForwards()
@@ -134,24 +133,24 @@
         uint32_t delay = currentAnimation->getDelay();
         uint32_t frameAmount = currentAnimation->getFrameAmount();
 
-        if(clock == delay)
+        if(mClock == delay)
         {
-            currentFrame++;
-            clock = 0;
+            mCurrentFrame++;
+            mClock = 0;
         }
 
-        if(currentFrame == frameAmount)
+        if(mCurrentFrame == frameAmount)
         {
             if(!loop)
             {
-                animate = false;
-                currentFrame--;
-                if(onEnd)
-                    onEnd();
+                mAnimate = false;
+                mCurrentFrame--;
+                if(mOnEnd)
+                    mOnEnd();
             }
             else
             {
-                currentFrame = 0;
+                mCurrentFrame = 0;
             }
         }
     }
@@ -162,24 +161,24 @@
         uint32_t delay = currentAnimation->getDelay();
         uint32_t frameAmount = currentAnimation->getFrameAmount();
 
-        if(clock == delay)
+        if(mClock == delay)
         {
-            currentFrame--;
-            clock = 0;
+            mCurrentFrame--;
+            mClock = 0;
         }
 
-        if(currentFrame == (uint32_t)-1)
+        if(mCurrentFrame == (uint32_t)-1)
         {
             if(!loop)
             {
-                animate = false;
-                currentFrame = 0;
-                if(onEnd)
-                    onEnd();
+                mAnimate = false;
+                mCurrentFrame = 0;
+                if(mOnEnd)
+                    mOnEnd();
             }
             else
             {
-                currentFrame = frameAmount - 1;
+                mCurrentFrame = frameAmount - 1;
             }
         }
     }
@@ -190,41 +189,41 @@
         uint32_t delay = currentAnimation->getDelay();
         uint32_t frameAmount = currentAnimation->getFrameAmount();
 
-        if(!back)
+        if(!mBack)
         {
-            if(clock == delay)
+            if(mClock == delay)
             {
-                currentFrame++;
-                clock = 0;
+                mCurrentFrame++;
+                mClock = 0;
             }
 
-            if(currentFrame == frameAmount)
+            if(mCurrentFrame == frameAmount)
             {
-                currentFrame -= 2;
-                back = true;
+                mCurrentFrame -= 2;
+                mBack = true;
             }
         }
         else
         {
-            if(clock == delay)
+            if(mClock == delay)
             {
-                currentFrame--;
-                clock = 0;
+                mCurrentFrame--;
+                mClock = 0;
             }
 
-            if(currentFrame == (uint32_t)-1)
+            if(mCurrentFrame == (uint32_t)-1)
             {
                 if(!loop)
                 {
-                    animate = false;
-                    currentFrame = 0;
-                    if(onEnd)
-                        onEnd();
+                    mAnimate = false;
+                    mCurrentFrame = 0;
+                    if(mOnEnd)
+                        mOnEnd();
                 }
                 else
                 {
-                    currentFrame = 1;
-                    back = false;
+                    mCurrentFrame = 1;
+                    mBack = false;
                 }
             }
         }
@@ -236,41 +235,41 @@
         uint32_t delay = currentAnimation->getDelay();
         uint32_t frameAmount = currentAnimation->getFrameAmount();
 
-        if(!back)
+        if(!mBack)
         {
-            if(clock == delay)
+            if(mClock == delay)
             {
-                currentFrame--;
-                clock = 0;
+                mCurrentFrame--;
+                mClock = 0;
             }
 
-            if(currentFrame == (uint32_t)-1)
+            if(mCurrentFrame == (uint32_t)-1)
             {
-                currentFrame += 2;
-                back = true;
+                mCurrentFrame += 2;
+                mBack = true;
             }
         }
         else
         {
-            if(clock == delay)
+            if(mClock == delay)
             {
-                currentFrame++;
-                clock = 0;
+                mCurrentFrame++;
+                mClock = 0;
             }
 
-            if(currentFrame == frameAmount)
+            if(mCurrentFrame == frameAmount)
             {
                 if(!loop)
                 {
-                    animate = false;
-                    currentFrame--;
-                    if(onEnd)
-                        onEnd();
+                    mAnimate = false;
+                    mCurrentFrame--;
+                    if(mOnEnd)
+                        mOnEnd();
                 }
                 else
                 {
-                    currentFrame = frameAmount -2;
-                    back = false;
+                    mCurrentFrame = frameAmount -2;
+                    mBack = false;
                 }
             }
         }

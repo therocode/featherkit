@@ -9,32 +9,32 @@ namespace fea
     {
     }
     
-    Font::Font(const std::string& path, const float size) : fontPath(path), fontSize(size)
+    Font::Font(const std::string& path, const float size) : mFontPath(path), mFontSize(size)
     {
     }
     
     void Font::setPath(const std::string& path)
     {
-        fontPath = path;
+        mFontPath = path;
     }
     
     void Font::setSize(const float size)
     {
-        fontSize = size;
+        mFontSize = size;
     }
 
     const std::string& Font::getPath() const
     {
-        return fontPath;
+        return mFontPath;
     }
     
     float Font::getSize() const
     {
-        return fontSize;
+        return mFontSize;
     }
             
     bool Font::operator==(const Font& other) const
     {
-        return fontPath == other.fontPath && (uint32_t)(fontSize * 100.0f) == (uint32_t)(other.fontSize * 100.0f);
+        return mFontPath == other.mFontPath && (uint32_t)(mFontSize * 100.0f) == (uint32_t)(other.mFontSize * 100.0f);
     }
 }

@@ -23,8 +23,8 @@ namespace fea
             float getSize() const;
             bool operator==(const Font& other) const;
         private:
-            std::string fontPath;
-            float fontSize;
+            std::string mFontPath;
+            float mFontSize;
     };
     
     /** @addtogroup Render2D

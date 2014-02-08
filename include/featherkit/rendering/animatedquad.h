@@ -28,11 +28,11 @@ namespace fea
             void animateInvBounce();
             const Animation* currentAnimation;
 
-            uint32_t clock;
-            uint32_t currentFrame;
-            bool animate;
-            bool back;
-            std::function<void(void)> onEnd;
+            uint32_t mClock;
+            uint32_t mCurrentFrame;
+            bool mAnimate;
+            bool mBack;
+            std::function<void(void)> mOnEnd;
     };
     /** @addtogroup Render2D
      *@{
