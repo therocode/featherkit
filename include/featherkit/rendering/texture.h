@@ -85,6 +85,10 @@ namespace fea
      *  @param smooth If this is true, the texture will be smoothed using nearest neighbour interpolation.
      *  @param interactive If this is true, pixels can be accessed and updated using the setPixel and getPixel methods.
      ***
+     *  @fn glm::uvec2 Texture::getSize() const
+     *  @brief Return the size of the texture.
+     *  @return Texture size.
+     ***
      *  @fn void Texture::destroy()
      *  @brief Release the resources used by the texture. The texture will be invalid afterwards.
      ***
