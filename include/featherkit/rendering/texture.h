@@ -24,6 +24,7 @@ namespace fea
             void setPixel(uint32_t x, uint32_t y, const Colour& colour);
             Colour getPixel(uint32_t x, uint32_t y) const;
             uint8_t* getPixelData();
+            const uint8_t* getPixelData() const;
             void update();
             ~Texture();
         private:
@@ -111,6 +112,12 @@ namespace fea
      *  @brief Get internal pixel data.
      *
      *  Accessing the internal data can be important for intense manipulation of many pixels where performance is crucial. To be used with caution.
+     *  @return Data.
+     ***
+     *  @fn const uint8_t* Texture::getPixelData() const
+     *  @brief Get internal pixel data.
+     *
+     *  Accessing the internal data can be important for intense accessing of pixels. To be used with caution.
      *  @return Data.
      ***
      *  @fn void Texture::update()
