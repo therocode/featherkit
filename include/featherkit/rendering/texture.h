@@ -17,8 +17,8 @@ namespace fea
             Texture(Texture&& other);
             Texture& operator=(Texture&& other);
             GLuint getId() const;
-            void create(uint32_t w, uint32_t h, const uint8_t* imageData, bool smooth = false, bool interactive = false);
-            void create(uint32_t w, uint32_t h, const Colour& colour, bool smooth = false, bool interactive = false);
+            void create(uint32_t width, uint32_t height, const uint8_t* imageData, bool smooth = false, bool interactive = false);
+            void create(uint32_t width, uint32_t height, const Colour& colour, bool smooth = false, bool interactive = false);
             void destroy();
             void setPixel(uint32_t x, uint32_t y, const Colour& colour);
             Colour getPixel(uint32_t x, uint32_t y) const;
@@ -26,10 +26,10 @@ namespace fea
             void update();
             ~Texture();
         private:
-            GLuint id;
-            uint32_t width;
-            uint32_t height;
-            bool interactive;
+            GLuint mId;
+            uint32_t mWidth;
+            uint32_t mHeight;
+            bool mInteractive;
             std::unique_ptr<uint8_t[]> pixelData;
     };
     /** @addtogroup Render2D
@@ -62,24 +62,24 @@ namespace fea
      *  @fn int32_t Texture::getId() const
      *  @brief Get the ID of the internal texture.
      ***
-     *  @fn void Texture::create(uint32_t w, uint32_t h, const uint8_t* imageData, bool smooth = false, bool interactive = false)
+     *  @fn void Texture::create(uint32_t width, uint32_t height, const uint8_t* imageData, bool smooth = false, bool interactive = false)
      *  @brief Create a texture from an image.
      *  
      *  When the texture is successfully created, it can be used by drawables. Keep in mind that the texture must be kept alive as long as it is in use by any drawable. If the texture is created in interactive mode, it can be used to access and updated pixels at any time.
      *
-     *  @param w Width of the texture in pixels.
-     *  @param h Height of the texture in pixels.
+     *  @param width Width of the texture in pixels.
+     *  @param height Height of the texture in pixels.
      *  @param imageData Image to create the texture from. Must be in 32-bit RGBA format.
      *  @param smooth If this is true, the texture will be smoothed using nearest neighbour interpolation.
      *  @param interactive If this is true, pixels can be accessed and updated using the setPixel and getPixel methods.
      ***
-     *  @fn void Texture::create(uint32_t w, uint32_t h, const Colour& colour, bool smooth = false, bool interactive = false)
+     *  @fn void Texture::create(uint32_t width, uint32_t height, const Colour& colour, bool smooth = false, bool interactive = false)
      *  @brief Create a texture filled with a colour.
      *  
      *  When the texture is successfully created, it can be used by drawables. Keep in mind that the texture must be kept alive as long as it is in use by any drawable. If the texture is created in interactive mode, it can be used to access and updated pixels at any time.
      *
-     *  @param w Width of the texture in pixels.
-     *  @param h Height of the texture in pixels.
+     *  @param width Width of the texture in pixels.
+     *  @param height Height of the texture in pixels.
      *  @param colour Colour to fill the texture with.
      *  @param smooth If this is true, the texture will be smoothed using nearest neighbour interpolation.
      *  @param interactive If this is true, pixels can be accessed and updated using the setPixel and getPixel methods.

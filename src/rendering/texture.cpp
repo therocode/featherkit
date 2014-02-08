@@ -5,25 +5,25 @@
 
 namespace fea
 {
-    Texture::Texture() : id(0), width(0), height(0), interactive(false), pixelData(nullptr)
+    Texture::Texture() : id(0), mWidth(0), mHeight(0), mInteractive(false), pixelData(nullptr)
     {
     }
 
-    Texture::Texture(Texture&& other) : id(0), width(0), height(0), interactive(false), pixelData(nullptr)
+    Texture::Texture(Texture&& other) : id(0), mWidth(0), mHeight(0), mInteractive(false), pixelData(nullptr)
     {
         std::swap(id, other.id);
-        std::swap(width, other.width);
-        std::swap(height, other.height);
-        std::swap(interactive, other.interactive);
+        std::swap(mWidth, other.mWidth);
+        std::swap(mHeight, other.mHeight);
+        std::swap(mInteractive, other.mInteractive);
         pixelData = std::move(other.pixelData);
     }
     
     Texture& Texture::operator=(Texture&& other)
     {
         std::swap(id, other.id);
-        std::swap(width, other.width);
-        std::swap(height, other.height);
-        std::swap(interactive, other.interactive);
+        std::swap(mWidth, other.mWidth);
+        std::swap(mHeight, other.mHeight);
+        std::swap(mInteractive, other.mInteractive);
         pixelData = std::move(other.pixelData);
         return *this;
     }
@@ -33,12 +33,12 @@ namespace fea
         return id;
     }
 
-    void Texture::create(uint32_t w, uint32_t h, const uint8_t* imageData, bool smooth, bool inter)
+    void Texture::create(uint32_t width, uint32_t height, const uint8_t* imageData, bool smooth, bool interactive)
     {
-        interactive = inter;
-        FEA_ASSERT(w > 0 && h > 0, "Cannot create a texture with a width or height smaller than zero! Given dimensions are " + std::to_string(w) + " " + std::to_string(h));
-        width = w;
-        height = h;
+        mInteractive = interactive;
+        FEA_ASSERT(width > 0 && height > 0, "Cannot create a texture with a width or height smaller than zero! Given dimensions are " + std::to_string(width) + " " + std::to_string(height));
+        mWidth = width;
+        mHeight = height;
 
         if(id)
         {
@@ -57,9 +57,9 @@ namespace fea
 
         glBindTexture(GL_TEXTURE_2D, 0);
 
-        if(interactive)
+        if(mInteractive)
         {
-            uint32_t byteAmount = width * height * 4;
+            uint32_t byteAmount = mWidth * mHeight * 4;
             pixelData = std::unique_ptr<uint8_t[]>(new uint8_t[byteAmount]);
 
             if(imageData)
@@ -67,21 +67,21 @@ namespace fea
         }
     }
 
-    void Texture::create(uint32_t w, uint32_t h, const Colour& colour, bool smooth, bool interactive)
+    void Texture::create(uint32_t width, uint32_t height, const Colour& colour, bool smooth, bool interactive)
     {
-        std::unique_ptr<uint8_t[]> pixels = std::unique_ptr<uint8_t[]>(new uint8_t[w * h * 4]);
+        std::unique_ptr<uint8_t[]> pixels = std::unique_ptr<uint8_t[]>(new uint8_t[weight * height * 4]);
 
-        for(uint32_t x = 0; x < w; x++)
+        for(uint32_t x = 0; x < width; x++)
         {
-            for(uint32_t y = 0; y < h; y++)
+            for(uint32_t y = 0; y < height; y++)
             {
-                pixels[(x + y * w) * 4 + 0] = colour.rAsByte();
-                pixels[(x + y * w) * 4 + 1] = colour.gAsByte();
-                pixels[(x + y * w) * 4 + 2] = colour.bAsByte();
-                pixels[(x + y * w) * 4 + 3] = colour.aAsByte();
+                pixels[(x + y * width) * 4 + 0] = colour.rAsByte();
+                pixels[(x + y * width) * 4 + 1] = colour.gAsByte();
+                pixels[(x + y * width) * 4 + 2] = colour.bAsByte();
+                pixels[(x + y * width) * 4 + 3] = colour.aAsByte();
             }
         }
-        create(w, h, pixels.get(), smooth, interactive);
+        create(width, height, pixels.get(), smooth, interactive);
     }
 
     void Texture::destroy()
@@ -90,16 +90,16 @@ namespace fea
         {
             glDeleteTextures(1, &id);
             id = 0;
-            width = 0;
-            height = 0;
+            mWidth = 0;
+            mHeight = 0;
             pixelData.release();
         }
     }
     
     void Texture::setPixel(uint32_t x, uint32_t y, const Colour& colour)
     {
-        FEA_ASSERT(x >= 0 && y >= 0 && x < width && y < height, "Trying to access pixel outside of the bounds of the texture. Accessing at " + std::to_string(x) + " " + std::to_string(y));
-        uint32_t pixelIndex = (x + y * width) * 4;
+        FEA_ASSERT(x >= 0 && y >= 0 && x < mWidth && y < mHeight, "Trying to access pixel outside of the bounds of the texture. Accessing at " + std::to_string(x) + " " + std::to_string(y));
+        uint32_t pixelIndex = (x + y * mWidth) * 4;
         pixelData[pixelIndex    ] = colour.rAsByte();
         pixelData[pixelIndex + 1] = colour.gAsByte();
         pixelData[pixelIndex + 2] = colour.bAsByte();
@@ -108,8 +108,8 @@ namespace fea
 
     Colour Texture::getPixel(uint32_t x, uint32_t y) const
     {
-        FEA_ASSERT(x >= 0 && y >= 0 && x < width && y < height, "Trying to access pixel outside of the bounds of the texture. Accessing at " + std::to_string(x) + " " + std::to_string(y));
-        uint32_t pixelIndex = (x + y * width) * 4;
+        FEA_ASSERT(x >= 0 && y >= 0 && x < mWidth && y < mHeight, "Trying to access pixel outside of the bounds of the texture. Accessing at " + std::to_string(x) + " " + std::to_string(y));
+        uint32_t pixelIndex = (x + y * mWidth) * 4;
         return Colour(pixelData[pixelIndex],
                          pixelData[pixelIndex + 1],
                          pixelData[pixelIndex + 2],
@@ -124,9 +124,9 @@ namespace fea
 
     void Texture::update()
     {
-        FEA_ASSERT(interactive, "Cannot modify a non-interactive texture!");
+        FEA_ASSERT(mInteractive, "Cannot modify a non-interactive texture!");
         glBindTexture(GL_TEXTURE_2D, id);
-        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, pixelData.get());
+        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, mWidth, mHeight, GL_RGBA, GL_UNSIGNED_BYTE, pixelData.get());
     }
     
     Texture::~Texture()

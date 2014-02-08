@@ -12,12 +12,12 @@ namespace fea
     {
         struct Writing
         {
-            Writing(const std::wstring& t, const Font* f, const glm::vec2& p, const float s, const Colour& c);//
-            const std::wstring text;
-            const Font* font;
-            const glm::vec2 penPosition;
-            const float scale;
-            const Colour colour;
+            Writing(const std::wstring& text, const Font* font, const glm::vec2& penPosition, const float scale, const Colour& colour);//
+            const std::wstring mText;
+            const Font* mFont;
+            const glm::vec2 mPenPosition;
+            const float mScale;
+            const Colour mColour;
         };
 
     public:
@@ -26,9 +26,9 @@ namespace fea
         void write(const std::string& text);
         void write(const std::wstring& text);
         void setPenFont(const Font& font);
-        void setPenPosition(const glm::vec2 pos);
-        void setPenScale(const float s);
-        void setPenColour(const Colour& col);
+        void setPenPosition(const glm::vec2 position);
+        void setPenScale(const float scale);
+        void setPenColour(const Colour& colour);
         void setHorizontalAlign(const float coord);
         void newLine(const float distance, const float indentation = 0.0f);
         virtual RenderInfo getRenderInfo() const override;
@@ -37,16 +37,16 @@ namespace fea
         void rewrite();
         void addText(const std::wstring& text);
         void cacheFont(const Font& font);
-        texture_atlas_t* atlas;
-        const Font* currentFont;
-        glm::vec2 pen;
-        float scale;
-        Colour colour;
-        float horizontalAlign;
-        uint32_t atlasSize;
+        texture_atlas_t* mAtlas;
+        const Font* mCurrentFont;
+        glm::vec2 mPenPosition;
+        float mScale;
+        Colour mColour;
+        float mHorizontalAlign;
+        uint32_t mAtlasSize;
 
-        std::unordered_map<Font, texture_font_t*> fontCache;
-        std::vector<Writing> writings;
+        std::unordered_map<Font, texture_font_t*> mFontCache;
+        std::vector<Writing> mWritings;
     };
     /** @addtogroup Render2D
      *@{
@@ -77,19 +77,19 @@ namespace fea
      *  If the text is too grainy or has a lot of artifacts, try increasing the size of the font.
      *  @param font Font to use.
      ***
-     *  @fn void TextSurface::setPenPosition(const glm::vec2 pos)
+     *  @fn void TextSurface::setPenPosition(const glm::vec2 postion)
      *  @brief Set the current pen position.
-     *  @param pos New position.
+     *  @param position New position.
      ***
-     *  @fn void TextSurface::setPenScale(const float s)
+     *  @fn void TextSurface::setPenScale(const float scale)
      *  @brief Set the current pen scale.
      *
      *  Scaling can make text appear grainy. If a higher resolution of the text is needed, increase the size of the font.
-     *  @param s New scale.
+     *  @param scale New scale.
      ***
-     *  @fn void TextSurface::setPenColour(const Colour& col)
+     *  @fn void TextSurface::setPenColour(const Colour& colour)
      *  @brief Set the current pen colour.
-     *  @param col New colour.
+     *  @param colour New colour.
      ***
      *  @fn void TextSurface::setHorizontalAlign(const float coord)
      *  @brief Set the horizontal alignment for new text lines.

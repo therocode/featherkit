@@ -3,21 +3,22 @@
 
 namespace fea
 {
-    TextSurface::Writing::Writing(const std::wstring& t, const Font* f, const glm::vec2& p, const float s, const Colour& c) : text(t), font(f), penPosition(p), scale(s), colour(c)
+    TextSurface::Writing::Writing(const std::wstring& text, const Font* font, const glm::vec2& penPosition, const float scale, const Colour& colour)
+        : mText(text), mFont(font), mPenPosition(penPosition), mScale(scale), mColour(colour)
     {
     }
     
-    TextSurface::TextSurface() : scale(1.0f)
+    TextSurface::TextSurface() : mScale(1.0f)
     {
-        atlasSize = 64;
-        atlas = texture_atlas_new(atlasSize, atlasSize, 1);
+        mAtlasSize = 64;
+        mAtlas = texture_atlas_new(mAtlasSize, mAtlasSize, 1);
         drawMode = GL_TRIANGLES;
-        currentFont = nullptr;
+        mCurrentFont = nullptr;
     }
 
     TextSurface::~TextSurface()
     {
-        texture_atlas_delete(atlas);
+        texture_atlas_delete(mAtlas);
     }
 
     void TextSurface::write(const std::string& text)
@@ -27,40 +28,40 @@ namespace fea
 
     void TextSurface::write(const std::wstring& text)
     {
-        writings.push_back(Writing(text, currentFont, pen, scale, colour));
+        mWritings.push_back(Writing(text, mCurrentFont, mPenPosition, mScale, mColour));
         addText(text);
     }
             
     void TextSurface::setPenFont(const Font& font)
     {
         cacheFont(font);
-        currentFont = &font;
+        mCurrentFont = &font;
     }
 
-    void TextSurface::setPenPosition(const glm::vec2 pos)
+    void TextSurface::setPenPosition(const glm::vec2 position)
     {
-        pen = pos;
+        mPenPosition = position;
     }
     
-    void TextSurface::setPenScale(const float s)
+    void TextSurface::setPenScale(const float scale)
     {
-        scale = s;
+        mScale = scale;
     }
     
-    void TextSurface::setPenColour(const Colour& col)
+    void TextSurface::setPenColour(const Colour& colour)
     {
-        colour = col;
+        mColour = colour;
     }
     
     void TextSurface::setHorizontalAlign(const float coord)
     {
-        horizontalAlign = coord;
+        mHorizontalAlign = coord;
     }
 
     void TextSurface::newLine(const float distance, const float indentation)
     {
-        pen.x = horizontalAlign + indentation * scale;
-        pen.y += distance * scale;
+        mPenPosition.x = mHorizontalAlign + indentation * mScale;
+        mPenPosition.y += distance * mScale;
     }
 
     RenderInfo TextSurface::getRenderInfo() const
@@ -68,44 +69,44 @@ namespace fea
         RenderInfo temp = Drawable2D::getRenderInfo();
         std::hash<std::string> stringHasher;
 
-        temp.uniforms.push_back(Uniform(stringHasher("texture"), TEXTURE, atlas->id));
+        temp.uniforms.push_back(Uniform(stringHasher("texture"), TEXTURE, mAtlas->id));
         return temp;
     }
     
     void TextSurface::rewrite()
     {
-        vertices.clear();
-        texCoords.clear();
-        vertexColours.clear();
+        mVertices.clear();
+        mTexCoords.clear();
+        mVertexColours.clear();
 
-        const glm::vec2 originalPosition = pen;
-        const Font* originalFont = currentFont;
-        const float originalScale = scale;
-        const Colour originalColour = colour;
+        const glm::vec2 originalPosition = mPenPosition;
+        const Font* originalFont = mCurrentFont;
+        const float originalScale = mScale;
+        const Colour originalColour = mColour;
 
-        for(auto& writing : writings)
+        for(auto& writing : mWritings)
         {
-            pen = writing.penPosition;
-            currentFont = writing.font;
-            cacheFont(*currentFont);
-            scale = writing.scale;
-            colour = writing.colour;
-            addText(writing.text);
+            mPenPosition = writing.mPenPosition;
+            mCurrentFont = writing.mFont;
+            cacheFont(*mCurrentFont);
+            mScale = writing.mScale;
+            mColour = writing.mColour;
+            addText(writing.mText);
         }
 
-        pen = originalPosition;
-        currentFont = originalFont;
-        scale = originalScale;
+        mPenPosition = originalPosition;
+        mCurrentFont = originalFont;
+        mScale = originalScale;
         colour = originalColour;
     }
 
     void TextSurface::clear()
     {
-        vertices.clear();
-        texCoords.clear();
-        vertexColours.clear();
+        mVertices.clear();
+        mTexCoords.clear();
+        mVertexColours.clear();
 
-        writings.clear();
+        mWritings.clear();
     }
             
     void TextSurface::addText(const std::wstring& text)
@@ -117,24 +118,24 @@ namespace fea
         std::vector<float> verticesToAdd;
         std::vector<float> texCoordsToAdd;
         std::vector<float> coloursToAdd;
-        glm::vec2 penTempPosition = pen;
+        glm::vec2 penTempPosition = mPenPosition;
 
 
         for(i = 0; i < text.size(); ++i )
         {
-            texture_glyph_t* glyph = texture_font_get_glyph( fontCache.at(*currentFont), text[i] );
+            texture_glyph_t* glyph = texture_font_get_glyph( mFontCache.at(*mCurrentFont), text[i] );
 
             if(glyph == nullptr)
             {
-                atlasSize *= 2;
-                texture_atlas_delete(atlas);
-                atlas = texture_atlas_new(atlasSize, atlasSize, 1);
+                mAtlasSize *= 2;
+                texture_atlas_delete(mAtlas);
+                mAtlas = texture_atlas_new(mAtlasSize, mAtlasSize, 1);
 
-                for(auto font : fontCache)
+                for(auto font : mFontCache)
                 {
                     texture_font_delete(font.second);
                 }
-                fontCache.clear();
+                mFontCache.clear();
 
                 rewrite();
                 addText(text);
@@ -146,11 +147,11 @@ namespace fea
             {
                 kerning = texture_glyph_get_kerning( glyph, text[i-1] );
             }
-            penTempPosition.x += kerning * scale;
-            float x0  = ( penTempPosition.x + glyph->offset_x * scale );
-            float y0  = ( penTempPosition.y - glyph->offset_y * scale);
-            float x1  = ( x0 + glyph->width * scale );
-            float y1  = ( y0 + glyph->height * scale);
+            penTempPosition.x += kerning * mScale;
+            float x0  = ( penTempPosition.x + glyph->offset_x * mScale );
+            float y0  = ( penTempPosition.y - glyph->offset_y * mScale);
+            float x1  = ( x0 + glyph->width * mScale );
+            float y1  = ( y0 + glyph->height * mScale);
             float s0 = glyph->s0;
             float t0 = glyph->t0;
             float s1 = glyph->s1;
@@ -174,22 +175,22 @@ namespace fea
                                 colour.r(), colour.g(), colour.b(), 1.0f,
                                 colour.r(), colour.g(), colour.b(), 1.0f,
                                 colour.r(), colour.g(), colour.b(), 1.0f});
-            penTempPosition.x += glyph->advance_x * scale;
+            penTempPosition.x += glyph->advance_x * mScale;
         }
 
-        pen = penTempPosition;
-        vertices.insert(vertices.end(), verticesToAdd.begin(), verticesToAdd.end());
-        texCoords.insert(texCoords.end(), texCoordsToAdd.begin(), texCoordsToAdd.end());
-        vertexColours.insert(vertexColours.end(), coloursToAdd.begin(), coloursToAdd.end());
+        mPenPosition = penTempPosition;
+        mVertices.insert(mVertices.end(), verticesToAdd.begin(), verticesToAdd.end());
+        mTexCoords.insert(mTexCoords.end(), texCoordsToAdd.begin(), texCoordsToAdd.end());
+        mVertexColours.insert(mVertexColours.end(), coloursToAdd.begin(), coloursToAdd.end());
     }
 
 
     void TextSurface::cacheFont(const Font& font)
     {
-        if(fontCache.find(font) == fontCache.end())
+        if(mFontCache.find(font) == mFontCache.end())
         {
-            texture_font_t* created = texture_font_new(atlas, font.getPath().c_str(), font.getSize());
-            fontCache.emplace(font, created);
+            texture_font_t* created = texture_font_new(mAtlas, font.getPath().c_str(), font.getSize());
+            mFontCache.emplace(font, created);
         }
     }
 }
