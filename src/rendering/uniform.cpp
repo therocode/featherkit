@@ -6,49 +6,49 @@ namespace fea
     {
         index = i;
         type = t;
-        floatVal = val;
+        mFloatVal = val;
     }
 
     Uniform::Uniform(size_t i, UniformType t, glm::vec2 val)
     {
         index = i;
         type = t;
-        vec2Val = val;
+        mVec2Val = val;
     }
 
     Uniform::Uniform(size_t i, UniformType t, glm::vec3 val)
     {
         index = i;
         type = t;
-        vec3Val = val;
+        mVec3Val = val;
     }
 
     Uniform::Uniform(size_t i, UniformType t, glm::vec4 val)
     {
         index = i;
         type = t;
-        vec4Val = val;
+        mVec4Val = val;
     }
 
     Uniform::Uniform(size_t i, UniformType t, glm::mat2x2 val)
     {
         index = i;
         type = t;
-        mat2x2Val = val;
+        mMat2x2Val = val;
     }
 
     Uniform::Uniform(size_t i, UniformType t, glm::mat4x4 val)
     {
         index = i;
         type = t;
-        mat4x4Val = val;
+        mMat4x4Val = val;
     }
 
     Uniform::Uniform(size_t i, UniformType t, GLuint val)
     {
         index = i;
         type = t;
-        textureVal = val;
+        mTextureVal = val;
     }
     
     Uniform::Uniform(const Uniform& other)
@@ -59,25 +59,25 @@ namespace fea
         switch(type)
         {
             case FLOAT:
-                floatVal = other.floatVal;
+                mFloatVal = other.mFloatVal;
                 break;
             case VEC2:
-                vec2Val = other.vec2Val;
+                mVec2Val = other.mVec2Val;
                 break;
             case VEC3:
-                vec3Val = other.vec3Val;
+                mVec3Val = other.mVec3Val;
                 break;
             case VEC4:
-                vec4Val = other.vec4Val;
+                mVec4Val = other.mVec4Val;
                 break;
             case MAT2X2:
-                mat2x2Val = other.mat2x2Val;
+                mMat2x2Val = other.mMat2x2Val;
                 break;
             case MAT4X4:
-                mat4x4Val = other.mat4x4Val;
+                mMat4x4Val = other.mMat4x4Val;
                 break;
             case TEXTURE:
-                textureVal = other.textureVal;
+                mTextureVal = other.mTextureVal;
                 break;
         }
     }

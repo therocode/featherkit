@@ -12,9 +12,9 @@ namespace fea
     {
         TileDefinition(glm::uvec2 texPos, TileId nextId = 0, uint32_t ticks = 0);
         TileDefinition(uint32_t texX, uint32_t texY, TileId nextId = 0, uint32_t ticks = 0);
-        glm::uvec2 tileTexPosition;
-        TileId nextTileId;
-        uint32_t ticksUntilChange;
+        glm::uvec2 mTileTexPosition;
+        TileId mNextTileId;
+        uint32_t mTicksUntilChange;
     };
 
     class TileMapException : public std::runtime_error 
@@ -27,8 +27,8 @@ namespace fea
     {
         struct AnimatedTile
         {
-            TileId next;
-            uint32_t timeLeft;
+            TileId mNext;
+            uint32_t mTimeLeft;
         };
         public:
             TileMap(uint32_t gridWidth, uint32_t gridHeight, uint32_t tileWidth = 16, uint32_t tileHeight = 16, float textureTileWidth = 0.25f, float textureTileHeight = 0.25f , uint32_t chunkWidth = 32, uint32_t chunkHeight = 32);
@@ -58,17 +58,17 @@ namespace fea
             glm::uvec2 getTileMapSize() const;
             void tick();
         private:
-            glm::vec2 position;
-            glm::uvec2 chunkGridSize;
-            glm::uvec2 chunkSize;
-            glm::uvec2 tileSize;
-            glm::uvec2 gridSize;
-            glm::vec2 textureTileSize;
-            std::vector<TileChunk> chunks;
-            const Texture* texture;
-            std::unordered_map<TileId, TileDefinition> tileDefs;
-            std::hash<std::string> hasher;
-            std::map<glm::uvec2, AnimatedTile, std::function<bool(const glm::uvec2&, const glm::uvec2&)> > animatedTiles;
+            glm::vec2 mPosition;
+            glm::uvec2 mChunkGridSize;
+            glm::uvec2 mChunkSize;
+            glm::uvec2 mTileSize;
+            glm::uvec2 mGridSize;
+            glm::vec2 mTextureTileSize;
+            std::vector<TileChunk> mChunks;
+            const Texture* mTexture;
+            std::unordered_map<TileId, TileDefinition> mTileDefs;
+            std::hash<std::string> mHasher;
+            std::map<glm::uvec2, AnimatedTile, std::function<bool(const glm::uvec2&, const glm::uvec2&)>> mAnimatedTiles;
     };
     /** @addtogroup Render2D
      *@{
@@ -99,14 +99,14 @@ namespace fea
      *  @param nextId TileDefinition to change to. Only needed if the tile is animated.
      *  @param ticks Amount of ticks until the tile is changed. Only needed if the tile is animated.
      ***
-     *  @var TileDefinition::tileTexPosition
+     *  @var TileDefinition::mTileTexPosition
      *  @brief Coordinates describing the position of the subrect of the texture to use for this tile. For example if the map tile in the upper left corner is to be used, this variable should be (0,0). If the tile next to it is to be used, it should be (1,0).
      ***
-     *  @var TileDefinition::nextTileId
+     *  @var TileDefinition::mNextTileId
      *  @brief If the tile is meant to be animated, this should be set to the ID of the tile to switch to.
      ***
-     *  @var TileDefinition::ticksUntilChange
-     *  @brief The amount of ticks to display this tile before it is changed to the one defined using TileDefinition::nextTileId.
+     *  @var TileDefinition::mTicksUntilChange
+     *  @brief The amount of ticks to display this tile before it is changed to the one defined using TileDefinition::mNextTileId.
      ***
      *  @class TileMapException
      *  @brief Exception used by the TileMap when something goes wrong.

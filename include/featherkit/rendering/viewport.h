@@ -19,9 +19,9 @@ namespace fea
             glm::vec2 untransformPoint(float x, float y) const;
             glm::vec2 untransformPoint(const glm::vec2 point) const;
         private:
-            glm::ivec2 position;
-            glm::uvec2 size;
-            Camera camera;
+            glm::ivec2 mPosition;
+            glm::uvec2 mSize;
+            Camera mCamera;
     };
     /** @addtogroup Render2D
      *@{

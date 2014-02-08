@@ -3,11 +3,11 @@
 
 namespace fea
 {
-    TileDefinition::TileDefinition(glm::uvec2 texPos, TileId nextId, uint32_t ticks) : tileTexPosition(texPos), nextTileId(nextId), ticksUntilChange(ticks)
+    TileDefinition::TileDefinition(glm::uvec2 texPos, TileId nextId, uint32_t ticks) : mTileTexPosition(texPos), mNextTileId(nextId), mTicksUntilChange(ticks)
     {
     }
 
-    TileDefinition::TileDefinition(uint32_t texX, uint32_t texY, TileId nextId, uint32_t ticks) : tileTexPosition(glm::uvec2(texX, texY)), nextTileId(nextId), ticksUntilChange(ticks)
+    TileDefinition::TileDefinition(uint32_t texX, uint32_t texY, TileId nextId, uint32_t ticks) : mTileTexPosition(glm::uvec2(texX, texY)), mNextTileId(nextId), mTicksUntilChange(ticks)
     {
     }
     
@@ -15,7 +15,7 @@ namespace fea
     {
     }
 
-    TileMap::TileMap(uint32_t gridWidth, uint32_t gridHeight, uint32_t tileWidth, uint32_t tileHeight, float textureTileWidth, float textureTileHeight, uint32_t chunkWidth, uint32_t chunkHeight) : animatedTiles([](const glm::uvec2& first, const glm::uvec2& second){ 
+    TileMap::TileMap(uint32_t gridWidth, uint32_t gridHeight, uint32_t tileWidth, uint32_t tileHeight, float textureTileWidth, float textureTileHeight, uint32_t chunkWidth, uint32_t chunkHeight) : mAnimatedTiles([](const glm::uvec2& first, const glm::uvec2& second){ 
                 if(first.x < second.x) 
                     return true;
                 else if(first.x > second.x)
@@ -32,11 +32,11 @@ namespace fea
         uint32_t chunkGridWidth = (gridWidth + chunkWidth - 1) / chunkWidth;
         uint32_t chunkGridHeight = (gridHeight + chunkHeight - 1) / chunkHeight;
 
-        chunkGridSize = glm::uvec2(chunkGridWidth, chunkGridHeight);
-        chunkSize = glm::uvec2(chunkWidth, chunkHeight);
-        gridSize = glm::uvec2(gridWidth, gridHeight);
-        textureTileSize = glm::vec2(textureTileWidth, textureTileHeight);
-        tileSize = glm::uvec2(tileWidth, tileHeight);
+        mChunkGridSize = glm::uvec2(chunkGridWidth, chunkGridHeight);
+        mChunkSize = glm::uvec2(chunkWidth, chunkHeight);
+        mGridSize = glm::uvec2(gridWidth, gridHeight);
+        mTextureTileSize = glm::vec2(textureTileWidth, textureTileHeight);
+        mTileSize = glm::uvec2(tileWidth, tileHeight);
 
         bool uneven = gridWidth % chunkWidth != 0;
         glm::uvec2 edgeSize(gridWidth % chunkWidth, gridHeight % chunkHeight);
@@ -55,68 +55,68 @@ namespace fea
                     newChunkWidth = edgeSize.x;
     
                 TileChunk newChunk(newChunkWidth, newChunkHeight, tileWidth, tileHeight);
-                glm::vec2 chunkPosition = glm::vec2(position.x +(float) (x * chunkWidth * tileWidth),position.y + (float)(y * chunkHeight * tileHeight));
+                glm::vec2 chunkPosition = glm::vec2(mPosition.x +(float) (x * chunkWidth * tileWidth),mPosition.y + (float)(y * chunkHeight * tileHeight));
                 newChunk.setPosition(chunkPosition);
                 
                 for(uint32_t chunkX = 0; chunkX < newChunkWidth; chunkX++)
                 {
                     for(uint32_t chunkY = 0; chunkY < newChunkHeight; chunkY++)
                     {
-                        //newChunk.setTileTexCoords(chunkX, chunkY, glm::vec2(0.0f, 0.0f), textureTileSize);
+                        //newChunk.setTileTexCoords(chunkX, chunkY, glm::vec2(0.0f, 0.0f), mTextureTileSize);
                     }
                 }
 
                 newChunk.setOrigin(glm::vec2(0.0f, 0.0f));
-                chunks.push_back(newChunk);
+                mChunks.push_back(newChunk);
             }
         }
     }
 
     void TileMap::setPosition(float xPos, float yPos)
     {
-        position = glm::vec2(xPos, yPos);
+        mPosition = glm::vec2(xPos, yPos);
 
-        for(uint32_t y = 0; y < chunkGridSize.y; y++)
+        for(uint32_t y = 0; y < mChunkGridSize.y; y++)
         {
-            for(uint32_t x = 0; x < chunkGridSize.x; x++)
+            for(uint32_t x = 0; x < mChunkGridSize.x; x++)
             {
-                glm::vec2 chunkPosition = glm::vec2(position.x + (float)(x * chunkSize.x * tileSize.x), position.y + (float)(y * chunkSize.y * tileSize.y));
+                glm::vec2 chunkPosition = glm::vec2(mPosition.x + (float)(x * mChunkSize.x * mTileSize.x), mPosition.y + (float)(y * mChunkSize.y * mTileSize.y));
 
-                chunks[x + y * chunkGridSize.x].setPosition(chunkPosition);
+                mChunks[x + y * mChunkGridSize.x].setPosition(chunkPosition);
             }
         }
     }
 
     void TileMap::setPosition(const glm::vec2& pos)
     {
-        position = pos;
+        mPosition = pos;
 
-        for(uint32_t y = 0; y < chunkGridSize.y; y++)
+        for(uint32_t y = 0; y < mChunkGridSize.y; y++)
         {
-            for(uint32_t x = 0; x < chunkGridSize.x; x++)
+            for(uint32_t x = 0; x < mChunkGridSize.x; x++)
             {
-                glm::vec2 chunkPosition = glm::vec2(position.x + (float)(x * chunkSize.x * tileSize.x), position.y + (float)(y * chunkSize.y * tileSize.y));
+                glm::vec2 chunkPosition = glm::vec2(mPosition.x + (float)(x * mChunkSize.x * mTileSize.x), mPosition.y + (float)(y * mChunkSize.y * mTileSize.y));
 
-                chunks[x + y * chunkGridSize.x].setPosition(chunkPosition);
+                mChunks[x + y * mChunkGridSize.x].setPosition(chunkPosition);
             }
         }
     }
     
     const glm::vec2& TileMap::getPosition() const
     {
-        return position;
+        return mPosition;
     }
     
     const std::vector<TileChunk>& TileMap::getTileChunks() const
     {
-        return chunks;
+        return mChunks;
     }
     
     void TileMap::setTexture(const Texture& tex)
     {
-        texture = &tex;
+        mTexture = &tex;
 
-        for(auto& chunk : chunks)
+        for(auto& chunk : mChunks)
         {
             chunk.setTexture(tex);
         }
@@ -124,12 +124,12 @@ namespace fea
     
     const Texture& TileMap::getTexture() const
     {
-        return *texture;
+        return *mTexture;
     }
     
     void TileMap::addTileDefinition(const std::string& name, const TileDefinition& tileDef)
     {
-        tileDefs.emplace(hasher(name), tileDef);
+        mTileDefs.emplace(mHasher(name), tileDef);
     }
 
     void TileMap::setTile(uint32_t x, uint32_t y, const std::string& name)
@@ -137,11 +137,11 @@ namespace fea
         if(isOutOfBounds(x, y))
         {
             std::stringstream ss;
-            ss << "Error! Coordinates " << x << " and " << y << " out of range (" << gridSize.x << "," << gridSize.y << ")\n";
+            ss << "Error! Coordinates " << x << " and " << y << " out of range (" << mGridSize.x << "," << mGridSize.y << ")\n";
             throw TileMapException(ss.str());
         }
 
-        setTile(x, y, hasher(name));
+        setTile(x, y, mHasher(name));
     }
 
     void TileMap::setTile(const glm::uvec2& pos, const std::string& name)
@@ -149,11 +149,11 @@ namespace fea
         if(isOutOfBounds(pos.x, pos.y))
         {
             std::stringstream ss;
-            ss << "Error! Coordinates " << pos.x << " and " << pos.y << " out of range (" << gridSize.x << "," << gridSize.y << ")\n";
+            ss << "Error! Coordinates " << pos.x << " and " << pos.y << " out of range (" << mGridSize.x << "," << mGridSize.y << ")\n";
             throw TileMapException(ss.str());
         }
 
-        setTile(pos.x, pos.y, hasher(name));
+        setTile(pos.x, pos.y, mHasher(name));
     }
 
     void TileMap::setTile(uint32_t x, uint32_t y, TileId id)
@@ -161,39 +161,39 @@ namespace fea
         if(isOutOfBounds(x, y))
         {
             std::stringstream ss;
-            ss << "Error! Coordinates " << x << " and " << y << " out of range (" << gridSize.x << "," << gridSize.y << ")\n";
+            ss << "Error! Coordinates " << x << " and " << y << " out of range (" << mGridSize.x << "," << mGridSize.y << ")\n";
             throw TileMapException(ss.str());
         }
 
-        uint32_t chunkX = x / chunkSize.x;
-        uint32_t chunkY = y / chunkSize.y;
-        uint32_t chunkIndex = chunkX + chunkY * chunkGridSize.x;
+        uint32_t chunkX = x / mChunkSize.x;
+        uint32_t chunkY = y / mChunkSize.y;
+        uint32_t chunkIndex = chunkX + chunkY * mChunkGridSize.x;
 
-        auto tileIter = tileDefs.find(id);
-        if(tileIter == tileDefs.end())
+        auto tileIter = mTileDefs.find(id);
+        if(tileIter == mTileDefs.end())
         {
             throw(TileMapException("Error! Tile does not exist!\n"));
         }
 
         TileDefinition tileDef = tileIter->second;
 
-        glm::uvec2 texPos = tileDef.tileTexPosition;
+        glm::uvec2 texPos = tileDef.mTileTexPosition;
 
-        chunks[chunkIndex].setTileTexCoords(x - chunkX * chunkSize.x, y - chunkY * chunkSize.y, 
-                                            glm::vec2((float)texPos.x * textureTileSize.x, (float)texPos.y * textureTileSize.y),
-                                            glm::vec2((float)texPos.x * textureTileSize.x + textureTileSize.x, (float)texPos.y * textureTileSize.y + textureTileSize.y));
+        mChunks[chunkIndex].setTileTexCoords(x - chunkX * mChunkSize.x, y - chunkY * mChunkSize.y, 
+                                            glm::vec2((float)texPos.x * mTextureTileSize.x, (float)texPos.y * mTextureTileSize.y),
+                                            glm::vec2((float)texPos.x * mTextureTileSize.x + mTextureTileSize.x, (float)texPos.y * mTextureTileSize.y + mTextureTileSize.y));
 
-        if(animatedTiles.find(glm::uvec2(x, y)) != animatedTiles.end())
+        if(mAnimatedTiles.find(glm::uvec2(x, y)) != mAnimatedTiles.end())
         {
-            animatedTiles.erase(glm::uvec2(x, y));
+            mAnimatedTiles.erase(glm::uvec2(x, y));
         }
 
-        if(tileDef.ticksUntilChange > 0)
+        if(tileDef.mTicksUntilChange > 0)
         {
             AnimatedTile animation;
-            animation.next = tileDef.nextTileId;
-            animation.timeLeft = tileDef.ticksUntilChange;
-            animatedTiles.emplace(glm::uvec2(x, y), animation);
+            animation.mNext = tileDef.mNextTileId;
+            animation.mTimeLeft = tileDef.mTicksUntilChange;
+            mAnimatedTiles.emplace(glm::uvec2(x, y), animation);
         }
     }
 
@@ -207,19 +207,19 @@ namespace fea
         if(isOutOfBounds(x, y))
         {
             std::stringstream ss;
-            ss << "Error! Coordinates " << x << " and " << y << " out of range (" << gridSize.x << "," << gridSize.y << ")\n";
+            ss << "Error! Coordinates " << x << " and " << y << " out of range (" << mGridSize.x << "," << mGridSize.y << ")\n";
             throw TileMapException(ss.str());
         }
 
-        uint32_t chunkX = x / chunkSize.x;
-        uint32_t chunkY = y / chunkSize.y;
-        uint32_t chunkIndex = chunkX + chunkY * chunkGridSize.x;
+        uint32_t chunkX = x / mChunkSize.x;
+        uint32_t chunkY = y / mChunkSize.y;
+        uint32_t chunkIndex = chunkX + chunkY * mChunkGridSize.x;
 
-        chunks[chunkIndex].unsetTileTexCoords(x - chunkX * chunkSize.x, y - chunkY * chunkSize.y);
+        mChunks[chunkIndex].unsetTileTexCoords(x - chunkX * mChunkSize.x, y - chunkY * mChunkSize.y);
 
-        if(animatedTiles.find(glm::uvec2(x, y)) != animatedTiles.end())
+        if(mAnimatedTiles.find(glm::uvec2(x, y)) != mAnimatedTiles.end())
         {
-            animatedTiles.erase(glm::uvec2(x, y));
+            mAnimatedTiles.erase(glm::uvec2(x, y));
         }
     }
 
@@ -230,38 +230,38 @@ namespace fea
 
     void TileMap::fill(const std::string& name)
     {
-        fill(hasher(name));
+        fill(mHasher(name));
     }
 
     void TileMap::fill(TileId id)
     {
-        auto tileIter = tileDefs.find(id);
-        if(tileIter == tileDefs.end())
+        auto tileIter = mTileDefs.find(id);
+        if(tileIter == mTileDefs.end())
         {
             throw(TileMapException("Error! Tile does not exist!\n"));
         }
 
         TileDefinition tileDef = tileIter->second;
 
-        glm::uvec2 texPos = tileDef.tileTexPosition;
+        glm::uvec2 texPos = tileDef.mTileTexPosition;
 
-        for(auto& chunk : chunks)
-            chunk.fillTexCoords(glm::vec2((float)texPos.x * textureTileSize.x, (float)texPos.y * textureTileSize.y),
-                                glm::vec2((float)texPos.x * textureTileSize.x + textureTileSize.x, (float)texPos.y * textureTileSize.y + textureTileSize.y));
+        for(auto& chunk : mChunks)
+            chunk.fillTexCoords(glm::vec2((float)texPos.x * mTextureTileSize.x, (float)texPos.y * mTextureTileSize.y),
+                                glm::vec2((float)texPos.x * mTextureTileSize.x + mTextureTileSize.x, (float)texPos.y * mTextureTileSize.y + mTextureTileSize.y));
 
-        animatedTiles.clear();
+        mAnimatedTiles.clear();
 
-        if(tileDef.ticksUntilChange > 0)
+        if(tileDef.mTicksUntilChange > 0)
         {
             AnimatedTile animation;
-            animation.next = tileDef.nextTileId;
-            animation.timeLeft = tileDef.ticksUntilChange;
+            animation.mNext = tileDef.mNextTileId;
+            animation.mTimeLeft = tileDef.mTicksUntilChange;
 
-            for(uint32_t x = 0; x < gridSize.x; x++)
+            for(uint32_t x = 0; x < mGridSize.x; x++)
             {
-                for(uint32_t y = 0; y < gridSize.y; y++)
+                for(uint32_t y = 0; y < mGridSize.y; y++)
                 {
-                    animatedTiles.emplace(glm::uvec2(x, y), animation);
+                    mAnimatedTiles.emplace(glm::uvec2(x, y), animation);
                 }
             }
         }
@@ -269,56 +269,56 @@ namespace fea
     
     void TileMap::clear()
     {
-        for(auto& chunk : chunks)
+        for(auto& chunk : mChunks)
             chunk.clear();
 
-        animatedTiles.clear();
+        mAnimatedTiles.clear();
     }
     
     TileId TileMap::getTileId(const std::string& name) const
     {
-        return hasher(name);
+        return mHasher(name);
     }
     
     glm::uvec2 TileMap::getTileByCoordinates(float x, float y) const
     {
-        if(isOutOfBounds(((uint32_t)x) / tileSize.x, ((uint32_t)y) / tileSize.y))
+        if(isOutOfBounds(((uint32_t)x) / mTileSize.x, ((uint32_t)y) / mTileSize.y))
             throw TileMapException("coordinates out of range");
 
-        return glm::uvec2((uint32_t)x / tileSize.x, (uint32_t)y / tileSize.y);
+        return glm::uvec2((uint32_t)x / mTileSize.x, (uint32_t)y / mTileSize.y);
     }
     
     glm::uvec2 TileMap::getTileByCoordinates(const glm::vec2& coordinate) const
     {
-        if(isOutOfBounds(((uint32_t)coordinate.x) / tileSize.x, ((uint32_t)coordinate.y) / tileSize.y))
+        if(isOutOfBounds(((uint32_t)coordinate.x) / mTileSize.x, ((uint32_t)coordinate.y) / mTileSize.y))
             throw TileMapException("coordinates out of range");
 
-        return glm::uvec2((uint32_t)coordinate.x / tileSize.x, (uint32_t)coordinate.y / tileSize.y);
+        return glm::uvec2((uint32_t)coordinate.x / mTileSize.x, (uint32_t)coordinate.y / mTileSize.y);
     }
             
     bool TileMap::isOutOfBounds(uint32_t x, uint32_t y) const
     {
-        return (x >= gridSize.x) || (y >= gridSize.y);
+        return (x >= mGridSize.x) || (y >= mGridSize.y);
     }
             
     bool TileMap::isOutOfBounds(const glm::uvec2& pos) const
     {
-        return (pos.x >= gridSize.x) || (pos.y >= gridSize.y);
+        return (pos.x >= mGridSize.x) || (pos.y >= mGridSize.y);
     }
     
     glm::uvec2 TileMap::getTileSize() const
     {
-        return tileSize;
+        return mTileSize;
     }
 
     glm::uvec2 TileMap::getGridSize() const
     {
-        return gridSize;
+        return mGridSize;
     }
 
     glm::uvec2 TileMap::getTileMapSize() const
     {
-        return tileSize * gridSize;
+        return mTileSize * mGridSize;
     }
 
     void TileMap::tick()
@@ -326,14 +326,14 @@ namespace fea
         std::vector<glm::uvec2> toSet;
         std::vector<TileId> ids;
 
-        for(auto animated = animatedTiles.begin(); animated != animatedTiles.end();)
+        for(auto animated = mAnimatedTiles.begin(); animated != mAnimatedTiles.end();)
         {
-            if(animated->second.timeLeft == 0)
+            if(animated->second.mTimeLeft == 0)
             {
                 uint32_t x = animated->first.x;
                 uint32_t y = animated->first.y;
-                TileId id = animated->second.next;
-                animated = animatedTiles.erase(animated);
+                TileId id = animated->second.mNext;
+                animated = mAnimatedTiles.erase(animated);
                 
                 toSet.push_back(glm::uvec2(x, y));
                 ids.push_back(id);
@@ -341,7 +341,7 @@ namespace fea
             }
             else
             {
-                animated->second.timeLeft--;
+                animated->second.mTimeLeft--;
                 animated++;
             }
         }

@@ -9,8 +9,8 @@ namespace fea
     struct VertexAttribute
     {
         VertexAttribute(size_t i, const uint32_t fAmount, const float* d);
-        size_t index;
-        uint32_t floatAmount;
-        const float* data;
+        size_t mIndex;
+        uint32_t mFloatAmount;
+        const float* mData;
     };
 }

@@ -22,13 +22,13 @@ namespace fea
         UniformType type;
         union
         {
-            float floatVal;
-            glm::vec2 vec2Val;
-            glm::vec3 vec3Val;
-            glm::vec4 vec4Val;
-            glm::mat2x2 mat2x2Val;
-            glm::mat4x4 mat4x4Val;
-            GLuint textureVal;
+            float mFloatVal;
+            glm::vec2 mVec2Val;
+            glm::vec3 mVec3Val;
+            glm::vec4 mVec4Val;
+            glm::mat2x2 mMat2x2Val;
+            glm::mat4x4 mMat4x4Val;
+            GLuint mTextureVal;
         };
     };
 }
