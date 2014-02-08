@@ -12,7 +12,7 @@ namespace fea
 
             virtual bool isKeyPressed(Keyboard::Code code) = 0;
 
-            virtual bool isMouseButtonPressed(Mouse::Button b) = 0;
+            virtual bool isMouseButtonPressed(Mouse::Button button) = 0;
             virtual glm::ivec2 getMouseGlobalPosition() = 0;
             virtual glm::ivec2 getMouseWindowPosition() = 0;
             virtual void setMouseGlobalPosition(int32_t x, int32_t y) = 0;
@@ -47,9 +47,9 @@ namespace fea
      *  @param code The key to check.
      *  @return True if the key is currently pushed down.
      ***
-     *  @fn virtual bool InputBackend::isMouseButtonPressed(Mouse::Button b) const
+     *  @fn virtual bool InputBackend::isMouseButtonPressed(Mouse::Button button) const
      *  @brief Check if a button on the mouse is pressed or not.
-     *  @param b The button to check.
+     *  @param button The button to check.
      *  @return True if the button is currently pushed down.
      ***
      *  @fn virtual glm::ivec2 InputBackend::getMouseGlobalPosition() const
