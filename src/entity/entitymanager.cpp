@@ -24,11 +24,6 @@ namespace fea
         mEntities.erase(id);
     }
     
-    void EntityManager::removeEntity(WeakEntityPtr entity)
-    {
-        removeEntity(entity.lock()->getId());
-    }
-    
     bool EntityManager::attributeIsValid(const std::string& attributeName) const
     {
         return mStorage.attributeIsValid(attributeName);
