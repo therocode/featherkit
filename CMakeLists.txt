@@ -27,6 +27,8 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)  #for shared libs
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)   #for static libs
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)   #for static libs
 
+SET(CMAKE_DEBUG_POSTFIX "-d")
+
 if(SHARED_BUILD)
     set(SHARED_OR_STATIC SHARED)
 else(SHARED_BUILD)
@@ -300,8 +302,6 @@ if(BUILD_UI)
 	if(${BUILD_SDL2BACKENDS})
 		if(SDL2_FOUND)
 			target_link_libraries(${project_name}-ui ${SDL2_LIBRARY})
-		else(SDL2_FOUND)
-			target_link_libraries(${project_name}-ui opengl32 SDL2)
 		endif()
 	endif()
 endif()
