@@ -52,9 +52,15 @@ if(BUILD_STRUCTURE)
     ##Structure module##
 
     set(BUILT_TARGETS ${BUILT_TARGETS} ${project_name}-structure)
-    #find all source files
-    file(GLOB structure_source_files "src/structure/*.cpp")
-    file(GLOB structure_header_files "include/structure/*.h")
+
+    set(structure_source_files 
+        src/structure/application.cpp
+        src/structure/gamestatemachine.cpp)
+
+    set(structure_header_files include/featherkit/structure/application.h
+        include/featherkit/structure/gamestate.h
+        include/featherkit/structure/gamestatemachine.h)
+
     add_library(${project_name}-structure ${SHARED_OR_STATIC} ${structure_header_files} ${structure_source_files})
 endif()
 
@@ -62,14 +68,29 @@ if(BUILD_ENTITY)
     ##Entity module##
 
     set(BUILT_TARGETS ${BUILT_TARGETS} ${project_name}-entity)
-    #find all source files
-    file(GLOB entity_source_files "src/entity/*.cpp")
-    file(GLOB entity_header_files "include/featherkit/entity/*.h")
 
-    file(GLOB entity_util_source_files "src/util/entity/*.cpp")
-    file(GLOB entity_util_header_files "include/featherkit/util/entity/*.h")
-    set(entity_util_source_files ${entity_util_source_files} "src/util/filenotfoundexception.cpp")
-    set(entity_util_header_files ${entity_util_header_files} "include/featherkit/util/filenotfoundexception.h")
+    set(entity_source_files
+        src/entity/entity.cpp
+        src/entity/entityfactory.cpp
+        src/entity/entitystorage.cpp
+        src/entity/entityexceptions.cpp
+        src/entity/entitymanager.cpp)
+
+    set(entity_header_files 
+        include/featherkit/entity/entityexceptions.h
+        include/featherkit/entity/entityfactory.h
+        include/featherkit/entity/entity.h
+        include/featherkit/entity/entitymanager.h
+        include/featherkit/entity/entitystorage.h)
+
+    set(entity_util_source_files
+        src/util/entity/defaultsetters.cpp
+        src/util/entity/jsonentityloader.cpp
+        src/util/filenotfoundexception.cpp)
+    set(entity_util_header_files
+        include/featherkit/util/entity/defaultsetters.h
+        include/featherkit/util/entity/jsonentityloader.h
+        include/featherkit/util/filenotfoundexception.h)
 
     add_library(${project_name}-entity ${SHARED_OR_STATIC} ${entity_header_files} ${entity_source_files} ${entity_util_source_files} ${entity_util_header_files})
 endif()
@@ -78,9 +99,16 @@ if(BUILD_MESSAGING)
     ##Messaging module##
 
     set(BUILT_TARGETS ${BUILT_TARGETS} ${project_name}-messaging)
-    #find all source files
-    file(GLOB messaging_source_files "src/messaging/*.cpp")
-    file(GLOB messaging_header_files "include/featherkit/messaging/*.h")
+
+    set(messaging_source_files 
+        src/messaging/messagebus.cpp
+        src/messaging/messageexception.cpp)
+
+    set(messaging_header_files 
+        include/featherkit/messaging/messagebus.h
+        include/featherkit/messaging/messageexception.h
+        include/featherkit/messaging/message.h
+        include/featherkit/messaging/messagereceiver.h)
     add_library(${project_name}-messaging ${SHARED_OR_STATIC} ${messaging_header_files} ${messaging_source_files})
 endif()
 
@@ -89,19 +117,64 @@ if(BUILD_RENDERING)
     ##Rendering module##
 
     set(BUILT_TARGETS ${BUILT_TARGETS} ${project_name}-rendering)
-    #find all source files
-    file(GLOB rendering_source_files "src/rendering/*.cpp")
-    file(GLOB rendering_header_files "include/featherkit/rendering/*.h")
 
-    file(GLOB rendering_util_source_files "src/util/rendering/*.cpp")
-    file(GLOB rendering_util_header_files "include/featherkit/util/rendering/*.h")
+    set(rendering_source_files 
+        src/rendering/animatedquad.cpp
+        src/rendering/animation.cpp
+        src/rendering/camera.cpp
+        src/rendering/colour.cpp
+        src/rendering/defaultshader.cpp
+        src/rendering/drawable2d.cpp
+        src/rendering/projection.cpp
+        src/rendering/quad.cpp
+        src/rendering/renderer2d.cpp
+        src/rendering/rendertarget.cpp
+        src/rendering/repeatedquad.cpp
+        src/rendering/shader.cpp
+        src/rendering/subrectquad.cpp
+        src/rendering/texture.cpp
+        src/rendering/tilechunk.cpp
+        src/rendering/tilemap.cpp
+        src/rendering/uniform.cpp
+        src/rendering/vertexattribute.cpp
+        src/rendering/viewport.cpp)
+
+    set(rendering_header_files 
+        include/featherkit/rendering/animatedquad.h
+        include/featherkit/rendering/animation.h
+        include/featherkit/rendering/camera.h
+        include/featherkit/rendering/colour.h
+        include/featherkit/rendering/defaultshader.h
+        include/featherkit/rendering/drawable2d.h
+        include/featherkit/rendering/opengl.h
+        include/featherkit/rendering/projection.h
+        include/featherkit/rendering/quad.h
+        include/featherkit/rendering/renderer2d.h
+        include/featherkit/rendering/renderinfo.h
+        include/featherkit/rendering/rendertarget.h
+        include/featherkit/rendering/repeatedquad.h
+        include/featherkit/rendering/shader.h
+        include/featherkit/rendering/subrectquad.h
+        include/featherkit/rendering/texture.h
+        include/featherkit/rendering/tilechunk.h
+        include/featherkit/rendering/tilemap.h
+        include/featherkit/rendering/uniform.h
+        include/featherkit/rendering/vertexattribute.h
+        include/featherkit/rendering/viewport.h)
 
     if(BUILD_RENDERING_TEXT)
-        file(GLOB freetype-gl_source_files "src/freetype-gl/*.c")
-        file(GLOB freetype-gl_header_files "include/featherkit/freetype-gl/*.h")
-    else(BUILD_RENDERING_TEXT)
-        list(REMOVE_ITEM rendering_source_files ${CMAKE_CURRENT_LIST_DIR}/src/rendering/textsurface.cpp ${CMAKE_CURRENT_LIST_DIR}/src/rendering/text.cpp ${CMAKE_CURRENT_LIST_DIR}/src/rendering/font.cpp)
-        list(REMOVE_ITEM rendering_header_files ${CMAKE_CURRENT_LIST_DIR}/include/featherkit/rendering/textsurface.h ${CMAKE_CURRENT_LIST_DIR}/include/featherkit/rendering/text.h ${CMAKE_CURRENT_LIST_DIR}/include/featherkit/rendering/font.h)
+        set(freetype-gl_source_files 
+            src/freetype-gl/platform.c
+            src/freetype-gl/texture-atlas.c
+            src/freetype-gl/texture-font.c
+            src/freetype-gl/vector.c)
+
+        set(freetype-gl_header_files 
+            include/featherkit/freetype-gl/platform.h
+            include/featherkit/freetype-gl/texture-atlas.h
+            include/featherkit/freetype-gl/texture-font.h
+            include/featherkit/freetype-gl/vec234.h
+            include/featherkit/freetype-gl/vector.h)
     endif(BUILD_RENDERING_TEXT)
 
 
@@ -124,10 +197,7 @@ if(BUILD_RENDERING)
         add_definitions(GLEW_STATIC)
     endif(GLEW_FOUND)
 
-    file(GLOB rendering_opengl_backend_source_files "src/util/rendering/opengl/*.cpp" "src/util/rendering/opengl/*.cpp")
-    file(GLOB rendering_opengl_backend_header_files "include/featherkit/util/rendering/opengl/*.h" "include/featherkit/util/rendering/opengl/*.h")
-
-    add_library(${project_name}-rendering ${SHARED_OR_STATIC} ${glew_files} ${rendering_source_files} ${rendering_header_files} ${rendering_util_source_files} ${rendering_util_header_files} ${freetype-gl_source_files} ${freetype-gl_header_files} ${rendering_opengl_backend_source_files} ${rendering_opengl_backend_header_files})
+    add_library(${project_name}-rendering ${SHARED_OR_STATIC} ${glew_files} ${rendering_source_files} ${rendering_header_files} ${freetype-gl_source_files} ${freetype-gl_header_files})
 
     if(BUILD_RENDERING_TEXT)
         FIND_PACKAGE( Freetype REQUIRED )
@@ -138,32 +208,50 @@ if(BUILD_RENDERING)
 
 endif()
 
-find_package(GLM)
-if(GLM_FOUND)
-	include_directories(${GLM_INCLUDE_DIRS})
-elseif(SDK_PATH)
-	include_directories(${SDK_PATH}/glm)
-endif(GLM_FOUND)
-
 if(BUILD_UI)
     ##UI module##
 
     set(BUILT_TARGETS ${BUILT_TARGETS} ${project_name}-ui)
 
     #find all source files
-    file(GLOB ui_source_files "src/window/*.cpp" "src/input/*.cpp")
-    file(GLOB ui_header_files "include/featherkit/window/*.h" "include/featherkit/input/*.h")
+    set(ui_source_files 
+        src/input/actiontrigger.cpp
+        src/input/inputhandler.cpp
+        src/window/contextsettings.cpp
+        src/window/videomode.cpp
+        src/window/window.cpp)
 
-    #file(GLOB ui_util_source_files "src/util/window/*.cpp" "src/util/input/*.cpp")
-    file(GLOB ui_util_header_files "include/featherkit/util/input/jsonactionhandler.h")
+    set(ui_header_files 
+        include/featherkit/window/contextsettings.h
+        include/featherkit/window/vec2i.h
+        include/featherkit/window/videomode.h
+        include/featherkit/window/windowbackend.h
+        include/featherkit/window/window.h
+        include/featherkit/window/windowstyle.h
+        include/featherkit/input/actionhandler.h
+        include/featherkit/input/actiontrigger.h
+        include/featherkit/input/event.h
+        include/featherkit/input/gamepad.h
+        include/featherkit/input/inputbackend.h
+        include/featherkit/input/inputhandler.h
+        include/featherkit/input/keyboard.h
+        include/featherkit/input/mouse.h)
+
+    set(ui_util_header_files 
+        include/featherkit/util/input/jsonactioniohandler.h)
 
     if(${BUILD_SFMLBACKENDS})
         find_package(SFML 2.0 COMPONENTS window system REQUIRED)
         if(SFML_FOUND)
             include_directories(${SFML_INCLUDE_DIR})
         endif(SFML_FOUND)
-        file(GLOB ui_sfml_backend_source_files "src/util/window/sfmlwindowbackend.cpp" "src/util/input/sfmlinputbackend.cpp")
-        file(GLOB ui_sfml_backend_header_files "include/featherkit/util/window/sfmlwindowbackend.h" "include/featherkit/util/input/sfmlinputbackend.h")
+        set(ui_sfml_backend_source_files 
+            src/util/window/sfmlwindowbackend.cpp
+            src/util/input/sfmlinputbackend.cpp)
+
+        set(ui_sfml_backend_header_files
+            include/featherkit/util/window/sfmlwindowbackend.h
+            include/featherkit/util/input/sfmlinputbackend.h)
     endif()
 
     if(${BUILD_SDLBACKENDS})
@@ -171,8 +259,13 @@ if(BUILD_UI)
         if(SDL_FOUND)
             include_directories(${SDL_INCLUDE_DIR})
         endif(SDL_FOUND)
-        file(GLOB ui_sdl_backend_source_files "src/util/window/sdlwindowbackend.cpp" "src/util/input/sdlinputbackend.cpp")
-        file(GLOB ui_sdl_backend_header_files "include/featherkit/util/window/sdlwindowbackend.h" "include/featherkit/util/input/sdlinputbackend.h")
+        set(ui_sdl_backend_source_files 
+            src/util/window/sdlwindowbackend.cpp
+            src/util/input/sdlinputbackend.cpp)
+
+        set(ui_sdl_backend_header_files
+        include/featherkit/util/window/sdlwindowbackend.h
+        include/featherkit/util/input/sdlinputbackend.h)
     endif()
 
 	if(${BUILD_SDL2BACKENDS})
@@ -183,8 +276,13 @@ if(BUILD_UI)
 			link_directories(${SDK_PATH}/SDL-2.0/lib)
 			include_directories(${SDK_PATH}/SDL-2.0/include)
 		endif(SDL2_FOUND)
-        file(GLOB ui_sdl2_backend_source_files "src/util/window/sdl2windowbackend.cpp" "src/util/input/sdl2inputbackend.cpp")
-        file(GLOB ui_sdl2_backend_header_files "include/featherkit/util/window/sdl2windowbackend.h" "include/featherkit/util/input/sdl2inputbackend.h")
+        set(ui_sdl2_backend_source_files
+            src/util/window/sdl2windowbackend.cpp
+            src/util/input/sdl2inputbackend.cpp)
+
+        set(ui_sdl2_backend_header_files
+            include/featherkit/util/window/sdl2windowbackend.h
+            include/featherkit/util/input/sdl2inputbackend.h)
 	endif()
 
     add_library(${project_name}-ui ${SHARED_OR_STATIC} ${glew_file} ${ui_header_files} ${ui_source_files} ${ui_util_source_files} ${ui_util_header_files} ${ui_sfml_backend_source_files} ${ui_sfml_backend_header_files} ${ui_sdl_backend_source_files} ${ui_sdl_backend_header_files} ${ui_sdl2_backend_source_files} ${ui_sdl2_backend_header_files})

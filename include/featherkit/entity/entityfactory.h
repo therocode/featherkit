@@ -17,7 +17,7 @@ namespace fea
         private:
             fea::EntityManager& mEntityManager;
             std::unordered_map<std::string, std::vector<std::pair<std::string, std::string>>> mEntityTemplates;
-            std::unordered_map<std::string, std::function<void(const std::string&, const std::vector<std::string>, WeakEntityPtr)>>& mDefaultSetters;
+            std::unordered_map<std::string, std::function<void(const std::string&, const std::vector<std::string>&, WeakEntityPtr)>> mDefaultSetters;
     };
     /** @addtogroup EntitySystem
      *@{
