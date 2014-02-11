@@ -75,11 +75,9 @@ if(BUILD_ENTITY)
         src/entity/entity.cpp
         src/entity/entityfactory.cpp
         src/entity/entitystorage.cpp
-        src/entity/entityexceptions.cpp
         src/entity/entitymanager.cpp)
 
     set(entity_header_files 
-        include/featherkit/entity/entityexceptions.h
         include/featherkit/entity/entityfactory.h
         include/featherkit/entity/entity.h
         include/featherkit/entity/entitymanager.h
