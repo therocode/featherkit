@@ -51,15 +51,47 @@ set(FEATHERKIT_FOUND)
 set(FEATHERKIT_LIBRARY)
 set(FEATHERKIT_INCLUDE_DIR)
 
+if(CMAKE_BUILD_TYPE MATCHES Debug)
+    set(FEA_LIBRARY_SUFFIX "-d")
+    set(FEA_LIBRARY_ANTISUFFIX "")
+    set(BUILD_TYPE "debug")
+    set(ANTI_BUILD_TYPE "release")
+else()
+    set(FEA_LIBRARY_SUFFIX "")
+    set(FEA_LIBRARY_ANTISUFFIX "-d")
+    set(BUILD_TYPE "release")
+    set(ANTI_BUILD_TYPE "debug")
+endif()
+
 foreach(FIND_Featherkit_COMPONENT ${Featherkit_FIND_COMPONENTS})
     string(TOLOWER ${FIND_Featherkit_COMPONENT} FIND_Featherkit_COMPONENT)
+    set(FEATHERKIT_CURRENT_COMPONENT ${FIND_Featherkit_COMPONENT}${FEA_LIBRARY_SUFFIX})
 
-    set(FIND_Featherkit_COMPONENT_NAME featherkit-${FIND_Featherkit_COMPONENT})
+    set(FIND_Featherkit_COMPONENT_NAME featherkit-${FEATHERKIT_CURRENT_COMPONENT})
 
+    unset(Featherkit_${FIND_Featherkit_COMPONENT}_LIBRARY CACHE)
     find_library(Featherkit_${FIND_Featherkit_COMPONENT}_LIBRARY
         NAMES ${FIND_Featherkit_COMPONENT_NAME}
         PATH_SUFFIXES lib64 lib
         PATHS ${FIND_Featherkit_LIB_PATHS})
+
+    #second pass with anti suffix
+    if(NOT Featherkit_${FIND_Featherkit_COMPONENT}_LIBRARY)
+        #let the user know
+        if(NOT Featherkit_FIND_QUIETLY)
+            message(WARNING "Failed to find ${BUILD_TYPE} version of featherkit-${FIND_Featherkit_COMPONENT}. Will try to find ${ANTI_BUILD_TYPE} version instead.")
+        endif()
+
+        set(FEATHERKIT_CURRENT_COMPONENT ${FIND_Featherkit_COMPONENT}${FEA_LIBRARY_ANTISUFFIX})
+
+        set(FIND_Featherkit_COMPONENT_NAME featherkit-${FEATHERKIT_CURRENT_COMPONENT})
+
+        unset(Featherkit_${FIND_Featherkit_COMPONENT}_LIBRARY CACHE)
+        find_library(Featherkit_${FIND_Featherkit_COMPONENT}_LIBRARY
+            NAMES ${FIND_Featherkit_COMPONENT_NAME}
+            PATH_SUFFIXES lib64 lib
+            PATHS ${FIND_Featherkit_LIB_PATHS})
+    endif()
 
     if(NOT Featherkit_${FIND_Featherkit_COMPONENT}_LIBRARY)
         set(FIND_Featherkit_MISSING "${FIND_Featherkit_MISSING} Featherkit_${FIND_Featherkit_COMPONENT}_LIBRARY")
