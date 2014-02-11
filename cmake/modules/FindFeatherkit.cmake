@@ -102,7 +102,6 @@ endforeach()
 
 find_library(
     FEATHERKIT_LIBRARY
-    featherkit-ui
     PATH_SUFFIXES
     lib
     lib64

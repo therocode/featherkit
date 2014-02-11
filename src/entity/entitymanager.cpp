@@ -1,11 +1,10 @@
 #include <featherkit/entity/entitymanager.h>
-#include <featherkit/entity/entityexceptions.h>
 #include <featherkit/entity/entity.h>
 #include <sstream>
 
 namespace fea
 {
-    WeakEntityPtr EntityManager::createEntity(const std::vector<std::string>& attributes)
+    WeakEntityPtr EntityManager::createEntity(const std::set<std::string>& attributes)
     {
         EntityId createdId = mStorage.addEntity(attributes);
         EntityPtr created = std::make_shared<Entity>(createdId, *this);
@@ -27,8 +26,15 @@ namespace fea
     
     void EntityManager::removeEntity(const EntityId id)
     {
+        FEA_ASSERT(mEntities.find(id) != mEntities.end(), "Trying to delete entity ID '" + std::to_string(id) + "' but it doesn't exist!");
         mStorage.removeEntity(id);
         mEntities.erase(id);
+    }
+    
+    bool EntityManager::hasAttribute(const EntityId id, const std::string& attribute) const
+    {
+        FEA_ASSERT(mEntities.find(id) != mEntities.end(), "Trying to check if entity ID '" + std::to_string(id) + "' has attribute '" + attribute + "' but that entity doesn't exist!");
+        return mStorage.hasData(id, attribute);
     }
     
     bool EntityManager::attributeIsValid(const std::string& attributeName) const
@@ -42,11 +48,6 @@ namespace fea
         for(const auto& pair : mEntities)
             all.insert(pair.second);
         return all;
-    }
-    
-    bool EntityManager::hasAttribute(const EntityId id, const std::string& attribute) const
-    {
-        return mStorage.hasData(id, attribute);
     }
 
     void EntityManager::removeAll()

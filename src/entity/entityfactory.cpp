@@ -23,10 +23,10 @@ namespace fea
             throw(EntityException("Error! Entity template '" + templateName + "' does not exist!\n"));
         }
 
-        std::vector<std::string> attributes;
+        std::set<std::string> attributes;
 
         for(const auto& pair : entityTemplate)
-            attributes.push_back(pair.first);
+            attributes.insert(pair.first);
 
         created = mEntityManager.createEntity(attributes);
         

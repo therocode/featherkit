@@ -2,7 +2,7 @@
 
 namespace fea
 {
-    EntityStorage::StorageEntity::StorageEntity(const std::vector<std::string>& attributeList)
+    EntityStorage::StorageEntity::StorageEntity(const std::set<std::string>& attributeList)
     {
         for(const auto& attribute : attributeList)
             attributeData.emplace(attribute, std::shared_ptr<void>());
@@ -18,7 +18,7 @@ namespace fea
     {
     }
 
-    uint32_t EntityStorage::addEntity(const std::vector<std::string>& attributeList)
+    uint32_t EntityStorage::addEntity(const std::set<std::string>& attributeList)
     {
         uint32_t newId;
 
@@ -33,6 +33,9 @@ namespace fea
             mNextId++;
         }
 
+        for(auto& attribute : attributeList)
+            FEA_ASSERT(mAttributes.find(attribute) != mAttributes.end(), "Trying to create an entity with the attribute '" + attribute + "' which is invalid!");
+
         mEntities.emplace(newId, StorageEntity(attributeList));
         return newId;
     }
@@ -45,14 +48,7 @@ namespace fea
 
     bool EntityStorage::hasData(const uint32_t id, const std::string& attribute) const
     {
-        try
-        {
-            return mEntities.at(id).hasData(attribute); 
-        }
-        catch(std::out_of_range)
-        {
-            throw EntityException("Error! Trying to check if entity ID '" + std::to_string(id) + "' has the attribute '" + attribute + "' but that entity does not exist!\n");
-        }
+        return mEntities.at(id).hasData(attribute); 
     }
 
     bool EntityStorage::attributeIsValid(const std::string& attribute) const
