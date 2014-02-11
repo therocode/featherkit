@@ -13,9 +13,16 @@ namespace fea
         return WeakEntityPtr(created);
     }
 
-    WeakEntityPtr EntityManager::getEntity(EntityId id) const
+    WeakEntityPtr EntityManager::findEntity(EntityId id) const
     {
-        return mEntities.at(id);
+        try
+        {
+            return mEntities.at(id);
+        }
+        catch(std::out_of_range e)
+        {
+            return WeakEntityPtr();
+        }
     }
     
     void EntityManager::removeEntity(const EntityId id)

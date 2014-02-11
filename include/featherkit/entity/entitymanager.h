@@ -22,7 +22,7 @@ namespace fea
     {
         public:
             WeakEntityPtr createEntity(const std::vector<std::string>& attributes);
-            WeakEntityPtr getEntity(EntityId id) const;
+            WeakEntityPtr findEntity(EntityId id) const;
             void removeEntity(const EntityId id);
             template<class DataType>
             DataType getAttribute(const EntityId id, const std::string& attribute) const;
@@ -130,10 +130,10 @@ namespace fea
      *  @param attributes The names of the attributes the entity should have.
      *  @return A pointer to the created Entity.
      ***
-     *  @fn WeakEntityPtr EntityManager::getEntity(EntityId id) const
-     *  @brief Get a specific entity.
-     *  @param id ID of the entity to get.
-     *  @return Pointer to the entity.
+     *  @fn WeakEntityPtr EntityManager::findEntity(EntityId id) const
+     *  @brief Search for an entity with a given ID.
+     *  @param id ID of the entity to find.
+     *  @return Pointer to the entity. Will be null if no such entity exists.
      ***
      *  @fn void EntityManager::removeEntity(const EntityId id)
      *  @brief Remove an Entity. 

@@ -232,7 +232,7 @@ namespace fea
     
     glm::uvec2 TileMap::getTileByCoordinates(const glm::vec2& coordinate) const
     {
-        if(isOutOfBounds((glm::uvec2)coordinate))
+        if(isOutOfBounds((glm::uvec2)(coordinate / (glm::vec2)mTileSize)))
             throw TileMapException("coordinates out of range");
 
         return glm::uvec2((uint32_t)coordinate.x / mTileSize.x, (uint32_t)coordinate.y / mTileSize.y);
