@@ -17,13 +17,13 @@ namespace fea
          *
          *  There are a few categories of the types registered by this function.
          *
-         *  @bFloating point types@\b
+         *  <b>Floating point types</b>
          *  "float"
          *  "double"
          *  
          *  The parser for floating point types follows the convention of std::stof and std::stod.
          *
-         *  @bInteger types@\b
+         *  <b>Integer types</b>
          *  "int8"
          *  "uint8"
          *  "int16"
@@ -35,7 +35,7 @@ namespace fea
          *
          *  The parser for integer types follows the convention of the std string-to-int parsing functions (std::stoi and the like) with additional range checks.
          *
-         *  @bOther types@\b
+         *  <b>Other types</b>
          *  "bool"
          *  "string"
          *  "entityptr"
