@@ -20,33 +20,9 @@ namespace fea
          *@}
          ***
          *  @class JsonEntityLoader
-         *  @brief This class is for loading json files describing attribute and Entity templates.
+         *  @brief This class is for loading json files describing entity templates.
          *
-         *  The output of the loading functions of this class can directly be passed to the EntityManager to register the attribute and Entity templates. To register attributes, pass the output of JsonEntityLoader::loadAttributesJson into EntityManager::registerAttributes and to register Entity templates, pass the output of JsonEntityLoader::loadEntityTemplates into EntityManager::registerEntityTemplates. The attribute types must be loaded before the Entity templates.
-         *
-         *  Here is an example of how an attribute file should be formatted:
-         *  @code
-         *  {
-         *      "position":"8",
-         *      "velocity":"8",
-         *      "originalcolour":"12",
-         *      "currentcolour":"12",
-         *      "spawnrate":"#uint32#",
-         *      "spawnpower":"#float#",
-         *      "deathrate":"#uint32#",
-         *      "id":"#uint32#"
-         *  }
-         *  @endcode
-         *  The formatting is very simple. Every row defines an attribute that could be used in an Entity template definition. The two values needed per row are firstly the name of the attribute, and secondly the amount of memory needed to store it in bytes. For example, the first row defines an attribute called "position". Since the position in the application will be implemented using a struct composed of two floats, one for X and one for Y, and floats are 4 bytes each, a total of 8 bytes are needed.
-         *
-         *  It is also possible to have special data type tags instead of numbers. These tags directly correspond to sizes of C++ data types. Here is a list of the data type tags and the C++ types they correspond to that are added from the start. More types can be added using the JsonEntityLoader::registerEntityTypes function.
-         *  - \#uint32\# - uint32_t
-         *  - \#int32\# - int32_t
-         *  - \#float\# - float
-         *  - \#double\# - double
-         *  - \#bool\# - bool
-         *  - \#byte\# - char
-         *  - \#char\# - char
+         *  The content of the returned map can directly be passed to the EntityFactory to register the attribute and Entity templates.
          *
          *  Here is an example of how an Entity template file should be formatted:
          *  @code
@@ -66,9 +42,9 @@ namespace fea
          *  @fn std::unordered_map<std::string, EntityTemplate> JsonEntityLoader::loadEntityTemplates(const std::string& path)
          *  @brief Load a json file defining Entity templates.
          *
-         *  Use this function to load an Entity template file. The return value can be given to the EntityFactory::loadEntityTemplates function.
+         *  Use this function to load an Entity template file. The content of the return value can be given to the EntityFactory::addTemplate function.
          *  @param path File to open.
-         *  @return A map with the Entity templates, to pass to the EntityManager.
+         *  @return A map with the Entity templates.
          **/
     }
 }

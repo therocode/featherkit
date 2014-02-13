@@ -84,9 +84,11 @@ if(BUILD_ENTITY)
         include/featherkit/entity/entitystorage.h)
 
     set(entity_util_source_files
+        src/util/entity/basictypeadder.cpp
         src/util/entity/jsonentityloader.cpp
         src/util/filenotfoundexception.cpp)
     set(entity_util_header_files
+        include/featherkit/util/entity/basictypeadder.h
         include/featherkit/util/entity/jsonentityloader.h
         include/featherkit/util/filenotfoundexception.h)
 

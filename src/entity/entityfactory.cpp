@@ -41,6 +41,11 @@ namespace fea
 
         mPrototypes.emplace(name, std::move(prototype));
     }
+    
+    bool EntityFactory::hasTemplate(const std::string& name) const
+    {
+        return mPrototypes.find(name) != mPrototypes.end();
+    }
 
     WeakEntityPtr EntityFactory::instantiate(const std::string& name)
     {

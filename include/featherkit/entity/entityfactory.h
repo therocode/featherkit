@@ -22,6 +22,7 @@ namespace fea
             void addDataType(const std::string& dataTypeName);
             void registerAttribute(const std::string& attribute, const std::string& dataType);
             void addTemplate(const std::string& name, const EntityTemplate& entityTemplate);
+            bool hasTemplate(const std::string& name) const;
             WeakEntityPtr instantiate(const std::string& name);
         private:
             Parameters splitByDelimeter(const std::string& in, char delimeter) const;
@@ -152,6 +153,11 @@ namespace fea
      *  Default values are given as strings. They may be empty in which case the attribute does not have a default value. These strings have to be handled by a parser given to EntityFactory::addDataType. See that function for more information on default values.
      *  @param name Name of the template.
      *  @param entityTemplate Template.
+     ***
+     *  @fn bool EntityFactory::hasTemplate(const std::string& name) const
+     *  @brief Check if a template has been added.
+     *  @param name Name of the template.
+     *  @return True if it exists.
      ***
      *  @fn WeakEntityPtr EntityFactory::instantiate(const std::string& name)
      *  @brief Create an Entity from the given template.
