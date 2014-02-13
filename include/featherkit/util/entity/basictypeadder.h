@@ -18,27 +18,27 @@ namespace fea
          *  There are a few categories of the types registered by this function.
          *
          *  <b>Floating point types</b>
-         *  "float"
-         *  "double"
+         *  - "float"
+         *  - "double"
          *  
          *  The parser for floating point types follows the convention of std::stof and std::stod.
          *
          *  <b>Integer types</b>
-         *  "int8"
-         *  "uint8"
-         *  "int16"
-         *  "uint16"
-         *  "int32"
-         *  "uint32"
-         *  "int64"
-         *  "uint64"
+         *  - "int8"
+         *  - "uint8"
+         *  - "int16"
+         *  - "uint16"
+         *  - "int32"
+         *  - "uint32"
+         *  - "int64"
+         *  - "uint64"
          *
          *  The parser for integer types follows the convention of the std string-to-int parsing functions (std::stoi and the like) with additional range checks.
          *
          *  <b>Other types</b>
-         *  "bool"
-         *  "string"
-         *  "entityptr"
+         *  - "bool"
+         *  - "string"
+         *  - "entityptr"
          *
          *  The parser for the bool type allows only the exact string "true" or "false".
          *
