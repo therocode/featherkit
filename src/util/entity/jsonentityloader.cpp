@@ -41,5 +41,32 @@ namespace fea
             }
             return result;
         }
+        
+        std::unordered_map<std::string, std::string> JsonEntityLoader::loadEntityAttributes(const std::string& path)
+        {
+            std::unordered_map<std::string, std::string> result;
+
+            std::ifstream file(path);
+
+            if(!file)
+            {
+                std::stringstream ss;
+                ss << "Error! Entity file not found: " << path << "\n";
+                throw FileNotFoundException(ss.str());
+            }
+
+            json::Value root;
+            root.SetObject();
+            json::read(file, root);
+
+            std::size_t entityTypeAmount = root.GetNumMembers();
+            for(unsigned int i = 0; i < entityTypeAmount; i++)
+            {
+                json::Member temp = root.GetMember(i);
+                result.emplace(temp.name, temp.value.GetString());
+            }
+
+            return result;
+        }
     }
 }
