@@ -4,7 +4,6 @@
 #include <memory>
 #include <set>
 #include <typeindex>
-#include <featherkit/entity/entityexceptions.h>
 #include <featherkit/assert.h>
 
 namespace fea

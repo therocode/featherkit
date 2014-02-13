@@ -1,5 +1,4 @@
 #include <featherkit/entity/entityfactory.h>
-#include <featherkit/entity/entityexceptions.h>
 #include <featherkit/entity/entity.h>
 
 namespace fea
