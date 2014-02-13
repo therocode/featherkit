@@ -106,7 +106,7 @@ namespace fea
      *  @fn WeakEntityPtr EntityManager::createEntity(const std::set<std::string>& attributes)
      *  @brief Create an Entity with the given attributes.
      *  
-     *  The attributes must have been registered prior to creating the Entity. If the function succeeds in creating the Entity, it will be assigned a unique ID and a WeakEntityPtr pointing to the Entity will be returned.
+     *  The attributes must have been registered prior to creating the Entity. If the function succeeds in creating the Entity, it will be assigned a unique ID and a WeakEntityPtr pointing to the Entity will be returned. The returned pointer is not meant to be stored in a locked state since that entity would still become invalid if the entity is deleted using the EntityManager::removeEntity method.
      *  @param attributes The names of the attributes the entity should have.
      *  @return A pointer to the created Entity.
      ***

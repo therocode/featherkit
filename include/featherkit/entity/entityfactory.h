@@ -2,32 +2,99 @@
 #include <unordered_map>
 #include <vector>
 #include <featherkit/entity/entitymanager.h>
+#include <featherkit/entity/entity.h>
 
 namespace fea
 {
+    using Parameters     = std::vector<std::string>;
+    using EntityTemplate = std::unordered_map<std::string, std::string>;
+    using Setter         = std::function<void(EntityPtr&)>;
+    using Parser         = std::function<Setter(const std::string&)>;
+    using Registrator   = std::function<Parser(const std::string&)>;
+
     class EntityFactory
     {
         public:
             EntityFactory(EntityManager& entityManager);
-            WeakEntityPtr createEntity(const std::string& templateName);
-            void registerEntityTemplate(const std::string& templateName, const std::vector<std::pair<std::string, std::string>>& attributes);
-            void registerEntityTemplates(const std::unordered_map<std::string, std::vector<std::pair<std::string, std::string>>>& templates);
-            void registerDefaultSetter(const std::string& attribute, std::function<void(const std::string&, const std::vector<std::string>&, WeakEntityPtr)> defaultFunc);
-            void clear();
+            template<typename Function>
+            void addDataType(const std::string& dataTypeName, Function parser);
+            template<typename Type>
+            void addDataType(const std::string& dataTypeName);
+            void registerAttribute(const std::string& attribute, const std::string& dataType);
+            void addTemplate(const std::string& name, const EntityTemplate& entityTemplate);
+            WeakEntityPtr instantiate(const std::string& name);
         private:
-            fea::EntityManager& mEntityManager;
-            std::unordered_map<std::string, std::vector<std::pair<std::string, std::string>>> mEntityTemplates;
-            std::unordered_map<std::string, std::function<void(const std::string&, const std::vector<std::string>&, WeakEntityPtr)>> mDefaultSetters;
+            Parameters splitByDelimeter(const std::string& in, char delimeter) const;
+
+            struct Prototype
+            {
+                struct Value
+                {
+                    bool operator<(const Value& other) const;
+                    std::string mKey;
+                    Setter mSetter;
+                };
+
+                std::set<std::string> attributes;
+                std::set<Value> values;
+            };
+
+            std::unordered_map<std::string, Prototype> mPrototypes;
+            std::unordered_map<std::string, Parser> mParsers;
+            std::unordered_map<std::string, Registrator> mRegistrators;
+
+            EntityManager& mManager;
     };
+
+    template<typename Function>
+    void EntityFactory::addDataType(const std::string& dataTypeName, Function parser)
+    {
+        FEA_ASSERT(mRegistrators.find(dataTypeName) == mRegistrators.end(),"Trying to add data type '" + dataTypeName + "' but it already exists!");
+        using Type = typename std::result_of<Function(const Parameters&)>::type;
+        //Make attribute registrator
+        mRegistrators[dataTypeName] = [this, parser](const std::string& attributeName)->Parser
+        {
+            mManager.registerAttribute<Type>(attributeName);
+            //Make parser
+            return [this, parser, attributeName](const std::string& params)->Setter
+            {
+                auto value = parser(splitByDelimeter(params, ','));
+                //make setter.
+                return [attributeName, value](EntityPtr& entity)
+                {
+                    entity->setAttribute<Type>(attributeName, value);
+                };
+            };
+        };
+    }
+
+    template<typename Type>
+    void EntityFactory::addDataType(const std::string& dataTypeName)
+    {
+        FEA_ASSERT(mRegistrators.find(dataTypeName) == mRegistrators.end(),"Trying to add data type '" + dataTypeName + "' but it already exists!");
+        //Make attribute registrator
+        mRegistrators[dataTypeName] = [this](const std::string& attributeName)->Parser
+        {
+            mManager.registerAttribute<Type>(attributeName);
+            //Make parser
+            return [attributeName](const std::string& params)->Setter
+            {
+                FEA_ASSERT(1 == 0, "Trying to register a template where a default value has been added to the attribute '" + attributeName + "' which doesn't have a parser function!");
+                return [](EntityPtr& entity)
+                {
+                };
+            };
+        };
+    }
     /** @addtogroup EntitySystem
      *@{
      *  @class EntityFactory
      *@}
      ***
      *  @class EntityFactory
-     *  @brief Can create pretefined entities based on entity templates.
+     *  @brief Can create predefined entities based on entity templates.
      *
-     *  Entity templates help you create entities easier without having to specify all attributes manually every time. This is done by registering templates. A template has a name and a list of attributes and default values. For instance, this can be a template (in JSON format):
+     *  Entity templates help you create entities easier without having to specify all attributes manually every time. This is done using entity templates. A template has a name and a list of attributes and default values. For instance, this can be a template (in JSON format):
      *  @code
      *  "turtle":
      *  {
@@ -35,7 +102,7 @@ namespace fea
      *  }
      *  @endcode
      *
-     *  This template describing a turtle entity has five attributes: health, position, velocity, maxvelocity and collisiontype. All of the attributes have to be registered at the entity manager. The numerical values next to the attribute names are their default values. These are the values that the attributes of a created turtle entity will attain. To give default values to an attribute, a default setter function has to be registered using EntityFactory::registerDefaultSetter. 
+     *  This template describing a turtle entity has five attributes: health, position, velocity, maxvelocity and collisiontype. All of the attributes have to be registered at the entity manager. The numerical values next to the attribute names are their default values. These are the values that the attributes of a created turtle entity will attain. To give default values to an attribute, a parser function must be provided to the data type registration.
      *
      *  This class needs a reference to an EntityManager instance.
      ***
@@ -43,68 +110,55 @@ namespace fea
      *  @brief Construct an EntityFactory.
      *  @param entityManager EntityManager to use.
      ***
-     *  @fn WeakEntityPtr EntityFactory::createEntity(const std::string& templateName)
+     *  @fn void EntityFactory::addDataType(const std::string& dataTypeName, Function parser)
+     *  @brief Add a data type with a parser to the entity factory.
+     *
+     *  To be able to register any attributes, data types must first be added. Data types are the basic types that attributes can have. For example, you can have the attributes "position" and "velocity" which are both of the data type "vec2". By adding a data type with a parser, entity templates can be given comma separated default values. This code shows how to add the type glm::vec2 as "vec2" with a reasonable parser.
+     *  @code
+     *  factory.addDataType("vec2", [](const fea::Parameters& params)
+     *  {  
+     *      FEA_ASSERT(params.size() == 2, "Wrong amount of parameters! Expected 2, got " + std::to_string(params.size()) + "!"); //Make sure the right amount of paramters are provided.
+     *      return glm::vec2({std::stof(params[0]), std::stof(params[1])});
+     *  });
+     *  @endcode
+     *
+     *  "vec2" is now a valid data type and can be used to register attributes using the EntityFactory::registerAttribute method.
+     *  @tparam Parser function. Can often be inferred automatically.
+     *  @param dataTypeName Name of the data type.
+     *  @param parser Parser function. Should return a valid instance of the type.
+     ***
+     *  @fn void EntityFactory::addDataType(const std::string& dataTypeName)
+     *  @brief Add a data type without a parser to the entity factory.
+     *
+     *  See EntityFactory::addDataType(const std::string& dataTypeName, Function parser) for more information.
+     *  @tparam Type Type of attribute to add.
+     *  @param dataTypeName Name of the data type.
+     ***
+     *  @fn void EntityFactory::registerAttribute(const std::string& attribute, const std::string& dataType)
+     *  @brief Register an attribute as a data type.
+     *
+     *  Before any attribute is used, it has to be registered using this function. This will also register the attribute with the underlying EntityManager. The type provided must have been previously added using EntityFactory::addDataType. Example usage:
+     *  @code
+     *  factory.registerAttribute("position", "vec2");  //vec2 must have been previously added
+     *  @endcode
+     *  @param attribute Name of the attribute.
+     *  @param dataType Which type to register the attribute as.
+     ***
+     *  @fn void EntityFactory::addTemplate(const std::string& name, const EntityTemplate& entityTemplate)
+     *  @brief Add an EntityTemplate. 
+     *
+     *  The entity template is a map of attributes and their default values. The registered entity template will have all the attributes provided in the list. For example, an Entity template called "Apple" might be registered with the attributes "weight", "brand" and "ripeness". Keep in mind that these attributes must have been registered using EntityFactory::registerAttribute.
+     *
+     *  Default values are given as strings. They may be empty in which case the attribute does not have a default value. These strings have to be handled by a parser given to EntityFactory::addDataType. See that function for more information on default values.
+     *  @param name Name of the template.
+     *  @param entityTemplate Template.
+     ***
+     *  @fn WeakEntityPtr EntityFactory::instantiate(const std::string& name)
      *  @brief Create an Entity from the given template.
      *  
-     *  The template given must have been registered prior to creating the Entity, otherwise, an EntityException will be thrown. If the function succeeds in creating the Entity, it will be assigned a unique ID and a WeakEntityPtr pointing to the Entity will be returned.
-     *  @param templateName The name of the template to instantiate.
+     *  The template given must have been registered prior to creating the Entity. If the function succeeds in creating the Entity, it will be assigned a unique ID and a WeakEntityPtr pointing to the Entity will be returned. The returned pointer is not meant to be stored in a locked state since that entity would still become invalid if the entity is deleted using the EntityManager::removeEntity method.
+     *
+     *  @param name The name of the template to instantiate.
      *  @return A pointer to the created Entity.
-     ***
-     *  @fn void EntityFactory::registerEntityTemplate(const std::string& templateName, const std::vector<std::pair<std::string, std::string> >& attributes)
-     *  @brief Register an EntityTemplate. 
-     *
-     *  The entity template is a name mapped to a list of attributes and their default values. The registered entity template will have all the attributes provided in the list. For example, an Entity template called "Apple" might be registered with the attributes "weight", "brand" and "ripeness". Keep in mind that these attributes must have been registered using EntityManager::registerAttribute.
-     *
-     *  Default values are given as strings. They may be empty in which case the attribute does not have a default value. These strings have to be handled by a default setter function. These functions must be registered separately using EntityFactory::registerDefaultSetter. See that function for more information on default values.
-     *  @param templateName Name of the new Entity template.
-     *  @param attributes Vector containing attribute names and default values.
-     ***
-     *  @fn void EntityFactory::registerEntityTemplates(const std::unordered_map<std::string, std::vector<std::pair<std::string, std::string> > >& templates)
-     *  @brief Register multiple Entity templates at once.
-     *  
-     *  Works the same as EntityFactory::registerEntityTemplate except it registers a whole map full of Entity templates at once. Useful for loading Entity template configurations that have been read from file.
-     *  @param templates Map containing Entity template names and vectors with attribute information.
-     ***
-     *  @fn void EntityFactory::registerDefaultSetter(const std::string& attribute, std::function<void(const std::string&, const std::vector<std::string>&, WeakEntityPtr)> defaultFunc)
-     *  @brief Register a default setter function for a given attribute.
-     *
-     *  When registering entity templates, default values are registered with their attributes. These default values are always just plain strings, and to make these actually being set to the attribute which might be of any given type in a correct way, a default setter function is needed.
-     *
-     *  This function should take a string for the attribute name, and a const std::vector<std::string>& which contains the default value string cut into pieces delimited by ",", and finally a pointer to the entity for which the attribute should be set. This function is responsible for setting the default value for the WeakEntityPtr instance.
-     *
-     *  For example, if the attribute "Colour has been registered and the data type that will be used for this attribute is this struct...
-     *  @code
-     *  struct Colour
-     *  {
-     *    float r;
-     *    float g;
-     *    float b;
-     *   };
-     *  @endcode
-     *  ...and you have registered an entity template with that attribute, and the default value "1.0f,0.0f,0.0f" for it, then an appropriate default setting function would be:
-     *  @code
-     *  void colourSetter(const std::string& attribute, const std::vector<std::string>& arguments, fea::WeakEntityPtr entity)
-     *  {
-     *    Colour col;
-     *    col.r = std::stof(arguments[0]);
-     *    col.g = std::stof(arguments[1]);
-     *    col.b = std::stof(arguments[2]);
-     *
-     *    entity.lock()->setAttribute<Colour>(attribute, col);
-     *  }
-     *  @endcode
-     *  This works since the default string "1.0f,0.0f,0.0f" will be given to the default setter function as "1.0f", "0.0f" and "0.0f" in the std::vector. It needs to be registered like so:
-     *  @code
-     *  entityManager.registerDefaultSetter("Colour", &colourSetter);
-     *  @endcode
-     *
-     *  After this, whenever an entity of that template (or any other template using the "Colour" attribute) is created, the default value will be set according to the default string.
-     *  
-     *  If an entity template is registered with default values for an attribute, that attribute must have a default setter function registered or an InvalidAttributeException will be thrown.
-     *  @param attribute Name of the attribute.
-     *  @param defaultFunc Pointer to the default setter function.
-     ***
-     *  @fn void EntityFactory::clear()
-     *  @brief Remove all registered templates and default setters.
      ***/
 }

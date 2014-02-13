@@ -1,96 +1,68 @@
 #include <featherkit/entity/entityfactory.h>
 #include <featherkit/entity/entityexceptions.h>
 #include <featherkit/entity/entity.h>
-#include <sstream>
 
 namespace fea
 {
-    EntityFactory::EntityFactory(EntityManager& entityManager) : mEntityManager(entityManager)
+    bool EntityFactory::Prototype::Value::operator<(const Value& other) const
+    {
+        return mKey < other.mKey;
+    }
+
+    EntityFactory::EntityFactory(EntityManager& entityManager) : mManager(entityManager)
     {
     }
 
-    WeakEntityPtr EntityFactory::createEntity(const std::string& templateName)
+    void EntityFactory::registerAttribute(const std::string& attribute, const std::string& dataType)
     {
-        WeakEntityPtr created;
-        std::vector<std::pair<std::string, std::string>> entityTemplate;
+        FEA_ASSERT(mParsers.find(attribute) == mParsers.end(), "Trying to register attribute '" + attribute + "' which is already registered!");
+        FEA_ASSERT(mRegistrators.find(dataType) != mRegistrators.end(), "Trying to register attribute '" + attribute + "' as the type '" + dataType + "' but such a type does not exist!");
 
-        try
+        mParsers.emplace(attribute, mRegistrators.at(dataType)(attribute));
+    }
+
+    void EntityFactory::addTemplate(const std::string& name, const EntityTemplate& entityTemplate)
+    {
+        FEA_ASSERT(mPrototypes.find(name) == mPrototypes.end(), "Trying to add entity template '" + name + "' but there exists already such a template!");
+
+        Prototype prototype;
+
+        for(const auto& element : entityTemplate)
         {
-            entityTemplate = mEntityTemplates.at(templateName);
-        }
-        catch(std::out_of_range)
-        {
-            throw(EntityException("Error! Entity template '" + templateName + "' does not exist!\n"));
-        }
+            const std::string& attribute = element.first;
+            const std::string& arguments = element.second;
 
-        std::set<std::string> attributes;
-
-        for(const auto& pair : entityTemplate)
-            attributes.insert(pair.first);
-
-        created = mEntityManager.createEntity(attributes);
-        
-        for(const auto& pair : entityTemplate)
-        {
-            if(pair.second == "")
-                continue;
-
-
-            std::function<void(std::string, std::vector<std::string>&, WeakEntityPtr)> defaultSetter;
-            try
+            FEA_ASSERT(mParsers.find(attribute) != mParsers.end(), "Trying to add a template with the attribute '" + attribute + "' which doesn't exist!");
+            prototype.attributes.insert(attribute);
+            if(arguments.size() > 0)
             {
-                defaultSetter = mDefaultSetters.at(pair.first);
+                prototype.values.insert({attribute, mParsers.at(attribute)(arguments)}); 
             }
-            catch(std::out_of_range)
-            {
-                throw(EntityException("Error! Default value '" + pair.second + "' given to attribute '" + pair.first + "' but no default setter function registered!\n"));
-            }
-            //TODO: add exception for malformatted strings
-            std::vector<std::string> parameters;
-            std::stringstream splitter(pair.second);
-            std::string parameter;
-            while(std::getline(splitter, parameter, ','))
-                parameters.push_back(parameter);
-            defaultSetter(pair.first, parameters, WeakEntityPtr(created));
         }
-        return created;
+
+        mPrototypes.emplace(name, std::move(prototype));
     }
 
-    void EntityFactory::registerEntityTemplate(const std::string& templateName, const std::vector<std::pair<std::string, std::string>>& attributes)
+    WeakEntityPtr EntityFactory::instantiate(const std::string& name)
     {
-        if(mEntityTemplates.find(templateName) == mEntityTemplates.end())
-        {
-            mEntityTemplates.emplace(templateName, attributes);
-        }
-        else
-        {
-            throw(EntityException("Error! Trying to add entity template '" + templateName + "' which already exist!\n"));
-        }
+        FEA_ASSERT(mPrototypes.find(name) != mPrototypes.end(), "Trying to instantiate entity template '" + name + "' but such a template does not exist!");
+        const Prototype& entityPrototype = mPrototypes.at(name);
+        EntityPtr entity = mManager.createEntity(entityPrototype.attributes).lock();
+        for(const auto& value : entityPrototype.values)
+            value.mSetter(entity);
+
+        return entity;
     }
 
-    void EntityFactory::registerEntityTemplates(const std::unordered_map<std::string, std::vector<std::pair<std::string, std::string>>>& templates)
+    Parameters EntityFactory::splitByDelimeter(const std::string& in, char delimeter) const
     {
-        for(const auto& pair : templates)
+        Parameters parameters;
+        std::string param;
+        std::stringstream splitter(in);
+        while (std::getline(splitter, param, delimeter))
         {
-            registerEntityTemplate(pair.first, pair.second);
+            parameters.push_back(param);
         }
-    }
-    
-    void EntityFactory::registerDefaultSetter(const std::string& attribute, std::function<void(const std::string&, const std::vector<std::string>&, WeakEntityPtr)> defaultFunc)
-    {
-        if(mEntityManager.attributeIsValid(attribute))
-        {
-            mDefaultSetters.emplace(attribute, defaultFunc);
-        }
-        else
-        {
-            throw(EntityException("Error! Cannot register default function for attribute '" + attribute + "' since the attribute is not valid!\n"));
-        }
-    }
-
-    void EntityFactory::clear()
-    {
-        mEntityTemplates.clear();
-        mDefaultSetters.clear();
+        return parameters;
     }
 }

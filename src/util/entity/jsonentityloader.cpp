@@ -7,9 +7,9 @@ namespace fea
 {
     namespace util
     {
-        std::unordered_map<std::string, std::vector<std::pair<std::string, std::string>>> JsonEntityLoader::loadEntityTemplates(const std::string& path)
+        std::unordered_map<std::string, EntityTemplate> JsonEntityLoader::loadEntityTemplates(const std::string& path)
         {
-            std::unordered_map<std::string, std::vector<std::pair<std::string, std::string>>> result;
+            std::unordered_map<std::string, EntityTemplate> result;
 
             std::ifstream file(path);
 
@@ -31,13 +31,13 @@ namespace fea
                 std::string entityName = temp.name;
                 std::size_t attributeAmount = temp.value.GetNumMembers();
 
-                std::vector<std::pair<std::string, std::string>> attributes;
+                EntityTemplate entityTemplate;
                 for(unsigned int j = 0; j < attributeAmount; j++)
                 {
                     json::Member attributesObject = temp.value.GetMember(j);
-                    attributes.push_back(std::pair<std::string, std::string>(attributesObject.name, attributesObject.value.GetString()));
+                    entityTemplate.emplace(attributesObject.name, attributesObject.value.GetString());
                 }
-                result.emplace(entityName, attributes);
+                result.emplace(entityName, entityTemplate);
             }
             return result;
         }
