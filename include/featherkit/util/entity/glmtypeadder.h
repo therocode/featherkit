@@ -17,13 +17,13 @@ namespace fea
          *
          *  There are three categories of the types registered by this function.
          *
-         *  @bFloating point vectors@\b
+         *  <b>Floating point vectors<\b>
          *  "vec2"
          *  "vec3"
          *  
          *  The parser for floating point vectors takes two decimal numbers separated by comma where each follows the convention of std::stof and std::stod respectively.
          *
-         *  @bInteger vectors@\b
+         *  <b>Integer vectors<\b>
          *  "ivec2"
          *  "uvec2"
          *  "ivec3"
@@ -31,7 +31,7 @@ namespace fea
          *
          *  The parser for integer type vectors takes two integer numbers separated by comma where each follows the convention of the std string-to-int parsing functions (std::stoi and the like) with additional range checks.
          *
-         *  @Matrices@\b
+         *  <b>Matrices<\b>
          *  "mat2x2"
          *  "mat3x3"
          *  "mat4x4"
