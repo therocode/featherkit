@@ -17,8 +17,6 @@ namespace fea
     {
         public:
             Font(const std::string& path = "", const float size = 12.0f);
-            void setPath(const std::string& path);
-            void setSize(const float size);
             const std::string& getPath() const;
             float getSize() const;
             bool operator==(const Font& other) const;
@@ -39,16 +37,10 @@ namespace fea
      ***
      *  @fn Font::Font(const std::string& path = "", const float size = 12.0f)
      *  @brief Construct a font from the given file name and size.
+     *
+     *  Assert/undefined behaviour if the size is zero or less.
      *  @param path Path to file.
      *  @param size Size of the font.
-     ***
-     *  @fn void Font::setPath(const std::string& path)
-     *  @brief Load another file into the font.
-     *  @param path Path to file.
-     ***
-     *  @fn void Font::setSize(const float size)
-     *  @brief Set the size of the font.
-     *  @param size Size to set to.
      ***
      *  @fn const std::string& Font::getPath() const
      *  @brief Get the current path in use.

@@ -11,16 +11,7 @@ namespace fea
     
     Font::Font(const std::string& path, const float size) : mFontPath(path), mFontSize(size)
     {
-    }
-    
-    void Font::setPath(const std::string& path)
-    {
-        mFontPath = path;
-    }
-    
-    void Font::setSize(const float size)
-    {
-        mFontSize = size;
+        FEA_ASSERT(size > 0.0f, "Size of fonts must be a non-zero positive integer! " + std::to_string(size
     }
 
     const std::string& Font::getPath() const

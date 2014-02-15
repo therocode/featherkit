@@ -37,10 +37,13 @@ namespace fea
      *  @brief Construct a RepeatedQuad with a specific size.
      *
      *  Uses the AnimatedQuad::AnimatedQuad(const glm::vec2& size) constructor.
+     *  Assert/undefined behaviour if size is zero or less in any dimension.
      *  @param size Size.
      ***
      *  @fn void RepeatedQuad::setTileSize(const glm::vec2& size)
      *  @brief Set the size of every repeated texture cell.
+     *
+     *  Uses the AnimatedQuad::AnimatedQuad(const glm::vec2& size) constructor.
      *  @param size Vector containing the size.
      ***
      *  @fn const glm::vec2& RepeatedQuad::getTileSize()

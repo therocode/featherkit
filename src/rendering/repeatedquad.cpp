@@ -1,4 +1,5 @@
 #include <featherkit/rendering/repeatedquad.h>
+#include <featherkit/assert.h>
 
 namespace fea
 {
@@ -22,6 +23,7 @@ namespace fea
 
     void RepeatedQuad::setTileSize(const glm::vec2& size)
     {
+        FEA_ASSERT(size.x > 0.0f && size.y > 0.0f, "Size must be greater than zero in all dimensions when calling RepeatedQuad::setTileSize! " + std::to_string(size.x) + " " + std::to_string(size.y) + " provided.");
         mTileSize = size;
         updateConstraints();
     }

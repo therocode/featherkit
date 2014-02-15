@@ -72,6 +72,7 @@ namespace fea
      *  @brief Create a texture from an image.
      *  
      *  When the texture is successfully created, it can be used by drawables. Keep in mind that the texture must be kept alive as long as it is in use by any drawable. If the texture is created in interactive mode, it can be used to access and updated pixels at any time.
+     *  Assert/undefined behaviour when width or height is zero or less.
      *
      *  @param width Width of the texture in pixels.
      *  @param height Height of the texture in pixels.
@@ -83,6 +84,7 @@ namespace fea
      *  @brief Create a texture filled with a colour.
      *  
      *  When the texture is successfully created, it can be used by drawables. Keep in mind that the texture must be kept alive as long as it is in use by any drawable. If the texture is created in interactive mode, it can be used to access and updated pixels at any time.
+     *  Assert/undefined behaviour when width or height is zero or less.
      *
      *  @param width Width of the texture in pixels.
      *  @param height Height of the texture in pixels.
@@ -101,6 +103,7 @@ namespace fea
      *  @brief Set the colour of a particular pixel.
      *
      *  Setting a pixel using this method does not change the Texture until the Texture::update method has been called. This method requires the texture to be set to interactive.
+     *  Assert/undefined behaviour when setting a pixel outside of the dimensions of the texture.
      *  @param x X index of the pixel.
      *  @param y Y index of the pixel.
      *  @param colour Colour to set the pixel to.
@@ -109,6 +112,7 @@ namespace fea
      *  @brief Access the colour value of a pixel.
      *
      *  This method requires the texture to be set to interactive.
+     *  Assert/undefined behaviour when getting a pixel outside of the dimensions of the texture.
      *
      *  @return The colour value of the pixel.
      ***
@@ -116,17 +120,20 @@ namespace fea
      *  @brief Get internal pixel data.
      *
      *  Accessing the internal data can be important for intense manipulation of many pixels where performance is crucial. To be used with caution.
+     *  Undefined behaviour when data outside the texture dimensions are accessed.
      *  @return Data.
      ***
      *  @fn const uint8_t* Texture::getPixelData() const
      *  @brief Get internal pixel data.
      *
      *  Accessing the internal data can be important for intense accessing of pixels. To be used with caution.
+     *  Undefined behaviour when data outside the texture dimensions are accessed.
      *  @return Data.
      ***
      *  @fn void Texture::update()
      *  @brief Update the texture with any changes made using any of the Texture::setPixel methods.
      *
+     *  Assert/undefined behaviour when this is called an a non-interactive texture.
      *  This method requires the texture to be set to interactive.
      ***
      *  @fn Texture::~Texture()

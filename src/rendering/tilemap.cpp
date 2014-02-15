@@ -1,5 +1,5 @@
 #include <featherkit/rendering/tilemap.h>
-#include <sstream>
+#include <featherkit/assert.h>
 
 namespace fea
 {
@@ -11,11 +11,8 @@ namespace fea
     {
     }
     
-    TileMapException::TileMapException(const std::string& message) : std::runtime_error(message)
-    {
-    }
-
-    TileMap::TileMap(uint32_t gridWidth, uint32_t gridHeight, uint32_t tileWidth, uint32_t tileHeight, float textureTileWidth, float textureTileHeight, uint32_t chunkWidth, uint32_t chunkHeight) : mAnimatedTiles([](const glm::uvec2& first, const glm::uvec2& second){ 
+    TileMap::TileMap(uint32_t gridWidth, uint32_t gridHeight, uint32_t tileWidth, uint32_t tileHeight, float textureTileWidth, float textureTileHeight, uint32_t chunkWidth, uint32_t chunkHeight) : mAnimatedTiles([](const glm::uvec2& first, const glm::uvec2& second)
+    { 
                 if(first.x < second.x) 
                     return true;
                 else if(first.x > second.x)
@@ -29,6 +26,12 @@ namespace fea
                 }
            })
     {
+
+        FEA_ASSERT(gridWidth > 0 && gridHeight > 0, "The size of the tile grid cannot be zero or below in any dimension! " + std::to_string(gridWidth) + " " + std::to_string(gridHeight) + " provided.");
+        FEA_ASSERT(tileWidth > 0 && tileHeight > 0, "The size of the tiles cannot be zero or below in any dimension! " + std::to_string(tileWidth) + " " + std::to_string(tileHeight) + " provided.");
+        FEA_ASSERT(textureTileWidth > 0.0f && textureTileHeight > 0.0f, "The size of the tiles in the texture cannot be zero or below in any dimension! " + std::to_string(textureTileWidth) + " " + std::to_string(textureTileHeight) + " provided.");
+        FEA_ASSERT(chunkWidth > 0 && chunkHeight > 0, "The size of the tile chunks cannot be zero or below in any dimension! " + std::to_string(chunkWidth) + " " + std::to_string(chunkHeight) + " provided.");
+
         uint32_t chunkGridWidth = (gridWidth + chunkWidth - 1) / chunkWidth;
         uint32_t chunkGridHeight = (gridHeight + chunkHeight - 1) / chunkHeight;
 
@@ -53,11 +56,11 @@ namespace fea
             {
                 if(x == chunkGridWidth - 1 && uneven)
                     newChunkWidth = edgeSize.x;
-    
+
                 TileChunk newChunk(newChunkWidth, newChunkHeight, tileWidth, tileHeight);
                 glm::vec2 chunkPosition = glm::vec2(mPosition.x +(float) (x * chunkWidth * tileWidth),mPosition.y + (float)(y * chunkHeight * tileHeight));
                 newChunk.setPosition(chunkPosition);
-                
+
                 for(uint32_t chunkX = 0; chunkX < newChunkWidth; chunkX++)
                 {
                     for(uint32_t chunkY = 0; chunkY < newChunkHeight; chunkY++)
@@ -119,39 +122,24 @@ namespace fea
 
     void TileMap::setTile(const glm::uvec2& pos, const std::string& name)
     {
-        if(isOutOfBounds(pos))
-        {
-            std::stringstream ss;
-            ss << "Error! Coordinates " << pos.x << " and " << pos.y << " out of range (" << mGridSize.x << "," << mGridSize.y << ")\n";
-            throw TileMapException(ss.str());
-        }
-
+        FEA_ASSERT(!isOutOfBounds(pos), "Trying to set tile outside of the bounds of the tilemap! Setting at " + std::to_string(pos.x) + " " + std::to_string(pos.y) + ".");
+        FEA_ASSERT(mTileDefs.find(mHasher(name)) != mTileDefs.end(), "Trying to set tile id '" + name + "' which doesn't exist!");
         setTile(pos, mHasher(name));
     }
 
     void TileMap::setTile(const glm::uvec2& pos, TileId id)
     {
+        FEA_ASSERT(!isOutOfBounds(pos), "Trying to set tile outside of the bounds of the tilemap! Setting at " + std::to_string(pos.x) + " " + std::to_string(pos.y) + ".");
         uint32_t x = pos.x;
         uint32_t y = pos.y;
-
-        if(isOutOfBounds(pos))
-        {
-            std::stringstream ss;
-            ss << "Error! Coordinates " << x << " and " << y << " out of range (" << mGridSize.x << "," << mGridSize.y << ")\n";
-            throw TileMapException(ss.str());
-        }
 
         uint32_t chunkX = x / mChunkSize.x;
         uint32_t chunkY = y / mChunkSize.y;
         uint32_t chunkIndex = chunkX + chunkY * mChunkGridSize.x;
 
-        auto tileIter = mTileDefs.find(id);
-        if(tileIter == mTileDefs.end())
-        {
-            throw(TileMapException("Error! Tile does not exist!\n"));
-        }
+        FEA_ASSERT(mTileDefs.find(id) != mTileDefs.end(), "Trying to set tile name '" + std::to_string(id) + "' which doesn't exist!");
 
-        TileDefinition tileDef = tileIter->second;
+        TileDefinition tileDef = mTileDefs.at(id);
 
         glm::uvec2 texPos = tileDef.mTileTexPosition;
 
@@ -175,23 +163,33 @@ namespace fea
 
     void TileMap::unsetTile(const glm::uvec2& pos)
     {
-        unsetTile(pos);
+        FEA_ASSERT(!isOutOfBounds(pos), "Trying to unset tile outside of the bounds of the tilemap! Setting at " + std::to_string(pos.x) + " " + std::to_string(pos.y) + ".");
+
+        uint32_t x = pos.x;
+        uint32_t y = pos.y;
+
+        uint32_t chunkX = x / mChunkSize.x;
+        uint32_t chunkY = y / mChunkSize.y;
+        uint32_t chunkIndex = chunkX + chunkY * mChunkGridSize.x;
+
+        mChunks[chunkIndex].unsetTileTexCoords(x - chunkX * mChunkSize.x, y - chunkY * mChunkSize.y);
+
+        if(mAnimatedTiles.find(glm::uvec2(x, y)) != mAnimatedTiles.end())
+        {
+            mAnimatedTiles.erase(glm::uvec2(x, y));
+        }
     }
 
     void TileMap::fill(const std::string& name)
     {
+        FEA_ASSERT(mTileDefs.find(mHasher(name)) != mTileDefs.end(), "Trying to fill tilemap with tile name '" + name + "' which doesn't exist!");
         fill(mHasher(name));
     }
-
     void TileMap::fill(TileId id)
     {
-        auto tileIter = mTileDefs.find(id);
-        if(tileIter == mTileDefs.end())
-        {
-            throw(TileMapException("Error! Tile does not exist!\n"));
-        }
+        FEA_ASSERT(mTileDefs.find(id) != mTileDefs.end(), "Trying to fill tilemap with tile id '" + std::to_string(id) + "' which doesn't exist!");
 
-        TileDefinition tileDef = tileIter->second;
+        TileDefinition tileDef = mTileDefs.at(id);
 
         glm::uvec2 texPos = tileDef.mTileTexPosition;
 
@@ -232,8 +230,7 @@ namespace fea
     
     glm::uvec2 TileMap::getTileByCoordinates(const glm::vec2& coordinate) const
     {
-        if(isOutOfBounds((glm::uvec2)(coordinate / (glm::vec2)mTileSize)))
-            throw TileMapException("coordinates out of range");
+        FEA_ASSERT(!isOutOfBounds((glm::uvec2)(coordinate / (glm::vec2)mTileSize)), "Cannot access tiles without the bounds of the tilemap! Trying to access at " + std::to_string(coordinate.x) + " " + std::to_string(coordinate.y) + ".");
 
         return glm::uvec2((uint32_t)coordinate.x / mTileSize.x, (uint32_t)coordinate.y / mTileSize.y);
     }

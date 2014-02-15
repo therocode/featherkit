@@ -190,7 +190,12 @@ namespace fea
         if(mFontCache.find(font) == mFontCache.end())
         {
             texture_font_t* created = texture_font_new(mAtlas, font.getPath().c_str(), font.getSize());
-            mFontCache.emplace(font, created);
+            if(created == nullptr)
+            {
+                throw std::logic_error("Error! Could not create font from file '" + font.getPath() + "' maybe the file does not exist?");
+            }
+            else
+                mFontCache.emplace(font, created);
         }
     }
 }

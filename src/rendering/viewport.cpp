@@ -1,4 +1,6 @@
 #include <featherkit/rendering/viewport.h>
+#include <featherkit/assert.h>
+#include <string>
 
 namespace fea
 {
@@ -8,6 +10,7 @@ namespace fea
 
     Viewport::Viewport(const glm::uvec2& s, const glm::ivec2& pos, const Camera& cam) : mPosition(pos), mSize(s), mCamera(cam)
     {
+        FEA_ASSERT(s.x > 0 && s.y > 0, "Viewport size cannot be zero or negative in any dimension! " + std::to_string(s.x) + " " + std::to_string(s.y) + " provided.");
     }
     
     const glm::ivec2& Viewport::getPosition() const

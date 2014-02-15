@@ -1,4 +1,5 @@
 #include <featherkit/rendering/drawable2d.h>
+#include <featherkit/assert.h>
 
 namespace fea
 {
@@ -88,6 +89,7 @@ namespace fea
     
     void Drawable2D::setOpacity(float o)
     {
+        FEA_ASSERT(o >= 0.0f && o <= 1.0f, "Opacity must be within the range of [0.0f, 1.0f]! " + std::to_string(o) + " provided.");
         mColour.setA(o);
     }
 

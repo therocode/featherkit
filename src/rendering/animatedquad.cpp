@@ -101,11 +101,9 @@
 
     void AnimatedQuad::setAnimationFrame(uint32_t frame)
     {
-        if(currentAnimation != nullptr)
-        {
-            mCurrentFrame = frame;
-            currentAnimation->getConstraints(mConstraints, mCurrentFrame);
-        }
+        FEA_ASSERT(currentAnimation != nullptr, "No animation set when calling setAnimationFrame!");
+        mCurrentFrame = frame;
+        currentAnimation->getConstraints(mConstraints, mCurrentFrame);
     }
     
     uint32_t AnimatedQuad::getAnimationFrame() const

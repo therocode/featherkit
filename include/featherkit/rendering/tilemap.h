@@ -3,7 +3,6 @@
 #include <unordered_map>
 #include <map>
 #include <functional>
-#include <stdexcept>
 
 namespace fea
 {
@@ -15,12 +14,6 @@ namespace fea
         glm::uvec2 mTileTexPosition;
         TileId mNextTileId;
         uint32_t mTicksUntilChange;
-    };
-
-    class TileMapException : public std::runtime_error 
-    {
-        public:
-            TileMapException(const std::string& message);
     };
 
     class TileMap
@@ -67,7 +60,6 @@ namespace fea
     /** @addtogroup Render2D
      *@{
      *  @struct TileDefinition
-     *  @class TileMapException
      *  @class TileMap
      *@}
      ***
@@ -102,13 +94,6 @@ namespace fea
      *  @var TileDefinition::mTicksUntilChange
      *  @brief The amount of ticks to display this tile before it is changed to the one defined using TileDefinition::mNextTileId.
      ***
-     *  @class TileMapException
-     *  @brief Exception used by the TileMap when something goes wrong.
-     ***
-     *  @fn TileMapException::TileMapException(const std::string& message)
-     *  @brief Construct an exception to throw containing a message.
-     *  @param message Message further describing the error.
-     ***
      *  @class TileMap
      *  @brief Represents a graphical tile map with tiles that can be set freely and animated.
      *  
@@ -118,6 +103,8 @@ namespace fea
      ***
      *  @fn TileMap::TileMap(uint32_t gridWidth, uint32_t gridHeight, uint32_t tileWidth = 16, uint32_t tileHeight = 16, float textureTileWidth = 0.25f, float textureTileHeight = 0.25f , uint32_t chunkWidth = 32, uint32_t chunkHeight = 32)
      *  @brief Construct a TileMap.
+     *
+     *  Assert/undefined behaviour when any of the input values are zero or below.
      *  @param gridWidth Amount of tiles on the X axis.
      *  @param gridHeight Amount of tiles on the Y axis.
      *  @param tileWidth Width of a single tile displayed on the screen in pixels with no scaling.
@@ -158,11 +145,15 @@ namespace fea
      ***
      *  @fn void TileMap::setTile(const glm::uvec2& position, const std::string& name)
      *  @brief Set a tile at the given coordinate.
+     *
+     *  Assert/undefined behaviour when coordinates are outside the range of the tilemap or if tile name doesn't exist.
      *  @param position Coordinate of the tile to set,
      *  @param name Name of the tile definition to change it to.
      ***
      *  @fn void TileMap::setTile(const glm::uvec2& position, TileId id)
      *  @brief Set a tile at the given coordinate.
+     *
+     *  Assert/undefined behaviour when coordinates are outside the range of the tilemap or if tile type doesn't exist.
      *  @param position Coordinate of the tile to set.
      *  @param id ID of the tile definition to change to.
      ***
@@ -170,14 +161,19 @@ namespace fea
      *  @brief Set a tile to be transparent.
      *  
      *  This is the default state of tiles.
+     *  Assert/undefined behaviour when coordinates are outside the range of the tilemap.
      *  @param pos Coordinate of the tile to unset.
      ***
      *  @fn void TileMap::fill(const std::string& name)
      *  @brief Fill the whole tile map with a single tile type.
+     *
+     *  Assert/undefined behaviour when tile type doesn't exist.
      *  @param name Name of the tile to fill with.
      ***
      *  @fn void TileMap::fill(TileId id)
      *  @brief Fill the whole tile map with a single tile type.
+     *
+     *  Assert/undefined behaviour when tile type doesn't exist.
      *  @param id Id of the tile to fill with.
      ***
      *  @fn void TileMap::clear();
@@ -190,6 +186,8 @@ namespace fea
      ***
      *  @fn glm::uvec2 TileMap::getTileByCoordinates(const glm::vec2& coordinates) const
      *  @brief Get the tile coordinates for the given pixel coordinate on the TileMap.
+     *
+     *  Assert/undefined behaviour if coordinate is not within the bounds of the tilemap.
      *  @param coordinates Coordinate to check at.
      *  @return Tile coordinates.
      ***

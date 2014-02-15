@@ -116,6 +116,8 @@ namespace fea
      ***
      *  @fn void Drawable2D::setOpacity(float opacity)
      *  @brief Set the opacity.
+     *
+     *  Assert/undefined behaviour if the values is not within the range of [0.0f,1.0f].
      *  @param opacity Opacity.
      ***
      *  @fn float Drawable2D::getOpacity() const
