@@ -28,7 +28,7 @@ namespace fea
         MessageReceiverBase* receiverPtr = (MessageReceiverBase*) &receiver;
         std::type_index index = std::type_index(typeid(Message));
 
-        FEA_ASSERT(!subscriptionExists(index, receiverPtr), "Message receiver " + std::to_string(receiverPtr) + " already subscribes to message " + index.name() + "!");
+        FEA_ASSERT(!subscriptionExists(index, receiverPtr), "Message receiver already subscribes to message " + std::string(index.name()) + "!");
         mSubscribers.emplace(index, receiverPtr);
     }
 
@@ -51,7 +51,7 @@ namespace fea
             }
         }
 
-        FEA_ASSERT(existed, "Cannot remove subscription to message " + index.name() + " on receiver " + std::to_string(receiverPtr) + " since the subscription does not exist!");
+        FEA_ASSERT(existed, "Cannot remove subscription to message " + std::string(index.name()) + " since the subscription does not exist!");
     }
 
     template<class Message>

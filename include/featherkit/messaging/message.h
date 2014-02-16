@@ -3,7 +3,8 @@
 
 #define FEA_DECLARE_MESSAGE(name, ...)                      \
 struct Event##name##_tag{};                                 \
-using name = fea::Message<Event##name##_tag, ##__VA_ARGS__>;
+using name = fea::Message<Event##name##_tag, ##__VA_ARGS__>;\
+using name##Receiver = fea::MessageReceiver< name >;
 
 namespace fea
 {
@@ -32,6 +33,7 @@ namespace fea
      *  //uint32_t - Height of the new size.
      *  struct Resized_tag{};
      *  using ResizedMessage = Message<Resized_tag, uint32_t, uint32_t>;
+     *  using ResizedMessageReceiver = MessageReceiver<ResizedMessage>;
      *  @endcode
      *  The empty struct Resized_tag serves as a way of making this Message type unique. The using statements are useful for creating aliases that are easy to work with.
      *
