@@ -55,6 +55,7 @@ namespace fea
          *  @brief Load a json file defining entity templates.
          *
          *  Use this function to load an entity template file. The content of the return value can be given to the EntityFactory::addTemplate function.
+         *  Throws FileNotFoundException when the file does not exist.
          *  @param path File to open.
          *  @return A map with the entity templates.
          ***
@@ -62,6 +63,7 @@ namespace fea
          *  @brief Load a json file defining entity attributes.
          *
          *  Use this function to load an entity attribute file. The content of the return value can be given to the EntityFactory::registerAttribute function.
+         *  Throws FileNotFoundException when the file does not exist.
          *  @param path File to open.
          *  @return A map with the entity attributes.
          **/

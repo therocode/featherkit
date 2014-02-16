@@ -18,8 +18,8 @@ namespace fea
                     void loadBindingsFile(const std::string& path, std::function<std::string(Action)> stringToAction = [] (Action a) { return a;});
                     void saveBindingsFile(const std::string& path, const std::map<ActionTrigger, Action>& primaryActions) const;
                     void saveBindingsFile(const std::string& path, const std::map<ActionTrigger, Action>& primaryActions, const std::map<ActionTrigger, Action>& secondaryActions) const;
-                    const std::map<ActionTrigger, Action> getPrimaryBindings() const;
-                    const std::map<ActionTrigger, Action> getSecondaryBindings() const;
+                    const std::map<ActionTrigger, Action>& getPrimaryBindings() const;
+                    const std::map<ActionTrigger, Action>& getSecondaryBindings() const;
                 private:
                     std::map<ActionTrigger, Action> mPrimaryBindings;
                     std::map<ActionTrigger, Action> mSecondaryBindings;
@@ -281,13 +281,13 @@ namespace fea
             }
 
         template<class Action>
-            const std::map<ActionTrigger, Action> JsonActionIOHandler<Action>::getPrimaryBindings() const
+            const std::map<ActionTrigger, Action>& JsonActionIOHandler<Action>::getPrimaryBindings() const
             {
                 return mPrimaryBindings;
             }
 
         template<class Action>
-            const std::map<ActionTrigger, Action> JsonActionIOHandler<Action>::getSecondaryBindings() const
+            const std::map<ActionTrigger, Action>& JsonActionIOHandler<Action>::getSecondaryBindings() const
             {
                 return mSecondaryBindings;
             }
@@ -310,6 +310,7 @@ namespace fea
          *  @brief Load a json file defining bindings for actions.
          *
          *  Use this function to load an attribute file. When the bindings are loaded, they can be accessed with JsonActionIOHandler::getPrimaryBindings and JsonActionIOHandler::getSecondaryBindings.
+         *  Throws FileNotFoundException when the file does not exist.
          *
          *  Since actions can be of an arbitrary type, a converter function must be supplied that converts the action type from an std::string (since they are saved as string in the json file). The default value of this parameter is sufficient if std::string is used as the action type.
          *  @param path File to open.
@@ -328,13 +329,13 @@ namespace fea
          *  @param primaryActions Map of primary actions. Obtainable through the ActionHandler.
          *  @param secondaryActions Map of secondary actions. Obtainable through the ActionHandler.
          ***
-         *  @fn const std::map<ActionTrigger, Action> JsonActionIOHandler::getPrimaryBindings() const
+         *  @fn const std::map<ActionTrigger, Action>& JsonActionIOHandler::getPrimaryBindings() const
          *  @brief Retrieve loaded primary bindings.
          *
          *  JsonActionIOHandler::loadBindingsFile must be called before this function or the returned map will be empty.
          *  @return Map containing primary bindings.
          ***
-         *  @fn const std::map<ActionTrigger, Action> JsonActionIOHandler::getSecondaryBindings() const
+         *  @fn const std::map<ActionTrigger, Action>& JsonActionIOHandler::getSecondaryBindings() const
          *  @brief Retrieve loaded secondary bindings.
          *
          *  JsonActionIOHandler::loadBindingsFile must be called before this function or the returned map will be empty.
