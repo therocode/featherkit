@@ -14,7 +14,8 @@ namespace fea
     
     void Renderer2D::setup()
     {
-        FEA_ASSERT(glewInit() == GLEW_OK, "Could not initialise the renderer! Make sure there is a valid OpenGL context!");
+        auto glewStatus = glewInit();
+        FEA_ASSERT(glewStatus == GLEW_OK, "Could not initialise the renderer! Make sure there is a valid OpenGL context!");
 
         //glEnable(GL_DEPTH_TEST);
         glEnable(GL_BLEND);
