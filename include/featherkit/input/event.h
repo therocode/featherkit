@@ -110,6 +110,7 @@ namespace fea
     /** @addtogroup UserInterface
      *@{
      *  @class Event
+     *  @enum Event::EventType
      *@}
      ***
      *  @class Event

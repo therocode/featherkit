@@ -22,13 +22,77 @@ namespace fea
         UniformType mType;
         union
         {
-            float mFloatVal;
-            glm::vec2 mVec2Val;
-            glm::vec3 mVec3Val;
-            glm::vec4 mVec4Val;
-            glm::mat2x2 mMat2x2Val;
-            glm::mat4x4 mMat4x4Val;
-            GLuint mTextureVal;
+            float mFloatVal;           ///<Hold a float value
+            glm::vec2 mVec2Val;        ///<Hold a vec2 value
+            glm::vec3 mVec3Val;        ///<Hold a vec3 value
+            glm::vec4 mVec4Val;        ///<Hold a vec4 value
+            glm::mat2x2 mMat2x2Val;    ///<Hold a mat2x2 value
+            glm::mat4x4 mMat4x4Val;    ///<Hold a mat4x4 value
+            GLuint mTextureVal;        ///<Hold a texture
         };
     };
+    /** @addtogroup Renderer2D
+     *@{
+     *  @class Uniform
+     *  @enum UniformType
+     *@}
+     ***
+     *  @class Uniform
+     *  @brief Defines a uniform variable.
+     ***
+     *  @enum UniformType
+     *  @brief Type of the uniform.
+     ***
+     *  @fn Uniform::Uniform(size_t i, UniformType t, float val)
+     *  @brief Construct a float uniform.
+     *  @param i Index.
+     *  @param t Type.
+     *  @param val Value.
+     ***
+     *  @fn Uniform::Uniform(size_t i, UniformType t, glm::vec2 val)
+     *  @brief Construct a vec2 uniform.
+     *  @param i Index.
+     *  @param t Type.
+     *  @param val Value.
+     ***
+     *  @fn Uniform::Uniform(size_t i, UniformType t, glm::vec3 val)
+     *  @brief Construct a vec3 uniform.
+     *  @param i Index.
+     *  @param t Type.
+     *  @param val Value.
+     ***
+     *  @fn Uniform::Uniform(size_t i, UniformType t, glm::vec4 val)
+     *  @brief Construct a vec4 uniform.
+     *  @param i Index.
+     *  @param t Type.
+     *  @param val Value.
+     ***
+     *  @fn Uniform::Uniform(size_t i, UniformType t, glm::mat2x2 val)
+     *  @brief Construct a mat2x2 uniform.
+     *  @param i Index.
+     *  @param t Type.
+     *  @param val Value.
+     ***
+     *  @fn Uniform::Uniform(size_t i, UniformType t, glm::mat4x4 val)
+     *  @brief Construct a mat4x4 uniform.
+     *  @param i Index.
+     *  @param t Type.
+     *  @param val Value.
+     ***
+     *  @fn Uniform::Uniform(size_t i, UniformType t, GLuint val)
+     *  @brief Construct a texture uniform.
+     *  @param i Index.
+     *  @param t Type.
+     *  @param val Value.
+     ***
+     *  @fn Uniform::Uniform(const Uniform& other)
+     *  @brief Construct a uniform from another uniform.
+     *  @param other Uniform to copy.
+     ***
+     *  @var Uniform::mIndex
+     *  @brief Index of the uniform.
+     ***
+     *  @var Uniform::mType
+     *  @brief Type of the uniform.
+     ***/
 }
