@@ -171,6 +171,14 @@ if(BUILD_RENDERING)
             src/freetype-gl/texture-font.c
             src/freetype-gl/vector.c)
 
+        set(rendering_source_files ${rendering_source_files}
+            src/rendering/textsurface.cpp
+            src/rendering/font.cpp)
+
+        set(rendering_header_files ${rendering_header_files}
+            include/featherkit/rendering/textsurface.h
+            include/featherkit/rendering/font.h)
+
         set(freetype-gl_header_files 
             include/featherkit/freetype-gl/platform.h
             include/featherkit/freetype-gl/texture-atlas.h

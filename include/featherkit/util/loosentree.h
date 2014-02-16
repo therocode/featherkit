@@ -7,7 +7,7 @@ namespace fea
 {
     constexpr int32_t Pow(int32_t base, int32_t exponent)
     {
-        return(expo != 0 )? base * Pow(base, exponent -1) : 1;
+        return(exponent != 0 )? base * Pow(base, exponent -1) : 1;
     }
 
     constexpr int32_t NodeAmount(int32_t depth, int32_t dimensions, int32_t recursion)

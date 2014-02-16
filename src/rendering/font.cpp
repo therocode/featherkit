@@ -1,5 +1,6 @@
 #include <featherkit/rendering/font.h>
 #include <featherkit/rendering/textsurface.h>
+#include <featherkit/assert.h>
 #include <sstream>
 #include <sys/stat.h>
 
@@ -11,7 +12,7 @@ namespace fea
     
     Font::Font(const std::string& path, const float size) : mFontPath(path), mFontSize(size)
     {
-        FEA_ASSERT(size > 0.0f, "Size of fonts must be a non-zero positive integer! " + std::to_string(size
+        FEA_ASSERT(size > 0.0f, "Size of fonts must be a non-zero positive integer! " + std::to_string(size) + " provided.");
     }
 
     const std::string& Font::getPath() const
