@@ -32,9 +32,13 @@ namespace fea
      *  //uint32_t - Height of the new size.
      *  struct Resized_tag{};
      *  using ResizedMessage = Message<Resized_tag, uint32_t, uint32_t>;
-     *  using ResizedData = std::tuple<uint32_t, uint32_t>;
      *  @endcode
      *  The empty struct Resized_tag serves as a way of making this Message type unique. The using statements are useful for creating aliases that are easy to work with.
+     *
+     *  There is also a macro which eases the process of creating a message. Expanded, it does the exact thing as above, but the only thing needed to be typed is:
+     *  @code
+     *  FEA_DECLARE_MESSAGE(ResizedMessage, uint32_t, uint32_t);
+     *  @endcode
      ***
      *  @fn Message::Message(typename std::enable_if<sizeof...(DataTypes) >= 1>)
      *  @brief Construct a message.
