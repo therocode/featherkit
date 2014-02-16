@@ -1,52 +1,30 @@
 #pragma once
 #include <string>
 #include <map>
-#include <stdexcept>
 #include <featherkit/structure/gamestate.h>
 
 namespace fea
 {
-    using StateName = std::string;
-
-    class GameStateException: public std::runtime_error
-    {
-        public:
-            GameStateException();
-            GameStateException(std::string msg);
-    };
 
     class GameStateMachine
     {
         public:
             GameStateMachine();
-            void addGameState(const std::string& name, std::shared_ptr<GameState> state);
+            void addGameState(const std::string& name, std::unique_ptr<GameState> state);
             void setCurrentState(const std::string& name);
             bool isFinished() const;
             void run();
-            ~GameStateMachine();
         private:
             void switchState(const std::string& nextName);
-            std::weak_ptr<GameState> mCurrentState;
+            GameState* mCurrentState;
             std::string mCurrentStateName;
-            std::map<StateName, std::shared_ptr<GameState> > gameStates;
+            std::map<std::string, std::unique_ptr<GameState>> gameStates;
     };
     
     /** @addtogroup Structure
      *@{
      *  @class GameStateMachine
-     *
-     *  @class GameStateException
      *@}
-     ***
-     *  @class GameStateException
-     *  @brief Exception used for errors arising with GameState handling.
-     ***
-     *  @fn GameStateException::GameStateException()
-     *  @brief Construct a GameStateException ready to be thrown.
-     ***
-     *  @fn GameStateException::GameStateException(std::string msg)
-     *  @brief Construct a GameStateException ready to be thrown with a custom message.
-     *  @param msg Message additionally explaining the error.
      ***
      *  @class GameStateMachine
      *  @brief Keeps track of several GameState instances and provides a way of conveniently switching between them.
@@ -61,22 +39,21 @@ namespace fea
      *  - GameState::activate - Called on a state when the GameStateMachine switches to it (last step in switching process).
      *  - GameState::deactivate - Called on a state when the GameStateMachine switches from it (first step in switching process).
      *  - GameState::handOver - Called on a state when switching from another state. Will receive the previous state as an argument (middle step in switching process).
-     *  - GameState::destroy - Called on all managed states when the GameStateMachine is destroyed.
-     *
      *  There are two ways for states to be switched. Either externally using a call to GameStateMachine::setCurrentState, or internally from the current active GameState if the GameState::run returns a non-null string (see GameState for more info). If the GameStateMachine switches to the state "NONE", it will be considered as not running and GameStateMachine::isFinished will return true. 
      *
      ***
-     *  @fn void GameStateMachine::addGameState(const std::string& name, std::shared_ptr<GameState> state)
+     *  @fn void GameStateMachine::addGameState(const std::string& name, std::unique_ptr<GameState> state)
      *  @brief Add a GameState to the GameStateMachine.
      *
      *  After the GameState is added, it is completely managed by the GameStateMachine. Including freeing of the memory.
+     *  Assert/undefined behaviour if the name provided is already in use by another state.
      *  @param name Name of the GameState to add.
      *  @param state Pointer to the GameState instance to manage. Can take a GameState* and implicitly convert it.
      ***
      *  @fn void GameStateMachine::setCurrentState(const std::string& name)
      *  @brief Order the GameStateMachine to switch from the current GameState to the one having the name given.
      *
-     *  Throws a GameStateException if the specified state does not exist.
+     *  Assert/undefined behaviour if the given state does not exist.
      *  @param name Name of the state to switch to.
      ***
      *  @fn bool GameStateMachine::isFinished() const
@@ -87,8 +64,5 @@ namespace fea
      ***
      *  @fn void GameStateMachine::run()
      *  @brief Run a frame in the current active GameState. Will do nothing if GameStateMachine is terminated.
-     ***
-     *  @fn GameStateMachine::~GameStateMachine();
-     *  @brief Call GameState::destroy in all added states to let them do their cleanup.
      ***/
 }
