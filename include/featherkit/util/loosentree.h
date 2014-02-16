@@ -15,12 +15,6 @@ namespace fea
         return(recursion != 0)? (Pow(2, dimensions * recursion) + NodeAmount(depth, dimensions, recursion+1)) : 1;
     };
 
-    class LooseNTreeException : public std::runtime_error
-    {
-        public:
-            LooseNTreeException(std::string message) : std::runtime_error(message) { }
-    };
-
     template<uint32_t Dimensions, uint32_t Depth, bool StaticAllocation>
     class LooseNTree
     {
@@ -170,26 +164,12 @@ namespace fea
 
             void add(uint32_t id, const Vector& position, const Vector& size)
             {
-                if(!size.isPositive())
-                {
-                    throw LooseNTreeException("Error! Added objects must have a size bigger than zero.");
-                }
+                FEA_ASSERT(size.isPositive(), "Error! Added objects must have a size bigger than zero.");
+                FEA_ASSERT(mEntryLocations.find(id) == mEntryLocations.end(), "Trying to add an object with ID '" + std::to_string(id) + " but that ID is already added!");
                 
-                if(mEntryLocations.find(id) != mEntryLocations.end())
-                {
-                    std::stringstream ss;
-                    ss << "Error! Cannot add id " << id << " twice.";
-                    throw LooseNTreeException(ss.str());
-                }
-
                 for(uint32_t dim = 0; dim < Dimensions; dim++)
                 {
-                    if(position[dim] < 0.0f || position[dim] > mSize[dim])
-                    {
-                        std::stringstream ss;
-                        ss << "Error! Cannot add id " << id << " out of the tree's bounds.";
-                        throw LooseNTreeException(ss.str());
-                    }
+                    FEA_ASSERT(position[dim]  >= 0.0f && position[dim] <= mSize[dim], "Trying to add object outside of the bounds of the tree!");
                 }
 
                 uint32_t depth;
@@ -209,12 +189,7 @@ namespace fea
 
             void remove(uint32_t id)
             {
-                if(mEntryLocations.find(id) == mEntryLocations.end())
-                {
-                    std::stringstream ss;
-                    ss << "Error! Cannot remove id " << id << " since it doesn't exist.";
-                    throw LooseNTreeException(ss.str());
-                }
+                FEA_ASSERT(mEntryLocations.find(id) != mEntryLocations.end(), "Trying to remove object ID '" + std::to_string(id) + "' which does not exist!");
                 uint32_t previousNode = mEntryLocations.at(id);
                 removeTreeEntry(id);
 
@@ -236,21 +211,11 @@ namespace fea
 
             void move(uint32_t id, const Vector& position)
             {
-                if(mEntryLocations.find(id) == mEntryLocations.end())
-                {
-                    std::stringstream ss;
-                    ss << "Error! Cannot move id " << id << " since it doesn't exist.";
-                    throw LooseNTreeException(ss.str());
-                }
+                FEA_ASSERT(mEntryLocations.find(id) != mEntryLocations.end(), "Trying to remove object ID '" + std::to_string(id) + "' which does not exist!");
 
                 for(uint32_t dim = 0; dim < Dimensions; dim++)
                 {
-                    if(position[dim] < 0.0f || position[dim] > mSize[dim])
-                    {
-                        std::stringstream ss;
-                        ss << "Error! Cannot move id " << id << " out of the tree's bounds.";
-                        throw LooseNTreeException(ss.str());
-                    }
+                    FEA_ASSERT(position[dim]  >= 0.0f && position[dim] <= mSize[dim], "Trying to move object outside of the bounds of the tree!");
                 }
 
                 uint32_t depth = 0;
@@ -615,19 +580,11 @@ namespace fea
     /** @addtogroup Structure
      *@{
      *  @typedef LooseNTree::TreeEntry
-     *  @class LooseNTreeException
      *  @class LooseNTree
      *@}
      ***
      *  @typedef LooseNTree::TreeEntry
      *  @brief An entry in the tree.
-     ***
-     *  @class LooseNTreeException
-     *  @brief Exception used by the LooseNTree when something goes wrong.
-     ***
-     *  @fn LooseNTreeException::LooseNTreeException(std::string message)
-     *  @brief Construct an exception to throw containing a message.
-     *  @param message Message further describing the error.
      ***
      *  @class LooseNTree
      *  @brief Tree structure for keeping track of possibly overlapping objects.
@@ -640,12 +597,15 @@ namespace fea
      ***
      *  @fn LooseNTree::LooseNTree(const Vector& size)
      *  @brief Construct a tree with the given size.
+     *
+     *  Assert/undefined behaviour if the size is zero or less in any of the dimensions.
      *  @param size Size.
      ***
      *  @fn void LooseNTree::add(uint32_t id, const Vector& position, const Vector& size)
      *  @brief Add an object to track.
      *  
      *  The added object must have a unique ID. If the object moves, the position must be updated using the LooseNTree::move function.
+     *  Assert/undefined behaviour if the size is zero or less in any of the dimensions, if the given ID already exists in the tree, or if the position is outside of the bounds of the tree.
      *  @param id ID of the object to track.
      *  @param position Position of the object.
      *  @param size Size of the object. Given as an Axis aligned bounding box.
@@ -653,12 +613,14 @@ namespace fea
      *  @fn void LooseNTree::remove(uint32_t id)
      *  @brief Stop tracking an object.
      *  
+     *  Assert/undefined behaviour if the object does not exist.
      *  @param id ID of the object to stop tracking.
      ***
      *  @fn void LooseNTree::move(uint32_t id, const Vector& position)
      *  @brief Move a tracked object.
      *
      *  This must be called to keep tracked objects up to date.
+     *  Assert/undefined behaviour if the object does not exist or if target position is outside of the bounds of the tree.
      *  @param id ID of the object to move.
      *  @param position New position of the object.
      ***
