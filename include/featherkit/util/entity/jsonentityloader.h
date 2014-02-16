@@ -39,17 +39,17 @@ namespace fea
          *  Here is an example of how an entity template file should be formatted:
          *  @code
          *  {
-         *      "particle":
+         *      "cow":
          *      {
-         *          "position":"20.0f,40.0f", "velocity":"0.0f,0.0f", "currentcolour":"1.0f, 0.0f, 0.0f", "deathrate":"9000", "id":"#ID#"
+         *          "position":"20.0f,40.0f", "velocity":"0.0f,0.0f", "acceleration":"1.0f,0.0f", "health":"9000"
          *      },
-         *      "spawner":
+         *      "player":
          *      {
-         *          "position":"30.0f,50.0f", "currentcolour":"", "spawnrate":"100", "spawnpower":"5.0f", "id":"#ID#"
+         *          "position":"30.0f,50.0f", "velocity":"0.0f,0.0f", "acceleration":"0.0f,0.0f", "health":"5"
          *      }
          *  }
          *  @endcode
-         *  The file is divided into entity template definitions. The two entities defined in this files are "particle" and "spawner". Every entity template internally defines a sequence of attributes that they should have. The attributes might come with default values. For instance, the first attribute of the entity template "particle" is "position" with a default value of "20.0f,40.0".
+         *  The file is divided into entity template definitions. The two entities defined in this files are "cow" and "player". Every entity template internally defines a sequence of attributes that they should have. The attributes might come with default values. For instance, the first attribute of the entity template "cow" is "player" with a default value of "20.0f,40.0".
          ***
          *  @fn std::unordered_map<std::string, EntityTemplate> JsonEntityLoader::loadEntityTemplates(const std::string& path)
          *  @brief Load a json file defining entity templates.

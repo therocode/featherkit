@@ -4,7 +4,7 @@
 #include <typeindex>
 #include <algorithm>
 #include <featherkit/messaging/messagereceiver.h>
-#include <featherkit/messaging/messageexception.h>
+#include <featherkit/assert.h>
 
 namespace fea
 {
@@ -28,18 +28,8 @@ namespace fea
         MessageReceiverBase* receiverPtr = (MessageReceiverBase*) &receiver;
         std::type_index index = std::type_index(typeid(Message));
 
-        bool existed = subscriptionExists(index, receiverPtr);
-
-        if(!existed)
-        {
-            mSubscribers.emplace(index, receiverPtr);
-        }
-        else
-        {
-            std::stringstream ss;
-            ss << "Error! Message receiver " << receiverPtr << " already subscribes to message " << index.name() << "!\n";
-            throw MessageException(ss.str());
-        }
+        FEA_ASSERT(!subscriptionExists(index, receiverPtr), "Message receiver " + std::to_string(receiverPtr) + " already subscribes to message " + index.name() + "!");
+        mSubscribers.emplace(index, receiverPtr);
     }
 
     template<class Message>
@@ -61,12 +51,7 @@ namespace fea
             }
         }
 
-        if(!existed)
-        {
-            std::stringstream ss;
-            ss << "Error! Cannot remove subscription to message " << index.name() << " on receiver " << receiverPtr << " since the subscription does not exist!\n";
-            throw MessageException(ss.str());
-        }
+        FEA_ASSERT(existed, "Cannot remove subscription to message " + index.name() + " on receiver " + std::to_string(receiverPtr) + " since the subscription does not exist!");
     }
 
     template<class Message>
@@ -93,7 +78,7 @@ namespace fea
      *  
      *  The subscription will be valid until MessageBus::removeMessageSubscriber is called on the same receiver. The Message type subscribed to is the one given in the template argument. The receiver must inherit from the correct MessageReceiver to be able to subscribe to a message. If the subscriber is destroyed before the MessageBus, all of its subscriptions must be removed using MessageBus::removeMessageSubscriber.
      *  
-     *  Throws a MessageException if an object tries to subscribe to the same Message type more than once.
+     *  Assert/undefined behaviour if an object tries to subscribe to the same Message type more than once.
      *  @tparam Message Type of the message to subscribe to.
      *  @param receiver The instance which will receive the messages.
      ***
@@ -102,7 +87,7 @@ namespace fea
      *
      *  Mostly used to remove subscriptions of an object that is about to be destroyed. Not doing this results in undefined behaviour. The template parameter deterimines which type of Message is unsibscribed from.
      *
-     *  Throws a MessageException if the subscription to remove doesn't exist.
+     *  Assert/undefined behaviour if the subscription to remove doesn't exist.
      *
      *  @tparam Message The Message type to unsubscribe from.
      *  @param receiver Object to remove subscription for.

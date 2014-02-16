@@ -103,12 +103,10 @@ if(BUILD_MESSAGING)
     set(BUILT_TARGETS ${BUILT_TARGETS} ${project_name}-messaging)
 
     set(messaging_source_files 
-        src/messaging/messagebus.cpp
-        src/messaging/messageexception.cpp)
+        src/messaging/messagebus.cpp)
 
     set(messaging_header_files 
         include/featherkit/messaging/messagebus.h
-        include/featherkit/messaging/messageexception.h
         include/featherkit/messaging/message.h
         include/featherkit/messaging/messagereceiver.h)
     add_library(${project_name}-messaging ${SHARED_OR_STATIC} ${messaging_header_files} ${messaging_source_files})
