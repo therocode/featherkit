@@ -2,8 +2,8 @@
 #include <tuple>
 
 #define FEA_DECLARE_MESSAGE(name, ...)                      \
-struct Event##name##_tag{};                                 \
-using name = fea::Message<Event##name##_tag, ##__VA_ARGS__>;\
+struct name##_tag{};                                 \
+using name = fea::Message< name##_tag, ##__VA_ARGS__>;\
 using name##Receiver = fea::MessageReceiver< name >;
 
 namespace fea
