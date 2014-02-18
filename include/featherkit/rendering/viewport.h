@@ -56,7 +56,7 @@ namespace fea
      *  @param camera Camera to set it to.
      ***
      *  @fn Camera& Viewport::getCamera()
-     *  @brief Get the Camera currently in use by the Viewport. The camera might be modified external.
+     *  @brief Get the Camera currently in use by the Viewport. The camera might be modified externally.
      *  @return The current camera.
      ***
      *  @fn glm::vec2 Viewport::transformPoint(const glm::vec2 point) const
