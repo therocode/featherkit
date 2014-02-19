@@ -37,20 +37,37 @@ namespace fea
          *
          *  Here is an example of how an entity template file should be formatted:
          *  @code
-         *  {
-         *      "cow":
-         *      {
-         *          "position":"20.0f,40.0f", "velocity":"0.0f,0.0f", "acceleration":"1.0f,0.0f", "health":"9000"
-         *      },
-         *      "player":
-         *      {
-         *          "position":"30.0f,50.0f", "velocity":"0.0f,0.0f", "acceleration":"0.0f,0.0f", "health":"5"
-         *      }
+         *  {   
+         *      "entities":[
+         *      {"physics_entity":{
+         *          "attributes":
+         *          {
+         *              "position":"0.0f,0.0f", "velocity":"0.0f,0.0f", "acceleration":"0.0f,0.0f"
+         *          }
+         *      }},
+         *      {"enemy":{
+         *          "inherits" : ["physics_entity"]
+         *          ,
+         *          "attributes":
+         *          {
+         *              "health":""
+         *          }
+         *      }},
+         *      {"player":{
+         *          "inherits" : ["physics_entity"]
+         *          ,
+         *          "attributes":
+         *          {
+         *              "health":"100", "jump_strength":"1.0f", "position":"50.0f, 60.0f"
+         *          }
+         *      }}]
          *  }
          *  @endcode
-         *  The file is divided into entity template definitions. The two entities defined in this files are "cow" and "player". Every entity template internally defines a sequence of attributes that they should have. The attributes might come with default values. For instance, the first attribute of the entity template "cow" is "player" with a default value of "20.0f,40.0".
+         *  The file is divided into entity template definitions. The three entities defined in this files are "physics_entity", "enemy" and "player". Every entity template internally defines a sequence of attributes that they should have and/or which other entity templates they inherit. The attributes might come with default values. For instance, the first attribute of the entity template "player" is "health" with a default value of "100".
+         *
+         *  If a template inherits another template, it means that the inheriting template will obtain all attributes and default values from the inherited templates. Inheriting templates can override default values by restating the attributes like the template "player" does in the above example with the "position" attribute.
          ***
-         *  @fn std::vector<std::pair<std::string, EntityTemplate>> JsonEntityLoader::loadEntityTemplates(const std::string& path)
+         *  @fn std::vector<std::pair<std::string, EntityTemplate> > JsonEntityLoader::loadEntityTemplates(const std::string& path)
          *  @brief Load a json file defining entity templates.
          *
          *  Use this function to load an entity template file. The content of the return value can be given to the EntityFactory::addTemplate function.
