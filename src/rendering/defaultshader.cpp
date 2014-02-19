@@ -25,7 +25,7 @@ void main()
 {
     float sinRot = sin(rotation);
     float cosRot = cos(rotation);
-    mat2 rotMat = mat2(cosRot, sinRot, -sinRot, cosRot);
+    mat2 rotMat = mat2(cosRot, -sinRot, sinRot, cosRot);
 
     vec2 worldSpaceCoords = (rotMat * (scaling * vertex.xy - origin)) + position;
     vec2 transformedPoint = camRotation * (camZoom * (worldSpaceCoords - camPosition * parallax)) + halfViewSize;
