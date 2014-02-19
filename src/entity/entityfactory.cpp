@@ -1,5 +1,6 @@
 #include <featherkit/entity/entityfactory.h>
 #include <featherkit/entity/entity.h>
+#include <algorithm>
 
 namespace fea
 {
@@ -26,16 +27,44 @@ namespace fea
 
         Prototype prototype;
 
-        for(const auto& element : entityTemplate)
+        for(const auto& parentTemplate : entityTemplate.mInherits)
+        {
+            FEA_ASSERT(mPrototypes.find(parentTemplate) != mPrototypes.end(), "Trying to let entity template '" +name + "' inherit template called '" + parentTemplate + "' which has not been added!");
+            auto& parent = mPrototypes.at(parentTemplate);
+            
+            std::set<std::string> result;
+            std::set_union(parent.attributes.begin(), parent.attributes.end(), prototype.attributes.begin(), prototype.attributes.end(), std::inserter(result, result.begin()));
+
+            prototype.attributes = result;
+
+            std::set<Prototype::Value> result2;
+            std::set_union(parent.values.begin(), parent.values.end(), prototype.values.begin(), prototype.values.end(), std::inserter(result2, result2.begin()));
+
+            prototype.values = result2;
+        }
+
+        for(const auto& element : entityTemplate.mAttributes)
         {
             const std::string& attribute = element.first;
             const std::string& arguments = element.second;
 
             FEA_ASSERT(mParsers.find(attribute) != mParsers.end(), "Trying to add a template with the attribute '" + attribute + "' which doesn't exist!");
-            prototype.attributes.insert(attribute);
-            if(arguments.size() > 0)
+
+            if(prototype.attributes.find(attribute) == prototype.attributes.end())
             {
-                prototype.values.insert({attribute, mParsers.at(attribute)(arguments)}); 
+                prototype.attributes.insert(attribute);
+                if(arguments.size() > 0)
+                {
+                    prototype.values.insert({attribute, mParsers.at(attribute)(arguments)}); 
+                }
+            }
+            else
+            {
+                prototype.values.erase({attribute});
+                if(arguments.size() > 0)
+                {
+                    prototype.values.insert({attribute, mParsers.at(attribute)(arguments)}); 
+                }
             }
         }
 

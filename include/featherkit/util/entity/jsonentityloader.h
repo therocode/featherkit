@@ -1,5 +1,4 @@
 #pragma once
-#include <unordered_map>
 #include <vector>
 #include <string>
 #include <featherkit/util/filenotfoundexception.h>
@@ -12,7 +11,7 @@ namespace fea
         class JsonEntityLoader
         {
             public:
-                std::unordered_map<std::string, EntityTemplate> loadEntityTemplates(const std::string& path);
+                std::vector<std::pair<std::string, EntityTemplate>> loadEntityTemplates(const std::string& path);
                 std::unordered_map<std::string, std::string> loadEntityAttributes(const std::string& path);
         };
         /** @addtogroup EntitySystem
@@ -51,7 +50,7 @@ namespace fea
          *  @endcode
          *  The file is divided into entity template definitions. The two entities defined in this files are "cow" and "player". Every entity template internally defines a sequence of attributes that they should have. The attributes might come with default values. For instance, the first attribute of the entity template "cow" is "player" with a default value of "20.0f,40.0".
          ***
-         *  @fn std::unordered_map<std::string, EntityTemplate> JsonEntityLoader::loadEntityTemplates(const std::string& path)
+         *  @fn std::vector<std::pair<std::string, EntityTemplate>> JsonEntityLoader::loadEntityTemplates(const std::string& path)
          *  @brief Load a json file defining entity templates.
          *
          *  Use this function to load an entity template file. The content of the return value can be given to the EntityFactory::addTemplate function.

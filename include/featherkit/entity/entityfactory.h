@@ -1,13 +1,11 @@
 #pragma once
-#include <unordered_map>
-#include <vector>
 #include <featherkit/entity/entitymanager.h>
+#include <featherkit/entity/entitytemplate.h>
 #include <featherkit/entity/entity.h>
 
 namespace fea
 {
     using Parameters     = std::vector<std::string>;
-    using EntityTemplate = std::unordered_map<std::string, std::string>;
     using Setter         = std::function<void(EntityPtr&)>;
     using Parser         = std::function<Setter(const std::string&)>;
     using Registrator   = std::function<Parser(const std::string&)>;

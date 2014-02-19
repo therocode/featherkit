@@ -81,7 +81,8 @@ if(BUILD_ENTITY)
         include/featherkit/entity/entityfactory.h
         include/featherkit/entity/entity.h
         include/featherkit/entity/entitymanager.h
-        include/featherkit/entity/entitystorage.h)
+        include/featherkit/entity/entitystorage.h
+        include/featherkit/entity/entitytemplate.h)
 
     set(entity_util_source_files
         src/util/entity/basictypeadder.cpp
