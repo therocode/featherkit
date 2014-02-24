@@ -1,5 +1,5 @@
 #pragma once
-#include <featherkit/rendering/colour.h>
+#include <featherkit/rendering/color.h>
 #include <featherkit/rendering/viewport.h>
 #include <featherkit/rendering/rendertarget.h>
 #include <featherkit/rendering/shader.h>
@@ -15,8 +15,8 @@ namespace fea
         public:
             Renderer2D(const Viewport& viewport);
             void setup();
-            void clear(const Colour& colour = Colour());
-            void clear(const RenderTarget& target, const Colour& colour = Colour());
+            void clear(const Color& color = Color());
+            void clear(const RenderTarget& target, const Color& color = Color());
             void queue(const Drawable2D& drawable);
             void render();
             void render(const RenderTarget& target);
@@ -37,7 +37,7 @@ namespace fea
             std::vector<RenderInfo> mRenderQueue;
 
             //cache
-            Colour mClearColour;
+            Color mClearColor;
     };
     /** @addtogroup Render2D
      *@{
@@ -69,18 +69,18 @@ namespace fea
      *  
      *  When the renderer is setup, it is ready to be used. The underlying purpose of this function may vary depending on the backend used.
      ***
-     *  @fn void Renderer2D::clear(const Colour& colour = Colour())
-     *  @brief Clear the screen, filling it with the given colour.
+     *  @fn void Renderer2D::clear(const Color& color = Color())
+     *  @brief Clear the screen, filling it with the given color.
      *
      *  Usually called once every frame as a first step of the rendering process to clear out what was drawn the last frame.
-     *  @param colour Colour object. Black by default.
+     *  @param color Color object. Black by default.
      ***
-     *  @fn void Renderer2D::clear(const RenderTarget& target, const Colour& = Colour())
-     *  @brief Clear the given RenderTarget, filling it with the given colour. 
+     *  @fn void Renderer2D::clear(const RenderTarget& target, const Color& = Color())
+     *  @brief Clear the given RenderTarget, filling it with the given color. 
      *
      *  Usually called once every frame as a first step of the rendering process to clear out what was drawn the last frame.
      *  @param target RenderTarget to clear.
-     *  @param colour Colour object. Black by default.
+     *  @param color Color object. Black by default.
      ***
      *  @fn void Renderer2D::queue(const Drawable2D& drawable)
      *  @brief Queue a drawable for rendering.

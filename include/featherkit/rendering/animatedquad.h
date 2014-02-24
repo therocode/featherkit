@@ -50,7 +50,7 @@ namespace fea
      *  @brief Construct an AnimatedQuad with the given size.
      *  
      *  Uses the Quad::Quad(const glm::vec2& size) constructor.
-     *  Assert/undefined behaviour when size is less than one in either of the dimensions.
+     *  Assert/undefined behavior when size is less than one in either of the dimensions.
      *  @param size Size.
      ***
      *  @fn void AnimatedQuad::setAnimation(const Animation& animation, bool play = true)
@@ -63,7 +63,7 @@ namespace fea
      *  @fn AnimationId AnimatedQuad::getAnimation() const
      *  @brief Get current animation.
      *
-     *  Assert/undefined behaviour if no animation is set.
+     *  Assert/undefined behavior if no animation is set.
      *  @return Current animation ID.
      ***
      *  @fn void AnimatedQuad::tick()
@@ -74,7 +74,7 @@ namespace fea
      *  @fn void AnimatedQuad::playAnimation(uint32_t startFrame = 0)
      *  @brief Start the animation sequence for the current set animation.
      *
-     *  assert/undefined behaviour if no animation is set.
+     *  assert/undefined behavior if no animation is set.
      *  @param startFrame Animation frame from which the sequence should start. Default is 0.
      ***
      *  @fn void AnimatedQuad::stopAnimation()
@@ -84,7 +84,7 @@ namespace fea
      ***
      *  @fn void AnimatedQuad::setAnimationFrame(uint32_t frame)
      *
-     *  assert/undefined behaviour if no animation is set.
+     *  assert/undefined behavior if no animation is set.
      *  @brief Set the animation frame.
      *  @param frame Frame to set it to.
      ***

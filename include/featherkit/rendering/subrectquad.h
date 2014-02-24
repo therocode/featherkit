@@ -31,7 +31,7 @@ namespace fea
      *  @brief Construct a SubrectQuad with the given size.
      *  
      *  Uses the Quad::Quad(const glm::vec2& size) constructor.
-     *  Assert/undefined behaviour if the size is zero or negative in any dimension.
+     *  Assert/undefined behavior if the size is zero or negative in any dimension.
      *  @param size Size.
      ***
      *  @fn void SubrectQuad::setSubrect(const glm::vec2& subrectStart, const glm::vec2& subrectEnd)

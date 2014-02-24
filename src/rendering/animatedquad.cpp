@@ -19,17 +19,17 @@
                 currentAnimation = &animation;
                 mAnimate = play;
 
-                AnimationBehaviour animBehaviour = currentAnimation->getAnimationBehaviour();
+                AnimationBehavior animBehavior = currentAnimation->getAnimationBehavior();
 
-                if(animBehaviour == FORWARDS || animBehaviour == BOUNCE)
+                if(animBehavior == FORWARDS || animBehavior == BOUNCE)
                 {
                     mCurrentFrame = 0;
                 }
-                else if(animBehaviour == BACKWARDS || animBehaviour == INV_BOUNCE)
+                else if(animBehavior == BACKWARDS || animBehavior == INV_BOUNCE)
             {
                 mCurrentFrame = currentAnimation->getFrameAmount() - 1;
             }
-            else if(animBehaviour == RANDOM)
+            else if(animBehavior == RANDOM)
             {
                 mCurrentFrame = (uint32_t)rand() % currentAnimation->getFrameAmount();
             }
@@ -51,12 +51,12 @@
             
             uint32_t delay = currentAnimation->getDelay();
             uint32_t frameAmount = currentAnimation->getFrameAmount();
-            AnimationBehaviour animBehaviour = currentAnimation->getAnimationBehaviour();
+            AnimationBehavior animBehavior = currentAnimation->getAnimationBehavior();
 
             if(frameAmount <= 1)
                 return;
 
-            switch(animBehaviour)
+            switch(animBehavior)
             {
                 case FORWARDS:
                     animateForwards();

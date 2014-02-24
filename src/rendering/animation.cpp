@@ -2,11 +2,11 @@
 
 namespace fea
 {
-    Animation::Animation() : mFrameAmount(0), mDelay(0), mLoop(true), mAnimBehaviour(FORWARDS)
+    Animation::Animation() : mFrameAmount(0), mDelay(0), mLoop(true), mAnimBehavior(FORWARDS)
     {
     }
 
-    Animation::Animation(const glm::vec2& frameStart, const glm::vec2& frameSize, uint32_t fAmount, uint32_t d, bool l, AnimationBehaviour ab) : mStart(frameStart), mFrameSize(frameSize), mFrameAmount(fAmount), mDelay(d), mLoop(l), mAnimBehaviour(ab)
+    Animation::Animation(const glm::vec2& frameStart, const glm::vec2& frameSize, uint32_t fAmount, uint32_t d, bool l, AnimationBehavior ab) : mStart(frameStart), mFrameSize(frameSize), mFrameAmount(fAmount), mDelay(d), mLoop(l), mAnimBehavior(ab)
     {
     }
 
@@ -33,8 +33,8 @@ namespace fea
         return mLoop;
     }
 
-    AnimationBehaviour Animation::getAnimationBehaviour() const
+    AnimationBehavior Animation::getAnimationBehavior() const
     {
-        return mAnimBehaviour;
+        return mAnimBehavior;
     }
 }

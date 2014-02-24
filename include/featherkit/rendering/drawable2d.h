@@ -2,7 +2,7 @@
 #include <vector>
 #include <glm/glm.hpp>
 #include <featherkit/rendering/renderinfo.h>
-#include <featherkit/rendering/colour.h>
+#include <featherkit/rendering/color.h>
 #include <stdint.h>
 #include <string>
 
@@ -26,8 +26,8 @@ namespace fea
             void scale(const glm::vec2& amount);
             void setParallax(float parallax);
             float getParallax() const;
-            void setColour(const Colour& colour);
-            Colour getColour() const;
+            void setColor(const Color& color);
+            Color getColor() const;
             void setOpacity(float opacity);
             float getOpacity() const;
 
@@ -35,14 +35,14 @@ namespace fea
         protected:
             std::vector<float> mVertices;
             std::vector<float> mTexCoords;
-            std::vector<float> mVertexColours;
+            std::vector<float> mVertexColors;
             GLenum mDrawMode;
             glm::vec2 mPosition;
             glm::vec2 mOrigin;
             float mRotation;
             glm::vec2 mScaling;
             float mParallax;
-            Colour mColour;
+            Color mColor;
     };
     /** @addtogroup Render2D
      *@{
@@ -75,7 +75,7 @@ namespace fea
      *  @fn void Drawable2D::setOrigin(const glm::vec2& position)
      *  @brief Set the origin point of the Drawable2D, using a vector.
      *  
-     *  The origin serves as the centre point. This is where the object will be centered and all rotation and scaling will happen around this point. Also, if the position is set, the origin will be equivalent to that position. 
+     *  The origin serves as the center point. This is where the object will be centered and all rotation and scaling will happen around this point. Also, if the position is set, the origin will be equivalent to that position. 
      *  @param position Position to set the origin to.
      ***
      *  @fn const glm::vec2& Drawable2D::getOrigin() const
@@ -117,20 +117,20 @@ namespace fea
      *  @fn void Drawable2D::setOpacity(float opacity)
      *  @brief Set the opacity.
      *
-     *  Assert/undefined behaviour if the values is not within the range of [0.0f,1.0f].
+     *  Assert/undefined behavior if the values is not within the range of [0.0f,1.0f].
      *  @param opacity Opacity.
      ***
      *  @fn float Drawable2D::getOpacity() const
      *  @brief Get the opacity.
      *  @return Opacity.
      ***
-     *  @fn Colour Drawable2D::getColour() const
-     *  @brief Get the colour.
-     *  @return The colour of the drawable.
+     *  @fn Color Drawable2D::getColor() const
+     *  @brief Get the color.
+     *  @return The color of the drawable.
      ***
-     *  @fn void Drawable2D::setColour(const Colour& colour)
-     *  @brief Set the colour.
-     *  @param colour Colour to set to.
+     *  @fn void Drawable2D::setColor(const Color& color)
+     *  @brief Set the color.
+     *  @param color Color to set to.
      ***
      *  @fn virtual RenderInfo Drawable2D::getRenderInfo() const
      *  @brief Returns data used for rendering.
@@ -144,8 +144,8 @@ namespace fea
      *  @var Drawable2D::mTexCoords
      *  @brief List of all texture coordinates.
      ***
-     *  @var Drawable2D::mVertexColours
-     *  @brief List of all vertex colours.
+     *  @var Drawable2D::mVertexColors
+     *  @brief List of all vertex colors.
      ***
      *  @var Drawable2D::mDrawMode
      *  @brief Which GL drawmode to use to render this drawable. 
@@ -167,7 +167,7 @@ namespace fea
      *  @var Drawable2D::mParallax
      *  @brief Stores the parallax factor.
      ***
-     *  @var Drawable2D::mColour
-     *  @brief Stores the colour.
+     *  @var Drawable2D::mColor
+     *  @brief Stores the color.
      ***/
 }

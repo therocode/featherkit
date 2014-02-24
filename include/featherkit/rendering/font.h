@@ -38,7 +38,7 @@ namespace fea
      *  @fn Font::Font(const std::string& path = "", const float size = 12.0f)
      *  @brief Construct a font from the given file name and size.
      *
-     *  Assert/undefined behaviour if the size is zero or less.
+     *  Assert/undefined behavior if the size is zero or less.
      *  @param path Path to file.
      *  @param size Size of the font.
      ***

@@ -4,7 +4,7 @@
 
 namespace fea
 {
-    enum AnimationBehaviour { FORWARDS, BACKWARDS, BOUNCE, INV_BOUNCE, RANDOM };
+    enum AnimationBehavior { FORWARDS, BACKWARDS, BOUNCE, INV_BOUNCE, RANDOM };
 
     using AnimationId = size_t;
 
@@ -12,28 +12,28 @@ namespace fea
     {
         public:
             Animation();
-            Animation(const glm::vec2& frameStart, const glm::vec2& frameSize, uint32_t frameAmount = 1, uint32_t delay = 1, bool loop = true, AnimationBehaviour animationBehaviour = FORWARDS);
+            Animation(const glm::vec2& frameStart, const glm::vec2& frameSize, uint32_t frameAmount = 1, uint32_t delay = 1, bool loop = true, AnimationBehavior animationBehavior = FORWARDS);
             void getConstraints(glm::vec4& constraints, uint32_t frame) const;
             uint32_t getFrameAmount() const;
             uint32_t getDelay() const;
             bool getLoop() const;
-            AnimationBehaviour getAnimationBehaviour() const;
+            AnimationBehavior getAnimationBehavior() const;
         private:
             glm::vec2 mStart;
             glm::vec2 mFrameSize;
             uint32_t mFrameAmount;
             uint32_t mDelay;
             bool mLoop;
-            AnimationBehaviour mAnimBehaviour;
+            AnimationBehavior mAnimBehavior;
     };
     /** @addtogroup Render2D
      *@{
-     *  @enum AnimationBehaviour
+     *  @enum AnimationBehavior
      *  @class Animation
      *@}
      ***
-     *  @enum AnimationBehaviour
-     *  @brief Describes different types of animation behaviours.
+     *  @enum AnimationBehavior
+     *  @brief Describes different types of animation behaviors.
      ***
      *  @class Animation
      *  @brief Represents an animation for an AnimatedQuad.
@@ -42,14 +42,14 @@ namespace fea
      *
      *  All values defining location on the sprite sheet is in percent of the total texture size.
      ***
-     *  @fn Animation::Animation(const glm::vec2& frameStart, const glm::vec2& frameSize, uint32_t frameAmount = 1, uint32_t delay = 1, bool loop = true, AnimationBehaviour animationBehaviour = FORWARDS)
+     *  @fn Animation::Animation(const glm::vec2& frameStart, const glm::vec2& frameSize, uint32_t frameAmount = 1, uint32_t delay = 1, bool loop = true, AnimationBehavior animationBehavior = FORWARDS)
      *  @brief Construct an animation. All positioning values are in percent (between 0.0 and 1.0) of the total texture size.
      *  @param frameStart Starting point. The top left corner of the first animation frame.
      *  @param frameSize Width and height of one animation frame.
      *  @param frameAmount Total amount of frames in the animation.
      *  @param delay Amount of ticks between every animation frame.
      *  @param loop Describes if the animation is looping or not.
-     *  @param animationBehaviour Can currently be FORWARDS or BACKWARDS, and defines if the frame is animated backwards or not.
+     *  @param animationBehavior Can currently be FORWARDS or BACKWARDS, and defines if the frame is animated backwards or not.
      ***
      *  @fn void Animation::getConstraints(glm::vec4& constraints, uint32_t frame) const
      *  @brief Get constraints.
@@ -70,8 +70,8 @@ namespace fea
      *  @brief Check if the animation will loop.
      *  @return True if loop is set.
      ***
-     *  @fn AnimationBehaviour Animation::getAnimationBehaviour() const
-     *  @brief Get the animation behaviour of the animation.
-     *  @return Animation behaviour.
+     *  @fn AnimationBehavior Animation::getAnimationBehavior() const
+     *  @brief Get the animation behavior of the animation.
+     *  @return Animation behavior.
      ***/
 }

@@ -1,8 +1,8 @@
-#include <featherkit/rendering/colour.h>
+#include <featherkit/rendering/color.h>
 
 namespace fea
 {
-    Colour::Colour()
+    Color::Color()
     {
         mRed = 0.0f;
         mGreen = 0.0f;
@@ -10,7 +10,7 @@ namespace fea
         mAlpha = 1.0f;
     }
 
-    Colour::Colour(float r, float g, float b, float a)
+    Color::Color(float r, float g, float b, float a)
     {
         mRed = std::max(0.0f, std::min(1.0f, r));
         mGreen = std::max(0.0f, std::min(1.0f, g));
@@ -18,7 +18,7 @@ namespace fea
         mAlpha = std::max(0.0f, std::min(1.0f, a));
     }
 
-    Colour::Colour(int32_t r, int32_t g, int32_t b, int32_t a)
+    Color::Color(int32_t r, int32_t g, int32_t b, int32_t a)
     {
         mRed = float(std::max(0, std::min(255, r)))/255.0f;
         mGreen = float(std::max(0, std::min(255, g)))/255.0f;
@@ -26,7 +26,7 @@ namespace fea
         mAlpha = float(std::max(0, std::min(255, a)))/255.0f;
     }
 
-    Colour::Colour(int32_t hexValue, float a)
+    Color::Color(int32_t hexValue, float a)
     {
         hexValue = std::max(0, std::min(0xFFFFFF, hexValue));
 
@@ -36,7 +36,7 @@ namespace fea
         mAlpha = std::max(0.0f, std::min(1.0f, a));
     }
 
-    Colour::Colour(int32_t hexValue, int32_t a)
+    Color::Color(int32_t hexValue, int32_t a)
     {
         hexValue = std::max(0, std::min(0xFFFFFF, hexValue));
 
@@ -46,9 +46,9 @@ namespace fea
         mAlpha = float(std::max(0, std::min(255, a)))/255.0f;
     }
 
-    Colour Colour::operator+(const Colour& other) const
+    Color Color::operator+(const Color& other) const
     {
-        Colour result;
+        Color result;
 
         result.mRed = mRed + other.mRed + 0.00196;
         result.mGreen = mGreen + other.mGreen + 0.00196;
@@ -63,7 +63,7 @@ namespace fea
         return result;
     }
 
-    Colour& Colour::operator+=(const Colour& other)
+    Color& Color::operator+=(const Color& other)
     {
         mRed = mRed + other.mRed;
         mGreen = mGreen + other.mGreen;
@@ -78,9 +78,9 @@ namespace fea
         return *this;
     }
 
-    Colour Colour::operator-(const Colour& other) const
+    Color Color::operator-(const Color& other) const
     {
-        Colour result;
+        Color result;
 
         result.mRed = mRed - other.mRed + 0.00196;
         result.mGreen = mGreen - other.mGreen + 0.00196;
@@ -95,7 +95,7 @@ namespace fea
         return result;
     }
 
-    Colour& Colour::operator-=(const Colour& other)
+    Color& Color::operator-=(const Color& other)
     {
         mRed = mRed - other.mRed;
         mGreen = mGreen - other.mGreen;
@@ -110,9 +110,9 @@ namespace fea
         return *this;
     }
 
-    Colour Colour::operator*(const Colour& other) const
+    Color Color::operator*(const Color& other) const
     {
-        Colour result;
+        Color result;
 
         result.mRed = mRed * other.mRed + 0.00196;
         result.mGreen = mGreen * other.mGreen + 0.00196;
@@ -127,7 +127,7 @@ namespace fea
         return result;
     }
 
-    Colour& Colour::operator*=(const Colour& other)
+    Color& Color::operator*=(const Color& other)
     {
         mRed = mRed * other.mRed;
         mGreen = mGreen * other.mGreen;
@@ -142,9 +142,9 @@ namespace fea
         return *this;
     }
 
-    Colour Colour::operator/(const Colour& other) const
+    Color Color::operator/(const Color& other) const
     {
-        Colour result;
+        Color result;
 
         result.mRed = mRed / other.mRed + 0.00196;
         result.mGreen = mGreen / other.mGreen + 0.00196;
@@ -159,7 +159,7 @@ namespace fea
         return result;
     }
 
-    Colour& Colour::operator/=(const Colour& other)
+    Color& Color::operator/=(const Color& other)
     {
         mRed = mRed / other.mRed;
         mGreen = mGreen / other.mGreen;
@@ -174,7 +174,7 @@ namespace fea
         return *this;
     }
 
-    bool Colour::operator==(const Colour& other) const
+    bool Color::operator==(const Color& other) const
     {
         uint8_t r = mRed * 255;
         uint8_t g = mGreen * 255;
@@ -192,7 +192,7 @@ namespace fea
                (a == a2);
     }
 
-    bool Colour::operator!=(const Colour& other) const
+    bool Color::operator!=(const Color& other) const
     {
         uint8_t r = mRed * 255;
         uint8_t g = mGreen * 255;
@@ -211,82 +211,82 @@ namespace fea
     }
 
 
-    float Colour::r() const
+    float Color::r() const
     {
         return mRed;
     }
 
-    float Colour::g() const
+    float Color::g() const
     {
         return mGreen;
     }
 
-    float Colour::b() const
+    float Color::b() const
     {
         return mBlue;
     }
 
-    float Colour::a() const
+    float Color::a() const
     {
         return mAlpha;
     }
 
-    uint8_t Colour::rAsByte() const
+    uint8_t Color::rAsByte() const
     {
         return mRed * 255;
     }
 
-    uint8_t Colour::gAsByte() const
+    uint8_t Color::gAsByte() const
     {
         return mGreen * 255;
     }
 
-    uint8_t Colour::bAsByte() const
+    uint8_t Color::bAsByte() const
     {
         return mBlue * 255;
     }
 
-    uint8_t Colour::aAsByte() const
+    uint8_t Color::aAsByte() const
     {
         return mAlpha * 255;
     }
 
-    void Colour::setR(float r)
+    void Color::setR(float r)
     {
         mRed = std::max(0.0f, std::min(1.0f, r));
     }
 
-    void Colour::setG(float g)
+    void Color::setG(float g)
     {
         mGreen = std::max(0.0f, std::min(1.0f, g));
     }
 
-    void Colour::setB(float b)
+    void Color::setB(float b)
     {
         mBlue = std::max(0.0f, std::min(1.0f, b));
     }
 
-    void Colour::setA(float a)
+    void Color::setA(float a)
     {
         mAlpha = std::max(0.0f, std::min(1.0f, a));
     }
 
-    void Colour::setRAsByte(int32_t r)
+    void Color::setRAsByte(int32_t r)
     {
         mRed = std::max(0, std::min(255, r));
     }
 
-    void Colour::setGAsByte(int32_t g)
+    void Color::setGAsByte(int32_t g)
     {
         mGreen = std::max(0, std::min(255, g));
     }
 
-    void Colour::setBAsByte(int32_t b)
+    void Color::setBAsByte(int32_t b)
     {
         mBlue = std::max(0, std::min(255, b));
     }
 
-    void Colour::setAAsByte(int32_t a)
+    void Color::setAAsByte(int32_t a)
     {
         mAlpha = std::max(0, std::min(255, a));
     }

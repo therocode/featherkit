@@ -119,14 +119,14 @@ namespace fea
      *  @brief Remove an Entity. 
      *
      *  The removed Entity will become invalid instantly after the deletion. This means that if there are any WeakEntityPtr pointing to this Entity elsewhere in the application, those pointers must not be dereferenced. In the case there is a risk for pointing at an invalid Entity, the sanity of the pointer should always be checked before dereferencing it.
-     *  Assert/undefined behaviour when the entity does not exist.
+     *  Assert/undefined behavior when the entity does not exist.
      *
      *  @param id ID of the Entity to remove.
      ***
      *  @fn DataType EntityManager::getAttribute(const EntityId id, const std::string& attribute) const
      *  @brief Retrieve the value of an attribute of a selected Entity. 
      *  
-     *  Assert/undefined behaviour when the attribute does not exist or the wrong template argument is provided or the entity does not exist.
+     *  Assert/undefined behavior when the attribute does not exist or the wrong template argument is provided or the entity does not exist.
      *  @tparam DataType of the attribute to get.
      *  @param attribute Name of the attribute to get.
      *  @param id ID of the Entity to get the attribute from.
@@ -134,7 +134,7 @@ namespace fea
      *  @fn void EntityManager::setAttribute(const EntityId id, const std::string& attribute, const DataType& attributeData)
      *  @brief Set the value of an attribute of a selected Entity. 
      *  
-     *  Assert/undefined behaviour when the attribute does not exist or the wrong template argument is provide or the entity does not exist..
+     *  Assert/undefined behavior when the attribute does not exist or the wrong template argument is provide or the entity does not exist..
      *  @tparam DataType of the attribute to set.
      *  @param id ID of the Entity to set the attribute of.
      *  @param attribute Name of the attribute to set.
@@ -145,7 +145,7 @@ namespace fea
      *
      *  Needs the operator+ function to be implemented for the target type.
      *  
-     *  Assert/undefined behaviour when the attribute does not exist or the wrong template argument is provide or the entity does not exist..
+     *  Assert/undefined behavior when the attribute does not exist or the wrong template argument is provide or the entity does not exist..
      *  In most cases, it is better to use the setting functions of a specific WeakEntityPtr than using this function.
      *  @tparam DataType of the attribute to add to.
      *  @param id ID of the Entity to add the attribute to.
@@ -155,7 +155,7 @@ namespace fea
      *  @fn bool EntityManager::hasAttribute(const EntityId id, const std::string& attribute) const
      *  @brief Check if an attribute exists for a specific Entity.
      *
-     *  Assert/undefined behaviour when the entity does not exist.
+     *  Assert/undefined behavior when the entity does not exist.
      *  @param id Entity to check an attribute for.
      *  @param attribute Name of the attribute to check for.
      *  @return True if the attribute exists, otherwise false.
@@ -169,7 +169,7 @@ namespace fea
      *  @code
      *  entityManager.registerAttribute<int32_t>("Health points");
      *  @endcode
-     *  Assert/undefined behaviour when the attribute is already registered.
+     *  Assert/undefined behavior when the attribute is already registered.
      *  @tparam DataType Type of the attribute.
      *  @param attribute Name of the attribute to register.
      ***

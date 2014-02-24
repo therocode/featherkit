@@ -73,10 +73,10 @@ namespace fea
      *  @brief Create a RenderTarget with the given size.
      *
      *  This method has to be called prior to using the RenderTarget. 
-     *  Assert/undefined behaviour if size is zero or less in any dimension.
+     *  Assert/undefined behavior if size is zero or less in any dimension.
      *  @param width Width of the RenderTarget.
      *  @param height Height of the RenderTarget.
-     *  @param smooth If this is true, the internal texture used by the RenderTarget will be smoothed using a nearest neighbour algorithm.
+     *  @param smooth If this is true, the internal texture used by the RenderTarget will be smoothed using a nearest neighbor algorithm.
      ***
      *  @fn void RenderTarget::destroy()
      *  @brief Release the resources in use by the RenderTarget.

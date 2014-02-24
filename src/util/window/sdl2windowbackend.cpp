@@ -39,7 +39,7 @@ namespace fea
 
 		const ContextSettings SDL2WindowBackend::getSettings() const
 		{
-			//settings not finalised;
+			//settings not finalized;
 			return ContextSettings();
 		}
 

@@ -15,14 +15,14 @@ namespace fea
     void Renderer2D::setup()
     {
         auto glewStatus = glewInit();
-        FEA_ASSERT(glewStatus == GLEW_OK, "Could not initialise the renderer! Make sure there is a valid OpenGL context!");
+        FEA_ASSERT(glewStatus == GLEW_OK, "Could not initialize the renderer! Make sure there is a valid OpenGL context!");
 
         //glEnable(GL_DEPTH_TEST);
         glEnable(GL_BLEND);
         glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
-        mDefaultTexture.create(16, 16, fea::Colour(1.0f, 1.0f, 1.0f));
+        mDefaultTexture.create(16, 16, fea::Color(1.0f, 1.0f, 1.0f));
 
         mDefaultShader.setSource(DefaultShader::vertexSource, DefaultShader::fragmentSource);
         mDefaultShader.compile();
@@ -30,23 +30,23 @@ namespace fea
         setViewport(mCurrentViewport);
     }
 
-    void Renderer2D::clear(const Colour& colour)
+    void Renderer2D::clear(const Color& color)
     {
-        if(mClearColour != colour)
+        if(mClearColor != color)
         {
-            glClearColor(colour.r(), colour.g(), colour.b(), 0.0f);
-            mClearColour = colour;
+            glClearColor(color.r(), color.g(), color.b(), 0.0f);
+            mClearColor = color;
         }
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
-    void Renderer2D::clear(const RenderTarget& target, const Colour& colour)
+    void Renderer2D::clear(const RenderTarget& target, const Color& color)
     {
-        if(mClearColour != colour)
+        if(mClearColor != color)
         {
-            glClearColor(colour.r(), colour.g(), colour.b(), 0.0f);
-            mClearColour = colour;
+            glClearColor(color.r(), color.g(), color.b(), 0.0f);
+            mClearColor = color;
         }
 
         glBindFramebuffer(GL_FRAMEBUFFER, target.getId());

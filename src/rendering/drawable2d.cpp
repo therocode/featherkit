@@ -3,7 +3,7 @@
 
 namespace fea
 {
-    Drawable2D::Drawable2D() : mDrawMode(0), mRotation(0.0f), mScaling(glm::vec2(1.0f, 1.0f)), mParallax(1.0f), mColour(1.0f, 1.0f, 1.0f, 1.0f)
+    Drawable2D::Drawable2D() : mDrawMode(0), mRotation(0.0f), mScaling(glm::vec2(1.0f, 1.0f)), mParallax(1.0f), mColor(1.0f, 1.0f, 1.0f, 1.0f)
     {
     }
 
@@ -77,25 +77,25 @@ namespace fea
         return mParallax;
     }
         
-    void Drawable2D::setColour(const Colour& c)
+    void Drawable2D::setColor(const Color& c)
     {
-        mColour = c;
+        mColor = c;
     }
     
-    Colour Drawable2D::getColour() const
+    Color Drawable2D::getColor() const
     {
-        return mColour;
+        return mColor;
     }
     
     void Drawable2D::setOpacity(float o)
     {
         FEA_ASSERT(o >= 0.0f && o <= 1.0f, "Opacity must be within the range of [0.0f, 1.0f]! " + std::to_string(o) + " provided.");
-        mColour.setA(o);
+        mColor.setA(o);
     }
 
     float Drawable2D::getOpacity() const
     {
-        return mColour.a();
+        return mColor.a();
     }
 
     RenderInfo Drawable2D::getRenderInfo() const
@@ -103,15 +103,15 @@ namespace fea
         RenderInfo temp;
         std::hash<std::string> stringHasher;
 
-        glm::vec3 colourInfo = glm::vec3(mColour.r(), mColour.g(), mColour.b());
-        float opacity = mColour.a();
+        glm::vec3 colorInfo = glm::vec3(mColor.r(), mColor.g(), mColor.b());
+        float opacity = mColor.a();
 
         temp.mDrawMode = mDrawMode;
         temp.mElementAmount = mVertices.size() / 2;
 
         temp.mVertexAttributes.push_back(VertexAttribute(stringHasher("vertex"), 2, &mVertices[0]));
         temp.mVertexAttributes.push_back(VertexAttribute(stringHasher("texCoords"), 2, &mTexCoords[0]));
-        temp.mVertexAttributes.push_back(VertexAttribute(stringHasher("colours"), 4, &mVertexColours[0]));
+        temp.mVertexAttributes.push_back(VertexAttribute(stringHasher("colors"), 4, &mVertexColors[0]));
 
         temp.mUniforms.push_back(Uniform(stringHasher("position"), VEC2, mPosition));
         temp.mUniforms.push_back(Uniform(stringHasher("origin"), VEC2, mOrigin));
@@ -120,7 +120,7 @@ namespace fea
         temp.mUniforms.push_back(Uniform(stringHasher("parallax"), FLOAT, mParallax));
         //temp.uniforms.push_back(Uniform(stringHasher("texture"), TEXTURE, (GLuint)0)); maybe not needed
         temp.mUniforms.push_back(Uniform(stringHasher("constraints"), VEC4, glm::vec4(0.0f, 1.0f, 0.0f, 1.0f)));
-        temp.mUniforms.push_back(Uniform(stringHasher("colour"), VEC3, colourInfo));
+        temp.mUniforms.push_back(Uniform(stringHasher("color"), VEC3, colorInfo));
         temp.mUniforms.push_back(Uniform(stringHasher("opacity"), FLOAT, opacity));
 
         return temp;

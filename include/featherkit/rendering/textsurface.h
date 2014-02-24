@@ -12,12 +12,12 @@ namespace fea
     {
         struct Writing
         {
-            Writing(const std::u32string& text, const Font* font, const glm::vec2& penPosition, const float scale, const Colour& colour);//
+            Writing(const std::u32string& text, const Font* font, const glm::vec2& penPosition, const float scale, const Color& color);//
             const std::u32string mText;
             const Font* mFont;
             const glm::vec2 mPenPosition;
             const float mScale;
-            const Colour mColour;
+            const Color mColor;
         };
 
     public:
@@ -28,7 +28,7 @@ namespace fea
         void setPenFont(const Font& font);
         void setPenPosition(const glm::vec2 position);
         void setPenScale(const float scale);
-        void setPenColour(const Colour& colour);
+        void setPenColor(const Color& color);
         void setHorizontalAlign(const float coord);
         void newLine(const float distance, const float indentation = 0.0f);
         virtual RenderInfo getRenderInfo() const override;
@@ -41,7 +41,7 @@ namespace fea
         const Font* mCurrentFont;
         glm::vec2 mPenPosition;
         float mScale;
-        Colour mColour;
+        Color mColor;
         float mHorizontalAlign;
         uint32_t mAtlasSize;
 
@@ -56,19 +56,19 @@ namespace fea
      *  @class TextSurface
      *  @brief A drawable for text.
      *
-     *  This drawable is similar to a piece of paper. Text can be written on it using the TextSurface::write method. All added text is appended to the current pen position and the pen position is advanced accordingly. The pen itself has states defining its colour, current font, and scale. When these attributes are set, all text written with the pen will be affected.
+     *  This drawable is similar to a piece of paper. Text can be written on it using the TextSurface::write method. All added text is appended to the current pen position and the pen position is advanced accordingly. The pen itself has states defining its color, current font, and scale. When these attributes are set, all text written with the pen will be affected.
      *
      ***
      *  @fn void TextSurface::write(const std::string& text)
      *  @brief Write text at the current pen position.
      *
-     *  The position of the pen is moved forward accordingly. The pen's current state determines the scale, font and colour of the text.
+     *  The position of the pen is moved forward accordingly. The pen's current state determines the scale, font and color of the text.
      *  @param text Text to write.
      ***
      *  @fn void TextSurface::write(const std::u32string& text)
      *  @brief Write text at the current pen position.
      *
-     *  The position of the pen is moved forward accordingly. The pen's current state determines the scale, font and colour of the text.
+     *  The position of the pen is moved forward accordingly. The pen's current state determines the scale, font and color of the text.
      *  @param text Text to write.
      ***
      *  @fn void TextSurface::setPenFont(const Font& font)
@@ -87,9 +87,9 @@ namespace fea
      *  Scaling can make text appear grainy. If a higher resolution of the text is needed, increase the size of the font.
      *  @param scale New scale.
      ***
-     *  @fn void TextSurface::setPenColour(const Colour& colour)
-     *  @brief Set the current pen colour.
-     *  @param colour New colour.
+     *  @fn void TextSurface::setPenColor(const Color& color)
+     *  @brief Set the current pen color.
+     *  @param color New color.
      ***
      *  @fn void TextSurface::setHorizontalAlign(const float coord)
      *  @brief Set the horizontal alignment for new text lines.

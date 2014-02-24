@@ -61,7 +61,7 @@ namespace fea
         FEA_ASSERT(attributeData.find(attribute) != attributeData.end(), "Trying to get the attribute '" + attribute + "' on an entity which does not have said attribute!");
         auto& valuePointer = attributeData.at(attribute);
 
-        FEA_ASSERT(valuePointer, "Calling getData on attribute '" + attribute + "' which is not initialised!");
+        FEA_ASSERT(valuePointer, "Calling getData on attribute '" + attribute + "' which is not initialized!");
         return *std::static_pointer_cast<DataType>(valuePointer);
     }
 

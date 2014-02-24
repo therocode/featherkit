@@ -589,7 +589,7 @@ namespace fea
      *  @class LooseNTree
      *  @brief Tree structure for keeping track of possibly overlapping objects.
      *
-     *  This class generalises the concept of a loose quadtree/octree to make it work in any dimension. The amount of dimensions are passed as template parameters. The tree can be used to track objects with a position and size, to return possible overlaps. The node depth of the tree is also configured with a template parameter as well as if the tree should allocate all memory possibly needed at once, or if it should dynamically grow depending on need.
+     *  This class generalizes the concept of a loose quadtree/octree to make it work in any dimension. The amount of dimensions are passed as template parameters. The tree can be used to track objects with a position and size, to return possible overlaps. The node depth of the tree is also configured with a template parameter as well as if the tree should allocate all memory possibly needed at once, or if it should dynamically grow depending on need.
      *
      *  @tparam Dimensions Amount of dimensions. 2 makes a quadtree and 3 makes an octree.
      *  @tparam Depth Node depth. The deeper the tree, the bigger memory footprint, but might reduce false positives when returning possible overlaps.
@@ -598,14 +598,14 @@ namespace fea
      *  @fn LooseNTree::LooseNTree(const Vector& size)
      *  @brief Construct a tree with the given size.
      *
-     *  Assert/undefined behaviour if the size is zero or less in any of the dimensions.
+     *  Assert/undefined behavior if the size is zero or less in any of the dimensions.
      *  @param size Size.
      ***
      *  @fn void LooseNTree::add(uint32_t id, const Vector& position, const Vector& size)
      *  @brief Add an object to track.
      *  
      *  The added object must have a unique ID. If the object moves, the position must be updated using the LooseNTree::move function.
-     *  Assert/undefined behaviour if the size is zero or less in any of the dimensions, if the given ID already exists in the tree, or if the position is outside of the bounds of the tree.
+     *  Assert/undefined behavior if the size is zero or less in any of the dimensions, if the given ID already exists in the tree, or if the position is outside of the bounds of the tree.
      *  @param id ID of the object to track.
      *  @param position Position of the object.
      *  @param size Size of the object. Given as an Axis aligned bounding box.
@@ -613,14 +613,14 @@ namespace fea
      *  @fn void LooseNTree::remove(uint32_t id)
      *  @brief Stop tracking an object.
      *  
-     *  Assert/undefined behaviour if the object does not exist.
+     *  Assert/undefined behavior if the object does not exist.
      *  @param id ID of the object to stop tracking.
      ***
      *  @fn void LooseNTree::move(uint32_t id, const Vector& position)
      *  @brief Move a tracked object.
      *
      *  This must be called to keep tracked objects up to date.
-     *  Assert/undefined behaviour if the object does not exist or if target position is outside of the bounds of the tree.
+     *  Assert/undefined behavior if the object does not exist or if target position is outside of the bounds of the tree.
      *  @param id ID of the object to move.
      *  @param position New position of the object.
      ***

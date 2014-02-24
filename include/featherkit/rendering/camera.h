@@ -30,7 +30,7 @@ namespace fea
      *  @class Camera
      *  @brief Represents a way to look at the world.
      *
-     *  The Camera class contains three modificators. Position, zoom and rotation. Position is the centre point of the Camera, Zoom is how big things appear to the Camera, and rotation is the orientation of the Camera. 
+     *  The Camera class contains three modificators. Position, zoom and rotation. Position is the center point of the Camera, Zoom is how big things appear to the Camera, and rotation is the orientation of the Camera. 
      ***
      *  @fn Camera::Camera()
      *  @brief Construct a camera.

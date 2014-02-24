@@ -40,13 +40,13 @@ namespace fea
      *  @fn Quad::Quad(const glm::vec2& size)
      *  @brief Construct a quad with the given size.
      *
-     *  Assert/undefined behaviour if size is zero or less in any dimension.
+     *  Assert/undefined behavior if size is zero or less in any dimension.
      *  @param size Size.
      ***
      *  @fn void Quad::setSize(glm::vec2 size)
      *  @brief Resize the quad.
      *
-     *  Assert/undefined behaviour if size is zero or less in any dimension.
+     *  Assert/undefined behavior if size is zero or less in any dimension.
      *  @param size Vector with the new size.
      ***
      *  @fn glm::vec2 Quad::getSize() const

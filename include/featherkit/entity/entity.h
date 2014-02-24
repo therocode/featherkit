@@ -63,7 +63,7 @@ namespace fea
      *  @fn DataType Entity::getAttribute(const std::string& attribute) const
      *  @brief Get the value of an attribute of the entity.
      *
-     *  Assert/undefined behaviour when the attribute does not exist or the wrong template argument is provided.
+     *  Assert/undefined behavior when the attribute does not exist or the wrong template argument is provided.
      *  @tparam Type of the attribute to get.
      *  @param attribute Name of the attribute to get.
      *  @return Attribute value.
@@ -71,7 +71,7 @@ namespace fea
      *  @fn void Entity::setAttribute(const std::string& attribute, DataType value) const
      *  @brief Set the value of an attribute of the entity.
      *
-     *  Assert/undefined behaviour when the attribute does not exist or the wrong template argument is provided.
+     *  Assert/undefined behavior when the attribute does not exist or the wrong template argument is provided.
      *  @tparam Type of the attribute to set.
      *  @param attribute Name of the attribute to set.
      *  @param value Value to set the attribute to.
@@ -80,7 +80,7 @@ namespace fea
      *  @brief Add the given value to an attribute of the entity.
      *
      *  The given value will be added to the already existing value. Needs the operator+ function to be implemented for the target type.
-     *  Assert/undefined behaviour when the attribute does not exist or the wrong template argument is provided.
+     *  Assert/undefined behavior when the attribute does not exist or the wrong template argument is provided.
      *
      *  @tparam Type of the attribute to add to.
      *  @param attribute Name of the attribute to add to.
