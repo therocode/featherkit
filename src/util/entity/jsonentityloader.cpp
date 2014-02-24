@@ -7,9 +7,9 @@ namespace fea
 {
     namespace util
     {
-        std::unordered_map<std::string, EntityTemplate> JsonEntityLoader::loadEntityTemplates(const std::string& path)
+        std::vector<std::pair<std::string, EntityTemplate>> JsonEntityLoader::loadEntityTemplates(const std::string& path)
         {
-            std::unordered_map<std::string, EntityTemplate> result;
+            std::vector<std::pair<std::string, EntityTemplate>> result;
 
             std::ifstream file(path);
 
@@ -23,21 +23,33 @@ namespace fea
             json::Value root;
             root.SetObject();
             json::read(file, root);
+            json::Value main = root.GetMember(0).value;
 
-            std::size_t entityTypeAmount = root.GetNumMembers();
+            size_t entityTypeAmount = main.GetNumElements();
             for(unsigned int i = 0; i < entityTypeAmount; i++)
             {
-                json::Member temp = root.GetMember(i);
-                std::string entityName = temp.name;
-                std::size_t attributeAmount = temp.value.GetNumMembers();
-
                 EntityTemplate entityTemplate;
+                json::Member temp = main.GetElement(i).GetMember(0);
+                std::string entityName = temp.name;
+
+                if(temp.value.HasMember("inherits"))
+                {
+                    json::Value parents = temp.value.GetArrayMember("inherits");
+
+                    for(unsigned int j = 0; j < parents.GetNumElements(); j++)
+                    {
+                        entityTemplate.mInherits.push_back(parents.GetElement(j).GetString());
+                    }
+                }
+
+                size_t attributeAmount = temp.value.GetObjectMember("attributes").GetNumMembers();
+
                 for(unsigned int j = 0; j < attributeAmount; j++)
                 {
-                    json::Member attributesObject = temp.value.GetMember(j);
-                    entityTemplate.emplace(attributesObject.name, attributesObject.value.GetString());
+                    json::Member attributesObject = temp.value.GetObjectMember("attributes").GetMember(j);
+                    entityTemplate.mAttributes.emplace(attributesObject.name, attributesObject.value.GetString());
                 }
-                result.emplace(entityName, entityTemplate);
+                result.push_back({entityName, entityTemplate});
             }
             return result;
         }

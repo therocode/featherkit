@@ -4,12 +4,12 @@ namespace fea
 {
     bool MessageBus::subscriptionExists(std::type_index id, MessageReceiverBase* receiver) const
     {
-        auto range = mSubscribers.equal_range(id);
+        const auto& list = mSubscribers.find(id)->second;
         bool existed = false;
 
-        for(auto iter = range.first; iter != range.second; iter++)
+        for(auto subscriber : list)
         {
-            if(iter->second == receiver)
+            if(subscriber == receiver)
             {
                 existed = true;
                 break;

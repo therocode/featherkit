@@ -19,7 +19,7 @@ namespace fea
             void send(const Message& mess);
         private:
             bool subscriptionExists(std::type_index id, MessageReceiverBase* receiver) const;
-            std::unordered_multimap<std::type_index, MessageReceiverBase*> mSubscribers;
+            std::unordered_map<std::type_index, std::vector<MessageReceiverBase*>> mSubscribers;
     };
 
     template<class Message>
@@ -29,7 +29,7 @@ namespace fea
         std::type_index index = std::type_index(typeid(Message));
 
         FEA_ASSERT(!subscriptionExists(index, receiverPtr), "Message receiver already subscribes to message " + std::string(index.name()) + "!");
-        mSubscribers.emplace(index, receiverPtr);
+        mSubscribers[index].push_back(receiverPtr);
     }
 
     template<class Message>
@@ -38,15 +38,19 @@ namespace fea
         MessageReceiverBase* receiverPtr = (MessageReceiverBase*) &receiver;
         std::type_index index = std::type_index(typeid(Message));
 
-        auto range = mSubscribers.equal_range(index);
+        FEA_ASSERT(mSubscribers.find(index) != mSubscribers.end(), "Cannot remove subscription to message " + std::string(index.name()) + " since the subscription does not exist!");
+
+        auto& list = mSubscribers.at(index);
         bool existed = false;
 
-        for(auto iter = range.first; iter != range.second; iter++)
+        for(auto iter = list.begin(); iter != list.end(); iter++)
         {
-            if(iter->second == receiverPtr)
+            if(*iter == receiverPtr)
             {
-                mSubscribers.erase(iter);
+                list.erase(iter);
                 existed = true;
+                if(list.size() == 0)
+                    mSubscribers.erase(index);
                 break;
             }
         }
@@ -57,10 +61,11 @@ namespace fea
     template<class Message>
     void MessageBus::send(const Message& mess)
     {
-        auto range = mSubscribers.equal_range(std::type_index(typeid(Message)));
-        if(range.first != mSubscribers.end() || range.second != mSubscribers.end())
+        const auto& list = mSubscribers.find(std::type_index(typeid(Message)))->second;
+        if(list.size() > 0)
         {
-            std::for_each (range.first, range.second, [&](std::unordered_multimap<std::type_index, MessageReceiverBase*>::value_type& subscription){ ((MessageReceiver<Message>*)subscription.second)->handleMessage(mess);});
+            for(auto subscriber : list)
+                static_cast<MessageReceiver<Message>*>(subscriber)->handleMessage(mess);
         }
     }
     /** @addtogroup Messaging
