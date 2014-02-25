@@ -192,7 +192,7 @@ namespace fea
      *  @fn std::unordered_set<std::string> EntityManager::getAttributes(EntityId id) const
      *  @brief Get a set containing all the attributes of an entity.
      *
-     *  Assert/undefined behaviour if the entity does not exist.
+     *  Assert/undefined behavior if the entity does not exist.
      *  @param id Id of the entity to get attributes for.
      *  @return Set with attributes.
      ***/

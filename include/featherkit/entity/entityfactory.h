@@ -123,7 +123,7 @@ namespace fea
      *
      *  "vec2" is now a valid data type and can be used to register attributes using the EntityFactory::registerAttribute method.
      *
-     *  Assert/undefined behaviour if the data type name already exists.
+     *  Assert/undefined behavior if the data type name already exists.
      *  @tparam Parser function. Can often be inferred automatically.
      *  @param dataTypeName Name of the data type.
      *  @param parser Parser function. Should return a valid instance of the type.
@@ -133,7 +133,7 @@ namespace fea
      *
      *  See EntityFactory::addDataType(const std::string& dataTypeName, Function parser) for more information.
      *
-     *  Assert/undefined behaviour if the data type name already exists.
+     *  Assert/undefined behavior if the data type name already exists.
      *  @tparam Type Type of attribute to add.
      *  @param dataTypeName Name of the data type.
      ***
@@ -145,14 +145,14 @@ namespace fea
      *  factory.registerAttribute("position", "vec2");  //vec2 must have been previously added
      *  @endcode
      *
-     *  Assert/undefined behaviour if the attribute name already exists or if the data type does not exist.
+     *  Assert/undefined behavior if the attribute name already exists or if the data type does not exist.
      *  @param attribute Name of the attribute.
      *  @param dataType Which type to register the attribute as.
      ***
      *  @fn void EntityFactory::addTemplate(const std::string& name, const EntityTemplate& entityTemplate)
      *  @brief Add an EntityTemplate. 
      *
-     *  Assert/undefined behaviour if the template already exists, contains invalid attributes or tries to inherit from an invalid template.
+     *  Assert/undefined behavior if the template already exists, contains invalid attributes or tries to inherit from an invalid template.
      *  @param name Name of the template.
      *  @param entityTemplate Template.
      ***
@@ -166,7 +166,7 @@ namespace fea
      *  
      *  The template given must have been registered prior to creating the Entity. If the function succeeds in creating the Entity, it will be assigned a unique ID and a WeakEntityPtr pointing to the Entity will be returned. The returned pointer is not meant to be stored in a locked state since that entity would still become invalid if the entity is deleted using the EntityManager::removeEntity method.
      *
-     *  Assert/undefined behaviour if the template given does not exist.
+     *  Assert/undefined behavior if the template given does not exist.
      *
      *  @param name The name of the template to instantiate.
      *  @return A pointer to the created Entity.

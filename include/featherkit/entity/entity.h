@@ -100,7 +100,7 @@ namespace fea
      *  @fn std::unordered_set<std::string> Entity::getAttributes() const
      *  @brief Get a set containing all the attributes of the entity.
      *
-     *  Assert/undefined behaviour if the entity does not exist.
+     *  Assert/undefined behavior if the entity does not exist.
      *  @return Set with attributes.
      ***/
 }

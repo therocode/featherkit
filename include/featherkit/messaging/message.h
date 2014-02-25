@@ -16,6 +16,11 @@ namespace fea
         Message(const std::tuple<DataTypes...>& data) : mData(data) { }
         std::tuple<DataTypes...> mData;
     };
+
+    template<class tag>
+    struct Message
+    {
+    };
     /** @addtogroup Messaging
      *@{
      *  @struct Message
