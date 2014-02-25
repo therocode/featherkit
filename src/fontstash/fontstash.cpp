@@ -47,7 +47,7 @@ static GLuint shader = 0;
 static GLint vertexLocation = 0;
 static GLint texCoordsLocation = 0;
 static GLint projectionLocation = 0;
-static GLint colourLocation = 0;
+static GLint colorLocation = 0;
 static GLint opacityLocation = 0;
 
 static std::string vertexShaderSource = "\n"
@@ -68,14 +68,14 @@ static std::string fragmentShaderSource = "precision mediump float;\n"
 static std::string fragmentShaderSource = "\n"
 #endif
                 "uniform sampler2D texture;\n"
-                "uniform vec3 colour;\n"
+                "uniform vec3 color;\n"
                 "uniform float opacity;\n"
                 "varying vec2 vTex;\n"
                 "\n"
                 "void main()\n"
                 "{\n"
                 "\n"
-                "    gl_FragColor = texture2D(texture, vTex) + vec4(colour, 0.0) * opacity;\n"
+                "    gl_FragColor = texture2D(texture, vTex) + vec4(color, 0.0) * opacity;\n"
                 "}\n"
                 "";
 

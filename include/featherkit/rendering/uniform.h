@@ -2,7 +2,6 @@
 #include <cstdint>
 #include <glm/glm.hpp>
 #include <featherkit/rendering/opengl.h>
-#include <featherkit/rendering/colour.h>
 
 namespace fea
 {

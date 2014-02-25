@@ -125,7 +125,7 @@ if(BUILD_RENDERING)
         src/rendering/animatedquad.cpp
         src/rendering/animation.cpp
         src/rendering/camera.cpp
-        src/rendering/colour.cpp
+        src/rendering/color.cpp
         src/rendering/defaultshader.cpp
         src/rendering/drawable2d.cpp
         src/rendering/projection.cpp
@@ -146,7 +146,7 @@ if(BUILD_RENDERING)
         include/featherkit/rendering/animatedquad.h
         include/featherkit/rendering/animation.h
         include/featherkit/rendering/camera.h
-        include/featherkit/rendering/colour.h
+        include/featherkit/rendering/color.h
         include/featherkit/rendering/defaultshader.h
         include/featherkit/rendering/drawable2d.h
         include/featherkit/rendering/opengl.h

@@ -83,16 +83,16 @@ namespace fea
      *  
      *  The subscription will be valid until MessageBus::removeMessageSubscriber is called on the same receiver. The Message type subscribed to is the one given in the template argument. The receiver must inherit from the correct MessageReceiver to be able to subscribe to a message. If the subscriber is destroyed before the MessageBus, all of its subscriptions must be removed using MessageBus::removeMessageSubscriber.
      *  
-     *  Assert/undefined behaviour if an object tries to subscribe to the same Message type more than once.
+     *  Assert/undefined behavior if an object tries to subscribe to the same Message type more than once.
      *  @tparam Message Type of the message to subscribe to.
      *  @param receiver The instance which will receive the messages.
      ***
      *  @fn void MessageBus::removeSubscriber(const MessageReceiver<Message>& receiver)
      *  @brief Remove a Message subscription.
      *
-     *  Mostly used to remove subscriptions of an object that is about to be destroyed. Not doing this results in undefined behaviour. The template parameter deterimines which type of Message is unsibscribed from.
+     *  Mostly used to remove subscriptions of an object that is about to be destroyed. Not doing this results in undefined behavior. The template parameter deterimines which type of Message is unsibscribed from.
      *
-     *  Assert/undefined behaviour if the subscription to remove doesn't exist.
+     *  Assert/undefined behavior if the subscription to remove doesn't exist.
      *
      *  @tparam Message The Message type to unsubscribe from.
      *  @param receiver Object to remove subscription for.

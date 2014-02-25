@@ -34,12 +34,12 @@ namespace fea
                 mTexCoordsCached.push_back(0.0f); mTexCoordsCached.push_back(1.0f);
                 mTexCoordsCached.push_back(1.0f); mTexCoordsCached.push_back(1.0f);
 
-                mVertexColoursCached.push_back(0.0f); mVertexColoursCached.push_back(0.0f); mVertexColoursCached.push_back(0.0f); mVertexColoursCached.push_back(0.0f);
-                mVertexColoursCached.push_back(0.0f); mVertexColoursCached.push_back(0.0f); mVertexColoursCached.push_back(0.0f); mVertexColoursCached.push_back(0.0f);
-                mVertexColoursCached.push_back(0.0f); mVertexColoursCached.push_back(0.0f); mVertexColoursCached.push_back(0.0f); mVertexColoursCached.push_back(0.0f);
-                mVertexColoursCached.push_back(0.0f); mVertexColoursCached.push_back(0.0f); mVertexColoursCached.push_back(0.0f); mVertexColoursCached.push_back(0.0f);
-                mVertexColoursCached.push_back(0.0f); mVertexColoursCached.push_back(0.0f); mVertexColoursCached.push_back(0.0f); mVertexColoursCached.push_back(0.0f);
-                mVertexColoursCached.push_back(0.0f); mVertexColoursCached.push_back(0.0f); mVertexColoursCached.push_back(0.0f); mVertexColoursCached.push_back(0.0f);
+                mVertexColorsCached.push_back(0.0f); mVertexColorsCached.push_back(0.0f); mVertexColorsCached.push_back(0.0f); mVertexColorsCached.push_back(0.0f);
+                mVertexColorsCached.push_back(0.0f); mVertexColorsCached.push_back(0.0f); mVertexColorsCached.push_back(0.0f); mVertexColorsCached.push_back(0.0f);
+                mVertexColorsCached.push_back(0.0f); mVertexColorsCached.push_back(0.0f); mVertexColorsCached.push_back(0.0f); mVertexColorsCached.push_back(0.0f);
+                mVertexColorsCached.push_back(0.0f); mVertexColorsCached.push_back(0.0f); mVertexColorsCached.push_back(0.0f); mVertexColorsCached.push_back(0.0f);
+                mVertexColorsCached.push_back(0.0f); mVertexColorsCached.push_back(0.0f); mVertexColorsCached.push_back(0.0f); mVertexColorsCached.push_back(0.0f);
+                mVertexColorsCached.push_back(0.0f); mVertexColorsCached.push_back(0.0f); mVertexColorsCached.push_back(0.0f); mVertexColorsCached.push_back(0.0f);
             }
         }
         mDrawMode = GL_TRIANGLES;
@@ -69,7 +69,7 @@ namespace fea
         mTilesSet[getTileIndex(x, y)] = true;
 
         mTexCoords.clear();
-        mVertexColours.clear();
+        mVertexColors.clear();
         mVertices.clear();
 
         for(uint32_t yy = 0; yy < mGridSize.y; yy++)
@@ -80,7 +80,7 @@ namespace fea
                 if(mTilesSet[index])
                 {
                     mTexCoords.insert(mTexCoords.end(), mTexCoordsCached.begin() + index * 12, mTexCoordsCached.begin() + index * 12 + 12);
-                    mVertexColours.insert(mVertexColours.end(), mVertexColoursCached.begin() + index * 24, mVertexColoursCached.begin() + index * 24 + 24);
+                    mVertexColors.insert(mVertexColors.end(), mVertexColorsCached.begin() + index * 24, mVertexColorsCached.begin() + index * 24 + 24);
                     mVertices.insert(mVertices.end(), mVerticesCached.begin() + index * 12, mVerticesCached.begin() + index * 12 + 12);
                 }
             }
@@ -92,7 +92,7 @@ namespace fea
         mTilesSet[getTileIndex(x, y)] = false;
 
         mTexCoords.clear();
-        mVertexColours.clear();
+        mVertexColors.clear();
         mVertices.clear();
 
         for(uint32_t yy = 0; yy < mGridSize.y; yy++)
@@ -103,7 +103,7 @@ namespace fea
                 if(mTilesSet[index])
                 {
                     mTexCoords.insert(mTexCoords.end(), mTexCoordsCached.begin() + index * 12, mTexCoordsCached.begin() + index * 12 + 12);
-                    mVertexColours.insert(mVertexColours.end(), mVertexColoursCached.begin() + index * 24, mVertexColoursCached.begin() + index * 24 + 24);
+                    mVertexColors.insert(mVertexColors.end(), mVertexColorsCached.begin() + index * 24, mVertexColorsCached.begin() + index * 24 + 24);
                     mVertices.insert(mVertices.end(), mVerticesCached.begin() + index * 12, mVerticesCached.begin() + index * 12 + 12);
                 }
             }
@@ -126,7 +126,7 @@ namespace fea
         }
 
         mTexCoords = mTexCoordsCached;
-        mVertexColours = mVertexColoursCached;
+        mVertexColors = mVertexColorsCached;
         mVertices = mVerticesCached;
     }
     
@@ -135,7 +135,7 @@ namespace fea
         std::fill(mTilesSet.begin(), mTilesSet.end(), false);
 
         mTexCoords.clear();
-        mVertexColours.clear();
+        mVertexColors.clear();
         mVertices.clear();
     }
 

@@ -22,7 +22,7 @@ namespace fea
                       texCoordsX[0], texCoordsY[1],
                       texCoordsX[1], texCoordsY[1]};
 
-        mVertexColours = {0.0f, 0.0f, 0.0f, 0.0f,
+        mVertexColors = {0.0f, 0.0f, 0.0f, 0.0f,
                          0.0f, 0.0f, 0.0f, 0.0f,
                          0.0f, 0.0f, 0.0f, 0.0f,
                          0.0f, 0.0f, 0.0f, 0.0f,
@@ -56,7 +56,7 @@ namespace fea
                       texCoordsX[0], texCoordsY[1],
                       texCoordsX[1], texCoordsY[1]};
 
-        mVertexColours = {0.0f, 0.0f, 0.0f, 0.0f,
+        mVertexColors = {0.0f, 0.0f, 0.0f, 0.0f,
                          0.0f, 0.0f, 0.0f, 0.0f,
                          0.0f, 0.0f, 0.0f, 0.0f,
                          0.0f, 0.0f, 0.0f, 0.0f,

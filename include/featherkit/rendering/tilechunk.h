@@ -22,7 +22,7 @@ namespace fea
             std::vector<float> mTexCoords;
             std::vector<float> mTexCoordsCached;
             std::vector<float> mVerticesCached;
-            std::vector<float> mVertexColoursCached;
+            std::vector<float> mVertexColorsCached;
             std::vector<bool> mTilesSet;
     };
     /** @addtogroup Render2D

@@ -46,14 +46,14 @@ namespace fea
      *  @brief Add a GameState to the GameStateMachine.
      *
      *  After the GameState is added, it is completely managed by the GameStateMachine. Including freeing of the memory.
-     *  Assert/undefined behaviour if the name provided is already in use by another state.
+     *  Assert/undefined behavior if the name provided is already in use by another state.
      *  @param name Name of the GameState to add.
      *  @param state Pointer to the GameState instance to manage. Can take a GameState* and implicitly convert it.
      ***
      *  @fn void GameStateMachine::setCurrentState(const std::string& name)
      *  @brief Order the GameStateMachine to switch from the current GameState to the one having the name given.
      *
-     *  Assert/undefined behaviour if the given state does not exist.
+     *  Assert/undefined behavior if the given state does not exist.
      *  @param name Name of the state to switch to.
      ***
      *  @fn bool GameStateMachine::isFinished() const

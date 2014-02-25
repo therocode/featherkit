@@ -38,7 +38,7 @@ namespace fea
      *  @fn Viewport::Viewport(const glm::uvec2& size, const glm::ivec2& position = glm::ivec2(), const Camera& camera = Camera())
      *  @brief Construct a Viewport with the given size, position and camera.
      *
-     *  Assert/undefined behaviour if size is zero or negative in any dimension.
+     *  Assert/undefined behavior if size is zero or negative in any dimension.
      *  @param size Size of the new Viewport.
      *  @param position Position of the top-left corner. Default is 0,0.
      *  @param camera Camera to use.

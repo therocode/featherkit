@@ -3,8 +3,8 @@
 
 namespace fea
 {
-    TextSurface::Writing::Writing(const std::u32string& text, const Font* font, const glm::vec2& penPosition, const float scale, const Colour& colour)
-        : mText(text), mFont(font), mPenPosition(penPosition), mScale(scale), mColour(colour)
+    TextSurface::Writing::Writing(const std::u32string& text, const Font* font, const glm::vec2& penPosition, const float scale, const Color& color)
+        : mText(text), mFont(font), mPenPosition(penPosition), mScale(scale), mColor(color)
     {
     }
     
@@ -28,7 +28,7 @@ namespace fea
 
     void TextSurface::write(const std::u32string& text)
     {
-        mWritings.push_back(Writing(text, mCurrentFont, mPenPosition, mScale, mColour));
+        mWritings.push_back(Writing(text, mCurrentFont, mPenPosition, mScale, mColor));
         addText(text);
     }
             
@@ -48,9 +48,9 @@ namespace fea
         mScale = scale;
     }
     
-    void TextSurface::setPenColour(const Colour& colour)
+    void TextSurface::setPenColor(const Color& color)
     {
-        mColour = colour;
+        mColor = color;
     }
     
     void TextSurface::setHorizontalAlign(const float coord)
@@ -77,12 +77,12 @@ namespace fea
     {
         mVertices.clear();
         mTexCoords.clear();
-        mVertexColours.clear();
+        mVertexColors.clear();
 
         const glm::vec2 originalPosition = mPenPosition;
         const Font* originalFont = mCurrentFont;
         const float originalScale = mScale;
-        const Colour originalColour = mColour;
+        const Color originalColor = mColor;
 
         for(auto& writing : mWritings)
         {
@@ -90,21 +90,21 @@ namespace fea
             mCurrentFont = writing.mFont;
             cacheFont(*mCurrentFont);
             mScale = writing.mScale;
-            mColour = writing.mColour;
+            mColor = writing.mColor;
             addText(writing.mText);
         }
 
         mPenPosition = originalPosition;
         mCurrentFont = originalFont;
         mScale = originalScale;
-        mColour = originalColour;
+        mColor = originalColor;
     }
 
     void TextSurface::clear()
     {
         mVertices.clear();
         mTexCoords.clear();
-        mVertexColours.clear();
+        mVertexColors.clear();
 
         mWritings.clear();
     }
@@ -117,7 +117,7 @@ namespace fea
 
         std::vector<float> verticesToAdd;
         std::vector<float> texCoordsToAdd;
-        std::vector<float> coloursToAdd;
+        std::vector<float> colorsToAdd;
         glm::vec2 penTempPosition = mPenPosition;
 
 
@@ -169,19 +169,19 @@ namespace fea
                     s0, t0,
                     s1, t1,
                     s1, t0});
-            coloursToAdd.insert(coloursToAdd.end(), {mColour.r(), mColour.g(), mColour.b(), 1.0f,
-                                mColour.r(), mColour.g(), mColour.b(), 1.0f,
-                                mColour.r(), mColour.g(), mColour.b(), 1.0f,
-                                mColour.r(), mColour.g(), mColour.b(), 1.0f,
-                                mColour.r(), mColour.g(), mColour.b(), 1.0f,
-                                mColour.r(), mColour.g(), mColour.b(), 1.0f});
+            colorsToAdd.insert(colorsToAdd.end(), {mColor.r(), mColor.g(), mColor.b(), 1.0f,
+                                mColor.r(), mColor.g(), mColor.b(), 1.0f,
+                                mColor.r(), mColor.g(), mColor.b(), 1.0f,
+                                mColor.r(), mColor.g(), mColor.b(), 1.0f,
+                                mColor.r(), mColor.g(), mColor.b(), 1.0f,
+                                mColor.r(), mColor.g(), mColor.b(), 1.0f});
             penTempPosition.x += glyph->advance_x * mScale;
         }
 
         mPenPosition = penTempPosition;
         mVertices.insert(mVertices.end(), verticesToAdd.begin(), verticesToAdd.end());
         mTexCoords.insert(mTexCoords.end(), texCoordsToAdd.begin(), texCoordsToAdd.end());
-        mVertexColours.insert(mVertexColours.end(), coloursToAdd.begin(), coloursToAdd.end());
+        mVertexColors.insert(mVertexColors.end(), colorsToAdd.begin(), colorsToAdd.end());
     }
 
 
