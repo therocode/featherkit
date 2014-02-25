@@ -11,7 +11,7 @@ namespace fea
     template<class tag, typename... DataTypes>
     struct Message
     {
-        Message(typename std::enable_if<sizeof...(DataTypes) >= 1>) {}
+        Message() {}
         Message(DataTypes... data) : mData(data...) { }
         Message(const std::tuple<DataTypes...>& data) : mData(data) { }
         std::tuple<DataTypes...> mData;
