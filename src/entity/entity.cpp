@@ -15,4 +15,9 @@ namespace fea
     {
         return mId;
     }
+    
+    std::unordered_set<std::string> Entity::getAttributes() const
+    {
+        return mEntityManager.getAttributes(mId);
+    }
 }
