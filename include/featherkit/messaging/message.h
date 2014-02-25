@@ -18,7 +18,7 @@ namespace fea
     };
 
     template<class tag>
-    struct Message
+    struct Message<tag>
     {
     };
     /** @addtogroup Messaging
