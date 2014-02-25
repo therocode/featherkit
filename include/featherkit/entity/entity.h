@@ -15,6 +15,7 @@ namespace fea
             void addToAttribute(const std::string& attribute, const DataType& value) const;
             bool hasAttribute(const std::string& attribute) const;
             EntityId getId() const;
+            std::unordered_set<std::string> getAttributes() const;
         private:
             EntityId mId;
             EntityManager& mEntityManager;
@@ -95,5 +96,11 @@ namespace fea
      *  @fn EntityId Entity::getId() const
      *  @brief Get the ID of an entity.
      *  @return The ID.
+     ***
+     *  @fn std::unordered_set<std::string> Entity::getAttributes() const
+     *  @brief Get a set containing all the attributes of the entity.
+     *
+     *  Assert/undefined behaviour if the entity does not exist.
+     *  @return Set with attributes.
      ***/
 }

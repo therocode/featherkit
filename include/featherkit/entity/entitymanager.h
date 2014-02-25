@@ -35,6 +35,7 @@ namespace fea
             EntitySet getAll() const;
             void removeAll();
             void clear();
+            std::unordered_set<std::string> getAttributes(EntityId id) const;
         private:
             std::unordered_map<EntityId, EntityPtr> mEntities;
             EntityStorage mStorage;
@@ -187,5 +188,12 @@ namespace fea
      ***
      *  @fn void EntityManager::clear()
      *  @brief Reset the whole state of the EntityManager to the original state. Effectively removing all Entity instances, leaving all pointers to them invalid, as well as clearing out any registered attributes. Not to be confused with EntityManager::removeAll which only removes all entities.
+     ***    
+     *  @fn std::unordered_set<std::string> EntityManager::getAttributes(EntityId id) const
+     *  @brief Get a set containing all the attributes of an entity.
+     *
+     *  Assert/undefined behaviour if the entity does not exist.
+     *  @param id Id of the entity to get attributes for.
+     *  @return Set with attributes.
      ***/
 }

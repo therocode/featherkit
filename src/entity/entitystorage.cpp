@@ -12,6 +12,16 @@ namespace fea
     {
         return attributeData.find(attribute) != attributeData.end();
     }
+    
+    std::unordered_set<std::string> EntityStorage::StorageEntity::getAttributes() const
+    {
+        std::unordered_set<std::string> result;
+
+        for(auto& attribute : attributeData)
+            result.insert(attribute.first);
+
+        return result;
+    }
 
 
     EntityStorage::EntityStorage() : mNextId(0)
@@ -62,5 +72,10 @@ namespace fea
         mEntities.clear();
         mFreeIds = std::stack<uint32_t>();
         mNextId = 0;
+    }
+    
+    std::unordered_set<std::string> EntityStorage::getAttributes(uint32_t id) const
+    {
+        return mEntities.at(id).getAttributes();
     }
 }

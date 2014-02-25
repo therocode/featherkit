@@ -61,4 +61,10 @@ namespace fea
         mEntities.clear();
         mStorage.clear();
     }
+    
+    std::unordered_set<std::string> EntityManager::getAttributes(EntityId id) const
+    {
+        FEA_ASSERT(mEntities.find(id) != mEntities.end(), "Trying to get the attributes of entity entity ID '" + std::to_string(id) + "' but such an entity doesn't exist!");
+        return mStorage.getAttributes(id);
+    }
 }

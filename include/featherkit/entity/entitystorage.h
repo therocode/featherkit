@@ -1,6 +1,7 @@
 #pragma once
 #include <stack>
 #include <unordered_map>
+#include <unordered_set>
 #include <memory>
 #include <set>
 #include <typeindex>
@@ -19,6 +20,7 @@ namespace fea
                 template<class DataType>
                 DataType getData(const std::string& attribute) const;
                 bool hasData(const std::string& attribute) const;
+                std::unordered_set<std::string> getAttributes() const;
             private:
                 std::unordered_map<std::string, std::shared_ptr<void>> attributeData;
         };
@@ -36,6 +38,7 @@ namespace fea
         bool hasData(const uint32_t id, const std::string& attribute) const;
         bool attributeIsValid(const std::string& attribute) const;
         void clear();
+        std::unordered_set<std::string> getAttributes(uint32_t id) const;
 
         std::unordered_map<std::string, std::type_index> mAttributes;
         std::unordered_map<uint32_t, StorageEntity> mEntities;

@@ -73,13 +73,15 @@ if(BUILD_ENTITY)
 
     set(entity_source_files
         src/entity/entity.cpp
+        src/entity/entitycomponent.cpp
         src/entity/entityfactory.cpp
         src/entity/entitystorage.cpp
         src/entity/entitymanager.cpp)
 
     set(entity_header_files 
-        include/featherkit/entity/entityfactory.h
         include/featherkit/entity/entity.h
+        include/featherkit/entity/entityfactory.h
+        include/featherkit/entity/entitycomponent.h
         include/featherkit/entity/entitymanager.h
         include/featherkit/entity/entitystorage.h
         include/featherkit/entity/entitytemplate.h)
