@@ -61,11 +61,15 @@ namespace fea
     template<class Message>
     void MessageBus::send(const Message& mess)
     {
-        const auto& list = mSubscribers.find(std::type_index(typeid(Message)))->second;
-        if(list.size() > 0)
+        const auto listIterator = mSubscribers.find(std::type_index(typeid(Message)));
+        if(listIterator != mSubscribers.end())
         {
-            for(auto subscriber : list)
-                static_cast<MessageReceiver<Message>*>(subscriber)->handleMessage(mess);
+            const auto& list = listIterator->second;
+            if(list.size() > 0)
+            {
+                for(auto subscriber : list)
+                    static_cast<MessageReceiver<Message>*>(subscriber)->handleMessage(mess);
+            }
         }
     }
     /** @addtogroup Messaging
