@@ -5,16 +5,13 @@ namespace fea
     void EntityComponent::entityCreated(WeakEntityPtr entity)
     {
         if(keepEntity(entity))
-            mEntities.insert(entity);
+            mEntities.emplace(entity.lock()->getId(), entity);
     }
     
     void EntityComponent::entityRemoved(EntityId entityId)
     {
-        for(const auto entity : mEntities)
-        {
-            if(entity.lock()->getId() == entityId)
-                mEntities.erase(entity);
-        }
+        if(mEntities.find(entityId) != mEntities.end())
+            mEntities.erase(entityId);
     }
     
     bool EntityComponent::keepEntity(WeakEntityPtr entity) const
@@ -22,7 +19,7 @@ namespace fea
         return false;
     }
 
-    const std::set<WeakEntityPtr, std::owner_less<WeakEntityPtr>>& EntityComponent::getEntities() const
+    const std::unordered_map<EntityId, WeakEntityPtr>& EntityComponent::getEntities() const
     {
         return mEntities;
     }

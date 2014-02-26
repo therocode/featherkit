@@ -1,5 +1,5 @@
 #pragma once
-#include <set>
+#include <unordered_map>
 #include <featherkit/entity/entity.h>
 
 namespace fea
@@ -10,10 +10,10 @@ namespace fea
             void entityCreated(WeakEntityPtr entity);
             void entityRemoved(EntityId entityId);
             virtual bool keepEntity(WeakEntityPtr entity) const;
-            const std::set<WeakEntityPtr, std::owner_less<WeakEntityPtr>>& getEntities() const;
+            const std::unordered_map<EntityId, WeakEntityPtr>& getEntities() const;
             virtual ~EntityComponent();
         protected:
-            std::set<WeakEntityPtr, std::owner_less<WeakEntityPtr>> mEntities;
+            std::unordered_map<EntityId, WeakEntityPtr> mEntities;
     };
 
     /** @addtogroup EntitySystem
@@ -48,9 +48,9 @@ namespace fea
      *  @param entity Entity to investigate.
      *  @return True if the entity should be kept.
      ***
-     *  @fn const std::set<WeakEntityPtr, std::owner_less<WeakEntityPtr>>& EntityComponent::getEntities() const
+     *  @fn const std::unordered_map<EntityId, WeakEntityPtr>& EntityComponent::getEntities() const
      *  @brief Get the entities that this component is keeping track of.
-     *  @return Set with entities.
+     *  @return Map with entities.
      ***
      *  @fn virtual EntityComponent::~EntityComponent()
      *  @brief Destructor.
