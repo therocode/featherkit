@@ -12,8 +12,8 @@ namespace fea
     struct Message
     {
         Message() {}
-        Message(DataTypes... data) : mData(data...) { }
-        Message(const std::tuple<DataTypes...>& data) : mData(data) { }
+        Message(DataTypes... data) : mData(std::forward<DataTypes>(data)...) { }
+        Message(const std::tuple<DataTypes...>& data) : mData(std::move(data)) { }
         std::tuple<DataTypes...> mData;
     };
 
