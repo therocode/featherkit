@@ -11,6 +11,7 @@ namespace fea
             void setPitch(float pitch);
             float getPitch() const;
             void setSource(AudioSource& source);
+            const AudioSource& getSource() const;
         private:
             float mPitch;
             AudioSource* mSource;

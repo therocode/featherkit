@@ -21,4 +21,9 @@ namespace fea
         {
             mSource = &source;
         }
+        
+        const AudioSource& Audio::getSource() const
+        {
+            return *mSource;
+        }
 }

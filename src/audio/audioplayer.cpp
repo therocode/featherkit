@@ -1,4 +1,6 @@
 #include <featherkit/audio/audioplayer.h>
+#include <featherkit/audio/audiosource.h>
+#include <featherkit/audio/audio.h>
 #include <featherkit/assert.h>
             
 namespace fea
@@ -28,5 +30,15 @@ namespace fea
 
     void AudioPlayer::play(Audio& audio)
     {
+        const fea::AudioBufferList& buffers = audio.getSource().getBuffers();
+
+        if(buffers.size() == 1)
+        {
+            //single source
+        }
+        if(buffers.size() > 1)
+        {
+            //streamed source
+        }
     }
 }
