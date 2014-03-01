@@ -63,11 +63,14 @@ if(BUILD_AUDIO)
 
     set(audio_source_files 
         src/audio/audio.cpp
+        src/audio/audiobuffer.cpp
         src/audio/audioplayer.cpp
+        src/audio/audiosource.cpp
         src/audio/audiosample.cpp)
 
     set(audio_header_files
         include/featherkit/audio/audio.h
+        include/featherkit/audio/audiobuffer.h
         include/featherkit/audio/audioplayer.h
         include/featherkit/audio/audiosample.h
         include/featherkit/audio/audiosource.h)
@@ -278,6 +281,8 @@ if(BUILD_UI)
         include/featherkit/util/input/jsonactioniohandler.h)
 
     if(${BUILD_SFMLBACKENDS})
+        set(BUILT_TARGETS ${BUILT_TARGETS} ${project_name}-sfml)
+
         find_package(SFML 2.0 COMPONENTS window system REQUIRED)
         if(SFML_FOUND)
             include_directories(${SFML_INCLUDE_DIR})
@@ -289,9 +294,14 @@ if(BUILD_UI)
         set(ui_sfml_backend_header_files
             include/featherkit/util/window/sfmlwindowbackend.h
             include/featherkit/util/input/sfmlinputbackend.h)
+
+        add_library(${project_name}-sfml ${SHARED_OR_STATIC} ${ui_sfml_backend_source_files} ${ui_sfml_backend_header_files})
+        target_link_libraries(${project_name}-sfml ${SFML_LIBRARIES})
     endif()
 
     if(${BUILD_SDLBACKENDS})
+        set(BUILT_TARGETS ${BUILT_TARGETS} ${project_name}-sdl)
+
         find_package(SDL REQUIRED)
         if(SDL_FOUND)
             include_directories(${SDL_INCLUDE_DIR})
@@ -303,9 +313,14 @@ if(BUILD_UI)
         set(ui_sdl_backend_header_files
         include/featherkit/util/window/sdlwindowbackend.h
         include/featherkit/util/input/sdlinputbackend.h)
+
+        add_library(${project_name}-sdl ${SHARED_OR_STATIC} ${ui_sdl_backend_source_files} ${ui_sdl_backend_header_files})
+        target_link_libraries(${project_name}-sdl ${SDL_LIBRARY})
     endif()
 
 	if(${BUILD_SDL2BACKENDS})
+        set(BUILT_TARGETS ${BUILT_TARGETS} ${project_name}-sdl2)
+
 		find_package(SDL2)
 		if(SDL2_FOUND)
 			include_directories(${SDL2_INCLUDE_DIR})
@@ -320,25 +335,13 @@ if(BUILD_UI)
         set(ui_sdl2_backend_header_files
             include/featherkit/util/window/sdl2windowbackend.h
             include/featherkit/util/input/sdl2inputbackend.h)
+    
+        add_library(${project_name}-sdl2 ${SHARED_OR_STATIC} ${ui_sdl2_backend_source_files} ${ui_sdl2_backend_header_files})
+		target_link_libraries(${project_name}-sdl2 ${SDL2_LIBRARY})
 	endif()
 
-    add_library(${project_name}-ui ${SHARED_OR_STATIC} ${glew_file} ${ui_header_files} ${ui_source_files} ${ui_util_source_files} ${ui_util_header_files} ${ui_sfml_backend_source_files} ${ui_sfml_backend_header_files} ${ui_sdl_backend_source_files} ${ui_sdl_backend_header_files} ${ui_sdl2_backend_source_files} ${ui_sdl2_backend_header_files})
+    add_library(${project_name}-ui ${SHARED_OR_STATIC} ${glew_file} ${ui_header_files} ${ui_source_files} ${ui_util_source_files} ${ui_util_header_files})
 
-    if(${BUILD_SFMLBACKENDS})
-        if(SFML_FOUND)
-            target_link_libraries(${project_name}-ui ${SFML_LIBRARIES})
-        endif()
-    endif()
-    if(${BUILD_SDLBACKENDS})
-        if(SDL_FOUND)
-            target_link_libraries(${project_name}-ui ${SDL_LIBRARY})
-        endif()
-    endif()
-	if(${BUILD_SDL2BACKENDS})
-		if(SDL2_FOUND)
-			target_link_libraries(${project_name}-ui ${SDL2_LIBRARY})
-		endif()
-	endif()
 endif()
 
 install(
