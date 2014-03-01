@@ -12,7 +12,6 @@ namespace fea
     {
         public:
             InputHandler(InputBackend* backend);
-            void processEvents(bool keepLast = false);
             bool pollEvent(Event& event);
             const std::queue<Event>& getEventQueue() const;
 
@@ -33,6 +32,7 @@ namespace fea
             void setGamepadThreshold(float threshold);
             void setKeyRepeatEnabled(bool enabled);
         private:
+            void processEvents();
             std::unique_ptr<InputBackend> mInputBackend;
             std::queue<Event> mEventQueue;
     };
@@ -50,10 +50,6 @@ namespace fea
      *  @fn InputHandler::InputHandler(InputBackend* backend) 
      *  @brief Construct an InputHandler that will rely on the given backend.
      *  @param backend InputBackend given. The memory will be managed by the InputHandler.
-     ***
-     *  @fn void InputHandler::processEvents(bool keepLast = false)
-     *  @brief Search the backend for generated events. If there are events generated, they will be fetched (and will not remain in the backend) and stored in a queue, making them available for polling. Must be called before using InputHandler::pollEvent, otherwise there will be no events to poll.
-     *  @param keepLast If this is false, the InputHandler will discard all unpolled events. Otherwise, new events will be queued after the old ones. Default value is false.
      ***
      *  @fn bool InputHandler::pollEvent(Event& event)
      *  @brief Access the frontmost event in the event queue, removing it from the InputHandler in the process.

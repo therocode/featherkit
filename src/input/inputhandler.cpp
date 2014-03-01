@@ -1,30 +1,16 @@
 #include <featherkit/input/inputbackend.h>
 #include <featherkit/input/inputhandler.h>
+#include <iostream>
 
 namespace fea
 {
     InputHandler::InputHandler(InputBackend* backend) : mInputBackend(backend)
     {
     }
-
-    void InputHandler::processEvents(bool keepLast)
-    {
-        std::queue<Event> newEvents = mInputBackend->fetchEvents();
-
-        if(keepLast)
-        {
-            while(newEvents.size() > 0)
-                mEventQueue.push(newEvents.front());
-                newEvents.pop();
-        }
-        else
-        {
-            mEventQueue = newEvents;
-        }
-    }
     
     bool InputHandler::pollEvent(Event& event)
     {
+        processEvents();
         if(mEventQueue.size() > 0)
         {
             event = mEventQueue.front();
@@ -105,5 +91,16 @@ namespace fea
     void InputHandler::setKeyRepeatEnabled(bool enabled)
     {
         mInputBackend->setKeyRepeatEnabled(enabled);
+    }
+
+    void InputHandler::processEvents()
+    {
+        std::queue<Event> newEvents = mInputBackend->fetchEvents();
+
+        while(newEvents.size() > 0)
+        {
+            mEventQueue.push(newEvents.front());
+            newEvents.pop();
+        }
     }
 }
