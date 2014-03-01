@@ -15,7 +15,7 @@ namespace fea
     class ActionHandler
     {
         public:
-            void processActions(const InputHandler& input, bool keepLast = false);
+            void feedEvent(const Event& event);
             bool pollAction(Action& action);
             void bindKeyPress(Keyboard::Code code, const Action& action, bool secondary = false);
             void bindKeyRelease(Keyboard::Code code, const Action& action, bool secondary = false);
@@ -38,84 +38,64 @@ namespace fea
     };
 
     template<class Action>
-    void ActionHandler<Action>::processActions(const InputHandler& input, bool keepLast)
+    void ActionHandler<Action>::feedEvent(const Event& event)
     {
-        std::queue<Action> newActions;
-        std::queue<Event> events = input.getEventQueue();
+        
+        ActionTrigger trigger;
+        typename std::map<ActionTrigger, Action>::iterator binding;
 
-        while(events.size() > 0)
+        switch(event.type)
         {
-            Event& event = events.front();
-            events.pop();
-            ActionTrigger trigger;
-            typename std::map<ActionTrigger, Action>::iterator binding;
+            case Event::KEYPRESSED:
+                trigger.type = ActionTrigger::KEYPRESS;
+                trigger.keyCode = event.key.code;
+                break;
 
-            switch(event.type)
-            {
-                case Event::KEYPRESSED:
-                    trigger.type = ActionTrigger::KEYPRESS;
-                    trigger.keyCode = event.key.code;
-                    break;
+            case Event::KEYRELEASED:
+                trigger.type = ActionTrigger::KEYRELEASE;
+                trigger.keyCode = event.key.code;
+                break;
 
-                case Event::KEYRELEASED:
-                    trigger.type = ActionTrigger::KEYRELEASE;
-                    trigger.keyCode = event.key.code;
-                    break;
+            case Event::MOUSEBUTTONPRESSED:
+                trigger.type = ActionTrigger::MOUSEPRESS;
+                trigger.mouseButton = event.mouseButton.button;
+                break;
 
-                case Event::MOUSEBUTTONPRESSED:
-                    trigger.type = ActionTrigger::MOUSEPRESS;
-                    trigger.mouseButton = event.mouseButton.button;
-                    break;
+            case Event::MOUSEBUTTONRELEASED:
+                trigger.type = ActionTrigger::MOUSERELEASE;
+                trigger.mouseButton = event.mouseButton.button;
+                break;
 
-                case Event::MOUSEBUTTONRELEASED:
-                    trigger.type = ActionTrigger::MOUSERELEASE;
-                    trigger.mouseButton = event.mouseButton.button;
-                    break;
+            case Event::GAMEPADBUTTONPRESSED:
+                trigger.type = ActionTrigger::GAMEPADPRESS;
+                trigger.gamepadButton = event.gamepadButton.button;
+                trigger.gamepadId = event.gamepadButton.gamepadId;
+                break;
 
-                case Event::GAMEPADBUTTONPRESSED:
-                    trigger.type = ActionTrigger::GAMEPADPRESS;
-                    trigger.gamepadButton = event.gamepadButton.button;
-                    trigger.gamepadId = event.gamepadButton.gamepadId;
-                    break;
+            case Event::GAMEPADBUTTONRELEASED:
+                trigger.type = ActionTrigger::GAMEPADRELEASE;
+                trigger.gamepadButton = event.gamepadButton.button;
+                trigger.gamepadId = event.gamepadButton.gamepadId;
+                break;
 
-                case Event::GAMEPADBUTTONRELEASED:
-                    trigger.type = ActionTrigger::GAMEPADRELEASE;
-                    trigger.gamepadButton = event.gamepadButton.button;
-                    trigger.gamepadId = event.gamepadButton.gamepadId;
-                    break;
-
-                default:
-                    continue;
-            }
-            
-            
-            binding = mPrimaryBindings.find(trigger);
-
-            if(binding != mPrimaryBindings.end())
-            {
-                newActions.push(binding->second);
-            }
-            else
-            {
-                binding = mSecondaryBindings.find(trigger);
-                if(binding != mSecondaryBindings.end())
-                {
-                    newActions.push(binding->second);
-                }
-            }
+            default:
+                break;
         }
+        
+        
+        binding = mPrimaryBindings.find(trigger);
 
-        if(keepLast)
+        if(binding != mPrimaryBindings.end())
         {
-            while(newActions.size() > 0)
-            {
-                mActions.push(newActions.front());
-                newActions.pop();
-            }
+            mActions.push(binding->second);
         }
         else
         {
-            mActions = newActions;
+            binding = mSecondaryBindings.find(trigger);
+            if(binding != mSecondaryBindings.end())
+            {
+                mActions.push(binding->second);
+            }
         }
     }
     
@@ -400,14 +380,13 @@ namespace fea
      *  If a binding is created for an input or action so that it would conflict an already existing binding, the old binding will be overwritten and not valid anymore.
      *  @tparam Type which is used as the action type.
      ***
-     *  @fn void ActionHandler::processActions(const InputHandler& input, bool keepLast = false)
-     *  @brief Generate actions from the generated events of an InputHandler.
+     *  @fn void ActionHandler::feedEvent(const Event& event)
+     *  @brief Feed an event to the ActionHandler
      *
-     *  The InputHandler given as an argument will be scanned for generated input events. If the ActionHandler currently has bindings related to the events found, appropriate actions will be generated and stored. 
-     *  This function must be called before InputHandler::pollEvent is called, since that function deletes input events from the InputHandler. It also has to be called before ActionHandler::pollAction, or there will be no actions to poll.
+     *  If the ActionHandler currently has bindings related to the event given, appropriate actions will be generated and stored. 
+     *  All events has to be fed to the ActionHandler using this function, or there will be no actions to poll.
      *
-     *  @param input InputHandler instance to generate actions from.
-     *  @param keepLast If this is false, the ActionHandler will discard all unhandled actions. Otherwise, new actions will be queued after the old ones. Default value is false.
+     *  @param event Event to feed.
      ***
      *  @fn bool ActionHandler::pollAction(Action& action)
      *  @brief Access the frontmost action in the action queue, removing it from the ActionHandler in the process.
