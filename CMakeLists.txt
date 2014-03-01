@@ -288,12 +288,12 @@ if(BUILD_UI)
             include_directories(${SFML_INCLUDE_DIR})
         endif(SFML_FOUND)
         set(ui_sfml_backend_source_files 
-            src/util/window/sfmlwindowbackend.cpp
-            src/util/input/sfmlinputbackend.cpp)
+            src/window/sfmlwindowbackend.cpp
+            src/input/sfmlinputbackend.cpp)
 
         set(ui_sfml_backend_header_files
-            include/featherkit/util/window/sfmlwindowbackend.h
-            include/featherkit/util/input/sfmlinputbackend.h)
+            include/featherkit/window/sfmlwindowbackend.h
+            include/featherkit/input/sfmlinputbackend.h)
 
         add_library(${project_name}-sfml ${SHARED_OR_STATIC} ${ui_sfml_backend_source_files} ${ui_sfml_backend_header_files})
         target_link_libraries(${project_name}-sfml ${SFML_LIBRARIES})
@@ -307,12 +307,12 @@ if(BUILD_UI)
             include_directories(${SDL_INCLUDE_DIR})
         endif(SDL_FOUND)
         set(ui_sdl_backend_source_files 
-            src/util/window/sdlwindowbackend.cpp
-            src/util/input/sdlinputbackend.cpp)
+            src/window/sdlwindowbackend.cpp
+            src/input/sdlinputbackend.cpp)
 
         set(ui_sdl_backend_header_files
-        include/featherkit/util/window/sdlwindowbackend.h
-        include/featherkit/util/input/sdlinputbackend.h)
+        include/featherkit/window/sdlwindowbackend.h
+        include/featherkit/input/sdlinputbackend.h)
 
         add_library(${project_name}-sdl ${SHARED_OR_STATIC} ${ui_sdl_backend_source_files} ${ui_sdl_backend_header_files})
         target_link_libraries(${project_name}-sdl ${SDL_LIBRARY})
@@ -329,12 +329,12 @@ if(BUILD_UI)
 			include_directories(${SDK_PATH}/SDL-2.0/include)
 		endif(SDL2_FOUND)
         set(ui_sdl2_backend_source_files
-            src/util/window/sdl2windowbackend.cpp
-            src/util/input/sdl2inputbackend.cpp)
+            src/window/sdl2windowbackend.cpp
+            src/input/sdl2inputbackend.cpp)
 
         set(ui_sdl2_backend_header_files
-            include/featherkit/util/window/sdl2windowbackend.h
-            include/featherkit/util/input/sdl2inputbackend.h)
+            include/featherkit/window/sdl2windowbackend.h
+            include/featherkit/input/sdl2inputbackend.h)
     
         add_library(${project_name}-sdl2 ${SHARED_OR_STATIC} ${ui_sdl2_backend_source_files} ${ui_sdl2_backend_header_files})
 		target_link_libraries(${project_name}-sdl2 ${SDL2_LIBRARY})
