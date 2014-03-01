@@ -54,6 +54,11 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 if(BUILD_AUDIO)
     ##Audio module##
 
+    find_package(OpenAL REQUIRED)
+    if(OPENAL_FOUND)
+        include_directories(${OPENAL_INCLUDE_DIR})
+    endif()
+
     set(BUILT_TARGETS ${BUILT_TARGETS} ${project_name}-audio)
 
     set(audio_source_files 
@@ -68,6 +73,7 @@ if(BUILD_AUDIO)
         include/featherkit/audio/audiosource.h)
 
     add_library(${project_name}-audio ${SHARED_OR_STATIC} ${audio_header_files} ${audio_source_files})
+    target_link_libraries(${project_name}-audio ${OPENAL_LIBRARY})
 endif()
 
 if(BUILD_STRUCTURE)

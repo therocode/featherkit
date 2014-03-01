@@ -1,4 +1,6 @@
 #pragma once
+#include <al.h>
+#include <alc.h>
 
 namespace fea
 {
@@ -7,6 +9,11 @@ namespace fea
     class AudioPlayer
     {
         public:
+            AudioPlayer();
+            ~AudioPlayer();
             void play(Audio& audio);
+        private:
+             ALCdevice*  mAudioDevice;
+             ALCcontext* mAudioContext;
     };
 }
