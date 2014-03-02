@@ -4,6 +4,8 @@
 #include <stack>
 #include <unordered_map>
 #include <featherkit/audio/playsource.h>
+#include <thread>
+#include <mutex>
 
 namespace fea
 {
@@ -23,6 +25,8 @@ namespace fea
             size_t getNumSoundsPlaying() const;
         private:
             void setupSources(size_t maxSoundAmount);
+            void renewerThread();
+            void renewFinishedSources();
             ALCdevice*  mAudioDevice;
             ALCcontext* mAudioContext;
             std::stack<PlaySource> mSources;
@@ -30,5 +34,9 @@ namespace fea
             size_t mNumSoundsPlaying;
             AudioHandle mNextHandle;
             std::unordered_map<AudioHandle, PlaySource> mPlayingSources;
+
+            std::thread mRenewer;
+            std::mutex mSourcesMutex;
+            bool mRenewSources;
     };
 }

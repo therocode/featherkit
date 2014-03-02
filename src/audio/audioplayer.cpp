@@ -5,7 +5,7 @@
             
 namespace fea
 {
-    AudioPlayer::AudioPlayer() : mMaxSoundsPlaying(32), mNumSoundsPlaying(0), mNextHandle(0)
+    AudioPlayer::AudioPlayer() : mMaxSoundsPlaying(32), mNumSoundsPlaying(0), mNextHandle(0), mRenewer(&AudioPlayer::renewerThread, this), mRenewSources(true)
     {
         mAudioDevice = alcOpenDevice(nullptr);
 
@@ -22,6 +22,9 @@ namespace fea
     
     AudioPlayer::~AudioPlayer()
     {
+        mRenewSources = false;
+        mRenewer.join();
+
         alcMakeContextCurrent(nullptr);
         if(mAudioContext)
             alcDestroyContext(mAudioContext);
@@ -37,6 +40,8 @@ namespace fea
         //single source
         if(buffers.size() == 1)
         {
+            std::lock_guard<std::mutex> lock(mSourcesMutex);
+
             PlaySource source = std::move(mSources.top());
             mSources.pop();
 
@@ -99,6 +104,35 @@ namespace fea
         if(source != mPlayingSources.end())
         {
             alSourceStop(source->second.getSourceId());
+        }
+    }
+    
+    void AudioPlayer::renewerThread()
+    {
+        while(mRenewSources)
+        {
+            std::this_thread::sleep_for(std::chrono::milliseconds(250));
+            renewFinishedSources();
+        }
+    }
+
+    void AudioPlayer::renewFinishedSources()
+    {
+        std::lock_guard<std::mutex> lock(mSourcesMutex);
+        
+        for(auto sourceIterator = mPlayingSources.begin(); sourceIterator != mPlayingSources.end();)
+        {
+            ALint state;
+            alGetSourcei(sourceIterator->second.getSourceId(), AL_SOURCE_STATE, &state);
+            if(state == AL_STOPPED)
+            {
+                mSources.push(std::move(sourceIterator->second));
+                sourceIterator = mPlayingSources.erase(sourceIterator);
+            }
+            else
+            {
+                sourceIterator++;
+            }
         }
     }
 }
