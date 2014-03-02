@@ -15,5 +15,6 @@ namespace fea
         private:
              ALCdevice*  mAudioDevice;
              ALCcontext* mAudioContext;
+             ALuint source;
     };
 }

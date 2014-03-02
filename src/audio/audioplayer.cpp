@@ -16,6 +16,8 @@ namespace fea
         FEA_ASSERT(mAudioContext, "Error! Failed to create an OpenAL context!");
             
         alcMakeContextCurrent(mAudioContext);
+
+        alGenSources(1, &source);
     }
     
     AudioPlayer::~AudioPlayer()
@@ -26,6 +28,8 @@ namespace fea
 
         if(mAudioDevice)
             alcCloseDevice(mAudioDevice);
+
+        alDeleteSources(1, &source);
     }
 
     void AudioPlayer::play(Audio& audio)
@@ -36,6 +40,8 @@ namespace fea
         {
             //single source
             std::cout << "hej\n";
+            alSourcei(source, AL_BUFFER, buffers[0]->getBufferId());
+            alSourcePlay(source);
         }
         else if(buffers.size() > 1)
         {
