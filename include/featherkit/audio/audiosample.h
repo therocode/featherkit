@@ -3,7 +3,11 @@
 
 namespace fea
 {
+    class AudioFile;
+
     class AudioSample : public AudioSource
     {
+        public:
+            void loadSampleData(const AudioFile& audioFile);
     };
 }

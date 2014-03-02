@@ -59,11 +59,17 @@ if(BUILD_AUDIO)
         include_directories(${OPENAL_INCLUDE_DIR})
     endif()
 
+    find_package(SndFile REQUIRED)
+    if(SNDFILE_FOUND)
+        include_directories(${SNDFILE_INCLUDE_DIRS})
+    endif()
+
     set(BUILT_TARGETS ${BUILT_TARGETS} ${project_name}-audio)
 
     set(audio_source_files 
         src/audio/audio.cpp
         src/audio/audiobuffer.cpp
+        src/audio/audiofile.cpp
         src/audio/audioplayer.cpp
         src/audio/audiosource.cpp
         src/audio/audiosample.cpp)
@@ -71,12 +77,14 @@ if(BUILD_AUDIO)
     set(audio_header_files
         include/featherkit/audio/audio.h
         include/featherkit/audio/audiobuffer.h
+        include/featherkit/audio/audiodata.h
+        include/featherkit/audio/audiofile.h
         include/featherkit/audio/audioplayer.h
         include/featherkit/audio/audiosample.h
         include/featherkit/audio/audiosource.h)
 
     add_library(${project_name}-audio ${SHARED_OR_STATIC} ${audio_header_files} ${audio_source_files})
-    target_link_libraries(${project_name}-audio ${OPENAL_LIBRARY})
+    target_link_libraries(${project_name}-audio ${OPENAL_LIBRARY} ${SNDFILE_LIBRARIES})
 endif()
 
 if(BUILD_STRUCTURE)

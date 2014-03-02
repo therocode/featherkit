@@ -11,7 +11,7 @@ namespace fea
     {
         public:
             const AudioBufferList& getBuffers() const;
-        private:
+        protected:
             AudioBufferList mBuffers;
     };
 }

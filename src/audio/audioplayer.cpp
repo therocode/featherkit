@@ -35,8 +35,9 @@ namespace fea
         if(buffers.size() == 1)
         {
             //single source
+            std::cout << "hej\n";
         }
-        if(buffers.size() > 1)
+        else if(buffers.size() > 1)
         {
             //streamed source
         }

@@ -11,4 +11,9 @@ namespace fea
     {
         alDeleteBuffers(1, &mBufferId);
     }
+    
+    ALuint AudioBuffer::getBufferId() const
+    {
+        return mBufferId;
+    }
 }

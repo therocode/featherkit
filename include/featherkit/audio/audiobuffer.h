@@ -9,6 +9,7 @@ namespace fea
         public:
             AudioBuffer();
             ~AudioBuffer();
+            ALuint getBufferId() const;
         private:
             ALuint mBufferId;
             size_t mDataSize;
