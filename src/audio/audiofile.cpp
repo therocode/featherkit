@@ -25,7 +25,6 @@ namespace fea
         
         return *this;
     }
-
     
     AudioFile::~AudioFile()
     {

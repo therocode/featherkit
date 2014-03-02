@@ -1,9 +1,13 @@
 #pragma once
 #include <al.h>
 #include <alc.h>
+#include <stack>
+#include <unordered_map>
+#include <featherkit/audio/playsource.h>
 
 namespace fea
 {
+    using AudioHandle = size_t;
     class Audio;
 
     class AudioPlayer
@@ -11,10 +15,20 @@ namespace fea
         public:
             AudioPlayer();
             ~AudioPlayer();
-            void play(Audio& audio);
+            AudioHandle play(Audio& audio);
+            void pause(AudioHandle handle);
+            void resume(AudioHandle handle);
+            void stop(AudioHandle handle);
+            size_t getMaxSoundsPlaying() const;
+            size_t getNumSoundsPlaying() const;
         private:
-             ALCdevice*  mAudioDevice;
-             ALCcontext* mAudioContext;
-             ALuint source;
+            void setupSources(size_t maxSoundAmount);
+            ALCdevice*  mAudioDevice;
+            ALCcontext* mAudioContext;
+            std::stack<PlaySource> mSources;
+            const size_t mMaxSoundsPlaying;
+            size_t mNumSoundsPlaying;
+            AudioHandle mNextHandle;
+            std::unordered_map<AudioHandle, PlaySource> mPlayingSources;
     };
 }
