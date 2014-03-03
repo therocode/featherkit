@@ -29,6 +29,8 @@ namespace fea
             PlayStatus getStatus(AudioHandle handle) const;
             void setPosition(AudioHandle handle, const Vec3F& position) const;
             Vec3F getPosition(AudioHandle handle);
+            void setVelocity(AudioHandle handle, const Vec3F& velocity) const;
+            Vec3F getVelocity(AudioHandle handle);
             void setPitch(AudioHandle handle, float pitch) const;
             float getPitch(AudioHandle handle);
             void setGain(AudioHandle handle, float gain) const;

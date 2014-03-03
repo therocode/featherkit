@@ -11,6 +11,8 @@ namespace fea
             Audio();
             void setPosition(const Vec3F& position);
             const Vec3F& getPosition() const;
+            void setVelocity(const Vec3F& velocity);
+            const Vec3F& getVelocity() const;
             void setPitch(float pitch);
             float getPitch() const;
             void setGain(float pitch);
@@ -23,6 +25,7 @@ namespace fea
             const AudioSource& getSource() const;
         private:
             Vec3F mPosition;
+            Vec3F mVelocity;
             float mPitch;
             float mGain;
             float mAttenuationFactor;

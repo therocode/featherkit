@@ -52,6 +52,9 @@ namespace fea
             auto position = audio.getPosition();
             alSource3f(sourceId, AL_POSITION, position.x, position.y, position.z); //set position
 
+            auto velocity = audio.getVelocity();
+            alSource3f(sourceId, AL_VELOCITY, velocity.x, velocity.y, velocity.z); //set velocity
+
             alSourcef(sourceId, AL_PITCH, audio.getPitch()); //set pitch
 
             alSourcef(sourceId, AL_GAIN, audio.getGain()); //set gain
@@ -150,6 +153,24 @@ namespace fea
         Vec3F position;
         alGetSource3f(source.getSourceId(), AL_POSITION, &position.x, &position.y, &position.z);
         return position;
+    }
+
+    void AudioPlayer::setVelocity(AudioHandle handle, const Vec3F& velocity) const
+    {
+        FEA_ASSERT(mPlayingSources.find(handle) != mPlayingSources.end(), "Trying to set velocity on an expired audio!");
+        auto& source = mPlayingSources.at(handle);
+
+        alSource3f(source.getSourceId(), AL_VELOCITY, velocity.x, velocity.y, velocity.z);
+    }
+
+    Vec3F AudioPlayer::getVelocity(AudioHandle handle)
+    {
+        FEA_ASSERT(mPlayingSources.find(handle) != mPlayingSources.end(), "Trying to get velocity of an expired audio!");
+        auto& source = mPlayingSources.at(handle);
+
+        Vec3F velocity;
+        alGetSource3f(source.getSourceId(), AL_VELOCITY, &velocity.x, &velocity.y, &velocity.z);
+        return velocity;
     }
 
     void AudioPlayer::setPitch(AudioHandle handle, float pitch) const

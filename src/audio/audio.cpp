@@ -4,6 +4,7 @@
 namespace fea
 {
         Audio::Audio() : mPosition({0.0f, 0.0f, 0.0f}),
+                         mVelocity({0.0f, 0.0f, 0.0f}),
                          mPitch(1.0f),
                          mGain(1.0f),
                          mAttenuationFactor(1.0f),
@@ -20,6 +21,16 @@ namespace fea
         const Vec3F& Audio::getPosition() const
         {
             return mPosition;
+        }
+
+        void Audio::setVelocity(const Vec3F& velocity)
+        {
+            mVelocity = velocity;
+        }
+
+        const Vec3F& Audio::getVelocity() const
+        {
+            return mVelocity;
         }
 
         void Audio::setPitch(float pitch)
