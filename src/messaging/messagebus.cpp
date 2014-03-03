@@ -1,4 +1,4 @@
-#include <featherkit/messaging/messagebus.h>
+#include <featherkit/messaging/messagebus.hpp>
 
 namespace fea
 {

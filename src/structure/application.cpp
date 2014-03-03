@@ -1,6 +1,6 @@
-#include <featherkit/structure/application.h>
+#include <featherkit/structure/application.hpp>
 #ifdef EMSCRIPTEN
-#include <emscripten.h>
+#include <emscripten.hpp>
 #endif
 
 namespace fea

@@ -1,4 +1,4 @@
-#include <featherkit/window/contextsettings.h>
+#include <featherkit/window/contextsettings.hpp>
 
 namespace fea
 {

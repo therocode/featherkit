@@ -1,4 +1,4 @@
-#include <featherkit/rendering/animation.h>
+#include <featherkit/rendering/animation.hpp>
 
 namespace fea
 {

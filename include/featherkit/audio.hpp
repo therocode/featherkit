@@ -1,4 +1,4 @@
-#include <featherkit/audio/audio.h>
-#include <featherkit/audio/audiosample.h>
-#include <featherkit/audio/audioplayer.h>
-#include <featherkit/audio/audiofile.h>
+#include <featherkit/audio/audio.hpp>
+#include <featherkit/audio/audiosample.hpp>
+#include <featherkit/audio/audioplayer.hpp>
+#include <featherkit/audio/audiofile.hpp>

@@ -3,8 +3,8 @@
 #include <sstream>
 #include <typeindex>
 #include <algorithm>
-#include <featherkit/messaging/messagereceiver.h>
-#include <featherkit/assert.h>
+#include <featherkit/messaging/messagereceiver.hpp>
+#include <featherkit/assert.hpp>
 
 namespace fea
 {

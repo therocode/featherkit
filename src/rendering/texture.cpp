@@ -1,5 +1,5 @@
-#include <featherkit/rendering/texture.h>
-#include <featherkit/assert.h>
+#include <featherkit/rendering/texture.hpp>
+#include <featherkit/assert.hpp>
 #include <utility>
 
 

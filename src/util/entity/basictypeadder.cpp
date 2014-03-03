@@ -1,5 +1,5 @@
-#include <featherkit/util/entity/basictypeadder.h>
-#include <featherkit/entity/entityfactory.h>
+#include <featherkit/util/entity/basictypeadder.hpp>
+#include <featherkit/entity/entityfactory.hpp>
 
 namespace fea
 {

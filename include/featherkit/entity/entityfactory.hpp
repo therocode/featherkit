@@ -1,7 +1,7 @@
 #pragma once
-#include <featherkit/entity/entitymanager.h>
-#include <featherkit/entity/entitytemplate.h>
-#include <featherkit/entity/entity.h>
+#include <featherkit/entity/entitymanager.hpp>
+#include <featherkit/entity/entitytemplate.hpp>
+#include <featherkit/entity/entity.hpp>
 
 namespace fea
 {

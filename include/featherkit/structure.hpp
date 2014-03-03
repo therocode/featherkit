@@ -1,2 +1,2 @@
-#include <featherkit/structure/application.h>
-#include <featherkit/structure/gamestatemachine.h>
+#include <featherkit/structure/application.hpp>
+#include <featherkit/structure/gamestatemachine.hpp>

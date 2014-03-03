@@ -1,4 +1,4 @@
-#include <featherkit/audio/playsource.h>
+#include <featherkit/audio/playsource.hpp>
 #include <utility>
 
 namespace fea

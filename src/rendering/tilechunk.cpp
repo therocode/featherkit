@@ -1,4 +1,4 @@
-#include <featherkit/rendering/tilechunk.h>
+#include <featherkit/rendering/tilechunk.hpp>
 
 namespace fea
 {

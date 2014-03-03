@@ -1,4 +1,4 @@
-#include <featherkit/rendering/vertexattribute.h>
+#include <featherkit/rendering/vertexattribute.hpp>
 
 namespace fea
 {

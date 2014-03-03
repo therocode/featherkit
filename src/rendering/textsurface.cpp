@@ -1,5 +1,5 @@
-#include <featherkit/rendering/textsurface.h>
-#include <featherkit/rendering/font.h>
+#include <featherkit/rendering/textsurface.hpp>
+#include <featherkit/rendering/font.hpp>
 
 namespace fea
 {

@@ -1,5 +1,5 @@
 #pragma once
-#include <featherkit/audio/audiodata.h>
+#include <featherkit/audio/audiodata.hpp>
 #include <sndfile.h>
 #include <al.h>
 

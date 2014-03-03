@@ -1,5 +1,5 @@
 #pragma once
-#include <featherkit/entity/entitystorage.h>
+#include <featherkit/entity/entitystorage.hpp>
 #include <memory>
 #include <unordered_map>
 #include <vector>

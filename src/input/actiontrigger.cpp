@@ -1,4 +1,4 @@
-#include <featherkit/input/actiontrigger.h>
+#include <featherkit/input/actiontrigger.hpp>
 
 namespace fea
 {

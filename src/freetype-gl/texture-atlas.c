@@ -36,7 +36,7 @@
 #include <string.h>
 #include <assert.h>
 #include <limits.h>
-#include <featherkit/rendering/opengl.h>
+#include <featherkit/rendering/opengl.hpp>
 #include <featherkit/freetype-gl/texture-atlas.h>
 
 

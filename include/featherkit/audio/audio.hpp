@@ -1,5 +1,5 @@
 #pragma once
-#include <featherkit/audio/vec3f.h>
+#include <featherkit/audio/vec3f.hpp>
 
 namespace fea
 {

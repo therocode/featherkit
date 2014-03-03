@@ -1,5 +1,5 @@
 #pragma once
-#include <featherkit/rendering/opengl.h>
+#include <featherkit/rendering/opengl.hpp>
 #include <glm/glm.hpp>
 
 namespace fea

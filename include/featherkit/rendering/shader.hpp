@@ -1,6 +1,6 @@
 #pragma once
-#include <featherkit/rendering/uniform.h>
-#include <featherkit/rendering/vertexattribute.h>
+#include <featherkit/rendering/uniform.hpp>
+#include <featherkit/rendering/vertexattribute.hpp>
 #include <unordered_map>
 #include <vector>
 #include <string>

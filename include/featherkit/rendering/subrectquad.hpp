@@ -1,5 +1,5 @@
 #pragma once
-#include <featherkit/rendering/quad.h>
+#include <featherkit/rendering/quad.hpp>
 
 namespace fea
 {

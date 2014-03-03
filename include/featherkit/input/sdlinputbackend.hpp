@@ -1,5 +1,5 @@
 #pragma once
-#include <featherkit/input/inputbackend.h>
+#include <featherkit/input/inputbackend.hpp>
 #include <glm/glm.hpp>
 #include <SDL.h>
 

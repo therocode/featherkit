@@ -1,8 +1,8 @@
 #pragma once
 #include <vector>
 #include <string>
-#include <featherkit/util/filenotfoundexception.h>
-#include <featherkit/entity/entityfactory.h>
+#include <featherkit/util/filenotfoundexception.hpp>
+#include <featherkit/entity/entityfactory.hpp>
 
 namespace fea
 {

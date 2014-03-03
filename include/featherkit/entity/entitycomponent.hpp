@@ -1,6 +1,6 @@
 #pragma once
 #include <unordered_map>
-#include <featherkit/entity/entity.h>
+#include <featherkit/entity/entity.hpp>
 
 namespace fea
 {

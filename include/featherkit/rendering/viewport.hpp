@@ -1,5 +1,5 @@
 #pragma once
-#include <featherkit/rendering/camera.h>
+#include <featherkit/rendering/camera.hpp>
 #include <stdint.h>
 
 namespace fea

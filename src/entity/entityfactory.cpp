@@ -1,5 +1,5 @@
-#include <featherkit/entity/entityfactory.h>
-#include <featherkit/entity/entity.h>
+#include <featherkit/entity/entityfactory.hpp>
+#include <featherkit/entity/entity.hpp>
 #include <algorithm>
 
 namespace fea

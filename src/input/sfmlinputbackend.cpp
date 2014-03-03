@@ -1,4 +1,4 @@
-#include <featherkit/input/sfmlinputbackend.h>
+#include <featherkit/input/sfmlinputbackend.hpp>
 
 namespace fea
 {

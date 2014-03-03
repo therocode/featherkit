@@ -1,5 +1,5 @@
-#include <featherkit/audio/listener.h>
-#include <featherkit/assert.h>
+#include <featherkit/audio/listener.hpp>
+#include <featherkit/assert.hpp>
 #include <string>
 
 namespace fea

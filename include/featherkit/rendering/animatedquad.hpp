@@ -1,6 +1,6 @@
 #pragma once
-#include <featherkit/rendering/quad.h>
-#include <featherkit/rendering/animation.h>
+#include <featherkit/rendering/quad.hpp>
+#include <featherkit/rendering/animation.hpp>
 #include <unordered_map>
 #include <memory>
 

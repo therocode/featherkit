@@ -1,5 +1,5 @@
-#include <featherkit/rendering/repeatedquad.h>
-#include <featherkit/assert.h>
+#include <featherkit/rendering/repeatedquad.hpp>
+#include <featherkit/assert.hpp>
 
 namespace fea
 {

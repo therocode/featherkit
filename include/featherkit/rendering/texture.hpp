@@ -1,7 +1,7 @@
 #pragma once
 #include <stdint.h>
-#include <featherkit/rendering/opengl.h>
-#include <featherkit/rendering/color.h>
+#include <featherkit/rendering/opengl.hpp>
+#include <featherkit/rendering/color.hpp>
 #include <glm/glm.hpp>
 #include <functional>
 #include <memory>

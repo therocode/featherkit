@@ -1,9 +1,9 @@
 #pragma once
 #include <map>
 #include <string>
-#include <featherkit/util/filenotfoundexception.h>
-#include <featherkit/input/actiontrigger.h>
-#include <featherkit/json/json.h>
+#include <featherkit/util/filenotfoundexception.hpp>
+#include <featherkit/input/actiontrigger.hpp>
+#include <featherkit/json/json.hpp>
 #include <fstream>
 #include <sstream>
 

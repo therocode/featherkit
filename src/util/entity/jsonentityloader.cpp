@@ -1,4 +1,4 @@
-#include <featherkit/util/entity/jsonentityloader.h>
+#include <featherkit/util/entity/jsonentityloader.hpp>
 #include <featherkit/json/json_reader.h>
 #include <fstream>
 #include <sstream>

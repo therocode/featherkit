@@ -1,7 +1,7 @@
 #pragma once
-#include <featherkit/rendering/opengl.h>
-#include <featherkit/rendering/uniform.h>
-#include <featherkit/rendering/vertexattribute.h>
+#include <featherkit/rendering/opengl.hpp>
+#include <featherkit/rendering/uniform.hpp>
+#include <featherkit/rendering/vertexattribute.hpp>
 #include <vector>
 
 namespace fea

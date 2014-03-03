@@ -1,5 +1,5 @@
-#include <featherkit/audio/audiofile.h>
-#include <featherkit/util/filenotfoundexception.h>
+#include <featherkit/audio/audiofile.hpp>
+#include <featherkit/util/filenotfoundexception.hpp>
 #include <iostream>
 
 namespace fea

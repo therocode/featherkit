@@ -1,5 +1,5 @@
 #pragma once
-#include <featherkit/entity/entitymanager.h>
+#include <featherkit/entity/entitymanager.hpp>
 
 namespace fea
 {

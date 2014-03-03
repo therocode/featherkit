@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include <memory>
-#include <featherkit/audio/audiobuffer.h>
+#include <featherkit/audio/audiobuffer.hpp>
 
 namespace fea
 {

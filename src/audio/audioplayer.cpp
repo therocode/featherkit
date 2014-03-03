@@ -1,7 +1,7 @@
-#include <featherkit/audio/audioplayer.h>
-#include <featherkit/audio/audiosource.h>
-#include <featherkit/audio/audio.h>
-#include <featherkit/assert.h>
+#include <featherkit/audio/audioplayer.hpp>
+#include <featherkit/audio/audiosource.hpp>
+#include <featherkit/audio/audio.hpp>
+#include <featherkit/assert.hpp>
             
 namespace fea
 {

@@ -3,8 +3,8 @@
 #include <alc.h>
 #include <stack>
 #include <unordered_map>
-#include <featherkit/audio/playsource.h>
-#include <featherkit/audio/listener.h>
+#include <featherkit/audio/playsource.hpp>
+#include <featherkit/audio/listener.hpp>
 #include <thread>
 #include <mutex>
 

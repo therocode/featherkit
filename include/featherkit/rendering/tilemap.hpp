@@ -1,5 +1,5 @@
 #pragma once
-#include <featherkit/rendering/tilechunk.h>
+#include <featherkit/rendering/tilechunk.hpp>
 #include <unordered_map>
 #include <map>
 #include <functional>

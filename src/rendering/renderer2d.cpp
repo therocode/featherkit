@@ -1,9 +1,9 @@
 #include <glm/glm.hpp>
-#include <featherkit/rendering/renderer2d.h>
-#include <featherkit/rendering/drawable2d.h>
-#include <featherkit/rendering/projection.h>
-#include <featherkit/rendering/defaultshader.h>
-#include <featherkit/assert.h>
+#include <featherkit/rendering/renderer2d.hpp>
+#include <featherkit/rendering/drawable2d.hpp>
+#include <featherkit/rendering/projection.hpp>
+#include <featherkit/rendering/defaultshader.hpp>
+#include <featherkit/assert.hpp>
 #include <sstream>
 
 namespace fea

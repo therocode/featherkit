@@ -1,4 +1,4 @@
-#include <featherkit/rendering/shader.h>
+#include <featherkit/rendering/shader.hpp>
 #include <vector>
 #include <sstream>
 #include <glm/gtc/type_ptr.hpp>

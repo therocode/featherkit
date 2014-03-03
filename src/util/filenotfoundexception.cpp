@@ -1,4 +1,4 @@
-#include <featherkit/util/filenotfoundexception.h>
+#include <featherkit/util/filenotfoundexception.hpp>
 #include <string>
 
 namespace fea

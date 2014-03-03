@@ -1,4 +1,4 @@
-#include <featherkit/rendering/uniform.h>
+#include <featherkit/rendering/uniform.hpp>
 
 namespace fea
 {

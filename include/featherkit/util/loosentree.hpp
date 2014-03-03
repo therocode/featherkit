@@ -1,7 +1,7 @@
 #include <set>
 #include <sstream>
 #include <unordered_map>
-#include <featherkit/assert.h>
+#include <featherkit/assert.hpp>
 
 namespace fea
 {

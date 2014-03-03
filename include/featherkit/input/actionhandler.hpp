@@ -2,8 +2,8 @@
 #include <map>
 #include <string>
 #include <queue>
-#include <featherkit/input/actiontrigger.h>
-#include <featherkit/input/inputhandler.h>
+#include <featherkit/input/actiontrigger.hpp>
+#include <featherkit/input/inputhandler.hpp>
 
 
 namespace fea

@@ -1,9 +1,9 @@
 #pragma once
 //#define NO_SDL_GLEXT
-#include <featherkit/window/windowbackend.h>
+#include <featherkit/window/windowbackend.hpp>
 #include <glm/glm.hpp>
 #include <SDL2/SDL.h>
-//#include <SDL2/SDL_opengl.h>
+//#include <SDL2/SDL_opengl.hpp>
 #include <memory>
 
 namespace fea

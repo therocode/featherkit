@@ -1,7 +1,7 @@
 #pragma once
 #include <stdint.h>
 #include <glm/glm.hpp>
-#include <featherkit/rendering/texture.h>
+#include <featherkit/rendering/texture.hpp>
 
 namespace fea
 {

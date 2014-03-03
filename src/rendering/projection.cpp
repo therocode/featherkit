@@ -1,4 +1,4 @@
-#include <featherkit/rendering/projection.h>
+#include <featherkit/rendering/projection.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
 namespace fea

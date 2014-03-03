@@ -1,8 +1,8 @@
 #pragma once
 #include <vector>
 #include <glm/glm.hpp>
-#include <featherkit/rendering/renderinfo.h>
-#include <featherkit/rendering/color.h>
+#include <featherkit/rendering/renderinfo.hpp>
+#include <featherkit/rendering/color.hpp>
 #include <stdint.h>
 #include <string>
 

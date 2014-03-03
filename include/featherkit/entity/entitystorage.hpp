@@ -5,7 +5,7 @@
 #include <memory>
 #include <set>
 #include <typeindex>
-#include <featherkit/assert.h>
+#include <featherkit/assert.hpp>
 
 namespace fea
 {

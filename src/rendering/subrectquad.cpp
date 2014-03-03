@@ -1,4 +1,4 @@
-#include <featherkit/rendering/subrectquad.h>
+#include <featherkit/rendering/subrectquad.hpp>
 
 namespace fea
 {

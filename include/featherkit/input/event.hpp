@@ -1,9 +1,9 @@
 #pragma once
 
 #include <cstdint>
-#include <featherkit/input/keyboard.h>
-#include <featherkit/input/mouse.h>
-#include <featherkit/input/gamepad.h>
+#include <featherkit/input/keyboard.hpp>
+#include <featherkit/input/mouse.hpp>
+#include <featherkit/input/gamepad.hpp>
 
 namespace fea
 {

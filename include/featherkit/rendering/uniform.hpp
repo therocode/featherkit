@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
 #include <glm/glm.hpp>
-#include <featherkit/rendering/opengl.h>
+#include <featherkit/rendering/opengl.hpp>
 
 namespace fea
 {

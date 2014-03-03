@@ -1,5 +1,5 @@
-#include <featherkit/window/window.h>
-#include <featherkit/window/windowbackend.h>
+#include <featherkit/window/window.hpp>
+#include <featherkit/window/windowbackend.hpp>
 
 namespace fea
 {

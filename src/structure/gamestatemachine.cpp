@@ -1,5 +1,5 @@
-#include <featherkit/structure/gamestatemachine.h>
-#include <featherkit/assert.h>
+#include <featherkit/structure/gamestatemachine.hpp>
+#include <featherkit/assert.hpp>
 #include <sstream>
 
 namespace fea

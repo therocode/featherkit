@@ -1,9 +1,9 @@
 #pragma once
-#include <featherkit/rendering/color.h>
-#include <featherkit/rendering/viewport.h>
-#include <featherkit/rendering/rendertarget.h>
-#include <featherkit/rendering/shader.h>
-#include <featherkit/rendering/renderinfo.h>
+#include <featherkit/rendering/color.hpp>
+#include <featherkit/rendering/viewport.hpp>
+#include <featherkit/rendering/rendertarget.hpp>
+#include <featherkit/rendering/shader.hpp>
+#include <featherkit/rendering/renderinfo.hpp>
 #include <memory>
 
 namespace fea

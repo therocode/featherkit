@@ -1,6 +1,6 @@
 #pragma once
-#include <featherkit/rendering/drawable2d.h>
-#include <featherkit/rendering/texture.h>
+#include <featherkit/rendering/drawable2d.hpp>
+#include <featherkit/rendering/texture.hpp>
 
 namespace fea
 {

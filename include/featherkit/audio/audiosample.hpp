@@ -1,5 +1,5 @@
 #pragma once
-#include <featherkit/audio/audiosource.h>
+#include <featherkit/audio/audiosource.hpp>
 
 namespace fea
 {

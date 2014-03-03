@@ -1,5 +1,5 @@
-#include <featherkit/rendering/rendertarget.h>
-#include <featherkit/assert.h>
+#include <featherkit/rendering/rendertarget.hpp>
+#include <featherkit/assert.hpp>
 
 namespace fea
 {
