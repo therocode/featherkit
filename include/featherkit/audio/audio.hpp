@@ -24,7 +24,9 @@ namespace fea
             void setSource(AudioSource& source);
             const AudioSource& getSource() const;
             void setLooping(bool looping);
-            bool getLooping() const;
+            bool isLooping() const;
+            void setRelative(bool relative);
+            bool isRelative();
         private:
             Vec3F mPosition;
             Vec3F mVelocity;
@@ -34,5 +36,6 @@ namespace fea
             float mAttenuationDistance;
             AudioSource* mSource;
             bool mLoop;
+            bool mRelative;
     };
 }

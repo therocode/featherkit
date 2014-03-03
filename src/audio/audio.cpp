@@ -93,8 +93,18 @@ namespace fea
             mLoop = looping;
         }
 
-        bool Audio::getLooping() const
+        bool Audio::isLooping() const
         {
             return mLoop;
+        }
+
+        void Audio::setRelative(bool relative)
+        {
+            mRelative = relative;
+        }
+
+        bool Audio::isRelative()
+        {
+            return mRelative;
         }
 }

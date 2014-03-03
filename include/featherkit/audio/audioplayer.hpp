@@ -44,7 +44,9 @@ namespace fea
             void setAttenuationDistance(AudioHandle handle, float attenuationDistance);
             float getAttenuationDistance(AudioHandle handle) const;
             void setLooping(AudioHandle handle, bool looping);
-            bool getLooping(AudioHandle handle) const;
+            bool isLooping(AudioHandle handle) const;
+            void setRelative(AudioHandle handle, bool relative);
+            bool isRelative(AudioHandle handle) const;
             void setListener(const Listener& listener);
             const Listener& getListener() const;
         private:

@@ -59,7 +59,9 @@ namespace fea
 
             alSourcef(sourceId, AL_GAIN, audio.getGain()); //set gain
 
-            alSourcei(sourceId, AL_LOOPING, audio.getLooping() ? AL_TRUE : AL_FALSE);
+            alSourcei(sourceId, AL_LOOPING, audio.isLooping() ? AL_TRUE : AL_FALSE); //set looping
+
+            alSourcei(sourceId, AL_SOURCE_RELATIVE, audio.isRelative() ? AL_TRUE : AL_FALSE); //set relative
 
             alSourcePlay(sourceId); //play
 
@@ -254,20 +256,38 @@ namespace fea
 
     void AudioPlayer::setLooping(AudioHandle handle, bool looping)
     {
-        FEA_ASSERT(mPlayingSources.find(handle) != mPlayingSources.end(), "Trying to set looping distance on an expired audio!");
+        FEA_ASSERT(mPlayingSources.find(handle) != mPlayingSources.end(), "Trying to set looping on an expired audio!");
         auto& source = mPlayingSources.at(handle);
 
         alSourcei(source.getSourceId(), AL_LOOPING, looping? AL_TRUE : AL_FALSE);
     }
 
-    bool AudioPlayer::getLooping(AudioHandle handle) const
+    bool AudioPlayer::isLooping(AudioHandle handle) const
     {
-        FEA_ASSERT(mPlayingSources.find(handle) != mPlayingSources.end(), "Trying to get looping distance on an expired audio!");
+        FEA_ASSERT(mPlayingSources.find(handle) != mPlayingSources.end(), "Trying to get looping on an expired audio!");
         auto& source = mPlayingSources.at(handle);
 
         ALint looping;
         alGetSourcei(source.getSourceId(), AL_LOOPING, &looping);
         return looping == AL_TRUE? true : false;
+    }
+
+    void AudioPlayer::setRelative(AudioHandle handle, bool relative)
+    {
+        FEA_ASSERT(mPlayingSources.find(handle) != mPlayingSources.end(), "Trying to set relative on an expired audio!");
+        auto& source = mPlayingSources.at(handle);
+
+        alSourcei(source.getSourceId(), AL_SOURCE_RELATIVE, relative? AL_TRUE : AL_FALSE);
+    }
+
+    bool AudioPlayer::isRelative(AudioHandle handle) const
+    {
+        FEA_ASSERT(mPlayingSources.find(handle) != mPlayingSources.end(), "Trying to get relative on an expired audio!");
+        auto& source = mPlayingSources.at(handle);
+
+        ALint relative;
+        alGetSourcei(source.getSourceId(), AL_SOURCE_RELATIVE, &relative);
+        return relative == AL_TRUE? true : false;
     }
 
     void AudioPlayer::setListener(const Listener& listener)
