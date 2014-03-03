@@ -4,7 +4,7 @@
 #include <stack>
 #include <unordered_map>
 #include <featherkit/audio/playsource.h>
-#include <featherkit/audio/vec3f.h>
+#include <featherkit/audio/listener.h>
 #include <thread>
 #include <mutex>
 
@@ -19,6 +19,10 @@ namespace fea
     {
         public:
             AudioPlayer();
+            AudioPlayer(const AudioPlayer& other) = delete;
+            AudioPlayer(AudioPlayer&& other) = delete;
+            AudioPlayer& operator=(const AudioPlayer& other) = delete;
+            AudioPlayer& operator=(AudioPlayer&& other) = delete;
             ~AudioPlayer();
             AudioHandle play(Audio& audio);
             void pause(AudioHandle handle);
@@ -39,6 +43,10 @@ namespace fea
             float getAttenuationFactor(AudioHandle handle) const;
             void setAttenuationDistance(AudioHandle handle, float attenuationDistance);
             float getAttenuationDistance(AudioHandle handle) const;
+            void setLooping(AudioHandle handle, bool looping);
+            bool getLooping(AudioHandle handle) const;
+            void setListener(const Listener& listener);
+            const Listener& getListener() const;
         private:
             void setupSources(size_t maxSoundAmount);
             void renewerThread();
@@ -48,6 +56,7 @@ namespace fea
             std::stack<PlaySource> mIdleSources;
             const size_t mMaxSoundsPlaying;
             size_t mNumSoundsPlaying;
+            Listener mListener;
 
             AudioHandle mNextHandle;
             std::unordered_map<AudioHandle, PlaySource> mPlayingSources;

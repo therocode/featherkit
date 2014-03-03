@@ -23,6 +23,8 @@ namespace fea
             float getAttenuationDistance() const;
             void setSource(AudioSource& source);
             const AudioSource& getSource() const;
+            void setLooping(bool looping);
+            bool getLooping() const;
         private:
             Vec3F mPosition;
             Vec3F mVelocity;
@@ -31,5 +33,6 @@ namespace fea
             float mAttenuationFactor;
             float mAttenuationDistance;
             AudioSource* mSource;
+            bool mLoop;
     };
 }

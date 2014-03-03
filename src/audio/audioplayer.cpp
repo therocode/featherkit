@@ -59,7 +59,10 @@ namespace fea
 
             alSourcef(sourceId, AL_GAIN, audio.getGain()); //set gain
 
+            alSourcei(sourceId, AL_LOOPING, audio.getLooping() ? AL_TRUE : AL_FALSE);
+
             alSourcePlay(sourceId); //play
+
 
             size_t handle = mNextHandle;
             mNextHandle++;
@@ -247,6 +250,38 @@ namespace fea
         float attenuationDistance;
         alGetSourcef(source.getSourceId(), AL_REFERENCE_DISTANCE, &attenuationDistance);
         return attenuationDistance;
+    }
+
+    void AudioPlayer::setLooping(AudioHandle handle, bool looping)
+    {
+        FEA_ASSERT(mPlayingSources.find(handle) != mPlayingSources.end(), "Trying to set looping distance on an expired audio!");
+        auto& source = mPlayingSources.at(handle);
+
+        alSourcei(source.getSourceId(), AL_LOOPING, looping? AL_TRUE : AL_FALSE);
+    }
+
+    bool AudioPlayer::getLooping(AudioHandle handle) const
+    {
+        FEA_ASSERT(mPlayingSources.find(handle) != mPlayingSources.end(), "Trying to get looping distance on an expired audio!");
+        auto& source = mPlayingSources.at(handle);
+
+        ALint looping;
+        alGetSourcei(source.getSourceId(), AL_LOOPING, &looping);
+        return looping == AL_TRUE? true : false;
+    }
+
+    void AudioPlayer::setListener(const Listener& listener)
+    {
+        mListener = listener;
+        const Vec3F& at = listener.getOrientationAt();
+        const Vec3F& up = listener.getOrientationUp();
+        float orientation[] = {at.x, at.y, at.z, up.x, up.y, up.z};
+        alListenerfv(AL_ORIENTATION, orientation);
+    }
+
+    const Listener& AudioPlayer::getListener() const
+    {
+        return mListener;
     }
     
     void AudioPlayer::setupSources(size_t maxSoundAmount)

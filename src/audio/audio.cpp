@@ -9,7 +9,8 @@ namespace fea
                          mGain(1.0f),
                          mAttenuationFactor(1.0f),
                          mAttenuationDistance(1.0f),
-                         mSource(nullptr)
+                         mSource(nullptr),
+                         mLoop(false)
         {
         }
 
@@ -85,5 +86,15 @@ namespace fea
         const AudioSource& Audio::getSource() const
         {
             return *mSource;
+        }
+
+        void Audio::setLooping(bool looping)
+        {
+            mLoop = looping;
+        }
+
+        bool Audio::getLooping() const
+        {
+            return mLoop;
         }
 }
