@@ -2,9 +2,20 @@
 
 namespace fea
 {
-        Audio::Audio() : mPitch(1.0f),
+        Audio::Audio() : mPosition({0.0f, 0.0f, 0.0f}),
+                         mPitch(1.0f),
                          mSource(nullptr)
         {
+        }
+
+        void Audio::setPosition(const Vec3F& position)
+        {
+            mPosition = position;
+        }
+
+        const Vec3F& Audio::getPosition() const
+        {
+            return mPosition;
         }
 
         void Audio::setPitch(float pitch)

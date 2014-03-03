@@ -42,15 +42,22 @@ namespace fea
         {
             std::lock_guard<std::mutex> lock(mSourcesMutex);
 
-            PlaySource source = std::move(mSources.top());
-            mSources.pop();
+            PlaySource source = std::move(mIdleSources.top());
+            mIdleSources.pop();
 
-            alSourcei(source.getSourceId(), AL_BUFFER, buffers[0]->getBufferId());
-            alSourcePlay(source.getSourceId());
+            
+            ALuint sourceId = source.getSourceId();
+            alSourcei(sourceId, AL_BUFFER, buffers[0]->getBufferId()); //set buffer
+
+            auto position = audio.getPosition();
+            alSource3f(sourceId, AL_POSITION, position.x, position.y, position.z); //set position
+
+            alSourcePlay(sourceId); //play
 
             size_t handle = mNextHandle;
             mNextHandle++;
             mPlayingSources.emplace(handle, std::move(source));
+            mNumSoundsPlaying++;
             return handle;
         }
         //streamed source
@@ -59,22 +66,6 @@ namespace fea
             return 0;
         }
         return 0;
-    }
-    
-    size_t AudioPlayer::getMaxSoundsPlaying() const
-    {
-        return mMaxSoundsPlaying;
-    }
-    
-    size_t AudioPlayer::getNumSoundsPlaying() const
-    {
-        return mNumSoundsPlaying;
-    }
-    
-    void AudioPlayer::setupSources(size_t maxSoundAmount)
-    {
-        for(size_t i = 0; i < maxSoundAmount; i++)
-            mSources.push(PlaySource());
     }
 
     void AudioPlayer::pause(AudioHandle handle)
@@ -107,6 +98,62 @@ namespace fea
         }
     }
     
+    size_t AudioPlayer::getMaxSoundsPlaying() const
+    {
+        return mMaxSoundsPlaying;
+    }
+    
+    size_t AudioPlayer::getNumSoundsPlaying() const
+    {
+        return mNumSoundsPlaying;
+    }
+    
+    PlayStatus AudioPlayer::getStatus(AudioHandle handle) const
+    {
+        auto sourceIterator = mPlayingSources.find(handle);
+
+        if(sourceIterator != mPlayingSources.end())
+        {
+            ALint state;
+            alGetSourcei(sourceIterator->second.getSourceId(), AL_SOURCE_STATE, &state);
+
+            if(state == AL_PLAYING)
+                return PLAYING;
+            else if(state == AL_PAUSED)
+                return PAUSED;
+            else
+                return EXPIRED;
+        }
+        else
+        {
+            return EXPIRED;
+        }
+    }
+
+    void AudioPlayer::setPosition(AudioHandle handle, const Vec3F& position) const
+    {
+        FEA_ASSERT(mPlayingSources.find(handle) != mPlayingSources.end(), "Trying to set position on an expired audio!");
+        auto& source = mPlayingSources.at(handle);
+
+        alSource3f(source.getSourceId(), AL_POSITION, position.x, position.y, position.z);
+    }
+
+    Vec3F AudioPlayer::getPosition(AudioHandle handle)
+    {
+        FEA_ASSERT(mPlayingSources.find(handle) != mPlayingSources.end(), "Trying to get position of an expired audio!");
+        auto& source = mPlayingSources.at(handle);
+
+        Vec3F position;
+        alGetSource3f(source.getSourceId(), AL_POSITION, &position.x, &position.y, &position.z);
+        return position;
+    }
+    
+    void AudioPlayer::setupSources(size_t maxSoundAmount)
+    {
+        for(size_t i = 0; i < maxSoundAmount; i++)
+            mIdleSources.push(PlaySource());
+    }
+    
     void AudioPlayer::renewerThread()
     {
         while(mRenewSources)
@@ -126,8 +173,9 @@ namespace fea
             alGetSourcei(sourceIterator->second.getSourceId(), AL_SOURCE_STATE, &state);
             if(state == AL_STOPPED)
             {
-                mSources.push(std::move(sourceIterator->second));
+                mIdleSources.push(std::move(sourceIterator->second));
                 sourceIterator = mPlayingSources.erase(sourceIterator);
+                mNumSoundsPlaying--;
             }
             else
             {
