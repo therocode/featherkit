@@ -52,6 +52,8 @@ namespace fea
             auto position = audio.getPosition();
             alSource3f(sourceId, AL_POSITION, position.x, position.y, position.z); //set position
 
+            alSourcef(sourceId, AL_PITCH, audio.getPitch()); //set pitch
+
             alSourcePlay(sourceId); //play
 
             size_t handle = mNextHandle;
@@ -146,6 +148,24 @@ namespace fea
         Vec3F position;
         alGetSource3f(source.getSourceId(), AL_POSITION, &position.x, &position.y, &position.z);
         return position;
+    }
+
+    void AudioPlayer::setPitch(AudioHandle handle, float pitch) const
+    {
+        FEA_ASSERT(mPlayingSources.find(handle) != mPlayingSources.end(), "Trying to set pitch on an expired audio!");
+        auto& source = mPlayingSources.at(handle);
+        
+        alSourcef(source.getSourceId(), AL_PITCH, pitch);
+    }
+
+    float AudioPlayer::getPitch(AudioHandle handle)
+    {
+        FEA_ASSERT(mPlayingSources.find(handle) != mPlayingSources.end(), "Trying to get pitch on an expired audio!");
+        auto& source = mPlayingSources.at(handle);
+
+        float pitch;
+        alGetSourcef(source.getSourceId(), AL_PITCH, &pitch);
+        return pitch;
     }
     
     void AudioPlayer::setupSources(size_t maxSoundAmount)
