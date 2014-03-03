@@ -54,6 +54,8 @@ namespace fea
 
             alSourcef(sourceId, AL_PITCH, audio.getPitch()); //set pitch
 
+            alSourcef(sourceId, AL_GAIN, audio.getGain()); //set gain
+
             alSourcePlay(sourceId); //play
 
             size_t handle = mNextHandle;
@@ -153,6 +155,7 @@ namespace fea
     void AudioPlayer::setPitch(AudioHandle handle, float pitch) const
     {
         FEA_ASSERT(mPlayingSources.find(handle) != mPlayingSources.end(), "Trying to set pitch on an expired audio!");
+        FEA_ASSERT(pitch > 0.0f, "Trying to set pitch to 0 or less! Given " + std::to_string(pitch));
         auto& source = mPlayingSources.at(handle);
         
         alSourcef(source.getSourceId(), AL_PITCH, pitch);
@@ -166,6 +169,63 @@ namespace fea
         float pitch;
         alGetSourcef(source.getSourceId(), AL_PITCH, &pitch);
         return pitch;
+    }
+
+    void AudioPlayer::setGain(AudioHandle handle, float gain) const
+    {
+        FEA_ASSERT(mPlayingSources.find(handle) != mPlayingSources.end(), "Trying to set gain on an expired audio!");
+        FEA_ASSERT(gain > 0.0f, "Trying to set gain to 0 or less! Given " + std::to_string(gain));
+        auto& source = mPlayingSources.at(handle);
+        
+        alSourcef(source.getSourceId(), AL_GAIN, gain);
+    }
+
+    float AudioPlayer::getGain(AudioHandle handle)
+    {
+        FEA_ASSERT(mPlayingSources.find(handle) != mPlayingSources.end(), "Trying to get gain on an expired audio!");
+        auto& source = mPlayingSources.at(handle);
+
+        float gain;
+        alGetSourcef(source.getSourceId(), AL_GAIN, &gain);
+        return gain;
+    }
+
+    void AudioPlayer::setAttenuationFactor(AudioHandle handle, float attenuationFactor)
+    {
+        FEA_ASSERT(mPlayingSources.find(handle) != mPlayingSources.end(), "Trying to set attenuation factor on an expired audio!");
+        FEA_ASSERT(attenuationFactor > 0.0f, "Trying to set attenuation factor to 0 or less! Given " + std::to_string(attenuationFactor));
+        auto& source = mPlayingSources.at(handle);
+
+        alSourcef(source.getSourceId(), AL_ROLLOFF_FACTOR, attenuationFactor);
+    }
+
+    float AudioPlayer::getAttenuationFactor(AudioHandle handle) const
+    {
+        FEA_ASSERT(mPlayingSources.find(handle) != mPlayingSources.end(), "Trying to get attenuation factor on an expired audio!");
+        auto& source = mPlayingSources.at(handle);
+
+        float attenuationFactor;
+        alGetSourcef(source.getSourceId(), AL_ROLLOFF_FACTOR, &attenuationFactor);
+        return attenuationFactor;
+    }
+
+    void AudioPlayer::setAttenuationDistance(AudioHandle handle, float attenuationDistance)
+    {
+        FEA_ASSERT(mPlayingSources.find(handle) != mPlayingSources.end(), "Trying to set attenuation distance on an expired audio!");
+        FEA_ASSERT(attenuationDistance > 0.0f, "Trying to set attenuation factor to 0 or less! Given " + std::to_string(attenuationDistance));
+        auto& source = mPlayingSources.at(handle);
+
+        alSourcef(source.getSourceId(), AL_REFERENCE_DISTANCE, attenuationDistance);
+    }
+
+    float AudioPlayer::getAttenuationDistance(AudioHandle handle) const
+    {
+        FEA_ASSERT(mPlayingSources.find(handle) != mPlayingSources.end(), "Trying to get attenuation distance on an expired audio!");
+        auto& source = mPlayingSources.at(handle);
+
+        float attenuationDistance;
+        alGetSourcef(source.getSourceId(), AL_REFERENCE_DISTANCE, &attenuationDistance);
+        return attenuationDistance;
     }
     
     void AudioPlayer::setupSources(size_t maxSoundAmount)

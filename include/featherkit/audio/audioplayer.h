@@ -31,6 +31,12 @@ namespace fea
             Vec3F getPosition(AudioHandle handle);
             void setPitch(AudioHandle handle, float pitch) const;
             float getPitch(AudioHandle handle);
+            void setGain(AudioHandle handle, float gain) const;
+            float getGain(AudioHandle handle);
+            void setAttenuationFactor(AudioHandle handle, float attenuationFactor);
+            float getAttenuationFactor(AudioHandle handle) const;
+            void setAttenuationDistance(AudioHandle handle, float attenuationDistance);
+            float getAttenuationDistance(AudioHandle handle) const;
         private:
             void setupSources(size_t maxSoundAmount);
             void renewerThread();
