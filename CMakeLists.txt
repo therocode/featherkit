@@ -74,6 +74,7 @@ if(BUILD_AUDIO)
         src/audio/audioplayer.cpp
         src/audio/audiosource.cpp
         src/audio/audiosample.cpp
+        src/audio/listener.cpp
         src/audio/playsource.cpp)
 
     set(audio_header_files
@@ -84,6 +85,7 @@ if(BUILD_AUDIO)
         include/featherkit/audio/audioplayer.h
         include/featherkit/audio/audiosample.h
         include/featherkit/audio/audiosource.h
+        include/featherkit/audio/listener.h
         include/featherkit/audio/playsource.h)
 
     add_library(${project_name}-audio ${SHARED_OR_STATIC} ${audio_header_files} ${audio_source_files})
