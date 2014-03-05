@@ -1,5 +1,4 @@
 #include <featherkit/audio/audioplayer.hpp>
-#include <featherkit/audio/audiosource.hpp>
 #include <featherkit/audio/audio.hpp>
 #include <featherkit/assert.hpp>
             
@@ -35,11 +34,10 @@ namespace fea
 
     AudioHandle AudioPlayer::play(Audio& audio)
     {
-        const fea::AudioBufferList& buffers = audio.getSource().getBuffers();
-
         //single source
-        if(buffers.size() == 1)
+        if(audio.hasSample())
         {
+            const AudioBuffer& buffer = audio.getSample().getBuffer();
             std::lock_guard<std::mutex> lock(mSourcesMutex);
 
             PlaySource source = std::move(mIdleSources.top());
@@ -47,7 +45,7 @@ namespace fea
 
             
             ALuint sourceId = source.getSourceId();
-            alSourcei(sourceId, AL_BUFFER, buffers[0]->getBufferId()); //set buffer
+            alSourcei(sourceId, AL_BUFFER, buffer.getBufferId()); //set buffer
 
             auto position = audio.getPosition();
             alSource3f(sourceId, AL_POSITION, position.x, position.y, position.z); //set position
@@ -73,7 +71,7 @@ namespace fea
             return handle;
         }
         //streamed source
-        else if(buffers.size() > 1)
+        else if(audio.hasStream())
         {
             return 0;
         }

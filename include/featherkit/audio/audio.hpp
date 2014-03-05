@@ -1,5 +1,7 @@
 #pragma once
 #include <featherkit/audio/vec3f.hpp>
+#include <featherkit/audio/audiosample.hpp>
+#include <featherkit/audio/audiostream.hpp>
 
 namespace fea
 {
@@ -21,12 +23,16 @@ namespace fea
             float getAttenuationFactor() const;
             void setAttenuationDistance(float attenuationDistance);
             float getAttenuationDistance() const;
-            void setSource(AudioSource& source);
-            const AudioSource& getSource() const;
             void setLooping(bool looping);
             bool isLooping() const;
             void setRelative(bool relative);
             bool isRelative();
+            void setSource(AudioSample& sample);
+            void setSource(AudioStream& stream);
+            const AudioSample& getSample() const;
+            const AudioStream& getStream() const;
+            bool hasSample() const;
+            bool hasStream() const;
         private:
             Vec3F mPosition;
             Vec3F mVelocity;
@@ -34,8 +40,9 @@ namespace fea
             float mGain;
             float mAttenuationFactor;
             float mAttenuationDistance;
-            AudioSource* mSource;
             bool mLoop;
             bool mRelative;
+            AudioSample* mSample;
+            AudioStream* mStream;
     };
 }

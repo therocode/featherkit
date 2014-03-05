@@ -9,8 +9,9 @@ namespace fea
                          mGain(1.0f),
                          mAttenuationFactor(1.0f),
                          mAttenuationDistance(1.0f),
-                         mSource(nullptr),
-                         mLoop(false)
+                         mLoop(false),
+                         mSample(nullptr),
+                         mStream(nullptr)
         {
         }
 
@@ -78,16 +79,6 @@ namespace fea
             return mAttenuationDistance;
         }
 
-        void Audio::setSource(AudioSource& source)
-        {
-            mSource = &source;
-        }
-        
-        const AudioSource& Audio::getSource() const
-        {
-            return *mSource;
-        }
-
         void Audio::setLooping(bool looping)
         {
             mLoop = looping;
@@ -106,5 +97,39 @@ namespace fea
         bool Audio::isRelative()
         {
             return mRelative;
+        }
+            
+        void Audio::setSource(AudioSample& sample)
+        {
+            mStream = nullptr;
+            mSample = &sample;
+        }
+
+        void Audio::setSource(AudioStream& stream)
+        {
+            mSample = nullptr;
+            mStream = &stream;
+        }
+
+        const AudioSample& Audio::getSample() const
+        {
+            FEA_ASSERT(mSample != nullptr, "Trying to access the sample from an audio instance which has no sample set!");
+            return *mSample;
+        }
+
+        const AudioStream& Audio::getStream() const
+        {
+            FEA_ASSERT(mStream != nullptr, "Trying to access the stream from an audio instance which has no stream set!");
+            return *mStream;
+        }
+
+        bool Audio::hasSample() const
+        {
+            return mSample != nullptr;
+        }
+
+        bool Audio::hasStream() const
+        {
+            return mStream != nullptr;
         }
 }

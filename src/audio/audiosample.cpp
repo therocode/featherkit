@@ -9,11 +9,14 @@ namespace fea
         AudioData sampleData = audioFile.getSampleData();
         FEA_ASSERT(sampleData.mDataAmount > 0, "Trying to load samples from a file containing no samples!");
 
-        if(mBuffers.size() == 0)
-            mBuffers.push_back(std::unique_ptr<AudioBuffer>(new AudioBuffer()));
+        if(!mBuffer)
+            mBuffer = std::unique_ptr<AudioBuffer>(new AudioBuffer());
 
-
-        alBufferData(mBuffers[0]->getBufferId(), audioFile.getFormat(), sampleData.mData.get(), sampleData.mDataAmount, audioFile.getSampleRate());
-
+        alBufferData(mBuffer->getBufferId(), audioFile.getFormat(), sampleData.mData.get(), sampleData.mDataAmount, audioFile.getSampleRate());
+    }
+    
+    const AudioBuffer& AudioSample::getBuffer() const
+    {
+        return *mBuffer;
     }
 }

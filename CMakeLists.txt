@@ -72,7 +72,6 @@ if(BUILD_AUDIO)
         src/audio/audiodata.cpp
         src/audio/audiofile.cpp
         src/audio/audioplayer.cpp
-        src/audio/audiosource.cpp
         src/audio/audiosample.cpp
         src/audio/listener.cpp
         src/audio/playsource.cpp)
@@ -84,7 +83,6 @@ if(BUILD_AUDIO)
         include/featherkit/audio/audiofile.hpp
         include/featherkit/audio/audioplayer.hpp
         include/featherkit/audio/audiosample.hpp
-        include/featherkit/audio/audiosource.hpp
         include/featherkit/audio/listener.hpp
         include/featherkit/audio/playsource.hpp)
 
