@@ -4,7 +4,7 @@
             
 namespace fea
 {
-    AudioPlayer::AudioPlayer() : mMaxSoundsPlaying(32), mNumSoundsPlaying(0), mNextHandle(0), mRenewer(&AudioPlayer::renewerThread, this), mRenewSources(true)
+    AudioPlayer::AudioPlayer() : mMaxSoundsPlaying(32), mNumSoundsPlaying(0), mNextHandle(1), mRenewer(&AudioPlayer::renewerThread, this), mRenewSources(true)
     {
         mAudioDevice = alcOpenDevice(nullptr);
 
@@ -34,6 +34,7 @@ namespace fea
 
     AudioHandle AudioPlayer::play(Audio& audio)
     {
+        FEA_ASSERT(audio.hasSample() || audio.hasStream(), "Trying to play an audio with no source set!");
         //single source
         if(audio.hasSample())
         {
@@ -73,8 +74,39 @@ namespace fea
         //streamed source
         else if(audio.hasStream())
         {
-            return 0;
+            std::lock_guard<std::mutex> lock(mSourcesMutex);
+
+            PlaySource source = std::move(mIdleSources.top());
+            mIdleSources.pop();
+
+            
+            ALuint sourceId = source.getSourceId();
+            //alSourcei(sourceId, AL_BUFFER, buffer.getBufferId()); //set buffer must queue
+
+            auto position = audio.getPosition();
+            alSource3f(sourceId, AL_POSITION, position.x, position.y, position.z); //set position
+
+            auto velocity = audio.getVelocity();
+            alSource3f(sourceId, AL_VELOCITY, velocity.x, velocity.y, velocity.z); //set velocity
+
+            alSourcef(sourceId, AL_PITCH, audio.getPitch()); //set pitch
+
+            alSourcef(sourceId, AL_GAIN, audio.getGain()); //set gain
+
+            //alSourcei(sourceId, AL_LOOPING, audio.isLooping() ? AL_TRUE : AL_FALSE); //set looping
+
+            alSourcei(sourceId, AL_SOURCE_RELATIVE, audio.isRelative() ? AL_TRUE : AL_FALSE); //set relative
+
+            alSourcePlay(sourceId); //play
+
+
+            size_t handle = mNextHandle;
+            mNextHandle++;
+            mPlayingSources.emplace(handle, std::move(source));
+            mNumSoundsPlaying++;
+            return handle;
         }
+
         return 0;
     }
 

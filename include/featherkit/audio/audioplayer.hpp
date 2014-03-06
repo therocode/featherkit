@@ -12,6 +12,7 @@ namespace fea
 {
     using AudioHandle = size_t;
     class Audio;
+    class AudioStream;
 
     enum PlayStatus {PLAYING, PAUSED, EXPIRED};
 
@@ -60,10 +61,23 @@ namespace fea
             size_t mNumSoundsPlaying;
             Listener mListener;
 
+            //recycle sources
             AudioHandle mNextHandle;
             std::unordered_map<AudioHandle, PlaySource> mPlayingSources;
             std::thread mRenewer;
             std::mutex mSourcesMutex;
             bool mRenewSources;
+
+            //streaming threads
+            class Stream
+            {
+                public:
+                    Stream(const PlaySource& source, AudioStream& audioStream);
+                    bool isFinished() const;
+                    void streamerThread();
+                private:
+                    const PlaySource& mSource;
+                    AudioStream& mStream;
+            };
     };
 }

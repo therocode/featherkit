@@ -1,7 +1,6 @@
 #pragma once
 #include <featherkit/audio/audiodata.hpp>
 #include <sndfile.h>
-#include <al.h>
 
 namespace fea
 {
@@ -14,14 +13,15 @@ namespace fea
             ~AudioFile();
             AudioFile& operator=(const AudioFile& other) = delete; 
             AudioFile& operator=(AudioFile&& other); 
-            ALenum getFormat() const;
-            ALint getSampleRate() const;
+            int32_t getChannelCount() const;
+            int32_t getSampleRate() const;
             AudioData getSampleData() const;
             void open(const std::string& path);
+            SNDFILE* getInternal(); //provide API for this
         private:
             SNDFILE* mFile;
-            ALenum mFormat;
-            ALint mSampleRate;
+            int32_t mChannelCount;
+            int32_t mSampleRate;
             size_t mSampleAmount;
     };
 }

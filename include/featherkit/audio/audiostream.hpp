@@ -16,14 +16,16 @@ namespace fea
             AudioBuffer* nextReadyBuffer();
             void bufferConsumed();
             virtual AudioData fetchBufferData(size_t bufferIndex) = 0;
-        private:
+        protected:
             size_t fillBuffer(AudioBuffer* buffer);
+            void reset();
+            size_t mChannelCount;
+        private:
             std::vector<AudioBuffer> mBuffers;
             std::queue<size_t> mReadyBuffers;
             std::queue<size_t> mConsumingBuffers;
             size_t mNextToFill;
             ALenum mFormat;
-            size_t mChannelCount;
             size_t mSampleRate;
     };
 }

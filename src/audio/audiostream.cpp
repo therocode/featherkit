@@ -82,4 +82,19 @@ namespace fea
         
         return audioData.mDataAmount;
     }
+    
+    void AudioStream::reset()
+    {
+        mReadyBuffers = std::queue<size_t>();
+        mConsumingBuffers = std::queue<size_t>();
+        mNextToFill = 0;
+
+        for(size_t i = 0; i < mBuffers.size(); i++)
+        {
+            size_t filled = fillBuffer(&mBuffers[i]);
+
+            if(filled > 0)
+                mReadyBuffers.push(i);
+        }
+    }
 }

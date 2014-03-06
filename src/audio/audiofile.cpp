@@ -4,14 +4,14 @@
 
 namespace fea
 {
-    AudioFile::AudioFile() : mFile(nullptr), mFormat(0), mSampleRate(0), mSampleAmount(0)
+    AudioFile::AudioFile() : mFile(nullptr), mChannelCount(0), mSampleRate(0), mSampleAmount(0)
     {
     }
     
-    AudioFile::AudioFile(AudioFile&& other)  : mFile(nullptr), mFormat(0), mSampleRate(0), mSampleAmount(0)
+    AudioFile::AudioFile(AudioFile&& other)  : mFile(nullptr), mChannelCount(0), mSampleRate(0), mSampleAmount(0)
     {
         std::swap(mFile, other.mFile);
-        std::swap(mFormat, other.mFormat);
+        std::swap(mChannelCount, other.mChannelCount);
         std::swap(mSampleRate, other.mSampleRate);
         std::swap(mSampleAmount, other.mSampleAmount);
     }
@@ -19,7 +19,7 @@ namespace fea
     AudioFile& AudioFile::operator=(AudioFile&& other)
     {
         std::swap(mFile, other.mFile);
-        std::swap(mFormat, other.mFormat);
+        std::swap(mChannelCount, other.mChannelCount);
         std::swap(mSampleRate, other.mSampleRate);
         std::swap(mSampleAmount, other.mSampleAmount);
         
@@ -34,12 +34,12 @@ namespace fea
         }
     }
 
-    ALenum AudioFile::getFormat() const
+    int32_t AudioFile::getChannelCount() const
     {
-        return mFormat;
+        return mChannelCount;
     }
 
-    ALint AudioFile::getSampleRate() const
+    int32_t AudioFile::getSampleRate() const
     {
         return mSampleRate;
     }
@@ -77,23 +77,13 @@ namespace fea
             throw util::FileNotFoundException("Error when trying to load audio file '" + path + "!");
         }
 
-        int32_t channelCount = fileInfo.channels;
+        mChannelCount = fileInfo.channels;
         mSampleRate = fileInfo.samplerate;
         mSampleAmount = static_cast<std::size_t>(fileInfo.frames) * fileInfo.channels;
-        
-        switch (channelCount)
-        {
-            case 1  : mFormat = AL_FORMAT_MONO16;                    break;
-            case 2  : mFormat = AL_FORMAT_STEREO16;                  break;
-            case 4  : mFormat = alGetEnumValue("AL_FORMAT_QUAD16");  break;
-            case 6  : mFormat = alGetEnumValue("AL_FORMAT_51CHN16"); break;
-            case 7  : mFormat = alGetEnumValue("AL_FORMAT_61CHN16"); break;
-            case 8  : mFormat = alGetEnumValue("AL_FORMAT_71CHN16"); break;
-            default : mFormat = 0;                                   break;
-        }
-
-        // Fixes a bug on OS X supposedly
-        if (mFormat == -1)
-            mFormat = 0;
+    }
+    
+    SNDFILE* AudioFile::getInternal()
+    {
+        return mFile;
     }
 }
