@@ -4,7 +4,12 @@
             
 namespace fea
 {
-    AudioPlayer::AudioPlayer() : mMaxSoundsPlaying(32), mNumSoundsPlaying(0), mNextHandle(1), mRenewer(&AudioPlayer::renewerThread, this), mRenewSources(true)
+    AudioPlayer::AudioPlayer() : 
+        mMaxSoundsPlaying(32), 
+        mNumSoundsPlaying(0), 
+        mNextHandle(1), 
+        mRenewSources(true),
+        mRenewer(&AudioPlayer::renewerThread, this)
     {
         mAudioDevice = alcOpenDevice(nullptr);
 
@@ -41,11 +46,14 @@ namespace fea
             const AudioBuffer& buffer = audio.getSample().getBuffer();
             std::lock_guard<std::mutex> lock(mSourcesMutex);
 
-            PlaySource source = std::move(mIdleSources.top());
+            size_t handle = mNextHandle;
+            mNextHandle++;
+            mPlayingSources.emplace(handle, std::move(mIdleSources.top()));
             mIdleSources.pop();
+            mNumSoundsPlaying++;
 
             
-            ALuint sourceId = source.getSourceId();
+            ALuint sourceId = mPlayingSources.at(handle).getSourceId();
             alSourcei(sourceId, AL_BUFFER, buffer.getBufferId()); //set buffer
 
             auto position = audio.getPosition();
@@ -65,10 +73,6 @@ namespace fea
             alSourcePlay(sourceId); //play
 
 
-            size_t handle = mNextHandle;
-            mNextHandle++;
-            mPlayingSources.emplace(handle, std::move(source));
-            mNumSoundsPlaying++;
             return handle;
         }
         //streamed source
@@ -76,12 +80,14 @@ namespace fea
         {
             std::lock_guard<std::mutex> lock(mSourcesMutex);
 
-            PlaySource source = std::move(mIdleSources.top());
+            size_t handle = mNextHandle;
+            mNextHandle++;
+            mPlayingSources.emplace(handle, std::move(mIdleSources.top()));
             mIdleSources.pop();
+            mNumSoundsPlaying++;
 
             
-            ALuint sourceId = source.getSourceId();
-            //alSourcei(sourceId, AL_BUFFER, buffer.getBufferId()); //set buffer must queue
+            ALuint sourceId = mPlayingSources.at(handle).getSourceId();
 
             auto position = audio.getPosition();
             alSource3f(sourceId, AL_POSITION, position.x, position.y, position.z); //set position
@@ -97,13 +103,14 @@ namespace fea
 
             alSourcei(sourceId, AL_SOURCE_RELATIVE, audio.isRelative() ? AL_TRUE : AL_FALSE); //set relative
 
+            mStreams.push_back(Stream(mPlayingSources.at(handle), audio.getStream()));
+            mStreams.back().start();
+
+            std::this_thread::sleep_for(std::chrono::milliseconds(25)); //hack?
+
+            std::cout << "now playing source id " << sourceId << "\n";
             alSourcePlay(sourceId); //play
 
-
-            size_t handle = mNextHandle;
-            mNextHandle++;
-            mPlayingSources.emplace(handle, std::move(source));
-            mNumSoundsPlaying++;
             return handle;
         }
 
@@ -368,5 +375,47 @@ namespace fea
                 sourceIterator++;
             }
         }
+    }
+
+    AudioPlayer::Stream::Stream(const PlaySource& source, AudioStream& audioStream) : 
+        mSource(source),
+        mStream(audioStream),
+        mIsFinished(false)
+    {
+        std::cout << "i was constructed!\n";
+    }
+    
+    bool AudioPlayer::Stream::isFinished() const
+    {
+        return mIsFinished;
+    }
+
+    void AudioPlayer::Stream::streamerThread()
+    {
+        while(!mIsFinished)
+        {
+            ALint buffersProcessed;
+            alGetSourcei(mSource.getSourceId(), AL_BUFFERS_PROCESSED, &buffersProcessed);
+            if(buffersProcessed > 0)
+            {
+                std::cout << "buffer is consumed\n";
+                ALuint bufferId;
+                alSourceUnqueueBuffers(mSource.getSourceId(), 1, &bufferId);
+                mStream.bufferConsumed();
+            }
+
+            while(AudioBuffer* newBuffer = mStream.nextReadyBuffer())
+            {
+                ALuint bufferId = newBuffer->getBufferId();
+                alSourceQueueBuffers(mSource.getSourceId(), 1, &bufferId);
+                std::cout << "queued << " << bufferId << "!\n";
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(25));
+        }
+    }
+    
+    void AudioPlayer::Stream::start()
+    {
+        mStreamerThread = std::thread(&Stream::streamerThread, this);
     }
 }

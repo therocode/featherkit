@@ -117,7 +117,7 @@ namespace fea
             return *mSample;
         }
 
-        const AudioStream& Audio::getStream() const
+        AudioStream& Audio::getStream()
         {
             FEA_ASSERT(mStream != nullptr, "Trying to access the stream from an audio instance which has no stream set!");
             return *mStream;

@@ -8,9 +8,10 @@ namespace fea
         alGenBuffers(1, &mBufferId);
     }
     
-    AudioBuffer::AudioBuffer(AudioBuffer&& other) : mDataSize(0)
+    AudioBuffer::AudioBuffer(AudioBuffer&& other) : 
+        mBufferId(0),
+        mDataSize(0)
     {
-        alGenBuffers(1, &mBufferId);
         std::swap(mBufferId, other.mBufferId);
         std::swap(mDataSize, other.mDataSize);
     }
@@ -25,7 +26,8 @@ namespace fea
 
     AudioBuffer::~AudioBuffer()
     {
-        alDeleteBuffers(1, &mBufferId);
+        if(mBufferId != 0)
+            alDeleteBuffers(1, &mBufferId);
     }
     
     ALuint AudioBuffer::getBufferId() const

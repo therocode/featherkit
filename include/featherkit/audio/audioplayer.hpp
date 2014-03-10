@@ -7,6 +7,7 @@
 #include <featherkit/audio/listener.hpp>
 #include <thread>
 #include <mutex>
+#include <vector>
 
 namespace fea
 {
@@ -64,9 +65,9 @@ namespace fea
             //recycle sources
             AudioHandle mNextHandle;
             std::unordered_map<AudioHandle, PlaySource> mPlayingSources;
-            std::thread mRenewer;
             std::mutex mSourcesMutex;
             bool mRenewSources;
+            std::thread mRenewer;
 
             //streaming threads
             class Stream
@@ -75,9 +76,14 @@ namespace fea
                     Stream(const PlaySource& source, AudioStream& audioStream);
                     bool isFinished() const;
                     void streamerThread();
+                    void start();
                 private:
                     const PlaySource& mSource;
                     AudioStream& mStream;
+                    bool mIsFinished;
+                    std::thread mStreamerThread;
             };
+
+            std::vector<Stream> mStreams;
     };
 }

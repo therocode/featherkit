@@ -30,7 +30,7 @@ namespace fea
             void setSource(AudioSample& sample);
             void setSource(AudioStream& stream);
             const AudioSample& getSample() const;
-            const AudioStream& getStream() const;
+            AudioStream& getStream();
             bool hasSample() const;
             bool hasStream() const;
         private:
