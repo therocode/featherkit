@@ -103,8 +103,8 @@ namespace fea
 
             alSourcei(sourceId, AL_SOURCE_RELATIVE, audio.isRelative() ? AL_TRUE : AL_FALSE); //set relative
 
-            mStreams.push_back(Stream(mPlayingSources.at(handle), audio.getStream()));
-            mStreams.back().start();
+            mStreams.emplace(sourceId, Stream(mPlayingSources.at(handle), audio.getStream()));
+            mStreams.at(sourceId).start();
 
             std::this_thread::sleep_for(std::chrono::milliseconds(25)); //hack?
 
@@ -363,12 +363,20 @@ namespace fea
         for(auto sourceIterator = mPlayingSources.begin(); sourceIterator != mPlayingSources.end();)
         {
             ALint state;
-            alGetSourcei(sourceIterator->second.getSourceId(), AL_SOURCE_STATE, &state);
+            ALuint sourceId = sourceIterator->second.getSourceId();
+            alGetSourcei(sourceId, AL_SOURCE_STATE, &state);
             if(state == AL_STOPPED)
             {
                 mIdleSources.push(std::move(sourceIterator->second));
                 sourceIterator = mPlayingSources.erase(sourceIterator);
                 mNumSoundsPlaying--;
+
+                auto iterator = mStreams.find(sourceId);
+                if(iterator != mStreams.end())
+                {
+                    iterator->second.stop();
+                    mStreams.erase(iterator);
+                }
             }
             else
             {
@@ -380,19 +388,14 @@ namespace fea
     AudioPlayer::Stream::Stream(const PlaySource& source, AudioStream& audioStream) : 
         mSource(source),
         mStream(audioStream),
-        mIsFinished(false)
+        mIsFinishing(false)
     {
         std::cout << "i was constructed!\n";
-    }
-    
-    bool AudioPlayer::Stream::isFinished() const
-    {
-        return mIsFinished;
     }
 
     void AudioPlayer::Stream::streamerThread()
     {
-        while(!mIsFinished)
+        while(!mIsFinishing)
         {
             ALint buffersProcessed;
             alGetSourcei(mSource.getSourceId(), AL_BUFFERS_PROCESSED, &buffersProcessed);
@@ -412,10 +415,17 @@ namespace fea
             }
             std::this_thread::sleep_for(std::chrono::milliseconds(25));
         }
+        std::cout << "terminated streamer thread\n";
     }
     
     void AudioPlayer::Stream::start()
     {
         mStreamerThread = std::thread(&Stream::streamerThread, this);
+    }
+    
+    void AudioPlayer::Stream::stop()
+    {
+        mIsFinishing = true;
+        mStreamerThread.join();
     }
 }

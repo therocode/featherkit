@@ -74,16 +74,16 @@ namespace fea
             {
                 public:
                     Stream(const PlaySource& source, AudioStream& audioStream);
-                    bool isFinished() const;
                     void streamerThread();
                     void start();
+                    void stop();
                 private:
                     const PlaySource& mSource;
                     AudioStream& mStream;
-                    bool mIsFinished;
+                    bool mIsFinishing;
                     std::thread mStreamerThread;
             };
 
-            std::vector<Stream> mStreams;
+            std::unordered_map<ALuint, Stream> mStreams;
     };
 }
