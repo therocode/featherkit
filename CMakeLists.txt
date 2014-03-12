@@ -76,7 +76,8 @@ if(BUILD_AUDIO)
         src/audio/audiosample.cpp
         src/audio/audiostream.cpp
         src/audio/listener.cpp
-        src/audio/playsource.cpp)
+        src/audio/playsource.cpp
+        src/audio/oscillator.cpp)
 
     set(audio_header_files
         include/featherkit/audio/audio.hpp
@@ -88,7 +89,8 @@ if(BUILD_AUDIO)
         include/featherkit/audio/audiosample.hpp
         include/featherkit/audio/audiostream.hpp
         include/featherkit/audio/listener.hpp
-        include/featherkit/audio/playsource.hpp)
+        include/featherkit/audio/playsource.hpp
+        include/featherkit/audio/oscillator.hpp)
 
     add_library(${project_name}-audio ${SHARED_OR_STATIC} ${audio_header_files} ${audio_source_files})
     target_link_libraries(${project_name}-audio ${OPENAL_LIBRARY} ${SNDFILE_LIBRARIES})
