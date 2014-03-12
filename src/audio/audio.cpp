@@ -100,6 +100,16 @@ namespace fea
             return mRelative;
         }
             
+        void Audio::setPlayOffset(std::chrono::milliseconds timePoint)
+        {
+            mOffset = timePoint;
+        }
+
+        std::chrono::milliseconds Audio::getPlayOffset() const
+        {
+            return mOffset;
+        }
+            
         void Audio::setSource(AudioSample& sample)
         {
             mStream = nullptr;

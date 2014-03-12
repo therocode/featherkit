@@ -70,6 +70,8 @@ namespace fea
 
             alSourcei(sourceId, AL_SOURCE_RELATIVE, audio.isRelative() ? AL_TRUE : AL_FALSE); //set relative
 
+            alSourcef(sourceId, AL_SEC_OFFSET, static_cast<float>(audio.getPlayOffset().count()) / 1000.0f);//set offset
+
             alSourcePlay(sourceId); //play
 
 
