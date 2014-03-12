@@ -2,13 +2,13 @@
 #include <vector>
 #include <queue>
 #include <cstring>
-#include <chrono>
 #include <featherkit/audio/audiobuffer.hpp>
 #include <featherkit/audio/audiodata.hpp>
+#include <featherkit/audio/audiobase.hpp>
 
 namespace fea
 {
-    class AudioStream
+    class AudioStream : public AudioBase
     {
         public:
             AudioStream();
@@ -18,10 +18,7 @@ namespace fea
             void bufferConsumed();
             virtual void fillBufferData(size_t sampleIndex, AudioData& toFill) = 0;
             size_t getSampleRate() const;
-            void setLooping(bool loop);
-            bool getLooping() const;
             void setPlayOffset(std::chrono::milliseconds timePoint);
-            std::chrono::milliseconds getPlayOffset() const;
         protected:
             size_t fillBuffer(AudioBuffer* buffer);
             void reset();
@@ -34,7 +31,5 @@ namespace fea
             size_t mCurrentSample;
             ALenum mFormat;
             size_t mSampleRate;
-            bool mLooping;
-            std::chrono::milliseconds mOffset;
     };
 }

@@ -68,6 +68,7 @@ if(BUILD_AUDIO)
 
     set(audio_source_files 
         src/audio/audio.cpp
+        src/audio/audiobase.cpp
         src/audio/audiobuffer.cpp
         src/audio/audiodata.cpp
         src/audio/audiofile.cpp
@@ -81,6 +82,7 @@ if(BUILD_AUDIO)
 
     set(audio_header_files
         include/featherkit/audio/audio.hpp
+        include/featherkit/audio/audiobase.hpp
         include/featherkit/audio/audiobuffer.hpp
         include/featherkit/audio/audiodata.hpp
         include/featherkit/audio/audiofile.hpp

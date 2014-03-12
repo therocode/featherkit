@@ -8,8 +8,7 @@ namespace fea
         mCurrentSample(0),
         mFormat(0),
         mChannelCount(0),
-        mSampleRate(0),
-        mLooping(false)
+        mSampleRate(0)
     {
         size_t bufferAmount = 3;
 
@@ -24,8 +23,7 @@ namespace fea
         mCurrentSample(0),
         mFormat(0),
         mChannelCount(0),
-        mSampleRate(0),
-        mLooping(false)
+        mSampleRate(0)
     {
         for(size_t i = 0; i < bufferAmount; i++)
         {
@@ -136,25 +134,10 @@ namespace fea
             }
         }
     }
-    
-    void AudioStream::setLooping(bool loop)
-    {
-        mLooping = loop;
-    }
-
-    bool AudioStream::getLooping() const
-    {
-        return mLooping;
-    }
 
     void AudioStream::setPlayOffset(std::chrono::milliseconds timePoint)
     {
-        mOffset = timePoint;
+        AudioBase::setPlayOffset(timePoint);
         reset();
-    }
-
-    std::chrono::milliseconds AudioStream::getPlayOffset() const
-    {
-        return mOffset;
     }
 }
