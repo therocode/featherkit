@@ -11,7 +11,7 @@ namespace fea
     {
         public:
             AudioStream();
-            AudioStream(size_t bufferAmount);
+            AudioStream(size_t bufferAmount, size_t bufferSize);
             void setStreamProperties(size_t channelCount, size_t sampleRate);
             AudioBuffer* nextReadyBuffer();
             void bufferConsumed();
@@ -24,6 +24,7 @@ namespace fea
             size_t mChannelCount;
         private:
             std::vector<AudioBuffer> mBuffers;
+            size_t mBufferSize;
             std::queue<size_t> mReadyBuffers;
             std::queue<size_t> mConsumingBuffers;
             size_t mNextToFill;

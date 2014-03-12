@@ -12,6 +12,5 @@ namespace fea
             void openFile(const std::string& path);
         private:
             AudioFile mFile;
-            size_t mBufferSize;
     };
 }

@@ -4,6 +4,7 @@
 namespace fea
 {
     AudioStream::AudioStream() : 
+        mBufferSize(48000),
         mNextToFill(0),
         mFormat(0),
         mChannelCount(0),
@@ -18,8 +19,13 @@ namespace fea
         }
     }
 
-    AudioStream::AudioStream(size_t bufferAmount) : 
-        mNextToFill(0)
+    AudioStream::AudioStream(size_t bufferAmount, size_t bufferSize) : 
+        mBufferSize(bufferSize),
+        mNextToFill(0),
+        mFormat(0),
+        mChannelCount(0),
+        mSampleRate(0),
+        mLooping(false)
     {
         for(size_t i = 0; i < bufferAmount; i++)
         {
@@ -95,6 +101,9 @@ namespace fea
     size_t AudioStream::fillBuffer(AudioBuffer* buffer)
     {
         AudioData audioData;
+        audioData.mSamples.resize(mBufferSize);
+        audioData.mSampleAmount = 0;
+
         fillBufferData(mNextToFill, audioData);
         mNextToFill++;
 

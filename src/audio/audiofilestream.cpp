@@ -3,20 +3,18 @@
 
 namespace fea
 {
-    AudioFileStream::AudioFileStream() :
-        mBufferSize(48000)
+    AudioFileStream::AudioFileStream()
     {
     }
 
     void AudioFileStream::fillBufferData(size_t bufferIndex, AudioData& toFill)
     {
-        toFill.mSamples.resize(mBufferSize);
-        toFill.mSampleAmount = 0;
+        size_t sampleAmount = toFill.mSamples.size();
 
-        size_t sampleIndex = bufferIndex * mBufferSize / (sizeof(int16_t) * mChannelCount);
+        size_t sampleIndex = bufferIndex * sampleAmount / mChannelCount;
         sf_seek(mFile.getInternal(), sampleIndex, SEEK_SET);
 
-        size_t readAmount = static_cast<std::size_t>(sf_read_short(mFile.getInternal(), toFill.mSamples.data(), mBufferSize / (sizeof(int16_t))));
+        size_t readAmount = static_cast<std::size_t>(sf_read_short(mFile.getInternal(), toFill.mSamples.data(), sampleAmount));
         toFill.mSampleAmount = readAmount;
     }
 
