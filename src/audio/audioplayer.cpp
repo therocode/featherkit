@@ -1,5 +1,7 @@
 #include <featherkit/audio/audioplayer.hpp>
+#include <featherkit/audio/audiosample.hpp>
 #include <featherkit/audio/audio.hpp>
+#include <featherkit/audio/audiostream.hpp>
 #include <featherkit/assert.hpp>
             
 namespace fea
@@ -39,79 +41,76 @@ namespace fea
 
     AudioHandle AudioPlayer::play(Audio& audio)
     {
-        FEA_ASSERT(audio.hasSample() || audio.hasStream(), "Trying to play an audio with no source set!");
-        //single source
-        if(audio.hasSample())
-        {
-            const AudioBuffer& buffer = audio.getSample().getBuffer();
-            std::lock_guard<std::mutex> lock(mSourcesMutex);
+        FEA_ASSERT(audio.hasSample(), "Trying to play an audio with no sample set!");
 
-            size_t handle = mNextHandle;
-            mNextHandle++;
-            mPlayingSources.emplace(handle, std::move(mIdleSources.top()));
-            mIdleSources.pop();
-            mNumSoundsPlaying++;
+        const AudioBuffer& buffer = audio.getSample().getBuffer();
+        std::lock_guard<std::mutex> lock(mSourcesMutex);
 
-            
-            ALuint sourceId = mPlayingSources.at(handle).getSourceId();
-            alSourcei(sourceId, AL_BUFFER, buffer.getBufferId()); //set buffer
-
-            auto position = audio.getPosition();
-            alSource3f(sourceId, AL_POSITION, position.x, position.y, position.z); //set position
-
-            auto velocity = audio.getVelocity();
-            alSource3f(sourceId, AL_VELOCITY, velocity.x, velocity.y, velocity.z); //set velocity
-
-            alSourcef(sourceId, AL_PITCH, audio.getPitch()); //set pitch
-
-            alSourcef(sourceId, AL_GAIN, audio.getGain()); //set gain
-
-            alSourcei(sourceId, AL_LOOPING, audio.isLooping() ? AL_TRUE : AL_FALSE); //set looping
-
-            alSourcei(sourceId, AL_SOURCE_RELATIVE, audio.isRelative() ? AL_TRUE : AL_FALSE); //set relative
-
-            alSourcef(sourceId, AL_SEC_OFFSET, static_cast<float>(audio.getPlayOffset().count()) / 1000.0f);//set offset
-
-            alSourcePlay(sourceId); //play
+        size_t handle = mNextHandle;
+        mNextHandle++;
+        mPlayingSources.emplace(handle, std::move(mIdleSources.top()));
+        mIdleSources.pop();
+        mNumSoundsPlaying++;
 
 
-            return handle;
-        }
-        //streamed source
-        else if(audio.hasStream())
-        {
-            std::lock_guard<std::mutex> lock(mSourcesMutex);
+        ALuint sourceId = mPlayingSources.at(handle).getSourceId();
+        alSourcei(sourceId, AL_BUFFER, buffer.getBufferId()); //set buffer
 
-            size_t handle = mNextHandle;
-            mNextHandle++;
-            mPlayingSources.emplace(handle, std::move(mIdleSources.top()));
-            mIdleSources.pop();
-            mNumSoundsPlaying++;
+        auto position = audio.getPosition();
+        alSource3f(sourceId, AL_POSITION, position.x, position.y, position.z); //set position
 
-            
-            ALuint sourceId = mPlayingSources.at(handle).getSourceId();
+        auto velocity = audio.getVelocity();
+        alSource3f(sourceId, AL_VELOCITY, velocity.x, velocity.y, velocity.z); //set velocity
 
-            auto position = audio.getPosition();
-            alSource3f(sourceId, AL_POSITION, position.x, position.y, position.z); //set position
+        alSourcef(sourceId, AL_PITCH, audio.getPitch()); //set pitch
 
-            auto velocity = audio.getVelocity();
-            alSource3f(sourceId, AL_VELOCITY, velocity.x, velocity.y, velocity.z); //set velocity
+        alSourcef(sourceId, AL_GAIN, audio.getGain()); //set gain
 
-            alSourcef(sourceId, AL_PITCH, audio.getPitch()); //set pitch
+        alSourcei(sourceId, AL_LOOPING, audio.isLooping() ? AL_TRUE : AL_FALSE); //set looping
 
-            alSourcef(sourceId, AL_GAIN, audio.getGain()); //set gain
+        alSourcei(sourceId, AL_SOURCE_RELATIVE, audio.isRelative() ? AL_TRUE : AL_FALSE); //set relative
 
-            alSourcei(sourceId, AL_SOURCE_RELATIVE, audio.isRelative() ? AL_TRUE : AL_FALSE); //set relative
+        alSourcef(sourceId, AL_SEC_OFFSET, static_cast<float>(audio.getPlayOffset().count()) / 1000.0f);//set offset
 
-            mStreams.emplace(sourceId, Stream(mPlayingSources.at(handle), audio.getStream()));
-            mStreams.at(sourceId).start();
+        alSourcePlay(sourceId); //play
 
-            std::this_thread::sleep_for(std::chrono::milliseconds(25)); //hack?
 
-            alSourcePlay(sourceId); //play
+        return handle;
+    }
 
-            return handle;
-        }
+    AudioHandle AudioPlayer::play(AudioStream& stream)
+    {
+        std::lock_guard<std::mutex> lock(mSourcesMutex);
+
+        size_t handle = mNextHandle;
+        mNextHandle++;
+        mPlayingSources.emplace(handle, std::move(mIdleSources.top()));
+        mIdleSources.pop();
+        mNumSoundsPlaying++;
+
+
+        ALuint sourceId = mPlayingSources.at(handle).getSourceId();
+
+        auto position = stream.getPosition();
+        alSource3f(sourceId, AL_POSITION, position.x, position.y, position.z); //set position
+
+        auto velocity = stream.getVelocity();
+        alSource3f(sourceId, AL_VELOCITY, velocity.x, velocity.y, velocity.z); //set velocity
+
+        alSourcef(sourceId, AL_PITCH, stream.getPitch()); //set pitch
+
+        alSourcef(sourceId, AL_GAIN, stream.getGain()); //set gain
+
+        alSourcei(sourceId, AL_SOURCE_RELATIVE, stream.isRelative() ? AL_TRUE : AL_FALSE); //set relative
+
+        mStreams.emplace(sourceId, Stream(mPlayingSources.at(handle), stream));
+        mStreams.at(sourceId).start();
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(25)); //hack?
+
+        alSourcePlay(sourceId); //play
+
+        return handle;
 
         return 0;
     }

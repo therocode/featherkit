@@ -27,6 +27,7 @@ namespace fea
             AudioPlayer& operator=(AudioPlayer&& other) = delete;
             ~AudioPlayer();
             AudioHandle play(Audio& audio);
+            AudioHandle play(AudioStream& stream);
             void pause(AudioHandle handle);
             void resume(AudioHandle handle);
             void stop(AudioHandle handle);
