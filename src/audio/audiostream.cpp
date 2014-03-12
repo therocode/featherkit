@@ -5,7 +5,7 @@ namespace fea
 {
     AudioStream::AudioStream() : 
         mBufferSize(48000),
-        mNextToFill(0),
+        mCurrentSample(0),
         mFormat(0),
         mChannelCount(0),
         mSampleRate(0),
@@ -21,7 +21,7 @@ namespace fea
 
     AudioStream::AudioStream(size_t bufferAmount, size_t bufferSize) : 
         mBufferSize(bufferSize),
-        mNextToFill(0),
+        mCurrentSample(0),
         mFormat(0),
         mChannelCount(0),
         mSampleRate(0),
@@ -76,18 +76,20 @@ namespace fea
         if(filled > 0)
         {
             mReadyBuffers.push(consumed); 
+            mCurrentSample += filled;
         }
         else
         {
             if(mLooping)
             {
-                mNextToFill = 0;
+                mCurrentSample = 0;
 
                 filled = fillBuffer(&mBuffers[consumed]);
 
                 if(filled > 0)
                 {
                     mReadyBuffers.push(consumed); 
+                    mCurrentSample += filled;
                 }
             }
         }
@@ -104,8 +106,7 @@ namespace fea
         audioData.mSamples.resize(mBufferSize);
         audioData.mSampleAmount = 0;
 
-        fillBufferData(mNextToFill, audioData);
-        mNextToFill++;
+        fillBufferData(mCurrentSample, audioData);
 
         if(audioData.mSampleAmount > 0)
         {
@@ -119,11 +120,12 @@ namespace fea
     {
         mReadyBuffers = std::queue<size_t>();
         mConsumingBuffers = std::queue<size_t>();
-        mNextToFill = 0;
+        mCurrentSample = 0;
 
         for(size_t i = 0; i < mBuffers.size(); i++)
         {
             size_t filled = fillBuffer(&mBuffers[i]);
+            mCurrentSample += filled;
 
             if(filled > 0)
                 mReadyBuffers.push(i);

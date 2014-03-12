@@ -15,7 +15,7 @@ namespace fea
             void setStreamProperties(size_t channelCount, size_t sampleRate);
             AudioBuffer* nextReadyBuffer();
             void bufferConsumed();
-            virtual void fillBufferData(size_t bufferIndex, AudioData& toFill) = 0;
+            virtual void fillBufferData(size_t sampleIndex, AudioData& toFill) = 0;
             size_t getSampleRate() const;
             void setLooping(bool loop);
         protected:
@@ -27,7 +27,7 @@ namespace fea
             size_t mBufferSize;
             std::queue<size_t> mReadyBuffers;
             std::queue<size_t> mConsumingBuffers;
-            size_t mNextToFill;
+            size_t mCurrentSample;
             ALenum mFormat;
             size_t mSampleRate;
             bool mLooping;

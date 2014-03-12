@@ -15,7 +15,7 @@ namespace fea
         reset();
     }
 
-    void Oscillator::fillBufferData(size_t bufferIndex, AudioData& toFill)
+    void Oscillator::fillBufferData(size_t sampleIndex, AudioData& toFill)
     {
         size_t sampleAmount = toFill.mSamples.size();
 
@@ -24,7 +24,6 @@ namespace fea
         for(int i = 0; i < sampleAmount; i++)
         {
             toFill.mSamples[i] = (int16_t) (std::numeric_limits<int16_t>::max() * sin(mTheta));
-            //data.get()[i] = rand() % (std::numeric_limits<int16_t>::max() * 2) - std::numeric_limits<int16_t>::max();
             mTheta += deltaTheta;
 
             if(mTheta > 2.0 * pi) 
