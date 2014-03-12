@@ -7,7 +7,8 @@ namespace fea
         mNextToFill(0),
         mFormat(0),
         mChannelCount(0),
-        mSampleRate(0)
+        mSampleRate(0),
+        mLooping(false)
     {
         size_t bufferAmount = 3;
 
@@ -67,7 +68,23 @@ namespace fea
         size_t filled = fillBuffer(&mBuffers[consumed]);
         
         if(filled > 0)
+        {
             mReadyBuffers.push(consumed); 
+        }
+        else
+        {
+            if(mLooping)
+            {
+                mNextToFill = 0;
+
+                filled = fillBuffer(&mBuffers[consumed]);
+
+                if(filled > 0)
+                {
+                    mReadyBuffers.push(consumed); 
+                }
+            }
+        }
     }
             
     size_t AudioStream::getSampleRate() const
@@ -102,5 +119,10 @@ namespace fea
             if(filled > 0)
                 mReadyBuffers.push(i);
         }
+    }
+    
+    void AudioStream::setLooping(bool loop)
+    {
+        mLooping = loop;
     }
 }

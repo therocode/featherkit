@@ -17,6 +17,7 @@ namespace fea
             void bufferConsumed();
             virtual void fillBufferData(size_t bufferIndex, AudioData& toFill) = 0;
             size_t getSampleRate() const;
+            void setLooping(bool loop);
         protected:
             size_t fillBuffer(AudioBuffer* buffer);
             void reset();
@@ -28,5 +29,6 @@ namespace fea
             size_t mNextToFill;
             ALenum mFormat;
             size_t mSampleRate;
+            bool mLooping;
     };
 }

@@ -99,8 +99,6 @@ namespace fea
 
             alSourcef(sourceId, AL_GAIN, audio.getGain()); //set gain
 
-            //alSourcei(sourceId, AL_LOOPING, audio.isLooping() ? AL_TRUE : AL_FALSE); //set looping
-
             alSourcei(sourceId, AL_SOURCE_RELATIVE, audio.isRelative() ? AL_TRUE : AL_FALSE); //set relative
 
             mStreams.emplace(sourceId, Stream(mPlayingSources.at(handle), audio.getStream()));
