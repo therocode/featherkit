@@ -48,6 +48,8 @@ namespace fea
             case 8  : mFormat = alGetEnumValue("AL_FORMAT_71CHN16"); break;
             default : mFormat = 0;                                   break;
         }
+
+        reset();
     }
 
     AudioBuffer* AudioStream::nextReadyBuffer()
@@ -118,22 +120,41 @@ namespace fea
     
     void AudioStream::reset()
     {
-        mReadyBuffers = std::queue<size_t>();
-        mConsumingBuffers = std::queue<size_t>();
-        mCurrentSample = 0;
-
-        for(size_t i = 0; i < mBuffers.size(); i++)
+        if(mFormat != 0)
         {
-            size_t filled = fillBuffer(&mBuffers[i]);
-            mCurrentSample += filled;
+            mReadyBuffers = std::queue<size_t>();
+            mConsumingBuffers = std::queue<size_t>();
+            mCurrentSample = mSampleRate * mChannelCount * (static_cast<float>(mOffset.count())/ 1000.0f);
 
-            if(filled > 0)
-                mReadyBuffers.push(i);
+            for(size_t i = 0; i < mBuffers.size(); i++)
+            {
+                size_t filled = fillBuffer(&mBuffers[i]);
+                mCurrentSample += filled;
+
+                if(filled > 0)
+                    mReadyBuffers.push(i);
+            }
         }
     }
     
     void AudioStream::setLooping(bool loop)
     {
         mLooping = loop;
+    }
+
+    bool AudioStream::getLooping() const
+    {
+        return mLooping;
+    }
+
+    void AudioStream::setPlayOffset(std::chrono::milliseconds timePoint)
+    {
+        mOffset = timePoint;
+        reset();
+    }
+
+    std::chrono::milliseconds AudioStream::getPlayOffset() const
+    {
+        return mOffset;
     }
 }
