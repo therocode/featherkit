@@ -10,6 +10,7 @@ namespace fea
                          mAttenuationFactor(1.0f),
                          mAttenuationDistance(1.0f),
                          mLoop(false),
+                         mRelative(false),
                          mSample(nullptr),
                          mStream(nullptr)
         {

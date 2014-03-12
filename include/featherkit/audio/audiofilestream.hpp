@@ -8,7 +8,7 @@ namespace fea
     {
         public:
             AudioFileStream();
-            virtual AudioData fetchBufferData(size_t bufferIndex) override;
+            virtual void fillBufferData(size_t bufferIndex, AudioData& toFill) override;
             void setFile(AudioFile& file);
         private:
             AudioFile* mFile;

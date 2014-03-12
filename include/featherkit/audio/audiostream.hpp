@@ -15,7 +15,7 @@ namespace fea
             void setStreamProperties(size_t channelCount, size_t sampleRate);
             AudioBuffer* nextReadyBuffer();
             void bufferConsumed();
-            virtual AudioData fetchBufferData(size_t bufferIndex) = 0;
+            virtual void fillBufferData(size_t bufferIndex, AudioData& toFill) = 0;
             size_t getSampleRate() const;
         protected:
             size_t fillBuffer(AudioBuffer* buffer);

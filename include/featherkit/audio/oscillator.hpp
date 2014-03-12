@@ -7,7 +7,7 @@ namespace fea
     {
         public:
             Oscillator();
-            virtual AudioData fetchBufferData(size_t bufferIndex) override;
+            virtual void fillBufferData(size_t bufferIndex, AudioData& toFill) override;
             void setFrequency(float frequency);
         private:
             float mFrequency;

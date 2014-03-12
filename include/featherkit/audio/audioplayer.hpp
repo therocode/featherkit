@@ -65,7 +65,7 @@ namespace fea
             //recycle sources
             AudioHandle mNextHandle;
             std::unordered_map<AudioHandle, PlaySource> mPlayingSources;
-            std::mutex mSourcesMutex;
+            mutable std::mutex mSourcesMutex;
             bool mRenewSources;
             std::thread mRenewer;
 

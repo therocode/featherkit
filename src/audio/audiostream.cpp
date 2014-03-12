@@ -77,7 +77,8 @@ namespace fea
     
     size_t AudioStream::fillBuffer(AudioBuffer* buffer)
     {
-        AudioData audioData = fetchBufferData(mNextToFill);
+        AudioData audioData;
+        fillBufferData(mNextToFill, audioData);
         mNextToFill++;
 
         if(audioData.mSampleAmount > 0)

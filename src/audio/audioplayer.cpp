@@ -118,6 +118,7 @@ namespace fea
 
     void AudioPlayer::pause(AudioHandle handle)
     {
+        std::lock_guard<std::mutex> lock(mSourcesMutex);
         auto source = mPlayingSources.find(handle);
 
         if(source != mPlayingSources.end())
@@ -128,6 +129,7 @@ namespace fea
 
     void AudioPlayer::resume(AudioHandle handle)
     {
+        std::lock_guard<std::mutex> lock(mSourcesMutex);
         auto source = mPlayingSources.find(handle);
 
         if(source != mPlayingSources.end())
@@ -138,11 +140,19 @@ namespace fea
 
     void AudioPlayer::stop(AudioHandle handle)
     {
+        std::lock_guard<std::mutex> lock(mSourcesMutex);
         auto source = mPlayingSources.find(handle);
 
         if(source != mPlayingSources.end())
         {
-            alSourceStop(source->second.getSourceId());
+            ALuint sourceId = source->second.getSourceId();
+
+            auto streamIterator = mStreams.find(sourceId);
+            if(streamIterator != mStreams.end())
+            {
+                streamIterator->second.stop();
+            }
+            alSourceStop(sourceId);
         }
     }
     
@@ -158,6 +168,7 @@ namespace fea
     
     PlayStatus AudioPlayer::getStatus(AudioHandle handle) const
     {
+        std::lock_guard<std::mutex> lock(mSourcesMutex);
         auto sourceIterator = mPlayingSources.find(handle);
 
         if(sourceIterator != mPlayingSources.end())
@@ -180,6 +191,7 @@ namespace fea
 
     void AudioPlayer::setPosition(AudioHandle handle, const Vec3F& position) const
     {
+        std::lock_guard<std::mutex> lock(mSourcesMutex);
         FEA_ASSERT(mPlayingSources.find(handle) != mPlayingSources.end(), "Trying to set position on an expired audio!");
         auto& source = mPlayingSources.at(handle);
 
@@ -188,6 +200,7 @@ namespace fea
 
     Vec3F AudioPlayer::getPosition(AudioHandle handle)
     {
+        std::lock_guard<std::mutex> lock(mSourcesMutex);
         FEA_ASSERT(mPlayingSources.find(handle) != mPlayingSources.end(), "Trying to get position of an expired audio!");
         auto& source = mPlayingSources.at(handle);
 
@@ -198,6 +211,7 @@ namespace fea
 
     void AudioPlayer::setVelocity(AudioHandle handle, const Vec3F& velocity) const
     {
+        std::lock_guard<std::mutex> lock(mSourcesMutex);
         FEA_ASSERT(mPlayingSources.find(handle) != mPlayingSources.end(), "Trying to set velocity on an expired audio!");
         auto& source = mPlayingSources.at(handle);
 
@@ -206,6 +220,7 @@ namespace fea
 
     Vec3F AudioPlayer::getVelocity(AudioHandle handle)
     {
+        std::lock_guard<std::mutex> lock(mSourcesMutex);
         FEA_ASSERT(mPlayingSources.find(handle) != mPlayingSources.end(), "Trying to get velocity of an expired audio!");
         auto& source = mPlayingSources.at(handle);
 
@@ -216,6 +231,7 @@ namespace fea
 
     void AudioPlayer::setPitch(AudioHandle handle, float pitch) const
     {
+        std::lock_guard<std::mutex> lock(mSourcesMutex);
         FEA_ASSERT(mPlayingSources.find(handle) != mPlayingSources.end(), "Trying to set pitch on an expired audio!");
         FEA_ASSERT(pitch > 0.0f, "Trying to set pitch to 0 or less! Given " + std::to_string(pitch));
         auto& source = mPlayingSources.at(handle);
@@ -225,6 +241,7 @@ namespace fea
 
     float AudioPlayer::getPitch(AudioHandle handle)
     {
+        std::lock_guard<std::mutex> lock(mSourcesMutex);
         FEA_ASSERT(mPlayingSources.find(handle) != mPlayingSources.end(), "Trying to get pitch on an expired audio!");
         auto& source = mPlayingSources.at(handle);
 
@@ -235,6 +252,7 @@ namespace fea
 
     void AudioPlayer::setGain(AudioHandle handle, float gain) const
     {
+        std::lock_guard<std::mutex> lock(mSourcesMutex);
         FEA_ASSERT(mPlayingSources.find(handle) != mPlayingSources.end(), "Trying to set gain on an expired audio!");
         FEA_ASSERT(gain > 0.0f, "Trying to set gain to 0 or less! Given " + std::to_string(gain));
         auto& source = mPlayingSources.at(handle);
@@ -244,6 +262,7 @@ namespace fea
 
     float AudioPlayer::getGain(AudioHandle handle)
     {
+        std::lock_guard<std::mutex> lock(mSourcesMutex);
         FEA_ASSERT(mPlayingSources.find(handle) != mPlayingSources.end(), "Trying to get gain on an expired audio!");
         auto& source = mPlayingSources.at(handle);
 
@@ -254,6 +273,7 @@ namespace fea
 
     void AudioPlayer::setAttenuationFactor(AudioHandle handle, float attenuationFactor)
     {
+        std::lock_guard<std::mutex> lock(mSourcesMutex);
         FEA_ASSERT(mPlayingSources.find(handle) != mPlayingSources.end(), "Trying to set attenuation factor on an expired audio!");
         FEA_ASSERT(attenuationFactor > 0.0f, "Trying to set attenuation factor to 0 or less! Given " + std::to_string(attenuationFactor));
         auto& source = mPlayingSources.at(handle);
@@ -263,6 +283,7 @@ namespace fea
 
     float AudioPlayer::getAttenuationFactor(AudioHandle handle) const
     {
+        std::lock_guard<std::mutex> lock(mSourcesMutex);
         FEA_ASSERT(mPlayingSources.find(handle) != mPlayingSources.end(), "Trying to get attenuation factor on an expired audio!");
         auto& source = mPlayingSources.at(handle);
 
@@ -273,6 +294,7 @@ namespace fea
 
     void AudioPlayer::setAttenuationDistance(AudioHandle handle, float attenuationDistance)
     {
+        std::lock_guard<std::mutex> lock(mSourcesMutex);
         FEA_ASSERT(mPlayingSources.find(handle) != mPlayingSources.end(), "Trying to set attenuation distance on an expired audio!");
         FEA_ASSERT(attenuationDistance > 0.0f, "Trying to set attenuation factor to 0 or less! Given " + std::to_string(attenuationDistance));
         auto& source = mPlayingSources.at(handle);
@@ -282,6 +304,7 @@ namespace fea
 
     float AudioPlayer::getAttenuationDistance(AudioHandle handle) const
     {
+        std::lock_guard<std::mutex> lock(mSourcesMutex);
         FEA_ASSERT(mPlayingSources.find(handle) != mPlayingSources.end(), "Trying to get attenuation distance on an expired audio!");
         auto& source = mPlayingSources.at(handle);
 
@@ -292,6 +315,7 @@ namespace fea
 
     void AudioPlayer::setLooping(AudioHandle handle, bool looping)
     {
+        std::lock_guard<std::mutex> lock(mSourcesMutex);
         FEA_ASSERT(mPlayingSources.find(handle) != mPlayingSources.end(), "Trying to set looping on an expired audio!");
         auto& source = mPlayingSources.at(handle);
 
@@ -300,6 +324,7 @@ namespace fea
 
     bool AudioPlayer::isLooping(AudioHandle handle) const
     {
+        std::lock_guard<std::mutex> lock(mSourcesMutex);
         FEA_ASSERT(mPlayingSources.find(handle) != mPlayingSources.end(), "Trying to get looping on an expired audio!");
         auto& source = mPlayingSources.at(handle);
 
@@ -310,6 +335,7 @@ namespace fea
 
     void AudioPlayer::setRelative(AudioHandle handle, bool relative)
     {
+        std::lock_guard<std::mutex> lock(mSourcesMutex);
         FEA_ASSERT(mPlayingSources.find(handle) != mPlayingSources.end(), "Trying to set relative on an expired audio!");
         auto& source = mPlayingSources.at(handle);
 
@@ -318,6 +344,7 @@ namespace fea
 
     bool AudioPlayer::isRelative(AudioHandle handle) const
     {
+        std::lock_guard<std::mutex> lock(mSourcesMutex);
         FEA_ASSERT(mPlayingSources.find(handle) != mPlayingSources.end(), "Trying to get relative on an expired audio!");
         auto& source = mPlayingSources.at(handle);
 
@@ -420,7 +447,10 @@ namespace fea
     
     void AudioPlayer::Stream::stop()
     {
-        mIsFinishing = true;
-        mStreamerThread.join();
+        if(mStreamerThread.joinable())
+        {
+            mIsFinishing = true;
+            mStreamerThread.join();
+        }
     }
 }

@@ -15,26 +15,23 @@ namespace fea
         reset();
     }
 
-    AudioData Oscillator::fetchBufferData(size_t bufferIndex)
+    void Oscillator::fillBufferData(size_t bufferIndex, AudioData& toFill)
     {
         size_t bufferSize = 48000;
-        AudioData sampleData;
-        sampleData.mSamples.resize(bufferSize);
-        sampleData.mSampleAmount = bufferSize;
+        toFill.mSamples.resize(bufferSize);
+        toFill.mSampleAmount = bufferSize;
 
         double deltaTheta = 2.0 * pi * ((double)mFrequency / (double)getSampleRate());
 
         for(int i = 0; i < bufferSize; i++)
         {
-            sampleData.mSamples[i] = (int16_t) (std::numeric_limits<int16_t>::max() * sin(mTheta));
+            toFill.mSamples[i] = (int16_t) (std::numeric_limits<int16_t>::max() * sin(mTheta));
             //data.get()[i] = rand() % (std::numeric_limits<int16_t>::max() * 2) - std::numeric_limits<int16_t>::max();
             mTheta += deltaTheta;
 
             if(mTheta > 2.0 * pi) 
                 mTheta = mTheta - 2.0 * pi;
         }
-
-        return sampleData;
     }
 
     void Oscillator::setFrequency(float frequency)
