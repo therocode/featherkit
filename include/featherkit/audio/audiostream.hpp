@@ -16,6 +16,7 @@ namespace fea
             AudioBuffer* nextReadyBuffer();
             void bufferConsumed();
             virtual AudioData fetchBufferData(size_t bufferIndex) = 0;
+            size_t getSampleRate() const;
         protected:
             size_t fillBuffer(AudioBuffer* buffer);
             void reset();

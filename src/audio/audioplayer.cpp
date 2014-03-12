@@ -108,7 +108,6 @@ namespace fea
 
             std::this_thread::sleep_for(std::chrono::milliseconds(25)); //hack?
 
-            std::cout << "now playing source id " << sourceId << "\n";
             alSourcePlay(sourceId); //play
 
             return handle;
@@ -390,7 +389,6 @@ namespace fea
         mStream(audioStream),
         mIsFinishing(false)
     {
-        std::cout << "i was constructed!\n";
     }
 
     void AudioPlayer::Stream::streamerThread()
@@ -401,7 +399,6 @@ namespace fea
             alGetSourcei(mSource.getSourceId(), AL_BUFFERS_PROCESSED, &buffersProcessed);
             if(buffersProcessed > 0)
             {
-                std::cout << "buffer is consumed\n";
                 ALuint bufferId;
                 alSourceUnqueueBuffers(mSource.getSourceId(), 1, &bufferId);
                 mStream.bufferConsumed();
@@ -411,11 +408,9 @@ namespace fea
             {
                 ALuint bufferId = newBuffer->getBufferId();
                 alSourceQueueBuffers(mSource.getSourceId(), 1, &bufferId);
-                std::cout << "queued << " << bufferId << "!\n";
             }
             std::this_thread::sleep_for(std::chrono::milliseconds(25));
         }
-        std::cout << "terminated streamer thread\n";
     }
     
     void AudioPlayer::Stream::start()

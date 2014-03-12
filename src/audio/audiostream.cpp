@@ -69,18 +69,23 @@ namespace fea
         if(filled > 0)
             mReadyBuffers.push(consumed); 
     }
+            
+    size_t AudioStream::getSampleRate() const
+    {
+        return mSampleRate;
+    }
     
     size_t AudioStream::fillBuffer(AudioBuffer* buffer)
     {
         AudioData audioData = fetchBufferData(mNextToFill);
         mNextToFill++;
 
-        if(audioData.mDataAmount > 0)
+        if(audioData.mSampleAmount > 0)
         {
-            alBufferData(buffer->getBufferId(), mFormat, audioData.mData.get(), audioData.mDataAmount, mSampleRate);
+            alBufferData(buffer->getBufferId(), mFormat, audioData.mSamples.data(), audioData.mSampleAmount * sizeof(int16_t), mSampleRate);
         }
         
-        return audioData.mDataAmount;
+        return audioData.mSampleAmount;
     }
     
     void AudioStream::reset()

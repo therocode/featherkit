@@ -49,13 +49,10 @@ namespace fea
         if(mSampleAmount == 0)
             return AudioData();
 
-        std::shared_ptr<int16_t> data(new int16_t [mSampleAmount * sizeof(int16_t)], [](int16_t* arr) { delete [] arr; });
-
         AudioData sampleData;
-        sampleData.mData = std::static_pointer_cast<void>(data);
+        sampleData.mSamples.resize(mSampleAmount);
 
-        size_t readAmount = static_cast<std::size_t>(sf_read_short(mFile, data.get(), mSampleAmount));
-        sampleData.mDataAmount = readAmount * sizeof(int16_t);
+        sampleData.mSampleAmount = static_cast<std::size_t>(sf_read_short(mFile, sampleData.mSamples.data(), mSampleAmount));
 
         sf_seek(mFile, 0, 0);
 

@@ -1,6 +1,7 @@
 #pragma once
 #include <featherkit/audio/audiodata.hpp>
 #include <sndfile.h>
+#include <string>
 
 namespace fea
 {

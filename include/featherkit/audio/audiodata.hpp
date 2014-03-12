@@ -1,12 +1,14 @@
 #pragma once
-#include <memory>
+#include <vector>
+#include <cstdint>
+#include <cstring>
 
 namespace fea
 {
     struct AudioData
     {
         AudioData();
-        std::shared_ptr<void> mData;
-        size_t mDataAmount;
+        std::vector<int16_t> mSamples;
+        size_t mSampleAmount;
     };
 }

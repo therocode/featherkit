@@ -2,7 +2,7 @@
 
 namespace fea
 {
-    AudioData::AudioData() : mDataAmount(0)
+    AudioData::AudioData() : mSampleAmount(0)
     {
     }
 }
