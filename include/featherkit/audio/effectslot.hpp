@@ -5,6 +5,7 @@ namespace fea
 {
     class EffectSlot
     {
+        public:
             EffectSlot();
             EffectSlot(const EffectSlot& other) = delete;
             EffectSlot(EffectSlot&& other);

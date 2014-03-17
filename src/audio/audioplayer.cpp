@@ -3,6 +3,7 @@
 #include <featherkit/audio/audio.hpp>
 #include <featherkit/audio/audiostream.hpp>
 #include <featherkit/assert.hpp>
+#define AL_ALEXT_PROTOTYPES
 #include <efx.h>
             
 namespace fea
@@ -27,6 +28,11 @@ namespace fea
         setupSources(mMaxSoundsPlaying);
 
         alcGetIntegerv(mAudioDevice, ALC_MAX_AUXILIARY_SENDS, 1, &mMaxAuxSend);
+
+        for(size_t i = 0; i < mMaxAuxSend; i++)
+        {
+            mEffectSlots.push_back(EffectSlot());
+        }
     }
     
     AudioPlayer::~AudioPlayer()
@@ -161,6 +167,12 @@ namespace fea
     size_t AudioPlayer::getMaxSoundsPlaying() const
     {
         return mMaxSoundsPlaying;
+    }
+    
+    void AudioPlayer::addEffectToSlot(const AudioEffect& effect, size_t slot)
+    {
+        FEA_ASSERT(slot < mMaxSoundsPlaying, "Trying to add an effect to slot number " << slot << " but the highest slot number is " << mMaxSoundsPlaying - 1 << "!\n");
+        alAuxiliaryEffectSloti(mEffectSlots[slot].getSlotId(), AL_EFFECTSLOT_EFFECT, effect.getEffectId());
     }
     
     size_t AudioPlayer::getNumSoundsPlaying() const

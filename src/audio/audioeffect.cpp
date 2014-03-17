@@ -28,6 +28,11 @@ namespace fea
         if(mEffectId != 0)
             alDeleteEffects(1, &mEffectId);
     }
+    
+    ALuint AudioEffect::getEffectId() const
+    {
+        return mEffectId;
+    }
 
     void AudioEffect::setGain(float gain)
     {

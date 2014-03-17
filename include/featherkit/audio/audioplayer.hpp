@@ -5,6 +5,8 @@
 #include <unordered_map>
 #include <featherkit/audio/playsource.hpp>
 #include <featherkit/audio/listener.hpp>
+#include <featherkit/audio/effectslot.hpp>
+#include <featherkit/audio/audioeffect.hpp>
 #include <thread>
 #include <mutex>
 #include <vector>
@@ -53,6 +55,7 @@ namespace fea
             void setListener(const Listener& listener);
             const Listener& getListener() const;
             size_t getMaxAuxiliarySend() const;
+            void addEffectToSlot(const AudioEffect& effect, size_t slot);
         private:
             void setupSources(size_t maxSoundAmount);
             void renewerThread();
@@ -88,5 +91,8 @@ namespace fea
             };
 
             std::unordered_map<ALuint, Stream> mStreams;
+
+            //effect stuff
+            std::vector<EffectSlot> mEffectSlots;
     };
 }
