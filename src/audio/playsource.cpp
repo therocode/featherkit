@@ -21,15 +21,15 @@ namespace fea
         
         return *this;
     }
+    
+    ALuint PlaySource::getSourceId() const
+    {
+        return mSourceId;
+    }
 
     PlaySource::~PlaySource()
     {
         if(mSourceId != 0)
             alDeleteSources(1, &mSourceId);
-    }
-    
-    ALuint PlaySource::getSourceId() const
-    {
-        return mSourceId;
     }
 }

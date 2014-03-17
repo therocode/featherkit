@@ -52,12 +52,14 @@ namespace fea
             bool isRelative(AudioHandle handle) const;
             void setListener(const Listener& listener);
             const Listener& getListener() const;
+            size_t getMaxAuxiliarySend() const;
         private:
             void setupSources(size_t maxSoundAmount);
             void renewerThread();
             void renewFinishedSources();
             ALCdevice*  mAudioDevice;
             ALCcontext* mAudioContext;
+            ALCint mMaxAuxSend;
             std::stack<PlaySource> mIdleSources;
             const size_t mMaxSoundsPlaying;
             size_t mNumSoundsPlaying;

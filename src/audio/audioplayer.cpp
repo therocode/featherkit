@@ -3,6 +3,7 @@
 #include <featherkit/audio/audio.hpp>
 #include <featherkit/audio/audiostream.hpp>
 #include <featherkit/assert.hpp>
+#include <efx.h>
             
 namespace fea
 {
@@ -24,6 +25,8 @@ namespace fea
         alcMakeContextCurrent(mAudioContext);
 
         setupSources(mMaxSoundsPlaying);
+
+        alcGetIntegerv(mAudioDevice, ALC_MAX_AUXILIARY_SENDS, 1, &mMaxAuxSend);
     }
     
     AudioPlayer::~AudioPlayer()
@@ -364,6 +367,11 @@ namespace fea
     const Listener& AudioPlayer::getListener() const
     {
         return mListener;
+    }
+    
+    size_t AudioPlayer::getMaxAuxiliarySend() const
+    {
+        return mMaxAuxSend;
     }
     
     void AudioPlayer::setupSources(size_t maxSoundAmount)
