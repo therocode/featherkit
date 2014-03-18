@@ -82,9 +82,11 @@ namespace fea
         alSourcef(sourceId, AL_SEC_OFFSET, static_cast<float>(audio.getPlayOffset().count()) / 1000.0f);//set offset
 
         const auto& effectSends = audio.getEffectSends();
-        for(auto slotId : effectSends)
+        std::cout << "has " << effectSends.size() << " effects\n";
+        for(auto slotIndex : effectSends)
         {
-            alSource3i(sourceId, AL_AUXILIARY_SEND_FILTER, slotId, 0, AL_FILTER_NULL);
+            std::cout << "sending source " << sourceId << " to effect slot " << mEffectSlots.at(slotIndex).getSlotId() << "\n";
+            alSource3i(sourceId, AL_AUXILIARY_SEND_FILTER, mEffectSlots.at(slotIndex).getSlotId(), 0, AL_FILTER_NULL);
         }
 
         alSourcePlay(sourceId); //play

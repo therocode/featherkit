@@ -1,5 +1,7 @@
 #pragma once
 #include <al.h>
+#define AL_ALEXT_PROTOTYPES
+#include <efx.h>
 
 namespace fea
 {
@@ -17,7 +19,7 @@ namespace fea
             float getGain() const;
             void setAutoAdjustments(bool enabled);
             bool getAutoAdjustments() const;
-        private:
+        protected:
             ALuint mEffectId;
             float mGain;
             bool mAutoSend;

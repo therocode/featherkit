@@ -4,3 +4,4 @@
 #include <featherkit/audio/audiostream.hpp>
 #include <featherkit/audio/audiofilestream.hpp>
 #include <featherkit/audio/oscillator.hpp>
+#include <featherkit/audio/efx/reverb.hpp>

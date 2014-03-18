@@ -80,7 +80,8 @@ if(BUILD_AUDIO)
         src/audio/effectslot.cpp
         src/audio/listener.cpp
         src/audio/playsource.cpp
-        src/audio/oscillator.cpp)
+        src/audio/oscillator.cpp
+        src/audio/efx/reverb.cpp)
 
     set(audio_header_files
         include/featherkit/audio/audio.hpp
@@ -96,7 +97,8 @@ if(BUILD_AUDIO)
         include/featherkit/audio/effectslot.hpp
         include/featherkit/audio/listener.hpp
         include/featherkit/audio/playsource.hpp
-        include/featherkit/audio/oscillator.hpp)
+        include/featherkit/audio/oscillator.hpp
+        include/featherkit/audio/efx/reverb.hpp)
 
     add_library(${project_name}-audio ${SHARED_OR_STATIC} ${audio_header_files} ${audio_source_files})
     target_link_libraries(${project_name}-audio ${OPENAL_LIBRARY} ${SNDFILE_LIBRARIES})
