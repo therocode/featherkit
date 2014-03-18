@@ -27,6 +27,12 @@ namespace fea
             float getLateGain() const;
             void setLateDelay(float lateDelay);
             float getLateDelay() const;
+            void setRoomRolloffFactor(float roomRolloffFactor);
+            float getRoomRolloffFactor() const;
+            void setAirAbsorptionGainHF(float airAbsorptionGainHF);
+            float getAirAbsorptionGainHF() const;
+            void setDecayHFLimit(bool decayHFLimit);
+            bool getDecayHFLimit() const;
         private:
             void update();
             float mDensity;
@@ -39,5 +45,8 @@ namespace fea
             float mReflectionsDelay;
             float mLateGain;
             float mLateDelay;
+            float mRoomRolloffFactor;
+            float mAirAbsorptionGainHF;
+            bool mDecayHFLimit;
     };
 }

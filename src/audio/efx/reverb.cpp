@@ -13,7 +13,10 @@ namespace fea
         mReflectionsGain(0.05f),
         mReflectionsDelay(0.007f),
         mLateGain(1.26f),
-        mLateDelay(0.011f)
+        mLateDelay(0.011f),
+        mRoomRolloffFactor(0.0f),
+        mAirAbsorptionGainHF(0.994f),
+        mDecayHFLimit(true)
     {
         update();
     }
@@ -138,6 +141,41 @@ namespace fea
         return mLateDelay;
     }
 
+    void Reverb::setRoomRolloffFactor(float roomRolloffFactor)
+    {
+        FEA_ASSERT(roomRolloffFactor >= 0.0f && roomRolloffFactor <= 10.0f, "Reverb room rolloff factor must be between 0.0 and 10.0!");
+        mRoomRolloffFactor = roomRolloffFactor;
+        update();
+    }
+
+    float Reverb::getRoomRolloffFactor() const
+    {
+        return mRoomRolloffFactor;
+    }
+
+    void Reverb::setAirAbsorptionGainHF(float airAbsorptionGainHF)
+    {
+        FEA_ASSERT(airAbsorptionGainHF >= 0.892f && airAbsorptionGainHF <= 1.0f, "Reverb air absorption gain HF must be between 0.892 and 1.0!");
+        mAirAbsorptionGainHF = airAbsorptionGainHF;
+        update();
+    }
+
+    float Reverb::getAirAbsorptionGainHF() const
+    {
+        return mAirAbsorptionGainHF;
+    }
+
+    void Reverb::setDecayHFLimit(bool decayHFLimit)
+    {
+        mDecayHFLimit = decayHFLimit;
+        update();
+    }
+
+    bool Reverb::getDecayHFLimit() const
+    {
+        return mDecayHFLimit;
+    }
+
     void Reverb::update()
     {
         alEffecti(mEffectId, AL_EFFECT_TYPE, AL_EFFECT_REVERB);
@@ -151,5 +189,8 @@ namespace fea
         alEffectf(mEffectId, AL_REVERB_REFLECTIONS_DELAY, mReflectionsDelay);
         alEffectf(mEffectId, AL_REVERB_LATE_REVERB_GAIN, mLateGain);
         alEffectf(mEffectId, AL_REVERB_LATE_REVERB_DELAY, mLateDelay);
+        alEffectf(mEffectId, AL_REVERB_ROOM_ROLLOFF_FACTOR, mRoomRolloffFactor);
+        alEffectf(mEffectId, AL_REVERB_AIR_ABSORPTION_GAINHF, mAirAbsorptionGainHF);
+        alEffectf(mEffectId, AL_REVERB_DECAY_HFLIMIT, mDecayHFLimit ? AL_TRUE : AL_FALSE);
     }
 }
