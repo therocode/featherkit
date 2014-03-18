@@ -8,7 +8,12 @@ namespace fea
         mDiffusion(1.0f),
         mReverbGain(0.32f),
         mHFGain(0.89f),
-        mDecayTime(1.49f)
+        mDecayTime(1.49f),
+        mDecayHFRatio(0.83f),
+        mReflectionsGain(0.05f),
+        mReflectionsDelay(0.007f),
+        mLateGain(1.26f),
+        mLateDelay(0.011f)
     {
         update();
     }
@@ -73,6 +78,66 @@ namespace fea
         return mDecayTime;
     }
 
+    void Reverb::setDecayHFRatio(float decayHFRatio)
+    {
+        FEA_ASSERT(decayHFRatio >= 0.1f && decayHFRatio <= 2.0f, "Reverb decay HF ratio must be between 0.1 and 2.0!");
+        mDecayHFRatio = decayHFRatio;
+        update();
+    }
+
+    float Reverb::getDecayHFRatio() const
+    {
+        return mDecayHFRatio;
+    }
+
+    void Reverb::setReflectionsGain(float reflectionsGain)
+    {
+        FEA_ASSERT(reflectionsGain >= 0.0f && reflectionsGain <= 3.16f, "Reverb reflections gain must be between 0.0 and 3.16!");
+        mReflectionsGain = reflectionsGain;
+        update();
+    }
+
+    float Reverb::getReflectionsGain() const
+    {
+        return mReflectionsGain;
+    }
+
+    void Reverb::setReflectionsDelay(float reflectionsDelay)
+    {
+        FEA_ASSERT(reflectionsDelay >= 0.0f && reflectionsDelay <= 0.3f, "Reverb reflections delay must be between 0.0 and 0.3!");
+        mReflectionsDelay = reflectionsDelay;
+        update();
+    }
+
+    float Reverb::getReflectionsDelay() const
+    {
+        return mReflectionsDelay;
+    }
+
+    void Reverb::setLateGain(float lateGain)
+    {
+        FEA_ASSERT(lateGain >= 0.0f && lateGain <= 10.0f, "Reverb late gain must be between 0.0 and 10.0!");
+        mLateGain = lateGain;
+        update();
+    }
+
+    float Reverb::getLateGain() const
+    {
+        return mLateGain;
+    }
+
+    void Reverb::setLateDelay(float lateDelay)
+    {
+        FEA_ASSERT(lateDelay >= 0.0f && lateDelay <= 0.1f, "Reverb late delay must be between 0.0 and 0.1!");
+        mLateDelay = lateDelay;
+        update();
+    }
+
+    float Reverb::getLateDelay() const
+    {
+        return mLateDelay;
+    }
+
     void Reverb::update()
     {
         alEffecti(mEffectId, AL_EFFECT_TYPE, AL_EFFECT_REVERB);
@@ -81,5 +146,10 @@ namespace fea
         alEffectf(mEffectId, AL_REVERB_GAIN, mReverbGain);
         alEffectf(mEffectId, AL_REVERB_GAINHF, mHFGain);
         alEffectf(mEffectId, AL_REVERB_DECAY_TIME, mDecayTime);
+        alEffectf(mEffectId, AL_REVERB_DECAY_HFRATIO, mDecayHFRatio);
+        alEffectf(mEffectId, AL_REVERB_REFLECTIONS_GAIN, mReflectionsGain);
+        alEffectf(mEffectId, AL_REVERB_REFLECTIONS_DELAY, mReflectionsDelay);
+        alEffectf(mEffectId, AL_REVERB_LATE_REVERB_GAIN, mLateGain);
+        alEffectf(mEffectId, AL_REVERB_LATE_REVERB_DELAY, mLateDelay);
     }
 }

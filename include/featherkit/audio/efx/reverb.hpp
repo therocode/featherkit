@@ -17,6 +17,16 @@ namespace fea
             float getHFGain() const;
             void setDecayTime(float decayTime);
             float getDecayTime() const;
+            void setDecayHFRatio(float decayHFRatio);
+            float getDecayHFRatio() const;
+            void setReflectionsGain(float reflectionsGain);
+            float getReflectionsGain() const;
+            void setReflectionsDelay(float reflectionsDelay);
+            float getReflectionsDelay() const;
+            void setLateGain(float lateGain);
+            float getLateGain() const;
+            void setLateDelay(float lateDelay);
+            float getLateDelay() const;
         private:
             void update();
             float mDensity;
@@ -24,5 +34,10 @@ namespace fea
             float mReverbGain;
             float mHFGain;
             float mDecayTime;
+            float mDecayHFRatio;
+            float mReflectionsGain;
+            float mReflectionsDelay;
+            float mLateGain;
+            float mLateDelay;
     };
 }
