@@ -5,3 +5,4 @@
 #include <featherkit/audio/audiofilestream.hpp>
 #include <featherkit/audio/oscillator.hpp>
 #include <featherkit/audio/efx/reverb.hpp>
+#include <featherkit/audio/efx/chorus.hpp>

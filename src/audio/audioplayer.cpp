@@ -82,10 +82,8 @@ namespace fea
         alSourcef(sourceId, AL_SEC_OFFSET, static_cast<float>(audio.getPlayOffset().count()) / 1000.0f);//set offset
 
         const auto& effectSends = audio.getEffectSends();
-        std::cout << "has " << effectSends.size() << " effects\n";
         for(auto slotIndex : effectSends)
         {
-            std::cout << "sending source " << sourceId << " to effect slot " << mEffectSlots.at(slotIndex).getSlotId() << "\n";
             alSource3i(sourceId, AL_AUXILIARY_SEND_FILTER, mEffectSlots.at(slotIndex).getSlotId(), slotIndex, AL_FILTER_NULL);
         }
 
@@ -119,6 +117,12 @@ namespace fea
         alSourcef(sourceId, AL_GAIN, stream.getGain()); //set gain
 
         alSourcei(sourceId, AL_SOURCE_RELATIVE, stream.isRelative() ? AL_TRUE : AL_FALSE); //set relative
+
+        const auto& effectSends = stream.getEffectSends();
+        for(auto slotIndex : effectSends)
+        {
+            alSource3i(sourceId, AL_AUXILIARY_SEND_FILTER, mEffectSlots.at(slotIndex).getSlotId(), slotIndex, AL_FILTER_NULL);
+        }
 
         mStreams.emplace(sourceId, Stream(mPlayingSources.at(handle), stream));
         mStreams.at(sourceId).start();
