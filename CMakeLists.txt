@@ -306,7 +306,7 @@ if(BUILD_UI)
     if(${BUILD_SFMLBACKENDS})
         set(BUILT_TARGETS ${BUILT_TARGETS} ${project_name}-sfml)
 
-        find_package(SFML 2.0 COMPONENTS window system REQUIRED)
+        find_package(SFML 2.0 COMPONENTS system window REQUIRED)
         if(SFML_FOUND)
             include_directories(${SFML_INCLUDE_DIR})
         endif(SFML_FOUND)

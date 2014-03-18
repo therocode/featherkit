@@ -3,7 +3,7 @@
 #include <string>
 #include <featherkit/util/filenotfoundexception.hpp>
 #include <featherkit/input/actiontrigger.hpp>
-#include <featherkit/json/json.hpp>
+#include <featherkit/json/json.h>
 #include <fstream>
 #include <sstream>
 
