@@ -191,6 +191,6 @@ namespace fea
         alEffectf(mEffectId, AL_REVERB_LATE_REVERB_DELAY, mLateDelay);
         alEffectf(mEffectId, AL_REVERB_ROOM_ROLLOFF_FACTOR, mRoomRolloffFactor);
         alEffectf(mEffectId, AL_REVERB_AIR_ABSORPTION_GAINHF, mAirAbsorptionGainHF);
-        alEffectf(mEffectId, AL_REVERB_DECAY_HFLIMIT, mDecayHFLimit ? AL_TRUE : AL_FALSE);
+        alEffecti(mEffectId, AL_REVERB_DECAY_HFLIMIT, mDecayHFLimit ? AL_TRUE : AL_FALSE);
     }
 }
