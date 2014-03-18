@@ -111,4 +111,14 @@ namespace fea
     {
         return mOffset;
     }
+    
+    void AudioBase::addEffectSend(size_t slot)
+    {
+        mEffectSends.insert(slot);
+    }
+    
+    const std::set<size_t> AudioBase::getEffectSends() const
+    {
+        return mEffectSends;
+    }
 }

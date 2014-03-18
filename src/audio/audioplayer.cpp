@@ -81,6 +81,12 @@ namespace fea
 
         alSourcef(sourceId, AL_SEC_OFFSET, static_cast<float>(audio.getPlayOffset().count()) / 1000.0f);//set offset
 
+        const auto& effectSends = audio.getEffectSends();
+        for(auto slotId : effectSends)
+        {
+            alSource3i(sourceId, AL_AUXILIARY_SEND_FILTER, slotId, 0, AL_FILTER_NULL);
+        }
+
         alSourcePlay(sourceId); //play
 
 

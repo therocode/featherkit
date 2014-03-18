@@ -1,5 +1,6 @@
 #pragma once
 #include <chrono>
+#include <set>
 #include <featherkit/audio/vec3f.hpp>
 
 namespace fea
@@ -26,6 +27,8 @@ namespace fea
             bool isRelative();
             void setPlayOffset(std::chrono::milliseconds timePoint);
             std::chrono::milliseconds getPlayOffset() const;
+            void addEffectSend(size_t slot);
+            const std::set<size_t> getEffectSends() const;
         protected:
             Vec3F mPosition;
             Vec3F mVelocity;
@@ -36,5 +39,6 @@ namespace fea
             bool mLooping;
             bool mRelative;
             std::chrono::milliseconds mOffset;
+            std::set<size_t> mEffectSends;
     };
 }
