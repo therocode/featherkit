@@ -86,7 +86,7 @@ namespace fea
         for(auto slotIndex : effectSends)
         {
             std::cout << "sending source " << sourceId << " to effect slot " << mEffectSlots.at(slotIndex).getSlotId() << "\n";
-            alSource3i(sourceId, AL_AUXILIARY_SEND_FILTER, mEffectSlots.at(slotIndex).getSlotId(), 0, AL_FILTER_NULL);
+            alSource3i(sourceId, AL_AUXILIARY_SEND_FILTER, mEffectSlots.at(slotIndex).getSlotId(), slotIndex, AL_FILTER_NULL);
         }
 
         alSourcePlay(sourceId); //play
