@@ -6,3 +6,4 @@
 #include <featherkit/audio/oscillator.hpp>
 #include <featherkit/audio/efx/reverb.hpp>
 #include <featherkit/audio/efx/chorus.hpp>
+#include <featherkit/audio/efx/distortion.hpp>

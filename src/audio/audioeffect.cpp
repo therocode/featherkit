@@ -34,12 +34,12 @@ namespace fea
         return mEffectId;
     }
 
-    void AudioEffect::setGain(float gain)
+    void AudioEffect::setEffectGain(float gain)
     {
         mGain = gain;
     }
 
-    float AudioEffect::getGain() const
+    float AudioEffect::getEffectGain() const
     {
         return mGain;
     }

@@ -118,6 +118,14 @@ namespace fea
 
         alSourcei(sourceId, AL_SOURCE_RELATIVE, stream.isRelative() ? AL_TRUE : AL_FALSE); //set relative
 
+        //hej
+        //ALuint filter;
+        //alGenFilters(1, &filter);
+        //alFilteri(filter, AL_FILTER_TYPE, AL_FILTER_LOWPASS);
+        //alFilterf(filter, AL_LOWPASS_GAIN, 0.0f);
+        //alSourcei(sourceId, AL_DIRECT_FILTER, filter);
+        //ohej
+
         const auto& effectSends = stream.getEffectSends();
         for(auto slotIndex : effectSends)
         {
@@ -130,6 +138,7 @@ namespace fea
         std::this_thread::sleep_for(std::chrono::milliseconds(25)); //hack?
 
         alSourcePlay(sourceId); //play
+        std::cout << "error4: " << alGetError() << "\n";
 
         return handle;
 

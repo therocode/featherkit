@@ -15,8 +15,8 @@ namespace fea
             AudioEffect& operator=(AudioEffect&& other);
             ~AudioEffect();
             ALuint getEffectId() const;
-            void setGain(float gain);
-            float getGain() const;
+            void setEffectGain(float gain);
+            float getEffectGain() const;
             void setAutoAdjustments(bool enabled);
             bool getAutoAdjustments() const;
         protected:
