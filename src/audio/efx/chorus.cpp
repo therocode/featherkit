@@ -6,7 +6,10 @@ namespace fea
     Chorus::Chorus() : 
         mWaveform(TRIANGLE),
         mPhase(90),
-        mRate(1.1f)
+        mRate(1.1f),
+        mDepth(0.1f),
+        mFeedback(0.25f),
+        mDelay(0.016f)
     {
         update();
     }
@@ -46,17 +49,50 @@ namespace fea
         return mRate;
     }
 
+    void Chorus::setDepth(float depth)
+    {
+        FEA_ASSERT(depth >= 0.0f && depth <= 1.0f, "Chorus depth must be between 0.0f and 1.0f!");
+        mDepth = depth;
+        update();
+    }
+
+    float Chorus::getDepth() const
+    {
+        return mDepth;
+    }
+
+    void Chorus::setFeedback(float feedback)
+    {
+        FEA_ASSERT(feedback >= -1.0f && feedback <= 1.0f, "Chorus feedback must be between -1.0f and 1.0f!");
+        mFeedback = feedback;
+        update();
+    }
+
+    float Chorus::getFeedback() const
+    {
+        return mFeedback;
+    }
+
+    void Chorus::setDelay(float delay)
+    {
+        FEA_ASSERT(delay >= 0.0f && delay <= 0.016f, "Chorus delay must be between 0.0f and 0.16f!");
+        mDelay = delay;
+        update();
+    }
+
+    float Chorus::getDelay() const
+    {
+        return mDelay;
+    }
+
     void Chorus::update()
     {
-        std::cout << "chorus effect id " << mEffectId << "\n";
-        std::cout << "al error: " << alGetError() << "\n";
         alEffecti(mEffectId, AL_EFFECT_TYPE, AL_EFFECT_CHORUS);
-        std::cout << "al error2: " << (alGetError() == AL_INVALID_VALUE) << "\n";
-        std::cout << "chorus is " << alGetEnumValue("AL_EFFECT_CHORUS") << "\n";
-        std::cout << "version is " << alGetString(AL_VERSION) << "\n";
-        //alEffecti(mEffectId, AL_CHORUS_WAVEFORM, mWaveform);
-        //alEffecti(mEffectId, AL_CHORUS_PHASE, mPhase);
-        //alEffecti(mEffectId, AL_CHORUS_RATE, mRate);
-
+        alEffecti(mEffectId, AL_CHORUS_WAVEFORM, mWaveform);
+        alEffecti(mEffectId, AL_CHORUS_PHASE, mPhase);
+        alEffectf(mEffectId, AL_CHORUS_RATE, mRate);
+        alEffectf(mEffectId, AL_CHORUS_DEPTH, mDepth);
+        alEffectf(mEffectId, AL_CHORUS_FEEDBACK, mFeedback);
+        alEffectf(mEffectId, AL_CHORUS_DELAY, mDelay);
     }
 }
