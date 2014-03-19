@@ -5,7 +5,8 @@ namespace fea
 {
     class RingModulator : public AudioEffect
     {
-        enum Waveform {SINE = 0, SAW = 1, SQUARE = 2};
+        public:
+            enum Waveform {SINE = 0, SAW = 1, SQUARE = 2};
 
         public:
             RingModulator();

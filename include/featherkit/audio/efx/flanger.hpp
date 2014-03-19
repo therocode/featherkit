@@ -6,7 +6,8 @@ namespace fea
 {
     class Flanger : public AudioEffect
     {
-        enum Waveform {SINE = 0, TRIANGLE = 1};
+        public:
+            enum Waveform {SINE = 0, TRIANGLE = 1};
 
         public:
             Flanger();
