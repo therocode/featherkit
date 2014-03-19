@@ -82,6 +82,7 @@ if(BUILD_AUDIO)
         src/audio/playsource.cpp
         src/audio/oscillator.cpp
         src/audio/efx/chorus.cpp
+        src/audio/efx/distortion.cpp
         src/audio/efx/reverb.cpp)
 
     set(audio_header_files
@@ -100,6 +101,7 @@ if(BUILD_AUDIO)
         include/featherkit/audio/playsource.hpp
         include/featherkit/audio/oscillator.hpp
         include/featherkit/audio/efx/chorus.hpp
+        include/featherkit/audio/efx/distortion.hpp
         include/featherkit/audio/efx/reverb.hpp)
 
     add_library(${project_name}-audio ${SHARED_OR_STATIC} ${audio_header_files} ${audio_source_files})
