@@ -10,3 +10,4 @@
 #include <featherkit/audio/efx/echo.hpp>
 #include <featherkit/audio/efx/compressor.hpp>
 #include <featherkit/audio/efx/flanger.hpp>
+#include <featherkit/audio/efx/ringmodulator.hpp>

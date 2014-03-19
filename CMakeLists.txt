@@ -86,7 +86,8 @@ if(BUILD_AUDIO)
         src/audio/efx/distortion.cpp
         src/audio/efx/echo.cpp
         src/audio/efx/flanger.cpp
-        src/audio/efx/reverb.cpp)
+        src/audio/efx/reverb.cpp
+        src/audio/efx/ringmodulator.cpp)
 
     set(audio_header_files
         include/featherkit/audio/audio.hpp
@@ -108,7 +109,8 @@ if(BUILD_AUDIO)
         include/featherkit/audio/efx/distortion.hpp
         include/featherkit/audio/efx/echo.hpp
         include/featherkit/audio/efx/flanger.hpp
-        include/featherkit/audio/efx/reverb.hpp)
+        include/featherkit/audio/efx/reverb.hpp
+        include/featherkit/audio/efx/ringmodulator.hpp)
 
     add_library(${project_name}-audio ${SHARED_OR_STATIC} ${audio_header_files} ${audio_source_files})
     target_link_libraries(${project_name}-audio ${OPENAL_LIBRARY} ${SNDFILE_LIBRARIES})
