@@ -84,6 +84,7 @@ if(BUILD_AUDIO)
         src/audio/efx/chorus.cpp
         src/audio/efx/distortion.cpp
         src/audio/efx/echo.cpp
+        src/audio/efx/compressor.cpp
         src/audio/efx/reverb.cpp)
 
     set(audio_header_files
@@ -104,6 +105,7 @@ if(BUILD_AUDIO)
         include/featherkit/audio/efx/chorus.hpp
         include/featherkit/audio/efx/distortion.hpp
         include/featherkit/audio/efx/echo.hpp
+        include/featherkit/audio/efx/compressor.hpp
         include/featherkit/audio/efx/reverb.hpp)
 
     add_library(${project_name}-audio ${SHARED_OR_STATIC} ${audio_header_files} ${audio_source_files})
