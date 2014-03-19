@@ -7,3 +7,4 @@
 #include <featherkit/audio/efx/reverb.hpp>
 #include <featherkit/audio/efx/chorus.hpp>
 #include <featherkit/audio/efx/distortion.hpp>
+#include <featherkit/audio/efx/echo.hpp>
