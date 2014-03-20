@@ -29,7 +29,7 @@ namespace fea
 
         alcGetIntegerv(mAudioDevice, ALC_MAX_AUXILIARY_SENDS, 1, &mMaxAuxSend);
 
-        for(size_t i = 0; i < mMaxAuxSend; i++)
+        for(size_t i = 0; i < 4; i++)
         {
             mEffectSlots.push_back(EffectSlot());
         }
@@ -138,7 +138,6 @@ namespace fea
         std::this_thread::sleep_for(std::chrono::milliseconds(25)); //hack?
 
         alSourcePlay(sourceId); //play
-        std::cout << "error4: " << alGetError() << "\n";
 
         return handle;
 
@@ -193,7 +192,9 @@ namespace fea
     void AudioPlayer::addEffectToSlot(const AudioEffect& effect, size_t slot)
     {
         FEA_ASSERT(slot < mMaxSoundsPlaying, "Trying to add an effect to slot number " << slot << " but the highest slot number is " << mMaxSoundsPlaying - 1 << "!\n");
-        alAuxiliaryEffectSloti(mEffectSlots[slot].getSlotId(), AL_EFFECTSLOT_EFFECT, effect.getEffectId());
+        alAuxiliaryEffectSloti(mEffectSlots.at(slot).getSlotId(), AL_EFFECTSLOT_EFFECT, effect.getEffectId());
+        alAuxiliaryEffectSlotf(mEffectSlots.at(slot).getSlotId(), AL_EFFECTSLOT_GAIN, effect.getEffectGain());
+        alAuxiliaryEffectSloti(mEffectSlots.at(slot).getSlotId(), AL_EFFECTSLOT_AUXILIARY_SEND_AUTO, effect.getAutoAdjustments() ? AL_TRUE : AL_FALSE);
     }
     
     size_t AudioPlayer::getNumSoundsPlaying() const

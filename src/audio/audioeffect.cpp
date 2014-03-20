@@ -1,24 +1,33 @@
 #include <featherkit/audio/audioeffect.hpp>
+#include <featherkit/assert.hpp>
 #define AL_ALEXT_PROTOTYPES
 #include <efx.h>
 #include <utility>
 
 namespace fea
 {
-    AudioEffect::AudioEffect()
+    AudioEffect::AudioEffect() : 
+        mGain(1.0f),
+        mAutoSend(true)
     {
         alGenEffects(1, &mEffectId);
     }
 
     AudioEffect::AudioEffect(AudioEffect&& other) : 
-        mEffectId(0)
+        mEffectId(0),
+        mGain(1.0f),
+        mAutoSend(true)
     {
         std::swap(mEffectId, other.mEffectId);
+        std::swap(mGain, other.mGain);
+        std::swap(mAutoSend, other.mAutoSend);
     }
 
     AudioEffect& AudioEffect::operator=(AudioEffect&& other)
     {
         std::swap(mEffectId, other.mEffectId);
+        std::swap(mGain, other.mGain);
+        std::swap(mAutoSend, other.mAutoSend);
 
         return *this;
     }
@@ -36,6 +45,7 @@ namespace fea
 
     void AudioEffect::setEffectGain(float gain)
     {
+        FEA_ASSERT(gain >= 0.0f && gain <= 1.0f, "Effect gain must be in the range of 0.0f and 1.0f");
         mGain = gain;
     }
 
