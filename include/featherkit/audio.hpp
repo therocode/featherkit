@@ -11,3 +11,4 @@
 #include <featherkit/audio/efx/compressor.hpp>
 #include <featherkit/audio/efx/flanger.hpp>
 #include <featherkit/audio/efx/ringmodulator.hpp>
+#include <featherkit/audio/efx/equalizer.hpp>
