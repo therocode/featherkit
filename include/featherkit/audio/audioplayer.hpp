@@ -7,6 +7,7 @@
 #include <featherkit/audio/listener.hpp>
 #include <featherkit/audio/effectslot.hpp>
 #include <featherkit/audio/audioeffect.hpp>
+#include <featherkit/audio/audiofilter.hpp>
 #include <thread>
 #include <mutex>
 #include <vector>
@@ -56,6 +57,7 @@ namespace fea
             const Listener& getListener() const;
             size_t getMaxAuxiliarySend() const;
             void addEffectToSlot(const AudioEffect& effect, size_t slot);
+            void setSlotFilter(const AudioFilter& filter, size_t slot);
         private:
             void setupSources(size_t maxSoundAmount);
             void renewerThread();

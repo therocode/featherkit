@@ -5,7 +5,8 @@
 
 namespace fea
 {
-    EffectSlot::EffectSlot()
+    EffectSlot::EffectSlot() :
+        mFilter(nullptr)
     {
         alGenAuxiliaryEffectSlots(1, &mSlotId);
     }
@@ -22,15 +23,25 @@ namespace fea
         
         return *this;
     }
+
+    EffectSlot::~EffectSlot()
+    {
+        if(mSlotId != 0)
+            alDeleteAuxiliaryEffectSlots(1, &mSlotId);
+    }
     
     ALuint EffectSlot::getSlotId() const
     {
         return mSlotId;
     }
 
-    EffectSlot::~EffectSlot()
+    void EffectSlot::setFilter(const AudioFilter& filter)
     {
-        if(mSlotId != 0)
-            alDeleteAuxiliaryEffectSlots(1, &mSlotId);
+        mFilter = &filter;
+    }
+
+    const AudioFilter& EffectSlot::getFilter() const
+    {
+        return *mFilter;
     }
 }

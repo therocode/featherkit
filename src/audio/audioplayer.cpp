@@ -85,7 +85,7 @@ namespace fea
         const auto& effectSends = audio.getEffectSends();
         for(auto slotIndex : effectSends)
         {
-            alSource3i(sourceId, AL_AUXILIARY_SEND_FILTER, mEffectSlots.at(slotIndex).getSlotId(), slotIndex, AL_FILTER_NULL);
+            alSource3i(sourceId, AL_AUXILIARY_SEND_FILTER, mEffectSlots.at(slotIndex).getSlotId(), slotIndex, mEffectSlots.at(slotIndex).getFilter().getFilterId());
         }
 
         if(audio.hasFilter())
@@ -127,7 +127,7 @@ namespace fea
         const auto& effectSends = stream.getEffectSends();
         for(auto slotIndex : effectSends)
         {
-            alSource3i(sourceId, AL_AUXILIARY_SEND_FILTER, mEffectSlots.at(slotIndex).getSlotId(), slotIndex, AL_FILTER_NULL);
+            alSource3i(sourceId, AL_AUXILIARY_SEND_FILTER, mEffectSlots.at(slotIndex).getSlotId(), slotIndex, mEffectSlots.at(slotIndex).getFilter().getFilterId());
         }
 
         if(stream.hasFilter())
@@ -194,10 +194,16 @@ namespace fea
     
     void AudioPlayer::addEffectToSlot(const AudioEffect& effect, size_t slot)
     {
-        FEA_ASSERT(slot < mMaxSoundsPlaying, "Trying to add an effect to slot number " << slot << " but the highest slot number is " << mMaxSoundsPlaying - 1 << "!\n");
+        FEA_ASSERT(slot < mMaxSoundsPlaying, "Trying to add an effect to slot number " << slot << " but the highest slot number is " << 4 << "!\n");
         alAuxiliaryEffectSloti(mEffectSlots.at(slot).getSlotId(), AL_EFFECTSLOT_EFFECT, effect.getEffectId());
         alAuxiliaryEffectSlotf(mEffectSlots.at(slot).getSlotId(), AL_EFFECTSLOT_GAIN, effect.getEffectGain());
         alAuxiliaryEffectSloti(mEffectSlots.at(slot).getSlotId(), AL_EFFECTSLOT_AUXILIARY_SEND_AUTO, effect.getAutoAdjustments() ? AL_TRUE : AL_FALSE);
+    }
+
+    void AudioPlayer::setSlotFilter(const AudioFilter& filter, size_t slot)
+    {
+        FEA_ASSERT(slot < mMaxSoundsPlaying, "Trying to add an effect to slot number " << slot << " but the highest slot number is " << 4 << "!\n");
+        mEffectSlots.at(slot).setFilter(filter);
     }
     
     size_t AudioPlayer::getNumSoundsPlaying() const

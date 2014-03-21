@@ -3,6 +3,8 @@
 
 namespace fea
 {
+    class AudioFilter;
+
     class EffectSlot
     {
         public:
@@ -13,7 +15,10 @@ namespace fea
             EffectSlot& operator=(EffectSlot&& other); 
             ~EffectSlot();
             ALuint getSlotId() const;
+            void setFilter(const AudioFilter& filter);
+            const AudioFilter& getFilter() const;
         private:
             ALuint mSlotId;
+            const AudioFilter* mFilter;
     };
 }
