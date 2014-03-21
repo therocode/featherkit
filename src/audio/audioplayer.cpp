@@ -2,6 +2,7 @@
 #include <featherkit/audio/audiosample.hpp>
 #include <featherkit/audio/audio.hpp>
 #include <featherkit/audio/audiostream.hpp>
+#include <featherkit/audio/audiofilter.hpp>
 #include <featherkit/assert.hpp>
 #define AL_ALEXT_PROTOTYPES
 #include <efx.h>
@@ -87,6 +88,11 @@ namespace fea
             alSource3i(sourceId, AL_AUXILIARY_SEND_FILTER, mEffectSlots.at(slotIndex).getSlotId(), slotIndex, AL_FILTER_NULL);
         }
 
+        if(audio.hasFilter())
+        {
+            alSourcei(sourceId, AL_DIRECT_FILTER, audio.getFilter().getFilterId());
+        }
+
         alSourcePlay(sourceId); //play
 
 
@@ -118,18 +124,15 @@ namespace fea
 
         alSourcei(sourceId, AL_SOURCE_RELATIVE, stream.isRelative() ? AL_TRUE : AL_FALSE); //set relative
 
-        //hej
-        //ALuint filter;
-        //alGenFilters(1, &filter);
-        //alFilteri(filter, AL_FILTER_TYPE, AL_FILTER_LOWPASS);
-        //alFilterf(filter, AL_LOWPASS_GAIN, 0.0f);
-        //alSourcei(sourceId, AL_DIRECT_FILTER, filter);
-        //ohej
-
         const auto& effectSends = stream.getEffectSends();
         for(auto slotIndex : effectSends)
         {
             alSource3i(sourceId, AL_AUXILIARY_SEND_FILTER, mEffectSlots.at(slotIndex).getSlotId(), slotIndex, AL_FILTER_NULL);
+        }
+
+        if(stream.hasFilter())
+        {
+            alSourcei(sourceId, AL_DIRECT_FILTER, stream.getFilter().getFilterId());
         }
 
         mStreams.emplace(sourceId, Stream(mPlayingSources.at(handle), stream));

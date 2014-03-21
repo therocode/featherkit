@@ -5,6 +5,8 @@
 
 namespace fea
 {
+    class AudioFilter;
+
     class AudioBase
     {
         public:
@@ -29,6 +31,9 @@ namespace fea
             std::chrono::milliseconds getPlayOffset() const;
             void addEffectSend(size_t slot);
             const std::set<size_t> getEffectSends() const;
+            void setFilter(const AudioFilter& filter);
+            const AudioFilter& getFilter() const;
+            bool hasFilter() const;
         protected:
             Vec3F mPosition;
             Vec3F mVelocity;
@@ -40,5 +45,6 @@ namespace fea
             bool mRelative;
             std::chrono::milliseconds mOffset;
             std::set<size_t> mEffectSends;
+            const AudioFilter* mFilter;
     };
 }

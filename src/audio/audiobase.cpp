@@ -11,9 +11,10 @@ namespace fea
             mGain(1.0f),
             mAttenuationFactor(1.0f),
             mAttenuationDistance(1.0f),
-        mLooping(false),
+            mLooping(false),
             mRelative(false),
-        mOffset(0)
+            mOffset(0),
+            mFilter(nullptr)
     {
     }
 
@@ -120,5 +121,20 @@ namespace fea
     const std::set<size_t> AudioBase::getEffectSends() const
     {
         return mEffectSends;
+    }
+
+    void AudioBase::setFilter(const AudioFilter& filter)
+    {
+        mFilter = &filter;
+    }
+
+    const AudioFilter& AudioBase::getFilter() const
+    {
+        return *mFilter;
+    }
+    
+    bool AudioBase::hasFilter() const
+    {
+        return mFilter != nullptr;
     }
 }
