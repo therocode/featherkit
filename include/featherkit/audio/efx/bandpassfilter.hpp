@@ -3,17 +3,20 @@
 
 namespace fea
 {
-    class LowPassFilter : public AudioFilter
+    class BandPassFilter : public AudioFilter
     {
         public:
-            LowPassFilter();
+            BandPassFilter();
             void setGain(float gain);
             float getGain() const;
             void setGainHF(float gainHF);
             float getGainHF() const;
+            void setGainLF(float gainLF);
+            float getGainLF() const;
         private:
             void update();
             float mGain;
             float mGainHF;
+            float mGainLF;
     };
 }

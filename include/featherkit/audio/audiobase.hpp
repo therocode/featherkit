@@ -2,6 +2,7 @@
 #include <chrono>
 #include <set>
 #include <featherkit/audio/vec3f.hpp>
+#include <featherkit/audio/audiofilter.hpp>
 
 namespace fea
 {

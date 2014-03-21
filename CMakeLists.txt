@@ -82,12 +82,14 @@ if(BUILD_AUDIO)
         src/audio/listener.cpp
         src/audio/playsource.cpp
         src/audio/oscillator.cpp
+        src/audio/efx/bandpassfilter.cpp
         src/audio/efx/chorus.cpp
         src/audio/efx/compressor.cpp
         src/audio/efx/distortion.cpp
         src/audio/efx/echo.cpp
         src/audio/efx/equalizer.cpp
         src/audio/efx/flanger.cpp
+        src/audio/efx/highpassfilter.cpp
         src/audio/efx/lowpassfilter.cpp
         src/audio/efx/reverb.cpp
         src/audio/efx/ringmodulator.cpp)
@@ -108,12 +110,14 @@ if(BUILD_AUDIO)
         include/featherkit/audio/listener.hpp
         include/featherkit/audio/playsource.hpp
         include/featherkit/audio/oscillator.hpp
+        include/featherkit/audio/efx/bandpassfilter.hpp
         include/featherkit/audio/efx/chorus.hpp
         include/featherkit/audio/efx/compressor.hpp
         include/featherkit/audio/efx/distortion.hpp
         include/featherkit/audio/efx/echo.hpp
         include/featherkit/audio/efx/equalizer.hpp
         include/featherkit/audio/efx/flanger.hpp
+        include/featherkit/audio/efx/highpassfilter.hpp
         include/featherkit/audio/efx/lowpassfilter.hpp
         include/featherkit/audio/efx/reverb.hpp
         include/featherkit/audio/efx/ringmodulator.hpp)

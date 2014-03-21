@@ -12,3 +12,6 @@
 #include <featherkit/audio/efx/flanger.hpp>
 #include <featherkit/audio/efx/ringmodulator.hpp>
 #include <featherkit/audio/efx/equalizer.hpp>
+#include <featherkit/audio/efx/lowpassfilter.hpp>
+#include <featherkit/audio/efx/highpassfilter.hpp>
+#include <featherkit/audio/efx/bandpassfilter.hpp>
