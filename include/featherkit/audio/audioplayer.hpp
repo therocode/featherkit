@@ -57,7 +57,9 @@ namespace fea
             const Listener& getListener() const;
             size_t getMaxAuxiliarySend() const;
             void addEffectToSlot(const AudioEffect& effect, size_t slot);
+            void clearSlotEffects(size_t slot);
             void setSlotFilter(const AudioFilter& filter, size_t slot);
+            void clearSlotFilter(size_t slot);
         private:
             void setupSources(size_t maxSoundAmount);
             void renewerThread();

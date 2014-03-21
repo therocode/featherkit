@@ -137,4 +137,9 @@ namespace fea
     {
         return mFilter != nullptr;
     }
+    
+    void AudioBase::clearFilter()
+    {
+        mFilter = nullptr;
+    }
 }

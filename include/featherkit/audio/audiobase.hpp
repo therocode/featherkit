@@ -35,6 +35,7 @@ namespace fea
             void setFilter(const AudioFilter& filter);
             const AudioFilter& getFilter() const;
             bool hasFilter() const;
+            void clearFilter();
         protected:
             Vec3F mPosition;
             Vec3F mVelocity;

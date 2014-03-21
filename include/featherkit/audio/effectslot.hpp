@@ -17,6 +17,8 @@ namespace fea
             ALuint getSlotId() const;
             void setFilter(const AudioFilter& filter);
             const AudioFilter& getFilter() const;
+            bool hasFilter() const;
+            void clearFilter();
         private:
             ALuint mSlotId;
             const AudioFilter* mFilter;

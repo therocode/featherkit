@@ -44,4 +44,14 @@ namespace fea
     {
         return *mFilter;
     }
+    
+    bool EffectSlot::hasFilter() const
+    {
+        return mFilter != nullptr;
+    }
+
+    void EffectSlot::clearFilter()
+    {
+        mFilter = nullptr;
+    }
 }
