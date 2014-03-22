@@ -200,6 +200,7 @@ if(BUILD_RENDERING)
         src/rendering/color.cpp
         src/rendering/defaultshader.cpp
         src/rendering/drawable2d.cpp
+        src/rendering/gl_core_3_2.c
         src/rendering/projection.cpp
         src/rendering/quad.cpp
         src/rendering/renderer2d.cpp
@@ -221,6 +222,7 @@ if(BUILD_RENDERING)
         include/featherkit/rendering/color.hpp
         include/featherkit/rendering/defaultshader.hpp
         include/featherkit/rendering/drawable2d.hpp
+        include/featherkit/rendering/gl_core_3_2.h
         include/featherkit/rendering/opengl.hpp
         include/featherkit/rendering/projection.hpp
         include/featherkit/rendering/quad.hpp
@@ -270,24 +272,15 @@ if(BUILD_RENDERING)
     if(OPENGL_FOUND)
         include_directories(${OPENGL_INCLUDE_DIRS})
     endif(OPENGL_FOUND)
-    find_package(GLew)
-    if(GLEW_FOUND)
-        include_directories(${GLEW_INCLUDE_DIRS})
-	elseif(SDK_PATH)
-        add_definitions(-DGLEW_STATIC)
-		include_directories(${SDK_PATH}/glew/include)
-		set(glew_files ${SDK_PATH}/glew/glew.c ${glew_files})
-        add_definitions(GLEW_STATIC)
-    endif(GLEW_FOUND)
 
-    add_library(${project_name}-rendering ${SHARED_OR_STATIC} ${glew_files} ${rendering_source_files} ${rendering_header_files} ${freetype-gl_source_files} ${freetype-gl_header_files})
+    add_library(${project_name}-rendering ${SHARED_OR_STATIC} ${rendering_source_files} ${rendering_header_files} ${freetype-gl_source_files} ${freetype-gl_header_files})
 
     if(BUILD_RENDERING_TEXT)
         FIND_PACKAGE( Freetype REQUIRED )
         include_directories(${FREETYPE_INCLUDE_DIRS})
     endif(BUILD_RENDERING_TEXT)
 
-    target_link_libraries(${project_name}-rendering ${FREETYPE_LIBRARY} ${GLEW_LIBRARIES} ${OPENGL_LIBRARIES})
+    target_link_libraries(${project_name}-rendering ${FREETYPE_LIBRARY} ${OPENGL_LIBRARIES})
 
 endif()
 
@@ -383,7 +376,7 @@ if(BUILD_UI)
 		target_link_libraries(${project_name}-sdl2 ${SDL2_LIBRARY})
 	endif()
 
-    add_library(${project_name}-ui ${SHARED_OR_STATIC} ${glew_file} ${ui_header_files} ${ui_source_files} ${ui_util_source_files} ${ui_util_header_files})
+    add_library(${project_name}-ui ${SHARED_OR_STATIC} ${ui_header_files} ${ui_source_files} ${ui_util_source_files} ${ui_util_header_files})
 
 endif()
 
