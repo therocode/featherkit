@@ -14,8 +14,8 @@ namespace fea
     
     void Renderer2D::setup()
     {
-        auto glStatus = ogl_LoadFunctions();
-        FEA_ASSERT(glStatus != ogl_LOAD_FAILED, "Could not initialize the renderer! Make sure there is a valid OpenGL context!");
+        auto glStatus = feaogl_LoadFunctions();
+        FEA_ASSERT(glStatus != feaogl_LOAD_FAILED, "Could not initialize the renderer! Make sure there is a valid OpenGL context!");
 
         //glEnable(GL_DEPTH_TEST);
         glEnable(GL_BLEND);
