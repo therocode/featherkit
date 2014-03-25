@@ -157,11 +157,15 @@ if(BUILD_ENTITY)
 
     set(entity_header_files 
         include/featherkit/entity/entity.hpp
+        include/featherkit/entity/entity.inl
         include/featherkit/entity/entityfactory.hpp
+        include/featherkit/entity/entityfactory.inl
         include/featherkit/entity/filenotfoundexception.hpp
         include/featherkit/entity/entitycomponent.hpp
         include/featherkit/entity/entitymanager.hpp
+        include/featherkit/entity/entitymanager.inl
         include/featherkit/entity/entitystorage.hpp
+        include/featherkit/entity/entitystorage.inl
         include/featherkit/entity/entitytemplate.hpp)
 
     set(entity_util_source_files
@@ -186,7 +190,9 @@ if(BUILD_MESSAGING)
 
     set(messaging_header_files 
         include/featherkit/messaging/messagebus.hpp
+        include/featherkit/messaging/messagebus.inl
         include/featherkit/messaging/message.hpp
+        include/featherkit/messaging/message.inl
         include/featherkit/messaging/messagereceiver.hpp)
     add_library(${project_name}-messaging ${SHARED_OR_STATIC} ${messaging_header_files} ${messaging_source_files})
 endif()
@@ -311,6 +317,7 @@ if(BUILD_UI)
         include/featherkit/window/window.hpp
         include/featherkit/window/windowstyle.hpp
         include/featherkit/input/actionhandler.hpp
+        include/featherkit/input/actionhandler.inl
         include/featherkit/input/actiontrigger.hpp
         include/featherkit/input/event.hpp
         include/featherkit/input/gamepad.hpp

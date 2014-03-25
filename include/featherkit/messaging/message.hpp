@@ -11,11 +11,13 @@ namespace fea
     template<class tag, typename... DataTypes>
     struct Message
     {
-        Message() {}
-        Message(DataTypes... data) : mData(std::forward<DataTypes>(data)...) { }
-        Message(const std::tuple<DataTypes...>& data) : mData(std::move(data)) { }
+        Message();
+        Message(DataTypes... data);
+        Message(const std::tuple<DataTypes...>& data);
         std::tuple<DataTypes...> mData;
     };
+
+#include <featherkit/messaging/message.inl>
 
     template<class tag>
     struct Message<tag>
