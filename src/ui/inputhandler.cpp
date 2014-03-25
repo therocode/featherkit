@@ -1,5 +1,5 @@
-#include <featherkit/input/inputbackend.hpp>
-#include <featherkit/input/inputhandler.hpp>
+#include <featherkit/ui/inputbackend.hpp>
+#include <featherkit/ui/inputhandler.hpp>
 #include <iostream>
 
 namespace fea

@@ -1,7 +1,7 @@
 #pragma once
 #include <queue>
 #include <memory>
-#include <featherkit/input/event.hpp>
+#include <featherkit/ui/event.hpp>
 #include <glm/glm.hpp>
 
 namespace fea

@@ -1,5 +1,5 @@
 #pragma once
-#include <featherkit/input/event.hpp>
+#include <featherkit/ui/event.hpp>
 #include <glm/glm.hpp>
 #include <queue>
 

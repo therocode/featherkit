@@ -1,4 +1,4 @@
-#include <featherkit/input/inputfilenotfoundexception.hpp>
+#include <featherkit/ui/inputfilenotfoundexception.hpp>
 #include <string>
 
 namespace fea

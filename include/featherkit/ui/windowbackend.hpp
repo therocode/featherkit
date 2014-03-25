@@ -1,8 +1,8 @@
 #pragma once
-#include <featherkit/window/videomode.hpp>
-#include <featherkit/window/windowstyle.hpp>
-#include <featherkit/window/contextsettings.hpp>
-#include <featherkit/window/vec2i.hpp>
+#include <featherkit/ui/videomode.hpp>
+#include <featherkit/ui/windowstyle.hpp>
+#include <featherkit/ui/contextsettings.hpp>
+#include <featherkit/ui/vec2i.hpp>
 #include <string>
 
 namespace fea

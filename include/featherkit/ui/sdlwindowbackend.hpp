@@ -1,6 +1,6 @@
 #pragma once
 #define NO_SDL_GLEXT
-#include <featherkit/window/windowbackend.hpp>
+#include <featherkit/ui/windowbackend.hpp>
 #include <glm/glm.hpp>
 #include <SDL.h>
 #include <SDL/SDL_opengl.h>

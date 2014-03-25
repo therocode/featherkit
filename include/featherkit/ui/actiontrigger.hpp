@@ -1,6 +1,6 @@
 #pragma once
-#include <featherkit/input/keyboard.hpp>
-#include <featherkit/input/mouse.hpp>
+#include <featherkit/ui/keyboard.hpp>
+#include <featherkit/ui/mouse.hpp>
 #include <cstdint>
 
 namespace fea

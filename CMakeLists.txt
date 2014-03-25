@@ -302,34 +302,34 @@ if(BUILD_UI)
 
     #find all source files
     set(ui_source_files 
-        src/input/actiontrigger.cpp
-        src/input/inputhandler.cpp
-        src/input/inputfilenotfoundexception.cpp
-        src/window/contextsettings.cpp
-        src/window/videomode.cpp
-        src/window/window.cpp)
+        src/ui/actiontrigger.cpp
+        src/ui/inputhandler.cpp
+        src/ui/inputfilenotfoundexception.cpp
+        src/ui/contextsettings.cpp
+        src/ui/videomode.cpp
+        src/ui/window.cpp)
 
     set(ui_header_files 
-        include/featherkit/window/contextsettings.hpp
-        include/featherkit/window/vec2i.hpp
-        include/featherkit/window/videomode.hpp
-        include/featherkit/window/windowbackend.hpp
-        include/featherkit/window/window.hpp
-        include/featherkit/window/windowstyle.hpp
-        include/featherkit/input/actionhandler.hpp
-        include/featherkit/input/actionhandler.inl
-        include/featherkit/input/actiontrigger.hpp
-        include/featherkit/input/event.hpp
-        include/featherkit/input/gamepad.hpp
-        include/featherkit/input/inputbackend.hpp
-        include/featherkit/input/inputfilenotfoundexception.hpp
-        include/featherkit/input/inputhandler.hpp
-        include/featherkit/input/keyboard.hpp
-        include/featherkit/input/mouse.hpp)
+        include/featherkit/ui/contextsettings.hpp
+        include/featherkit/ui/vec2i.hpp
+        include/featherkit/ui/videomode.hpp
+        include/featherkit/ui/windowbackend.hpp
+        include/featherkit/ui/window.hpp
+        include/featherkit/ui/windowstyle.hpp
+        include/featherkit/ui/actionhandler.hpp
+        include/featherkit/ui/actionhandler.inl
+        include/featherkit/ui/actiontrigger.hpp
+        include/featherkit/ui/event.hpp
+        include/featherkit/ui/gamepad.hpp
+        include/featherkit/ui/inputbackend.hpp
+        include/featherkit/ui/inputfilenotfoundexception.hpp
+        include/featherkit/ui/inputhandler.hpp
+        include/featherkit/ui/keyboard.hpp
+        include/featherkit/ui/mouse.hpp)
 
     set(ui_util_header_files 
-        include/featherkit/util/input/jsonactioniohandler.hpp
-        include/featherkit/util/input/jsonactioniohandler.inl)
+        include/featherkit/util/ui/jsonactioniohandler.hpp
+        include/featherkit/util/ui/jsonactioniohandler.inl)
 
     if(${BUILD_SFMLBACKENDS})
         set(BUILT_TARGETS ${BUILT_TARGETS} ${project_name}-sfml)
@@ -339,12 +339,12 @@ if(BUILD_UI)
             include_directories(${SFML_INCLUDE_DIR})
         endif(SFML_FOUND)
         set(ui_sfml_backend_source_files 
-            src/window/sfmlwindowbackend.cpp
-            src/input/sfmlinputbackend.cpp)
+            src/ui/sfmlwindowbackend.cpp
+            src/ui/sfmlinputbackend.cpp)
 
         set(ui_sfml_backend_header_files
-            include/featherkit/window/sfmlwindowbackend.hpp
-            include/featherkit/input/sfmlinputbackend.hpp)
+            include/featherkit/ui/sfmlwindowbackend.hpp
+            include/featherkit/ui/sfmlinputbackend.hpp)
 
         add_library(${project_name}-sfml ${SHARED_OR_STATIC} ${ui_sfml_backend_source_files} ${ui_sfml_backend_header_files})
         target_link_libraries(${project_name}-sfml ${SFML_LIBRARIES})
@@ -358,12 +358,12 @@ if(BUILD_UI)
             include_directories(${SDL_INCLUDE_DIR})
         endif(SDL_FOUND)
         set(ui_sdl_backend_source_files 
-            src/window/sdlwindowbackend.cpp
-            src/input/sdlinputbackend.cpp)
+            src/ui/sdlwindowbackend.cpp
+            src/ui/sdlinputbackend.cpp)
 
         set(ui_sdl_backend_header_files
-        include/featherkit/window/sdlwindowbackend.hpp
-        include/featherkit/input/sdlinputbackend.hpp)
+        include/featherkit/ui/sdlwindowbackend.hpp
+        include/featherkit/ui/sdlinputbackend.hpp)
 
         add_library(${project_name}-sdl ${SHARED_OR_STATIC} ${ui_sdl_backend_source_files} ${ui_sdl_backend_header_files})
         target_link_libraries(${project_name}-sdl ${SDL_LIBRARY})
@@ -380,12 +380,12 @@ if(BUILD_UI)
 			include_directories(${SDK_PATH}/SDL-2.0/include)
 		endif(SDL2_FOUND)
         set(ui_sdl2_backend_source_files
-            src/window/sdl2windowbackend.cpp
-            src/input/sdl2inputbackend.cpp)
+            src/ui/sdl2windowbackend.cpp
+            src/ui/sdl2inputbackend.cpp)
 
         set(ui_sdl2_backend_header_files
-            include/featherkit/window/sdl2windowbackend.hpp
-            include/featherkit/input/sdl2inputbackend.hpp)
+            include/featherkit/ui/sdl2windowbackend.hpp
+            include/featherkit/ui/sdl2inputbackend.hpp)
     
         add_library(${project_name}-sdl2 ${SHARED_OR_STATIC} ${ui_sdl2_backend_source_files} ${ui_sdl2_backend_header_files})
 		target_link_libraries(${project_name}-sdl2 ${SDL2_LIBRARY})
