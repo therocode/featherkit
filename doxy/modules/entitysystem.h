@@ -1,5 +1,5 @@
-/** @defgroup EntitySystem
+/** @defgroup Audio
  *
- * @brief This module does entity related things.
+ * @brief This module does audio related things.
  *
  */
