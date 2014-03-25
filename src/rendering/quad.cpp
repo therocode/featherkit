@@ -3,34 +3,9 @@
 
 namespace fea
 {
-    Quad::Quad() : mHFlip(1.0f), mVFlip(1.0f), mTexture(nullptr)
+    Quad::Quad() : Quad({2.0f, 2.0f})
     {
-        mVertices = {0.0f, 0.0f, 
-                    0.0f,  1.0f, 
-                     1.0f, 0.0f, 
-                     1.0f, 0.0f, 
-                    0.0f,  1.0f, 
-                     1.0f,  1.0f};
 
-        glm::vec2 texCoordsX = glm::vec2(0.0f, 1.0f);
-        glm::vec2 texCoordsY = glm::vec2(0.0f, 1.0f);
-
-        mTexCoords =  {texCoordsX[0], texCoordsY[0],
-                      texCoordsX[0], texCoordsY[1],
-                      texCoordsX[1], texCoordsY[0],
-                      texCoordsX[1], texCoordsY[0],
-                      texCoordsX[0], texCoordsY[1],
-                      texCoordsX[1], texCoordsY[1]};
-
-        mVertexColors = {0.0f, 0.0f, 0.0f, 0.0f,
-                         0.0f, 0.0f, 0.0f, 0.0f,
-                         0.0f, 0.0f, 0.0f, 0.0f,
-                         0.0f, 0.0f, 0.0f, 0.0f,
-                         0.0f, 0.0f, 0.0f, 0.0f,
-                         0.0f, 0.0f, 0.0f, 0.0f};
-
-        mDrawMode = GL_TRIANGLES;
-        mConstraints = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
     }
 
     Quad::Quad(const glm::vec2& size) : mHFlip(1.0f), mVFlip(1.0f), mTexture(nullptr)
@@ -83,7 +58,7 @@ namespace fea
 
     glm::vec2 Quad::getSize() const
     {
-        return glm::vec2(mVertices[4] * 2.0f, mVertices[3] * 2.0f);
+        return glm::vec2(mVertices[4], mVertices[3]);
     }
     
     void Quad::setTexture(const Texture& tex)
