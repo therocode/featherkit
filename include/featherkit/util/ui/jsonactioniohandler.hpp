@@ -1,8 +1,8 @@
 #pragma once
 #include <map>
 #include <string>
-#include <featherkit/input/inputfilenotfoundexception.hpp>
-#include <featherkit/input/actiontrigger.hpp>
+#include <featherkit/ui/inputfilenotfoundexception.hpp>
+#include <featherkit/ui/actiontrigger.hpp>
 #include <featherkit/json/json.h>
 #include <fstream>
 #include <sstream>
@@ -25,7 +25,7 @@ namespace fea
                     std::map<ActionTrigger, Action> mSecondaryBindings;
             };
 
-#include <featherkit/util/input/jsonactioniohandler.inl>
+#include <featherkit/util/ui/jsonactioniohandler.inl>
 
         /** @addtogroup UserInterface
          *@{

@@ -2,8 +2,8 @@
 #include <map>
 #include <string>
 #include <queue>
-#include <featherkit/input/actiontrigger.hpp>
-#include <featherkit/input/inputhandler.hpp>
+#include <featherkit/ui/actiontrigger.hpp>
+#include <featherkit/ui/inputhandler.hpp>
 
 
 namespace fea
@@ -36,7 +36,7 @@ namespace fea
             std::map<ActionTrigger, Action> mSecondaryBindings;
             std::queue<Action> mActions;
     };
-#include <featherkit/input/actionhandler.inl>
+#include <featherkit/ui/actionhandler.inl>
     /** @addtogroup UserInterface
      *@{
      *  @class ActionHandler
