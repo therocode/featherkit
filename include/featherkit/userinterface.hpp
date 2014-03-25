@@ -1,4 +1,4 @@
-#include <featherkit/input/actionhandler.hpp>
-#include <featherkit/input/inputbackend.hpp>
-#include <featherkit/window/window.hpp>
-#include <featherkit/window/windowbackend.hpp>
+#include <featherkit/ui/actionhandler.hpp>
+#include <featherkit/ui/inputbackend.hpp>
+#include <featherkit/ui/window.hpp>
+#include <featherkit/ui/windowbackend.hpp>
