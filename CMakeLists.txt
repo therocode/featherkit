@@ -79,6 +79,7 @@ if(BUILD_AUDIO)
         src/audio/audiosample.cpp
         src/audio/audiostream.cpp
         src/audio/effectslot.cpp
+        src/audio/audiofilenotfoundexception.cpp
         src/audio/listener.cpp
         src/audio/playsource.cpp
         src/audio/oscillator.cpp
@@ -105,6 +106,7 @@ if(BUILD_AUDIO)
         include/featherkit/audio/audiosample.hpp
         include/featherkit/audio/audiostream.hpp
         include/featherkit/audio/effectslot.hpp
+        include/featherkit/audio/audiofilenotfoundexception.hpp
         include/featherkit/audio/listener.hpp
         include/featherkit/audio/playsource.hpp
         include/featherkit/audio/oscillator.hpp
@@ -133,7 +135,9 @@ if(BUILD_STRUCTURE)
 
     set(structure_header_files include/featherkit/structure/application.hpp
         include/featherkit/structure/gamestate.hpp
-        include/featherkit/structure/gamestatemachine.hpp)
+        include/featherkit/structure/gamestatemachine.hpp
+        include/featherkit/util/loosentree.hpp
+        include/featherkit/util/loosentree.inl)
 
     add_library(${project_name}-structure ${SHARED_OR_STATIC} ${structure_header_files} ${structure_source_files})
 endif()
@@ -147,12 +151,14 @@ if(BUILD_ENTITY)
         src/entity/entity.cpp
         src/entity/entitycomponent.cpp
         src/entity/entityfactory.cpp
+        src/entity/filenotfoundexception.cpp
         src/entity/entitystorage.cpp
         src/entity/entitymanager.cpp)
 
     set(entity_header_files 
         include/featherkit/entity/entity.hpp
         include/featherkit/entity/entityfactory.hpp
+        include/featherkit/entity/filenotfoundexception.hpp
         include/featherkit/entity/entitycomponent.hpp
         include/featherkit/entity/entitymanager.hpp
         include/featherkit/entity/entitystorage.hpp
@@ -161,13 +167,11 @@ if(BUILD_ENTITY)
     set(entity_util_source_files
         src/util/entity/basictypeadder.cpp
         src/util/entity/glmtypeadder.cpp
-        src/util/entity/jsonentityloader.cpp
-        src/util/filenotfoundexception.cpp)
+        src/util/entity/jsonentityloader.cpp)
     set(entity_util_header_files
         include/featherkit/util/entity/basictypeadder.hpp
         include/featherkit/util/entity/glmtypeadder.hpp
-        include/featherkit/util/entity/jsonentityloader.hpp
-        include/featherkit/util/filenotfoundexception.hpp)
+        include/featherkit/util/entity/jsonentityloader.hpp)
 
     add_library(${project_name}-entity ${SHARED_OR_STATIC} ${entity_header_files} ${entity_source_files} ${entity_util_source_files} ${entity_util_header_files})
 endif()
@@ -252,7 +256,8 @@ if(BUILD_RENDERING)
 
         set(rendering_header_files ${rendering_header_files}
             include/featherkit/rendering/textsurface.hpp
-            include/featherkit/rendering/font.hpp)
+            include/featherkit/rendering/font.hpp
+            include/featherkit/rendering/font.inl)
 
         set(freetype-gl_header_files 
             include/featherkit/freetype-gl/platform.h
@@ -293,6 +298,7 @@ if(BUILD_UI)
     set(ui_source_files 
         src/input/actiontrigger.cpp
         src/input/inputhandler.cpp
+        src/input/inputfilenotfoundexception.cpp
         src/window/contextsettings.cpp
         src/window/videomode.cpp
         src/window/window.cpp)
@@ -309,12 +315,14 @@ if(BUILD_UI)
         include/featherkit/input/event.hpp
         include/featherkit/input/gamepad.hpp
         include/featherkit/input/inputbackend.hpp
+        include/featherkit/input/inputfilenotfoundexception.hpp
         include/featherkit/input/inputhandler.hpp
         include/featherkit/input/keyboard.hpp
         include/featherkit/input/mouse.hpp)
 
     set(ui_util_header_files 
-        include/featherkit/util/input/jsonactioniohandler.hpp)
+        include/featherkit/util/input/jsonactioniohandler.hpp
+        include/featherkit/util/input/jsonactioniohandler.inl)
 
     if(${BUILD_SFMLBACKENDS})
         set(BUILT_TARGETS ${BUILT_TARGETS} ${project_name}-sfml)

@@ -1,5 +1,5 @@
 #include <featherkit/audio/audiofile.hpp>
-#include <featherkit/util/filenotfoundexception.hpp>
+#include <featherkit/audio/audiofilenotfoundexception.hpp>
 #include <iostream>
 
 namespace fea
@@ -71,7 +71,7 @@ namespace fea
 
         if(mFile == nullptr)
         {
-            throw util::FileNotFoundException("Error when trying to load audio file '" + path + "!");
+            throw AudioFileNotFoundException("Error when trying to load audio file '" + path + "!");
         }
 
         mChannelCount = fileInfo.channels;

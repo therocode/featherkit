@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include <string>
-#include <featherkit/util/filenotfoundexception.hpp>
+#include <featherkit/entity/filenotfoundexception.hpp>
 #include <featherkit/entity/entityfactory.hpp>
 
 namespace fea
