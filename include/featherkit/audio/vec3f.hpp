@@ -9,7 +9,7 @@ namespace fea
         float z;
     };
 
-    /** @addtogroup UserInterface
+    /** @addtogroup Audio
      *@{
      *  @struct Vec3F
      *@}
