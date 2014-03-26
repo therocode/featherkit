@@ -3,7 +3,6 @@
 #include <queue>
 #include <cstring>
 #include <featherkit/audio/audiobuffer.hpp>
-#include <featherkit/audio/audiodata.hpp>
 #include <featherkit/audio/audiobase.hpp>
 
 namespace fea
@@ -16,7 +15,7 @@ namespace fea
             void setStreamProperties(size_t channelCount, size_t sampleRate);
             AudioBuffer* nextReadyBuffer();
             void bufferConsumed();
-            virtual void fillBufferData(size_t sampleIndex, AudioData& toFill) = 0;
+            virtual void fillBufferData(size_t sampleIndex, std::vector<int16_t>& toFill) = 0;
             size_t getSampleRate() const;
             void setPlayOffset(std::chrono::milliseconds timePoint);
         protected:

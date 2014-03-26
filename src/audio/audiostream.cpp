@@ -102,18 +102,16 @@ namespace fea
     
     size_t AudioStream::fillBuffer(AudioBuffer* buffer)
     {
-        AudioData audioData;
-        audioData.mSamples.resize(mBufferSize);
-        audioData.mSampleAmount = 0;
+        std::vector<int16_t> audioData(mBufferSize);
 
         fillBufferData(mCurrentSample, audioData);
 
-        if(audioData.mSampleAmount > 0)
+        if(audioData.size() > 0)
         {
-            alBufferData(buffer->getBufferId(), mFormat, audioData.mSamples.data(), audioData.mSampleAmount * sizeof(int16_t), mSampleRate);
+            alBufferData(buffer->getBufferId(), mFormat, audioData.data(), audioData.size() * sizeof(int16_t), mSampleRate);
         }
         
-        return audioData.mSampleAmount;
+        return audioData.size();
     }
     
     void AudioStream::reset()

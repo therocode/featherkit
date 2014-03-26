@@ -44,15 +44,15 @@ namespace fea
         return mSampleRate;
     }
 
-    AudioData AudioFile::getSampleData() const
+    std::vector<int16_t> AudioFile::getSampleData() const
     {
         if(mSampleAmount == 0)
-            return AudioData();
+            return std::vector<int16_t>();
 
-        AudioData sampleData;
-        sampleData.mSamples.resize(mSampleAmount);
+        std::vector<int16_t> sampleData(mSampleAmount);
 
-        sampleData.mSampleAmount = static_cast<std::size_t>(sf_read_short(mFile, sampleData.mSamples.data(), mSampleAmount));
+        size_t readAmount = static_cast<std::size_t>(sf_read_short(mFile, sampleData.data(), mSampleAmount));
+        sampleData.resize(readAmount);
 
         sf_seek(mFile, 0, 0);
 

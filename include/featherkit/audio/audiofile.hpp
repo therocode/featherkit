@@ -1,7 +1,7 @@
 #pragma once
-#include <featherkit/audio/audiodata.hpp>
 #include <sndfile.h>
 #include <string>
+#include <vector>
 
 namespace fea
 {
@@ -16,7 +16,7 @@ namespace fea
             AudioFile& operator=(AudioFile&& other); 
             int32_t getChannelCount() const;
             int32_t getSampleRate() const;
-            AudioData getSampleData() const;
+            std::vector<int16_t> getSampleData() const;
             void open(const std::string& path);
             SNDFILE* getInternal(); //provide API for this
         private:

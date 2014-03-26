@@ -8,7 +8,7 @@ namespace fea
     {
         public:
             AudioFileStream();
-            virtual void fillBufferData(size_t sampleIndex, AudioData& toFill) override;
+            virtual void fillBufferData(size_t sampleIndex, std::vector<int16_t>& toFill) override;
             void openFile(const std::string& path);
         private:
             AudioFile mFile;
