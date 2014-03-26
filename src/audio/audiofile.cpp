@@ -1,5 +1,6 @@
 #include <featherkit/audio/audiofile.hpp>
 #include <featherkit/audio/audiofilenotfoundexception.hpp>
+#include <featherkit/assert.hpp>
 #include <iostream>
 
 namespace fea
@@ -79,8 +80,13 @@ namespace fea
         mSampleAmount = static_cast<std::size_t>(fileInfo.frames) * fileInfo.channels;
     }
     
-    SNDFILE* AudioFile::getInternal()
+    void AudioFile::fillBufferFromIndex(std::vector<int16_t>& buffer, size_t sampleIndex)
     {
-        return mFile;
+        FEA_ASSERT(mFile != nullptr, "Cannot fill buffer when no valid file is loaded!");
+
+        sf_seek(mFile, sampleIndex / mChannelCount, SEEK_SET);
+         
+        size_t readAmount = static_cast<std::size_t>(sf_read_short(mFile, buffer.data(), buffer.size()));
+        buffer.resize(readAmount);
     }
 }

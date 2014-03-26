@@ -11,11 +11,7 @@ namespace fea
     {
         size_t desiredSampleAmount = toFill.size();
 
-        size_t fileSampleIndex = sampleIndex / mChannelCount;
-        sf_seek(mFile.getInternal(), fileSampleIndex, SEEK_SET);
-
-        size_t readAmount = static_cast<std::size_t>(sf_read_short(mFile.getInternal(), toFill.data(), desiredSampleAmount));
-        toFill.resize(readAmount);
+        mFile.fillBufferFromIndex(toFill, sampleIndex);
     }
 
     void AudioFileStream::openFile(const std::string& path)
