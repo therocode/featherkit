@@ -34,7 +34,7 @@ namespace fea
      *
      *  Effects can be added to slots in the AudioPlayer class. When an audio source sends audio to the effect slot an effect has been added to, the effect is applied.
      *
-     *  All the effects are based directly on the <a href="https://docs.google.com/viewer?url=http%3A%2F%2Fzhang.su%2Fseal%2FEffectsExtensionGuide.pdf">EFX specification</a> and are hence not documented here. So have a look there to find out all about what the effects are, and what default values they have and which default values they expect.
+     *  All the effects are based directly on the <a href="https://docs.google.com/viewer?url=http%3A%2F%2Fzhang.su%2Fseal%2FEffectsExtensionGuide.pdf">EFX specification</a> and are hence not documented here. So have a look there to find out all about what the effects are, and what default values they have and which values they expect.
      ***
      *  @fn AudioEffect::AudioEffect()
      *  @brief Construct an AudioEffect. 

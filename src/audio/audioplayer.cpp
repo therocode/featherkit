@@ -193,7 +193,7 @@ namespace fea
         return mMaxSoundsPlaying;
     }
     
-    void AudioPlayer::addEffectToSlot(const AudioEffect& effect, size_t slot)
+    void AudioPlayer::setSlotEffect(const AudioEffect& effect, size_t slot)
     {
         FEA_ASSERT(slot < mMaxSoundsPlaying, "Trying to add an effect to slot number " << slot << " but the highest slot number is " << 4 << "!\n");
         alAuxiliaryEffectSloti(mEffectSlots.at(slot).getSlotId(), AL_EFFECTSLOT_EFFECT, effect.getEffectId());
@@ -201,7 +201,7 @@ namespace fea
         alAuxiliaryEffectSloti(mEffectSlots.at(slot).getSlotId(), AL_EFFECTSLOT_AUXILIARY_SEND_AUTO, effect.getAutoAdjustments() ? AL_TRUE : AL_FALSE);
     }
 
-    void AudioPlayer::clearSlotEffects(size_t slot)
+    void AudioPlayer::clearSlotEffect(size_t slot)
     {
         FEA_ASSERT(slot < mMaxSoundsPlaying, "Trying to clear the effects of slot number " << slot << " but the highest slot number is " << 4 << "!\n");
         alAuxiliaryEffectSloti(mEffectSlots.at(slot).getSlotId(), AL_EFFECTSLOT_EFFECT, AL_EFFECT_NULL);

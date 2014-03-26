@@ -18,7 +18,7 @@ namespace fea
             const Vec3F& getVelocity() const;
             void setPitch(float pitch);
             float getPitch() const;
-            void setGain(float pitch);
+            void setGain(float gain);
             float getGain() const;
             void setAttenuationFactor(float attenuationFactor);
             float getAttenuationFactor() const;
@@ -103,12 +103,13 @@ namespace fea
      *  @brief Get the pitch modifier.
      *  @return The pitch modifier.
      ***
-     *  @fn void AudioBase::setGain(float pitch)
+     *  @fn void AudioBase::setGain(float gain)
      *  @brief Set the gain.
      *
      *  Gain is a multiplier for the amplitude or "loudness" of the sound. Can be used to make sounds more quiet. A value of 1.0f is standard. The total gain will be capped at 1.0f.
      *
      *  Assert/undefined behaviour when the given value is zero or less.
+     *  @param gain The gain.
      ***
      *  @fn float AudioBase::getGain() const
      *  @brief Get the gain.

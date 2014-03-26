@@ -76,7 +76,7 @@ namespace fea
      *  Throws an AudioFileNotFoundException when the file could not be loaded.
      *  @param path Path to file to load.
      ***
-     *  @fn void fillBufferFromIndex(std::vector<int16_t>& buffer, size_t sampleIndex);
+     *  @fn void AudioFile::fillBufferFromIndex(std::vector<int16_t>& buffer, size_t sampleIndex);
      *  @brief Fill a memory buffer with data from a specific point in the file.
      *
      *  Assert/undefined behaviour if this is called when no valid file is loaded.
