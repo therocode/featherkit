@@ -260,7 +260,7 @@ namespace fea
      *  @return The attenuation distance.
      ***
      *  @fn void AudioPlayer::setLooping(AudioHandle handle, bool loop)
-     *  @Set the audio to loop or not of a sound that is being played.
+     *  @brief Set the audio to loop or not of a sound that is being played.
      *  @param handle Handle to the audio being player.
      *  @param loop True if it should loop.
      ***

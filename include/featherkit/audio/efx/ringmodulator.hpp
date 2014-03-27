@@ -24,11 +24,11 @@ namespace fea
     };
     /** @addtogroup Audio
      *@{
-     *  @class Ring modulator
+     *  @class RingModulator
      *@}
      ***
-     *  @class Ring modulator
-     *  @brief Ring modulator can be used to create tremolo or weird tonal effects.
+     *  @class RingModulator
+     *  @brief A ring modulator can be used to create tremolo or weird tonal effects.
      *
      *  This effect is based directly on the <a href="https://docs.google.com/viewer?url=http%3A%2F%2Fzhang.su%2Fseal%2FEffectsExtensionGuide.pdf">EFX specification</a> and the parameters are hence not documented here. So have a look there to find out all about what the effect does, and what default values they have and which values they expect.
      *
