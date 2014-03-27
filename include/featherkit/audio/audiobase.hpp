@@ -77,7 +77,7 @@ namespace fea
      *  @brief Set the 3D position of the audio.
      *  @param position A 3D vector.
      ***
-     *  @fn const AudioBase::Vec3F& getPosition() const
+     *  @fn const Vec3F& AudioBase::getPosition() const
      *  @brief Get the 3D position.
      *  @return A vector with the position.
      ***
@@ -171,7 +171,7 @@ namespace fea
      *  This lets the audio send its rendered audio to an effect slot in the player playing it. More than one slot can be sent to. When sending to an effect slot, the effect and/or filter added to that slot will be taken into account.
      *  @param slot Slot to send to.
      ***
-     *  @fn const AudioBase::std::set<size_t> getEffectSends() const
+     *  @fn const std::set<size_t> AudioBase::getEffectSends() const
      *  @brief Get the effect slots being sent to.
      *  @return A set with all effects slots being sent to.
      ***
@@ -179,7 +179,7 @@ namespace fea
      *  @brief Set a filter to use.
      *  @param filter Filter to use.
      ***
-     *  @fn const AudioBase::AudioFilter& getFilter() const
+     *  @fn const AudioFilter& AudioBase::getFilter() const
      *  @brief Get the filter currently in use.
      *
      *  Undefined behavior if no filter is set. Check if a filter is set by using AudioBase::hasFilter.
