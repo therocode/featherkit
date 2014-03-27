@@ -22,6 +22,6 @@ namespace fea
      ***
      *  @fn InputFileNotFoundException::InputFileNotFoundException(const std::string& message)
      *  @brief Construct a InputFileNotFoundException instance to throw.
-     *  @param msg Message further explaining the error.
+     *  @param message Message further explaining the error.
      **/
 }
