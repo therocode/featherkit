@@ -141,16 +141,16 @@ namespace fea
     void Equalizer::update()
     {
         std::cout << "error1: " << alGetError() << "\n";
-        alEffecti(mEffectId, AL_EFFECT_TYPE, AL_EFFECT_EQUALIZER);
-        alEffectf(mEffectId, AL_EQUALIZER_LOW_GAIN, mLowGain);
-        alEffectf(mEffectId, AL_EQUALIZER_LOW_CUTOFF, mLowCutoff);
-        alEffectf(mEffectId, AL_EQUALIZER_MID1_GAIN, mMid1Gain);
-        alEffectf(mEffectId, AL_EQUALIZER_MID1_CENTER, mMid1Center);
-        alEffectf(mEffectId, AL_EQUALIZER_MID1_WIDTH, mMid1Width);
-        alEffectf(mEffectId, AL_EQUALIZER_MID2_GAIN, mMid2Gain);
-        alEffectf(mEffectId, AL_EQUALIZER_MID2_CENTER, mMid2Center);
-        alEffectf(mEffectId, AL_EQUALIZER_MID2_WIDTH, mMid2Width);
-        alEffectf(mEffectId, AL_EQUALIZER_HIGH_GAIN, mHighGain);
-        alEffectf(mEffectId, AL_EQUALIZER_HIGH_CUTOFF, mHighCutoff);
+        alEffecti(getEffectId(), AL_EFFECT_TYPE, AL_EFFECT_EQUALIZER);
+        alEffectf(getEffectId(), AL_EQUALIZER_LOW_GAIN, mLowGain);
+        alEffectf(getEffectId(), AL_EQUALIZER_LOW_CUTOFF, mLowCutoff);
+        alEffectf(getEffectId(), AL_EQUALIZER_MID1_GAIN, mMid1Gain);
+        alEffectf(getEffectId(), AL_EQUALIZER_MID1_CENTER, mMid1Center);
+        alEffectf(getEffectId(), AL_EQUALIZER_MID1_WIDTH, mMid1Width);
+        alEffectf(getEffectId(), AL_EQUALIZER_MID2_GAIN, mMid2Gain);
+        alEffectf(getEffectId(), AL_EQUALIZER_MID2_CENTER, mMid2Center);
+        alEffectf(getEffectId(), AL_EQUALIZER_MID2_WIDTH, mMid2Width);
+        alEffectf(getEffectId(), AL_EQUALIZER_HIGH_GAIN, mHighGain);
+        alEffectf(getEffectId(), AL_EQUALIZER_HIGH_CUTOFF, mHighCutoff);
     }
 }

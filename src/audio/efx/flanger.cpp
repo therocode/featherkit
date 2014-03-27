@@ -87,12 +87,12 @@ namespace fea
 
     void Flanger::update()
     {
-        alEffecti(mEffectId, AL_EFFECT_TYPE, AL_EFFECT_FLANGER);
-        alEffecti(mEffectId, AL_FLANGER_WAVEFORM, mWaveform);
-        alEffecti(mEffectId, AL_FLANGER_PHASE, mPhase);
-        alEffectf(mEffectId, AL_FLANGER_RATE, mRate);
-        alEffectf(mEffectId, AL_FLANGER_DEPTH, mDepth);
-        alEffectf(mEffectId, AL_FLANGER_FEEDBACK, mFeedback);
-        alEffectf(mEffectId, AL_FLANGER_DELAY, mDelay);
+        alEffecti(getEffectId(), AL_EFFECT_TYPE, AL_EFFECT_FLANGER);
+        alEffecti(getEffectId(), AL_FLANGER_WAVEFORM, mWaveform);
+        alEffecti(getEffectId(), AL_FLANGER_PHASE, mPhase);
+        alEffectf(getEffectId(), AL_FLANGER_RATE, mRate);
+        alEffectf(getEffectId(), AL_FLANGER_DEPTH, mDepth);
+        alEffectf(getEffectId(), AL_FLANGER_FEEDBACK, mFeedback);
+        alEffectf(getEffectId(), AL_FLANGER_DELAY, mDelay);
     }
 }

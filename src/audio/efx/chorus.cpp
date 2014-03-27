@@ -87,12 +87,12 @@ namespace fea
 
     void Chorus::update()
     {
-        alEffecti(mEffectId, AL_EFFECT_TYPE, AL_EFFECT_CHORUS);
-        alEffecti(mEffectId, AL_CHORUS_WAVEFORM, mWaveform);
-        alEffecti(mEffectId, AL_CHORUS_PHASE, mPhase);
-        alEffectf(mEffectId, AL_CHORUS_RATE, mRate);
-        alEffectf(mEffectId, AL_CHORUS_DEPTH, mDepth);
-        alEffectf(mEffectId, AL_CHORUS_FEEDBACK, mFeedback);
-        alEffectf(mEffectId, AL_CHORUS_DELAY, mDelay);
+        alEffecti(getEffectId(), AL_EFFECT_TYPE, AL_EFFECT_CHORUS);
+        alEffecti(getEffectId(), AL_CHORUS_WAVEFORM, mWaveform);
+        alEffecti(getEffectId(), AL_CHORUS_PHASE, mPhase);
+        alEffectf(getEffectId(), AL_CHORUS_RATE, mRate);
+        alEffectf(getEffectId(), AL_CHORUS_DEPTH, mDepth);
+        alEffectf(getEffectId(), AL_CHORUS_FEEDBACK, mFeedback);
+        alEffectf(getEffectId(), AL_CHORUS_DELAY, mDelay);
     }
 }

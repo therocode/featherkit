@@ -178,19 +178,19 @@ namespace fea
 
     void Reverb::update()
     {
-        alEffecti(mEffectId, AL_EFFECT_TYPE, AL_EFFECT_REVERB);
-        alEffectf(mEffectId, AL_REVERB_DENSITY, mDensity);
-        alEffectf(mEffectId, AL_REVERB_DIFFUSION, mDiffusion);
-        alEffectf(mEffectId, AL_REVERB_GAIN, mReverbGain);
-        alEffectf(mEffectId, AL_REVERB_GAINHF, mHFGain);
-        alEffectf(mEffectId, AL_REVERB_DECAY_TIME, mDecayTime);
-        alEffectf(mEffectId, AL_REVERB_DECAY_HFRATIO, mDecayHFRatio);
-        alEffectf(mEffectId, AL_REVERB_REFLECTIONS_GAIN, mReflectionsGain);
-        alEffectf(mEffectId, AL_REVERB_REFLECTIONS_DELAY, mReflectionsDelay);
-        alEffectf(mEffectId, AL_REVERB_LATE_REVERB_GAIN, mLateGain);
-        alEffectf(mEffectId, AL_REVERB_LATE_REVERB_DELAY, mLateDelay);
-        alEffectf(mEffectId, AL_REVERB_ROOM_ROLLOFF_FACTOR, mRoomRolloffFactor);
-        alEffectf(mEffectId, AL_REVERB_AIR_ABSORPTION_GAINHF, mAirAbsorptionGainHF);
-        alEffecti(mEffectId, AL_REVERB_DECAY_HFLIMIT, mDecayHFLimit ? AL_TRUE : AL_FALSE);
+        alEffecti(getEffectId(), AL_EFFECT_TYPE, AL_EFFECT_REVERB);
+        alEffectf(getEffectId(), AL_REVERB_DENSITY, mDensity);
+        alEffectf(getEffectId(), AL_REVERB_DIFFUSION, mDiffusion);
+        alEffectf(getEffectId(), AL_REVERB_GAIN, mReverbGain);
+        alEffectf(getEffectId(), AL_REVERB_GAINHF, mHFGain);
+        alEffectf(getEffectId(), AL_REVERB_DECAY_TIME, mDecayTime);
+        alEffectf(getEffectId(), AL_REVERB_DECAY_HFRATIO, mDecayHFRatio);
+        alEffectf(getEffectId(), AL_REVERB_REFLECTIONS_GAIN, mReflectionsGain);
+        alEffectf(getEffectId(), AL_REVERB_REFLECTIONS_DELAY, mReflectionsDelay);
+        alEffectf(getEffectId(), AL_REVERB_LATE_REVERB_GAIN, mLateGain);
+        alEffectf(getEffectId(), AL_REVERB_LATE_REVERB_DELAY, mLateDelay);
+        alEffectf(getEffectId(), AL_REVERB_ROOM_ROLLOFF_FACTOR, mRoomRolloffFactor);
+        alEffectf(getEffectId(), AL_REVERB_AIR_ABSORPTION_GAINHF, mAirAbsorptionGainHF);
+        alEffecti(getEffectId(), AL_REVERB_DECAY_HFLIMIT, mDecayHFLimit ? AL_TRUE : AL_FALSE);
     }
 }

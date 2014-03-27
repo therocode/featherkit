@@ -76,11 +76,11 @@ namespace fea
 
     void Distortion::update()
     {
-        alEffecti(mEffectId, AL_EFFECT_TYPE, AL_EFFECT_DISTORTION);
-        alEffectf(mEffectId, AL_DISTORTION_EDGE, mEdge);
-        alEffectf(mEffectId, AL_DISTORTION_GAIN, mDistortionGain);
-        alEffectf(mEffectId, AL_DISTORTION_LOWPASS_CUTOFF, mLowPassCutoff);
-        alEffectf(mEffectId, AL_DISTORTION_EQCENTER, mEQCenter);
-        alEffectf(mEffectId, AL_DISTORTION_EQBANDWIDTH, mEQBandwidth);
+        alEffecti(getEffectId(), AL_EFFECT_TYPE, AL_EFFECT_DISTORTION);
+        alEffectf(getEffectId(), AL_DISTORTION_EDGE, mEdge);
+        alEffectf(getEffectId(), AL_DISTORTION_GAIN, mDistortionGain);
+        alEffectf(getEffectId(), AL_DISTORTION_LOWPASS_CUTOFF, mLowPassCutoff);
+        alEffectf(getEffectId(), AL_DISTORTION_EQCENTER, mEQCenter);
+        alEffectf(getEffectId(), AL_DISTORTION_EQBANDWIDTH, mEQBandwidth);
     }
 }

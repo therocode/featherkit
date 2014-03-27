@@ -19,7 +19,7 @@ namespace fea
             float getEffectGain() const;
             void setAutoAdjustments(bool enabled);
             bool getAutoAdjustments() const;
-        protected:
+        private:
             ALuint mEffectId;
             float mGain;
             bool mAutoSend;
@@ -45,10 +45,10 @@ namespace fea
      *  @fn AudioEffect::AudioEffect(AudioEffect&& other)
      *  @brief Move an AudioEffect.
      ***
-     *  @fn AudioEffect::AudioEffect& operator=(const AudioEffect& other) = delete
+     *  @fn AudioEffect& AudioEffect::operator=(const AudioEffect& other) = delete
      *  @brief Deleted assignment operator.
      ***
-     *  @fn AudioEffect::AudioEffect& operator=(AudioEffect&& other)
+     *  @fn AudioEffect& AudioEffect::operator=(AudioEffect&& other)
      *  @brief Move an AudioEffect.
      ***
      *  @fn AudioEffect::~AudioEffect()

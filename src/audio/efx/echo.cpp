@@ -76,11 +76,11 @@ namespace fea
 
     void Echo::update()
     {
-        alEffecti(mEffectId, AL_EFFECT_TYPE, AL_EFFECT_ECHO);
-        alEffectf(mEffectId, AL_ECHO_DELAY, mDelay);
-        alEffectf(mEffectId, AL_ECHO_LRDELAY, mLRDelay);
-        alEffectf(mEffectId, AL_ECHO_DAMPING, mDamping);
-        alEffectf(mEffectId, AL_ECHO_FEEDBACK, mFeedback);
-        alEffectf(mEffectId, AL_ECHO_SPREAD, mSpread);
+        alEffecti(getEffectId(), AL_EFFECT_TYPE, AL_EFFECT_ECHO);
+        alEffectf(getEffectId(), AL_ECHO_DELAY, mDelay);
+        alEffectf(getEffectId(), AL_ECHO_LRDELAY, mLRDelay);
+        alEffectf(getEffectId(), AL_ECHO_DAMPING, mDamping);
+        alEffectf(getEffectId(), AL_ECHO_FEEDBACK, mFeedback);
+        alEffectf(getEffectId(), AL_ECHO_SPREAD, mSpread);
     }
 }

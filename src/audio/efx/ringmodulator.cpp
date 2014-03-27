@@ -48,9 +48,9 @@ namespace fea
 
     void RingModulator::update()
     {
-        alEffecti(mEffectId, AL_EFFECT_TYPE, AL_EFFECT_RING_MODULATOR);
-        alEffectf(mEffectId, AL_RING_MODULATOR_FREQUENCY, mFrequency);
-        alEffectf(mEffectId, AL_RING_MODULATOR_HIGHPASS_CUTOFF, mHighPassCutoff);
-        alEffecti(mEffectId, AL_RING_MODULATOR_WAVEFORM, mWaveform);
+        alEffecti(getEffectId(), AL_EFFECT_TYPE, AL_EFFECT_RING_MODULATOR);
+        alEffectf(getEffectId(), AL_RING_MODULATOR_FREQUENCY, mFrequency);
+        alEffectf(getEffectId(), AL_RING_MODULATOR_HIGHPASS_CUTOFF, mHighPassCutoff);
+        alEffecti(getEffectId(), AL_RING_MODULATOR_WAVEFORM, mWaveform);
     }
 }
