@@ -49,7 +49,7 @@ namespace fea
      *  FEA_DECLARE_MESSAGE(ResizedMessage, uint32_t, uint32_t);
      *  @endcode
      ***
-     *  @fn Message::Message(typename std::enable_if<sizeof...(DataTypes) >= 1>)
+     *  @fn Message::Message()
      *  @brief Construct a message.
      ***
      *  @fn Message::Message(DataTypes... data)
