@@ -100,18 +100,15 @@ namespace fea
         return mSampleRate;
     }
     
-    size_t AudioStream::fillBuffer(AudioBuffer* buffer)
+    size_t AudioStream::getChannelCount() const
     {
-        std::vector<int16_t> audioData(mBufferSize);
+        return mChannelCount;
+    }
 
-        fillBufferData(mCurrentSample, audioData);
-
-        if(audioData.size() > 0)
-        {
-            alBufferData(buffer->getBufferId(), mFormat, audioData.data(), audioData.size() * sizeof(int16_t), mSampleRate);
-        }
-        
-        return audioData.size();
+    void AudioStream::setPlayOffset(std::chrono::milliseconds timePoint)
+    {
+        AudioBase::setPlayOffset(timePoint);
+        reset();
     }
     
     void AudioStream::reset()
@@ -132,10 +129,18 @@ namespace fea
             }
         }
     }
-
-    void AudioStream::setPlayOffset(std::chrono::milliseconds timePoint)
+    
+    size_t AudioStream::fillBuffer(AudioBuffer* buffer)
     {
-        AudioBase::setPlayOffset(timePoint);
-        reset();
+        std::vector<int16_t> audioData(mBufferSize);
+
+        fillBufferData(mCurrentSample, audioData);
+
+        if(audioData.size() > 0)
+        {
+            alBufferData(buffer->getBufferId(), mFormat, audioData.data(), audioData.size() * sizeof(int16_t), mSampleRate);
+        }
+        
+        return audioData.size();
     }
 }
