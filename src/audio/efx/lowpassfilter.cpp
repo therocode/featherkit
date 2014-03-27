@@ -36,8 +36,8 @@ namespace fea
 
     void LowPassFilter::update()
     {
-        alFilteri(mFilterId, AL_FILTER_TYPE, AL_FILTER_LOWPASS);
-        alFilterf(mFilterId, AL_LOWPASS_GAIN, mGain);
-        alFilterf(mFilterId, AL_LOWPASS_GAINHF, mGainHF);
+        alFilteri(getFilterId(), AL_FILTER_TYPE, AL_FILTER_LOWPASS);
+        alFilterf(getFilterId(), AL_LOWPASS_GAIN, mGain);
+        alFilterf(getFilterId(), AL_LOWPASS_GAINHF, mGainHF);
     }
 }

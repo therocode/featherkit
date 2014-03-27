@@ -15,7 +15,7 @@ namespace fea
             AudioFilter& operator=(AudioFilter&& other);
             ~AudioFilter();
             ALuint getFilterId() const;
-        protected:
+        private:
             ALuint mFilterId;
     };
     /** @addtogroup Audio
@@ -39,10 +39,10 @@ namespace fea
      *  @fn AudioFilter::AudioFilter(AudioFilter&& other)
      *  @brief Move an AudioFilter.
      ***
-     *  @fn AudioFilter::AudioFilter& operator=(const AudioFilter& other) = delete
+     *  @fn AudioFilter& AudioFilter::operator=(const AudioFilter& other) = delete
      *  @brief Deleted assignment operator.
      ***
-     *  @fn AudioFilter::AudioFilter& operator=(AudioFilter&& other)
+     *  @fn AudioFilter& AudioFilter::operator=(AudioFilter&& other)
      *  @brief Move an AudioFilter.
      ***
      *  @fn AudioFilter::~AudioFilter()

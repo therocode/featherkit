@@ -44,10 +44,10 @@ namespace fea
      *  @fn AudioFile::AudioFile(AudioFile&& other)
      *  @brief Move an AudioFile.
      ***
-     *  @fn AudioFile::AudioFile& operator=(const AudioFile& other) = delete
+     *  @fn AudioFile& AudioFile::operator=(const AudioFile& other) = delete
      *  @brief Deleted assignment operator.
      ***
-     *  @fn AudioFile::AudioFile& operator=(AudioFile&& other)
+     *  @fn AudioFile& AudioFile::operator=(AudioFile&& other)
      *  @brief Move an AudioFile.
      ***
      *  @fn AudioFile::~AudioFile()
