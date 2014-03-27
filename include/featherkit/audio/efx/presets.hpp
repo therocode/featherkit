@@ -123,7 +123,7 @@ namespace fea
     /** @addtogroup Audio
      *@{
      *  @enum ReverbPreset
-     *  @fn loadReverbPreset
+     *  @fn static void loadReverbPreset(Reverb& reverb, ReverbPreset preset)
      *@}
      ***
      *  @enum ReverbPreset
