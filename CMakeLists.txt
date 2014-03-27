@@ -89,6 +89,7 @@ if(BUILD_AUDIO)
         src/audio/efx/equalizer.cpp
         src/audio/efx/flanger.cpp
         src/audio/efx/lowpassfilter.cpp
+        src/audio/efx/presets.cpp
         src/audio/efx/reverb.cpp
         src/audio/efx/ringmodulator.cpp)
 
@@ -115,6 +116,7 @@ if(BUILD_AUDIO)
         include/featherkit/audio/efx/equalizer.hpp
         include/featherkit/audio/efx/flanger.hpp
         include/featherkit/audio/efx/lowpassfilter.hpp
+        include/featherkit/audio/efx/presets.hpp
         include/featherkit/audio/efx/reverb.hpp
         include/featherkit/audio/efx/ringmodulator.hpp)
 
