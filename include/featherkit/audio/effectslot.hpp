@@ -70,6 +70,8 @@ namespace fea
      *  @return True if a filter is in use.
      ***
      *  @fn void EffectSlot::clearFilter()
-     *  @brief
+     *  @brief Clear any filter in use.
+     *
+     *  This makes the effect slot not use any filters.
      ***/
 }
