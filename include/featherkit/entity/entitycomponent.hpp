@@ -55,7 +55,7 @@ namespace fea
      *  @fn virtual EntityComponent::~EntityComponent()
      *  @brief Destructor.
      ***
-     *  @var mEntities
+     *  @var EntityComponent::mEntities
      *  @brief Set containing all entities.
      ***/
 }
