@@ -42,14 +42,14 @@ namespace fea
      *  @fn EffectSlot::EffectSlot(EffectSlot&& other)
      *  @brief Move an EffectSlot.
      ***
-     *  @fn EffectSlot::EffectSlot& operator=(const EffectSlot& other) = delete
+     *  @fn EffectSlot& EffectSlot::operator=(const EffectSlot& other) = delete
      *  @brief Deleted assignment operator.
      ***
-     *  @fn EffectSlot::EffectSlot& operator=(EffectSlot&& other)
+     *  @fn EffectSlot& EffectSlot::operator=(EffectSlot&& other)
      *  @brief Move an EffectSlot.
      ***
      *  @fn EffectSlot::~EffectSlot()
-     *  @Destroy an EffectSlot.
+     *  @brief Destroy an EffectSlot.
      ***
      *  @fn ALuint EffectSlot::getSlotId() const
      *  @brief Get the ID.
@@ -59,7 +59,7 @@ namespace fea
      *  @brief Set a filter to use for the slot.
      *  @param filter Filter to use.
      ***
-     *  @fn const EffectSlot::AudioFilter& getFilter() const
+     *  @fn const AudioFilter& EffectSlot::getFilter() const
      *  @brief Get the current filter.
      *
      *  Assert/undefined behavior if no filter is set. Check with hasFilter.
