@@ -101,8 +101,12 @@ namespace fea
     };
     /** @addtogroup Audio
      *@{
+     *  @enum PlayStatus
      *  @class AudioPlayer
      *@}
+     ***
+     *  @enum PlayStatus
+     *  @brief Status of an audio being played.
      ***
      *  @class AudioPlayer
      *  @brief Plays audio sources.
@@ -124,14 +128,14 @@ namespace fea
      *  @fn AudioPlayer::AudioPlayer(AudioPlayer&& other)
      *  @brief Move an AudioPlayer.
      ***
-     *  @fn AudioPlayer::AudioPlayer& operator=(const AudioPlayer& other) = delete
+     *  @fn AudioPlayer& AudioPlayer::operator=(const AudioPlayer& other) = delete
      *  @brief Deleted assignment operator.
      ***
-     *  @fn AudioPlayer::AudioPlayer& operator=(AudioPlayer&& other)
+     *  @fn AudioPlayer& AudioPlayer::operator=(AudioPlayer&& other)
      *  @brief Move an AudioPlayer.
      ***
      *  @fn AudioPlayer::~AudioPlayer()
-     *  @Destroy an AudioPlayer.
+     *  @brief Destroy an AudioPlayer.
      ***
      *  @fn AudioHandle AudioPlayer::play(Audio& audio)
      *  @brief Play a sampled audio.
@@ -180,7 +184,11 @@ namespace fea
      *  @param handle Handle to the audio being played.
      *  @param position A 3D vector.
      ***
-     *  @fn const AudioPlayer::Vec3F& getPosition(AudioHandle handle) const
+     *  @fn PlayStatus AudioPlayer::getStatus(AudioHandle handle) const
+     *  @brief Get the current status of a sound.
+     *  @return Current status.
+     ***
+     *  @fn const Vec3F& AudioPlayer::getPosition(AudioHandle handle) const
      *  @brief Get the 3D position of a sound that is being played.
      *  @param handle Handle to the audio being player.
      *  @return A vector with the position.

@@ -46,7 +46,7 @@ namespace fea
      *  @brief Move an AudioFilter.
      ***
      *  @fn AudioFilter::~AudioFilter()
-     *  @Destroy an AudioFilter.
+     *  @brief Destroy an AudioFilter.
      ***
      *  @fn ALuint AudioFilter::getFilterId() const
      *  @brief Get the internal OpenAL Id.

@@ -51,7 +51,7 @@ namespace fea
      *  @brief Move an AudioFile.
      ***
      *  @fn AudioFile::~AudioFile()
-     *  @Destroy an AudioFile.
+     *  @brief Destroy an AudioFile.
      ***
      *  @fn int32_t AudioFile::getChannelCount() const
      *  @brief Get the amount of audio channels.

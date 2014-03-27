@@ -22,6 +22,6 @@ namespace fea
      ***
      *  @fn AudioFileNotFoundException::AudioFileNotFoundException(const std::string& message)
      *  @brief Construct a AudioFileNotFoundException instance to throw.
-     *  @param msg Message further explaining the error.
+     *  @param message Message further explaining the error.
      **/
 }

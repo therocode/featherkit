@@ -138,7 +138,7 @@ namespace fea
      *  @return The attenuation distance.
      ***
      *  @fn void AudioBase::setLooping(bool loop)
-     *  @Set the audio to loop or not.
+     *  @brief Set the audio to loop or not.
      *  @param loop True if it should loop.
      ***
      *  @fn bool AudioBase::isLooping() const

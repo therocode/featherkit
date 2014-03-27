@@ -52,7 +52,7 @@ namespace fea
      *  @brief Move an AudioEffect.
      ***
      *  @fn AudioEffect::~AudioEffect()
-     *  @Destroy an AudioEffect.
+     *  @brief Destroy an AudioEffect.
      ***
      *  @fn ALuint AudioEffect::getEffectId() const
      *  @brief Get the internal OpenAL Id.

@@ -35,7 +35,7 @@ namespace fea
      *  The sample carries the actual audio data. Beware that the sample must not go out of scope whilst an audio is using it.
      *  @param sample Sample to use.
      ***
-     *  @fn const Audio::AudioSample& getSample() const
+     *  @fn const AudioSample& Audio::getSample() const
      *  @brief Get the current sample in use.
      *
      *  Assert/undefined behavior when no sample is set. Check using hasSample.
