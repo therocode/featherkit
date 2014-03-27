@@ -80,7 +80,7 @@ namespace fea
         }
         else
         {
-            if(mLooping)
+            if(isLooping())
             {
                 mCurrentSample = 0;
 
@@ -117,7 +117,7 @@ namespace fea
         {
             mReadyBuffers = std::queue<size_t>();
             mConsumingBuffers = std::queue<size_t>();
-            mCurrentSample = mSampleRate * mChannelCount * (static_cast<float>(mOffset.count())/ 1000.0f);
+            mCurrentSample = mSampleRate * mChannelCount * (static_cast<float>(getPlayOffset().count())/ 1000.0f);
 
             for(size_t i = 0; i < mBuffers.size(); i++)
             {

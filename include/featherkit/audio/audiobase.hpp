@@ -36,7 +36,7 @@ namespace fea
             const AudioFilter& getFilter() const;
             bool hasFilter() const;
             void clearFilter();
-        protected:
+        private:
             Vec3F mPosition;
             Vec3F mVelocity;
             float mPitch;
