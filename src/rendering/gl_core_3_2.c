@@ -84,6 +84,8 @@ static PROC WinGetProcAddress(const char *name)
 #else
 	#if defined(__APPLE__)
 		#define IntGetProcAddress(name) AppleGLGetProcAddress(name)
+    #elif defined(__EMSCRIPTEN__)
+
 	#else
 		#if defined(__sgi) || defined(__sun)
 			#define IntGetProcAddress(name) SunGetProcAddress(name)
