@@ -6,6 +6,12 @@
 #define SIGTRAP 5
 #endif
 
+#ifndef EMSCRIPTEN
+#define FEA_HALT raise(SIGTRAP)
+#else
+#define FEA_HALT exit(1)
+#endif
+
 #ifndef NDEBUG
 #   define FEA_ASSERT(condition, message) \
     do\
@@ -14,7 +20,7 @@
         { \
             std::cerr << "Assertion `" #condition "` failed in " << __FILE__ \
             << " function " << __func__ << " line " << __LINE__ << ": " << message << std::endl; \
-            raise(SIGTRAP); \
+            FEA_HALT; \
         } \
     } while (false)
 #else
