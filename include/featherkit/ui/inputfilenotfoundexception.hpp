@@ -9,7 +9,7 @@ namespace fea
             InputFileNotFoundException();
             InputFileNotFoundException(const std::string& message);
     };
-    /** @addtogroup Input
+    /** @addtogroup UserInterface
      *@{
      *  @class InputFileNotFoundException
      *@}
