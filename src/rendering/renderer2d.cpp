@@ -14,9 +14,11 @@ namespace fea
     
     void Renderer2D::setup()
     {
+#ifdef EMSCRIPTEN
+#else
         auto glStatus = feaogl_LoadFunctions();
         FEA_ASSERT(glStatus != feaogl_LOAD_FAILED, "Could not initialize the renderer! Make sure there is a valid OpenGL context!");
-
+#endif
         //glEnable(GL_DEPTH_TEST);
         glEnable(GL_BLEND);
         glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

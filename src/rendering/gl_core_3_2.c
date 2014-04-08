@@ -3,10 +3,6 @@
 #include <stddef.h>
 #include <featherkit/rendering/gl_core_3_2.h>
 	
-#if defined(__EMSCRIPTEN__)
-#include <EGL/egl.h>
-#endif
-
 #if defined(__APPLE__)
 #include <mach-o/dyld.h>
 
@@ -88,9 +84,6 @@ static PROC WinGetProcAddress(const char *name)
 #else
 	#if defined(__APPLE__)
 		#define IntGetProcAddress(name) AppleGLGetProcAddress(name)
-    #elif defined(__EMSCRIPTEN__)
-        #define IntGetProcAddress(name) eglGetProcAddress(name)
-	#else
 		#if defined(__sgi) || defined(__sun)
 			#define IntGetProcAddress(name) SunGetProcAddress(name)
 		#else /* GLX */
