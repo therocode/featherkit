@@ -12,9 +12,7 @@ namespace fea
     AudioPlayer::AudioPlayer() : 
         mMaxSoundsPlaying(32), 
         mNumSoundsPlaying(0), 
-        mNextHandle(1), 
-        mRenewSources(true),
-        mRenewer(&AudioPlayer::renewerThread, this)
+        mNextHandle(1)
     {
         mAudioDevice = alcOpenDevice(nullptr);
 
@@ -38,9 +36,6 @@ namespace fea
     
     AudioPlayer::~AudioPlayer()
     {
-        mRenewSources = false;
-        mRenewer.join();
-
         alcMakeContextCurrent(nullptr);
         if(mAudioContext)
             alcDestroyContext(mAudioContext);
@@ -51,6 +46,10 @@ namespace fea
 
     AudioHandle AudioPlayer::play(Audio& audio)
     {
+        renewFinishedSources();
+        if(mNumSoundsPlaying == mMaxSoundsPlaying)
+            return 0;
+
         FEA_ASSERT(audio.hasSample(), "Trying to play an audio with no sample set!");
 
         const AudioBuffer& buffer = audio.getSample().getBuffer();
@@ -103,6 +102,10 @@ namespace fea
 
     AudioHandle AudioPlayer::play(AudioStream& stream)
     {
+        renewFinishedSources();
+        if(mNumSoundsPlaying == mMaxSoundsPlaying)
+             return 0;
+
         std::lock_guard<std::mutex> lock(mSourcesMutex);
 
         size_t handle = mNextHandle;
@@ -440,15 +443,6 @@ namespace fea
             mIdleSources.push(PlaySource());
     }
     
-    void AudioPlayer::renewerThread()
-    {
-        while(mRenewSources)
-        {
-            std::this_thread::sleep_for(std::chrono::milliseconds(250));
-            renewFinishedSources();
-        }
-    }
-
     void AudioPlayer::renewFinishedSources()
     {
         std::lock_guard<std::mutex> lock(mSourcesMutex);

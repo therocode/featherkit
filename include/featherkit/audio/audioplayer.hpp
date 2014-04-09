@@ -62,7 +62,6 @@ namespace fea
             void clearSlotFilter(size_t slot);
         private:
             void setupSources(size_t maxSoundAmount);
-            void renewerThread();
             void renewFinishedSources();
             ALCdevice*  mAudioDevice;
             ALCcontext* mAudioContext;
@@ -76,8 +75,6 @@ namespace fea
             AudioHandle mNextHandle;
             std::unordered_map<AudioHandle, PlaySource> mPlayingSources;
             mutable std::mutex mSourcesMutex;
-            bool mRenewSources;
-            std::thread mRenewer;
 
             //streaming threads
             class Stream
