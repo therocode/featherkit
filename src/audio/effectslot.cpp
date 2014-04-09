@@ -8,7 +8,9 @@ namespace fea
     EffectSlot::EffectSlot() :
         mFilter(nullptr)
     {
+#if !defined(__EMSCRIPTEN__)
         alGenAuxiliaryEffectSlots(1, &mSlotId);
+#endif
     }
     
     EffectSlot::EffectSlot(EffectSlot&& other) :
@@ -26,8 +28,10 @@ namespace fea
 
     EffectSlot::~EffectSlot()
     {
+#if !defined(__EMSCRIPTEN__)
         if(mSlotId != 0)
             alDeleteAuxiliaryEffectSlots(1, &mSlotId);
+#endif
     }
     
     ALuint EffectSlot::getSlotId() const

@@ -85,7 +85,9 @@ namespace fea
         const auto& effectSends = audio.getEffectSends();
         for(auto slotIndex : effectSends)
         {
+#if !defined(__EMSCRIPTEN__)
             alSource3i(sourceId, AL_AUXILIARY_SEND_FILTER, mEffectSlots.at(slotIndex).getSlotId(), slotIndex, mEffectSlots.at(slotIndex).getFilter().getFilterId());
+#endif
         }
 
         if(audio.hasFilter())
@@ -127,8 +129,10 @@ namespace fea
         const auto& effectSends = stream.getEffectSends();
         for(auto slotIndex : effectSends)
         {
+#if !defined(__EMSCRIPTEN__)
             auto& effectSlot = mEffectSlots.at(slotIndex);
             alSource3i(sourceId, AL_AUXILIARY_SEND_FILTER, effectSlot.getSlotId(), slotIndex, effectSlot.hasFilter() ? effectSlot.getFilter().getFilterId() : AL_FILTER_NULL);
+#endif
         }
 
         if(stream.hasFilter())
