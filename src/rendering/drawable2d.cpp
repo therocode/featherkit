@@ -101,7 +101,6 @@ namespace fea
     RenderInfo Drawable2D::getRenderInfo() const
     {
         RenderInfo temp;
-        std::hash<std::string> stringHasher;
 
         glm::vec3 colorInfo = glm::vec3(mColor.r(), mColor.g(), mColor.b());
         float opacity = mColor.a();
@@ -109,19 +108,19 @@ namespace fea
         temp.mDrawMode = mDrawMode;
         temp.mElementAmount = mVertices.size() / 2;
 
-        temp.mVertexAttributes.push_back(VertexAttribute(stringHasher("vertex"), 2, &mVertices[0]));
-        temp.mVertexAttributes.push_back(VertexAttribute(stringHasher("texCoords"), 2, &mTexCoords[0]));
-        temp.mVertexAttributes.push_back(VertexAttribute(stringHasher("colors"), 4, &mVertexColors[0]));
+        temp.mVertexAttributes.push_back(VertexAttribute("vertex", 2, &mVertices[0]));
+        temp.mVertexAttributes.push_back(VertexAttribute("texCoords", 2, &mTexCoords[0]));
+        temp.mVertexAttributes.push_back(VertexAttribute("colors", 4, &mVertexColors[0]));
 
-        temp.mUniforms.push_back(Uniform(stringHasher("position"), VEC2, mPosition));
-        temp.mUniforms.push_back(Uniform(stringHasher("origin"), VEC2, mOrigin));
-        temp.mUniforms.push_back(Uniform(stringHasher("rotation"), FLOAT, mRotation));
-        temp.mUniforms.push_back(Uniform(stringHasher("scaling"), VEC2, mScaling));
-        temp.mUniforms.push_back(Uniform(stringHasher("parallax"), FLOAT, mParallax));
-        //temp.uniforms.push_back(Uniform(stringHasher("texture"), TEXTURE, (GLuint)0)); maybe not needed
-        temp.mUniforms.push_back(Uniform(stringHasher("constraints"), VEC4, glm::vec4(0.0f, 1.0f, 0.0f, 1.0f)));
-        temp.mUniforms.push_back(Uniform(stringHasher("color"), VEC3, colorInfo));
-        temp.mUniforms.push_back(Uniform(stringHasher("opacity"), FLOAT, opacity));
+        temp.mUniforms.push_back(Uniform("position", VEC2, mPosition));
+        temp.mUniforms.push_back(Uniform("origin", VEC2, mOrigin));
+        temp.mUniforms.push_back(Uniform("rotation", FLOAT, mRotation));
+        temp.mUniforms.push_back(Uniform("scaling", VEC2, mScaling));
+        temp.mUniforms.push_back(Uniform("parallax", FLOAT, mParallax));
+        //temp.uniforms.push_back(Uniform("texture", TEXTURE, (GLuint)0)); maybe not needed
+        temp.mUniforms.push_back(Uniform("constraints", VEC4, glm::vec4(0.0f, 1.0f, 0.0f, 1.0f)));
+        temp.mUniforms.push_back(Uniform("color", VEC3, colorInfo));
+        temp.mUniforms.push_back(Uniform("opacity", FLOAT, opacity));
 
         return temp;
     }

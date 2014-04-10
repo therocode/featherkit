@@ -142,11 +142,10 @@ namespace fea
     RenderInfo TileChunk::getRenderInfo() const
     {
         RenderInfo temp = Drawable2D::getRenderInfo();
-        std::hash<std::string> stringHasher;
 
-        temp.mUniforms.push_back(Uniform(stringHasher("texture"), TEXTURE, getTexture().getId()));
+        temp.mUniforms.push_back(Uniform("texture", TEXTURE, getTexture().getId()));
 
-        temp.mVertexAttributes.push_back(VertexAttribute(stringHasher("texCoords"), 2, &mTexCoords[0]));
+        temp.mVertexAttributes.push_back(VertexAttribute("texCoords", 2, &mTexCoords[0]));
 
         return temp;
     }

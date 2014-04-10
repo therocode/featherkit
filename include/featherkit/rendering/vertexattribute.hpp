@@ -1,6 +1,7 @@
 #pragma once
 #include <cstdint>
 #include <cstddef>
+#include <string>
 
 namespace fea
 {
@@ -8,8 +9,8 @@ namespace fea
 
     struct VertexAttribute
     {
-        VertexAttribute(size_t i, const uint32_t floatAmount, const float* data);
-        size_t mIndex;
+        VertexAttribute(const std::string& name, const uint32_t floatAmount, const float* data);
+        std::string mName;
         uint32_t mFloatAmount;
         const float* mData;
     };
@@ -25,14 +26,14 @@ namespace fea
      *  @enum VertexAttributeType
      *  @brief Type of the attribute.
      ***
-     *  @fn VertexAttribute::VertexAttribute(size_t i, const uint32_t floatAmount, const float* data)
+     *  @fn VertexAttribute::VertexAttribute(const std::string& name, const uint32_t floatAmount, const float* data)
      *  @brief Construct a vertex attribute.
-     *  @param i Index.
+     *  @param mName name;
      *  @param floatAmount Amount of floats.
      *  @param data Float array.
      ***
-     *  @var VertexAttribute::mIndex
-     *  @brief Index of the attribute.
+     *  @var VertexAttribute::mName
+     *  @brief Name of the attribute.
      ***
      *  @var VertexAttribute::mFloatAmount
      *  @brief Amount of floats in the data array.

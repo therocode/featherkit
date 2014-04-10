@@ -20,13 +20,13 @@ namespace fea
             void setSource(const std::string& vertexSource, const std::string& fragmentSource);
             void activate() const;
             void deactivate() const;
-            void setUniform(size_t index, UniformType type, const void* value) const;
-            void setVertexAttribute(size_t index, const uint32_t floatAmount, const float* data) const;
+            void setUniform(const std::string& name, UniformType type, const void* value) const;
+            void setVertexAttribute(const std::string& name, const uint32_t floatAmount, const float* data) const;
             void compile();
         private:
             GLuint mProgramId;
-            std::unordered_map<size_t, GLint> mUniformLocations;
-            std::unordered_map<size_t, GLint> mVertexAttributeLocations;
+            std::unordered_map<std::string, GLint> mUniformLocations;
+            std::unordered_map<std::string, GLint> mVertexAttributeLocations;
             std::string mVertexSource;
             std::string mFragmentSource;
             mutable std::vector<GLint> mEnabledVertexAttributes;
@@ -60,15 +60,15 @@ namespace fea
      *
      *  There is no need to call this if the Renderer2D class is used for rendering since it will call it internally.
      ***
-     *  @fn void Shader::setUniform(size_t index, UniformType type, const void* value) const
+     *  @fn void Shader::setUniform(const std::string& name, UniformType type, const void* value) const
      *  @brief Set a uniform variable in the shader.
-     *  @param index Index of the uniform to set.
+     *  @param name Name of the uniform to set.
      *  @param type Type of the uniform.
      *  @param value Void pointer to the data.
      ***
-     *  @fn void Shader::setVertexAttribute(size_t index, const uint32_t floatAmount, const float* data) const
+     *  @fn void Shader::setVertexAttribute(const std::string& name, const uint32_t floatAmount, const float* data) const
      *  @brief Set a vertex attribute in the shader.
-     *  @param index Index of the attribute to set.
+     *  @param name Name of the attribute to set.
      *  @param floatAmount Amount of floats in the attribute.
      *  @param data Data array.
      ***

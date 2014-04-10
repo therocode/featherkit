@@ -112,14 +112,13 @@ namespace fea
     RenderInfo Quad::getRenderInfo() const
     {
         RenderInfo temp = Drawable2D::getRenderInfo();
-        std::hash<std::string> stringHasher;
 
         if(mTexture != nullptr)
         {
-            temp.mUniforms.push_back(Uniform(stringHasher("texture"), TEXTURE, getTexture().getId()));
+            temp.mUniforms.push_back(Uniform("texture", TEXTURE, getTexture().getId()));
         }
 
-        temp.mUniforms.push_back(Uniform(stringHasher("constraints"), VEC4, mConstraints));
+        temp.mUniforms.push_back(Uniform("constraints", VEC4, mConstraints));
         
         return temp;
     }
