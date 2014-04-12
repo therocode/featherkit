@@ -1,0 +1,17 @@
+1.0.0rc1 - Changes from v0.5 below
+-Added audio module
+-SFML/SDL/SDL2 backends are now built as separate lib files
+-The prefix "-d" is now added for debug builds
+-The FindFeatherKit.cmake module now finds debug/release equivalent based on build type
+-GLEW dependency dropped
+-Files renamed from h to hpp
+-Added FEA_ASSERT for assert with messages
+-Templated headers now use .inl files
+-Entity component foundation added
+-Reworked entity system to be safe and easier to use
+-Added entity factory
+-Added message declaration macro
+-Parameters now uses vector form where possible
+-Switched to US spelling
+-Bug fixes
+-More...

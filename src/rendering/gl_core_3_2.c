@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stddef.h>
 #include <featherkit/rendering/gl_core_3_2.h>
-
+	
 #if defined(__APPLE__)
 #include <mach-o/dyld.h>
 
@@ -79,14 +79,12 @@ static PROC WinGetProcAddress(const char *name)
 	glMod = GetModuleHandleA("OpenGL32.dll");
 	return (PROC)GetProcAddress(glMod, (LPCSTR)name);
 }
-	
+
 #define IntGetProcAddress(name) WinGetProcAddress(name)
 #else
 	#if defined(__APPLE__)
 		#define IntGetProcAddress(name) AppleGLGetProcAddress(name)
-    #elif defined(__EMSCRIPTEN__)
-
-	#else
+    #else
 		#if defined(__sgi) || defined(__sun)
 			#define IntGetProcAddress(name) SunGetProcAddress(name)
 		#else /* GLX */

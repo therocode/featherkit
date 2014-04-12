@@ -6,13 +6,11 @@
 
 namespace fea
 {
-    using TileId = size_t;
     struct TileDefinition
     {
-        TileDefinition(glm::uvec2 texPos, TileId nextId = 0, uint32_t ticks = 0);
-        TileDefinition(uint32_t texX, uint32_t texY, TileId nextId = 0, uint32_t ticks = 0);
+        TileDefinition(const glm::uvec2& texPos, const std::string& next = "", uint32_t ticks = 0);
         glm::uvec2 mTileTexPosition;
-        TileId mNextTileId;
+        const std::string mNextTile;
         uint32_t mTicksUntilChange;
     };
 
@@ -20,7 +18,8 @@ namespace fea
     {
         struct AnimatedTile
         {
-            TileId mNext;
+            AnimatedTile(const std::string& next, uint32_t timeLeft);
+            const std::string& mNext;
             uint32_t mTimeLeft;
         };
         public:
@@ -32,12 +31,9 @@ namespace fea
             const Texture& getTexture() const;
             void addTileDefinition(const std::string& name, const TileDefinition& tileDef);
             void setTile(const glm::uvec2& pos, const std::string& name);
-            void setTile(const glm::uvec2& pos, TileId id);
             void unsetTile(const glm::uvec2& pos);
             void fill(const std::string& name);
-            void fill(TileId id);
             void clear();
-            TileId getTileId(const std::string& name) const;
             glm::uvec2 getTileByCoordinates(const glm::vec2& coordinates) const;
             bool isOutOfBounds(const glm::uvec2& pos) const;
             glm::uvec2 getTileSize() const;
@@ -53,8 +49,7 @@ namespace fea
             glm::vec2 mTextureTileSize;
             std::vector<TileChunk> mChunks;
             const Texture* mTexture;
-            std::unordered_map<TileId, TileDefinition> mTileDefs;
-            std::hash<std::string> mHasher;
+            std::unordered_map<std::string, TileDefinition> mTileDefs;
             std::map<glm::uvec2, AnimatedTile, std::function<bool(const glm::uvec2&, const glm::uvec2&)>> mAnimatedTiles;
     };
     /** @addtogroup Render2D
@@ -70,29 +65,22 @@ namespace fea
      *
      *  Animation works by simply switching to a different tile definition after a set amount of ticks. For instance, if a water animation involving two different tile images of water is needed, two tile definitions, one for each desired texture must be created. They are then setup so that the first tile switches to the other after a desired amount of ticks, and the second tile switches to the first. This will naturally create a cyclic animation.
      *
-     *  The animation data consists of the ID of the next tile definition to switch to, and the amount of ticks it will take until the change is performed.
+     *  The animation data consists of the name of the next tile definition to switch to, and the amount of ticks it will take until the change is performed.
      ***
-     *  @fn TileDefinition::TileDefinition(glm::uvec2 texPos, TileId nextId = 0, uint32_t ticks = 0)
+     *  @fn TileDefinition::TileDefinition(const glm::uvec2& texPos, const std::string& next = "", uint32_t ticks = 0)
      *  @brief Construct a TileDefinition.
      *  @param texPos Coordinates of the subrectangle to use as texture.
-     *  @param nextId TileDefinition to change to. Only needed if the tile is animated.
-     *  @param ticks Amount of ticks until the tile is changed. Only needed if the tile is animated.
-     ***
-     *  @fn TileDefinition::TileDefinition(uint32_t texX, uint32_t texY, TileId nextId = 0, uint32_t ticks = 0)
-     *  @brief Construct a TileDefinition.
-     *  @param texX X Coordinates of the subrectangle to use as texture.
-     *  @param texY Y Coordinates of the subrectangle to use as texture.
-     *  @param nextId TileDefinition to change to. Only needed if the tile is animated.
+     *  @param next TileDefinition to change to. Only needed if the tile is animated.
      *  @param ticks Amount of ticks until the tile is changed. Only needed if the tile is animated.
      ***
      *  @var TileDefinition::mTileTexPosition
      *  @brief Coordinates describing the position of the subrect of the texture to use for this tile. For example if the map tile in the upper left corner is to be used, this variable should be (0,0). If the tile next to it is to be used, it should be (1,0).
      ***
-     *  @var TileDefinition::mNextTileId
-     *  @brief If the tile is meant to be animated, this should be set to the ID of the tile to switch to.
+     *  @var TileDefinition::mNextTile
+     *  @brief If the tile is meant to be animated, this should be set to the name of the tile to switch to.
      ***
      *  @var TileDefinition::mTicksUntilChange
-     *  @brief The amount of ticks to display this tile before it is changed to the one defined using TileDefinition::mNextTileId.
+     *  @brief The amount of ticks to display this tile before it is changed to the one defined using TileDefinition::mNextTile.
      ***
      *  @class TileMap
      *  @brief Represents a graphical tile map with tiles that can be set freely and animated.
@@ -150,13 +138,6 @@ namespace fea
      *  @param position Coordinate of the tile to set,
      *  @param name Name of the tile definition to change it to.
      ***
-     *  @fn void TileMap::setTile(const glm::uvec2& position, TileId id)
-     *  @brief Set a tile at the given coordinate.
-     *
-     *  Assert/undefined behavior when coordinates are outside the range of the tilemap or if tile type doesn't exist.
-     *  @param position Coordinate of the tile to set.
-     *  @param id ID of the tile definition to change to.
-     ***
      *  @fn void TileMap::unsetTile(const glm::uvec2& pos)
      *  @brief Set a tile to be transparent.
      *  
@@ -170,19 +151,8 @@ namespace fea
      *  Assert/undefined behavior when tile type doesn't exist.
      *  @param name Name of the tile to fill with.
      ***
-     *  @fn void TileMap::fill(TileId id)
-     *  @brief Fill the whole tile map with a single tile type.
-     *
-     *  Assert/undefined behavior when tile type doesn't exist.
-     *  @param id Id of the tile to fill with.
-     ***
      *  @fn void TileMap::clear();
      *  @brief Clear the tile map of all tiles.
-     ***
-     *  @fn TileId TileMap::getTileId(const std::string& name) const
-     *  @brief Get the registered tile definition ID for the given name.
-     *  @param name Name to check the ID for.
-     *  @return The tile definition ID.
      ***
      *  @fn glm::uvec2 TileMap::getTileByCoordinates(const glm::vec2& coordinates) const
      *  @brief Get the tile coordinates for the given pixel coordinate on the TileMap.

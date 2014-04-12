@@ -2,58 +2,58 @@
 
 namespace fea
 {
-    Uniform::Uniform(size_t i, UniformType t, float val)
+    Uniform::Uniform(const std::string& name, UniformType t, float val)
     {
-        mIndex = i;
+        mName = name;
         mType = t;
         mFloatVal = val;
     }
 
-    Uniform::Uniform(size_t i, UniformType t, glm::vec2 val)
+    Uniform::Uniform(const std::string& name, UniformType t, glm::vec2 val)
     {
-        mIndex = i;
+        mName = name;
         mType = t;
         mVec2Val = val;
     }
 
-    Uniform::Uniform(size_t i, UniformType t, glm::vec3 val)
+    Uniform::Uniform(const std::string& name, UniformType t, glm::vec3 val)
     {
-        mIndex = i;
+        mName = name;
         mType = t;
         mVec3Val = val;
     }
 
-    Uniform::Uniform(size_t i, UniformType t, glm::vec4 val)
+    Uniform::Uniform(const std::string& name, UniformType t, glm::vec4 val)
     {
-        mIndex = i;
+        mName = name;
         mType = t;
         mVec4Val = val;
     }
 
-    Uniform::Uniform(size_t i, UniformType t, glm::mat2x2 val)
+    Uniform::Uniform(const std::string& name, UniformType t, glm::mat2x2 val)
     {
-        mIndex = i;
+        mName = name;
         mType = t;
         mMat2x2Val = val;
     }
 
-    Uniform::Uniform(size_t i, UniformType t, glm::mat4x4 val)
+    Uniform::Uniform(const std::string& name, UniformType t, glm::mat4x4 val)
     {
-        mIndex = i;
+        mName = name;
         mType = t;
         mMat4x4Val = val;
     }
 
-    Uniform::Uniform(size_t i, UniformType t, GLuint val)
+    Uniform::Uniform(const std::string& name, UniformType t, GLuint val)
     {
-        mIndex = i;
+        mName = name;
         mType = t;
         mTextureVal = val;
     }
     
     Uniform::Uniform(const Uniform& other)
     {
-        mIndex = other.mIndex;
+        mName = other.mName;
         mType = other.mType;
         
         switch(mType)

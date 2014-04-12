@@ -29,9 +29,8 @@ namespace fea
     RenderInfo SubrectQuad::getRenderInfo() const
     {
         RenderInfo temp = Quad::getRenderInfo();
-        std::hash<std::string> stringHasher;
 
-        temp.mVertexAttributes.push_back(VertexAttribute(stringHasher("texCoords"), 2, &mTexCoords[0]));
+        temp.mVertexAttributes.push_back(VertexAttribute("texCoords", 2, &mTexCoords[0]));
 
         return temp;
     }

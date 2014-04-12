@@ -30,60 +30,60 @@ namespace fea
         glUseProgram(0);
     }
 
-    void Shader::setUniform(size_t index, UniformType type, const void* value) const
+    void Shader::setUniform(const std::string& name, UniformType type, const void* value) const
     {
         switch(type)
         {
             case FLOAT:
             {
-                glUniform1f(mUniformLocations.at(index), *((float*)value));
+                glUniform1f(mUniformLocations.at(name), *((float*)value));
                 break;
             }
             case VEC2:
             {
                 const glm::vec2& val2 = *((glm::vec2*)value);
-                glUniform2f(mUniformLocations.at(index), val2.x, val2.y);
+                glUniform2f(mUniformLocations.at(name), val2.x, val2.y);
                 break;
             }
             case VEC3:
             {
                 const glm::vec3& val3 = *((glm::vec3*)value);
-                glUniform3f(mUniformLocations.at(index), val3.x, val3.y, val3.z);
+                glUniform3f(mUniformLocations.at(name), val3.x, val3.y, val3.z);
                 break;
             }
             case VEC4:
             {
                 const glm::vec4& val4 = *((glm::vec4*)value);
-                glUniform4f(mUniformLocations.at(index), val4[0], val4[1], val4[2], val4[3]);
+                glUniform4f(mUniformLocations.at(name), val4[0], val4[1], val4[2], val4[3]);
                 break;
             }
             case MAT2X2:
             {
                 const glm::mat2x2 mat = *((glm::mat2x2*)value);
-                glUniformMatrix2fv(mUniformLocations.at(index), 1, GL_FALSE, glm::value_ptr(mat));
+                glUniformMatrix2fv(mUniformLocations.at(name), 1, GL_FALSE, glm::value_ptr(mat));
                 break;
             }
             case MAT4X4:
             {
                 const glm::mat4x4 mat = *((glm::mat4x4*)value);
-                glUniformMatrix4fv(mUniformLocations.at(index), 1, GL_FALSE, glm::value_ptr(mat));
+                glUniformMatrix4fv(mUniformLocations.at(name), 1, GL_FALSE, glm::value_ptr(mat));
                 break;
             }
             case TEXTURE:
             {
                 glActiveTexture(GL_TEXTURE0);
-                glUniform1i(mUniformLocations.at(index), 0);
+                glUniform1i(mUniformLocations.at(name), 0);
                 glBindTexture(GL_TEXTURE_2D, *((GLuint*)value));
                 break;
             }
         }
     }
     
-    void Shader::setVertexAttribute(size_t index, const uint32_t floatAmount, const float* data) const
+    void Shader::setVertexAttribute(const std::string& name, const uint32_t floatAmount, const float* data) const
     {
-        glEnableVertexAttribArray(mVertexAttributeLocations.at(index));
-        mEnabledVertexAttributes.push_back(mVertexAttributeLocations.at(index));
-        glVertexAttribPointer(mVertexAttributeLocations.at(index), floatAmount, GL_FLOAT, false, 0, data);
+        glEnableVertexAttribArray(mVertexAttributeLocations.at(name));
+        mEnabledVertexAttributes.push_back(mVertexAttributeLocations.at(name));
+        glVertexAttribPointer(mVertexAttributeLocations.at(name), floatAmount, GL_FLOAT, false, 0, data);
     }
 
     void Shader::compile()
@@ -131,8 +131,6 @@ namespace fea
             throw(GLSLException(ss.str()));
         }
 
-        std::hash<std::string> stringHasher;
-
         std::stringstream vertStream(mVertexSource);
 
         for(std::string line; std::getline(vertStream, line);)
@@ -141,13 +139,13 @@ namespace fea
             {
                 std::string name = line.substr( line.find_first_of(" ", line.find_first_of(" ") + 1) + 1, line.find_first_of(";") - line.find_first_of(" ", line.find_first_of(" ") + 1));
                 name.resize(name.size() - 1);
-                mVertexAttributeLocations.emplace(stringHasher(name), glGetAttribLocation(mProgramId , name.c_str()));
+                mVertexAttributeLocations.emplace(name, glGetAttribLocation(mProgramId , name.c_str()));
             }
             else if(line.find("uniform") != std::string::npos)
             {
                 std::string name = line.substr( line.find_first_of(" ", line.find_first_of(" ") + 1) + 1, line.find_first_of(";") - line.find_first_of(" ", line.find_first_of(" ") + 1));
                 name.resize(name.size() - 1);
-                mUniformLocations.emplace(stringHasher(name), glGetUniformLocation(mProgramId , name.c_str()));
+                mUniformLocations.emplace(name, glGetUniformLocation(mProgramId , name.c_str()));
             }
         }
         
@@ -159,13 +157,13 @@ namespace fea
             {
                 std::string name = line.substr( line.find_first_of(" ", line.find_first_of(" ") + 1) + 1, line.find_first_of(";") - line.find_first_of(" ", line.find_first_of(" ") + 1));
                 name.resize(name.size() - 1);
-                mVertexAttributeLocations.emplace(stringHasher(name), glGetAttribLocation(mProgramId , name.c_str()));
+                mVertexAttributeLocations.emplace(name, glGetAttribLocation(mProgramId , name.c_str()));
             }
             else if(line.find("uniform") != std::string::npos)
             {
                 std::string name = line.substr( line.find_first_of(" ", line.find_first_of(" ") + 1) + 1, line.find_first_of(";") - line.find_first_of(" ", line.find_first_of(" ") + 1));
                 name.resize(name.size() - 1);
-                mUniformLocations.emplace(stringHasher(name), glGetUniformLocation(mProgramId , name.c_str()));
+                mUniformLocations.emplace(name, glGetUniformLocation(mProgramId , name.c_str()));
             }
         }
     }

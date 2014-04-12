@@ -14,9 +14,11 @@ namespace fea
     
     void Renderer2D::setup()
     {
+#ifdef EMSCRIPTEN
+#else
         auto glStatus = feaogl_LoadFunctions();
         FEA_ASSERT(glStatus != feaogl_LOAD_FAILED, "Could not initialize the renderer! Make sure there is a valid OpenGL context!");
-
+#endif
         //glEnable(GL_DEPTH_TEST);
         glEnable(GL_BLEND);
         glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -72,32 +74,31 @@ namespace fea
 
     void Renderer2D::render(const Shader& shader)
     {
-        std::hash<std::string> stringHasher;
         shader.activate();
 
-        shader.setUniform(stringHasher("camPosition"), VEC2, &mCurrentViewport.getCamera().getPosition());
-        shader.setUniform(stringHasher("camZoom"), VEC2, &mCurrentViewport.getCamera().getZoom());
+        shader.setUniform("camPosition", VEC2, &mCurrentViewport.getCamera().getPosition());
+        shader.setUniform("camZoom", VEC2, &mCurrentViewport.getCamera().getZoom());
         glm::mat2x2 camRot = mCurrentViewport.getCamera().getRotationMatrix();
-        shader.setUniform(stringHasher("camRotation"), MAT2X2, &camRot);
+        shader.setUniform("camRotation", MAT2X2, &camRot);
         glm::vec2 halfViewSize = glm::vec2((float)mCurrentViewport.getSize().x / 2.0f, (float)mCurrentViewport.getSize().y / 2.0f);
-        shader.setUniform(stringHasher("halfViewSize"), VEC2, &halfViewSize);
-        shader.setUniform(stringHasher("projection"), MAT4X4, &mProjection);
+        shader.setUniform("halfViewSize", VEC2, &halfViewSize);
+        shader.setUniform("projection", MAT4X4, &mProjection);
 
         GLuint defaultTextureId = mDefaultTexture.getId();
 
         for(auto& renderOperation : mRenderQueue)
         {
-            shader.setUniform(stringHasher("texture"), TEXTURE, &defaultTextureId); //may be overriden
+            shader.setUniform("texture", TEXTURE, &defaultTextureId); //may be overriden
             setBlendModeGl(renderOperation.mBlendMode);
 
             for(auto& uniform : renderOperation.mUniforms)
             {
-                shader.setUniform(uniform.mIndex, uniform.mType, &uniform.mFloatVal);
+                shader.setUniform(uniform.mName, uniform.mType, &uniform.mFloatVal);
             }
             
             for(auto& vertexAttribute : renderOperation.mVertexAttributes)
             {
-                shader.setVertexAttribute(vertexAttribute.mIndex, vertexAttribute.mFloatAmount, vertexAttribute.mData);
+                shader.setVertexAttribute(vertexAttribute.mName, vertexAttribute.mFloatAmount, vertexAttribute.mData);
             }
 
             glDrawArrays(renderOperation.mDrawMode, 0, renderOperation.mElementAmount);

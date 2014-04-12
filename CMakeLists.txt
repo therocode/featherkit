@@ -203,6 +203,11 @@ if(BUILD_RENDERING)
 
     set(BUILT_TARGETS ${BUILT_TARGETS} ${project_name}-rendering)
 
+    if(CMAKE_CXX_COMPILER MATCHES ".*(emcc).*")
+    else()
+        set(FEA_GL_SOURCE src/rendering/gl_core_3_2.c)
+    endif()
+
     set(rendering_source_files 
         src/rendering/animatedquad.cpp
         src/rendering/animation.cpp
@@ -210,7 +215,7 @@ if(BUILD_RENDERING)
         src/rendering/color.cpp
         src/rendering/defaultshader.cpp
         src/rendering/drawable2d.cpp
-        src/rendering/gl_core_3_2.c
+        ${FEA_GL_SOURCE}
         src/rendering/projection.cpp
         src/rendering/quad.cpp
         src/rendering/renderer2d.cpp
