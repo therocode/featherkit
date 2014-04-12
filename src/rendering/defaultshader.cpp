@@ -16,7 +16,7 @@ uniform vec2 position;
 uniform vec2 origin;
 uniform float rotation;
 uniform vec2 scaling;
-uniform float parallax;
+uniform vec2 parallax;
 
 varying vec2 vTex;
 varying vec4 vColor;

@@ -3,7 +3,7 @@
 
 namespace fea
 {
-    Drawable2D::Drawable2D() : mDrawMode(0), mRotation(0.0f), mScaling(glm::vec2(1.0f, 1.0f)), mParallax(1.0f), mColor(1.0f, 1.0f, 1.0f, 1.0f)
+    Drawable2D::Drawable2D() : mDrawMode(0), mRotation(0.0f), mScaling(glm::vec2(1.0f, 1.0f)), mParallax(glm::vec2(1.0f, 1.0f)), mColor(1.0f, 1.0f, 1.0f, 1.0f)
     {
     }
 
@@ -12,9 +12,9 @@ namespace fea
         return mVertices;
     }
     
-    void Drawable2D::setPosition(const glm::vec2& p)
+    void Drawable2D::setPosition(const glm::vec2& position)
     {
-        mPosition = p;
+        mPosition = position;
     }
     
     const glm::vec2& Drawable2D::getPosition() const
@@ -22,14 +22,14 @@ namespace fea
         return mPosition;
     }
     
-    void Drawable2D::translate(const glm::vec2& p)
+    void Drawable2D::translate(const glm::vec2& position)
     {
-        mPosition += p;
+        mPosition += position;
     }
     
-    void Drawable2D::setOrigin(const glm::vec2& p)
+    void Drawable2D::setOrigin(const glm::vec2& origin)
     {
-        mOrigin = p;
+        mOrigin = origin;
     }
 
     const glm::vec2& Drawable2D::getOrigin() const
@@ -52,9 +52,9 @@ namespace fea
         mRotation += radians;
     }
 
-    void Drawable2D::setScale(const glm::vec2& s)
+    void Drawable2D::setScale(const glm::vec2& scaling)
     {
-        mScaling = s;
+        mScaling = scaling;
     }
 
     const glm::vec2& Drawable2D::getScale() const
@@ -62,24 +62,34 @@ namespace fea
         return mScaling;
     }
 
-    void Drawable2D::scale(const glm::vec2& s)
+    void Drawable2D::scale(const glm::vec2& scaling)
     {
-        mScaling *= s;
+        mScaling *= scaling;
     }
     
-    void Drawable2D::setParallax(float p)
+    void Drawable2D::setParallax(float parallax)
     {
-        mParallax = p;
+        mParallax = glm::vec2(parallax, parallax);
+    }
+
+    void Drawable2D::setParallax(const glm::vec2& parallax)
+    {
+        mParallax = parallax;
     }
     
     float Drawable2D::getParallax() const
     {
+        return mParallax.x;
+    }
+    
+    const glm::vec2& Drawable2D::getParallaxVector() const
+    {
         return mParallax;
     }
         
-    void Drawable2D::setColor(const Color& c)
+    void Drawable2D::setColor(const Color& color)
     {
-        mColor = c;
+        mColor = color;
     }
     
     Color Drawable2D::getColor() const
@@ -87,10 +97,10 @@ namespace fea
         return mColor;
     }
     
-    void Drawable2D::setOpacity(float o)
+    void Drawable2D::setOpacity(float opacity)
     {
-        FEA_ASSERT(o >= 0.0f && o <= 1.0f, "Opacity must be within the range of [0.0f, 1.0f]! " + std::to_string(o) + " provided.");
-        mColor.setA(o);
+        FEA_ASSERT(opacity >= 0.0f && opacity <= 1.0f, "Opacity must be within the range of [0.0f, 1.0f]! " + std::to_string(opacity) + " provided.");
+        mColor.setA(opacity);
     }
 
     float Drawable2D::getOpacity() const
@@ -117,7 +127,7 @@ namespace fea
         temp.mUniforms.push_back(Uniform(stringHasher("origin"), VEC2, mOrigin));
         temp.mUniforms.push_back(Uniform(stringHasher("rotation"), FLOAT, mRotation));
         temp.mUniforms.push_back(Uniform(stringHasher("scaling"), VEC2, mScaling));
-        temp.mUniforms.push_back(Uniform(stringHasher("parallax"), FLOAT, mParallax));
+        temp.mUniforms.push_back(Uniform(stringHasher("parallax"), VEC2, mParallax));
         //temp.uniforms.push_back(Uniform(stringHasher("texture"), TEXTURE, (GLuint)0)); maybe not needed
         temp.mUniforms.push_back(Uniform(stringHasher("constraints"), VEC4, glm::vec4(0.0f, 1.0f, 0.0f, 1.0f)));
         temp.mUniforms.push_back(Uniform(stringHasher("color"), VEC3, colorInfo));
