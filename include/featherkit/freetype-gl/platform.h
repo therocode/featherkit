@@ -57,8 +57,8 @@ extern "C" {
     char * strndup( const char *s1, size_t n);
 #elif defined(_WIN32) || defined(_WIN64) 
     /* does not exist on windows */
-    char * strndup( const char *s1, size_t n);
-    double round (float v);
+    //char * strndup( const char *s1, size_t n);
+    //double round (float v);
 #    pragma warning (disable: 4244) // suspend warnings
 #endif // _WIN32 || _WIN64
 

@@ -1,7 +1,5 @@
 #include <featherkit/audio/audioeffect.hpp>
 #include <featherkit/assert.hpp>
-#define AL_ALEXT_PROTOTYPES
-#include <efx.h>
 #include <utility>
 
 namespace fea

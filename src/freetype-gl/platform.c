@@ -36,21 +36,21 @@
 
 #if defined(_WIN32) || defined(_WIN64)
 
-#include <math.h>
+//#include <math.h>
 
-double round (float v)
-{
-	return floor(v+0.5f);
-}
+//double round (float v)
+//{
+//	return floor(v+0.5f);
+//}
 
 // strndup() is not available on Windows
-char *strndup( const char *s1, size_t n)
-{
-	char *copy= (char*)malloc( n+1 );
-	memcpy( copy, s1, n );
-	copy[n] = 0;
-	return copy;
-};
+//char *strndup( const char *s1, size_t n)
+//{
+//	char *copy= (char*)malloc( n+1 );
+//	memcpy( copy, s1, n );
+//	copy[n] = 0;
+//	return copy;
+//};
 #endif 
 
 

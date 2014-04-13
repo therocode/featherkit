@@ -345,6 +345,7 @@ if(BUILD_UI)
         endif(SFML_FOUND)
         set(ui_sfml_backend_source_files 
             src/ui/sfmlwindowbackend.cpp
+	    src/ui/contextsettings.cpp
             src/ui/sfmlinputbackend.cpp)
 
         set(ui_sfml_backend_header_files
@@ -364,6 +365,7 @@ if(BUILD_UI)
         endif(SDL_FOUND)
         set(ui_sdl_backend_source_files 
             src/ui/sdlwindowbackend.cpp
+	    src/ui/contextsettings.cpp
             src/ui/sdlinputbackend.cpp)
 
         set(ui_sdl_backend_header_files
@@ -386,6 +388,7 @@ if(BUILD_UI)
 		endif(SDL2_FOUND)
         set(ui_sdl2_backend_source_files
             src/ui/sdl2windowbackend.cpp
+	    src/ui/contextsettings.cpp
             src/ui/sdl2inputbackend.cpp)
 
         set(ui_sdl2_backend_header_files

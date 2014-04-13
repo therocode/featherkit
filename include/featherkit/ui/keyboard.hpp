@@ -1,4 +1,7 @@
 #pragma once
+#undef DELETE
+#undef XBUTTON1
+#undef XBUTTON2
 
 namespace fea
 {

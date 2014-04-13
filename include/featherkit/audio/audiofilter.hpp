@@ -1,7 +1,7 @@
 #pragma once
-#include <al.h>
+#include <AL/al.h>
 #define AL_ALEXT_PROTOTYPES
-#include <efx.h>
+#include <AL/efx.h>
 
 namespace fea
 {

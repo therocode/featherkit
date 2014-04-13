@@ -1,6 +1,6 @@
 #include <featherkit/audio/effectslot.hpp>
 #define AL_ALEXT_PROTOTYPES
-#include <efx.h>
+#include <AL/efx.h>
 #include <utility>
 
 namespace fea
