@@ -2,7 +2,7 @@ set( FEATHERKIT_FOUND false)
 
 find_path(
     FEATHERKIT_INCLUDE_DIR
-    featherkit/structure.h
+    featherkit/structure.hpp
     PATH_SUFFIXES
     include
     PATHS
@@ -102,6 +102,7 @@ endforeach()
 
 find_library(
     FEATHERKIT_LIBRARY
+    featherkit-ui
     PATH_SUFFIXES
     lib
     lib64
