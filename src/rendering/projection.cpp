@@ -5,7 +5,6 @@ namespace fea
 {
     glm::mat4x4 Projection::createOrthoProjection(GLfloat left, GLfloat right, GLfloat top, GLfloat bottom, GLfloat nearr, GLfloat farr) const
     {
-	left+ top;
         GLfloat r_l = right - left;
         GLfloat t_b = top - bottom;
         GLfloat f_n = farr - nearr;
