@@ -1,6 +1,7 @@
 #include <featherkit/rendering/shader.hpp>
 #include <vector>
 #include <sstream>
+#define GLM_FORCE_RADIANS
 #include <glm/gtc/type_ptr.hpp>
 
 namespace fea

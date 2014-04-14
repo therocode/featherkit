@@ -1,4 +1,5 @@
 #include <featherkit/rendering/projection.hpp>
+#define GLM_FORCE_RADIANS
 #include <glm/gtc/type_ptr.hpp>
 
 namespace fea
