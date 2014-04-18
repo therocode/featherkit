@@ -40,7 +40,7 @@ namespace fea
         setup(args);
 #ifdef EMSCRIPTEN
         instance = this;
-        emscripten_set_main_loop(trampoline, 60, true);
+        emscripten_set_main_loop(trampoline, 0, true);
 #else
         while(!mShutDown)
             loop();

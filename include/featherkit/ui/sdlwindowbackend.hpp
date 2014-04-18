@@ -3,7 +3,7 @@
 #include <featherkit/ui/windowbackend.hpp>
 #include <glm/glm.hpp>
 #include <SDL.h>
-#include <SDL/SDL_opengl.h>
+//#include <SDL/SDL_opengl.h>
 #include <memory>
 
 namespace fea

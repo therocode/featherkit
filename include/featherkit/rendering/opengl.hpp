@@ -1,3 +1,4 @@
+#pragma once
 #if defined(__EMSCRIPTEN__)
 #define GL_GLEXT_PROTOTYPES
 #include <GL/gl.h>
