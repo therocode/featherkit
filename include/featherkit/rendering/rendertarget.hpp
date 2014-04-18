@@ -35,7 +35,7 @@ namespace fea
      *
      *  Because RenderTargets represents internal buffers of the rendering system, they cannot be copied.
      *
-     *  A RenderTarget instance has to be kept alive as long as they are in use.
+     *  A RenderTarget instance has to be kept alive for as long as it is in use.
      ***
      *  @fn RenderTarget::RenderTarget()
      *  @brief Construct an uninitialised RenderTarget.
