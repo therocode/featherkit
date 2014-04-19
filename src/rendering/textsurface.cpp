@@ -128,9 +128,6 @@ namespace fea
 
         for(i = 0; i < text.size(); ++i )
         {
-
-            std::cout << "good night7!\n";
-            exit(3);
             texture_glyph_t* glyph = texture_font_get_glyph( mFontCache.at(*mCurrentFont), text[i] );
 
             std::cout << "good night4!\n";
