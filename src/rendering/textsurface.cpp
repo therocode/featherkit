@@ -125,8 +125,6 @@ namespace fea
         glm::vec2 penTempPosition = mPenPosition;
 
 
-            std::cout << "good night2!\n";
-            exit(3);
         for(i = 0; i < text.size(); ++i )
         {
             texture_glyph_t* glyph = texture_font_get_glyph( mFontCache.at(*mCurrentFont), text[i] );
@@ -143,10 +141,14 @@ namespace fea
                 }
                 mFontCache.clear();
 
+            std::cout << "good night2!\n";
+            exit(3);
                 rewrite();
                 //addText(text); //don't think this is needed :D
                 return;
             }
+            std::cout << "good night3!\n";
+            exit(3);
 
             float kerning = 0.0f;
             if( i > 0)
