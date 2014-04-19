@@ -369,8 +369,6 @@ texture_font_load_glyphs( texture_font_t * self,
     /* Load each glyph */
     for( i=0; i<wcslen(charcodes); ++i )
     {
-    printf("gronit!\n");
-    exit(3);
         FT_Int32 flags = 0;
         int ft_bitmap_width = 0;
         int ft_bitmap_rows = 0;
@@ -399,6 +397,8 @@ texture_font_load_glyphs( texture_font_t * self,
             flags |= FT_LOAD_FORCE_AUTOHINT;
         }
 
+    printf("gronit!\n");
+    exit(3);
 
         if( depth == 3 )
         {
