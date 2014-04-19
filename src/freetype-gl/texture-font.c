@@ -418,10 +418,6 @@ texture_font_load_glyphs( texture_font_t * self,
             return wcslen(charcodes)-i;
         }
 
-    printf("gronit!\n");
-    exit(3);
-
-
         if( self->outline_type == 0 )
         {
             slot            = face->glyph;
@@ -529,6 +525,10 @@ texture_font_load_glyphs( texture_font_t * self,
             ft_glyph_left   = ft_bitmap_glyph->left;
             FT_Stroker_Done(stroker);
         }
+
+    printf("gronit!\n");
+    exit(3);
+
 
 
         // We want each glyph to be separated by at least one black pixel
