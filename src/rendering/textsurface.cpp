@@ -85,6 +85,8 @@ namespace fea
         const Color originalColor = mColor;
 
         size_t i = 0;
+            std::cout << "good night2!\n";
+            exit(3);
         for(auto& writing : mWritings)
         {
             mPenPosition = writing.mPenPosition;
@@ -142,8 +144,6 @@ namespace fea
                 mFontCache.clear();
 
                 rewrite();
-            std::cout << "good night2!\n";
-            exit(3);
                 //addText(text); //don't think this is needed :D
                 return;
             }
