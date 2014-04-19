@@ -18,8 +18,12 @@ namespace fea
     };
     /** @addtogroup Render2D
      *@{
+     *  @enum BlendMode
      *  @class RenderInfo
      *@}
+     ***
+     *  @enum BlendMode
+     *  @brief Mode the renderer uses for blending colors.
      ***
      *  @class RenderInfo
      *  @brief Contains the data needed for rendering a drawable.
