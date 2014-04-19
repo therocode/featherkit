@@ -29,8 +29,6 @@ namespace fea
 
     void TextSurface::write(const std::u32string& text)
     {
-            std::cout << "good night10!\n";
-            exit(3);
         mWritings.push_back(Writing(text, mCurrentFont, mPenPosition, mScale, mColor));
         addText(text);
     }
