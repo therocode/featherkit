@@ -117,8 +117,6 @@ namespace fea
             
     void TextSurface::addText(const std::u32string& text)
     {
-            std::cout << "good night9!\n";
-            exit(3);
         //void add_text( vertex_buffer_t * buffer, texture_font_t * font, wchar_t * text, vec4 * color, vec2 * pen )
         size_t i;
         //float r = color->red, g = color->green, b = color->blue, a = color->alpha;
