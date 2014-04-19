@@ -340,6 +340,8 @@ size_t
 texture_font_load_glyphs( texture_font_t * self,
                           const wchar_t * charcodes )
 {
+    printf("tjena2!\n");
+    exit(3);
     size_t i, x, y, width, height, depth, w, h;
     FT_Library library;
     FT_Error error;
@@ -632,8 +634,6 @@ texture_font_get_glyph( texture_font_t * self,
     exit(4);
         return *(texture_glyph_t **) vector_back( self->glyphs );
     }
-    printf("tjena2!\n");
-    exit(3);
     return NULL;
 }
 
