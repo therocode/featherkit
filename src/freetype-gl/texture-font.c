@@ -573,8 +573,6 @@ texture_glyph_t *
 texture_font_get_glyph( texture_font_t * self,
                         wchar_t charcode )
 {
-    printf("tjena!\n");
-    exit(3);
     size_t i;
     wchar_t buffer[2] = {0,0};
     texture_glyph_t *glyph;
@@ -585,6 +583,8 @@ texture_font_get_glyph( texture_font_t * self,
     assert( self->filename );
     assert( self->atlas );
 
+    printf("tjena1!\n");
+    exit(2);
     /* Check if charcode has been already loaded */
     for( i=0; i<self->glyphs->size; ++i )
     {
@@ -598,6 +598,8 @@ texture_font_get_glyph( texture_font_t * self,
             return glyph;
         }
     }
+    printf("tjena2!\n");
+    exit(3);
 
     /* charcode -1 is special : it is used for line drawing (overline,
      * underline, strikethrough) and background.
