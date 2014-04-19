@@ -24,11 +24,15 @@ namespace fea
 
     void TextSurface::write(const std::string& text)
     {
+            std::cout << "good night11!\n";
+            exit(3);
         write(std::u32string(text.begin(), text.end()));
     }
 
     void TextSurface::write(const std::u32string& text)
     {
+            std::cout << "good night10!\n";
+            exit(3);
         mWritings.push_back(Writing(text, mCurrentFont, mPenPosition, mScale, mColor));
         addText(text);
     }
