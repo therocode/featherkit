@@ -75,8 +75,6 @@ namespace fea
     
     void TextSurface::rewrite()
     {
-            std::cout << "good night2!\n";
-            exit(3);
         mVertices.clear();
         mTexCoords.clear();
         mVertexColors.clear();
@@ -86,7 +84,6 @@ namespace fea
         const float originalScale = mScale;
         const Color originalColor = mColor;
 
-        size_t i = 0;
         for(auto& writing : mWritings)
         {
             mPenPosition = writing.mPenPosition;
@@ -95,9 +92,6 @@ namespace fea
             mScale = writing.mScale;
             mColor = writing.mColor;
             addText(writing.mText);
-
-            std::wcout << "rewriting number " << i << "\n";
-            i++;
         }
 
         mPenPosition = originalPosition;
@@ -130,14 +124,8 @@ namespace fea
         {
             texture_glyph_t* glyph = texture_font_get_glyph( mFontCache.at(*mCurrentFont), text[i] );
 
-            std::cout << "good night4!\n";
-            exit(3);
-
             if(glyph == nullptr)
             {
-            std::cout << "good night5!\n";
-            exit(3);
-
                 mAtlasSize *= 2;
                 texture_atlas_delete(mAtlas);
                 mAtlas = texture_atlas_new(mAtlasSize, mAtlasSize, 1);
@@ -148,8 +136,6 @@ namespace fea
                 }
                 mFontCache.clear();
 
-            std::cout << "good night3!\n";
-            exit(3);
                 rewrite();
                 //addText(text); //don't think this is needed :D
                 return;
@@ -189,18 +175,12 @@ namespace fea
                                 mColor.r(), mColor.g(), mColor.b(), 1.0f,
                                 mColor.r(), mColor.g(), mColor.b(), 1.0f});
             penTempPosition.x += glyph->advance_x * mScale;
-            std::cout << "good night!\n";
-            exit(3);
         }
 
-            std::cout << "good night6!\n";
-            exit(3);
         mPenPosition = penTempPosition;
         mVertices.insert(mVertices.end(), verticesToAdd.begin(), verticesToAdd.end());
         mTexCoords.insert(mTexCoords.end(), texCoordsToAdd.begin(), texCoordsToAdd.end());
         mVertexColors.insert(mVertexColors.end(), colorsToAdd.begin(), colorsToAdd.end());
-
-        std::cout << mVertices.size() / 12<< "\n";
     }
 
 
