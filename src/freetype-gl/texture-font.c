@@ -596,8 +596,6 @@ texture_font_get_glyph( texture_font_t * self,
             return glyph;
         }
     }
-    printf("tjena2!\n");
-    exit(3);
 
     /* charcode -1 is special : it is used for line drawing (overline,
      * underline, strikethrough) and background.
@@ -626,6 +624,8 @@ texture_font_get_glyph( texture_font_t * self,
         return glyph; //*(texture_glyph_t **) vector_back( self->glyphs );
     }
 
+    printf("tjena2!\n");
+    exit(3);
     /* Glyph has not been already loaded */
     buffer[0] = charcode;
     if( texture_font_load_glyphs( self, buffer ) == 0 )
