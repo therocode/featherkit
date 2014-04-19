@@ -573,6 +573,8 @@ texture_glyph_t *
 texture_font_get_glyph( texture_font_t * self,
                         wchar_t charcode )
 {
+    printf("tjena!\n");
+    exit(3);
     size_t i;
     wchar_t buffer[2] = {0,0};
     texture_glyph_t *glyph;
