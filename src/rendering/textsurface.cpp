@@ -1,5 +1,6 @@
 #include <featherkit/rendering/textsurface.hpp>
 #include <featherkit/rendering/font.hpp>
+#include <iostream>
 
 namespace fea
 {
@@ -83,6 +84,7 @@ namespace fea
         const float originalScale = mScale;
         const Color originalColor = mColor;
 
+        size_t i = 0;
         for(auto& writing : mWritings)
         {
             mPenPosition = writing.mPenPosition;
@@ -91,6 +93,9 @@ namespace fea
             mScale = writing.mScale;
             mColor = writing.mColor;
             addText(writing.mText);
+
+            std::wcout << "rewriting number " << i << "\n";
+            i++;
         }
 
         mPenPosition = originalPosition;
@@ -137,7 +142,7 @@ namespace fea
                 mFontCache.clear();
 
                 rewrite();
-                addText(text);
+                //addText(text); //don't think this is needed :D
                 return;
             }
 
@@ -181,6 +186,8 @@ namespace fea
         mVertices.insert(mVertices.end(), verticesToAdd.begin(), verticesToAdd.end());
         mTexCoords.insert(mTexCoords.end(), texCoordsToAdd.begin(), texCoordsToAdd.end());
         mVertexColors.insert(mVertexColors.end(), colorsToAdd.begin(), colorsToAdd.end());
+
+        std::cout << mVertices.size() / 12<< "\n";
     }
 
 
