@@ -180,6 +180,7 @@ namespace fea
                                 mColor.r(), mColor.g(), mColor.b(), 1.0f,
                                 mColor.r(), mColor.g(), mColor.b(), 1.0f});
             penTempPosition.x += glyph->advance_x * mScale;
+            std::cout << "good night!\n";
             exit(3);
         }
 
