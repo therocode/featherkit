@@ -143,6 +143,8 @@ namespace fea
                 }
                 mFontCache.clear();
 
+            std::cout << "good night3!\n";
+            exit(3);
                 rewrite();
                 //addText(text); //don't think this is needed :D
                 return;
