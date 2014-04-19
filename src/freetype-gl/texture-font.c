@@ -367,8 +367,6 @@ texture_font_load_glyphs( texture_font_t * self,
     }
 
     /* Load each glyph */
-    printf("tjena2!\n");
-    exit(3);
     for( i=0; i<wcslen(charcodes); ++i )
     {
         FT_Int32 flags = 0;
@@ -562,6 +560,8 @@ texture_font_load_glyphs( texture_font_t * self,
             FT_Done_Glyph( ft_glyph );
         }
     }
+    printf("tjena2!\n");
+    exit(3);
     FT_Done_Face( face );
     FT_Done_FreeType( library );
     texture_atlas_upload( self->atlas );
