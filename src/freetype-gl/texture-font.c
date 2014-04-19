@@ -413,8 +413,6 @@ texture_font_load_glyphs( texture_font_t * self,
                      __LINE__, FT_Errors[error].code, FT_Errors[error].message );
             FT_Done_Face( face );
             FT_Done_FreeType( library );
-    printf("tjena8!\n");
-    exit(3);
             return wcslen(charcodes)-i;
         }
 
@@ -430,8 +428,6 @@ texture_font_load_glyphs( texture_font_t * self,
         }
         else
         {
-    printf("grodanboll!\n");
-    exit(3);
             FT_Stroker stroker;
             FT_BitmapGlyph ft_bitmap_glyph;
             error = FT_Stroker_New( library, &stroker );
@@ -442,8 +438,6 @@ texture_font_load_glyphs( texture_font_t * self,
                 FT_Done_Face( face );
                 FT_Stroker_Done( stroker );
                 FT_Done_FreeType( library );
-    printf("tjena7!\n");
-    exit(3);
                 return 0;
             }
             FT_Stroker_Set( stroker,
@@ -459,8 +453,6 @@ texture_font_load_glyphs( texture_font_t * self,
                 FT_Done_Face( face );
                 FT_Stroker_Done( stroker );
                 FT_Done_FreeType( library );
-    printf("tjena6!\n");
-    exit(3);
                 return 0;
             }
 
@@ -483,8 +475,6 @@ texture_font_load_glyphs( texture_font_t * self,
                 FT_Done_Face( face );
                 FT_Stroker_Done( stroker );
                 FT_Done_FreeType( library );
-    printf("tjena5!\n");
-    exit(3);
                 return 0;
             }
           
@@ -498,8 +488,6 @@ texture_font_load_glyphs( texture_font_t * self,
                     FT_Done_Face( face );
                     FT_Stroker_Done( stroker );
                     FT_Done_FreeType( library );
-    printf("tjena4!\n");
-    exit(3);
                     return 0;
                 }
             }
@@ -513,8 +501,6 @@ texture_font_load_glyphs( texture_font_t * self,
                     FT_Done_Face( face );
                     FT_Stroker_Done( stroker );
                     FT_Done_FreeType( library );
-    printf("tjena3!\n");
-    exit(3);
                     return 0;
                 }
             }
@@ -527,8 +513,6 @@ texture_font_load_glyphs( texture_font_t * self,
             ft_glyph_left   = ft_bitmap_glyph->left;
             FT_Stroker_Done(stroker);
         }
-    printf("grenit!\n");
-    exit(3);
 
 
 
@@ -575,8 +559,6 @@ texture_font_load_glyphs( texture_font_t * self,
             FT_Done_Glyph( ft_glyph );
         }
     }
-    printf("silverputs!\n");
-    exit(3);
     FT_Done_Face( face );
     FT_Done_FreeType( library );
     texture_atlas_upload( self->atlas );
@@ -645,8 +627,6 @@ texture_font_get_glyph( texture_font_t * self,
     buffer[0] = charcode;
     if( texture_font_load_glyphs( self, buffer ) == 0 )
     {
-    printf("tjena3!\n");
-    exit(4);
         return *(texture_glyph_t **) vector_back( self->glyphs );
     }
     return NULL;
