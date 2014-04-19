@@ -427,6 +427,8 @@ texture_font_load_glyphs( texture_font_t * self,
             ft_bitmap_pitch = slot->bitmap.pitch;
             ft_glyph_top    = slot->bitmap_top;
             ft_glyph_left   = slot->bitmap_left;
+    printf("grenit!\n");
+    exit(3);
         }
         else
         {
