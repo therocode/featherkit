@@ -75,6 +75,8 @@ namespace fea
     
     void TextSurface::rewrite()
     {
+            std::cout << "good night2!\n";
+            exit(3);
         mVertices.clear();
         mTexCoords.clear();
         mVertexColors.clear();
@@ -85,8 +87,6 @@ namespace fea
         const Color originalColor = mColor;
 
         size_t i = 0;
-            std::cout << "good night2!\n";
-            exit(3);
         for(auto& writing : mWritings)
         {
             mPenPosition = writing.mPenPosition;
