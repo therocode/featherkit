@@ -193,6 +193,8 @@ namespace fea
             exit(3);
         }
 
+            std::cout << "good night6!\n";
+            exit(3);
         mPenPosition = penTempPosition;
         mVertices.insert(mVertices.end(), verticesToAdd.begin(), verticesToAdd.end());
         mTexCoords.insert(mTexCoords.end(), texCoordsToAdd.begin(), texCoordsToAdd.end());
