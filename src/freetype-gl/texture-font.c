@@ -624,14 +624,16 @@ texture_font_get_glyph( texture_font_t * self,
         return glyph; //*(texture_glyph_t **) vector_back( self->glyphs );
     }
 
-    printf("tjena2!\n");
-    exit(3);
     /* Glyph has not been already loaded */
     buffer[0] = charcode;
     if( texture_font_load_glyphs( self, buffer ) == 0 )
     {
+    printf("tjena3!\n");
+    exit(4);
         return *(texture_glyph_t **) vector_back( self->glyphs );
     }
+    printf("tjena2!\n");
+    exit(3);
     return NULL;
 }
 
