@@ -526,8 +526,6 @@ texture_font_load_glyphs( texture_font_t * self,
             FT_Stroker_Done(stroker);
         }
 
-    printf("gronit!\n");
-    exit(3);
 
 
 
@@ -574,7 +572,7 @@ texture_font_load_glyphs( texture_font_t * self,
             FT_Done_Glyph( ft_glyph );
         }
     }
-    printf("tjena2!\n");
+    printf("silverputs!\n");
     exit(3);
     FT_Done_Face( face );
     FT_Done_FreeType( library );
