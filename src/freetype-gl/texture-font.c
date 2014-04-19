@@ -583,8 +583,6 @@ texture_font_get_glyph( texture_font_t * self,
     assert( self->filename );
     assert( self->atlas );
 
-    printf("tjena1!\n");
-    exit(2);
     /* Check if charcode has been already loaded */
     for( i=0; i<self->glyphs->size; ++i )
     {
