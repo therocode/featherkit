@@ -430,6 +430,9 @@ texture_font_load_glyphs( texture_font_t * self,
         }
         else
         {
+
+    printf("gronit!\n");
+    exit(3);
             FT_Stroker stroker;
             FT_BitmapGlyph ft_bitmap_glyph;
             error = FT_Stroker_New( library, &stroker );
@@ -525,7 +528,6 @@ texture_font_load_glyphs( texture_font_t * self,
             ft_glyph_left   = ft_bitmap_glyph->left;
             FT_Stroker_Done(stroker);
         }
-
 
 
 
