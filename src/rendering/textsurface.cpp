@@ -180,6 +180,7 @@ namespace fea
                                 mColor.r(), mColor.g(), mColor.b(), 1.0f,
                                 mColor.r(), mColor.g(), mColor.b(), 1.0f});
             penTempPosition.x += glyph->advance_x * mScale;
+            exit(3);
         }
 
         mPenPosition = penTempPosition;
