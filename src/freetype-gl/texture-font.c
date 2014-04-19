@@ -397,9 +397,6 @@ texture_font_load_glyphs( texture_font_t * self,
             flags |= FT_LOAD_FORCE_AUTOHINT;
         }
 
-    printf("gronit!\n");
-    exit(3);
-
         if( depth == 3 )
         {
             FT_Library_SetLcdFilter( library, FT_LCD_FILTER_LIGHT );
@@ -420,6 +417,9 @@ texture_font_load_glyphs( texture_font_t * self,
     exit(3);
             return wcslen(charcodes)-i;
         }
+
+    printf("gronit!\n");
+    exit(3);
 
 
         if( self->outline_type == 0 )
