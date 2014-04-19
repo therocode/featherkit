@@ -122,6 +122,7 @@ namespace fea
 
         for(i = 0; i < text.size(); ++i )
         {
+            std::cout << "getting glyph of text index " << i << "\n";
             texture_glyph_t* glyph = texture_font_get_glyph( mFontCache.at(*mCurrentFont), text[i] );
 
             if(glyph == nullptr)
