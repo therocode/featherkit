@@ -126,8 +126,6 @@ namespace fea
         std::vector<float> colorsToAdd;
         glm::vec2 penTempPosition = mPenPosition;
 
-            std::cout << "good night8!\n";
-            exit(3);
         for(i = 0; i < text.size(); ++i )
         {
 
