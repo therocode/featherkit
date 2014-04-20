@@ -583,6 +583,7 @@ texture_font_get_glyph( texture_font_t * self,
     assert( self->atlas );
 
     /* Check if charcode has been already loaded */
+    printf("flesh0\n");
     for( i=0; i<self->glyphs->size; ++i )
     {
         glyph = *(texture_glyph_t **) vector_get( self->glyphs, i );
@@ -595,6 +596,7 @@ texture_font_get_glyph( texture_font_t * self,
             return glyph;
         }
     }
+    printf("flesh1\n");
 
     /* charcode -1 is special : it is used for line drawing (overline,
      * underline, strikethrough) and background.
@@ -622,6 +624,7 @@ texture_font_get_glyph( texture_font_t * self,
         vector_push_back( self->glyphs, &glyph );
         return glyph; //*(texture_glyph_t **) vector_back( self->glyphs );
     }
+    printf("flesh2\n");
 
     /* Glyph has not been already loaded */
     buffer[0] = charcode;
@@ -629,6 +632,7 @@ texture_font_get_glyph( texture_font_t * self,
     {
         return *(texture_glyph_t **) vector_back( self->glyphs );
     }
+    printf("flesh3\n");
     return NULL;
 }
 
