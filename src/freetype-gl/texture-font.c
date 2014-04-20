@@ -630,9 +630,10 @@ texture_font_get_glyph( texture_font_t * self,
     buffer[0] = charcode;
     if( texture_font_load_glyphs( self, buffer ) == 0 )
     {
+    printf("flesh3\n");
         return *(texture_glyph_t **) vector_back( self->glyphs );
     }
-    printf("flesh3\n");
+    printf("flesh4\n");
     return NULL;
 }
 
