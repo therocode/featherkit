@@ -416,6 +416,7 @@ texture_font_load_glyphs( texture_font_t * self,
             }
         }
         printf("blitt5\n");
+        printf("glyph index is %d and flags are %d\n", glyph_index, flags);
         error = FT_Load_Glyph( face, glyph_index, flags );
         printf("blitt6\n");
         if( error )
