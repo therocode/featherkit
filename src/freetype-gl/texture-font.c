@@ -628,6 +628,7 @@ texture_font_get_glyph( texture_font_t * self,
 
     /* Glyph has not been already loaded */
     buffer[0] = charcode;
+    printf("self is %s, buffer is %c,%c\n", self->filename, buffer[0], buffer[1]);
     if( texture_font_load_glyphs( self, buffer ) == 0 )
     {
     printf("flesh3\n");
