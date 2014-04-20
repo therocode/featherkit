@@ -340,6 +340,7 @@ size_t
 texture_font_load_glyphs( texture_font_t * self,
                           const wchar_t * charcodes )
 {
+    printf("gligo0\n");
     size_t i, x, y, width, height, depth, w, h;
     FT_Library library;
     FT_Error error;
@@ -361,14 +362,17 @@ texture_font_load_glyphs( texture_font_t * self,
     height = self->atlas->height;
     depth  = self->atlas->depth;
 
+    printf("gligo1\n");
     if( !texture_font_load_face( &library, self->filename, self->size, &face ) )
     {
         return wcslen(charcodes);
     }
+    printf("gligo2\n");
 
     /* Load each glyph */
     for( i=0; i<wcslen(charcodes); ++i )
     {
+        printf("for %d\n", i);
         FT_Int32 flags = 0;
         int ft_bitmap_width = 0;
         int ft_bitmap_rows = 0;
@@ -514,6 +518,7 @@ texture_font_load_glyphs( texture_font_t * self,
             FT_Stroker_Done(stroker);
         }
 
+    printf("gligo3\n");
 
 
         // We want each glyph to be separated by at least one black pixel
@@ -629,7 +634,7 @@ texture_font_get_glyph( texture_font_t * self,
     /* Glyph has not been already loaded */
     buffer[0] = charcode;
     printf("self is %s, buffer is %c,%c\n", self->filename, buffer[0], buffer[1]);
-    if( texture_font_load_glyphs( self, buffer ) == 0 )
+    if( texture_font_load_glyphs( self, buffer ) == 0 ) //self is good with ->filename being the font and buffer being [0] a and [1] " " 
     {
     printf("flesh3\n");
         return *(texture_glyph_t **) vector_back( self->glyphs );
