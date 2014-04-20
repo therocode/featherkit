@@ -373,16 +373,19 @@ texture_font_load_glyphs( texture_font_t * self,
     for( i=0; i<wcslen(charcodes); ++i )
     {
         printf("for %d\n", i);
+        printf("blitt0\n");
         FT_Int32 flags = 0;
         int ft_bitmap_width = 0;
         int ft_bitmap_rows = 0;
         int ft_bitmap_pitch = 0;
         int ft_glyph_top = 0;
         int ft_glyph_left = 0;
+        printf("blitt1\n");
         glyph_index = FT_Get_Char_Index( face, charcodes[i] );
         // WARNING: We use texture-atlas depth to guess if user wants
         //          LCD subpixel rendering
 
+        printf("blitt2\n");
         if( self->outline_type > 0 )
         {
             flags |= FT_LOAD_NO_BITMAP;
@@ -419,6 +422,7 @@ texture_font_load_glyphs( texture_font_t * self,
             FT_Done_FreeType( library );
             return wcslen(charcodes)-i;
         }
+        printf("blitt3\n");
 
         if( self->outline_type == 0 )
         {
