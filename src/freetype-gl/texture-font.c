@@ -340,7 +340,6 @@ size_t
 texture_font_load_glyphs( texture_font_t * self,
                           const wchar_t * charcodes )
 {
-    printf("gligo0\n");
     size_t i, x, y, width, height, depth, w, h;
     FT_Library library;
     FT_Error error;
@@ -362,30 +361,24 @@ texture_font_load_glyphs( texture_font_t * self,
     height = self->atlas->height;
     depth  = self->atlas->depth;
 
-    printf("gligo1\n");
     if( !texture_font_load_face( &library, self->filename, self->size, &face ) )
     {
         return wcslen(charcodes);
     }
-    printf("gligo2\n");
 
     /* Load each glyph */
     for( i=0; i<wcslen(charcodes); ++i )
     {
-        printf("for %d\n", i);
-        printf("blitt0\n");
         FT_Int32 flags = 0;
         int ft_bitmap_width = 0;
         int ft_bitmap_rows = 0;
         int ft_bitmap_pitch = 0;
         int ft_glyph_top = 0;
         int ft_glyph_left = 0;
-        printf("blitt1\n");
         glyph_index = FT_Get_Char_Index( face, charcodes[i] );
         // WARNING: We use texture-atlas depth to guess if user wants
         //          LCD subpixel rendering
 
-        printf("blitt2\n");
         if( self->outline_type > 0 )
         {
             flags |= FT_LOAD_NO_BITMAP;
@@ -394,7 +387,6 @@ texture_font_load_glyphs( texture_font_t * self,
         {
             flags |= FT_LOAD_RENDER;
         }
-        printf("blitt3\n");
 
         if( !self->hinting )
         {
@@ -405,7 +397,6 @@ texture_font_load_glyphs( texture_font_t * self,
             flags |= FT_LOAD_FORCE_AUTOHINT;
         }
 
-        printf("blitt4\n");
         if( depth == 3 )
         {
             FT_Library_SetLcdFilter( library, FT_LCD_FILTER_LIGHT );
@@ -415,10 +406,7 @@ texture_font_load_glyphs( texture_font_t * self,
                 FT_Library_SetLcdFilterWeights( library, self->lcd_weights );
             }
         }
-        printf("blitt5\n");
-        printf("glyph index is %d and flags are %d\n", glyph_index, flags);
         error = FT_Load_Glyph( face, glyph_index, flags );
-        printf("blitt6\n");
         if( error )
         {
             fprintf( stderr, "FT_Error (line %d, code 0x%02x) : %s\n",
@@ -427,7 +415,6 @@ texture_font_load_glyphs( texture_font_t * self,
             FT_Done_FreeType( library );
             return wcslen(charcodes)-i;
         }
-        printf("blitt7\n");
 
         if( self->outline_type == 0 )
         {
@@ -527,7 +514,6 @@ texture_font_load_glyphs( texture_font_t * self,
             FT_Stroker_Done(stroker);
         }
 
-    printf("gligo3\n");
 
 
         // We want each glyph to be separated by at least one black pixel
@@ -597,7 +583,6 @@ texture_font_get_glyph( texture_font_t * self,
     assert( self->atlas );
 
     /* Check if charcode has been already loaded */
-    printf("flesh0\n");
     for( i=0; i<self->glyphs->size; ++i )
     {
         glyph = *(texture_glyph_t **) vector_get( self->glyphs, i );
@@ -610,7 +595,6 @@ texture_font_get_glyph( texture_font_t * self,
             return glyph;
         }
     }
-    printf("flesh1\n");
 
     /* charcode -1 is special : it is used for line drawing (overline,
      * underline, strikethrough) and background.
@@ -638,17 +622,13 @@ texture_font_get_glyph( texture_font_t * self,
         vector_push_back( self->glyphs, &glyph );
         return glyph; //*(texture_glyph_t **) vector_back( self->glyphs );
     }
-    printf("flesh2\n");
 
     /* Glyph has not been already loaded */
     buffer[0] = charcode;
-    printf("self is %s, buffer is %c,%c\n", self->filename, buffer[0], buffer[1]);
     if( texture_font_load_glyphs( self, buffer ) == 0 ) //self is good with ->filename being the font and buffer being [0] a and [1] " " 
     {
-    printf("flesh3\n");
         return *(texture_glyph_t **) vector_back( self->glyphs );
     }
-    printf("flesh4\n");
     return NULL;
 }
 
