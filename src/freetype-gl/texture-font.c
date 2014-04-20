@@ -394,6 +394,7 @@ texture_font_load_glyphs( texture_font_t * self,
         {
             flags |= FT_LOAD_RENDER;
         }
+        printf("blitt3\n");
 
         if( !self->hinting )
         {
@@ -404,6 +405,7 @@ texture_font_load_glyphs( texture_font_t * self,
             flags |= FT_LOAD_FORCE_AUTOHINT;
         }
 
+        printf("blitt4\n");
         if( depth == 3 )
         {
             FT_Library_SetLcdFilter( library, FT_LCD_FILTER_LIGHT );
@@ -413,7 +415,9 @@ texture_font_load_glyphs( texture_font_t * self,
                 FT_Library_SetLcdFilterWeights( library, self->lcd_weights );
             }
         }
+        printf("blitt5\n");
         error = FT_Load_Glyph( face, glyph_index, flags );
+        printf("blitt6\n");
         if( error )
         {
             fprintf( stderr, "FT_Error (line %d, code 0x%02x) : %s\n",
@@ -422,7 +426,7 @@ texture_font_load_glyphs( texture_font_t * self,
             FT_Done_FreeType( library );
             return wcslen(charcodes)-i;
         }
-        printf("blitt3\n");
+        printf("blitt7\n");
 
         if( self->outline_type == 0 )
         {
