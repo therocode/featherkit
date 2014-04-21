@@ -110,5 +110,9 @@ namespace fea
      ***
      *  @fn void TextSurface::clear()
      *  @brief Clear all text written on the text area.
+     ***
+     *  @fn glm::vec2 TextSurface::getSize()
+     *  @brief Get the size of the bounding rectangle for all text on the surface
+     *  @return Size.
      ***/
 }
