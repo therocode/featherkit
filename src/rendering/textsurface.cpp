@@ -106,6 +106,14 @@ namespace fea
         mVertexColors.clear();
 
         mWritings.clear();
+
+        mLowBounds = glm::vec2();
+        mHighBounds = glm::vec2();
+    }
+        
+    glm::vec2 TextSurface::getSize()
+    {
+        return glm::vec2(mHighBounds.x - mLowBounds.x, mHighBounds.y - mLowBounds.y);
     }
             
     void TextSurface::addText(const std::u32string& text)
@@ -154,6 +162,23 @@ namespace fea
             float t0 = glyph->t0;
             float s1 = glyph->s1;
             float t1 = glyph->t1;
+
+            if(mLowBounds.x == mHighBounds.x)
+            {
+                 mLowBounds.x = x0;
+                 mHighBounds.x = x1;
+                 mLowBounds.y = y0;
+                 mHighBounds.y = y1;
+            }
+
+            if(x0 < mLowBounds.x)
+                mLowBounds.x = x0;
+            if(x1 > mHighBounds.x)
+                mHighBounds.x = x1;
+            if(y0 < mLowBounds.y)
+                mLowBounds.y = y0;
+            if(y1 > mHighBounds.y)
+                mHighBounds.y = y1;
 
             verticesToAdd.insert(verticesToAdd.end(), {x0, y0,
                     x0, y1,

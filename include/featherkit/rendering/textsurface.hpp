@@ -33,6 +33,7 @@ namespace fea
         void newLine(const float distance, const float indentation = 0.0f);
         virtual RenderInfo getRenderInfo() const override;
         void clear();
+        glm::vec2 getSize();
     private:
         void rewrite();
         void addText(const std::u32string& text);
@@ -47,6 +48,9 @@ namespace fea
 
         std::unordered_map<Font, texture_font_t*> mFontCache;
         std::vector<Writing> mWritings;
+
+        glm::vec2 mLowBounds;
+        glm::vec2 mHighBounds;
     };
     /** @addtogroup Render2D
      *@{
