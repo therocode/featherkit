@@ -12,8 +12,8 @@ namespace fea
     {
         struct Writing
         {
-            Writing(const std::u32string& text, const Font* font, const glm::vec2& penPosition, const float scale, const Color& color);//
-            const std::u32string mText;
+            Writing(const std::wstring& text, const Font* font, const glm::vec2& penPosition, const float scale, const Color& color);//
+            const std::wstring mText;
             const Font* mFont;
             const glm::vec2 mPenPosition;
             const float mScale;
@@ -24,7 +24,7 @@ namespace fea
         TextSurface();
         ~TextSurface();
         void write(const std::string& text);
-        void write(const std::u32string& text);
+        void write(const std::wstring& text);
         void setPenFont(const Font& font);
         void setPenPosition(const glm::vec2 position);
         void setPenScale(const float scale);
@@ -36,7 +36,7 @@ namespace fea
         glm::vec2 getSize();
     private:
         void rewrite();
-        void addText(const std::u32string& text);
+        void addText(const std::wstring& text);
         void cacheFont(const Font& font);
         texture_atlas_t* mAtlas;
         const Font* mCurrentFont;
@@ -69,7 +69,7 @@ namespace fea
      *  The position of the pen is moved forward accordingly. The pen's current state determines the scale, font and color of the text.
      *  @param text Text to write.
      ***
-     *  @fn void TextSurface::write(const std::u32string& text)
+     *  @fn void TextSurface::write(const std::wstring& text)
      *  @brief Write text at the current pen position.
      *
      *  The position of the pen is moved forward accordingly. The pen's current state determines the scale, font and color of the text.
