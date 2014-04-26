@@ -44,43 +44,43 @@ namespace fea
      *  @enum UniformType
      *  @brief Type of the uniform.
      ***
-     *  @fn Uniform::Uniform(const std::string& i name, UniformType t, float val)
+     *  @fn Uniform::Uniform(const std::string& name, UniformType t, float val)
      *  @brief Construct a float uniform.
      *  @param name Name.
      *  @param t Type.
      *  @param val Value.
      ***
-     *  @fn Uniform::Uniform(const std::string& i name, UniformType t, glm::vec2 val)
+     *  @fn Uniform::Uniform(const std::string& name, UniformType t, glm::vec2 val)
      *  @brief Construct a vec2 uniform.
      *  @param name Name.
      *  @param t Type.
      *  @param val Value.
      ***
-     *  @fn Uniform::Uniform(const std::string& i name, UniformType t, glm::vec3 val)
+     *  @fn Uniform::Uniform(const std::string& name, UniformType t, glm::vec3 val)
      *  @brief Construct a vec3 uniform.
      *  @param name Name.
      *  @param t Type.
      *  @param val Value.
      ***
-     *  @fn Uniform::Uniform(const std::string& i name, UniformType t, glm::vec4 val)
+     *  @fn Uniform::Uniform(const std::string& name, UniformType t, glm::vec4 val)
      *  @brief Construct a vec4 uniform.
      *  @param name Name.
      *  @param t Type.
      *  @param val Value.
      ***
-     *  @fn Uniform::Uniform(const std::string& i name, UniformType t, glm::mat2x2 val)
+     *  @fn Uniform::Uniform(const std::string& name, UniformType t, glm::mat2x2 val)
      *  @brief Construct a mat2x2 uniform.
      *  @param name Name.
      *  @param t Type.
      *  @param val Value.
      ***
-     *  @fn Uniform::Uniform(const std::string& i name, UniformType t, glm::mat4x4 val)
+     *  @fn Uniform::Uniform(const std::string& name, UniformType t, glm::mat4x4 val)
      *  @brief Construct a mat4x4 uniform.
      *  @param name Name.
      *  @param t Type.
      *  @param val Value.
      ***
-     *  @fn Uniform::Uniform(const std::string& i name, UniformType t, GLuint val)
+     *  @fn Uniform::Uniform(const std::string& name, UniformType t, GLuint val)
      *  @brief Construct a texture uniform.
      *  @param name Name.
      *  @param t Type.
