@@ -28,7 +28,7 @@ namespace fea
      ***
      *  @fn VertexAttribute::VertexAttribute(const std::string& name, const uint32_t floatAmount, const float* data)
      *  @brief Construct a vertex attribute.
-     *  @param mName name;
+     *  @param name name;
      *  @param floatAmount Amount of floats.
      *  @param data Float array.
      ***
