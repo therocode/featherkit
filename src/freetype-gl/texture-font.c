@@ -397,7 +397,6 @@ texture_font_load_glyphs( texture_font_t * self,
             flags |= FT_LOAD_FORCE_AUTOHINT;
         }
 
-
         if( depth == 3 )
         {
             FT_Library_SetLcdFilter( library, FT_LCD_FILTER_LIGHT );
@@ -416,7 +415,6 @@ texture_font_load_glyphs( texture_font_t * self,
             FT_Done_FreeType( library );
             return wcslen(charcodes)-i;
         }
-
 
         if( self->outline_type == 0 )
         {
@@ -515,6 +513,7 @@ texture_font_load_glyphs( texture_font_t * self,
             ft_glyph_left   = ft_bitmap_glyph->left;
             FT_Stroker_Done(stroker);
         }
+
 
 
         // We want each glyph to be separated by at least one black pixel
@@ -626,7 +625,7 @@ texture_font_get_glyph( texture_font_t * self,
 
     /* Glyph has not been already loaded */
     buffer[0] = charcode;
-    if( texture_font_load_glyphs( self, buffer ) == 0 )
+    if( texture_font_load_glyphs( self, buffer ) == 0 ) //self is good with ->filename being the font and buffer being [0] a and [1] " " 
     {
         return *(texture_glyph_t **) vector_back( self->glyphs );
     }
