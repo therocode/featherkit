@@ -24,11 +24,11 @@ namespace fea
         union
         {
             float mFloatVal;           ///<Hold a float value
-            glm::vec2 mVec2Val;        ///<Hold a vec2 value
-            glm::vec3 mVec3Val;        ///<Hold a vec3 value
-            glm::vec4 mVec4Val;        ///<Hold a vec4 value
-            glm::mat2x2 mMat2x2Val;    ///<Hold a mat2x2 value
-            glm::mat4x4 mMat4x4Val;    ///<Hold a mat4x4 value
+            float mVec2Val[2];        ///<Hold a vec2 value
+            float mVec3Val[3];        ///<Hold a vec3 value
+            float mVec4Val[4];        ///<Hold a vec4 value
+            float mMat2x2Val[4];    ///<Hold a mat2x2 value
+            float mMat4x4Val[16];    ///<Hold a mat4x4 value
             GLuint mTextureVal;        ///<Hold a texture
         };
     };
