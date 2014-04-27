@@ -50,10 +50,10 @@ namespace fea
     {
         Color result;
 
-        result.mRed = mRed + other.mRed + 0.00196;
-        result.mGreen = mGreen + other.mGreen + 0.00196;
-        result.mBlue = mBlue + other.mBlue + 0.00196;
-        result.mAlpha = mAlpha + other.mAlpha + 0.00196;
+        result.mRed = mRed + other.mRed + 0.00196f;
+        result.mGreen = mGreen + other.mGreen + 0.00196f;
+        result.mBlue = mBlue + other.mBlue + 0.00196f;
+        result.mAlpha = mAlpha + other.mAlpha + 0.00196f;
 
         result.mRed = std::max(0.0f, std::min(1.0f, result.mRed));
         result.mGreen = std::max(0.0f, std::min(1.0f, result.mGreen));
@@ -82,10 +82,10 @@ namespace fea
     {
         Color result;
 
-        result.mRed = mRed - other.mRed + 0.00196;
-        result.mGreen = mGreen - other.mGreen + 0.00196;
-        result.mBlue = mBlue - other.mBlue + 0.00196;
-        result.mAlpha = mAlpha - other.mAlpha + 0.00196;
+        result.mRed = mRed - other.mRed + 0.00196f;
+        result.mGreen = mGreen - other.mGreen + 0.00196f;
+        result.mBlue = mBlue - other.mBlue + 0.00196f;
+        result.mAlpha = mAlpha - other.mAlpha + 0.00196f;
 
         result.mRed = std::max(0.0f, std::min(1.0f, result.mRed));
         result.mGreen = std::max(0.0f, std::min(1.0f, result.mGreen));
@@ -114,10 +114,10 @@ namespace fea
     {
         Color result;
 
-        result.mRed = mRed * other.mRed + 0.00196;
-        result.mGreen = mGreen * other.mGreen + 0.00196;
-        result.mBlue = mBlue * other.mBlue + 0.00196;
-        result.mAlpha = mAlpha * other.mAlpha + 0.00196;
+        result.mRed = mRed * other.mRed + 0.00196f;
+        result.mGreen = mGreen * other.mGreen + 0.00196f;
+        result.mBlue = mBlue * other.mBlue + 0.00196f;
+        result.mAlpha = mAlpha * other.mAlpha + 0.00196f;
 
         result.mRed = std::max(0.0f, std::min(1.0f, result.mRed));
         result.mGreen = std::max(0.0f, std::min(1.0f, result.mGreen));
@@ -146,10 +146,10 @@ namespace fea
     {
         Color result;
 
-        result.mRed = mRed / other.mRed + 0.00196;
-        result.mGreen = mGreen / other.mGreen + 0.00196;
-        result.mBlue = mBlue / other.mBlue + 0.00196;
-        result.mAlpha = mAlpha / other.mAlpha + 0.00196;
+        result.mRed = mRed / other.mRed + 0.00196f;
+        result.mGreen = mGreen / other.mGreen + 0.00196f;
+        result.mBlue = mBlue / other.mBlue + 0.00196f;
+        result.mAlpha = mAlpha / other.mAlpha + 0.00196f;
 
         result.mRed = std::max(0.0f, std::min(1.0f, result.mRed));
         result.mGreen = std::max(0.0f, std::min(1.0f, result.mGreen));

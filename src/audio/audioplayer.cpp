@@ -503,7 +503,7 @@ namespace fea
     
     void AudioPlayer::Stream::start()
     {
-        mStreamerThread = std::thread(&Stream::streamerThread, this);
+        mStreamerThread = std::move(std::thread(&Stream::streamerThread, this));
     }
     
     void AudioPlayer::Stream::stop()
