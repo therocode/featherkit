@@ -13,16 +13,20 @@ namespace fea
         struct Writing
         {
             Writing(const std::wstring& text, const Font* font, const glm::vec2& penPosition, const float scale, const Color& color);//
-            const std::wstring mText;
+            std::wstring mText;
             const Font* mFont;
-            const glm::vec2 mPenPosition;
-            const float mScale;
-            const Color mColor;
+            glm::vec2 mPenPosition;
+            float mScale;
+            Color mColor;
         };
 
     public:
         TextSurface();
         ~TextSurface();
+        TextSurface(const TextSurface& other) = delete;
+        TextSurface(TextSurface&& other);
+        TextSurface& operator=(const TextSurface& other) = delete;
+        TextSurface& operator=(TextSurface&& other);
         void write(const std::string& text);
         void write(const std::wstring& text);
         void setPenFont(const Font& font);
