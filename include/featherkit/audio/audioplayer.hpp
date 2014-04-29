@@ -77,20 +77,22 @@ namespace fea
             std::unordered_map<AudioHandle, PlaySource> mPlayingSources;
             mutable std::mutex mSourcesMutex;
 
+#if !defined(__EMSCRIPTEN__)
             //streaming threads
-            //class Stream
-            //{
-            //    public:
-            //        Stream(const PlaySource& source, AudioStream& audioStream);
-            //        void streamerThread();
-            //        void start();
-            //        void stop();
-            //    private:
-            //        const PlaySource& mSource;
-            //        AudioStream& mStream;
-            //        bool mIsFinishing;
-            //        std::thread mStreamerThread;
-            //};
+            class Stream
+            {
+                public:
+                    Stream(const PlaySource& source, AudioStream& audioStream);
+                    void streamerThread();
+                    void start();
+                    void stop();
+                private:
+                    const PlaySource& mSource;
+                    AudioStream& mStream;
+                    bool mIsFinishing;
+                    std::thread mStreamerThread;
+            };
+#else
             class Stream
             {
                 public:
@@ -100,7 +102,7 @@ namespace fea
                     const PlaySource& mSource;
                     AudioStream& mStream;
             };
-
+#endif
             std::unordered_map<ALuint, Stream> mStreams;
 
             //effect stuff

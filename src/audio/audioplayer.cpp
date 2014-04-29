@@ -144,8 +144,11 @@ namespace fea
         }
 
         mStreams.emplace(sourceId, Stream(mPlayingSources.at(handle), stream));
+#if !defined(__EMSCRIPTEN__)
+        mStreams.at(sourceId).start();
+#else
         mStreams.at(sourceId).update();
-        //mStreams.at(sourceId).start(); BLI
+#endif
 
         std::this_thread::sleep_for(std::chrono::milliseconds(25)); //hack?
 
@@ -191,7 +194,9 @@ namespace fea
                 auto streamIterator = mStreams.find(sourceId);
                 if(streamIterator != mStreams.end())
                 {
-                    //streamIterator->second.stop(); BLI
+#if !defined(__EMSCRIPTEN__)
+                    streamIterator->second.stop();
+#endif
                 }
                 alSourceStop(sourceId);
             }
@@ -232,8 +237,10 @@ namespace fea
             
     void AudioPlayer::update()
     {
+#if defined(__EMSCRIPTEN__)
         for(auto stream : mStreams)
             stream.second.update();
+#endif
     }
     
     size_t AudioPlayer::getNumSoundsPlaying() const
@@ -482,49 +489,50 @@ namespace fea
         }
     }
     
-    //AudioPlayer::Stream::Stream(const PlaySource& source, AudioStream& audioStream) : 
-    //    mSource(source),
-    //    mStream(audioStream),
-    //    mIsFinishing(false)
-    //{
-    //}
+#if !defined(__EMSCRIPTEN__)
+    AudioPlayer::Stream::Stream(const PlaySource& source, AudioStream& audioStream) : 
+        mSource(source),
+        mStream(audioStream),
+        mIsFinishing(false)
+    {
+    }
 
-    //void AudioPlayer::Stream::streamerThread()
-    //{
-    //    while(!mIsFinishing)
-    //    {
-    //        ALint buffersProcessed;
-    //        alGetSourcei(mSource.getSourceId(), AL_BUFFERS_PROCESSED, &buffersProcessed);
-    //        if(buffersProcessed > 0)
-    //        {
-    //            ALuint bufferId;
-    //            alSourceUnqueueBuffers(mSource.getSourceId(), 1, &bufferId);
-    //            mStream.bufferConsumed();
-    //        }
+    void AudioPlayer::Stream::streamerThread()
+    {
+        while(!mIsFinishing)
+        {
+            ALint buffersProcessed;
+            alGetSourcei(mSource.getSourceId(), AL_BUFFERS_PROCESSED, &buffersProcessed);
+            if(buffersProcessed > 0)
+            {
+                ALuint bufferId;
+                alSourceUnqueueBuffers(mSource.getSourceId(), 1, &bufferId);
+                mStream.bufferConsumed();
+            }
 
-    //        while(AudioBuffer* newBuffer = mStream.nextReadyBuffer())
-    //        {
-    //            ALuint bufferId = newBuffer->getBufferId();
-    //            alSourceQueueBuffers(mSource.getSourceId(), 1, &bufferId);
-    //        }
-    //        std::this_thread::sleep_for(std::chrono::milliseconds(25));
-    //    }
-    //}
-    //
-    //void AudioPlayer::Stream::start()
-    //{
-    //    mStreamerThread = std::thread(&Stream::streamerThread, this);
-    //}
-    //
-    //void AudioPlayer::Stream::stop()
-    //{
-    //    if(mStreamerThread.joinable())
-    //    {
-    //        mIsFinishing = true;
-    //        mStreamerThread.join();
-    //    }
-    //}
-
+            while(AudioBuffer* newBuffer = mStream.nextReadyBuffer())
+            {
+                ALuint bufferId = newBuffer->getBufferId();
+                alSourceQueueBuffers(mSource.getSourceId(), 1, &bufferId);
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(25));
+        }
+    }
+    
+    void AudioPlayer::Stream::start()
+    {
+        mStreamerThread = std::thread(&Stream::streamerThread, this);
+    }
+    
+    void AudioPlayer::Stream::stop()
+    {
+        if(mStreamerThread.joinable())
+        {
+            mIsFinishing = true;
+            mStreamerThread.join();
+        }
+    }
+#else
     AudioPlayer::Stream::Stream(const PlaySource& source, AudioStream& audioStream) : 
         mSource(source),
         mStream(audioStream)
@@ -558,4 +566,5 @@ namespace fea
             alSourceQueueBuffers(mSource.getSourceId(), 1, &bufferId);
         }
     }
+#endif
 }
