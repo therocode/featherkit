@@ -144,7 +144,8 @@ namespace fea
         }
 
         mStreams.emplace(sourceId, Stream(mPlayingSources.at(handle), stream));
-        mStreams.at(sourceId).start();
+        mStreams.at(sourceId).update();
+        //mStreams.at(sourceId).start(); BLI
 
         std::this_thread::sleep_for(std::chrono::milliseconds(25)); //hack?
 
@@ -190,7 +191,7 @@ namespace fea
                 auto streamIterator = mStreams.find(sourceId);
                 if(streamIterator != mStreams.end())
                 {
-                    streamIterator->second.stop();
+                    //streamIterator->second.stop(); BLI
                 }
                 alSourceStop(sourceId);
             }
@@ -227,6 +228,12 @@ namespace fea
     {
         FEA_ASSERT(slot < mMaxSoundsPlaying, "Trying to clear the filter of slot number " << slot << " but the highest slot number is " << 4 << "!\n");
         mEffectSlots.at(slot).clearFilter();
+    }
+            
+    void AudioPlayer::update()
+    {
+        for(auto stream : mStreams)
+            stream.second.update();
     }
     
     size_t AudioPlayer::getNumSoundsPlaying() const
@@ -464,7 +471,7 @@ namespace fea
                 auto iterator = mStreams.find(sourceId);
                 if(iterator != mStreams.end())
                 {
-                    iterator->second.stop();
+                    //iterator->second.stop(); BLI
                     mStreams.erase(iterator);
                 }
             }
@@ -474,33 +481,65 @@ namespace fea
             }
         }
     }
+    
+    //AudioPlayer::Stream::Stream(const PlaySource& source, AudioStream& audioStream) : 
+    //    mSource(source),
+    //    mStream(audioStream),
+    //    mIsFinishing(false)
+    //{
+    //}
+
+    //void AudioPlayer::Stream::streamerThread()
+    //{
+    //    while(!mIsFinishing)
+    //    {
+    //        ALint buffersProcessed;
+    //        alGetSourcei(mSource.getSourceId(), AL_BUFFERS_PROCESSED, &buffersProcessed);
+    //        if(buffersProcessed > 0)
+    //        {
+    //            ALuint bufferId;
+    //            alSourceUnqueueBuffers(mSource.getSourceId(), 1, &bufferId);
+    //            mStream.bufferConsumed();
+    //        }
+
+    //        while(AudioBuffer* newBuffer = mStream.nextReadyBuffer())
+    //        {
+    //            ALuint bufferId = newBuffer->getBufferId();
+    //            alSourceQueueBuffers(mSource.getSourceId(), 1, &bufferId);
+    //        }
+    //        std::this_thread::sleep_for(std::chrono::milliseconds(25));
+    //    }
+    //}
+    //
+    //void AudioPlayer::Stream::start()
+    //{
+    //    mStreamerThread = std::thread(&Stream::streamerThread, this);
+    //}
+    //
+    //void AudioPlayer::Stream::stop()
+    //{
+    //    if(mStreamerThread.joinable())
+    //    {
+    //        mIsFinishing = true;
+    //        mStreamerThread.join();
+    //    }
+    //}
 
     AudioPlayer::Stream::Stream(const PlaySource& source, AudioStream& audioStream) : 
         mSource(source),
-        mStream(audioStream),
-        mIsFinishing(false)
+        mStream(audioStream)
     {
     }
 
-    void AudioPlayer::Stream::streamerThread()
+    void AudioPlayer::Stream::update()
     {
-        while(!mIsFinishing)
+        ALint buffersProcessed;
+        alGetSourcei(mSource.getSourceId(), AL_BUFFERS_PROCESSED, &buffersProcessed);
+        if(buffersProcessed > 0)
         {
-            ALint buffersProcessed;
-            alGetSourcei(mSource.getSourceId(), AL_BUFFERS_PROCESSED, &buffersProcessed);
-            if(buffersProcessed > 0)
-            {
-                ALuint bufferId;
-                alSourceUnqueueBuffers(mSource.getSourceId(), 1, &bufferId);
-                mStream.bufferConsumed();
-            }
-
-            while(AudioBuffer* newBuffer = mStream.nextReadyBuffer())
-            {
-                ALuint bufferId = newBuffer->getBufferId();
-                alSourceQueueBuffers(mSource.getSourceId(), 1, &bufferId);
-            }
-            std::this_thread::sleep_for(std::chrono::milliseconds(25));
+            ALuint bufferId;
+            alSourceUnqueueBuffers(mSource.getSourceId(), 1, &bufferId);
+            mStream.bufferConsumed();
         }
     }
     
@@ -512,9 +551,11 @@ namespace fea
     void AudioPlayer::Stream::stop()
     {
         if(mStreamerThread.joinable())
+
+        while(AudioBuffer* newBuffer = mStream.nextReadyBuffer())
         {
-            mIsFinishing = true;
-            mStreamerThread.join();
+            ALuint bufferId = newBuffer->getBufferId();
+            alSourceQueueBuffers(mSource.getSourceId(), 1, &bufferId);
         }
     }
 }
