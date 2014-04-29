@@ -239,7 +239,7 @@ namespace fea
     void AudioPlayer::update()
     {
 #if defined(__EMSCRIPTEN__)
-        for(auto stream : mStreams)
+        for(auto& stream : mStreams)
             stream.second.update();
 #endif
     }
@@ -550,7 +550,7 @@ namespace fea
 
     AudioPlayer::Stream::Stream(Stream&& other) :
         mSource(std::move(other.mSource)),
-        mStream(std::move(other.mStream))
+        mStream(other.mStream)
     {
     }
 
@@ -563,22 +563,6 @@ namespace fea
             ALuint bufferId;
             alSourceUnqueueBuffers(mSource.getSourceId(), 1, &bufferId);
             mStream.bufferConsumed();
-        }
-    }
-    
-    void AudioPlayer::Stream::start()
-    {
-        mStreamerThread = std::thread(&Stream::streamerThread, this);
-    }
-    
-    void AudioPlayer::Stream::stop()
-    {
-        if(mStreamerThread.joinable())
-
-        while(AudioBuffer* newBuffer = mStream.nextReadyBuffer())
-        {
-            ALuint bufferId = newBuffer->getBufferId();
-            alSourceQueueBuffers(mSource.getSourceId(), 1, &bufferId);
         }
     }
 #endif
