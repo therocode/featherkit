@@ -179,20 +179,23 @@ namespace fea
 
     void AudioPlayer::stop(AudioHandle handle)
     {
-        std::lock_guard<std::mutex> lock(mSourcesMutex);
-        auto source = mPlayingSources.find(handle);
-
-        if(source != mPlayingSources.end())
         {
-            ALuint sourceId = source->second.getSourceId();
+            std::lock_guard<std::mutex> lock(mSourcesMutex);
+            auto source = mPlayingSources.find(handle);
 
-            auto streamIterator = mStreams.find(sourceId);
-            if(streamIterator != mStreams.end())
+            if(source != mPlayingSources.end())
             {
-                streamIterator->second.stop();
+                ALuint sourceId = source->second.getSourceId();
+
+                auto streamIterator = mStreams.find(sourceId);
+                if(streamIterator != mStreams.end())
+                {
+                    streamIterator->second.stop();
+                }
+                alSourceStop(sourceId);
             }
-            alSourceStop(sourceId);
         }
+        renewFinishedSources();
     }
     
     size_t AudioPlayer::getMaxSoundsPlaying() const

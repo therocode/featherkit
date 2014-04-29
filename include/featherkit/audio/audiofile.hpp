@@ -1,7 +1,7 @@
 #pragma once
-#include <sndfile.h>
 #include <string>
 #include <vector>
+#include <vorbis/vorbisfile.h>
 
 namespace fea
 {
@@ -20,7 +20,7 @@ namespace fea
             void open(const std::string& path);
             void fillBufferFromIndex(std::vector<int16_t>& buffer, size_t sampleIndex);
         private:
-            SNDFILE* mFile;
+            OggVorbis_File* mFile;
             int32_t mChannelCount;
             int32_t mSampleRate;
             size_t mSampleAmount;

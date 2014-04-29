@@ -59,9 +59,9 @@ if(BUILD_AUDIO)
         include_directories(${OPENAL_INCLUDE_DIR})
     endif()
 
-    find_package(SndFile REQUIRED)
-    if(SNDFILE_FOUND)
-        include_directories(${SNDFILE_INCLUDE_DIRS})
+    find_package(VorbisFile REQUIRED)
+    if(VorbisFile_FOUND)
+        include_directories(${VorbisFile_INCLUDE_DIR})
     endif()
 
     set(BUILT_TARGETS ${BUILT_TARGETS} ${project_name}-audio)
@@ -121,7 +121,7 @@ if(BUILD_AUDIO)
         include/featherkit/audio/efx/ringmodulator.hpp)
 
     add_library(${project_name}-audio ${SHARED_OR_STATIC} ${audio_header_files} ${audio_source_files})
-    target_link_libraries(${project_name}-audio ${OPENAL_LIBRARY} ${SNDFILE_LIBRARIES})
+    target_link_libraries(${project_name}-audio ${OPENAL_LIBRARY} ${VorbisFile_LIBRARIES})
 endif()
 
 if(BUILD_STRUCTURE)
