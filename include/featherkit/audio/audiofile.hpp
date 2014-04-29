@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <vorbis/vorbisfile.h>
+#include <cstdint>
 
 namespace fea
 {

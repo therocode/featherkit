@@ -6,6 +6,7 @@
 #include <featherkit/assert.hpp>
 #define AL_ALEXT_PROTOTYPES
 #include <AL/efx.h>
+#include <string>
             
 namespace fea
 {
@@ -497,6 +498,14 @@ namespace fea
     {
     }
 
+    AudioPlayer::Stream::Stream(Stream&& other) :
+        mSource(std::move(other.mSource)),
+        mStream(other.mStream),
+        mIsFinishing(other.mIsFinishing),
+        mStreamerThread(std::move(other.mStreamerThread))
+    {
+    }
+
     void AudioPlayer::Stream::streamerThread()
     {
         while(!mIsFinishing)
@@ -539,6 +548,12 @@ namespace fea
     {
     }
 
+    AudioPlayer::Stream::Stream(Stream&& other) :
+        mSource(std::move(other.mSource)),
+        mStream(std::move(other.mStream))
+    {
+    }
+
     void AudioPlayer::Stream::update()
     {
         ALint buffersProcessed;
@@ -553,7 +568,7 @@ namespace fea
     
     void AudioPlayer::Stream::start()
     {
-        mStreamerThread = std::move(std::thread(&Stream::streamerThread, this));
+        mStreamerThread = std::thread(&Stream::streamerThread, this);
     }
     
     void AudioPlayer::Stream::stop()

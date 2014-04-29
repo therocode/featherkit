@@ -83,6 +83,7 @@ namespace fea
             {
                 public:
                     Stream(const PlaySource& source, AudioStream& audioStream);
+                    Stream(Stream&& other);
                     void streamerThread();
                     void start();
                     void stop();
@@ -97,6 +98,7 @@ namespace fea
             {
                 public:
                     Stream(const PlaySource& source, AudioStream& audioStream);
+                    Stream(Stream&& other);
                     void update();
                 private:
                     const PlaySource& mSource;

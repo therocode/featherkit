@@ -12,7 +12,7 @@ namespace fea
     {
         struct Writing
         {
-            Writing(const std::wstring& text, const Font* font, const glm::vec2& penPosition, const float scale, const Color& color);//
+            Writing(const std::wstring& text, const Font* font, const glm::vec2& penPosition, const float scale, const Color& color);
             std::wstring mText;
             const Font* mFont;
             glm::vec2 mPenPosition;

@@ -2,6 +2,7 @@
 #include <featherkit/entity/entitymanager.hpp>
 #include <featherkit/entity/entitytemplate.hpp>
 #include <featherkit/entity/entity.hpp>
+#include <functional>
 
 namespace fea
 {

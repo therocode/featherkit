@@ -2,6 +2,7 @@
 #include <string>
 #include <functional>
 #include <stdexcept>
+#include <cstdint>
 
 namespace fea
 {
