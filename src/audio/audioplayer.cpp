@@ -564,6 +564,12 @@ namespace fea
             alSourceUnqueueBuffers(mSource.getSourceId(), 1, &bufferId);
             mStream.bufferConsumed();
         }
+
+        while(AudioBuffer* newBuffer = mStream.nextReadyBuffer())
+        {
+            ALuint bufferId = newBuffer->getBufferId();
+            alSourceQueueBuffers(mSource.getSourceId(), 1, &bufferId);
+        }
     }
 #endif
 }
