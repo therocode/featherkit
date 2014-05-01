@@ -117,7 +117,7 @@ namespace fea
         {
             mReadyBuffers = std::queue<size_t>();
             mConsumingBuffers = std::queue<size_t>();
-            mCurrentSample = mSampleRate * mChannelCount * (static_cast<float>(getPlayOffset().count())/ 1000.0f);
+            mCurrentSample = mSampleRate * mChannelCount * (size_t)(static_cast<float>(getPlayOffset().count())/ 1000.0f);
 
             for(size_t i = 0; i < mBuffers.size(); i++)
             {

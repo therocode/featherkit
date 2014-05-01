@@ -60,7 +60,7 @@ namespace fea
         int bitstream = 0;
 
 
-        while((read = ov_read(mFile, ((char*)sampleData.data()) + totalRead, (mSampleAmount * 2) - totalRead, 0, 2, 1, &bitstream)))
+        while((read = ov_read(mFile, ((char*)sampleData.data()) + totalRead, (mSampleAmount * 2) - (int32_t)totalRead, 0, 2, 1, &bitstream)))
         {
             if(read < 0)
             {
@@ -70,7 +70,7 @@ namespace fea
             totalRead += read;
         }
 
-        sampleData.resize(totalRead / 2);
+        sampleData.resize((size_t)totalRead / 2);
 
         return sampleData;
     }
@@ -94,7 +94,7 @@ namespace fea
 
         mChannelCount = info->channels;
         mSampleRate = info->rate;
-        mSampleAmount = 2 * ov_pcm_total(mFile, -1);
+        mSampleAmount = 2 * (size_t)ov_pcm_total(mFile, -1);
     }
     
     void AudioFile::fillBufferFromIndex(std::vector<int16_t>& buffer, size_t sampleIndex)
@@ -107,7 +107,7 @@ namespace fea
         int64_t totalRead = 0;
         int bitstream = 0;
 
-        while((read = ov_read(mFile, ((char*)buffer.data()) + totalRead, (buffer.size() * 2) - totalRead, 0, 2, 1, &bitstream)))
+		while ((read = ov_read(mFile, ((char*)buffer.data()) + (int32_t)totalRead, (buffer.size() * 2) - (int32_t)totalRead, 0, 2, 1, &bitstream)))
         {
             if(read < 0)
             {
@@ -117,6 +117,6 @@ namespace fea
             totalRead += read;
         }
 
-        buffer.resize(totalRead / 2);
+		buffer.resize((int32_t)totalRead / 2);
     }
 }
