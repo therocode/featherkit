@@ -364,7 +364,7 @@ if(BUILD_UI)
             include/featherkit/ui/sfmlinputbackend.hpp)
 
         add_library(${project_name}-sfml ${SHARED_OR_STATIC} ${ui_sfml_backend_source_files} ${ui_sfml_backend_header_files})
-        target_link_libraries(${project_name}-sfml ${SFML_LIBRARIES} ${project_name}-ui-d)
+        target_link_libraries(${project_name}-sfml ${SFML_LIBRARIES} ${project_name}-ui)
     endif()
 
     if(${BUILD_SDLBACKENDS})
