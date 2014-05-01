@@ -2,7 +2,7 @@
 #define NO_SDL_GLEXT
 #include <featherkit/ui/windowbackend.hpp>
 #include <glm/glm.hpp>
-#include <SDL.h>
+#include <SDL/SDL.h>
 //#include <SDL/SDL_opengl.h>
 #include <memory>
 

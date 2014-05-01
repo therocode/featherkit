@@ -335,6 +335,8 @@ if(BUILD_UI)
     set(ui_util_header_files 
         include/featherkit/util/ui/jsonactioniohandler.hpp
         include/featherkit/util/ui/jsonactioniohandler.inl)
+    
+	add_library(${project_name}-ui ${SHARED_OR_STATIC} ${ui_header_files} ${ui_source_files} ${ui_util_source_files} ${ui_util_header_files})
 
     if(${BUILD_SFMLBACKENDS})
         set(BUILT_TARGETS ${BUILT_TARGETS} ${project_name}-sfml)
@@ -353,7 +355,7 @@ if(BUILD_UI)
             include/featherkit/ui/sfmlinputbackend.hpp)
 
         add_library(${project_name}-sfml ${SHARED_OR_STATIC} ${ui_sfml_backend_source_files} ${ui_sfml_backend_header_files})
-        target_link_libraries(${project_name}-sfml ${SFML_LIBRARIES})
+        target_link_libraries(${project_name}-sfml ${SFML_LIBRARIES} ${project_name}-ui)
     endif()
 
     if(${BUILD_SDLBACKENDS})
@@ -373,7 +375,7 @@ if(BUILD_UI)
         include/featherkit/ui/sdlinputbackend.hpp)
 
         add_library(${project_name}-sdl ${SHARED_OR_STATIC} ${ui_sdl_backend_source_files} ${ui_sdl_backend_header_files})
-        target_link_libraries(${project_name}-sdl ${SDL_LIBRARY})
+        target_link_libraries(${project_name}-sdl ${SDL_LIBRARY} ${project_name}-ui)
     endif()
 
 	if(${BUILD_SDL2BACKENDS})
@@ -396,10 +398,8 @@ if(BUILD_UI)
             include/featherkit/ui/sdl2inputbackend.hpp)
     
         add_library(${project_name}-sdl2 ${SHARED_OR_STATIC} ${ui_sdl2_backend_source_files} ${ui_sdl2_backend_header_files})
-		target_link_libraries(${project_name}-sdl2 ${SDL2_LIBRARY})
+		target_link_libraries(${project_name}-sdl2 ${SDL2_LIBRARY} ${project_name}-ui)
 	endif()
-
-    add_library(${project_name}-ui ${SHARED_OR_STATIC} ${ui_header_files} ${ui_source_files} ${ui_util_source_files} ${ui_util_header_files})
 
 endif()
 
