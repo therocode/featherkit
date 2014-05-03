@@ -37,6 +37,14 @@ namespace fea
     
     AudioPlayer::~AudioPlayer()
     {
+        std::vector<AudioHandle> playingSources;
+
+        for(auto& source : mPlayingSources)
+            playingSources.push_back(source.first);
+
+        for(auto source : playingSources)
+            stop(source);
+
         alcMakeContextCurrent(nullptr);
         if(mAudioContext)
             alcDestroyContext(mAudioContext);
