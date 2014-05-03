@@ -338,8 +338,22 @@ texture_atlas_upload( texture_atlas_t * self )
     }
     else
     {
-        glTexImage2D( GL_TEXTURE_2D, 0, GL_ALPHA, self->width, self->height,
-                      0, GL_ALPHA, GL_UNSIGNED_BYTE, self->data );
+        uint8_t* pixels = malloc(self->width * self->height * 4);
+
+        for(size_t i = 0; i < self->width * self->height; i++)
+        {
+            size_t index = i * 4;
+            pixels[index] = 255;//self->data[i];
+            pixels[index+1] = 255;//self->data[i];
+            pixels[index+2] = 255;//self->data[i];
+            pixels[index+3] = self->data[i];
+        }
+
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, self->width, self->height,
+                      0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+        //glTexImage2D( GL_TEXTURE_2D, 0, GL_ALPHA, self->width, self->height,
+        //              0, GL_ALPHA, GL_UNSIGNED_BYTE, self->data );
+        free(pixels);
     }
 }
 
