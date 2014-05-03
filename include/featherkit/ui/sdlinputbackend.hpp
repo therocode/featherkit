@@ -1,7 +1,7 @@
 #pragma once
 #include <featherkit/ui/inputbackend.hpp>
 #include <glm/glm.hpp>
-#include <SDL.h>
+#include <SDL/SDL.h>
 
 namespace fea
 {
