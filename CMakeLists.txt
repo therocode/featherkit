@@ -58,9 +58,11 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CPP_11_FLAG}")
 if(BUILD_AUDIO)
     ##Audio module##
 
-    find_package(OpenAL REQUIRED)
-    if(OPENAL_FOUND)
-        include_directories(${OPENAL_INCLUDE_DIR})
+    if(NOT EMSCRIPTEN)
+        find_package(OpenAL REQUIRED)
+        if(OPENAL_FOUND)
+            include_directories(${OPENAL_INCLUDE_DIR})
+        endif()
     endif()
 
     find_package(VorbisFile REQUIRED)
@@ -293,10 +295,12 @@ if(BUILD_RENDERING)
         include_directories(${WINFIX} ${GLM_INCLUDE_DIRS})
     endif()
 
-    find_package(OpenGL REQUIRED)
-    if(OPENGL_FOUND)
-        include_directories(${OPENGL_INCLUDE_DIRS})
-    endif(OPENGL_FOUND)
+    if(NOT EMSCRIPTEN)
+        find_package(OpenGL REQUIRED)
+        if(OPENGL_FOUND)
+            include_directories(${OPENGL_INCLUDE_DIRS})
+        endif(OPENGL_FOUND)
+    endif()
 
     add_library(${project_name}-rendering ${SHARED_OR_STATIC} ${rendering_source_files} ${rendering_header_files} ${freetype-gl_source_files} ${freetype-gl_header_files})
 
@@ -370,10 +374,13 @@ if(BUILD_UI)
     if(${BUILD_SDLBACKENDS})
         set(BUILT_TARGETS ${BUILT_TARGETS} ${project_name}-sdl)
 
-        find_package(SDL REQUIRED)
-        if(SDL_FOUND)
-            include_directories(${SDL_INCLUDE_DIR})
-        endif(SDL_FOUND)
+        if(NOT EMSCRIPTEN)
+            find_package(SDL REQUIRED)
+            if(SDL_FOUND)
+                include_directories(${SDL_INCLUDE_DIR})
+            endif(SDL_FOUND)
+        endif()
+
         set(ui_sdl_backend_source_files 
             src/ui/sdlwindowbackend.cpp
             #src/ui/contextsettings.cpp
