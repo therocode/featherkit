@@ -6,7 +6,9 @@ namespace fea
 {
     AudioFilter::AudioFilter()
     {
+#if !defined(__EMSCRIPTEN__)
         alGenFilters(1, &mFilterId);
+#endif
     }
 
     AudioFilter::AudioFilter(AudioFilter&& other) : 
@@ -24,8 +26,10 @@ namespace fea
 
     AudioFilter::~AudioFilter()
     {
+#if !defined(__EMSCRIPTEN__)
         if(mFilterId != 0)
             alDeleteFilters(1, &mFilterId);
+#endif
     }
     
     ALuint AudioFilter::getFilterId() const

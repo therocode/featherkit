@@ -50,6 +50,11 @@ if(NOT MSVC)
     set(CPP_11_FLAG -std=c++11)
 endif()
 
+message("najs")
+if(EMSCRIPTEN)
+    message("NOJS")
+endif()
+
 #if(MINGW OR CMAKE_COMPILER_IS_GNUCXX OR Clang)
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -Werror -Wshadow -Wconversion -Wno-long-long -pedantic -Wconstant-conversion")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CPP_11_FLAG}")
@@ -77,32 +82,38 @@ if(BUILD_AUDIO)
 
     set(BUILT_TARGETS ${BUILT_TARGETS} ${project_name}-audio)
 
+    if(NOT EMSCRIPTEN)
+        set(FEATHERKIT_EFX_SOURCES 
+            src/audio/audioeffect.cpp
+            src/audio/effectslot.cpp
+            src/audio/audiofilter.cpp
+            src/audio/efx/chorus.cpp
+            src/audio/efx/compressor.cpp
+            src/audio/efx/distortion.cpp
+            src/audio/efx/echo.cpp
+            src/audio/efx/equalizer.cpp
+            src/audio/efx/flanger.cpp
+            src/audio/efx/lowpassfilter.cpp
+            src/audio/efx/presets.cpp
+            src/audio/efx/reverb.cpp
+            src/audio/efx/ringmodulator.cpp)
+    endif()
+
+
     set(audio_source_files 
         src/audio/audio.cpp
         src/audio/audiobase.cpp
         src/audio/audiobuffer.cpp
-        src/audio/audioeffect.cpp
         src/audio/audiofile.cpp
         src/audio/audiofilestream.cpp
-        src/audio/audiofilter.cpp
         src/audio/audioplayer.cpp
         src/audio/audiosample.cpp
         src/audio/audiostream.cpp
-        src/audio/effectslot.cpp
         src/audio/audiofilenotfoundexception.cpp
         src/audio/listener.cpp
         src/audio/playsource.cpp
         src/audio/oscillator.cpp
-        src/audio/efx/chorus.cpp
-        src/audio/efx/compressor.cpp
-        src/audio/efx/distortion.cpp
-        src/audio/efx/echo.cpp
-        src/audio/efx/equalizer.cpp
-        src/audio/efx/flanger.cpp
-        src/audio/efx/lowpassfilter.cpp
-        src/audio/efx/presets.cpp
-        src/audio/efx/reverb.cpp
-        src/audio/efx/ringmodulator.cpp)
+        ${FEATHERKIT_EFX_SOURCES})
 
     set(audio_header_files
         include/featherkit/audio/audio.hpp
@@ -214,8 +225,7 @@ if(BUILD_RENDERING)
 
     set(BUILT_TARGETS ${BUILT_TARGETS} ${project_name}-rendering)
 
-    if(CMAKE_CXX_COMPILER MATCHES ".*(emcc).*")
-    else()
+    if(NOT EMSCRIPTEN)
         set(FEA_GL_SOURCE src/rendering/gl_core_3_2.c)
     endif()
 

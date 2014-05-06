@@ -2,7 +2,9 @@
 #include <chrono>
 #include <set>
 #include <featherkit/audio/vec3f.hpp>
+#if !defined(__EMSCRIPTEN__)
 #include <featherkit/audio/audiofilter.hpp>
+#endif
 
 namespace fea
 {

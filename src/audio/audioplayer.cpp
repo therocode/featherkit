@@ -4,8 +4,10 @@
 #include <featherkit/audio/audiostream.hpp>
 #include <featherkit/audio/audiofilter.hpp>
 #include <featherkit/assert.hpp>
+#if !defined(__EMSCRIPTEN__)
 #define AL_ALEXT_PROTOTYPES
 #include <AL/efx.h>
+#endif
 #include <string>
             
 namespace fea
@@ -27,12 +29,16 @@ namespace fea
 
         setupSources(mMaxSoundsPlaying);
 
+#if !defined(__EMSCRIPTEN__)
         alcGetIntegerv(mAudioDevice, ALC_MAX_AUXILIARY_SENDS, 1, &mMaxAuxSend);
 
         for(size_t i = 0; i < 4; i++)
         {
             mEffectSlots.push_back(EffectSlot());
         }
+#else
+        mMaxAuxSend = 0;
+#endif
     }
     
     AudioPlayer::~AudioPlayer()
@@ -100,7 +106,9 @@ namespace fea
 
         if(audio.hasFilter())
         {
+#if !defined(__EMSCRIPTEN__)
             alSourcei(sourceId, AL_DIRECT_FILTER, audio.getFilter().getFilterId());
+#endif
         }
 
         alSourcePlay(sourceId); //play
@@ -149,7 +157,9 @@ namespace fea
 
         if(stream.hasFilter())
         {
+#if !defined(__EMSCRIPTEN__)
             alSourcei(sourceId, AL_DIRECT_FILTER, stream.getFilter().getFilterId());
+#endif
         }
 
         mStreams.emplace(sourceId, Stream(mPlayingSources.at(handle), stream));
@@ -220,28 +230,36 @@ namespace fea
     
     void AudioPlayer::setSlotEffect(const AudioEffect& effect, size_t slot)
     {
+#if !defined(__EMSCRIPTEN__)
         FEA_ASSERT(slot < mMaxSoundsPlaying, "Trying to add an effect to slot number " << slot << " but the highest slot number is " << 4 << "!\n");
         alAuxiliaryEffectSloti(mEffectSlots.at(slot).getSlotId(), AL_EFFECTSLOT_EFFECT, effect.getEffectId());
         alAuxiliaryEffectSlotf(mEffectSlots.at(slot).getSlotId(), AL_EFFECTSLOT_GAIN, effect.getEffectGain());
         alAuxiliaryEffectSloti(mEffectSlots.at(slot).getSlotId(), AL_EFFECTSLOT_AUXILIARY_SEND_AUTO, effect.getAutoAdjustments() ? AL_TRUE : AL_FALSE);
+#endif
     }
 
     void AudioPlayer::clearSlotEffect(size_t slot)
     {
+#if !defined(__EMSCRIPTEN__)
         FEA_ASSERT(slot < mMaxSoundsPlaying, "Trying to clear the effects of slot number " << slot << " but the highest slot number is " << 4 << "!\n");
         alAuxiliaryEffectSloti(mEffectSlots.at(slot).getSlotId(), AL_EFFECTSLOT_EFFECT, AL_EFFECT_NULL);
+#endif
     }
 
     void AudioPlayer::setSlotFilter(const AudioFilter& filter, size_t slot)
     {
+#if !defined(__EMSCRIPTEN__)
         FEA_ASSERT(slot < mMaxSoundsPlaying, "Trying to set the filter of slot number " << slot << " but the highest slot number is " << 4 << "!\n");
         mEffectSlots.at(slot).setFilter(filter);
+#endif
     }
     
     void AudioPlayer::clearSlotFilter(size_t slot)
     {
+#if !defined(__EMSCRIPTEN__)
         FEA_ASSERT(slot < mMaxSoundsPlaying, "Trying to clear the filter of slot number " << slot << " but the highest slot number is " << 4 << "!\n");
         mEffectSlots.at(slot).clearFilter();
+#endif
     }
             
     void AudioPlayer::update()
