@@ -21,6 +21,7 @@ namespace fea
             void activate() const;
             void deactivate() const;
             void setUniform(const std::string& name, UniformType type, const void* value) const;
+            void setUniform(const std::string& name, UniformType type, int count, const void* value) const;
             void setVertexAttribute(const std::string& name, const uint32_t floatAmount, const float* data) const;
             void compile();
         private:
