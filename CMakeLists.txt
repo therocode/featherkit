@@ -50,11 +50,6 @@ if(NOT MSVC)
     set(CPP_11_FLAG -std=c++11)
 endif()
 
-message("najs")
-if(EMSCRIPTEN)
-    message("NOJS")
-endif()
-
 #if(MINGW OR CMAKE_COMPILER_IS_GNUCXX OR Clang)
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -Werror -Wshadow -Wconversion -Wno-long-long -pedantic -Wconstant-conversion")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CPP_11_FLAG}")
