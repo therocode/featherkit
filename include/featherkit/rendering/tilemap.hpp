@@ -19,7 +19,7 @@ namespace fea
         struct AnimatedTile
         {
             AnimatedTile(const std::string& next, uint32_t timeLeft);
-            const std::string mNext;
+            std::string mNext;
             uint32_t mTimeLeft;
         };
         public:
