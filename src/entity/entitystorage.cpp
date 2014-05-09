@@ -1,3 +1,4 @@
+#include <string>
 #include <featherkit/entity/entitystorage.hpp>
 
 namespace fea
@@ -44,7 +45,9 @@ namespace fea
         }
 
         for(auto& attribute : attributeList)
+        {
             FEA_ASSERT(mAttributes.find(attribute) != mAttributes.end(), "Trying to create an entity with the attribute '" + attribute + "' which is invalid!");
+        }
 
         mEntities.emplace(newId, StorageEntity(attributeList));
         return newId;

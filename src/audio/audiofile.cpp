@@ -31,7 +31,8 @@ namespace fea
     {
         if(mFile)
         {
-            sf_close(mFile);
+            ov_clear(mFile);
+            delete mFile;
         }
     }
 
@@ -52,10 +53,24 @@ namespace fea
 
         std::vector<int16_t> sampleData(mSampleAmount);
 
-        size_t readAmount = static_cast<std::size_t>(sf_read_short(mFile, sampleData.data(), mSampleAmount));
-        sampleData.resize(readAmount);
+        ov_raw_seek(mFile, 0);
 
-        sf_seek(mFile, 0, 0);
+        int64_t read = 0;
+        int64_t totalRead = 0;
+        int bitstream = 0;
+
+
+        while((read = ov_read(mFile, ((char*)sampleData.data()) + totalRead, (mSampleAmount * 2) - (int32_t)totalRead, 0, 2, 1, &bitstream)))
+        {
+            if(read < 0)
+            {
+                break;
+            }
+
+            totalRead += read;
+        }
+
+        sampleData.resize((size_t)totalRead / 2);
 
         return sampleData;
     }
@@ -64,29 +79,44 @@ namespace fea
     {
         if(mFile)
         {
-            sf_close(mFile);
+            ov_clear(mFile);
+            delete mFile;
         }
 
-        SF_INFO fileInfo;
-        mFile = sf_open(path.c_str(), SFM_READ, &fileInfo);
+        mFile = new OggVorbis_File;
 
-        if(mFile == nullptr)
+        if(ov_fopen(path.c_str(), mFile))
         {
             throw AudioFileNotFoundException("Error when trying to load audio file '" + path + "!");
         }
 
-        mChannelCount = fileInfo.channels;
-        mSampleRate = fileInfo.samplerate;
-        mSampleAmount = static_cast<std::size_t>(fileInfo.frames) * fileInfo.channels;
+        vorbis_info* info = ov_info(mFile, -1);
+
+        mChannelCount = info->channels;
+        mSampleRate = info->rate;
+        mSampleAmount = 2 * (size_t)ov_pcm_total(mFile, -1);
     }
     
     void AudioFile::fillBufferFromIndex(std::vector<int16_t>& buffer, size_t sampleIndex)
     {
         FEA_ASSERT(mFile != nullptr, "Cannot fill buffer when no valid file is loaded!");
 
-        sf_seek(mFile, sampleIndex / mChannelCount, SEEK_SET);
+        ov_pcm_seek(mFile, sampleIndex / mChannelCount);
          
-        size_t readAmount = static_cast<std::size_t>(sf_read_short(mFile, buffer.data(), buffer.size()));
-        buffer.resize(readAmount);
+        int64_t read = 0;
+        int64_t totalRead = 0;
+        int bitstream = 0;
+
+		while ((read = ov_read(mFile, ((char*)buffer.data()) + (int32_t)totalRead, (buffer.size() * 2) - (int32_t)totalRead, 0, 2, 1, &bitstream)))
+        {
+            if(read < 0)
+            {
+                break;
+            }
+
+            totalRead += read;
+        }
+
+		buffer.resize((int32_t)totalRead / 2);
     }
 }

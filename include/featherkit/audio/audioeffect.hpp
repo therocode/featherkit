@@ -1,7 +1,9 @@
 #pragma once
 #include <AL/al.h>
+#if !defined(__EMSCRIPTEN__)
 #define AL_ALEXT_PROTOTYPES
 #include <AL/efx.h>
+#endif
 
 namespace fea
 {

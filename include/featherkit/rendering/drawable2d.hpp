@@ -115,7 +115,7 @@ namespace fea
      *  A value of 1.0f is neutral, 0.5f is twice as slowly and 2.0f is twice as fast.
      *  @param parallax Parallax factor.
      ***
-     *  @fn void Drawable2D::setParallax(glm:vec2& parallax)
+     *  @fn void Drawable2D::setParallax(const glm::vec2& parallax)
      *  @brief Set the parallax factor for each x and y axis separately.
      *  @param parallax Parallax factor.
      ***

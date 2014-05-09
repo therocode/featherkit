@@ -31,12 +31,12 @@ namespace fea
                       texCoordsX[0], texCoordsY[1],
                       texCoordsX[1], texCoordsY[1]};
 
-        mVertexColors = {0.0f, 0.0f, 0.0f, 0.0f,
-                         0.0f, 0.0f, 0.0f, 0.0f,
-                         0.0f, 0.0f, 0.0f, 0.0f,
-                         0.0f, 0.0f, 0.0f, 0.0f,
-                         0.0f, 0.0f, 0.0f, 0.0f,
-                         0.0f, 0.0f, 0.0f, 0.0f};
+        mVertexColors = {1.0f, 1.0f, 1.0f, 1.0f,
+                         1.0f, 1.0f, 1.0f, 1.0f,
+                         1.0f, 1.0f, 1.0f, 1.0f,
+                         1.0f, 1.0f, 1.0f, 1.0f,
+                         1.0f, 1.0f, 1.0f, 1.0f,
+                         1.0f, 1.0f, 1.0f, 1.0f};
 
         mDrawMode = GL_TRIANGLES;
         mConstraints = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);

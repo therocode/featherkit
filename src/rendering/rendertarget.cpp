@@ -1,5 +1,6 @@
 #include <featherkit/rendering/rendertarget.hpp>
 #include <featherkit/assert.hpp>
+#include <string>
 
 namespace fea
 {
@@ -50,8 +51,6 @@ namespace fea
 
         mWidth = w;
         mHeight= h;
-
-        GLuint textureId;
 
         glGenFramebuffers(1, &mId);
         glBindFramebuffer(GL_FRAMEBUFFER, mId);

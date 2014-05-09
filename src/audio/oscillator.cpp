@@ -21,7 +21,7 @@ namespace fea
 
         double deltaTheta = 2.0 * pi * ((double)mFrequency / (double)getSampleRate());
 
-        for(int i = 0; i < desiredSampleAmount; i++)
+        for(size_t i = 0; i < desiredSampleAmount; i++)
         {
             toFill[i] = (int16_t) (std::numeric_limits<int16_t>::max() * sin(mTheta));
             mTheta += deltaTheta;

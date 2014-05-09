@@ -40,7 +40,7 @@ void ActionHandler<Action>::feedEvent(const Event& event)
             break;
 
         default:
-            break;
+            return;
     }
 
 

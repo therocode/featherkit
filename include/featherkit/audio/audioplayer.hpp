@@ -60,6 +60,7 @@ namespace fea
             void clearSlotEffect(size_t slot);
             void setSlotFilter(const AudioFilter& filter, size_t slot);
             void clearSlotFilter(size_t slot);
+            void update();
         private:
             void setupSources(size_t maxSoundAmount);
             void renewFinishedSources();
@@ -76,11 +77,13 @@ namespace fea
             std::unordered_map<AudioHandle, PlaySource> mPlayingSources;
             mutable std::mutex mSourcesMutex;
 
+#if !defined(__EMSCRIPTEN__)
             //streaming threads
             class Stream
             {
                 public:
                     Stream(const PlaySource& source, AudioStream& audioStream);
+                    Stream(Stream&& other);
                     void streamerThread();
                     void start();
                     void stop();
@@ -90,7 +93,18 @@ namespace fea
                     bool mIsFinishing;
                     std::thread mStreamerThread;
             };
-
+#else
+            class Stream
+            {
+                public:
+                    Stream(const PlaySource& source, AudioStream& audioStream);
+                    Stream(Stream&& other);
+                    void update();
+                private:
+                    const PlaySource& mSource;
+                    AudioStream& mStream;
+            };
+#endif
             std::unordered_map<ALuint, Stream> mStreams;
 
             //effect stuff

@@ -48,12 +48,12 @@ namespace fea
 #else
         uint8_t* keymap = SDL_GetKeyState(0);
 #endif
-        return keymap[feaKeyCodeToSdl(code)];
+        return keymap[feaKeyCodeToSdl(code)] != 0;
     }
 
     bool SDLInputBackend::isMouseButtonPressed(Mouse::Button b)
     {
-        return SDL_GetMouseState(NULL, NULL)&SDL_BUTTON(feaMouseButtonToSdl(b));
+        return (SDL_GetMouseState(NULL, NULL) & SDL_BUTTON(feaMouseButtonToSdl(b))) != 0;
     }
 
     glm::ivec2 SDLInputBackend::getMouseGlobalPosition()
@@ -700,6 +700,8 @@ namespace fea
                 return SDLK_F15;
             case Keyboard::PAUSE:
                 return SDLK_PAUSE;
+			default:
+				return (SDLKey)-1;
         }
     }
 
@@ -717,6 +719,8 @@ namespace fea
                 return 1;
             case Mouse::XBUTTON2:
                 return 3;
+			default:
+				return 0;
         }
     }
 

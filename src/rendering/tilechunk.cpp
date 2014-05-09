@@ -34,12 +34,12 @@ namespace fea
                 mTexCoordsCached.push_back(0.0f); mTexCoordsCached.push_back(1.0f);
                 mTexCoordsCached.push_back(1.0f); mTexCoordsCached.push_back(1.0f);
 
-                mVertexColorsCached.push_back(0.0f); mVertexColorsCached.push_back(0.0f); mVertexColorsCached.push_back(0.0f); mVertexColorsCached.push_back(0.0f);
-                mVertexColorsCached.push_back(0.0f); mVertexColorsCached.push_back(0.0f); mVertexColorsCached.push_back(0.0f); mVertexColorsCached.push_back(0.0f);
-                mVertexColorsCached.push_back(0.0f); mVertexColorsCached.push_back(0.0f); mVertexColorsCached.push_back(0.0f); mVertexColorsCached.push_back(0.0f);
-                mVertexColorsCached.push_back(0.0f); mVertexColorsCached.push_back(0.0f); mVertexColorsCached.push_back(0.0f); mVertexColorsCached.push_back(0.0f);
-                mVertexColorsCached.push_back(0.0f); mVertexColorsCached.push_back(0.0f); mVertexColorsCached.push_back(0.0f); mVertexColorsCached.push_back(0.0f);
-                mVertexColorsCached.push_back(0.0f); mVertexColorsCached.push_back(0.0f); mVertexColorsCached.push_back(0.0f); mVertexColorsCached.push_back(0.0f);
+                mVertexColorsCached.push_back(1.0f); mVertexColorsCached.push_back(1.0f); mVertexColorsCached.push_back(1.0f); mVertexColorsCached.push_back(1.0f);
+                mVertexColorsCached.push_back(1.0f); mVertexColorsCached.push_back(1.0f); mVertexColorsCached.push_back(1.0f); mVertexColorsCached.push_back(1.0f);
+                mVertexColorsCached.push_back(1.0f); mVertexColorsCached.push_back(1.0f); mVertexColorsCached.push_back(1.0f); mVertexColorsCached.push_back(1.0f);
+                mVertexColorsCached.push_back(1.0f); mVertexColorsCached.push_back(1.0f); mVertexColorsCached.push_back(1.0f); mVertexColorsCached.push_back(1.0f);
+                mVertexColorsCached.push_back(1.0f); mVertexColorsCached.push_back(1.0f); mVertexColorsCached.push_back(1.0f); mVertexColorsCached.push_back(1.0f);
+                mVertexColorsCached.push_back(1.0f); mVertexColorsCached.push_back(1.0f); mVertexColorsCached.push_back(1.0f); mVertexColorsCached.push_back(1.0f);
             }
         }
         mDrawMode = GL_TRIANGLES;

@@ -1,7 +1,7 @@
 #include <featherkit/rendering/texture.hpp>
 #include <featherkit/assert.hpp>
 #include <utility>
-
+#include <string>
 
 namespace fea
 {

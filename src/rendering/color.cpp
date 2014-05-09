@@ -50,10 +50,10 @@ namespace fea
     {
         Color result;
 
-        result.mRed = mRed + other.mRed + 0.00196;
-        result.mGreen = mGreen + other.mGreen + 0.00196;
-        result.mBlue = mBlue + other.mBlue + 0.00196;
-        result.mAlpha = mAlpha + other.mAlpha + 0.00196;
+        result.mRed = mRed + other.mRed + 0.00196f;
+        result.mGreen = mGreen + other.mGreen + 0.00196f;
+        result.mBlue = mBlue + other.mBlue + 0.00196f;
+        result.mAlpha = mAlpha + other.mAlpha + 0.00196f;
 
         result.mRed = std::max(0.0f, std::min(1.0f, result.mRed));
         result.mGreen = std::max(0.0f, std::min(1.0f, result.mGreen));
@@ -82,10 +82,10 @@ namespace fea
     {
         Color result;
 
-        result.mRed = mRed - other.mRed + 0.00196;
-        result.mGreen = mGreen - other.mGreen + 0.00196;
-        result.mBlue = mBlue - other.mBlue + 0.00196;
-        result.mAlpha = mAlpha - other.mAlpha + 0.00196;
+        result.mRed = mRed - other.mRed + 0.00196f;
+        result.mGreen = mGreen - other.mGreen + 0.00196f;
+        result.mBlue = mBlue - other.mBlue + 0.00196f;
+        result.mAlpha = mAlpha - other.mAlpha + 0.00196f;
 
         result.mRed = std::max(0.0f, std::min(1.0f, result.mRed));
         result.mGreen = std::max(0.0f, std::min(1.0f, result.mGreen));
@@ -114,10 +114,10 @@ namespace fea
     {
         Color result;
 
-        result.mRed = mRed * other.mRed + 0.00196;
-        result.mGreen = mGreen * other.mGreen + 0.00196;
-        result.mBlue = mBlue * other.mBlue + 0.00196;
-        result.mAlpha = mAlpha * other.mAlpha + 0.00196;
+        result.mRed = mRed * other.mRed + 0.00196f;
+        result.mGreen = mGreen * other.mGreen + 0.00196f;
+        result.mBlue = mBlue * other.mBlue + 0.00196f;
+        result.mAlpha = mAlpha * other.mAlpha + 0.00196f;
 
         result.mRed = std::max(0.0f, std::min(1.0f, result.mRed));
         result.mGreen = std::max(0.0f, std::min(1.0f, result.mGreen));
@@ -146,10 +146,10 @@ namespace fea
     {
         Color result;
 
-        result.mRed = mRed / other.mRed + 0.00196;
-        result.mGreen = mGreen / other.mGreen + 0.00196;
-        result.mBlue = mBlue / other.mBlue + 0.00196;
-        result.mAlpha = mAlpha / other.mAlpha + 0.00196;
+        result.mRed = mRed / other.mRed + 0.00196f;
+        result.mGreen = mGreen / other.mGreen + 0.00196f;
+        result.mBlue = mBlue / other.mBlue + 0.00196f;
+        result.mAlpha = mAlpha / other.mAlpha + 0.00196f;
 
         result.mRed = std::max(0.0f, std::min(1.0f, result.mRed));
         result.mGreen = std::max(0.0f, std::min(1.0f, result.mGreen));
@@ -176,15 +176,15 @@ namespace fea
 
     bool Color::operator==(const Color& other) const
     {
-        uint8_t r = mRed * 255;
-        uint8_t g = mGreen * 255;
-        uint8_t b = mBlue * 255;
-        uint8_t a = mAlpha * 255;
+        uint8_t r = uint8_t(mRed * 255.0f);
+		uint8_t g = uint8_t(mGreen * 255.0f);
+		uint8_t b = uint8_t(mBlue * 255.0f);
+		uint8_t a = uint8_t(mAlpha * 255.0f);
 
-        uint8_t r2 = other.mRed * 255;
-        uint8_t g2 = other.mGreen * 255;
-        uint8_t b2 = other.mBlue * 255;
-        uint8_t a2 = other.mAlpha * 255;
+		uint8_t r2 = uint8_t(other.mRed * 255.0f);
+		uint8_t g2 = uint8_t(other.mGreen * 255.0f);
+		uint8_t b2 = uint8_t(other.mBlue * 255.0f);
+		uint8_t a2 = uint8_t(other.mAlpha * 255.0f);
 
         return (r == r2) &&
                (b == b2) &&
@@ -194,15 +194,15 @@ namespace fea
 
     bool Color::operator!=(const Color& other) const
     {
-        uint8_t r = mRed * 255;
-        uint8_t g = mGreen * 255;
-        uint8_t b = mBlue * 255;
-        uint8_t a = mAlpha * 255;
+        uint8_t r = uint8_t(mRed * 255);
+		uint8_t g = uint8_t(mGreen * 255);
+		uint8_t b = uint8_t(mBlue * 255);
+		uint8_t a = uint8_t(mAlpha * 255);
 
-        uint8_t r2 = other.mRed * 255;
-        uint8_t g2 = other.mGreen * 255;
-        uint8_t b2 = other.mBlue * 255;
-        uint8_t a2 = other.mAlpha * 255;
+		uint8_t r2 = uint8_t(other.mRed * 255);
+		uint8_t g2 = uint8_t(other.mGreen * 255);
+		uint8_t b2 = uint8_t(other.mBlue * 255);
+		uint8_t a2 = uint8_t(other.mAlpha * 255);
 
         return !((r == r2) &&
                  (b == b2) &&
@@ -233,22 +233,22 @@ namespace fea
 
     uint8_t Color::rAsByte() const
     {
-        return mRed * 255;
+		return uint8_t(mRed * 255);
     }
 
     uint8_t Color::gAsByte() const
     {
-        return mGreen * 255;
+		return uint8_t(mGreen * 255);
     }
 
     uint8_t Color::bAsByte() const
     {
-        return mBlue * 255;
+		return uint8_t(mBlue * 255);
     }
 
     uint8_t Color::aAsByte() const
     {
-        return mAlpha * 255;
+		return uint8_t(mAlpha * 255);
     }
 
     void Color::setR(float r)
@@ -273,21 +273,21 @@ namespace fea
 
     void Color::setRAsByte(int32_t r)
     {
-        mRed = std::max(0, std::min(255, r));
+        mRed = (float)std::max(0, std::min(255, r));
     }
 
     void Color::setGAsByte(int32_t g)
     {
-        mGreen = std::max(0, std::min(255, g));
+		mGreen = (float)std::max(0, std::min(255, g));
     }
 
     void Color::setBAsByte(int32_t b)
     {
-        mBlue = std::max(0, std::min(255, b));
+		mBlue = (float)std::max(0, std::min(255, b));
     }
 
     void Color::setAAsByte(int32_t a)
     {
-        mAlpha = std::max(0, std::min(255, a));
+		mAlpha = (float)std::max(0, std::min(255, a));
     }
 }

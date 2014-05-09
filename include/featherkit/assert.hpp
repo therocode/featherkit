@@ -12,6 +12,10 @@
 #define FEA_HALT exit(1)
 #endif
 
+#ifdef _MSC_VER
+#define __func__ __FUNCTION__
+#endif
+
 #ifndef NDEBUG
 #   define FEA_ASSERT(condition, message) \
     do\

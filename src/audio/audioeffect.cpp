@@ -8,7 +8,9 @@ namespace fea
         mGain(1.0f),
         mAutoSend(true)
     {
+#if !defined(__EMSCRIPTEN__)
         alGenEffects(1, &mEffectId);
+#endif
     }
 
     AudioEffect::AudioEffect(AudioEffect&& other) : 
@@ -32,8 +34,10 @@ namespace fea
 
     AudioEffect::~AudioEffect()
     {
+#if !defined(__EMSCRIPTEN__)
         if(mEffectId != 0)
             alDeleteEffects(1, &mEffectId);
+#endif
     }
     
     ALuint AudioEffect::getEffectId() const

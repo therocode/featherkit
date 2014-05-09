@@ -90,7 +90,48 @@ namespace fea
 
     TextSurface::~TextSurface()
     {
-        texture_atlas_delete(mAtlas);
+        if(mAtlas)
+            texture_atlas_delete(mAtlas);
+    }
+
+    TextSurface::TextSurface(TextSurface&& other)
+    {
+        mAtlas = other.mAtlas;
+        mCurrentFont = other.mCurrentFont;
+        mPenPosition = other.mPenPosition;
+        mScale = other.mScale;
+        mColor = other.mColor;
+        mHorizontalAlign = other.mHorizontalAlign;
+        mAtlasSize = other.mAtlasSize;
+
+        mFontCache = std::move(other.mFontCache);
+        mWritings = std::move(other.mWritings);
+
+        mLowBounds = other.mLowBounds;
+        mHighBounds = other.mHighBounds;
+        
+        other.mAtlas = nullptr;
+    }
+    
+    TextSurface& TextSurface::operator=(TextSurface&& other)
+    {
+        mAtlas = other.mAtlas;
+        mCurrentFont = other.mCurrentFont;
+        mPenPosition = other.mPenPosition;
+        mScale = other.mScale;
+        mColor = other.mColor;
+        mHorizontalAlign = other.mHorizontalAlign;
+        mAtlasSize = other.mAtlasSize;
+
+        mFontCache = std::move(other.mFontCache);
+        mWritings = std::move(other.mWritings);
+
+        mLowBounds = other.mLowBounds;
+        mHighBounds = other.mHighBounds;
+        
+        other.mAtlas = nullptr;
+
+        return *this;
     }
 
     void TextSurface::write(const std::string& text)

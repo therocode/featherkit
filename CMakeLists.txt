@@ -46,52 +46,74 @@ endif()
 include_directories(${CMAKE_CURRENT_LIST_DIR}/include)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_LIST_DIR}/cmake/modules/")
 
+if(NOT MSVC)
+    set(CPP_11_FLAG -std=c++11)
+endif()
+
+message("najs")
+if(EMSCRIPTEN)
+    message("NOJS")
+endif()
+
 #if(MINGW OR CMAKE_COMPILER_IS_GNUCXX OR Clang)
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -Werror -Wshadow -Wconversion -Wno-long-long -pedantic")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -Werror -Wshadow -Wconversion -Wno-long-long -pedantic -Wconstant-conversion")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CPP_11_FLAG}")
 #endif()
 
 if(BUILD_AUDIO)
     ##Audio module##
 
-    find_package(OpenAL REQUIRED)
-    if(OPENAL_FOUND)
-        include_directories(${OPENAL_INCLUDE_DIR})
+    if(NOT EMSCRIPTEN)
+        find_package(OpenAL REQUIRED)
+        if(OPENAL_FOUND)
+            include_directories(${OPENAL_INCLUDE_DIR})
+        endif()
     endif()
 
-    find_package(SndFile REQUIRED)
-    if(SNDFILE_FOUND)
-        include_directories(${SNDFILE_INCLUDE_DIRS})
+    find_package(VorbisFile REQUIRED)
+    if(VorbisFile_FOUND)
+        include_directories(${VorbisFile_INCLUDE_DIR})
+    endif()
+
+    find_package(OGG REQUIRED)
+    if(OGG_FOUND)
+        include_directories(${OGG_INCLUDE_DIR})
     endif()
 
     set(BUILT_TARGETS ${BUILT_TARGETS} ${project_name}-audio)
+
+    if(NOT EMSCRIPTEN)
+        set(FEATHERKIT_EFX_SOURCES 
+            src/audio/audioeffect.cpp
+            src/audio/effectslot.cpp
+            src/audio/audiofilter.cpp
+            src/audio/efx/chorus.cpp
+            src/audio/efx/compressor.cpp
+            src/audio/efx/distortion.cpp
+            src/audio/efx/echo.cpp
+            src/audio/efx/equalizer.cpp
+            src/audio/efx/flanger.cpp
+            src/audio/efx/lowpassfilter.cpp
+            src/audio/efx/presets.cpp
+            src/audio/efx/reverb.cpp
+            src/audio/efx/ringmodulator.cpp)
+    endif()
+
 
     set(audio_source_files 
         src/audio/audio.cpp
         src/audio/audiobase.cpp
         src/audio/audiobuffer.cpp
-        src/audio/audioeffect.cpp
         src/audio/audiofile.cpp
         src/audio/audiofilestream.cpp
-        src/audio/audiofilter.cpp
         src/audio/audioplayer.cpp
         src/audio/audiosample.cpp
         src/audio/audiostream.cpp
-        src/audio/effectslot.cpp
         src/audio/audiofilenotfoundexception.cpp
         src/audio/listener.cpp
         src/audio/playsource.cpp
         src/audio/oscillator.cpp
-        src/audio/efx/chorus.cpp
-        src/audio/efx/compressor.cpp
-        src/audio/efx/distortion.cpp
-        src/audio/efx/echo.cpp
-        src/audio/efx/equalizer.cpp
-        src/audio/efx/flanger.cpp
-        src/audio/efx/lowpassfilter.cpp
-        src/audio/efx/presets.cpp
-        src/audio/efx/reverb.cpp
-        src/audio/efx/ringmodulator.cpp)
+        ${FEATHERKIT_EFX_SOURCES})
 
     set(audio_header_files
         include/featherkit/audio/audio.hpp
@@ -121,7 +143,7 @@ if(BUILD_AUDIO)
         include/featherkit/audio/efx/ringmodulator.hpp)
 
     add_library(${project_name}-audio ${SHARED_OR_STATIC} ${audio_header_files} ${audio_source_files})
-    target_link_libraries(${project_name}-audio ${OPENAL_LIBRARY} ${SNDFILE_LIBRARIES})
+    target_link_libraries(${project_name}-audio ${OPENAL_LIBRARY} ${VorbisFile_LIBRARIES} ${OGG_LIBRARIES})
 endif()
 
 if(BUILD_STRUCTURE)
@@ -203,8 +225,7 @@ if(BUILD_RENDERING)
 
     set(BUILT_TARGETS ${BUILT_TARGETS} ${project_name}-rendering)
 
-    if(CMAKE_CXX_COMPILER MATCHES ".*(emcc).*")
-    else()
+    if(NOT EMSCRIPTEN)
         set(FEA_GL_SOURCE src/rendering/gl_core_3_2.c)
     endif()
 
@@ -284,10 +305,12 @@ if(BUILD_RENDERING)
         include_directories(${WINFIX} ${GLM_INCLUDE_DIRS})
     endif()
 
-    find_package(OpenGL REQUIRED)
-    if(OPENGL_FOUND)
-        include_directories(${OPENGL_INCLUDE_DIRS})
-    endif(OPENGL_FOUND)
+    if(NOT EMSCRIPTEN)
+        find_package(OpenGL REQUIRED)
+        if(OPENGL_FOUND)
+            include_directories(${OPENGL_INCLUDE_DIRS})
+        endif(OPENGL_FOUND)
+    endif()
 
     add_library(${project_name}-rendering ${SHARED_OR_STATIC} ${rendering_source_files} ${rendering_header_files} ${freetype-gl_source_files} ${freetype-gl_header_files})
 
@@ -335,6 +358,8 @@ if(BUILD_UI)
     set(ui_util_header_files 
         include/featherkit/util/ui/jsonactioniohandler.hpp
         include/featherkit/util/ui/jsonactioniohandler.inl)
+    
+	add_library(${project_name}-ui ${SHARED_OR_STATIC} ${ui_header_files} ${ui_source_files} ${ui_util_source_files} ${ui_util_header_files})
 
     if(${BUILD_SFMLBACKENDS})
         set(BUILT_TARGETS ${BUILT_TARGETS} ${project_name}-sfml)
@@ -353,16 +378,19 @@ if(BUILD_UI)
             include/featherkit/ui/sfmlinputbackend.hpp)
 
         add_library(${project_name}-sfml ${SHARED_OR_STATIC} ${ui_sfml_backend_source_files} ${ui_sfml_backend_header_files})
-        target_link_libraries(${project_name}-sfml ${SFML_LIBRARIES})
+        target_link_libraries(${project_name}-sfml ${SFML_LIBRARIES} ${project_name}-ui)
     endif()
 
     if(${BUILD_SDLBACKENDS})
         set(BUILT_TARGETS ${BUILT_TARGETS} ${project_name}-sdl)
 
-        find_package(SDL REQUIRED)
-        if(SDL_FOUND)
-            include_directories(${SDL_INCLUDE_DIR})
-        endif(SDL_FOUND)
+        if(NOT EMSCRIPTEN)
+            find_package(SDL REQUIRED)
+            if(SDL_FOUND)
+                include_directories(${SDL_INCLUDE_DIR})
+            endif(SDL_FOUND)
+        endif()
+
         set(ui_sdl_backend_source_files 
             src/ui/sdlwindowbackend.cpp
             #src/ui/contextsettings.cpp
@@ -373,7 +401,7 @@ if(BUILD_UI)
         include/featherkit/ui/sdlinputbackend.hpp)
 
         add_library(${project_name}-sdl ${SHARED_OR_STATIC} ${ui_sdl_backend_source_files} ${ui_sdl_backend_header_files})
-        target_link_libraries(${project_name}-sdl ${SDL_LIBRARY})
+        target_link_libraries(${project_name}-sdl ${SDL_LIBRARY} ${project_name}-ui)
     endif()
 
 	if(${BUILD_SDL2BACKENDS})
@@ -396,10 +424,8 @@ if(BUILD_UI)
             include/featherkit/ui/sdl2inputbackend.hpp)
     
         add_library(${project_name}-sdl2 ${SHARED_OR_STATIC} ${ui_sdl2_backend_source_files} ${ui_sdl2_backend_header_files})
-		target_link_libraries(${project_name}-sdl2 ${SDL2_LIBRARY})
+		target_link_libraries(${project_name}-sdl2 ${SDL2_LIBRARY} ${project_name}-ui)
 	endif()
-
-    add_library(${project_name}-ui ${SHARED_OR_STATIC} ${ui_header_files} ${ui_source_files} ${ui_util_source_files} ${ui_util_header_files})
 
 endif()
 

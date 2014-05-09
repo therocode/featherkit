@@ -4,8 +4,11 @@
 #include <featherkit/audio/audiostream.hpp>
 #include <featherkit/audio/audiofilter.hpp>
 #include <featherkit/assert.hpp>
+#if !defined(__EMSCRIPTEN__)
 #define AL_ALEXT_PROTOTYPES
 #include <AL/efx.h>
+#endif
+#include <string>
             
 namespace fea
 {
@@ -26,16 +29,28 @@ namespace fea
 
         setupSources(mMaxSoundsPlaying);
 
+#if !defined(__EMSCRIPTEN__)
         alcGetIntegerv(mAudioDevice, ALC_MAX_AUXILIARY_SENDS, 1, &mMaxAuxSend);
 
         for(size_t i = 0; i < 4; i++)
         {
             mEffectSlots.push_back(EffectSlot());
         }
+#else
+        mMaxAuxSend = 0;
+#endif
     }
     
     AudioPlayer::~AudioPlayer()
     {
+        std::vector<AudioHandle> playingSources;
+
+        for(auto& source : mPlayingSources)
+            playingSources.push_back(source.first);
+
+        for(auto source : playingSources)
+            stop(source);
+
         alcMakeContextCurrent(nullptr);
         if(mAudioContext)
             alcDestroyContext(mAudioContext);
@@ -91,7 +106,9 @@ namespace fea
 
         if(audio.hasFilter())
         {
+#if !defined(__EMSCRIPTEN__)
             alSourcei(sourceId, AL_DIRECT_FILTER, audio.getFilter().getFilterId());
+#endif
         }
 
         alSourcePlay(sourceId); //play
@@ -140,11 +157,17 @@ namespace fea
 
         if(stream.hasFilter())
         {
+#if !defined(__EMSCRIPTEN__)
             alSourcei(sourceId, AL_DIRECT_FILTER, stream.getFilter().getFilterId());
+#endif
         }
 
         mStreams.emplace(sourceId, Stream(mPlayingSources.at(handle), stream));
+#if !defined(__EMSCRIPTEN__)
         mStreams.at(sourceId).start();
+#else
+        mStreams.at(sourceId).update();
+#endif
 
         std::this_thread::sleep_for(std::chrono::milliseconds(25)); //hack?
 
@@ -179,20 +202,25 @@ namespace fea
 
     void AudioPlayer::stop(AudioHandle handle)
     {
-        std::lock_guard<std::mutex> lock(mSourcesMutex);
-        auto source = mPlayingSources.find(handle);
-
-        if(source != mPlayingSources.end())
         {
-            ALuint sourceId = source->second.getSourceId();
+            std::lock_guard<std::mutex> lock(mSourcesMutex);
+            auto source = mPlayingSources.find(handle);
 
-            auto streamIterator = mStreams.find(sourceId);
-            if(streamIterator != mStreams.end())
+            if(source != mPlayingSources.end())
             {
-                streamIterator->second.stop();
+                ALuint sourceId = source->second.getSourceId();
+
+                auto streamIterator = mStreams.find(sourceId);
+                if(streamIterator != mStreams.end())
+                {
+#if !defined(__EMSCRIPTEN__)
+                    streamIterator->second.stop();
+#endif
+                }
+                alSourceStop(sourceId);
             }
-            alSourceStop(sourceId);
         }
+        renewFinishedSources();
     }
     
     size_t AudioPlayer::getMaxSoundsPlaying() const
@@ -202,28 +230,44 @@ namespace fea
     
     void AudioPlayer::setSlotEffect(const AudioEffect& effect, size_t slot)
     {
+#if !defined(__EMSCRIPTEN__)
         FEA_ASSERT(slot < mMaxSoundsPlaying, "Trying to add an effect to slot number " << slot << " but the highest slot number is " << 4 << "!\n");
         alAuxiliaryEffectSloti(mEffectSlots.at(slot).getSlotId(), AL_EFFECTSLOT_EFFECT, effect.getEffectId());
         alAuxiliaryEffectSlotf(mEffectSlots.at(slot).getSlotId(), AL_EFFECTSLOT_GAIN, effect.getEffectGain());
         alAuxiliaryEffectSloti(mEffectSlots.at(slot).getSlotId(), AL_EFFECTSLOT_AUXILIARY_SEND_AUTO, effect.getAutoAdjustments() ? AL_TRUE : AL_FALSE);
+#endif
     }
 
     void AudioPlayer::clearSlotEffect(size_t slot)
     {
+#if !defined(__EMSCRIPTEN__)
         FEA_ASSERT(slot < mMaxSoundsPlaying, "Trying to clear the effects of slot number " << slot << " but the highest slot number is " << 4 << "!\n");
         alAuxiliaryEffectSloti(mEffectSlots.at(slot).getSlotId(), AL_EFFECTSLOT_EFFECT, AL_EFFECT_NULL);
+#endif
     }
 
     void AudioPlayer::setSlotFilter(const AudioFilter& filter, size_t slot)
     {
+#if !defined(__EMSCRIPTEN__)
         FEA_ASSERT(slot < mMaxSoundsPlaying, "Trying to set the filter of slot number " << slot << " but the highest slot number is " << 4 << "!\n");
         mEffectSlots.at(slot).setFilter(filter);
+#endif
     }
     
     void AudioPlayer::clearSlotFilter(size_t slot)
     {
+#if !defined(__EMSCRIPTEN__)
         FEA_ASSERT(slot < mMaxSoundsPlaying, "Trying to clear the filter of slot number " << slot << " but the highest slot number is " << 4 << "!\n");
         mEffectSlots.at(slot).clearFilter();
+#endif
+    }
+            
+    void AudioPlayer::update()
+    {
+#if defined(__EMSCRIPTEN__)
+        for(auto& stream : mStreams)
+            stream.second.update();
+#endif
     }
     
     size_t AudioPlayer::getNumSoundsPlaying() const
@@ -461,7 +505,7 @@ namespace fea
                 auto iterator = mStreams.find(sourceId);
                 if(iterator != mStreams.end())
                 {
-                    iterator->second.stop();
+                    //iterator->second.stop(); BLI
                     mStreams.erase(iterator);
                 }
             }
@@ -471,11 +515,20 @@ namespace fea
             }
         }
     }
-
+    
+#if !defined(__EMSCRIPTEN__)
     AudioPlayer::Stream::Stream(const PlaySource& source, AudioStream& audioStream) : 
         mSource(source),
         mStream(audioStream),
         mIsFinishing(false)
+    {
+    }
+
+    AudioPlayer::Stream::Stream(Stream&& other) :
+        mSource(std::move(other.mSource)),
+        mStream(other.mStream),
+        mIsFinishing(other.mIsFinishing),
+        mStreamerThread(std::move(other.mStreamerThread))
     {
     }
 
@@ -514,4 +567,35 @@ namespace fea
             mStreamerThread.join();
         }
     }
+#else
+    AudioPlayer::Stream::Stream(const PlaySource& source, AudioStream& audioStream) : 
+        mSource(source),
+        mStream(audioStream)
+    {
+    }
+
+    AudioPlayer::Stream::Stream(Stream&& other) :
+        mSource(std::move(other.mSource)),
+        mStream(other.mStream)
+    {
+    }
+
+    void AudioPlayer::Stream::update()
+    {
+        ALint buffersProcessed;
+        alGetSourcei(mSource.getSourceId(), AL_BUFFERS_PROCESSED, &buffersProcessed);
+        if(buffersProcessed > 0)
+        {
+            ALuint bufferId;
+            alSourceUnqueueBuffers(mSource.getSourceId(), 1, &bufferId);
+            mStream.bufferConsumed();
+        }
+
+        while(AudioBuffer* newBuffer = mStream.nextReadyBuffer())
+        {
+            ALuint bufferId = newBuffer->getBufferId();
+            alSourceQueueBuffers(mSource.getSourceId(), 1, &bufferId);
+        }
+    }
+#endif
 }
