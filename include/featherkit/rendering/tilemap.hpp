@@ -10,7 +10,7 @@ namespace fea
     {
         TileDefinition(const glm::uvec2& texPos, const std::string& next = "", uint32_t ticks = 0);
         glm::uvec2 mTileTexPosition;
-        const std::string mNextTile;
+        std::string mNextTile;
         uint32_t mTicksUntilChange;
     };
 
