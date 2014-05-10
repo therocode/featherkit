@@ -10,6 +10,8 @@ namespace fea
             void entityCreated(WeakEntityPtr entity);
             void entityRemoved(EntityId entityId);
             virtual bool keepEntity(WeakEntityPtr entity) const;
+            virtual void entityKept(WeakEntityPtr entity) const;
+            virtual void entityDropped(WeakEntityPtr entity) const;
             const std::unordered_map<EntityId, WeakEntityPtr>& getEntities() const;
             virtual ~EntityComponent();
         protected:
@@ -47,6 +49,18 @@ namespace fea
      *  Override this function to specify which entities the component should keep track of. In the case that the entity should be kept, then it will be put in the EntityComponent::mEntities variable.
      *  @param entity Entity to investigate.
      *  @return True if the entity should be kept.
+     ***
+     *  @fn virtual void EntityComponent::entityKept(WeakEntityPtr entity) const
+     *  @brief Handle a newly kept entity.
+     *
+     *  Override this function to specify what the component should do with an entity that is kept.
+     *  @param entity kept Entity.
+     ***
+     *  @fn virtual void EntityComponent::entityDropped(WeakEntityPtr entity) const
+     *  @brief Handle an entity that is dropped.
+     *
+     *  Override this function to specify what the component should do with an entity that is dropped.
+     *  @param entity dropped Entity.
      ***
      *  @fn const std::unordered_map<EntityId, WeakEntityPtr>& EntityComponent::getEntities() const
      *  @brief Get the entities that this component is keeping track of.
