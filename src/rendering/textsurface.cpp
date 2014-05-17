@@ -1,5 +1,6 @@
 #include <fea/rendering/textsurface.hpp>
 #include <fea/rendering/font.hpp>
+#include <fea/assert.hpp>
 
 std::wstring utf8_to_utf16(const std::string& utf8)
 {
@@ -142,6 +143,7 @@ namespace fea
 
     void TextSurface::write(const std::wstring& text)
     {
+        FEA_ASSERT(mCurrentFont != nullptr, "Cannot write text with no font set!\n");
         mWritings.push_back(Writing(text, mCurrentFont, mPenPosition, mScale, mColor));
         addText(text);
     }
