@@ -1,5 +1,5 @@
-#include <featherkit/util/entity/glmtypeadder.hpp>
-#include <featherkit/entity/entityfactory.hpp>
+#include <fea/util/entity/glmtypeadder.hpp>
+#include <fea/entity/entityfactory.hpp>
 #include <glm/glm.hpp>
 
 namespace fea

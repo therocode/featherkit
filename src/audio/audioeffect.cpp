@@ -1,5 +1,5 @@
-#include <featherkit/audio/audioeffect.hpp>
-#include <featherkit/assert.hpp>
+#include <fea/audio/audioeffect.hpp>
+#include <fea/assert.hpp>
 #include <utility>
 
 namespace fea

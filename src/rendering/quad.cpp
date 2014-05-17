@@ -1,5 +1,5 @@
-#include <featherkit/rendering/quad.hpp>
-#include <featherkit/assert.hpp>
+#include <fea/rendering/quad.hpp>
+#include <fea/assert.hpp>
 
 namespace fea
 {

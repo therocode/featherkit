@@ -1,4 +1,4 @@
-#include <featherkit/rendering/camera.hpp>
+#include <fea/rendering/camera.hpp>
 
 namespace fea
 {

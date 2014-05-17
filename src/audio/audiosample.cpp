@@ -1,6 +1,6 @@
-#include <featherkit/audio/audiosample.hpp>
-#include <featherkit/audio/audiofile.hpp>
-#include <featherkit/assert.hpp>
+#include <fea/audio/audiosample.hpp>
+#include <fea/audio/audiofile.hpp>
+#include <fea/assert.hpp>
 
 namespace fea
 {

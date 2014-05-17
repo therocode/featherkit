@@ -1,4 +1,4 @@
-#include <featherkit/audio/audiofilestream.hpp>
+#include <fea/audio/audiofilestream.hpp>
 #include <iostream>
 
 namespace fea

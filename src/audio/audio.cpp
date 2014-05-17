@@ -1,5 +1,5 @@
-#include <featherkit/audio/audio.hpp>
-#include <featherkit/assert.hpp>
+#include <fea/audio/audio.hpp>
+#include <fea/assert.hpp>
 
 namespace fea
 {

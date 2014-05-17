@@ -1,5 +1,5 @@
-#include <featherkit/audio/efx/lowpassfilter.hpp>
-#include <featherkit/assert.hpp>
+#include <fea/audio/efx/lowpassfilter.hpp>
+#include <fea/assert.hpp>
 
 namespace fea
 {

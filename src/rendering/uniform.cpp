@@ -1,4 +1,4 @@
-#include <featherkit/rendering/uniform.hpp>
+#include <fea/rendering/uniform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
 namespace fea

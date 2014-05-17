@@ -1,5 +1,5 @@
-#include <featherkit/audio/efx/equalizer.hpp>
-#include <featherkit/assert.hpp>
+#include <fea/audio/efx/equalizer.hpp>
+#include <fea/assert.hpp>
 
 namespace fea
 {

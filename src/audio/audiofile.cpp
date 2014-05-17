@@ -1,6 +1,6 @@
-#include <featherkit/audio/audiofile.hpp>
-#include <featherkit/audio/audiofilenotfoundexception.hpp>
-#include <featherkit/assert.hpp>
+#include <fea/audio/audiofile.hpp>
+#include <fea/audio/audiofilenotfoundexception.hpp>
+#include <fea/assert.hpp>
 #include <iostream>
 
 namespace fea

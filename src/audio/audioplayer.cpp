@@ -1,9 +1,9 @@
-#include <featherkit/audio/audioplayer.hpp>
-#include <featherkit/audio/audiosample.hpp>
-#include <featherkit/audio/audio.hpp>
-#include <featherkit/audio/audiostream.hpp>
-#include <featherkit/audio/audiofilter.hpp>
-#include <featherkit/assert.hpp>
+#include <fea/audio/audioplayer.hpp>
+#include <fea/audio/audiosample.hpp>
+#include <fea/audio/audio.hpp>
+#include <fea/audio/audiostream.hpp>
+#include <fea/audio/audiofilter.hpp>
+#include <fea/assert.hpp>
 #if !defined(__EMSCRIPTEN__)
 #define AL_ALEXT_PROTOTYPES
 #include <AL/efx.h>

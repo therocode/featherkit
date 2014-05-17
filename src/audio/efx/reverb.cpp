@@ -1,5 +1,5 @@
-#include <featherkit/audio/efx/reverb.hpp>
-#include <featherkit/assert.hpp>
+#include <fea/audio/efx/reverb.hpp>
+#include <fea/assert.hpp>
 
 namespace fea
 {

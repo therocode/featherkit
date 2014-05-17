@@ -1,5 +1,5 @@
-#include <featherkit/audio/efx/ringmodulator.hpp>
-#include <featherkit/assert.hpp>
+#include <fea/audio/efx/ringmodulator.hpp>
+#include <fea/assert.hpp>
 
 namespace fea
 {

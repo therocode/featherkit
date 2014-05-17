@@ -1,4 +1,4 @@
-#include <featherkit/audio/audiobuffer.hpp>
+#include <fea/audio/audiobuffer.hpp>
 #include <utility>
 
 namespace fea

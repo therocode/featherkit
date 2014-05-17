@@ -1,4 +1,4 @@
-#include <featherkit/audio/effectslot.hpp>
+#include <fea/audio/effectslot.hpp>
 #if !defined(__EMSCRIPTEN__)
 #define AL_ALEXT_PROTOTYPES
 #include <AL/efx.h>

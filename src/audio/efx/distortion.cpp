@@ -1,5 +1,5 @@
-#include <featherkit/audio/efx/distortion.hpp>
-#include <featherkit/assert.hpp>
+#include <fea/audio/efx/distortion.hpp>
+#include <fea/assert.hpp>
 
 namespace fea
 {

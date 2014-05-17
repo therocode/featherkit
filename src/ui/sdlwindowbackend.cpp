@@ -1,4 +1,4 @@
-#include <featherkit/ui/sdlwindowbackend.hpp>
+#include <fea/ui/sdlwindowbackend.hpp>
 #include <cstdlib>
 
 namespace fea

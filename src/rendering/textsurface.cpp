@@ -1,5 +1,5 @@
-#include <featherkit/rendering/textsurface.hpp>
-#include <featherkit/rendering/font.hpp>
+#include <fea/rendering/textsurface.hpp>
+#include <fea/rendering/font.hpp>
 
 std::wstring utf8_to_utf16(const std::string& utf8)
 {

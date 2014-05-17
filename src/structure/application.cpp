@@ -1,4 +1,4 @@
-#include <featherkit/structure/application.hpp>
+#include <fea/structure/application.hpp>
 #ifdef EMSCRIPTEN
 #include <emscripten.h>
 #endif

@@ -1,4 +1,4 @@
-#include <featherkit/entity/entitycomponent.hpp>
+#include <fea/entity/entitycomponent.hpp>
 
 namespace fea
 {

@@ -1,4 +1,4 @@
-#include <featherkit/audio/playsource.hpp>
+#include <fea/audio/playsource.hpp>
 #include <utility>
 #include <iostream>
 

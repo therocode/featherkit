@@ -1,5 +1,5 @@
-#include <featherkit/rendering/viewport.hpp>
-#include <featherkit/assert.hpp>
+#include <fea/rendering/viewport.hpp>
+#include <fea/assert.hpp>
 #include <string>
 
 namespace fea

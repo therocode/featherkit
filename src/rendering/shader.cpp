@@ -1,4 +1,4 @@
-#include <featherkit/rendering/shader.hpp>
+#include <fea/rendering/shader.hpp>
 #include <vector>
 #include <sstream>
 #define GLM_FORCE_RADIANS

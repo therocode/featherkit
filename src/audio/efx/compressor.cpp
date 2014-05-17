@@ -1,4 +1,4 @@
-#include <featherkit/audio/efx/compressor.hpp>
+#include <fea/audio/efx/compressor.hpp>
 
 namespace fea
 {

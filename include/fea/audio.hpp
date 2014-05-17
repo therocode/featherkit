@@ -1,0 +1,15 @@
+#include <fea/audio/audio.hpp>
+#include <fea/audio/audiosample.hpp>
+#include <fea/audio/audioplayer.hpp>
+#include <fea/audio/audiostream.hpp>
+#include <fea/audio/audiofilestream.hpp>
+#include <fea/audio/oscillator.hpp>
+#include <fea/audio/efx/reverb.hpp>
+#include <fea/audio/efx/chorus.hpp>
+#include <fea/audio/efx/distortion.hpp>
+#include <fea/audio/efx/echo.hpp>
+#include <fea/audio/efx/compressor.hpp>
+#include <fea/audio/efx/flanger.hpp>
+#include <fea/audio/efx/ringmodulator.hpp>
+#include <fea/audio/efx/equalizer.hpp>
+#include <fea/audio/efx/lowpassfilter.hpp>

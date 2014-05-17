@@ -1,5 +1,5 @@
-#include <featherkit/rendering/drawable2d.hpp>
-#include <featherkit/assert.hpp>
+#include <fea/rendering/drawable2d.hpp>
+#include <fea/assert.hpp>
 
 namespace fea
 {

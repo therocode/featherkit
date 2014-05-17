@@ -42,8 +42,8 @@
 #include <assert.h>
 #include <math.h>
 #include <wchar.h>
-#include <featherkit/freetype-gl/platform.h>
-#include <featherkit/freetype-gl/texture-font.h>
+#include <fea/freetype-gl/platform.h>
+#include <fea/freetype-gl/texture-font.h>
 
 #undef __FTERRORS_H__
 #define FT_ERRORDEF( e, v, s )  { e, s },

@@ -36,8 +36,8 @@
 #include <string.h>
 #include <assert.h>
 #include <limits.h>
-#include <featherkit/rendering/opengl.hpp>
-#include <featherkit/freetype-gl/texture-atlas.h>
+#include <fea/rendering/opengl.hpp>
+#include <fea/freetype-gl/texture-atlas.h>
 
 
 // ------------------------------------------------------ texture_atlas_new ---

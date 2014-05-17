@@ -1,5 +1,5 @@
-#include <featherkit/rendering/tilemap.hpp>
-#include <featherkit/assert.hpp>
+#include <fea/rendering/tilemap.hpp>
+#include <fea/assert.hpp>
 
 namespace fea
 {

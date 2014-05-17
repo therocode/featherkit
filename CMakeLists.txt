@@ -6,7 +6,7 @@ if(NOT CMAKE_BUILD_TYPE )
 endif()
 
 #project name
-set(project_name featherkit)
+set(project_name fea)
 project(${project_name})
 
 set(SHARED_BUILD TRUE CACHE BOOL "Set this to false if you want a static build")
@@ -111,31 +111,31 @@ if(BUILD_AUDIO)
         ${FEATHERKIT_EFX_SOURCES})
 
     set(audio_header_files
-        include/featherkit/audio/audio.hpp
-        include/featherkit/audio/audiobase.hpp
-        include/featherkit/audio/audiobuffer.hpp
-        include/featherkit/audio/audioeffect.hpp
-        include/featherkit/audio/audiofile.hpp
-        include/featherkit/audio/audiofilestream.hpp
-        include/featherkit/audio/audiofilter.hpp
-        include/featherkit/audio/audioplayer.hpp
-        include/featherkit/audio/audiosample.hpp
-        include/featherkit/audio/audiostream.hpp
-        include/featherkit/audio/effectslot.hpp
-        include/featherkit/audio/audiofilenotfoundexception.hpp
-        include/featherkit/audio/listener.hpp
-        include/featherkit/audio/playsource.hpp
-        include/featherkit/audio/oscillator.hpp
-        include/featherkit/audio/efx/chorus.hpp
-        include/featherkit/audio/efx/compressor.hpp
-        include/featherkit/audio/efx/distortion.hpp
-        include/featherkit/audio/efx/echo.hpp
-        include/featherkit/audio/efx/equalizer.hpp
-        include/featherkit/audio/efx/flanger.hpp
-        include/featherkit/audio/efx/lowpassfilter.hpp
-        include/featherkit/audio/efx/presets.hpp
-        include/featherkit/audio/efx/reverb.hpp
-        include/featherkit/audio/efx/ringmodulator.hpp)
+        include/fea/audio/audio.hpp
+        include/fea/audio/audiobase.hpp
+        include/fea/audio/audiobuffer.hpp
+        include/fea/audio/audioeffect.hpp
+        include/fea/audio/audiofile.hpp
+        include/fea/audio/audiofilestream.hpp
+        include/fea/audio/audiofilter.hpp
+        include/fea/audio/audioplayer.hpp
+        include/fea/audio/audiosample.hpp
+        include/fea/audio/audiostream.hpp
+        include/fea/audio/effectslot.hpp
+        include/fea/audio/audiofilenotfoundexception.hpp
+        include/fea/audio/listener.hpp
+        include/fea/audio/playsource.hpp
+        include/fea/audio/oscillator.hpp
+        include/fea/audio/efx/chorus.hpp
+        include/fea/audio/efx/compressor.hpp
+        include/fea/audio/efx/distortion.hpp
+        include/fea/audio/efx/echo.hpp
+        include/fea/audio/efx/equalizer.hpp
+        include/fea/audio/efx/flanger.hpp
+        include/fea/audio/efx/lowpassfilter.hpp
+        include/fea/audio/efx/presets.hpp
+        include/fea/audio/efx/reverb.hpp
+        include/fea/audio/efx/ringmodulator.hpp)
 
     add_library(${project_name}-audio ${SHARED_OR_STATIC} ${audio_header_files} ${audio_source_files})
     target_link_libraries(${project_name}-audio ${OPENAL_LIBRARY} ${VorbisFile_LIBRARIES} ${OGG_LIBRARIES})
@@ -150,11 +150,11 @@ if(BUILD_STRUCTURE)
         src/structure/application.cpp
         src/structure/gamestatemachine.cpp)
 
-    set(structure_header_files include/featherkit/structure/application.hpp
-        include/featherkit/structure/gamestate.hpp
-        include/featherkit/structure/gamestatemachine.hpp
-        include/featherkit/util/loosentree.hpp
-        include/featherkit/util/loosentree.inl)
+    set(structure_header_files include/fea/structure/application.hpp
+        include/fea/structure/gamestate.hpp
+        include/fea/structure/gamestatemachine.hpp
+        include/fea/util/loosentree.hpp
+        include/fea/util/loosentree.inl)
 
     add_library(${project_name}-structure ${SHARED_OR_STATIC} ${structure_header_files} ${structure_source_files})
 endif()
@@ -173,26 +173,26 @@ if(BUILD_ENTITY)
         src/entity/entitymanager.cpp)
 
     set(entity_header_files 
-        include/featherkit/entity/entity.hpp
-        include/featherkit/entity/entity.inl
-        include/featherkit/entity/entityfactory.hpp
-        include/featherkit/entity/entityfactory.inl
-        include/featherkit/entity/filenotfoundexception.hpp
-        include/featherkit/entity/entitycomponent.hpp
-        include/featherkit/entity/entitymanager.hpp
-        include/featherkit/entity/entitymanager.inl
-        include/featherkit/entity/entitystorage.hpp
-        include/featherkit/entity/entitystorage.inl
-        include/featherkit/entity/entitytemplate.hpp)
+        include/fea/entity/entity.hpp
+        include/fea/entity/entity.inl
+        include/fea/entity/entityfactory.hpp
+        include/fea/entity/entityfactory.inl
+        include/fea/entity/filenotfoundexception.hpp
+        include/fea/entity/entitycomponent.hpp
+        include/fea/entity/entitymanager.hpp
+        include/fea/entity/entitymanager.inl
+        include/fea/entity/entitystorage.hpp
+        include/fea/entity/entitystorage.inl
+        include/fea/entity/entitytemplate.hpp)
 
     set(entity_util_source_files
         src/util/entity/basictypeadder.cpp
         src/util/entity/glmtypeadder.cpp
         src/util/entity/jsonentityloader.cpp)
     set(entity_util_header_files
-        include/featherkit/util/entity/basictypeadder.hpp
-        include/featherkit/util/entity/glmtypeadder.hpp
-        include/featherkit/util/entity/jsonentityloader.hpp)
+        include/fea/util/entity/basictypeadder.hpp
+        include/fea/util/entity/glmtypeadder.hpp
+        include/fea/util/entity/jsonentityloader.hpp)
 
     add_library(${project_name}-entity ${SHARED_OR_STATIC} ${entity_header_files} ${entity_source_files} ${entity_util_source_files} ${entity_util_header_files})
 endif()
@@ -206,11 +206,11 @@ if(BUILD_MESSAGING)
         src/messaging/messagebus.cpp)
 
     set(messaging_header_files 
-        include/featherkit/messaging/messagebus.hpp
-        include/featherkit/messaging/messagebus.inl
-        include/featherkit/messaging/message.hpp
-        include/featherkit/messaging/message.inl
-        include/featherkit/messaging/messagereceiver.hpp)
+        include/fea/messaging/messagebus.hpp
+        include/fea/messaging/messagebus.inl
+        include/fea/messaging/message.hpp
+        include/fea/messaging/message.inl
+        include/fea/messaging/messagereceiver.hpp)
     add_library(${project_name}-messaging ${SHARED_OR_STATIC} ${messaging_header_files} ${messaging_source_files})
 endif()
 
@@ -247,28 +247,28 @@ if(BUILD_RENDERING)
         src/rendering/viewport.cpp)
 
     set(rendering_header_files 
-        include/featherkit/rendering/animatedquad.hpp
-        include/featherkit/rendering/animation.hpp
-        include/featherkit/rendering/camera.hpp
-        include/featherkit/rendering/color.hpp
-        include/featherkit/rendering/defaultshader.hpp
-        include/featherkit/rendering/drawable2d.hpp
-        include/featherkit/rendering/gl_core_3_2.h
-        include/featherkit/rendering/opengl.hpp
-        include/featherkit/rendering/projection.hpp
-        include/featherkit/rendering/quad.hpp
-        include/featherkit/rendering/renderer2d.hpp
-        include/featherkit/rendering/renderinfo.hpp
-        include/featherkit/rendering/rendertarget.hpp
-        include/featherkit/rendering/repeatedquad.hpp
-        include/featherkit/rendering/shader.hpp
-        include/featherkit/rendering/subrectquad.hpp
-        include/featherkit/rendering/texture.hpp
-        include/featherkit/rendering/tilechunk.hpp
-        include/featherkit/rendering/tilemap.hpp
-        include/featherkit/rendering/uniform.hpp
-        include/featherkit/rendering/vertexattribute.hpp
-        include/featherkit/rendering/viewport.hpp)
+        include/fea/rendering/animatedquad.hpp
+        include/fea/rendering/animation.hpp
+        include/fea/rendering/camera.hpp
+        include/fea/rendering/color.hpp
+        include/fea/rendering/defaultshader.hpp
+        include/fea/rendering/drawable2d.hpp
+        include/fea/rendering/gl_core_3_2.h
+        include/fea/rendering/opengl.hpp
+        include/fea/rendering/projection.hpp
+        include/fea/rendering/quad.hpp
+        include/fea/rendering/renderer2d.hpp
+        include/fea/rendering/renderinfo.hpp
+        include/fea/rendering/rendertarget.hpp
+        include/fea/rendering/repeatedquad.hpp
+        include/fea/rendering/shader.hpp
+        include/fea/rendering/subrectquad.hpp
+        include/fea/rendering/texture.hpp
+        include/fea/rendering/tilechunk.hpp
+        include/fea/rendering/tilemap.hpp
+        include/fea/rendering/uniform.hpp
+        include/fea/rendering/vertexattribute.hpp
+        include/fea/rendering/viewport.hpp)
 
     if(BUILD_RENDERING_TEXT)
         set(freetype-gl_source_files 
@@ -282,16 +282,16 @@ if(BUILD_RENDERING)
             src/rendering/font.cpp)
 
         set(rendering_header_files ${rendering_header_files}
-            include/featherkit/rendering/textsurface.hpp
-            include/featherkit/rendering/font.hpp
-            include/featherkit/rendering/font.inl)
+            include/fea/rendering/textsurface.hpp
+            include/fea/rendering/font.hpp
+            include/fea/rendering/font.inl)
 
         set(freetype-gl_header_files 
-            include/featherkit/freetype-gl/platform.h
-            include/featherkit/freetype-gl/texture-atlas.h
-            include/featherkit/freetype-gl/texture-font.h
-            include/featherkit/freetype-gl/vec234.h
-            include/featherkit/freetype-gl/vector.h)
+            include/fea/freetype-gl/platform.h
+            include/fea/freetype-gl/texture-atlas.h
+            include/fea/freetype-gl/texture-font.h
+            include/fea/freetype-gl/vec234.h
+            include/fea/freetype-gl/vector.h)
     endif(BUILD_RENDERING_TEXT)
 
 
@@ -333,26 +333,26 @@ if(BUILD_UI)
         src/ui/window.cpp)
 
     set(ui_header_files 
-        #include/featherkit/ui/contextsettings.hpp
-        include/featherkit/ui/vec2i.hpp
-        include/featherkit/ui/videomode.hpp
-        include/featherkit/ui/windowbackend.hpp
-        include/featherkit/ui/window.hpp
-        include/featherkit/ui/windowstyle.hpp
-        include/featherkit/ui/actionhandler.hpp
-        include/featherkit/ui/actionhandler.inl
-        include/featherkit/ui/actiontrigger.hpp
-        include/featherkit/ui/event.hpp
-        include/featherkit/ui/gamepad.hpp
-        include/featherkit/ui/inputbackend.hpp
-        include/featherkit/ui/inputfilenotfoundexception.hpp
-        include/featherkit/ui/inputhandler.hpp
-        include/featherkit/ui/keyboard.hpp
-        include/featherkit/ui/mouse.hpp)
+        #include/fea/ui/contextsettings.hpp
+        include/fea/ui/vec2i.hpp
+        include/fea/ui/videomode.hpp
+        include/fea/ui/windowbackend.hpp
+        include/fea/ui/window.hpp
+        include/fea/ui/windowstyle.hpp
+        include/fea/ui/actionhandler.hpp
+        include/fea/ui/actionhandler.inl
+        include/fea/ui/actiontrigger.hpp
+        include/fea/ui/event.hpp
+        include/fea/ui/gamepad.hpp
+        include/fea/ui/inputbackend.hpp
+        include/fea/ui/inputfilenotfoundexception.hpp
+        include/fea/ui/inputhandler.hpp
+        include/fea/ui/keyboard.hpp
+        include/fea/ui/mouse.hpp)
 
     set(ui_util_header_files 
-        include/featherkit/util/ui/jsonactioniohandler.hpp
-        include/featherkit/util/ui/jsonactioniohandler.inl)
+        include/fea/util/ui/jsonactioniohandler.hpp
+        include/fea/util/ui/jsonactioniohandler.inl)
     
 	add_library(${project_name}-ui ${SHARED_OR_STATIC} ${ui_header_files} ${ui_source_files} ${ui_util_source_files} ${ui_util_header_files})
 
@@ -369,8 +369,8 @@ if(BUILD_UI)
             src/ui/sfmlinputbackend.cpp)
 
         set(ui_sfml_backend_header_files
-            include/featherkit/ui/sfmlwindowbackend.hpp
-            include/featherkit/ui/sfmlinputbackend.hpp)
+            include/fea/ui/sfmlwindowbackend.hpp
+            include/fea/ui/sfmlinputbackend.hpp)
 
         add_library(${project_name}-sfml ${SHARED_OR_STATIC} ${ui_sfml_backend_source_files} ${ui_sfml_backend_header_files})
         target_link_libraries(${project_name}-sfml ${SFML_LIBRARIES} ${project_name}-ui)
@@ -392,8 +392,8 @@ if(BUILD_UI)
             src/ui/sdlinputbackend.cpp)
 
         set(ui_sdl_backend_header_files
-        include/featherkit/ui/sdlwindowbackend.hpp
-        include/featherkit/ui/sdlinputbackend.hpp)
+        include/fea/ui/sdlwindowbackend.hpp
+        include/fea/ui/sdlinputbackend.hpp)
 
         add_library(${project_name}-sdl ${SHARED_OR_STATIC} ${ui_sdl_backend_source_files} ${ui_sdl_backend_header_files})
         target_link_libraries(${project_name}-sdl ${SDL_LIBRARY} ${project_name}-ui)
@@ -415,8 +415,8 @@ if(BUILD_UI)
             src/ui/sdl2inputbackend.cpp)
 
         set(ui_sdl2_backend_header_files
-            include/featherkit/ui/sdl2windowbackend.hpp
-            include/featherkit/ui/sdl2inputbackend.hpp)
+            include/fea/ui/sdl2windowbackend.hpp
+            include/fea/ui/sdl2inputbackend.hpp)
     
         add_library(${project_name}-sdl2 ${SHARED_OR_STATIC} ${ui_sdl2_backend_source_files} ${ui_sdl2_backend_header_files})
 		target_link_libraries(${project_name}-sdl2 ${SDL2_LIBRARY} ${project_name}-ui)

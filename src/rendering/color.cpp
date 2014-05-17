@@ -1,4 +1,4 @@
-#include <featherkit/rendering/color.hpp>
+#include <fea/rendering/color.hpp>
 
 namespace fea
 {

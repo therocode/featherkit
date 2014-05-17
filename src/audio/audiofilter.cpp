@@ -1,5 +1,5 @@
-#include <featherkit/audio/audiofilter.hpp>
-#include <featherkit/assert.hpp>
+#include <fea/audio/audiofilter.hpp>
+#include <fea/assert.hpp>
 #include <utility>
 
 namespace fea

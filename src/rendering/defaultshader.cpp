@@ -1,4 +1,4 @@
-#include <featherkit/rendering/defaultshader.hpp>
+#include <fea/rendering/defaultshader.hpp>
 
 namespace fea
 {

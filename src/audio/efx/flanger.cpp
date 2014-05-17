@@ -1,5 +1,5 @@
-#include <featherkit/audio/efx/flanger.hpp>
-#include <featherkit/assert.hpp>
+#include <fea/audio/efx/flanger.hpp>
+#include <fea/assert.hpp>
 
 namespace fea
 {

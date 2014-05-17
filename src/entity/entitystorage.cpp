@@ -1,5 +1,5 @@
 #include <string>
-#include <featherkit/entity/entitystorage.hpp>
+#include <fea/entity/entitystorage.hpp>
 
 namespace fea
 {
