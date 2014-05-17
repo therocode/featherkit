@@ -2,7 +2,7 @@ set( FEATHERKIT_FOUND false)
 
 find_path(
     FEATHERKIT_INCLUDE_DIR
-    featherkit/structure.hpp
+    fea/structure.hpp
     PATH_SUFFIXES
     include
     PATHS
@@ -19,7 +19,7 @@ find_path(
     /opt/csw
     /opt
     "C:/Program Files (x86)"
-    "C:/Program Files (x86)/featherkit"
+    "C:/Program Files (x86)/fea"
 )
 
 set(FIND_Featherkit_LIB_PATHS
@@ -36,7 +36,7 @@ set(FIND_Featherkit_LIB_PATHS
     /opt/csw
     /opt
     "C:/Program Files (x86)"
-    "C:/Program Files (x86)/featherkit"
+    "C:/Program Files (x86)/fea"
 )
 
 #list(FIND Featherkit_FIND_COMPONENTS "rendering" Featherkit_NEEDS_GLM)
@@ -67,7 +67,7 @@ foreach(FIND_Featherkit_COMPONENT ${Featherkit_FIND_COMPONENTS})
     string(TOLOWER ${FIND_Featherkit_COMPONENT} FIND_Featherkit_COMPONENT)
     set(FEATHERKIT_CURRENT_COMPONENT ${FIND_Featherkit_COMPONENT}${FEA_LIBRARY_SUFFIX})
 
-    set(FIND_Featherkit_COMPONENT_NAME featherkit-${FEATHERKIT_CURRENT_COMPONENT})
+    set(FIND_Featherkit_COMPONENT_NAME fea-${FEATHERKIT_CURRENT_COMPONENT})
 
     unset(Featherkit_${FIND_Featherkit_COMPONENT}_LIBRARY CACHE)
     find_library(Featherkit_${FIND_Featherkit_COMPONENT}_LIBRARY
@@ -79,12 +79,12 @@ foreach(FIND_Featherkit_COMPONENT ${Featherkit_FIND_COMPONENTS})
     if(NOT Featherkit_${FIND_Featherkit_COMPONENT}_LIBRARY)
         #let the user know
         if(NOT Featherkit_FIND_QUIETLY)
-            message(WARNING "Failed to find ${BUILD_TYPE} version of featherkit-${FIND_Featherkit_COMPONENT}. Will try to find ${ANTI_BUILD_TYPE} version instead.")
+            message(WARNING "Failed to find ${BUILD_TYPE} version of fea-${FIND_Featherkit_COMPONENT}. Will try to find ${ANTI_BUILD_TYPE} version instead.")
         endif()
 
         set(FEATHERKIT_CURRENT_COMPONENT ${FIND_Featherkit_COMPONENT}${FEA_LIBRARY_ANTISUFFIX})
 
-        set(FIND_Featherkit_COMPONENT_NAME featherkit-${FEATHERKIT_CURRENT_COMPONENT})
+        set(FIND_Featherkit_COMPONENT_NAME fea-${FEATHERKIT_CURRENT_COMPONENT})
 
         unset(Featherkit_${FIND_Featherkit_COMPONENT}_LIBRARY CACHE)
         find_library(Featherkit_${FIND_Featherkit_COMPONENT}_LIBRARY
@@ -102,7 +102,7 @@ endforeach()
 
 find_library(
     FEATHERKIT_LIBRARY
-    featherkit-ui
+    fea-ui
     PATH_SUFFIXES
     lib
     lib64
