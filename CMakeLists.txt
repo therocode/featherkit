@@ -53,7 +53,7 @@ endif()
 #if(MINGW OR CMAKE_COMPILER_IS_GNUCXX OR Clang)
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -Werror -Wshadow -Wconversion -Wno-long-long -pedantic -Wconstant-conversion")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CPP_11_FLAG}")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${CPP_11_FLAG}")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99")
 #endif()
 
 if(BUILD_AUDIO)
