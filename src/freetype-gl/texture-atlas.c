@@ -340,7 +340,8 @@ texture_atlas_upload( texture_atlas_t * self )
     {
         uint8_t* pixels = malloc(self->width * self->height * 4);
 
-        for(size_t i = 0; i < self->width * self->height; i++)
+        size_t i;
+        for(i = 0; i < self->width * self->height; i++)
         {
             size_t index = i * 4;
             pixels[index] = 255;//self->data[i];
