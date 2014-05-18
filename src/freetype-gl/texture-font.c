@@ -257,6 +257,7 @@ texture_font_new( texture_atlas_t * atlas,
     self->ascender = 0;
     self->descender = 0;
     self->filename = strdup( filename );
+    //self->filename = filename;
     self->size = size;
     self->outline_type = 0;
     self->outline_thickness = 0.0;
