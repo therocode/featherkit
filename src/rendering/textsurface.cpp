@@ -93,6 +93,11 @@ namespace fea
     {
         if(mAtlas)
             texture_atlas_delete(mAtlas);
+
+        for(auto& cached : mFontCache)
+        {
+            texture_font_delete(cached.second);
+        }
     }
 
     TextSurface::TextSurface(TextSurface&& other)
@@ -334,7 +339,14 @@ namespace fea
                 throw std::logic_error("Error! Could not create font from file '" + font.getPath() + "' maybe the file does not exist?");
             }
             else
-                mFontCache.emplace(font, created);
+            {
+                if(mFontCache.find(font) == mFontCache.end())
+                    mFontCache.emplace(font, created);
+                else
+                {
+                    texture_font_delete(mFontCache.at(font));
+                }
+            }
         }
     }
 }

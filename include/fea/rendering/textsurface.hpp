@@ -67,6 +67,25 @@ namespace fea
      *  This drawable is similar to a piece of paper. Text can be written on it using the TextSurface::write method. All added text is appended to the current pen position and the pen position is advanced accordingly. The pen itself has states defining its color, current font, and scale. When these attributes are set, all text written with the pen will be affected.
      *
      ***
+     *  @fn TextSurface::TextSurface()
+     *  @brief Construct a TextSurface.
+     ***
+     *  @fn TextSurface::TextSurface(TextSurface&& other)
+     *  @brief Move constructor.
+     *  @param other Other instance.
+     ***
+     *  @fn TextSurface::TextSurface(const TextSurface& other) = delete
+     *  @brief Deleted copy constructor.
+     *  @param other Instance to copy.
+     ***
+     *  @fn TextSurface& TextSurface::operator=(TextSurface&& other)
+     *  @brief Move assignment operator.
+     *  @param other Other instance.
+     ***
+     *  @fn TextSurface& TextSurface::operator=(const TextSurface& other)
+     *  @brief Deleted assignment operator.
+     *  @param other Other instance.
+     ***
      *  @fn void TextSurface::write(const std::string& text)
      *  @brief Write text at the current pen position.
      *

@@ -10,6 +10,51 @@ namespace fea
     {
     }
 
+    Shader::Shader() :
+        mVertexShader(0),
+        mFragmentShader(0),
+        mProgramId(0)
+    {
+    }
+
+    Shader::Shader(Shader&& other) :
+        mVertexShader(0),
+        mFragmentShader(0),
+        mProgramId(0)
+    {
+        mUniformLocations = std::move(other.mUniformLocations);
+        mVertexAttributeLocations = std::move(other.mVertexAttributeLocations);
+        mVertexSource = std::move(other.mVertexSource);
+        mFragmentSource = std::move(other.mFragmentSource);
+        mEnabledVertexAttributes = std::move(other.mEnabledVertexAttributes);
+        std::swap(mProgramId, other.mProgramId);
+        std::swap(mVertexShader, other.mVertexShader);
+        std::swap(mFragmentShader, other.mFragmentShader);
+    }
+
+    Shader& Shader::operator=(Shader&& other)
+    {
+        mUniformLocations = std::move(other.mUniformLocations);
+        mVertexAttributeLocations = std::move(other.mVertexAttributeLocations);
+        mVertexSource = std::move(other.mVertexSource);
+        mFragmentSource = std::move(other.mFragmentSource);
+        mEnabledVertexAttributes = std::move(other.mEnabledVertexAttributes);
+        std::swap(mProgramId, other.mProgramId);
+        std::swap(mVertexShader, other.mVertexShader);
+        std::swap(mFragmentShader, other.mFragmentShader);
+        return *this;
+    }
+
+    Shader::~Shader()
+    {
+        if(mProgramId)
+        {
+            glDeleteShader(mVertexShader);
+            glDeleteShader(mFragmentShader);
+            glDeleteProgram(mProgramId);
+        }
+    }
+
     void Shader::setSource(const std::string& vertexSource, const std::string& fragmentSource)
     {
         mVertexSource = vertexSource;
@@ -135,44 +180,44 @@ namespace fea
 
     void Shader::compile()
     {
-        const char* vertexShaderSourcePointer = &mVertexSource[0];
-        const char* fragmentShaderSourcePointer = &mFragmentSource[0];
+        const char* mVertexShaderSourcePointer = &mVertexSource[0];
+        const char* mFragmentShaderSourcePointer = &mFragmentSource[0];
 
-        GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-        glShaderSource(vertexShader, 1, &vertexShaderSourcePointer, NULL);
-        glCompileShader(vertexShader);
+        mVertexShader = glCreateShader(GL_VERTEX_SHADER);
+        glShaderSource(mVertexShader, 1, &mVertexShaderSourcePointer, NULL);
+        glCompileShader(mVertexShader);
 
-        GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-        glShaderSource(fragmentShader, 1, &fragmentShaderSourcePointer, NULL);
-        glCompileShader(fragmentShader);
+        mFragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+        glShaderSource(mFragmentShader, 1, &mFragmentShaderSourcePointer, NULL);
+        glCompileShader(mFragmentShader);
 
         mProgramId = glCreateProgram();
-        glAttachShader(mProgramId, vertexShader);
-        glAttachShader(mProgramId, fragmentShader);
+        glAttachShader(mProgramId, mVertexShader);
+        glAttachShader(mProgramId, mFragmentShader);
         glLinkProgram(mProgramId);
 
         GLint isCompiled = 0;
 
-        glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &isCompiled);
+        glGetShaderiv(mVertexShader, GL_COMPILE_STATUS, &isCompiled);
         if(!isCompiled)
         {
             GLint maxLength = 0;
-            glGetShaderiv(vertexShader, GL_INFO_LOG_LENGTH, &maxLength);
+            glGetShaderiv(mVertexShader, GL_INFO_LOG_LENGTH, &maxLength);
             std::vector<GLchar> infoLog((size_t)maxLength);
-            glGetShaderInfoLog(vertexShader, maxLength, &maxLength, &infoLog[0]);
+            glGetShaderInfoLog(mVertexShader, maxLength, &maxLength, &infoLog[0]);
             std::stringstream ss;
             ss << "Error! Vertex shader compilation:\n" << std::string(&infoLog[0]) << "\n";
             throw(GLSLException(ss.str()));
         }
 
         isCompiled = 0;
-        glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &isCompiled);
+        glGetShaderiv(mFragmentShader, GL_COMPILE_STATUS, &isCompiled);
         if(!isCompiled)
         {
             GLint maxLength = 0;
-            glGetShaderiv(fragmentShader, GL_INFO_LOG_LENGTH, &maxLength);
+            glGetShaderiv(mFragmentShader, GL_INFO_LOG_LENGTH, &maxLength);
             std::vector<GLchar> infoLog((size_t)maxLength);
-            glGetShaderInfoLog(fragmentShader, maxLength, &maxLength, &infoLog[0]);
+            glGetShaderInfoLog(mFragmentShader, maxLength, &maxLength, &infoLog[0]);
             std::stringstream ss;
             ss << "Error! Fragment shader compilation:\n" << std::string(&infoLog[0]) << "\n";
             throw(GLSLException(ss.str()));

@@ -17,6 +17,13 @@ namespace fea
     class Shader
     {
         public:
+
+            Shader();
+            Shader(const Shader& other) = delete;
+            Shader& operator=(const Shader& other) = delete;
+            Shader(Shader&& other);
+            Shader& operator=(Shader&& other);
+            ~Shader();
             void setSource(const std::string& vertexSource, const std::string& fragmentSource);
             void activate() const;
             void deactivate() const;
@@ -30,6 +37,8 @@ namespace fea
             std::unordered_map<std::string, GLint> mVertexAttributeLocations;
             std::string mVertexSource;
             std::string mFragmentSource;
+            GLuint mVertexShader;
+            GLuint mFragmentShader;
             mutable std::vector<GLint> mEnabledVertexAttributes;
     };
     /** @addtogroup Render2D
@@ -47,6 +56,25 @@ namespace fea
      ***
      *  @class Shader
      *  @brief A representation of a shader which can be used by the renderer2d for rendering.
+     ***
+     *  @fn Shader::Shader()
+     *  @brief Construct an uninitialized Shader.
+     ***
+     *  @fn Shader::Shader(Shader&& other)
+     *  @brief Move constructor.
+     *  @param other Other instance.
+     ***
+     *  @fn Shader::Shader(const Shader& other) = delete
+     *  @brief Deleted copy constructor.
+     *  @param other Instance to copy.
+     ***
+     *  @fn Shader& Shader::operator=(Shader&& other)
+     *  @brief Move assignment operator.
+     *  @param other Other instance.
+     ***
+     *  @fn Shader& Shader::operator=(const Shader& other)
+     *  @brief Deleted assignment operator.
+     *  @param other Other instance.
      ***
      *  @fn void Shader::setSource(const std::string& vertexSource, const std::string& fragmentSource)
      *  @brief Set which GLSL source code the shader should use.
