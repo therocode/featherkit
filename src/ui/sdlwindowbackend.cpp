@@ -118,6 +118,5 @@ namespace fea
 
     SDLWindowBackend::~SDLWindowBackend()
     {
-        free(mWindow);
     }
 }
