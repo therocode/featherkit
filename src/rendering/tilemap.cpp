@@ -198,6 +198,19 @@ namespace fea
             }
         }
     }
+            
+    void TileMap::setTileColor(const glm::uvec2& pos, const fea::Color& color)
+    {
+        FEA_ASSERT(!isOutOfBounds(pos), "Trying to set color outside of the bounds of the tilemap! Setting at " + std::to_string(pos.x) + " " + std::to_string(pos.y) + ".");
+        uint32_t x = pos.x;
+        uint32_t y = pos.y;
+
+        uint32_t chunkX = x / mChunkSize.x;
+        uint32_t chunkY = y / mChunkSize.y;
+        uint32_t chunkIndex = chunkX + chunkY * mChunkGridSize.x;
+
+        mChunks[chunkIndex].setTileColors(x - chunkX * mChunkSize.x, y - chunkY * mChunkSize.y, color);
+    }
     
     void TileMap::clear()
     {

@@ -33,6 +33,7 @@ namespace fea
             void setTile(const glm::uvec2& pos, const std::string& name);
             void unsetTile(const glm::uvec2& pos);
             void fill(const std::string& name);
+            void setTileColor(const glm::uvec2& pos, const fea::Color& color);
             void clear();
             glm::uvec2 getTileByCoordinates(const glm::vec2& coordinates) const;
             bool isOutOfBounds(const glm::uvec2& pos) const;

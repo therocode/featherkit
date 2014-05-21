@@ -136,6 +136,36 @@ namespace fea
         mVertices = mVerticesCached;
     }
     
+    void TileChunk::setTileColors(uint32_t x, uint32_t y, const fea::Color& color)
+    {
+        uint32_t arrayIndex = getTileIndex(x, y) * 24;
+
+        mVertexColorsCached[arrayIndex     ] = color.r(); mVertexColorsCached[arrayIndex +  1] = color.g(); mVertexColorsCached[arrayIndex +  2] = color.b(); mVertexColorsCached[arrayIndex +  3] = color.a();
+        mVertexColorsCached[arrayIndex +  4] = color.r(); mVertexColorsCached[arrayIndex +  5] = color.g(); mVertexColorsCached[arrayIndex +  6] = color.b(); mVertexColorsCached[arrayIndex +  7] = color.a();
+        mVertexColorsCached[arrayIndex +  8] = color.r(); mVertexColorsCached[arrayIndex +  9] = color.g(); mVertexColorsCached[arrayIndex + 10] = color.b(); mVertexColorsCached[arrayIndex + 11] = color.a();
+        mVertexColorsCached[arrayIndex + 12] = color.r(); mVertexColorsCached[arrayIndex + 13] = color.g(); mVertexColorsCached[arrayIndex + 14] = color.b(); mVertexColorsCached[arrayIndex + 15] = color.a();
+        mVertexColorsCached[arrayIndex + 16] = color.r(); mVertexColorsCached[arrayIndex + 17] = color.g(); mVertexColorsCached[arrayIndex + 18] = color.b(); mVertexColorsCached[arrayIndex + 19] = color.a();
+        mVertexColorsCached[arrayIndex + 20] = color.r(); mVertexColorsCached[arrayIndex + 21] = color.g(); mVertexColorsCached[arrayIndex + 22] = color.b(); mVertexColorsCached[arrayIndex + 23] = color.a();
+                
+        mTexCoords.clear();
+        mVertexColors.clear();
+        mVertices.clear();
+
+        for(uint32_t yy = 0; yy < mGridSize.y; yy++)
+        {
+            for(uint32_t xx = 0; xx < mGridSize.x; xx++)
+            {
+                uint32_t index = getTileIndex(xx, yy);
+                if(mTilesSet[index])
+                {
+                    mTexCoords.insert(mTexCoords.end(), mTexCoordsCached.begin() + index * 12, mTexCoordsCached.begin() + index * 12 + 12);
+                    mVertexColors.insert(mVertexColors.end(), mVertexColorsCached.begin() + index * 24, mVertexColorsCached.begin() + index * 24 + 24);
+                    mVertices.insert(mVertices.end(), mVerticesCached.begin() + index * 12, mVerticesCached.begin() + index * 12 + 12);
+                }
+            }
+        }
+    }
+    
     void TileChunk::clear()
     {
         std::fill(mTilesSet.begin(), mTilesSet.end(), false);
