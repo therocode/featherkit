@@ -263,4 +263,15 @@ namespace fea
             setTile(toSet[i], names[i]);
         }
     }
+
+    void TileMap::setOpacity(float opacity)
+    {
+        for(auto& chunk : mChunks)
+            chunk.setOpacity(opacity);
+    }
+
+    float TileMap::getOpacity() const
+    {
+        return mChunks.begin()->getOpacity();
+    }
 }

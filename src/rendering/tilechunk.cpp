@@ -59,12 +59,18 @@ namespace fea
     {
         uint32_t arrayIndex = getTileIndex(x, y) * 12;
 
-        mTexCoordsCached[arrayIndex] = startCoords.x; mTexCoordsCached[arrayIndex + 1] = startCoords.y;
-        mTexCoordsCached[arrayIndex + 2] = startCoords.x; mTexCoordsCached[arrayIndex + 3] = endCoords.y;
-        mTexCoordsCached[arrayIndex + 4] = endCoords.x; mTexCoordsCached[arrayIndex + 5] = startCoords.y;
-        mTexCoordsCached[arrayIndex + 6] = endCoords.x; mTexCoordsCached[arrayIndex + 7] = startCoords.y;
-        mTexCoordsCached[arrayIndex + 8] = startCoords.x; mTexCoordsCached[arrayIndex + 9] = endCoords.y;
-        mTexCoordsCached[arrayIndex + 10] = endCoords.x; mTexCoordsCached[arrayIndex + 11] = endCoords.y;
+        //mTexCoordsCached[arrayIndex] =      startCoords.x; mTexCoordsCached[arrayIndex + 1] =  startCoords.y;
+        //mTexCoordsCached[arrayIndex + 2] =  startCoords.x; mTexCoordsCached[arrayIndex + 3] =  endCoords.y;
+        //mTexCoordsCached[arrayIndex + 4] =  endCoords.x;   mTexCoordsCached[arrayIndex + 5] =  startCoords.y;
+        //mTexCoordsCached[arrayIndex + 6] =  endCoords.x;   mTexCoordsCached[arrayIndex + 7] =  startCoords.y;
+        //mTexCoordsCached[arrayIndex + 8] =  startCoords.x; mTexCoordsCached[arrayIndex + 9] =  endCoords.y;
+        //mTexCoordsCached[arrayIndex + 10] = endCoords.x;   mTexCoordsCached[arrayIndex + 11] = endCoords.y;
+        mTexCoordsCached[arrayIndex] =      startCoords.x; mTexCoordsCached[arrayIndex + 1] =  startCoords.y;
+        mTexCoordsCached[arrayIndex + 2] =  startCoords.x; mTexCoordsCached[arrayIndex + 3] =  endCoords.y;
+        mTexCoordsCached[arrayIndex + 4] =  endCoords.x;   mTexCoordsCached[arrayIndex + 5] =  startCoords.y;
+        mTexCoordsCached[arrayIndex + 6] =  endCoords.x;   mTexCoordsCached[arrayIndex + 7] =  startCoords.y;
+        mTexCoordsCached[arrayIndex + 8] =  startCoords.x; mTexCoordsCached[arrayIndex + 9] =  endCoords.y;
+        mTexCoordsCached[arrayIndex + 10] = endCoords.x;   mTexCoordsCached[arrayIndex + 11] = endCoords.y;
 
         mTilesSet[getTileIndex(x, y)] = true;
 

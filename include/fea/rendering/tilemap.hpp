@@ -40,6 +40,8 @@ namespace fea
             glm::uvec2 getGridSize() const;
             glm::uvec2 getTileMapSize() const;
             void tick();
+            void setOpacity(float opacity);
+            float getOpacity() const;
         private:
             glm::vec2 mPosition;
             glm::uvec2 mChunkGridSize;
