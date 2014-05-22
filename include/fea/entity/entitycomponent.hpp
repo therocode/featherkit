@@ -10,8 +10,8 @@ namespace fea
             void entityCreated(WeakEntityPtr entity);
             void entityRemoved(EntityId entityId);
             virtual bool keepEntity(WeakEntityPtr entity) const;
-            virtual void entityKept(WeakEntityPtr entity) const;
-            virtual void entityDropped(WeakEntityPtr entity) const;
+            virtual void entityKept(WeakEntityPtr entity);
+            virtual void entityDropped(WeakEntityPtr entity);
             const std::unordered_map<EntityId, WeakEntityPtr>& getEntities() const;
             virtual ~EntityComponent();
         protected:
@@ -50,13 +50,13 @@ namespace fea
      *  @param entity Entity to investigate.
      *  @return True if the entity should be kept.
      ***
-     *  @fn virtual void EntityComponent::entityKept(WeakEntityPtr entity) const
+     *  @fn virtual void EntityComponent::entityKept(WeakEntityPtr entity)
      *  @brief Handle a newly kept entity.
      *
      *  Override this function to specify what the component should do with an entity that is kept.
      *  @param entity kept Entity.
      ***
-     *  @fn virtual void EntityComponent::entityDropped(WeakEntityPtr entity) const
+     *  @fn virtual void EntityComponent::entityDropped(WeakEntityPtr entity)
      *  @brief Handle an entity that is dropped.
      *
      *  Override this function to specify what the component should do with an entity that is dropped.
