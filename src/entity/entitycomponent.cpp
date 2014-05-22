@@ -25,11 +25,11 @@ namespace fea
         return false;
     }
             
-    void EntityComponent::entityKept(WeakEntityPtr entity) const
+    void EntityComponent::entityKept(WeakEntityPtr entity)
     {
     }
 
-    void EntityComponent::entityDropped(WeakEntityPtr entity) const
+    void EntityComponent::entityDropped(WeakEntityPtr entity)
     {
     }
 
