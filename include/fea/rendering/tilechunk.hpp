@@ -1,6 +1,8 @@
 #pragma once
 #include <fea/rendering/drawable2d.hpp>
 #include <fea/rendering/texture.hpp>
+#include <unordered_map>
+#include <fea/rendering/glmhash.hpp>
 
 namespace fea
 {
@@ -20,11 +22,8 @@ namespace fea
             uint32_t getTileIndex(uint32_t x, uint32_t y);
             glm::uvec2 mGridSize;
             const Texture* mTexture;
-            std::vector<float> mTexCoords;
-            std::vector<float> mTexCoordsCached;
-            std::vector<float> mVerticesCached;
-            std::vector<float> mVertexColorsCached;
-            std::vector<bool> mTilesSet;
+            std::unordered_map<glm::uvec2, size_t> mTileIndices;
+            glm::vec2 mTileSize;
     };
     /** @addtogroup Render2D
      *@{

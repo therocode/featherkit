@@ -2,46 +2,12 @@
 
 namespace fea
 {
-    TileChunk::TileChunk(uint32_t width, uint32_t height, uint32_t tileWidth, uint32_t tileHeight)
+    TileChunk::TileChunk(uint32_t width, uint32_t height, uint32_t tileWidth, uint32_t tileHeight):
+        mTileSize(tileWidth, tileHeight)
     {
-        float halfTileWidth = ((float) tileWidth) * 0.5f;
-        float halfTileHeight = ((float) tileHeight) * 0.5f;
-
-        mTilesSet.resize(width * height);
-        std::fill(mTilesSet.begin(), mTilesSet.end(), false);
-
         mOrigin = glm::vec2(0.0f, 0.0f);
         mGridSize = glm::uvec2(width, height);
 
-        for(uint32_t y = 0; y < height; y++)
-        {
-            for(uint32_t x = 0; x < width; x++)
-            {
-                float xPos = (float)(x * tileWidth) + (float)tileWidth * 0.5f;
-                float yPos = (float)(y * tileHeight) + (float)tileHeight * 0.5f;
-
-                mVerticesCached.push_back(((float)xPos) - halfTileWidth); mVerticesCached.push_back(((float)yPos) - halfTileHeight);
-                mVerticesCached.push_back(((float)xPos) - halfTileWidth); mVerticesCached.push_back(((float)yPos) + halfTileHeight);
-                mVerticesCached.push_back(((float)xPos) + halfTileWidth); mVerticesCached.push_back(((float)yPos) - halfTileHeight);
-                mVerticesCached.push_back(((float)xPos) + halfTileWidth); mVerticesCached.push_back(((float)yPos) - halfTileHeight);
-                mVerticesCached.push_back(((float)xPos) - halfTileWidth); mVerticesCached.push_back(((float)yPos) + halfTileHeight);
-                mVerticesCached.push_back(((float)xPos) + halfTileWidth); mVerticesCached.push_back(((float)yPos) + halfTileHeight);
-
-                mTexCoordsCached.push_back(0.0f); mTexCoordsCached.push_back(0.0f);
-                mTexCoordsCached.push_back(0.0f); mTexCoordsCached.push_back(1.0f);
-                mTexCoordsCached.push_back(1.0f); mTexCoordsCached.push_back(0.0f);
-                mTexCoordsCached.push_back(1.0f); mTexCoordsCached.push_back(0.0f);
-                mTexCoordsCached.push_back(0.0f); mTexCoordsCached.push_back(1.0f);
-                mTexCoordsCached.push_back(1.0f); mTexCoordsCached.push_back(1.0f);
-
-                mVertexColorsCached.push_back(1.0f); mVertexColorsCached.push_back(1.0f); mVertexColorsCached.push_back(1.0f); mVertexColorsCached.push_back(1.0f);
-                mVertexColorsCached.push_back(1.0f); mVertexColorsCached.push_back(1.0f); mVertexColorsCached.push_back(1.0f); mVertexColorsCached.push_back(1.0f);
-                mVertexColorsCached.push_back(1.0f); mVertexColorsCached.push_back(1.0f); mVertexColorsCached.push_back(1.0f); mVertexColorsCached.push_back(1.0f);
-                mVertexColorsCached.push_back(1.0f); mVertexColorsCached.push_back(1.0f); mVertexColorsCached.push_back(1.0f); mVertexColorsCached.push_back(1.0f);
-                mVertexColorsCached.push_back(1.0f); mVertexColorsCached.push_back(1.0f); mVertexColorsCached.push_back(1.0f); mVertexColorsCached.push_back(1.0f);
-                mVertexColorsCached.push_back(1.0f); mVertexColorsCached.push_back(1.0f); mVertexColorsCached.push_back(1.0f); mVertexColorsCached.push_back(1.0f);
-            }
-        }
         mDrawMode = GL_TRIANGLES;
     }
     
@@ -57,122 +23,117 @@ namespace fea
     
     void TileChunk::setTileTexCoords(uint32_t x, uint32_t y, const glm::vec2& startCoords, const glm::vec2& endCoords)
     {
-        uint32_t arrayIndex = getTileIndex(x, y) * 12;
+        glm::uvec2 tile(x,y);
 
-        //mTexCoordsCached[arrayIndex] =      startCoords.x; mTexCoordsCached[arrayIndex + 1] =  startCoords.y;
-        //mTexCoordsCached[arrayIndex + 2] =  startCoords.x; mTexCoordsCached[arrayIndex + 3] =  endCoords.y;
-        //mTexCoordsCached[arrayIndex + 4] =  endCoords.x;   mTexCoordsCached[arrayIndex + 5] =  startCoords.y;
-        //mTexCoordsCached[arrayIndex + 6] =  endCoords.x;   mTexCoordsCached[arrayIndex + 7] =  startCoords.y;
-        //mTexCoordsCached[arrayIndex + 8] =  startCoords.x; mTexCoordsCached[arrayIndex + 9] =  endCoords.y;
-        //mTexCoordsCached[arrayIndex + 10] = endCoords.x;   mTexCoordsCached[arrayIndex + 11] = endCoords.y;
-        mTexCoordsCached[arrayIndex] =      startCoords.x; mTexCoordsCached[arrayIndex + 1] =  startCoords.y;
-        mTexCoordsCached[arrayIndex + 2] =  startCoords.x; mTexCoordsCached[arrayIndex + 3] =  endCoords.y;
-        mTexCoordsCached[arrayIndex + 4] =  endCoords.x;   mTexCoordsCached[arrayIndex + 5] =  startCoords.y;
-        mTexCoordsCached[arrayIndex + 6] =  endCoords.x;   mTexCoordsCached[arrayIndex + 7] =  startCoords.y;
-        mTexCoordsCached[arrayIndex + 8] =  startCoords.x; mTexCoordsCached[arrayIndex + 9] =  endCoords.y;
-        mTexCoordsCached[arrayIndex + 10] = endCoords.x;   mTexCoordsCached[arrayIndex + 11] = endCoords.y;
+        auto tileIterator = mTileIndices.find(tile);
 
-        mTilesSet[getTileIndex(x, y)] = true;
-
-        mTexCoords.clear();
-        mVertexColors.clear();
-        mVertices.clear();
-
-        for(uint32_t yy = 0; yy < mGridSize.y; yy++)
+        if(tileIterator == mTileIndices.end())
         {
-            for(uint32_t xx = 0; xx < mGridSize.x; xx++)
-            {
-                uint32_t index = getTileIndex(xx, yy);
-                if(mTilesSet[index])
-                {
-                    mTexCoords.insert(mTexCoords.end(), mTexCoordsCached.begin() + index * 12, mTexCoordsCached.begin() + index * 12 + 12);
-                    mVertexColors.insert(mVertexColors.end(), mVertexColorsCached.begin() + index * 24, mVertexColorsCached.begin() + index * 24 + 24);
-                    mVertices.insert(mVertices.end(), mVerticesCached.begin() + index * 12, mVerticesCached.begin() + index * 12 + 12);
-                }
-            }
+            size_t nextIndex = mVertices.size() / 12;
+            mTileIndices.emplace(tile, nextIndex);
+
+            float xPos = (float)(x * mTileSize.x) + (float)mTileSize.x * 0.5f;
+            float yPos = (float)(y * mTileSize.y) + (float)mTileSize.y * 0.5f;
+            float halfTileWidth = ((float) mTileSize.x) * 0.5f;
+            float halfTileHeight = ((float) mTileSize.y) * 0.5f;
+
+            mVertices.push_back(((float)xPos) - halfTileWidth); mVertices.push_back(((float)yPos) - halfTileHeight);
+            mVertices.push_back(((float)xPos) - halfTileWidth); mVertices.push_back(((float)yPos) + halfTileHeight);
+            mVertices.push_back(((float)xPos) + halfTileWidth); mVertices.push_back(((float)yPos) - halfTileHeight);
+            mVertices.push_back(((float)xPos) + halfTileWidth); mVertices.push_back(((float)yPos) - halfTileHeight);
+            mVertices.push_back(((float)xPos) - halfTileWidth); mVertices.push_back(((float)yPos) + halfTileHeight);
+            mVertices.push_back(((float)xPos) + halfTileWidth); mVertices.push_back(((float)yPos) + halfTileHeight);
+
+            mTexCoords.push_back(startCoords.x); mTexCoords.push_back(startCoords.y);
+            mTexCoords.push_back(startCoords.x); mTexCoords.push_back(endCoords.y  );
+            mTexCoords.push_back(endCoords.x  ); mTexCoords.push_back(startCoords.y);
+            mTexCoords.push_back(endCoords.x  ); mTexCoords.push_back(startCoords.y);
+            mTexCoords.push_back(startCoords.x); mTexCoords.push_back(endCoords.y  );
+            mTexCoords.push_back(endCoords.x  ); mTexCoords.push_back(endCoords.y  );
+
+            mVertexColors.push_back(1.0f); mVertexColors.push_back(1.0f); mVertexColors.push_back(1.0f); mVertexColors.push_back(1.0f);
+            mVertexColors.push_back(1.0f); mVertexColors.push_back(1.0f); mVertexColors.push_back(1.0f); mVertexColors.push_back(1.0f);
+            mVertexColors.push_back(1.0f); mVertexColors.push_back(1.0f); mVertexColors.push_back(1.0f); mVertexColors.push_back(1.0f);
+            mVertexColors.push_back(1.0f); mVertexColors.push_back(1.0f); mVertexColors.push_back(1.0f); mVertexColors.push_back(1.0f);
+            mVertexColors.push_back(1.0f); mVertexColors.push_back(1.0f); mVertexColors.push_back(1.0f); mVertexColors.push_back(1.0f);
+            mVertexColors.push_back(1.0f); mVertexColors.push_back(1.0f); mVertexColors.push_back(1.0f); mVertexColors.push_back(1.0f);
+        }
+        else
+        {
+            size_t texCoordIndex = tileIterator->second * 12;
+
+            mTexCoords[texCoordIndex] =      startCoords.x; mTexCoords[texCoordIndex + 1] =  startCoords.y;
+            mTexCoords[texCoordIndex + 2] =  startCoords.x; mTexCoords[texCoordIndex + 3] =  endCoords.y;
+            mTexCoords[texCoordIndex + 4] =  endCoords.x;   mTexCoords[texCoordIndex + 5] =  startCoords.y;
+            mTexCoords[texCoordIndex + 6] =  endCoords.x;   mTexCoords[texCoordIndex + 7] =  startCoords.y;
+            mTexCoords[texCoordIndex + 8] =  startCoords.x; mTexCoords[texCoordIndex + 9] =  endCoords.y;
+            mTexCoords[texCoordIndex + 10] = endCoords.x;   mTexCoords[texCoordIndex + 11] = endCoords.y;
         }
     }
     
     void TileChunk::unsetTileTexCoords(uint32_t x, uint32_t y)
     {
-        mTilesSet[getTileIndex(x, y)] = false;
+        glm::uvec2 tile(x, y);
 
-        mTexCoords.clear();
-        mVertexColors.clear();
-        mVertices.clear();
+        auto tileIterator = mTileIndices.find(tile);
 
-        for(uint32_t yy = 0; yy < mGridSize.y; yy++)
+        if(tileIterator != mTileIndices.end())
         {
-            for(uint32_t xx = 0; xx < mGridSize.x; xx++)
+            size_t tileIndex = tileIterator->second;
+            size_t vertexIndex = tileIndex * 12;
+            size_t texCoordIndex = tileIndex * 12;
+            size_t colorIndex = tileIndex * 24;
+
+            mVertices.erase(mVertices.begin() + vertexIndex, mVertices.begin() + vertexIndex + 12);
+            mTexCoords.erase(mTexCoords.begin() + texCoordIndex, mTexCoords.begin() + texCoordIndex + 12);
+            mVertexColors.erase(mVertexColors.begin() + colorIndex, mVertexColors.begin() + colorIndex + 24);
+
+            mTileIndices.erase(tile);
+
+            for(auto& index : mTileIndices)
             {
-                uint32_t index = getTileIndex(xx, yy);
-                if(mTilesSet[index])
-                {
-                    mTexCoords.insert(mTexCoords.end(), mTexCoordsCached.begin() + index * 12, mTexCoordsCached.begin() + index * 12 + 12);
-                    mVertexColors.insert(mVertexColors.end(), mVertexColorsCached.begin() + index * 24, mVertexColorsCached.begin() + index * 24 + 24);
-                    mVertices.insert(mVertices.end(), mVerticesCached.begin() + index * 12, mVerticesCached.begin() + index * 12 + 12);
-                }
+                if(index.second > tileIndex)
+                    index.second--;
             }
         }
     }
     
     void TileChunk::fillTexCoords(const glm::vec2& startCoords, const glm::vec2& endCoords)
     {
-        std::fill(mTilesSet.begin(), mTilesSet.end(), true);
-
-        uint32_t total = mGridSize.x * mGridSize.y * 12;
-        for(uint32_t i = 0; i < total; i += 12)
+        for(size_t x = 0; x < mGridSize.x; x++)
         {
-            mTexCoordsCached[i] = startCoords.x; mTexCoordsCached[i + 1] = startCoords.y;
-            mTexCoordsCached[i + 2] = startCoords.x; mTexCoordsCached[i + 3] = endCoords.y;
-            mTexCoordsCached[i + 4] = endCoords.x; mTexCoordsCached[i + 5] = startCoords.y;
-            mTexCoordsCached[i + 6] = endCoords.x; mTexCoordsCached[i + 7] = startCoords.y;
-            mTexCoordsCached[i + 8] = startCoords.x; mTexCoordsCached[i + 9] = endCoords.y;
-            mTexCoordsCached[i + 10] = endCoords.x; mTexCoordsCached[i + 11] = endCoords.y;
+            for(size_t y = 0; y < mGridSize.y; y++)
+            {
+                setTileTexCoords(x, y, startCoords, endCoords);
+            }
         }
-
-        mTexCoords = mTexCoordsCached;
-        mVertexColors = mVertexColorsCached;
-        mVertices = mVerticesCached;
     }
     
     void TileChunk::setTileColors(uint32_t x, uint32_t y, const fea::Color& color)
     {
-        uint32_t arrayIndex = getTileIndex(x, y) * 24;
+        glm::uvec2 tile(x,y);
 
-        mVertexColorsCached[arrayIndex     ] = color.r(); mVertexColorsCached[arrayIndex +  1] = color.g(); mVertexColorsCached[arrayIndex +  2] = color.b(); mVertexColorsCached[arrayIndex +  3] = color.a();
-        mVertexColorsCached[arrayIndex +  4] = color.r(); mVertexColorsCached[arrayIndex +  5] = color.g(); mVertexColorsCached[arrayIndex +  6] = color.b(); mVertexColorsCached[arrayIndex +  7] = color.a();
-        mVertexColorsCached[arrayIndex +  8] = color.r(); mVertexColorsCached[arrayIndex +  9] = color.g(); mVertexColorsCached[arrayIndex + 10] = color.b(); mVertexColorsCached[arrayIndex + 11] = color.a();
-        mVertexColorsCached[arrayIndex + 12] = color.r(); mVertexColorsCached[arrayIndex + 13] = color.g(); mVertexColorsCached[arrayIndex + 14] = color.b(); mVertexColorsCached[arrayIndex + 15] = color.a();
-        mVertexColorsCached[arrayIndex + 16] = color.r(); mVertexColorsCached[arrayIndex + 17] = color.g(); mVertexColorsCached[arrayIndex + 18] = color.b(); mVertexColorsCached[arrayIndex + 19] = color.a();
-        mVertexColorsCached[arrayIndex + 20] = color.r(); mVertexColorsCached[arrayIndex + 21] = color.g(); mVertexColorsCached[arrayIndex + 22] = color.b(); mVertexColorsCached[arrayIndex + 23] = color.a();
-                
-        mTexCoords.clear();
-        mVertexColors.clear();
-        mVertices.clear();
+        auto tileIterator = mTileIndices.find(tile);
 
-        for(uint32_t yy = 0; yy < mGridSize.y; yy++)
+        if(tileIterator != mTileIndices.end())
         {
-            for(uint32_t xx = 0; xx < mGridSize.x; xx++)
-            {
-                uint32_t index = getTileIndex(xx, yy);
-                if(mTilesSet[index])
-                {
-                    mTexCoords.insert(mTexCoords.end(), mTexCoordsCached.begin() + index * 12, mTexCoordsCached.begin() + index * 12 + 12);
-                    mVertexColors.insert(mVertexColors.end(), mVertexColorsCached.begin() + index * 24, mVertexColorsCached.begin() + index * 24 + 24);
-                    mVertices.insert(mVertices.end(), mVerticesCached.begin() + index * 12, mVerticesCached.begin() + index * 12 + 12);
-                }
-            }
+            size_t colorIndex = tileIterator->second * 24;
+
+            mVertexColors[colorIndex] = color.r(); mVertexColors[colorIndex + 1] = color.g(); mVertexColors[colorIndex + 2] = color.b(); mVertexColors[colorIndex + 3] = color.a();
+            mVertexColors[colorIndex + 4] = color.r(); mVertexColors[colorIndex + 5] = color.g(); mVertexColors[colorIndex + 6] = color.b(); mVertexColors[colorIndex + 7] = color.a();
+            mVertexColors[colorIndex + 8] = color.r(); mVertexColors[colorIndex + 9] = color.g(); mVertexColors[colorIndex + 10] = color.b(); mVertexColors[colorIndex + 11] = color.a();
+            mVertexColors[colorIndex + 12] = color.r(); mVertexColors[colorIndex + 13] = color.g(); mVertexColors[colorIndex + 14] = color.b(); mVertexColors[colorIndex + 15] = color.a();
+            mVertexColors[colorIndex + 16] = color.r(); mVertexColors[colorIndex + 17] = color.g(); mVertexColors[colorIndex + 18] = color.b(); mVertexColors[colorIndex + 19] = color.a();
+            mVertexColors[colorIndex + 20] = color.r(); mVertexColors[colorIndex + 21] = color.g(); mVertexColors[colorIndex + 22] = color.b(); mVertexColors[colorIndex + 23] = color.a();
         }
     }
     
     void TileChunk::clear()
     {
-        std::fill(mTilesSet.begin(), mTilesSet.end(), false);
-
         mTexCoords.clear();
         mVertexColors.clear();
         mVertices.clear();
+        mTileIndices.clear();
     }
 
     RenderInfo TileChunk::getRenderInfo() const

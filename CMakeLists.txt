@@ -255,6 +255,7 @@ if(BUILD_RENDERING)
         include/fea/rendering/defaultshader.hpp
         include/fea/rendering/drawable2d.hpp
         include/fea/rendering/gl_core_3_2.h
+        include/fea/rendering/glmhash.hpp
         include/fea/rendering/opengl.hpp
         include/fea/rendering/projection.hpp
         include/fea/rendering/quad.hpp
