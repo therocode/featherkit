@@ -135,6 +135,11 @@ namespace fea
         mVertices.clear();
         mTileIndices.clear();
     }
+            
+    bool TileChunk::isEmpty() const
+    {
+        return mTileIndices.size() == 0;
+    }
 
     RenderInfo TileChunk::getRenderInfo() const
     {

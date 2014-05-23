@@ -95,9 +95,17 @@ namespace fea
         return mPosition;
     }
     
-    const std::vector<TileChunk>& TileMap::getTileChunks() const
+    std::vector<const TileChunk*> TileMap::getTileChunks() const
     {
-        return mChunks;
+        std::vector<const TileChunk*> toReturn;
+
+        for(const auto& chunk : mChunks)
+        {
+            if(!chunk.isEmpty())
+                toReturn.push_back(&chunk);
+        }
+
+        return toReturn;
     }
     
     void TileMap::setTexture(const Texture& tex)

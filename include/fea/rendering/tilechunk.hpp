@@ -17,6 +17,7 @@ namespace fea
             void fillTexCoords(const glm::vec2& startCoords, const glm::vec2& endCoords);
             void setTileColors(uint32_t x, uint32_t y, const fea::Color& color);
             void clear();
+            bool isEmpty() const;
             virtual RenderInfo getRenderInfo() const override;
         private:
             uint32_t getTileIndex(uint32_t x, uint32_t y);

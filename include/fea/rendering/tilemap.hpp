@@ -26,7 +26,7 @@ namespace fea
             TileMap(uint32_t gridWidth, uint32_t gridHeight, uint32_t tileWidth = 16, uint32_t tileHeight = 16, float textureTileWidth = 0.25f, float textureTileHeight = 0.25f , uint32_t chunkWidth = 32, uint32_t chunkHeight = 32);
             void setPosition(const glm::vec2& position);
             const glm::vec2& getPosition() const;
-            const std::vector<TileChunk>& getTileChunks() const;
+            std::vector<const TileChunk*> getTileChunks() const;
             void setTexture(const Texture& texture);
             const Texture& getTexture() const;
             void addTileDefinition(const std::string& name, const TileDefinition& tileDef);
