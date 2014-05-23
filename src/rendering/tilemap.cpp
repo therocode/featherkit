@@ -230,7 +230,6 @@ namespace fea
     
     glm::uvec2 TileMap::getTileByCoordinates(const glm::vec2& coordinate) const
     {
-        FEA_ASSERT(!isOutOfBounds((glm::uvec2)(coordinate / (glm::vec2)mTileSize)), "Cannot access tiles without the bounds of the tilemap! Trying to access at " + std::to_string(coordinate.x) + " " + std::to_string(coordinate.y) + ".");
 
         return glm::uvec2((uint32_t)coordinate.x / mTileSize.x, (uint32_t)coordinate.y / mTileSize.y);
     }
