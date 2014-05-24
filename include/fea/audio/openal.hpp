@@ -1,6 +1,6 @@
 #pragma once
-#if !defined(__EMSCRIPTEN__)
 #define AL_ALEXT_PROTOTYPES
+#if !defined(__EMSCRIPTEN__)
 #include "al.h"
 #include "efx.h"
 #else
