@@ -112,6 +112,7 @@ if(BUILD_AUDIO)
         ${FEATHERKIT_EFX_SOURCES})
 
     set(audio_header_files
+        include/fea/audio/openal.hpp
         include/fea/audio/audio.hpp
         include/fea/audio/audiobase.hpp
         include/fea/audio/audiobuffer.hpp

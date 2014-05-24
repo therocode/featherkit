@@ -4,10 +4,6 @@
 #include <fea/audio/audiostream.hpp>
 #include <fea/audio/audiofilter.hpp>
 #include <fea/assert.hpp>
-#if !defined(__EMSCRIPTEN__)
-#define AL_ALEXT_PROTOTYPES
-#include "efx.h"
-#endif
 #include <string>
             
 namespace fea

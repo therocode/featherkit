@@ -1,9 +1,5 @@
 #pragma once
-#include "al.h"
-#if !defined(__EMSCRIPTEN__)
-#define AL_ALEXT_PROTOTYPES
-#include "efx.h"
-#endif
+#include <fea/audio/openal.hpp>
 
 namespace fea
 {

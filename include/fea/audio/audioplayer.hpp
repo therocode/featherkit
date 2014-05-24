@@ -1,6 +1,5 @@
 #pragma once
-#include "al.h"
-#include "alc.h"
+#include <fea/audio/openal.hpp>
 #include <stack>
 #include <unordered_map>
 #include <fea/audio/playsource.hpp>
