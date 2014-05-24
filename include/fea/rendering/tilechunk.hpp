@@ -19,12 +19,15 @@ namespace fea
             void clear();
             bool isEmpty() const;
             virtual RenderInfo getRenderInfo() const override;
+            void setOriginalOrigin(const glm::vec2& origin);
+            void multiplyOrigin(const glm::vec2& mult);
         private:
             uint32_t getTileIndex(uint32_t x, uint32_t y);
             glm::uvec2 mGridSize;
             const Texture* mTexture;
             std::unordered_map<glm::uvec2, size_t> mTileIndices;
             glm::vec2 mTileSize;
+            glm::vec2 mOriginalOrigin;
     };
     /** @addtogroup Render2D
      *@{

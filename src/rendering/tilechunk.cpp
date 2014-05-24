@@ -152,6 +152,17 @@ namespace fea
         return temp;
     }
     
+    void TileChunk::setOriginalOrigin(const glm::vec2& origin)
+    {
+        mOriginalOrigin = origin;
+        setOrigin(origin);
+    }
+
+    void TileChunk::multiplyOrigin(const glm::vec2& mult)
+    {
+        setOrigin(mOriginalOrigin * mult);
+    }
+
     uint32_t TileChunk::getTileIndex(uint32_t x, uint32_t y)
     {
         return x + y * mGridSize.x;

@@ -25,6 +25,7 @@ namespace fea
             TileMap(uint32_t gridWidth, uint32_t gridHeight, uint32_t tileWidth = 16, uint32_t tileHeight = 16, float textureTileWidth = 0.25f, float textureTileHeight = 0.25f , uint32_t chunkWidth = 32, uint32_t chunkHeight = 32);
             void setPosition(const glm::vec2& position);
             const glm::vec2& getPosition() const;
+            void translate(const glm::vec2& amount);
             std::vector<const TileChunk*> getTileChunks() const;
             void setTexture(const Texture& texture);
             const Texture& getTexture() const;
@@ -44,6 +45,10 @@ namespace fea
             float getOpacity() const;
             void setRotation(float rotation);
             float getRotation() const;
+            void rotate(float amount);
+            void setScale(const glm::vec2& scale);
+            const glm::vec2& getScale() const;
+            void scale(const glm::vec2& amount);
         private:
             glm::vec2 mPosition;
             glm::uvec2 mChunkGridSize;

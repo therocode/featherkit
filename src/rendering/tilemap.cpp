@@ -46,7 +46,7 @@ namespace fea
 
                 TileChunk newChunk(newChunkWidth, newChunkHeight, tileWidth, tileHeight);
                 glm::vec2 chunkPosition = glm::vec2(mPosition.x +(float) (x * chunkWidth * tileWidth),mPosition.y + (float)(y * chunkHeight * tileHeight));
-                newChunk.setOrigin(-chunkPosition);
+                newChunk.setOriginalOrigin(-chunkPosition);
 
                 mChunks.push_back(newChunk);
             }
@@ -57,18 +57,21 @@ namespace fea
     {
         mPosition = pos;
 
-        for(uint32_t y = 0; y < mChunkGridSize.y; y++)
-        {
-            for(uint32_t x = 0; x < mChunkGridSize.x; x++)
-            {
-                mChunks[x + y * mChunkGridSize.x].setPosition(pos);
-            }
-        }
+        for(auto& chunk : mChunks)
+            chunk.setPosition(pos);
     }
     
     const glm::vec2& TileMap::getPosition() const
     {
         return mPosition;
+    }
+
+    void TileMap::translate(const glm::vec2& amount)
+    {
+        mPosition += amount;
+
+        for(auto& chunk : mChunks)
+            chunk.translate(amount);
     }
     
     std::vector<const TileChunk*> TileMap::getTileChunks() const
@@ -206,8 +209,15 @@ namespace fea
     
     glm::uvec2 TileMap::getTileByCoordinates(const glm::vec2& coordinate) const
     {
+        float sin = glm::sin(-getRotation());
+        float cos = glm::cos(-getRotation());
 
-        return glm::uvec2((uint32_t)coordinate.x / mTileSize.x, (uint32_t)coordinate.y / mTileSize.y);
+        glm::mat2x2 rot = glm::mat2x2(cos, sin, -sin, cos);
+        glm::vec2 scale = getScale();
+
+        glm::vec2 transformedCoordinate = (glm::inverse(rot) * ((coordinate - mPosition))) / scale;
+
+        return glm::uvec2((uint32_t)transformedCoordinate.x / mTileSize.x, (uint32_t)transformedCoordinate.y / mTileSize.y);
     }
             
     bool TileMap::isOutOfBounds(const glm::uvec2& pos) const
@@ -280,5 +290,34 @@ namespace fea
     float TileMap::getRotation() const
     {
         return mChunks.begin()->getRotation();
+    }
+
+    void TileMap::rotate(float amount)
+    {
+        for(auto& chunk : mChunks)
+            chunk.rotate(amount);
+    }
+
+    void TileMap::setScale(const glm::vec2& scale)
+    {
+        for(auto& chunk : mChunks)
+        {
+            chunk.setScale(scale);
+            chunk.multiplyOrigin(scale);
+        }
+    }
+
+    const glm::vec2& TileMap::getScale() const
+    {
+        return mChunks.begin()->getScale();
+    }
+
+    void TileMap::scale(const glm::vec2& amount)
+    {
+        for(auto& chunk : mChunks)
+        {
+            chunk.scale(amount);
+            chunk.multiplyOrigin(chunk.getScale());
+        }
     }
 }
