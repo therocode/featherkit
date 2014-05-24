@@ -17,6 +17,8 @@ namespace fea
             float getRotation() const;
             void rotate(float radians);
             glm::mat2x2 getRotationMatrix() const;
+            glm::vec2 transformPoint(const glm::vec2 point) const;
+            glm::vec2 untransformPoint(const glm::vec2 point) const;
         private:
             glm::vec2 mPosition;
             glm::vec2 mZoom;
@@ -79,5 +81,25 @@ namespace fea
      *  @fn glm::mat2x2 Camera::getRotationMatrix() const
      *  @brief Get the rotation matrix of the Camera.
      *  @return Matrix representing the rotation of the Camera.
+     ***
+     *  @fn glm::vec2 Camera::transformPoint(const glm::vec2 point) const
+     *  @brief Transform a point to the Camera.
+     *
+     *  The point given will be transformed into the coordinate space of the Camera. For instance, it can be used to calculate where on the screen a certain object will be rendered if this Camera is used.
+     *
+     *  This does not take viewport boundaries into account. If that is desired, use Viewport::transformPoint instead.
+     *
+     *  @param point World space coordinate to transform.
+     *  @return The given point in the space of this Camera.
+     ***
+     *  @fn glm::vec2 Camera::untransformPoint(const glm::vec2 point) const
+     *  @brief Transform a point from the Camera back to world coordinates.
+     *
+     *  Does a reverse Camera transformation of the given point. The point is given in screen space, and the return value will represent the given point in world coordinates. For example, this can be used to decide where in the world coordinates a given screen point is.
+     *
+     *  This does not take viewport boundaries into account. If that is desired, use Viewport::transformPoint instead.
+     *
+     *  @param point Screen space coordinate to reverse transform.
+     *  @return The given point in world space.
      ***/
 }

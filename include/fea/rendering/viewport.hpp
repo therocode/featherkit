@@ -62,14 +62,16 @@ namespace fea
      *  @fn glm::vec2 Viewport::transformPoint(const glm::vec2 point) const
      *  @brief Transform a point to the Viewport.
      *
-     *  The point given will be transformed into the coordinate space of the Viewport. For instance, it can be used to calculate where on the screen a certain object will be rendered if this Viewport is used.
+     *  The point given will be transformed into the coordinate space of the Viewport. For instance, it can be used to calculate where on the screen a certain object will be rendered if this Viewport is used. The transform includes the current Camera of the Viewport.
+     *
      *  @param point World space coordinate to transform.
      *  @return The given point in the space of this Viewport.
      ***
      *  @fn glm::vec2 Viewport::untransformPoint(const glm::vec2 point) const
      *  @brief Transform a point from the Viewport back to world coordinates.
      *
-     *  Does a reverse Viewport transformation of the given point. The point is given in screen space, and the return value will represent the given point in world coordinates. For example, this can be used to decide where in the world coordinates a given screen point is.
+     *  Does a reverse Viewport transformation of the given point. The point is given in screen space, and the return value will represent the given point in world coordinates. For example, this can be used to decide where in the world coordinates a given screen point is. The transform includes the current Camera of the Viewport.
+     *
      *  @param point Screen space coordinate to reverse transform.
      *  @return The given point in world space.
      ***/

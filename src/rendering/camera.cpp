@@ -61,4 +61,14 @@ namespace fea
 
         return result * rot;
     }
+
+        glm::vec2 Camera::transformPoint(const glm::vec2 point) const
+        {
+            return getRotationMatrix() * (getZoom() * (point - getPosition()));
+        }
+
+        glm::vec2 Camera::untransformPoint(const glm::vec2 point) const
+        {
+            return (1.0f/getZoom()) * (glm::inverse(getRotationMatrix()) * (point)) + getPosition();
+        }
 }
