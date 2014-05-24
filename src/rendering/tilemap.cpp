@@ -45,8 +45,8 @@ namespace fea
                     newChunkWidth = edgeSize.x;
 
                 TileChunk newChunk(newChunkWidth, newChunkHeight, tileWidth, tileHeight);
-                glm::vec2 chunkPosition = glm::vec2(mPosition.x +(float) (x * chunkWidth * tileWidth),mPosition.y + (float)(y * chunkHeight * tileHeight));
-                newChunk.setOriginalOrigin(-chunkPosition);
+                glm::vec2 chunkOrigin = glm::vec2(mPosition.x +(float) (x * chunkWidth * tileWidth),mPosition.y + (float)(y * chunkHeight * tileHeight));
+                newChunk.setOriginalOrigin(-chunkOrigin);
 
                 mChunks.push_back(newChunk);
             }
@@ -215,7 +215,7 @@ namespace fea
         glm::mat2x2 rot = glm::mat2x2(cos, sin, -sin, cos);
         glm::vec2 scale = getScale();
 
-        glm::vec2 transformedCoordinate = (glm::inverse(rot) * ((coordinate - mPosition))) / scale;
+        glm::vec2 transformedCoordinate = ((glm::inverse(rot) * (coordinate - mPosition)) + getOrigin()) / scale;
 
         return glm::uvec2((uint32_t)transformedCoordinate.x / mTileSize.x, (uint32_t)transformedCoordinate.y / mTileSize.y);
     }
@@ -319,5 +319,27 @@ namespace fea
             chunk.scale(amount);
             chunk.multiplyOrigin(chunk.getScale());
         }
+    }
+
+    void TileMap::setOrigin(const glm::vec2& origin)
+    {
+        uint32_t chunkWidth = mChunkSize.x;
+        uint32_t chunkHeight = mChunkSize.y;
+        uint32_t chunkGridWidth = (mGridSize.x + chunkWidth - 1) / chunkWidth;
+        uint32_t chunkGridHeight = (mGridSize.y + chunkHeight - 1) / chunkHeight;
+
+        for(uint32_t y = 0; y < chunkGridHeight; y++)
+        {
+            for(uint32_t x = 0; x < chunkGridWidth; x++)
+            {
+                glm::vec2 chunkOrigin = glm::vec2(mPosition.x +(float) (x * chunkWidth * mTileSize.x),mPosition.y + (float)(y * chunkHeight * mTileSize.y));
+                mChunks[x + y * chunkGridWidth].setOriginalOrigin(-chunkOrigin + origin);
+            }
+        }
+    }
+
+    const glm::vec2& TileMap::getOrigin() const
+    {
+        return mChunks[0].getOrigin();
     }
 }

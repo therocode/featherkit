@@ -49,6 +49,8 @@ namespace fea
             void setScale(const glm::vec2& scale);
             const glm::vec2& getScale() const;
             void scale(const glm::vec2& amount);
+            void setOrigin(const glm::vec2& origin);
+            const glm::vec2& getOrigin() const;
         private:
             glm::vec2 mPosition;
             glm::uvec2 mChunkGridSize;
