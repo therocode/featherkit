@@ -6,7 +6,7 @@
 #include <fea/assert.hpp>
 #if !defined(__EMSCRIPTEN__)
 #define AL_ALEXT_PROTOTYPES
-#include <AL/efx.h>
+#include "efx.h"
 #endif
 #include <string>
             
