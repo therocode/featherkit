@@ -265,7 +265,7 @@ namespace fea
             {
                 uint32_t x = animated->first.x;
                 uint32_t y = animated->first.y;
-                const std::string& name = animated->second.mNext;
+                std::string name = animated->second.mNext;
                 animated = mAnimatedTiles.erase(animated);
                 
                 toSet.push_back(glm::uvec2(x, y));
