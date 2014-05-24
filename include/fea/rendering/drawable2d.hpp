@@ -24,10 +24,8 @@ namespace fea
             void setScale(const glm::vec2& scale);
             const glm::vec2& getScale() const;
             void scale(const glm::vec2& amount);
-            void setParallax(float parallax);
             void setParallax(const glm::vec2& parallax);
-            float getParallax() const;  // deprecated!!
-            const glm::vec2& getParallaxVector() const;
+            const glm::vec2& getParallax() const;
             void setColor(const Color& color);
             Color getColor() const;
             void setOpacity(float opacity);
@@ -108,22 +106,14 @@ namespace fea
      *  @brief Scale the Drawable2D using a vector.
      *  @param amount Scale factor.
      ***
-     *  @fn void Drawable2D::setParallax(float parallax)
-     *  @brief Set the parallax factor. 
+     *  @fn void Drawable2D::setParallax(const glm::vec2& parallax)
+     *  @brief Set the parallax factor for each x and y axis separately.
      *  
      *  The factor determines how much the drawable moves relative to the camera. 
      *  A value of 1.0f is neutral, 0.5f is twice as slowly and 2.0f is twice as fast.
      *  @param parallax Parallax factor.
      ***
-     *  @fn void Drawable2D::setParallax(const glm::vec2& parallax)
-     *  @brief Set the parallax factor for each x and y axis separately.
-     *  @param parallax Parallax factor.
-     ***
-     *  @fn float Drawable2D::getParallax() const
-     *  @brief Get the parallax factor.
-     *  @return Parallax factor.
-     ***
-     *  @fn glm::vec2 Drawable2D::getParallaxVector() const
+     *  @fn glm::vec2 Drawable2D::getParallax() const
      *  @brief Get the parallax factors as a vector.
      *  @return Parallax factor.
      ***

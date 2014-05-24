@@ -22,46 +22,50 @@ namespace fea
             uint32_t mTimeLeft;
         };
         public:
-            TileMap(uint32_t gridWidth, uint32_t gridHeight, uint32_t tileWidth = 16, uint32_t tileHeight = 16, float textureTileWidth = 0.25f, float textureTileHeight = 0.25f , uint32_t chunkWidth = 32, uint32_t chunkHeight = 32);
-            void setPosition(const glm::vec2& position);
-            const glm::vec2& getPosition() const;
-            void translate(const glm::vec2& amount);
-            std::vector<const TileChunk*> getTileChunks() const;
-            void setTexture(const Texture& texture);
-            const Texture& getTexture() const;
-            void addTileDefinition(const std::string& name, const TileDefinition& tileDef);
-            void setTile(const glm::uvec2& pos, const std::string& name);
-            void unsetTile(const glm::uvec2& pos);
-            void fill(const std::string& name);
-            void setTileColor(const glm::uvec2& pos, const fea::Color& color);
-            void clear();
-            glm::uvec2 getTileByCoordinates(const glm::vec2& coordinates) const;
-            bool isOutOfBounds(const glm::uvec2& pos) const;
-            glm::uvec2 getTileSize() const;
-            glm::uvec2 getGridSize() const;
-            glm::uvec2 getTileMapSize() const;
-            void tick();
-            void setOpacity(float opacity);
-            float getOpacity() const;
-            void setRotation(float rotation);
-            float getRotation() const;
-            void rotate(float amount);
-            void setScale(const glm::vec2& scale);
-            const glm::vec2& getScale() const;
-            void scale(const glm::vec2& amount);
-            void setOrigin(const glm::vec2& origin);
-            const glm::vec2& getOrigin() const;
+        TileMap(uint32_t gridWidth, uint32_t gridHeight, uint32_t tileWidth = 16, uint32_t tileHeight = 16, float textureTileWidth = 0.25f, float textureTileHeight = 0.25f , uint32_t chunkWidth = 32, uint32_t chunkHeight = 32);
+        void setPosition(const glm::vec2& position);
+        const glm::vec2& getPosition() const;
+        void translate(const glm::vec2& amount);
+        std::vector<const TileChunk*> getTileChunks() const;
+        void setTexture(const Texture& texture);
+        const Texture& getTexture() const;
+        void addTileDefinition(const std::string& name, const TileDefinition& tileDef);
+        void setTile(const glm::uvec2& pos, const std::string& name);
+        void unsetTile(const glm::uvec2& pos);
+        void fill(const std::string& name);
+        void setTileColor(const glm::uvec2& pos, const fea::Color& color);
+        void clear();
+        glm::uvec2 getTileByCoordinates(const glm::vec2& coordinates) const;
+        bool isOutOfBounds(const glm::uvec2& pos) const;
+        glm::uvec2 getTileSize() const;
+        glm::uvec2 getGridSize() const;
+        glm::uvec2 getTileMapSize() const;
+        void tick();
+        void setOpacity(float opacity);
+        float getOpacity() const;
+        void setRotation(float rotation);
+        float getRotation() const;
+        void rotate(float amount);
+        void setScale(const glm::vec2& scale);
+        const glm::vec2& getScale() const;
+        void scale(const glm::vec2& amount);
+        void setOrigin(const glm::vec2& origin);
+        const glm::vec2& getOrigin() const;
+        void setParallax(const glm::vec2& parallax);
+        const glm::vec2& getParallax() const;
+        void setColor(const Color& color);
+        Color getColor() const;
         private:
-            glm::vec2 mPosition;
-            glm::uvec2 mChunkGridSize;
-            glm::uvec2 mChunkSize;
-            glm::uvec2 mTileSize;
-            glm::uvec2 mGridSize;
-            glm::vec2 mTextureTileSize;
-            std::vector<TileChunk> mChunks;
-            const Texture* mTexture;
-            std::unordered_map<std::string, TileDefinition> mTileDefs;
-            std::unordered_map<glm::uvec2, AnimatedTile> mAnimatedTiles;
+        glm::vec2 mPosition;
+        glm::uvec2 mChunkGridSize;
+        glm::uvec2 mChunkSize;
+        glm::uvec2 mTileSize;
+        glm::uvec2 mGridSize;
+        glm::vec2 mTextureTileSize;
+        std::vector<TileChunk> mChunks;
+        const Texture* mTexture;
+        std::unordered_map<std::string, TileDefinition> mTileDefs;
+        std::unordered_map<glm::uvec2, AnimatedTile> mAnimatedTiles;
     };
     /** @addtogroup Render2D
      *@{
@@ -98,7 +102,7 @@ namespace fea
      *  
      *  Both the size of the grid and the individual tiles is customisable.
      *  
-     *  This class is not a Drawable2D and can therefore not be rendered directly. It internally manages TileChunk instances which the whole tilemap is divided into. These have to be sent to the renderer for rendering. The size of the tile chunks is customisable.
+     *  This class is not a TileMap and can therefore not be rendered directly. It internally manages TileChunk instances which the whole tilemap is divided into. These have to be sent to the renderer for rendering. The size of the tile chunks is customisable.
      ***
      *  @fn TileMap::TileMap(uint32_t gridWidth, uint32_t gridHeight, uint32_t tileWidth = 16, uint32_t tileHeight = 16, float textureTileWidth = 0.25f, float textureTileHeight = 0.25f , uint32_t chunkWidth = 32, uint32_t chunkHeight = 32)
      *  @brief Construct a TileMap.
@@ -120,6 +124,73 @@ namespace fea
      *  @fn const glm::vec2& TileMap::getPosition() const
      *  @brief Get the position.
      *  @return Vector containing the position.
+     ***
+     *  @fn void TileMap::translate(const glm::vec2& amount)
+     *  @brief Move the TileMap using a vector.
+     *  @param amount Vector containing the amount to move.
+     ***
+     *  @fn void TileMap::setOrigin(const glm::vec2& position)
+     *  @brief Set the origin point of the TileMap, using a vector.
+     *  
+     *  The origin serves as the center point. This is where the object will be centered and all rotation and scaling will happen around this point. Also, if the position is set, the origin will be equivalent to that position. 
+     *  @param position Position to set the origin to.
+     ***
+     *  @fn const glm::vec2& TileMap::getOrigin() const
+     *  @brief Get the origin point of the TileMap.
+     *  @return Vector containing the origin.
+     ***
+     *  @fn void TileMap::setRotation(const float amount)
+     *  @brief Set the rotation.
+     *  @param rotation Rotation angle in radians.
+     ***
+     *  @fn float TileMap::getRotation() const
+     *  @brief Get the current rotation.
+     *  @return The rotation.
+     ***
+     *  @fn void TileMap::rotate(const float amount)
+     *  @brief Rotate the TileMap a specific amount.
+     *  @param amount Amount in radians to rotate the TileMap.
+     ***
+     *  @fn void TileMap::setScale(const glm::vec2& scale)
+     *  @brief Set the scale factor using a vector.
+     *  @param scale Vector containing the scale factor.
+     ***
+     *  @fn const glm::vec2& TileMap::getScale() const
+     *  @brief Get the current scale.
+     *  @return Vector containing the scale.
+     ***
+     *  @fn void TileMap::scale(const glm::vec2& amount)
+     *  @brief Scale the TileMap using a vector.
+     *  @param amount Scale factor.
+     ***
+     *  @fn void TileMap::setParallax(const glm::vec2& parallax)
+     *  @brief Set the parallax factor for each x and y axis separately.
+     *  
+     *  The factor determines how much the drawable moves relative to the camera. 
+     *  A value of 1.0f is neutral, 0.5f is twice as slowly and 2.0f is twice as fast.
+     *  @param parallax Parallax factor.
+     ***
+     *  @fn glm::vec2 TileMap::getParallax() const
+     *  @brief Get the parallax factors as a vector.
+     *  @return Parallax factor.
+     ***
+     *  @fn void TileMap::setOpacity(float opacity)
+     *  @brief Set the opacity.
+     *
+     *  Assert/undefined behavior if the values is not within the range of [0.0f,1.0f].
+     *  @param opacity Opacity.
+     ***
+     *  @fn float TileMap::getOpacity() const
+     *  @brief Get the opacity.
+     *  @return Opacity.
+     ***
+     *  @fn Color TileMap::getColor() const
+     *  @brief Get the color.
+     *  @return The color of the drawable.
+     ***
+     *  @fn void TileMap::setColor(const Color& color)
+     *  @brief Set the color.
+     *  @param color Color to set to.
      ***
      *  @fn const std::vector<TileChunk>& TileMap::getTileChunks() const
      *  @brief Get a list of all TileChunk instances making up the TileMap. 
@@ -161,6 +232,13 @@ namespace fea
      *
      *  Assert/undefined behavior when tile type doesn't exist.
      *  @param name Name of the tile to fill with.
+     ***
+     *  @fn void TileMap::setTileColor(const glm::uvec2& pos, const fea::Color& color)
+     *  @brief Set the color shade of a tile.
+     *
+     *  Assert/undefined behavior when tile is out of bounds.
+     *  @param pos Location of the tile colorize.
+     *  @param color Color.
      ***
      *  @fn void TileMap::clear();
      *  @brief Clear the tile map of all tiles.

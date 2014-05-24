@@ -342,4 +342,30 @@ namespace fea
     {
         return mChunks[0].getOrigin();
     }
+
+    void TileMap::setParallax(const glm::vec2& parallax)
+    {
+        for(auto& chunk : mChunks)
+        {
+            chunk.setParallax(parallax);
+        }
+    }
+
+    const glm::vec2& TileMap::getParallax() const
+    {
+        return mChunks.begin()->getParallax();
+    }
+
+    void TileMap::setColor(const Color& color)
+    {
+        for(auto& chunk : mChunks)
+        {
+            chunk.setColor(color);
+        }
+    }
+
+    Color TileMap::getColor() const
+    {
+        return mChunks.begin()->getColor();
+    }
 }

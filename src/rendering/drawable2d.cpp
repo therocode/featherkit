@@ -66,23 +66,13 @@ namespace fea
     {
         mScaling *= scaling;
     }
-    
-    void Drawable2D::setParallax(float parallax)
-    {
-        mParallax = glm::vec2(parallax, parallax);
-    }
 
     void Drawable2D::setParallax(const glm::vec2& parallax)
     {
         mParallax = parallax;
     }
     
-    float Drawable2D::getParallax() const
-    {
-        return mParallax.x;
-    }
-    
-    const glm::vec2& Drawable2D::getParallaxVector() const
+    const glm::vec2& Drawable2D::getParallax() const
     {
         return mParallax;
     }
