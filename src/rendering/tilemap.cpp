@@ -11,20 +11,7 @@ namespace fea
     {
     }
 
-    TileMap::TileMap(uint32_t gridWidth, uint32_t gridHeight, uint32_t tileWidth, uint32_t tileHeight, float textureTileWidth, float textureTileHeight, uint32_t chunkWidth, uint32_t chunkHeight) : mAnimatedTiles([](const glm::uvec2& first, const glm::uvec2& second)
-    { 
-                if(first.x < second.x) 
-                    return true;
-                else if(first.x > second.x)
-                    return false;
-                else
-                {
-                if(first.y < second.y) 
-                    return true;
-                else
-                    return false;
-                }
-           })
+    TileMap::TileMap(uint32_t gridWidth, uint32_t gridHeight, uint32_t tileWidth, uint32_t tileHeight, float textureTileWidth, float textureTileHeight, uint32_t chunkWidth, uint32_t chunkHeight)
     {
 
         FEA_ASSERT(gridWidth > 0 && gridHeight > 0, "The size of the tile grid cannot be zero or below in any dimension! " + std::to_string(gridWidth) + " " + std::to_string(gridHeight) + " provided.");
@@ -59,17 +46,8 @@ namespace fea
 
                 TileChunk newChunk(newChunkWidth, newChunkHeight, tileWidth, tileHeight);
                 glm::vec2 chunkPosition = glm::vec2(mPosition.x +(float) (x * chunkWidth * tileWidth),mPosition.y + (float)(y * chunkHeight * tileHeight));
-                newChunk.setPosition(chunkPosition);
+                newChunk.setOrigin(-chunkPosition);
 
-                for(uint32_t chunkX = 0; chunkX < newChunkWidth; chunkX++)
-                {
-                    for(uint32_t chunkY = 0; chunkY < newChunkHeight; chunkY++)
-                    {
-                        //newChunk.setTileTexCoords(chunkX, chunkY, glm::vec2(0.0f, 0.0f), mTextureTileSize);
-                    }
-                }
-
-                newChunk.setOrigin(glm::vec2(0.0f, 0.0f));
                 mChunks.push_back(newChunk);
             }
         }
@@ -83,9 +61,7 @@ namespace fea
         {
             for(uint32_t x = 0; x < mChunkGridSize.x; x++)
             {
-                glm::vec2 chunkPosition = glm::vec2(mPosition.x + (float)(x * mChunkSize.x * mTileSize.x), mPosition.y + (float)(y * mChunkSize.y * mTileSize.y));
-
-                mChunks[x + y * mChunkGridSize.x].setPosition(chunkPosition);
+                mChunks[x + y * mChunkGridSize.x].setPosition(pos);
             }
         }
     }
@@ -293,5 +269,16 @@ namespace fea
     float TileMap::getOpacity() const
     {
         return mChunks.begin()->getOpacity();
+    }
+
+    void TileMap::setRotation(float rotation)
+    {
+        for(auto& chunk : mChunks)
+            chunk.setRotation(rotation);
+    }
+
+    float TileMap::getRotation() const
+    {
+        return mChunks.begin()->getRotation();
     }
 }

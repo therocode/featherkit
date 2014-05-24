@@ -1,7 +1,6 @@
 #pragma once
 #include <fea/rendering/tilechunk.hpp>
 #include <unordered_map>
-#include <map>
 #include <functional>
 
 namespace fea
@@ -43,6 +42,8 @@ namespace fea
             void tick();
             void setOpacity(float opacity);
             float getOpacity() const;
+            void setRotation(float rotation);
+            float getRotation() const;
         private:
             glm::vec2 mPosition;
             glm::uvec2 mChunkGridSize;
@@ -53,7 +54,7 @@ namespace fea
             std::vector<TileChunk> mChunks;
             const Texture* mTexture;
             std::unordered_map<std::string, TileDefinition> mTileDefs;
-            std::map<glm::uvec2, AnimatedTile, std::function<bool(const glm::uvec2&, const glm::uvec2&)>> mAnimatedTiles;
+            std::unordered_map<glm::uvec2, AnimatedTile> mAnimatedTiles;
     };
     /** @addtogroup Render2D
      *@{
