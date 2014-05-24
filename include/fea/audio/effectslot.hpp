@@ -1,5 +1,5 @@
 #pragma once
-#include <AL/al.h>
+#include "al.h"
 
 namespace fea
 {
