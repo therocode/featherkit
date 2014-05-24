@@ -8,6 +8,7 @@ namespace fea
     {
         public:
             Quad();
+            virtual ~Quad() = default;
             Quad(const glm::vec2& size);
             virtual void setSize(const glm::vec2& size);
             glm::vec2 getSize() const;
