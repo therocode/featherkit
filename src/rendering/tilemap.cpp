@@ -107,9 +107,10 @@ namespace fea
         mTileDefs.emplace(name, tileDef);
     }
 
-    void TileMap::setTile(const glm::uvec2& pos, const std::string& name)
+    void TileMap::setTile(const glm::uvec2& pos, const std::string& name, int32_t orientation)
     {
         FEA_ASSERT(!isOutOfBounds(pos), "Trying to set tile outside of the bounds of the tilemap! Setting at " + std::to_string(pos.x) + " " + std::to_string(pos.y) + ".");
+        FEA_ASSERT(orientation <= 16, "Cannot pass other flags with the PRESERVE flag!");
         uint32_t x = pos.x;
         uint32_t y = pos.y;
 
@@ -121,11 +122,16 @@ namespace fea
 
         const TileDefinition& tileDef = mTileDefs.at(name);
 
-        glm::uvec2 texPos = tileDef.mTileTexPosition;
+        glm::vec2 texPos = (glm::vec2)tileDef.mTileTexPosition * mTextureTileSize;
+
+        float startX = texPos.x;
+        float startY = texPos.y;
+        float endX   = texPos.x + mTextureTileSize.x;
+        float endY   = texPos.y + mTextureTileSize.y;
 
         mChunks[chunkIndex].setTileTexCoords(x - chunkX * mChunkSize.x, y - chunkY * mChunkSize.y, 
-                glm::vec2((float)texPos.x * mTextureTileSize.x, (float)texPos.y * mTextureTileSize.y),
-                glm::vec2((float)texPos.x * mTextureTileSize.x + mTextureTileSize.x, (float)texPos.y * mTextureTileSize.y + mTextureTileSize.y));
+                glm::vec2(startX , startY),
+                glm::vec2(endX   , endY  ), orientation);
 
         if(mAnimatedTiles.find(glm::uvec2(x, y)) != mAnimatedTiles.end())
         {
@@ -266,7 +272,7 @@ namespace fea
         }
         for(uint32_t i = 0; i < toSet.size(); i++)
         {
-            setTile(toSet[i], names[i]);
+            setTile(toSet[i], names[i], PRESERVE);
         }
     }
 

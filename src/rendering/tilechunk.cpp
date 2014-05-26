@@ -1,4 +1,5 @@
 #include <fea/rendering/tilechunk.hpp>
+#include <iostream>
 
 namespace fea
 {
@@ -21,16 +22,16 @@ namespace fea
         return *mTexture;
     }
     
-    void TileChunk::setTileTexCoords(uint32_t x, uint32_t y, const glm::vec2& startCoords, const glm::vec2& endCoords)
+    void TileChunk::setTileTexCoords(uint32_t x, uint32_t y, glm::vec2 startCoords, glm::vec2 endCoords, int32_t orientation)
     {
         glm::uvec2 tile(x,y);
 
-        auto tileIterator = mTileIndices.find(tile);
+        auto tileIterator = mTileInfo.find(tile);
 
-        if(tileIterator == mTileIndices.end())
+        if(tileIterator == mTileInfo.end())
         {
             size_t nextIndex = mVertices.size() / 12;
-            mTileIndices.emplace(tile, nextIndex);
+            mTileInfo.emplace(tile, std::pair<size_t, int32_t>(nextIndex, orientation));
 
             float xPos = (float)(x * mTileSize.x) + (float)mTileSize.x * 0.5f;
             float yPos = (float)(y * mTileSize.y) + (float)mTileSize.y * 0.5f;
@@ -44,12 +45,47 @@ namespace fea
             mVertices.push_back(((float)xPos) - halfTileWidth); mVertices.push_back(((float)yPos) + halfTileHeight);
             mVertices.push_back(((float)xPos) + halfTileWidth); mVertices.push_back(((float)yPos) + halfTileHeight);
 
-            mTexCoords.push_back(startCoords.x); mTexCoords.push_back(startCoords.y);
-            mTexCoords.push_back(startCoords.x); mTexCoords.push_back(endCoords.y  );
-            mTexCoords.push_back(endCoords.x  ); mTexCoords.push_back(startCoords.y);
-            mTexCoords.push_back(endCoords.x  ); mTexCoords.push_back(startCoords.y);
-            mTexCoords.push_back(startCoords.x); mTexCoords.push_back(endCoords.y  );
-            mTexCoords.push_back(endCoords.x  ); mTexCoords.push_back(endCoords.y  );
+            glm::vec2 coordinates[4] = {
+                {startCoords.x, startCoords.y},
+                {startCoords.x, endCoords.y  },
+                {endCoords.x,   startCoords.y},
+                {endCoords.x,   endCoords.y  }};
+
+            if(orientation & V_FLIP)
+            {
+                std::swap(coordinates[0], coordinates[1]);
+                std::swap(coordinates[2], coordinates[3]);
+            }
+            if(orientation & H_FLIP)
+            {
+                std::swap(coordinates[0], coordinates[2]);
+                std::swap(coordinates[1], coordinates[3]);
+            }
+
+            if((orientation & 12) == 4)
+            {
+                std::swap(coordinates[2], coordinates[3]);
+                std::swap(coordinates[0], coordinates[1]);
+                std::swap(coordinates[0], coordinates[3]);
+            }
+            else if((orientation & 12) == 8)
+            {
+                std::swap(coordinates[2], coordinates[1]);
+                std::swap(coordinates[0], coordinates[3]);
+            }
+            else if((orientation & 12) == 12)
+            {
+                std::swap(coordinates[2], coordinates[3]);
+                std::swap(coordinates[0], coordinates[1]);
+                std::swap(coordinates[1], coordinates[2]);
+            }
+
+            mTexCoords.push_back(coordinates[0].x); mTexCoords.push_back(coordinates[0].y);
+            mTexCoords.push_back(coordinates[1].x); mTexCoords.push_back(coordinates[1].y);
+            mTexCoords.push_back(coordinates[2].x); mTexCoords.push_back(coordinates[2].y);
+            mTexCoords.push_back(coordinates[2].x); mTexCoords.push_back(coordinates[2].y);
+            mTexCoords.push_back(coordinates[1].x); mTexCoords.push_back(coordinates[1].y);
+            mTexCoords.push_back(coordinates[3].x); mTexCoords.push_back(coordinates[3].y);
 
             mVertexColors.push_back(1.0f); mVertexColors.push_back(1.0f); mVertexColors.push_back(1.0f); mVertexColors.push_back(1.0f);
             mVertexColors.push_back(1.0f); mVertexColors.push_back(1.0f); mVertexColors.push_back(1.0f); mVertexColors.push_back(1.0f);
@@ -60,14 +96,58 @@ namespace fea
         }
         else
         {
-            size_t texCoordIndex = tileIterator->second * 12;
+            size_t texCoordIndex = tileIterator->second.first * 12;
+            
+            if(orientation != PRESERVE)
+            {
+                tileIterator->second.second = orientation;
+            }
+            else
+            {
+                orientation = tileIterator->second.second;
+            }
 
-            mTexCoords[texCoordIndex] =      startCoords.x; mTexCoords[texCoordIndex + 1] =  startCoords.y;
-            mTexCoords[texCoordIndex + 2] =  startCoords.x; mTexCoords[texCoordIndex + 3] =  endCoords.y;
-            mTexCoords[texCoordIndex + 4] =  endCoords.x;   mTexCoords[texCoordIndex + 5] =  startCoords.y;
-            mTexCoords[texCoordIndex + 6] =  endCoords.x;   mTexCoords[texCoordIndex + 7] =  startCoords.y;
-            mTexCoords[texCoordIndex + 8] =  startCoords.x; mTexCoords[texCoordIndex + 9] =  endCoords.y;
-            mTexCoords[texCoordIndex + 10] = endCoords.x;   mTexCoords[texCoordIndex + 11] = endCoords.y;
+            glm::vec2 coordinates[4] = {
+                {startCoords.x, startCoords.y},
+                {startCoords.x, endCoords.y  },
+                {endCoords.x,   startCoords.y},
+                {endCoords.x,   endCoords.y  }};
+
+            if(orientation & V_FLIP)
+            {
+                std::swap(coordinates[0], coordinates[1]);
+                std::swap(coordinates[2], coordinates[3]);
+            }
+            if(orientation & H_FLIP)
+            {
+                std::swap(coordinates[0], coordinates[2]);
+                std::swap(coordinates[1], coordinates[3]);
+            }
+
+            if((orientation & 12) == 4)
+            {
+                std::swap(coordinates[2], coordinates[3]);
+                std::swap(coordinates[0], coordinates[1]);
+                std::swap(coordinates[0], coordinates[3]);
+            }
+            else if((orientation & 12) == 8)
+            {
+                std::swap(coordinates[2], coordinates[1]);
+                std::swap(coordinates[0], coordinates[3]);
+            }
+            else if((orientation & 12) == 12)
+            {
+                std::swap(coordinates[2], coordinates[3]);
+                std::swap(coordinates[0], coordinates[1]);
+                std::swap(coordinates[1], coordinates[2]);
+            }
+
+            mTexCoords[texCoordIndex] =      coordinates[0].x; mTexCoords[texCoordIndex + 1] =  coordinates[0].y;
+            mTexCoords[texCoordIndex + 2] =  coordinates[1].x; mTexCoords[texCoordIndex + 3] =  coordinates[1].y;
+            mTexCoords[texCoordIndex + 4] =  coordinates[2].x; mTexCoords[texCoordIndex + 5] =  coordinates[2].y;
+            mTexCoords[texCoordIndex + 6] =  coordinates[2].x; mTexCoords[texCoordIndex + 7] =  coordinates[2].y;
+            mTexCoords[texCoordIndex + 8] =  coordinates[1].x; mTexCoords[texCoordIndex + 9] =  coordinates[1].y;
+            mTexCoords[texCoordIndex + 10] = coordinates[3].x; mTexCoords[texCoordIndex + 11] = coordinates[3].y;
         }
     }
     
@@ -75,11 +155,11 @@ namespace fea
     {
         glm::uvec2 tile(x, y);
 
-        auto tileIterator = mTileIndices.find(tile);
+        auto tileIterator = mTileInfo.find(tile);
 
-        if(tileIterator != mTileIndices.end())
+        if(tileIterator != mTileInfo.end())
         {
-            size_t tileIndex = tileIterator->second;
+            size_t tileIndex = tileIterator->second.first;
             size_t vertexIndex = tileIndex * 12;
             size_t texCoordIndex = tileIndex * 12;
             size_t colorIndex = tileIndex * 24;
@@ -88,12 +168,12 @@ namespace fea
             mTexCoords.erase(mTexCoords.begin() + texCoordIndex, mTexCoords.begin() + texCoordIndex + 12);
             mVertexColors.erase(mVertexColors.begin() + colorIndex, mVertexColors.begin() + colorIndex + 24);
 
-            mTileIndices.erase(tile);
+            mTileInfo.erase(tile);
 
-            for(auto& index : mTileIndices)
+            for(auto& info : mTileInfo)
             {
-                if(index.second > tileIndex)
-                    index.second--;
+                if(info.second.first > tileIndex)
+                    info.second.first--;
             }
         }
     }
@@ -104,7 +184,7 @@ namespace fea
         {
             for(size_t y = 0; y < mGridSize.y; y++)
             {
-                setTileTexCoords(x, y, startCoords, endCoords);
+                setTileTexCoords(x, y, startCoords, endCoords, NORMAL);
             }
         }
     }
@@ -113,11 +193,11 @@ namespace fea
     {
         glm::uvec2 tile(x,y);
 
-        auto tileIterator = mTileIndices.find(tile);
+        auto tileIterator = mTileInfo.find(tile);
 
-        if(tileIterator != mTileIndices.end())
+        if(tileIterator != mTileInfo.end())
         {
-            size_t colorIndex = tileIterator->second * 24;
+            size_t colorIndex = tileIterator->second.first * 24;
 
             mVertexColors[colorIndex] = color.r(); mVertexColors[colorIndex + 1] = color.g(); mVertexColors[colorIndex + 2] = color.b(); mVertexColors[colorIndex + 3] = color.a();
             mVertexColors[colorIndex + 4] = color.r(); mVertexColors[colorIndex + 5] = color.g(); mVertexColors[colorIndex + 6] = color.b(); mVertexColors[colorIndex + 7] = color.a();
@@ -133,12 +213,12 @@ namespace fea
         mTexCoords.clear();
         mVertexColors.clear();
         mVertices.clear();
-        mTileIndices.clear();
+        mTileInfo.clear();
     }
             
     bool TileChunk::isEmpty() const
     {
-        return mTileIndices.size() == 0;
+        return mTileInfo.size() == 0;
     }
 
     RenderInfo TileChunk::getRenderInfo() const

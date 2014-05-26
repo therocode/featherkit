@@ -28,7 +28,7 @@ namespace fea
             void activate() const;
             void deactivate() const;
             void setUniform(const std::string& name, UniformType type, const void* value) const;
-            void setUniform(const std::string& name, UniformType type, int count, const void* value) const;
+            void setUniform(const std::string& name, UniformType type, int32_t count, const void* value) const;
             void setVertexAttribute(const std::string& name, const uint32_t floatAmount, const float* data) const;
             void compile();
         private:
@@ -93,6 +93,13 @@ namespace fea
      *  @brief Set a uniform variable in the shader.
      *  @param name Name of the uniform to set.
      *  @param type Type of the uniform.
+     *  @param value Void pointer to the data.
+     ***
+     *  @fn void Shader::setUniform(const std::string& name, UniformType type, int32_t count, const void* value) const
+     *  @brief Set a uniform array variable in the shader.
+     *  @param name Name of the uniform to set.
+     *  @param type Type of the uniform.
+     *  @param count Amount of entries in the array.
      *  @param value Void pointer to the data.
      ***
      *  @fn void Shader::setVertexAttribute(const std::string& name, const uint32_t floatAmount, const float* data) const

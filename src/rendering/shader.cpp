@@ -125,7 +125,7 @@ namespace fea
         }
     }
 
-    void Shader::setUniform(const std::string& name, UniformType type, int count, const void* value) const
+    void Shader::setUniform(const std::string& name, UniformType type, int32_t count, const void* value) const
     {
         switch(type)
         {

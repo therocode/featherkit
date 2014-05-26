@@ -15,6 +15,7 @@ namespace fea
 
     class TileMap
     {
+
         struct AnimatedTile
         {
             AnimatedTile(const std::string& next, uint32_t timeLeft);
@@ -30,7 +31,7 @@ namespace fea
         void setTexture(const Texture& texture);
         const Texture& getTexture() const;
         void addTileDefinition(const std::string& name, const TileDefinition& tileDef);
-        void setTile(const glm::uvec2& pos, const std::string& name);
+        void setTile(const glm::uvec2& pos, const std::string& name, int32_t orientation = NORMAL);
         void unsetTile(const glm::uvec2& pos);
         void fill(const std::string& name);
         void setTileColor(const glm::uvec2& pos, const fea::Color& color);
@@ -213,12 +214,15 @@ namespace fea
      *  @param name Name of the tile to add.
      *  @param tileDef Tile definition.
      ***
-     *  @fn void TileMap::setTile(const glm::uvec2& position, const std::string& name)
+     *  @fn void TileMap::setTile(const glm::uvec2& position, const std::string& name, int32_t orientation = NONE)
      *  @brief Set a tile at the given coordinate.
      *
-     *  Assert/undefined behavior when coordinates are outside the range of the tilemap or if tile name doesn't exist.
+     *  The tile can optionally be given a bitmask representing an orientation. In other words, several values can be provided using the | operator. Only one rotation can be given at a time. The possible orientation values are: V_FLIP, H_FLIP, ROT_90, ROT_180, ROT_270 and PRESERVE. V_FLIP and H_FLIP represent vertical and horizontal flipping of the tile respectively and the ROT_* values describe rotation to varios degrees. The PRESERVE flag preserves any previous orientation and must not be given along with other flags.
+     *
+     *  Assert/undefined behavior when coordinates are outside the range of the tilemap, if tile name doesn't exist, or if the PRESERVE flag is passed with other values.
      *  @param position Coordinate of the tile to set,
      *  @param name Name of the tile definition to change it to.
+     *  @param orientation Orientation of the tile.
      ***
      *  @fn void TileMap::unsetTile(const glm::uvec2& pos)
      *  @brief Set a tile to be transparent.
@@ -237,7 +241,7 @@ namespace fea
      *  @brief Set the color shade of a tile.
      *
      *  Assert/undefined behavior when tile is out of bounds.
-     *  @param pos Location of the tile colorize.
+     *  @param pos Location of the tile to colorize.
      *  @param color Color.
      ***
      *  @fn void TileMap::clear();

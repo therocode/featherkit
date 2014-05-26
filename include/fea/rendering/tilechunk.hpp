@@ -6,13 +6,15 @@
 
 namespace fea
 {
+    enum {NORMAL = 0, H_FLIP = 1, V_FLIP = 2, ROT_90 = 4, ROT_180 = 8, ROT_270 = 12, PRESERVE = 16};
+
     class TileChunk : public Drawable2D
     {
         public:
             TileChunk(uint32_t width, uint32_t height, uint32_t tileWidth, uint32_t tileHeight);
             void setTexture(const Texture& texture);
             const Texture& getTexture() const;
-            void setTileTexCoords(uint32_t x, uint32_t y, const glm::vec2& startCoords, const glm::vec2& endCoords);
+            void setTileTexCoords(uint32_t x, uint32_t y, glm::vec2 startCoords, glm::vec2 endCoords, int32_t orientation);
             void unsetTileTexCoords(uint32_t x, uint32_t y);
             void fillTexCoords(const glm::vec2& startCoords, const glm::vec2& endCoords);
             void setTileColors(uint32_t x, uint32_t y, const fea::Color& color);
@@ -25,7 +27,7 @@ namespace fea
             uint32_t getTileIndex(uint32_t x, uint32_t y);
             glm::uvec2 mGridSize;
             const Texture* mTexture;
-            std::unordered_map<glm::uvec2, size_t> mTileIndices;
+            std::unordered_map<glm::uvec2, std::pair<size_t, int32_t>> mTileInfo;
             glm::vec2 mTileSize;
             glm::vec2 mOriginalOrigin;
     };
@@ -35,6 +37,7 @@ namespace fea
      *@}
      ***
      *  @class TileChunk
+
      *  @brief Drawable2D representing a part of a tile map. 
      *  
      *  Consists of X times Y tiles with vertices describing the tile quads and texture coordinates describing the texture.
@@ -58,7 +61,7 @@ namespace fea
      *  @brief Get the texture in use.
      *  @return The texture name.
      ***
-     *  @fn void TileChunk::setTileTexCoords(uint32_t x, uint32_t y, const glm::vec2& startCoords, const glm::vec2& endCoords)
+     *  @fn void TileChunk::setTileTexCoords(uint32_t x, uint32_t y, const glm::vec2& startCoords, const glm::vec2& endCoords, int32_t orientation)
      *  @brief Set the texture coordinates of a single tile.
      *  
      *  This is how the tiles are set to different images.
@@ -66,6 +69,7 @@ namespace fea
      *  @param y Y coordinate of the tile to change.
      *  @param startCoords Vector containing the upper left coordinates of the texture rectangle to use to display this tile. Given in percent.
      *  @param endCoords Vector containing the bottom right coordinates of the texture rectangle to use to display this tile. Given in percent.
+     *  @param orientation Orientation.
      ***
      *  @fn void TileChunk::unsetTileTexCoords(uint32_t x, uint32_t y)
      *  @brief Set a tile to be empty.
