@@ -1,10 +1,11 @@
 #pragma once
+#include <fea/config.hpp>
 #include <fea/audio/openal.hpp>
 #include <cstring>
 
 namespace fea
 {
-    class PlaySource
+    class FEA_API PlaySource
     {
         public:
             PlaySource();

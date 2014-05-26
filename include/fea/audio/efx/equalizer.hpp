@@ -1,9 +1,10 @@
 #pragma once
+#include <fea/config.hpp>
 #include <fea/audio/audioeffect.hpp>
 
 namespace fea
 {
-    class Equalizer : public AudioEffect
+    class FEA_API Equalizer : public AudioEffect
     {
         public:
             Equalizer();

@@ -1,9 +1,10 @@
 #pragma once
+#include <fea/config.hpp>
 #include <fea/audio/audioeffect.hpp>
 
 namespace fea
 {
-    class Reverb : public AudioEffect
+    class FEA_API Reverb : public AudioEffect
     {
         public:
             Reverb();

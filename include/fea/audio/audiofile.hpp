@@ -1,4 +1,5 @@
 #pragma once
+#include <fea/config.hpp>
 #include <string>
 #include <vector>
 #include <vorbis/vorbisfile.h>
@@ -6,7 +7,7 @@
 
 namespace fea
 {
-    class AudioFile
+    class FEA_API AudioFile
     {
         public:
             AudioFile();

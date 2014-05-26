@@ -56,9 +56,10 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CPP_11_FLAG}")
 #set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99")
 #endif()
 
+add_definitions(-DFEA_EXPORT=1)
+
 if(BUILD_AUDIO)
     ##Audio module##
-
     if(NOT EMSCRIPTEN)
         find_package(OpenAL REQUIRED)
         if(OPENAL_FOUND)

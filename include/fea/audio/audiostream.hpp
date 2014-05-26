@@ -1,4 +1,5 @@
 #pragma once
+#include <fea/config.hpp>
 #include <vector>
 #include <queue>
 #include <cstring>
@@ -7,7 +8,7 @@
 
 namespace fea
 {
-    class AudioStream : public AudioBase
+    class FEA_API AudioStream : public AudioBase
     {
         public:
             AudioStream();

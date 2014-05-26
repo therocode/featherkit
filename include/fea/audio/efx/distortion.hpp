@@ -1,10 +1,11 @@
 #pragma once
+#include <fea/config.hpp>
 #include <fea/audio/audioeffect.hpp>
 #include <stdint.h>
 
 namespace fea
 {
-    class Distortion : public AudioEffect
+    class FEA_API Distortion : public AudioEffect
     {
         public:
             Distortion();

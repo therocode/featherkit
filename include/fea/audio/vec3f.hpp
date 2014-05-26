@@ -1,8 +1,9 @@
 #pragma once
+#include <fea/config.hpp>
 
 namespace fea
 {
-    struct Vec3F
+    struct FEA_API Vec3F
     {
         float x;
         float y;

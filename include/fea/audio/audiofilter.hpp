@@ -1,9 +1,10 @@
 #pragma once
+#include <fea/config.hpp>
 #include <fea/audio/openal.hpp>
 
 namespace fea
 {
-    class AudioFilter
+    class FEA_API AudioFilter
     {
         public:
             AudioFilter();

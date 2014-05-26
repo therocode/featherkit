@@ -1,9 +1,10 @@
 #pragma once
+#include <fea/config.hpp>
 #include <fea/audio/audiofilter.hpp>
 
 namespace fea
 {
-    class LowPassFilter : public AudioFilter
+    class FEA_API LowPassFilter : public AudioFilter
     {
         public:
             LowPassFilter();

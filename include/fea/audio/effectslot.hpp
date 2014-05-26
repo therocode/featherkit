@@ -1,11 +1,12 @@
 #pragma once
+#include <fea/config.hpp>
 #include <fea/audio/openal.hpp>
 
 namespace fea
 {
     class AudioFilter;
 
-    class EffectSlot
+    class FEA_API EffectSlot
     {
         public:
             EffectSlot();

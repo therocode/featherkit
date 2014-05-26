@@ -31,6 +31,8 @@
 #   define FEA_ASSERT(condition, message) do { } while (false)
 #endif
 
+#include <fea/config.hpp>
+
 
 //raise(SIGTRAP);
 //std::exit(EXIT_FAILURE);

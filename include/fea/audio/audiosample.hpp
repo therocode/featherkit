@@ -1,4 +1,5 @@
 #pragma once
+#include <fea/config.hpp>
 #include <memory>
 #include <fea/audio/audiobuffer.hpp>
 
@@ -6,7 +7,7 @@ namespace fea
 {
     class AudioFile;
 
-    class AudioSample
+    class FEA_API AudioSample
     {
         public:
             void loadSampleData(const AudioFile& audioFile);

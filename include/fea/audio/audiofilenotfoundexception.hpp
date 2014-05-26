@@ -1,9 +1,10 @@
 #pragma once
+#include <fea/config.hpp>
 #include <stdexcept>
 
 namespace fea
 {
-    class AudioFileNotFoundException: public std::runtime_error
+    class FEA_API AudioFileNotFoundException: public std::runtime_error
     {
         public:
             AudioFileNotFoundException();

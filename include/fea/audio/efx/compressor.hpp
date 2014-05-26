@@ -1,9 +1,10 @@
 #pragma once
+#include <fea/config.hpp>
 #include <fea/audio/audioeffect.hpp>
 
 namespace fea
 {
-    class Compressor : public AudioEffect
+    class FEA_API Compressor : public AudioEffect
     {
         public:
             Compressor();

@@ -1,4 +1,5 @@
 #pragma once
+#include <fea/config.hpp>
 #include <fea/audio/openal.hpp>
 #include <stack>
 #include <unordered_map>
@@ -19,7 +20,7 @@ namespace fea
 
     enum PlayStatus {PLAYING, PAUSED, EXPIRED};
 
-    class AudioPlayer
+    class FEA_API AudioPlayer
     {
         public:
             AudioPlayer();

@@ -1,11 +1,12 @@
 #pragma once
+#include <fea/config.hpp>
 #include <fea/audio/audiobase.hpp>
 
 namespace fea
 {
     class AudioSample;
 
-    class Audio : public AudioBase
+    class FEA_API Audio : public AudioBase
     {
         public:
             Audio();

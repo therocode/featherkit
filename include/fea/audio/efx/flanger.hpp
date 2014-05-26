@@ -1,10 +1,11 @@
 #pragma once
+#include <fea/config.hpp>
 #include <fea/audio/audioeffect.hpp>
 #include <stdint.h>
 
 namespace fea
 {
-    class Flanger : public AudioEffect
+    class FEA_API Flanger : public AudioEffect
     {
         public:
             enum Waveform {SINE = 0, TRIANGLE = 1};

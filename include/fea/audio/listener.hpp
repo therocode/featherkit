@@ -1,9 +1,10 @@
 #pragma once
+#include <fea/config.hpp>
 #include <fea/audio/vec3f.hpp>
 
 namespace fea
 {
-    class Listener
+    class FEA_API Listener
     {
         public:
             Listener();

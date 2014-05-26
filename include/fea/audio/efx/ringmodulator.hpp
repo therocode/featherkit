@@ -1,9 +1,10 @@
 #pragma once
+#include <fea/config.hpp>
 #include <fea/audio/audioeffect.hpp>
 
 namespace fea
 {
-    class RingModulator : public AudioEffect
+    class FEA_API RingModulator : public AudioEffect
     {
         public:
             enum Waveform {SINE = 0, SAW = 1, SQUARE = 2};

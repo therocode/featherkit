@@ -1,4 +1,5 @@
 #pragma once
+#include <fea/config.hpp>
 #include <chrono>
 #include <set>
 #include <fea/audio/vec3f.hpp>
@@ -10,7 +11,7 @@ namespace fea
 {
     class AudioFilter;
 
-    class AudioBase
+    class FEA_API AudioBase
     {
         public:
             AudioBase();

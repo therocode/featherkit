@@ -1,9 +1,10 @@
 #pragma once
+#include <fea/config.hpp>
 #include <fea/audio/openal.hpp>
 
 namespace fea
 {
-    class AudioEffect
+    class FEA_API AudioEffect
     {
         public:
             AudioEffect();

@@ -1,10 +1,11 @@
 #pragma once
+#include <fea/config.hpp>
 #include <fea/audio/audiostream.hpp>
 #include <fea/audio/audiofile.hpp>
 
 namespace fea
 {
-    class AudioFileStream : public AudioStream
+    class FEA_API AudioFileStream : public AudioStream
     {
         public:
             AudioFileStream();

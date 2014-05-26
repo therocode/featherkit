@@ -1,9 +1,10 @@
 #pragma once
+#include <fea/config.hpp>
 #include <fea/audio/audiostream.hpp>
 
 namespace fea
 {
-    class Oscillator : public AudioStream
+    class FEA_API Oscillator : public AudioStream
     {
         public:
             Oscillator();

@@ -1,10 +1,11 @@
 #pragma once
+#include <fea/config.hpp>
 #include <fea/audio/openal.hpp>
 #include <cstring>
 
 namespace fea
 {
-    class AudioBuffer
+    class FEA_API AudioBuffer
     {
         public:
             AudioBuffer();

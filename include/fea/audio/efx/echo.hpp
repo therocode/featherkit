@@ -1,10 +1,11 @@
 #pragma once
+#include <fea/config.hpp>
 #include <fea/audio/audioeffect.hpp>
 #include <stdint.h>
 
 namespace fea
 {
-    class Echo : public AudioEffect
+    class FEA_API Echo : public AudioEffect
     {
         public:
             Echo();
