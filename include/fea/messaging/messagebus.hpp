@@ -1,4 +1,5 @@
 #pragma once
+#include <fea/config.hpp>
 #include <vector>
 #include <unordered_map>
 #include <sstream>
@@ -9,7 +10,7 @@
 
 namespace fea
 {
-    class MessageBus
+    class FEA_API MessageBus
     {
         public:
             template<class Message>

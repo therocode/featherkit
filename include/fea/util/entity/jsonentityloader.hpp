@@ -1,4 +1,5 @@
 #pragma once
+#include <fea/config.hpp>
 #include <vector>
 #include <string>
 #include <fea/entity/filenotfoundexception.hpp>
@@ -8,7 +9,7 @@ namespace fea
 {
     namespace util
     {
-        class JsonEntityLoader
+        class FEA_API JsonEntityLoader
         {
             public:
                 std::vector<std::pair<std::string, EntityTemplate>> loadEntityTemplates(const std::string& path);

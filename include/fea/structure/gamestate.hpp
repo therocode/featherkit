@@ -1,10 +1,11 @@
 #pragma once
+#include <fea/config.hpp>
 #include <string>
 #include <memory>
 
 namespace fea
 {
-    class GameState
+    class FEA_API GameState
     {
         public:
             virtual void activate(const std::string& previousState) {(void) previousState;}

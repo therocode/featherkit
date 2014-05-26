@@ -1,9 +1,10 @@
 #pragma once
+#include <fea/config.hpp>
 #include <stdint.h>
 
 namespace fea
 {
-    struct ContextSettings
+    struct FEA_API ContextSettings
     {
         explicit ContextSettings(uint32_t depthBits = 0, uint32_t stencilBits = 0, uint32_t antialiasingLevel = 0, uint32_t majorVersion = 2, uint32_t minorVersion = 0);
 

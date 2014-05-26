@@ -1,4 +1,5 @@
 #pragma once
+#include <fea/config.hpp>
 #include <stack>
 #include <unordered_map>
 #include <unordered_set>
@@ -9,7 +10,7 @@
 
 namespace fea
 {
-    class EntityStorage
+    class FEA_API EntityStorage
     {
         class StorageEntity
         {

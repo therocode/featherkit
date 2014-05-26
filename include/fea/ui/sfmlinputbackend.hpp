@@ -1,11 +1,12 @@
 #pragma once
+#include <fea/config.hpp>
 #include <fea/ui/inputbackend.hpp>
 #include <glm/glm.hpp>
 #include <SFML/Window.hpp>
 
 namespace fea
 {
-    class SFMLInputBackend : public InputBackend
+    class FEA_API SFMLInputBackend : public InputBackend
     {
         public:
             SFMLInputBackend(sf::Window& window);

@@ -1,4 +1,5 @@
 #pragma once
+#include <fea/config.hpp>
 #include <tuple>
 
 #define FEA_DECLARE_MESSAGE(name, ...)                      \
@@ -9,7 +10,7 @@ using name##Receiver = fea::MessageReceiver< name >;
 namespace fea
 {
     template<class tag, typename... DataTypes>
-    struct Message
+    struct FEA_API Message
     {
         Message();
         Message(DataTypes... data);
@@ -20,7 +21,7 @@ namespace fea
 #include <fea/messaging/message.inl>
 
     template<class tag>
-    struct Message<tag>
+    struct FEA_API Message<tag>
     {
     };
     /** @addtogroup Messaging

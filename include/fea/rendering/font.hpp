@@ -1,4 +1,5 @@
 #pragma once
+#include <fea/config.hpp>
 #include <string>
 #include <functional>
 #include <stdexcept>
@@ -6,7 +7,7 @@
 
 namespace fea
 {
-    class InvalidFontException : public std::runtime_error 
+    class FEA_API InvalidFontException : public std::runtime_error 
     {
         public:
             InvalidFontException(const std::string& message);
@@ -14,7 +15,7 @@ namespace fea
 
     class TextSurface;
     
-    class Font
+    class FEA_API Font
     {
         public:
             Font(const std::string& path = "", const float size = 12.0f);

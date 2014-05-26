@@ -1,4 +1,5 @@
 #pragma once
+#include <fea/config.hpp>
 //#define NO_SDL_GLEXT
 #include <fea/ui/windowbackend.hpp>
 #include <glm/glm.hpp>
@@ -8,7 +9,7 @@
 
 namespace fea
 {
-    class SDL2WindowBackend : public WindowBackend
+    class FEA_API SDL2WindowBackend : public WindowBackend
     {
         public:
             SDL2WindowBackend();

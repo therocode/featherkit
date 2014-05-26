@@ -1,11 +1,12 @@
 #pragma once
+#include <fea/config.hpp>
 #include <stdexcept>
 
 namespace fea
 {
     namespace util
     {
-        class FileNotFoundException: public std::runtime_error
+        class FEA_API FileNotFoundException: public std::runtime_error
         {
             public:
                 FileNotFoundException();

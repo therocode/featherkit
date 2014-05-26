@@ -1,4 +1,5 @@
 #pragma once
+#include <fea/config.hpp>
 #include <glm/glm.hpp>
 #include <stdint.h>
 
@@ -8,7 +9,7 @@ namespace fea
 
     using AnimationId = size_t;
 
-    class Animation
+    class FEA_API Animation
     {
         public:
             Animation();

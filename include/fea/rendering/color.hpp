@@ -1,10 +1,11 @@
 #pragma once
+#include <fea/config.hpp>
 #include <stdint.h>
 #include <algorithm>
 
 namespace fea
 {
-    class Color
+    class FEA_API Color
     {
         public:
             Color();

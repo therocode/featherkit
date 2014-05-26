@@ -1,4 +1,5 @@
 #pragma once
+#include <fea/config.hpp>
 #include <vector>
 #include <glm/glm.hpp>
 #include <fea/rendering/renderinfo.hpp>
@@ -8,7 +9,7 @@
 
 namespace fea
 {
-    class Drawable2D
+    class FEA_API Drawable2D
     {
         public:
             Drawable2D();

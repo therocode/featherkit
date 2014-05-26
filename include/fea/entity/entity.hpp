@@ -1,9 +1,10 @@
 #pragma once
+#include <fea/config.hpp>
 #include <fea/entity/entitymanager.hpp>
 
 namespace fea
 {
-    class Entity
+    class FEA_API Entity
     {
         public:
             Entity(EntityId id, EntityManager& entityManager);

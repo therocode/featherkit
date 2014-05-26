@@ -1,11 +1,12 @@
 #pragma once
+#include <fea/config.hpp>
 #include <stdint.h>
 #include <glm/glm.hpp>
 #include <fea/rendering/texture.hpp>
 
 namespace fea
 {
-    class RenderTarget
+    class FEA_API RenderTarget
     {
         public:
             RenderTarget();

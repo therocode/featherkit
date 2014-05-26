@@ -1,4 +1,5 @@
 #pragma once
+#include <fea/config.hpp>
 #include <fea/rendering/quad.hpp>
 #include <fea/rendering/animation.hpp>
 #include <unordered_map>
@@ -6,7 +7,7 @@
 
 namespace fea
 {
-    class AnimatedQuad : public Quad
+    class FEA_API AnimatedQuad : public Quad
     {
         public:
             AnimatedQuad();

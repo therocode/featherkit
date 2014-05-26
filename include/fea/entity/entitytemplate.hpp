@@ -1,10 +1,11 @@
 #pragma once
+#include <fea/config.hpp>
 
 namespace fea
 {
     using EntityTemplateAttributes = std::unordered_map<std::string, std::string>;
 
-    struct EntityTemplate
+    struct FEA_API EntityTemplate
     {
         std::vector<std::string> mInherits;
         std::unordered_map<std::string, std::string> mAttributes;

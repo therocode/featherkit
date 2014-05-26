@@ -1,9 +1,10 @@
 #pragma once
+#include <fea/config.hpp>
 #include <glm/glm.hpp>
 
 namespace fea
 {
-    class Camera
+    class FEA_API Camera
     {
         public:
             Camera();

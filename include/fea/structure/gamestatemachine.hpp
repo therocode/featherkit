@@ -1,4 +1,5 @@
 #pragma once
+#include <fea/config.hpp>
 #include <string>
 #include <map>
 #include <fea/structure/gamestate.hpp>
@@ -6,7 +7,7 @@
 namespace fea
 {
 
-    class GameStateMachine
+    class FEA_API GameStateMachine
     {
         public:
             GameStateMachine();

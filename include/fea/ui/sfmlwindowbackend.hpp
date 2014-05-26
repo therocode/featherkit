@@ -1,4 +1,5 @@
 #pragma once
+#include <fea/config.hpp>
 #include <fea/ui/windowbackend.hpp>
 #include <glm/glm.hpp>
 #include <SFML/Window.hpp>
@@ -6,7 +7,7 @@
 
 namespace fea
 {
-    class SFMLWindowBackend : public WindowBackend
+    class FEA_API SFMLWindowBackend : public WindowBackend
     {
         public:
             SFMLWindowBackend(sf::Window& window);

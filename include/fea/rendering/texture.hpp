@@ -1,4 +1,5 @@
 #pragma once
+#include <fea/config.hpp>
 #include <stdint.h>
 #include <fea/rendering/opengl.hpp>
 #include <fea/rendering/color.hpp>
@@ -8,7 +9,7 @@
 
 namespace fea
 {
-    class Texture
+    class FEA_API Texture
     {
         public:
             Texture();

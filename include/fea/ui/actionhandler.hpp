@@ -1,4 +1,5 @@
 #pragma once
+#include <fea/config.hpp>
 #include <map>
 #include <string>
 #include <queue>
@@ -12,7 +13,7 @@ namespace fea
 
 
     template<class Action>
-    class ActionHandler
+    class FEA_API ActionHandler
     {
         public:
             void feedEvent(const Event& event);

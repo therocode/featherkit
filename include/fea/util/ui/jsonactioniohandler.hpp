@@ -1,4 +1,5 @@
 #pragma once
+#include <fea/config.hpp>
 #include <map>
 #include <string>
 #include <fea/ui/inputfilenotfoundexception.hpp>
@@ -12,7 +13,7 @@ namespace fea
     namespace util
     {
         template<class Action>
-            class JsonActionIOHandler
+            class FEA_API JsonActionIOHandler
             {
                 public:
                     void loadBindingsFile(const std::string& path, std::function<std::string(Action)> stringToAction = [] (Action a) { return a;});

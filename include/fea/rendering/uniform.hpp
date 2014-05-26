@@ -1,4 +1,5 @@
 #pragma once
+#include <fea/config.hpp>
 #include <cstdint>
 #include <string>
 #include <glm/glm.hpp>
@@ -8,7 +9,7 @@ namespace fea
 {
     enum UniformType{FLOAT, VEC2, VEC3, VEC4, MAT2X2, MAT4X4, TEXTURE};
 
-    struct Uniform
+    struct FEA_API Uniform
     {
         Uniform(const std::string& name, UniformType t, float val);
         Uniform(const std::string& name, UniformType t, glm::vec2 val);

@@ -1,5 +1,5 @@
 #pragma once
-
+#include <fea/config.hpp>
 #include <cstdint>
 #include <fea/ui/keyboard.hpp>
 #include <fea/ui/mouse.hpp>
@@ -7,7 +7,7 @@
 
 namespace fea
 {
-    class Event
+    class FEA_API Event
     {
         public:
             struct ResizeEvent

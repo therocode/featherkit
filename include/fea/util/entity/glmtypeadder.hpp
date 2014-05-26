@@ -1,4 +1,5 @@
 #pragma once
+#include <fea/config.hpp>
 
 namespace fea
 {
@@ -6,7 +7,7 @@ namespace fea
 
     namespace util
     {
-        void addGlmDataTypes(EntityFactory& factory);
+        void FEA_API addGlmDataTypes(EntityFactory& factory);
 
         /** @addtogroup EntitySystem
          *@{

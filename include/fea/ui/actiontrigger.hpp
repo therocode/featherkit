@@ -1,4 +1,5 @@
 #pragma once
+#include <fea/config.hpp>
 #include <fea/ui/keyboard.hpp>
 #include <fea/ui/mouse.hpp>
 #include <cstdint>
@@ -6,7 +7,7 @@
 namespace fea
 {
 
-    class ActionTrigger
+    class FEA_API ActionTrigger
     {
         public:
             enum ActionType {KEYPRESS, KEYRELEASE, MOUSEPRESS, MOUSERELEASE, GAMEPADPRESS, GAMEPADRELEASE};

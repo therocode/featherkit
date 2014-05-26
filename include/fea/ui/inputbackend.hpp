@@ -1,11 +1,12 @@
 #pragma once
+#include <fea/config.hpp>
 #include <fea/ui/event.hpp>
 #include <glm/glm.hpp>
 #include <queue>
 
 namespace fea
 {
-    class InputBackend
+    class FEA_API InputBackend
     {
         public:
             virtual std::queue<Event> fetchEvents() = 0;

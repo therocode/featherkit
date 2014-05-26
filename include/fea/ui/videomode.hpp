@@ -1,9 +1,10 @@
 #pragma once
+#include <fea/config.hpp>
 #include <cstdint>
 
 namespace fea
 {
-    struct VideoMode
+    struct FEA_API VideoMode
     {
             VideoMode();
             VideoMode(uint32_t width, uint32_t height, uint32_t bitDepth = 32);

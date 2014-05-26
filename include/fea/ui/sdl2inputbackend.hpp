@@ -1,4 +1,5 @@
 #pragma once
+#include <fea/config.hpp>
 #define NO_SDL_GLEXT
 #include <fea/ui/inputbackend.hpp>
 #include <glm/glm.hpp>
@@ -6,7 +7,7 @@
 
 namespace fea
 {
-    class SDL2InputBackend : public InputBackend
+    class FEA_API SDL2InputBackend : public InputBackend
     {
         public:
             SDL2InputBackend();

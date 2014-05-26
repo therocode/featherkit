@@ -1,4 +1,5 @@
 #pragma once
+#include <fea/config.hpp>
 #include <fea/ui/videomode.hpp>
 #include <fea/ui/contextsettings.hpp>
 #include <fea/ui/windowstyle.hpp>
@@ -14,7 +15,7 @@ namespace fea
 {
     class WindowBackend;
 
-    class Window
+    class FEA_API Window
     {
 
         public:

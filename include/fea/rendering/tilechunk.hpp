@@ -1,4 +1,5 @@
 #pragma once
+#include <fea/config.hpp>
 #include <fea/rendering/drawable2d.hpp>
 #include <fea/rendering/texture.hpp>
 #include <unordered_map>
@@ -8,7 +9,7 @@ namespace fea
 {
     enum {NORMAL = 0, H_FLIP = 1, V_FLIP = 2, ROT_90 = 4, ROT_180 = 8, ROT_270 = 12, PRESERVE = 16};
 
-    class TileChunk : public Drawable2D
+    class FEA_API TileChunk : public Drawable2D
     {
         public:
             TileChunk(uint32_t width, uint32_t height, uint32_t tileWidth, uint32_t tileHeight);

@@ -1,11 +1,12 @@
 #pragma once
+#include <fea/config.hpp>
 #include <fea/ui/inputbackend.hpp>
 #include <glm/glm.hpp>
 #include <SDL/SDL.h>
 
 namespace fea
 {
-    class SDLInputBackend : public InputBackend
+    class FEA_API SDLInputBackend : public InputBackend
     {
         public:
             SDLInputBackend();

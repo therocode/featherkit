@@ -1,4 +1,5 @@
 #pragma once
+#include <fea/config.hpp>
 #include <fea/rendering/opengl.hpp>
 #include <fea/rendering/uniform.hpp>
 #include <fea/rendering/vertexattribute.hpp>
@@ -8,7 +9,7 @@ namespace fea
 {
     enum BlendMode { NONE = 0, ALPHA, ADD, MULTIPLY, MULTIPLY2X };
 
-    struct RenderInfo
+    struct FEA_API RenderInfo
     {
         std::vector<Uniform> mUniforms;
         std::vector<VertexAttribute> mVertexAttributes;

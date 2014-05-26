@@ -1,4 +1,5 @@
 #pragma once
+#include <fea/config.hpp>
 #include <fea/entity/entitystorage.hpp>
 #include <memory>
 #include <unordered_map>
@@ -16,7 +17,7 @@ namespace fea
     using EntityId = uint32_t;
     using EntitySet = std::set<WeakEntityPtr, std::owner_less<WeakEntityPtr>>;
 
-    class EntityManager
+    class FEA_API EntityManager
     {
         public:
             WeakEntityPtr createEntity(const std::set<std::string>& attributes);

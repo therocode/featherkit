@@ -1,10 +1,11 @@
 #pragma once
+#include <fea/config.hpp>
 #include <vector>
 #include <string>
 
 namespace fea
 {
-    class Application
+    class FEA_API Application
     {
         public:
             Application();

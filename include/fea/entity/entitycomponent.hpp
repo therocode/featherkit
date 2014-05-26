@@ -1,10 +1,11 @@
 #pragma once
+#include <fea/config.hpp>
 #include <unordered_map>
 #include <fea/entity/entity.hpp>
 
 namespace fea
 {
-    class EntityComponent
+    class FEA_API EntityComponent
     {
         public:
             void entityCreated(WeakEntityPtr entity);

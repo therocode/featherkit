@@ -1,10 +1,11 @@
 #pragma once
+#include <fea/config.hpp>
 #include <fea/rendering/drawable2d.hpp>
 #include <fea/rendering/texture.hpp>
 
 namespace fea
 {
-    class Quad : public Drawable2D
+    class FEA_API Quad : public Drawable2D
     {
         public:
             Quad();

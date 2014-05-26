@@ -1,4 +1,5 @@
 #pragma once
+#include <fea/config.hpp>
 #include <fea/freetype-gl/texture-atlas.h>
 #include <fea/freetype-gl/texture-font.h>
 #include <fea/rendering/drawable2d.hpp>
@@ -8,7 +9,7 @@
 namespace fea
 {
 
-    class TextSurface : public Drawable2D
+    class FEA_API TextSurface : public Drawable2D
     {
         struct Writing
         {

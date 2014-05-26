@@ -1,4 +1,5 @@
 #pragma once
+#include <fea/config.hpp>
 #include <queue>
 #include <memory>
 #include <fea/ui/event.hpp>
@@ -8,7 +9,7 @@ namespace fea
 {
     class InputBackend;
 
-    class InputHandler
+    class FEA_API InputHandler
     {
         public:
             InputHandler(InputBackend* backend);

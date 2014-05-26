@@ -1,4 +1,5 @@
 #pragma once
+#include <fea/config.hpp>
 #include <fea/rendering/uniform.hpp>
 #include <fea/rendering/vertexattribute.hpp>
 #include <unordered_map>
@@ -8,13 +9,13 @@
 
 namespace fea
 {
-    class GLSLException : public std::runtime_error 
+    class FEA_API GLSLException : public std::runtime_error 
     {
         public:
             GLSLException(const std::string& message);
     };
 
-    class Shader
+    class FEA_API Shader
     {
         public:
 

@@ -1,10 +1,11 @@
 #pragma once
+#include <fea/config.hpp>
 #include <fea/rendering/camera.hpp>
 #include <stdint.h>
 
 namespace fea
 {
-    class Viewport
+    class FEA_API Viewport
     {
         public:
             Viewport();

@@ -1,4 +1,5 @@
 #pragma once
+#include <fea/config.hpp>
 #include <fea/ui/videomode.hpp>
 #include <fea/ui/windowstyle.hpp>
 #include <fea/ui/contextsettings.hpp>
@@ -7,7 +8,7 @@
 
 namespace fea
 {
-    class WindowBackend
+    class FEA_API WindowBackend
     {
         public:
             virtual void create(VideoMode mode, const std::string& title, uint32_t style=Style::Default, const ContextSettings& settings=ContextSettings()) = 0;

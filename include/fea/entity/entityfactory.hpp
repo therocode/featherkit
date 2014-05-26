@@ -1,4 +1,5 @@
 #pragma once
+#include <fea/config.hpp>
 #include <fea/entity/entitymanager.hpp>
 #include <fea/entity/entitytemplate.hpp>
 #include <fea/entity/entity.hpp>
@@ -11,7 +12,7 @@ namespace fea
     using Parser         = std::function<Setter(const std::string&)>;
     using Registrator   = std::function<Parser(const std::string&)>;
 
-    class EntityFactory
+    class FEA_API EntityFactory
     {
         public:
             EntityFactory(EntityManager& entityManager);

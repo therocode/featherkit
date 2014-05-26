@@ -1,4 +1,5 @@
 #pragma once
+#include <fea/config.hpp>
 #include <fea/rendering/tilechunk.hpp>
 #include <unordered_map>
 #include <functional>
@@ -7,7 +8,7 @@ namespace fea
 {
     using TileId = int32_t;
 
-    struct TileDefinition
+    struct FEA_API TileDefinition
     {
         TileDefinition(const glm::uvec2& texPos, TileId next = -1, uint32_t ticks = 0);
         glm::uvec2 mTileTexPosition;
@@ -15,7 +16,7 @@ namespace fea
         uint32_t mTicksUntilChange;
     };
 
-    class TileMap
+    class FEA_API TileMap
     {
 
         struct AnimatedTile

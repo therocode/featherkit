@@ -1,9 +1,10 @@
 #pragma once
+#include <fea/config.hpp>
 #include <fea/rendering/quad.hpp>
 
 namespace fea
 {
-    class SubrectQuad : public Quad
+    class FEA_API SubrectQuad : public Quad
     {
         public:
             SubrectQuad();

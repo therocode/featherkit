@@ -1,13 +1,14 @@
 #pragma once
+#include <fea/config.hpp>
 
 namespace fea
 {
-    class MessageReceiverBase
+    class FEA_API MessageReceiverBase
     {
     };
 
     template<class MessageType>
-        class MessageReceiver : public MessageReceiverBase
+        class FEA_API MessageReceiver : public MessageReceiverBase
     {
         public:
             virtual void handleMessage(const MessageType& message) = 0;

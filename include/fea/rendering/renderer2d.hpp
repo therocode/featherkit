@@ -1,4 +1,5 @@
 #pragma once
+#include <fea/config.hpp>
 #include <fea/rendering/color.hpp>
 #include <fea/rendering/viewport.hpp>
 #include <fea/rendering/rendertarget.hpp>
@@ -10,7 +11,7 @@ namespace fea
 {
     class Drawable2D;
 
-    class Renderer2D
+    class FEA_API Renderer2D
     {
         public:
             Renderer2D(const Viewport& viewport);

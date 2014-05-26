@@ -1,9 +1,10 @@
 #pragma once
+#include <fea/config.hpp>
 #include <fea/rendering/animatedquad.hpp>
 
 namespace fea
 {
-    class RepeatedQuad : public AnimatedQuad
+    class FEA_API RepeatedQuad : public AnimatedQuad
     {
         public:
             RepeatedQuad();
