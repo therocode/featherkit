@@ -44,6 +44,23 @@ namespace fea
             void setBAsByte(int32_t blue);
             void setAAsByte(int32_t alpha);
 
+            static const Color Black;
+            static const Color Gray;
+            static const Color White;
+            static const Color Transparent;
+            static const Color Red;
+            static const Color Green;
+            static const Color Blue;
+            static const Color Cyan;
+            static const Color Magenta;
+            static const Color Yellow;
+            static const Color Pink;
+            static const Color Brown;
+            static const Color Tan;
+            static const Color Orange;
+            static const Color Teal;
+            static const Color Purple;
+
         private:
             float mRed;
             float mGreen;
@@ -218,5 +235,53 @@ namespace fea
      *  @fn void Color::setAAsByte(int32_t alpha)
      *  @brief Set the value of the color's alpha channel. Values higher than 255 will be capped.
      *  @param alpha The value of the alpha channel to set from 0 to 255.
+     ***
+     *  @var const Color::Black
+     *  @brief Black predefined color.
+     ***
+     *  @var const Color::Gray
+     *  @brief Gray predefined color.
+     ***
+     *  @var const Color::White
+     *  @brief White predefined color.
+     ***
+     *  @var const Color::Transparent
+     *  @brief Transparent predefined color.
+     ***
+     *  @var const Color::Red
+     *  @brief Red predefined color.
+     ***
+     *  @var const Color::Green
+     *  @brief Green predefined color.
+     ***
+     *  @var const Color::Blue
+     *  @brief Blue predefined color.
+     ***
+     *  @var const Color::Cyan
+     *  @brief Cyan predefined color.
+     ***
+     *  @var const Color::Magenta
+     *  @brief Magenta predefined color.
+     ***
+     *  @var const Color::Yellow
+     *  @brief Yellow predefined color.
+     ***
+     *  @var const Color::Pink
+     *  @brief Pink predefined color.
+     ***
+     *  @var const Color::Brown
+     *  @brief Brown predefined color.
+     ***
+     *  @var const Color::Tan
+     *  @brief Tan predefined color.
+     ***
+     *  @var const Color::Orange
+     *  @brief Orange predefined color.
+     ***
+     *  @var const Color::Teal
+     *  @brief Teal predefined color.
+     ***
+     *  @var const Color::Purple
+     *  @brief Purple predefined color.
      */
 }
