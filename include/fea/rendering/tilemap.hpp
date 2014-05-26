@@ -5,11 +5,13 @@
 
 namespace fea
 {
+    using TileId = int32_t;
+
     struct TileDefinition
     {
-        TileDefinition(const glm::uvec2& texPos, const std::string& next = "", uint32_t ticks = 0);
+        TileDefinition(const glm::uvec2& texPos, TileId next = -1, uint32_t ticks = 0);
         glm::uvec2 mTileTexPosition;
-        std::string mNextTile;
+        TileId mNextTile;
         uint32_t mTicksUntilChange;
     };
 
@@ -18,8 +20,8 @@ namespace fea
 
         struct AnimatedTile
         {
-            AnimatedTile(const std::string& next, uint32_t timeLeft);
-            std::string mNext;
+            AnimatedTile(TileId next, uint32_t timeLeft);
+            TileId mNext;
             uint32_t mTimeLeft;
         };
         public:
@@ -30,10 +32,10 @@ namespace fea
         std::vector<const TileChunk*> getTileChunks() const;
         void setTexture(const Texture& texture);
         const Texture& getTexture() const;
-        void addTileDefinition(const std::string& name, const TileDefinition& tileDef);
-        void setTile(const glm::uvec2& pos, const std::string& name, int32_t orientation = NORMAL);
+        void addTileDefinition(TileId id, const TileDefinition& tileDef);
+        void setTile(const glm::uvec2& pos, TileId id, int32_t orientation = NORMAL);
         void unsetTile(const glm::uvec2& pos);
-        void fill(const std::string& name);
+        void fill(TileId id);
         void setTileColor(const glm::uvec2& pos, const fea::Color& color);
         void clear();
         glm::uvec2 getTileByCoordinates(const glm::vec2& coordinates) const;
@@ -65,7 +67,7 @@ namespace fea
         glm::vec2 mTextureTileSize;
         std::vector<TileChunk> mChunks;
         const Texture* mTexture;
-        std::unordered_map<std::string, TileDefinition> mTileDefs;
+        std::unordered_map<TileId, TileDefinition> mTileDefs;
         std::unordered_map<glm::uvec2, AnimatedTile> mAnimatedTiles;
     };
     /** @addtogroup Render2D
@@ -83,7 +85,7 @@ namespace fea
      *
      *  The animation data consists of the name of the next tile definition to switch to, and the amount of ticks it will take until the change is performed.
      ***
-     *  @fn TileDefinition::TileDefinition(const glm::uvec2& texPos, const std::string& next = "", uint32_t ticks = 0)
+     *  @fn TileDefinition::TileDefinition(const glm::uvec2& texPos, TileId next = "", uint32_t ticks = 0)
      *  @brief Construct a TileDefinition.
      *  @param texPos Coordinates of the subrectangle to use as texture.
      *  @param next TileDefinition to change to. Only needed if the tile is animated.
@@ -203,25 +205,25 @@ namespace fea
      *  @brief Set the texture to use.
      *  @param texture Texture.
      ***
-     *  @fn const std::string& TileMap::getTexture() const
+     *  @fn const Texture& TileMap::getTexture() const
      *  @brief Get the current texture.
-     *  @return Name of the texture.
+     *  @return Texture.
      ***
-     *  @fn void TileMap::addTileDefinition(const std::string& name, const TileDefinition& tileDef)
+     *  @fn void TileMap::addTileDefinition(TileId id, const TileDefinition& tileDef)
      *  @brief Add a new tile definition.
      *  
-     *  Before a tile is set, its type has to be registered with the TileMap using this function. It can then be accessed through the given name.
-     *  @param name Name of the tile to add.
+     *  Before a tile is set, its type has to be registered with the TileMap using this function. It can then be accessed through the given id.
+     *  @param id Id of the tile to add.
      *  @param tileDef Tile definition.
      ***
-     *  @fn void TileMap::setTile(const glm::uvec2& position, const std::string& name, int32_t orientation = NONE)
+     *  @fn void TileMap::setTile(const glm::uvec2& position, TileId id, int32_t orientation = NORMAL)
      *  @brief Set a tile at the given coordinate.
      *
      *  The tile can optionally be given a bitmask representing an orientation. In other words, several values can be provided using the | operator. Only one rotation can be given at a time. The possible orientation values are: V_FLIP, H_FLIP, ROT_90, ROT_180, ROT_270 and PRESERVE. V_FLIP and H_FLIP represent vertical and horizontal flipping of the tile respectively and the ROT_* values describe rotation to varios degrees. The PRESERVE flag preserves any previous orientation and must not be given along with other flags.
      *
      *  Assert/undefined behavior when coordinates are outside the range of the tilemap, if tile name doesn't exist, or if the PRESERVE flag is passed with other values.
      *  @param position Coordinate of the tile to set,
-     *  @param name Name of the tile definition to change it to.
+     *  @param id Id of the tile definition to change it to.
      *  @param orientation Orientation of the tile.
      ***
      *  @fn void TileMap::unsetTile(const glm::uvec2& pos)
@@ -231,11 +233,11 @@ namespace fea
      *  Assert/undefined behavior when coordinates are outside the range of the tilemap.
      *  @param pos Coordinate of the tile to unset.
      ***
-     *  @fn void TileMap::fill(const std::string& name)
+     *  @fn void TileMap::fill(TileId id)
      *  @brief Fill the whole tile map with a single tile type.
      *
      *  Assert/undefined behavior when tile type doesn't exist.
-     *  @param name Name of the tile to fill with.
+     *  @param id Id of the tile to fill with.
      ***
      *  @fn void TileMap::setTileColor(const glm::uvec2& pos, const fea::Color& color)
      *  @brief Set the color shade of a tile.

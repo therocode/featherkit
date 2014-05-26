@@ -3,11 +3,11 @@
 
 namespace fea
 {
-    TileDefinition::TileDefinition(const glm::uvec2& texPos, const std::string& next, uint32_t ticks) : mTileTexPosition(texPos), mNextTile(next), mTicksUntilChange(ticks)
+    TileDefinition::TileDefinition(const glm::uvec2& texPos, TileId next, uint32_t ticks) : mTileTexPosition(texPos), mNextTile(next), mTicksUntilChange(ticks)
     {
     }
     
-    TileMap::AnimatedTile::AnimatedTile(const std::string& next, uint32_t timeLeft) : mNext(next), mTimeLeft(timeLeft)
+    TileMap::AnimatedTile::AnimatedTile(TileId next, uint32_t timeLeft) : mNext(next), mTimeLeft(timeLeft)
     {
     }
 
@@ -102,12 +102,12 @@ namespace fea
         return *mTexture;
     }
     
-    void TileMap::addTileDefinition(const std::string& name, const TileDefinition& tileDef)
+    void TileMap::addTileDefinition(TileId id, const TileDefinition& tileDef)
     {
-        mTileDefs.emplace(name, tileDef);
+        mTileDefs.emplace(id, tileDef);
     }
 
-    void TileMap::setTile(const glm::uvec2& pos, const std::string& name, int32_t orientation)
+    void TileMap::setTile(const glm::uvec2& pos, TileId id, int32_t orientation)
     {
         FEA_ASSERT(!isOutOfBounds(pos), "Trying to set tile outside of the bounds of the tilemap! Setting at " + std::to_string(pos.x) + " " + std::to_string(pos.y) + ".");
         FEA_ASSERT(orientation <= 16, "Cannot pass other flags with the PRESERVE flag!");
@@ -118,9 +118,9 @@ namespace fea
         uint32_t chunkY = y / mChunkSize.y;
         uint32_t chunkIndex = chunkX + chunkY * mChunkGridSize.x;
 
-        FEA_ASSERT(mTileDefs.find(name) != mTileDefs.end(), "Trying to set tile '" + name + "' which doesn't exist!");
+        FEA_ASSERT(mTileDefs.find(id) != mTileDefs.end(), "Trying to set tile '" + std::to_string(id) + "' which doesn't exist!");
 
-        const TileDefinition& tileDef = mTileDefs.at(name);
+        const TileDefinition& tileDef = mTileDefs.at(id);
 
         glm::vec2 texPos = (glm::vec2)tileDef.mTileTexPosition * mTextureTileSize;
 
@@ -164,11 +164,11 @@ namespace fea
         }
     }
 
-    void TileMap::fill(const std::string& name)
+    void TileMap::fill(TileId id)
     {
-        FEA_ASSERT(mTileDefs.find(name) != mTileDefs.end(), "Trying to fill tilemap with tile name '" + name + "' which doesn't exist!");
+        FEA_ASSERT(mTileDefs.find(id) != mTileDefs.end(), "Trying to fill tilemap with tile id  '" + std::to_string(id) + "' which doesn't exist!");
 
-        const TileDefinition& tileDef = mTileDefs.at(name);
+        const TileDefinition& tileDef = mTileDefs.at(id);
 
         glm::uvec2 texPos = tileDef.mTileTexPosition;
 
@@ -249,7 +249,7 @@ namespace fea
     void TileMap::tick()
     {
         std::vector<glm::uvec2> toSet;
-        std::vector<std::string> names;
+        std::vector<TileId> ids;
 
         for(auto animated = mAnimatedTiles.begin(); animated != mAnimatedTiles.end();)
         {
@@ -257,11 +257,11 @@ namespace fea
             {
                 uint32_t x = animated->first.x;
                 uint32_t y = animated->first.y;
-                std::string name = animated->second.mNext;
+                TileId id = animated->second.mNext;
                 animated = mAnimatedTiles.erase(animated);
                 
                 toSet.push_back(glm::uvec2(x, y));
-                names.push_back(name);
+                ids.push_back(id);
                 continue;
             }
             else
@@ -272,7 +272,7 @@ namespace fea
         }
         for(uint32_t i = 0; i < toSet.size(); i++)
         {
-            setTile(toSet[i], names[i], PRESERVE);
+            setTile(toSet[i], ids[i], PRESERVE);
         }
     }
 
