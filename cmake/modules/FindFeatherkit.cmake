@@ -2,7 +2,7 @@ set( FEATHERKIT_FOUND false)
 
 find_path(
     FEATHERKIT_INCLUDE_DIR
-    fea/structure.hpp
+    fea/config.hpp
     PATH_SUFFIXES
     include
     PATHS
@@ -19,7 +19,7 @@ find_path(
     /opt/csw
     /opt
     "C:/Program Files (x86)"
-    "C:/Program Files (x86)/fea"
+    "C:/Program Files (x86)/featherkit"
 )
 
 set(FIND_Featherkit_LIB_PATHS
@@ -36,7 +36,7 @@ set(FIND_Featherkit_LIB_PATHS
     /opt/csw
     /opt
     "C:/Program Files (x86)"
-    "C:/Program Files (x86)/fea"
+    "C:/Program Files (x86)/featherkit"
 )
 
 #list(FIND Featherkit_FIND_COMPONENTS "rendering" Featherkit_NEEDS_GLM)
