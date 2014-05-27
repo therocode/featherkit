@@ -1,8 +1,5 @@
 #include <fea/audio/effectslot.hpp>
-#if !defined(__EMSCRIPTEN__)
-#define AL_ALEXT_PROTOTYPES
-#include "efx.h"
-#endif
+#include <fea/audio/openal.hpp>
 #include <utility>
 
 namespace fea

@@ -14,7 +14,7 @@ namespace fea
 
         for(size_t i = 0; i < bufferAmount; i++)
         {
-            mBuffers.push_back(AudioBuffer());
+            mBuffers.push_back(std::shared_ptr<AudioBuffer>(new AudioBuffer()));
         }
     }
 
@@ -27,7 +27,7 @@ namespace fea
     {
         for(size_t i = 0; i < bufferAmount; i++)
         {
-            mBuffers.push_back(AudioBuffer());
+            mBuffers.push_back(std::shared_ptr<AudioBuffer>(new AudioBuffer()));
         }
     }
     
@@ -57,7 +57,7 @@ namespace fea
             size_t index = mReadyBuffers.front();
             mReadyBuffers.pop();
             mConsumingBuffers.push(index);
-            return &mBuffers[index];
+            return mBuffers[index].get();
         }
         else
         {
@@ -71,7 +71,7 @@ namespace fea
         size_t consumed = mConsumingBuffers.front();
         mConsumingBuffers.pop();
 
-        size_t filled = fillBuffer(&mBuffers[consumed]);
+        size_t filled = fillBuffer(mBuffers[consumed].get());
         
         if(filled > 0)
         {
@@ -84,7 +84,7 @@ namespace fea
             {
                 mCurrentSample = 0;
 
-                filled = fillBuffer(&mBuffers[consumed]);
+                filled = fillBuffer(mBuffers[consumed].get());
 
                 if(filled > 0)
                 {
@@ -121,7 +121,7 @@ namespace fea
 
             for(size_t i = 0; i < mBuffers.size(); i++)
             {
-                size_t filled = fillBuffer(&mBuffers[i]);
+                size_t filled = fillBuffer(mBuffers[i].get());
                 mCurrentSample += filled;
 
                 if(filled > 0)

@@ -119,7 +119,7 @@ namespace fea
         CHAPEL,
         SMALL_WATER_ROOM};
 
-    static void FEA_API loadReverbPreset(Reverb& reverb, ReverbPreset preset);
+    static void loadReverbPreset(Reverb& reverb, ReverbPreset preset);
 
     /** @addtogroup Audio
      *@{
