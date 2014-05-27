@@ -1,7 +1,7 @@
 #pragma once
 #include <fea/config.hpp>
 #include <string>
-#include <map>
+#include <unordered_map>
 #include <fea/structure/gamestate.hpp>
 
 namespace fea
@@ -19,7 +19,7 @@ namespace fea
             void switchState(const std::string& nextName);
             GameState* mCurrentState;
             std::string mCurrentStateName;
-            std::map<std::string, std::unique_ptr<GameState>> gameStates;
+            std::unordered_map<std::string, std::unique_ptr<int>> gameStates;
     };
     
     /** @addtogroup Structure
