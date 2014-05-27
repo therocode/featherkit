@@ -36,7 +36,7 @@ namespace fea
         void setPenColor(const Color& color);
         void setHorizontalAlign(const float coord);
         void newLine(const float distance, const float indentation = 0.0f);
-        virtual RenderInfo getRenderInfo() const override;
+        virtual std::vector<RenderEntity> getRenderInfo() const override;
         void clear();
         glm::vec2 getSize();
     private:

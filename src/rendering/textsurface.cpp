@@ -185,11 +185,11 @@ namespace fea
         mPenPosition.y += distance * mScale;
     }
 
-    RenderInfo TextSurface::getRenderInfo() const
+    std::vector<RenderEntity> TextSurface::getRenderInfo() const
     {
-        RenderInfo temp = Drawable2D::getRenderInfo();
+        std::vector<RenderEntity> temp = Drawable2D::getRenderInfo();
 
-        temp.mUniforms.push_back(Uniform("texture", TEXTURE, mAtlas->id));
+        temp[0].mUniforms.push_back(Uniform("texture", TEXTURE, mAtlas->id));
         return temp;
     }
     

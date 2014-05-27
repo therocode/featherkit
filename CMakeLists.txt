@@ -262,7 +262,7 @@ if(BUILD_RENDERING)
         include/fea/rendering/projection.hpp
         include/fea/rendering/quad.hpp
         include/fea/rendering/renderer2d.hpp
-        include/fea/rendering/renderinfo.hpp
+        include/fea/rendering/renderentity.hpp
         include/fea/rendering/rendertarget.hpp
         include/fea/rendering/repeatedquad.hpp
         include/fea/rendering/shader.hpp

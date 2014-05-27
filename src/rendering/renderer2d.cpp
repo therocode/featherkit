@@ -58,8 +58,10 @@ namespace fea
     
     void Renderer2D::queue(const Drawable2D& drawable)
     {
-        mRenderQueue.push_back(drawable.getRenderInfo());
-        mRenderQueue[mRenderQueue.size() - 1].mBlendMode = mCurrentBlendMode;
+        for(const auto& renderEntity : drawable.getRenderInfo())
+            mRenderQueue.push_back(renderEntity);
+
+        mRenderQueue.back().mBlendMode = mCurrentBlendMode;
     }
 
     void Renderer2D::render()

@@ -2,7 +2,7 @@
 #include <fea/config.hpp>
 #include <vector>
 #include <glm/glm.hpp>
-#include <fea/rendering/renderinfo.hpp>
+#include <fea/rendering/renderentity.hpp>
 #include <fea/rendering/color.hpp>
 #include <stdint.h>
 #include <string>
@@ -32,7 +32,7 @@ namespace fea
             void setOpacity(float opacity);
             float getOpacity() const;
 
-            virtual RenderInfo getRenderInfo() const;
+            virtual std::vector<RenderEntity> getRenderInfo() const;
         protected:
             std::vector<float> mVertices;
             std::vector<float> mTexCoords;
@@ -136,10 +136,10 @@ namespace fea
      *  @brief Set the color.
      *  @param color Color to set to.
      ***
-     *  @fn virtual RenderInfo Drawable2D::getRenderInfo() const
+     *  @fn virtual RenderEntity Drawable2D::getRenderInfo() const
      *  @brief Returns data used for rendering.
      *
-     *  The returned RenderInfo struct contains vertex information useful for rendering with OpenGL or similar. See RenderInfo for more information.
+     *  The returned array contains RenderEntity instances which contain vertex information useful for rendering with OpenGL or similar. See RenderEntity for more information.
      *  @return Render information.
      ***
      *  @var Drawable2D::mVertices

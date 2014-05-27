@@ -21,7 +21,7 @@ namespace fea
             void setTileColors(uint32_t x, uint32_t y, const fea::Color& color);
             void clear();
             bool isEmpty() const;
-            virtual RenderInfo getRenderInfo() const override;
+            virtual std::vector<RenderEntity> getRenderInfo() const override;
             void setOriginalOrigin(const glm::vec2& origin);
             void multiplyOrigin(const glm::vec2& mult);
         private:

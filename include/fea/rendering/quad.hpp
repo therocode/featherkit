@@ -17,7 +17,7 @@ namespace fea
             const Texture& getTexture() const;
             void setHFlip(bool enabled);
             void setVFlip(bool enabled);
-            virtual RenderInfo getRenderInfo() const override;
+            virtual std::vector<RenderEntity> getRenderInfo() const override;
         protected:
             float mHFlip;
             float mVFlip;

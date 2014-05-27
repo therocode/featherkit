@@ -26,11 +26,11 @@ namespace fea
                       texCoordsX[1], texCoordsY[1]};
     }
 
-    RenderInfo SubrectQuad::getRenderInfo() const
+    std::vector<RenderEntity> SubrectQuad::getRenderInfo() const
     {
-        RenderInfo temp = Quad::getRenderInfo();
+        std::vector<RenderEntity> temp = Quad::getRenderInfo();
 
-        temp.mVertexAttributes.push_back(VertexAttribute("texCoords", 2, &mTexCoords[0]));
+        temp[0].mVertexAttributes.push_back(VertexAttribute("texCoords", 2, &mTexCoords[0]));
 
         return temp;
     }

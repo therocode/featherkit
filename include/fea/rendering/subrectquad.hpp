@@ -10,7 +10,7 @@ namespace fea
             SubrectQuad();
             SubrectQuad(const glm::vec2& size);
             void setSubrect(const glm::vec2& subrectStart, const glm::vec2& subrectEnd);
-            virtual RenderInfo getRenderInfo() const override;
+            virtual std::vector<RenderEntity> getRenderInfo() const override;
         private:
             glm::vec2 mSubrectStart;
             glm::vec2 mSubrectEnd;

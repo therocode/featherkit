@@ -9,7 +9,7 @@ namespace fea
 {
     enum BlendMode { NONE = 0, ALPHA, ADD, MULTIPLY, MULTIPLY2X };
 
-    struct FEA_API RenderInfo
+    struct FEA_API RenderEntity
     {
         std::vector<Uniform> mUniforms;
         std::vector<VertexAttribute> mVertexAttributes;
@@ -20,28 +20,28 @@ namespace fea
     /** @addtogroup Render2D
      *@{
      *  @enum BlendMode
-     *  @class RenderInfo
+     *  @class RenderEntity
      *@}
      ***
      *  @enum BlendMode
      *  @brief Mode the renderer uses for blending colors.
      ***
-     *  @class RenderInfo
+     *  @class RenderEntity
      *  @brief Contains the data needed for rendering a drawable.
      ***
-     *  @var RenderInfo::mUniforms
+     *  @var RenderEntity::mUniforms
      *  @brief List of uniforms to use in the rendering process.
      ***
-     *  @var RenderInfo::mVertexAttributes
+     *  @var RenderEntity::mVertexAttributes
      *  @brief List of vertex attributes to use in the rendering process. The first one describes the vertex positions.
      ***
-     *  @var RenderInfo::mBlendMode
+     *  @var RenderEntity::mBlendMode
      *  @brief Describes which blending mode the drawable should use.
      ***
-     *  @var RenderInfo::mDrawMode
+     *  @var RenderEntity::mDrawMode
      *  @brief Describes which GL draw mode should be used to render the drawable.
      ***
-     *  @var RenderInfo::mElementAmount
+     *  @var RenderEntity::mElementAmount
      *  @brief Describes the amount of render elements 
      ***/
 }

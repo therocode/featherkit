@@ -98,9 +98,9 @@ namespace fea
         return mColor.a();
     }
 
-    RenderInfo Drawable2D::getRenderInfo() const
+    std::vector<RenderEntity> Drawable2D::getRenderInfo() const
     {
-        RenderInfo temp;
+        RenderEntity temp;
 
         glm::vec3 colorInfo = glm::vec3(mColor.r(), mColor.g(), mColor.b());
         float opacity = mColor.a();
@@ -125,6 +125,6 @@ namespace fea
         temp.mUniforms.push_back(Uniform("color", VEC3, colorInfo));
         temp.mUniforms.push_back(Uniform("opacity", FLOAT, opacity));
 
-        return temp;
+        return {temp};
     }
 }

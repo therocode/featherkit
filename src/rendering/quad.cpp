@@ -109,16 +109,16 @@ namespace fea
                       texCoordsX[1], texCoordsY[1]};
     }
     
-    RenderInfo Quad::getRenderInfo() const
+    std::vector<RenderEntity> Quad::getRenderInfo() const
     {
-        RenderInfo temp = Drawable2D::getRenderInfo();
+        std::vector<RenderEntity> temp = Drawable2D::getRenderInfo();
 
         if(mTexture != nullptr)
         {
-            temp.mUniforms.push_back(Uniform("texture", TEXTURE, getTexture().getId()));
+            temp[0].mUniforms.push_back(Uniform("texture", TEXTURE, getTexture().getId()));
         }
 
-        temp.mUniforms.push_back(Uniform("constraints", VEC4, mConstraints));
+        temp[0].mUniforms.push_back(Uniform("constraints", VEC4, mConstraints));
         
         return temp;
     }

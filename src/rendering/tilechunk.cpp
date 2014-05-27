@@ -221,13 +221,13 @@ namespace fea
         return mTileInfo.size() == 0;
     }
 
-    RenderInfo TileChunk::getRenderInfo() const
+    std::vector<RenderEntity> TileChunk::getRenderInfo() const
     {
-        RenderInfo temp = Drawable2D::getRenderInfo();
+        std::vector<RenderEntity> temp = Drawable2D::getRenderInfo();
 
-        temp.mUniforms.push_back(Uniform("texture", TEXTURE, getTexture().getId()));
+        temp[0].mUniforms.push_back(Uniform("texture", TEXTURE, getTexture().getId()));
 
-        temp.mVertexAttributes.push_back(VertexAttribute("texCoords", 2, &mTexCoords[0]));
+        temp[0].mVertexAttributes.push_back(VertexAttribute("texCoords", 2, &mTexCoords[0]));
 
         return temp;
     }

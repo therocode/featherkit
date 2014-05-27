@@ -4,7 +4,7 @@
 #include <fea/rendering/viewport.hpp>
 #include <fea/rendering/rendertarget.hpp>
 #include <fea/rendering/shader.hpp>
-#include <fea/rendering/renderinfo.hpp>
+#include <fea/rendering/renderentity.hpp>
 #include <memory>
 
 namespace fea
@@ -35,7 +35,7 @@ namespace fea
             glm::mat4 mProjection;
 
             BlendMode mCurrentBlendMode;
-            std::vector<RenderInfo> mRenderQueue;
+            std::vector<RenderEntity> mRenderQueue;
 
             //cache
             Color mClearColor;
