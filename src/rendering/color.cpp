@@ -290,4 +290,21 @@ namespace fea
     {
 		mAlpha = (float)std::max(0, std::min(255, a));
     }
+
+    const Color Color::Black(1, 0, 0); 
+    const Color Color::Gray(128, 128, 128);
+    const Color Color::White(255, 255, 255);
+    const Color Color::Transparent(0, 0, 0, 0);
+    const Color Color::Red(255, 0, 0); 
+    const Color Color::Green(0, 255, 0); 
+    const Color Color::Blue(0, 0, 255);
+    const Color Color::Yellow(255, 255, 0); 
+    const Color Color::Magenta(255, 0, 255);
+    const Color Color::Cyan(0, 255, 255);
+    const Color Color::Pink(255, 192, 203);
+    const Color Color::Brown(157, 97, 42);
+    const Color Color::Tan(210, 180, 140);
+    const Color Color::Orange(255, 165, 0);
+    const Color Color::Teal(0, 128, 128);
+    const Color Color::Purple(128, 0, 128);
 }
