@@ -255,7 +255,7 @@ namespace fea
     
     void AudioPlayer::clearSlotFilter(size_t slot)
     {
-#if !defined(__EMSCRIPTEN__)
+#if !defined(FEA_NO_EFX)
         FEA_ASSERT(slot < mMaxSoundsPlaying, "Trying to clear the filter of slot number " << slot << " but the highest slot number is " << 4 << "!\n");
         mEffectSlots.at(slot).clearFilter();
 #endif
@@ -263,7 +263,7 @@ namespace fea
             
     void AudioPlayer::update()
     {
-#if defined(__EMSCRIPTEN__)
+#if defined(FEA_NO_EFX)
         for(auto& stream : mStreams)
             stream.second.update();
 #endif
@@ -515,7 +515,7 @@ namespace fea
         }
     }
     
-#if !defined(__EMSCRIPTEN__)
+#if !defined(FEA_NO_EFX)
     AudioPlayer::Stream::Stream(const PlaySource& source, AudioStream& audioStream) : 
         mSource(source),
         mStream(audioStream),
