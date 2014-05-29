@@ -1,6 +1,8 @@
 #include <fea/audio/efx/lowpassfilter.hpp>
 #include <fea/assert.hpp>
+#if !defined(FEA_NO_EFX)
 #include "efx.h"
+#endif
 
 namespace fea
 {
@@ -37,8 +39,10 @@ namespace fea
 
     void LowPassFilter::update()
     {
+#if !defined(FEA_NO_EFX)
         alFilteri(getFilterId(), AL_FILTER_TYPE, AL_FILTER_LOWPASS);
         alFilterf(getFilterId(), AL_LOWPASS_GAIN, mGain);
         alFilterf(getFilterId(), AL_LOWPASS_GAINHF, mGainHF);
+#endif
     }
 }

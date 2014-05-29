@@ -1,6 +1,8 @@
 #include <fea/audio/efx/equalizer.hpp>
 #include <fea/assert.hpp>
+#if !defined(FEA_NO_EFX)
 #include "efx.h"
+#endif
 
 namespace fea
 {
@@ -141,7 +143,7 @@ namespace fea
 
     void Equalizer::update()
     {
-        std::cout << "error1: " << alGetError() << "\n";
+#if !defined(FEA_NO_EFX)
         alEffecti(getEffectId(), AL_EFFECT_TYPE, AL_EFFECT_EQUALIZER);
         alEffectf(getEffectId(), AL_EQUALIZER_LOW_GAIN, mLowGain);
         alEffectf(getEffectId(), AL_EQUALIZER_LOW_CUTOFF, mLowCutoff);
@@ -153,5 +155,6 @@ namespace fea
         alEffectf(getEffectId(), AL_EQUALIZER_MID2_WIDTH, mMid2Width);
         alEffectf(getEffectId(), AL_EQUALIZER_HIGH_GAIN, mHighGain);
         alEffectf(getEffectId(), AL_EQUALIZER_HIGH_CUTOFF, mHighCutoff);
+#endif
     }
 }

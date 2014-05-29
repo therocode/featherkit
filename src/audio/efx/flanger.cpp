@@ -1,6 +1,8 @@
 #include <fea/audio/efx/flanger.hpp>
 #include <fea/assert.hpp>
+#if !defined(FEA_NO_EFX)
 #include "efx.h"
+#endif
 
 namespace fea
 {
@@ -88,6 +90,7 @@ namespace fea
 
     void Flanger::update()
     {
+#if !defined(FEA_NO_EFX)
         alEffecti(getEffectId(), AL_EFFECT_TYPE, AL_EFFECT_FLANGER);
         alEffecti(getEffectId(), AL_FLANGER_WAVEFORM, mWaveform);
         alEffecti(getEffectId(), AL_FLANGER_PHASE, mPhase);
@@ -95,5 +98,6 @@ namespace fea
         alEffectf(getEffectId(), AL_FLANGER_DEPTH, mDepth);
         alEffectf(getEffectId(), AL_FLANGER_FEEDBACK, mFeedback);
         alEffectf(getEffectId(), AL_FLANGER_DELAY, mDelay);
+#endif
     }
 }

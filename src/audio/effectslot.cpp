@@ -1,6 +1,9 @@
 #include <fea/audio/effectslot.hpp>
 #include <fea/audio/openal.hpp>
 #include <utility>
+#if !defined(FEA_NO_EFX)
+#include "efx.h"
+#endif
 
 namespace fea
 {

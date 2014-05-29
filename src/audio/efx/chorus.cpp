@@ -1,6 +1,8 @@
 #include <fea/audio/efx/chorus.hpp>
 #include <fea/assert.hpp>
+#if !defined(FEA_NO_EFX)
 #include "efx.h"
+#endif
 
 namespace fea
 {
@@ -88,6 +90,7 @@ namespace fea
 
     void Chorus::update()
     {
+#if !defined(FEA_NO_EFX)
         alEffecti(getEffectId(), AL_EFFECT_TYPE, AL_EFFECT_CHORUS);
         alEffecti(getEffectId(), AL_CHORUS_WAVEFORM, mWaveform);
         alEffecti(getEffectId(), AL_CHORUS_PHASE, mPhase);
@@ -95,5 +98,6 @@ namespace fea
         alEffectf(getEffectId(), AL_CHORUS_DEPTH, mDepth);
         alEffectf(getEffectId(), AL_CHORUS_FEEDBACK, mFeedback);
         alEffectf(getEffectId(), AL_CHORUS_DELAY, mDelay);
+#endif
     }
 }

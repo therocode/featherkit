@@ -1,7 +1,9 @@
 #include <fea/audio/audioeffect.hpp>
 #include <fea/assert.hpp>
 #include <utility>
+#if !defined(FEA_NO_EFX)
 #include "efx.h"
+#endif
 
 namespace fea
 {

@@ -1,6 +1,8 @@
 #include <fea/audio/efx/distortion.hpp>
 #include <fea/assert.hpp>
+#if !defined(FEA_NO_EFX)
 #include "efx.h"
+#endif
 
 namespace fea
 {
@@ -77,11 +79,13 @@ namespace fea
 
     void Distortion::update()
     {
+#if !defined(FEA_NO_EFX)
         alEffecti(getEffectId(), AL_EFFECT_TYPE, AL_EFFECT_DISTORTION);
         alEffectf(getEffectId(), AL_DISTORTION_EDGE, mEdge);
         alEffectf(getEffectId(), AL_DISTORTION_GAIN, mDistortionGain);
         alEffectf(getEffectId(), AL_DISTORTION_LOWPASS_CUTOFF, mLowPassCutoff);
         alEffectf(getEffectId(), AL_DISTORTION_EQCENTER, mEQCenter);
         alEffectf(getEffectId(), AL_DISTORTION_EQBANDWIDTH, mEQBandwidth);
+#endif
     }
 }
