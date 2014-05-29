@@ -19,7 +19,7 @@ namespace fea
             void switchState(const std::string& nextName);
             GameState* mCurrentState;
             std::string mCurrentStateName;
-            std::unordered_map<std::string, std::unique_ptr<int>> gameStates;
+            std::unordered_map<std::string, std::unique_ptr<GameState>> gameStates;
     };
     
     /** @addtogroup Structure
