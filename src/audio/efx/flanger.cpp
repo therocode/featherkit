@@ -1,5 +1,6 @@
 #include <fea/audio/efx/flanger.hpp>
 #include <fea/assert.hpp>
+#include "efx.h"
 
 namespace fea
 {

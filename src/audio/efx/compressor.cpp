@@ -1,4 +1,5 @@
 #include <fea/audio/efx/compressor.hpp>
+#include "efx.h"
 
 namespace fea
 {

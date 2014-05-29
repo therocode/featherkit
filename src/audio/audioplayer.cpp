@@ -5,6 +5,7 @@
 #include <fea/audio/audiofilter.hpp>
 #include <fea/assert.hpp>
 #include <string>
+#include "efx.h"
             
 namespace fea
 {
@@ -25,7 +26,7 @@ namespace fea
 
         setupSources(mMaxSoundsPlaying);
 
-#if !defined(__EMSCRIPTEN__)
+#if !defined(FEA_NO_EFX)
         alcGetIntegerv(mAudioDevice, ALC_MAX_AUXILIARY_SENDS, 1, &mMaxAuxSend);
 
         for(size_t i = 0; i < 4; i++)
@@ -95,14 +96,14 @@ namespace fea
         const auto& effectSends = audio.getEffectSends();
         for(auto slotIndex : effectSends)
         {
-#if !defined(__EMSCRIPTEN__)
+#if !defined(NO_FEA_EFX)
             alSource3i(sourceId, AL_AUXILIARY_SEND_FILTER, mEffectSlots.at(slotIndex).getSlotId(), slotIndex, mEffectSlots.at(slotIndex).getFilter().getFilterId());
 #endif
         }
 
         if(audio.hasFilter())
         {
-#if !defined(__EMSCRIPTEN__)
+#if !defined(NO_FEA_EFX)
             alSourcei(sourceId, AL_DIRECT_FILTER, audio.getFilter().getFilterId());
 #endif
         }
@@ -145,7 +146,7 @@ namespace fea
         const auto& effectSends = stream.getEffectSends();
         for(auto slotIndex : effectSends)
         {
-#if !defined(__EMSCRIPTEN__)
+#if !defined(NO_FEA_EFX)
             auto& effectSlot = mEffectSlots.at(slotIndex);
             alSource3i(sourceId, AL_AUXILIARY_SEND_FILTER, effectSlot.getSlotId(), slotIndex, effectSlot.hasFilter() ? effectSlot.getFilter().getFilterId() : AL_FILTER_NULL);
 #endif
@@ -153,13 +154,13 @@ namespace fea
 
         if(stream.hasFilter())
         {
-#if !defined(__EMSCRIPTEN__)
+#if !defined(NO_FEA_EFX)
             alSourcei(sourceId, AL_DIRECT_FILTER, stream.getFilter().getFilterId());
 #endif
         }
 
         mStreams.emplace(sourceId, Stream(mPlayingSources.at(handle), stream));
-#if !defined(__EMSCRIPTEN__)
+#if !defined(NO_FEA_EFX)
         mStreams.at(sourceId).start();
 #else
         mStreams.at(sourceId).update();
@@ -209,7 +210,7 @@ namespace fea
                 auto streamIterator = mStreams.find(sourceId);
                 if(streamIterator != mStreams.end())
                 {
-#if !defined(__EMSCRIPTEN__)
+#if !defined(NO_FEA_EFX)
                     streamIterator->second.stop();
 #endif
                 }
@@ -226,7 +227,7 @@ namespace fea
     
     void AudioPlayer::setSlotEffect(const AudioEffect& effect, size_t slot)
     {
-#if !defined(__EMSCRIPTEN__)
+#if !defined(NO_FEA_EFX)
         FEA_ASSERT(slot < mMaxSoundsPlaying, "Trying to add an effect to slot number " << slot << " but the highest slot number is " << 4 << "!\n");
         alAuxiliaryEffectSloti(mEffectSlots.at(slot).getSlotId(), AL_EFFECTSLOT_EFFECT, effect.getEffectId());
         alAuxiliaryEffectSlotf(mEffectSlots.at(slot).getSlotId(), AL_EFFECTSLOT_GAIN, effect.getEffectGain());
@@ -236,7 +237,7 @@ namespace fea
 
     void AudioPlayer::clearSlotEffect(size_t slot)
     {
-#if !defined(__EMSCRIPTEN__)
+#if !defined(NO_FEA_EFX)
         FEA_ASSERT(slot < mMaxSoundsPlaying, "Trying to clear the effects of slot number " << slot << " but the highest slot number is " << 4 << "!\n");
         alAuxiliaryEffectSloti(mEffectSlots.at(slot).getSlotId(), AL_EFFECTSLOT_EFFECT, AL_EFFECT_NULL);
 #endif
@@ -244,7 +245,7 @@ namespace fea
 
     void AudioPlayer::setSlotFilter(const AudioFilter& filter, size_t slot)
     {
-#if !defined(__EMSCRIPTEN__)
+#if !defined(NO_FEA_EFX)
         FEA_ASSERT(slot < mMaxSoundsPlaying, "Trying to set the filter of slot number " << slot << " but the highest slot number is " << 4 << "!\n");
         mEffectSlots.at(slot).setFilter(filter);
 #endif

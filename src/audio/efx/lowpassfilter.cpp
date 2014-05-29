@@ -1,5 +1,6 @@
 #include <fea/audio/efx/lowpassfilter.hpp>
 #include <fea/assert.hpp>
+#include "efx.h"
 
 namespace fea
 {

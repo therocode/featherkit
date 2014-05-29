@@ -1,6 +1,7 @@
 #include <fea/audio/audioeffect.hpp>
 #include <fea/assert.hpp>
 #include <utility>
+#include "efx.h"
 
 namespace fea
 {
@@ -8,7 +9,7 @@ namespace fea
         mGain(1.0f),
         mAutoSend(true)
     {
-#if !defined(__EMSCRIPTEN__)
+#if !defined(NO_FEA_EFX)
         alGenEffects(1, &mEffectId);
 #endif
     }
@@ -34,7 +35,7 @@ namespace fea
 
     AudioEffect::~AudioEffect()
     {
-#if !defined(__EMSCRIPTEN__)
+#if !defined(NO_FEA_EFX)
         if(mEffectId != 0)
             alDeleteEffects(1, &mEffectId);
 #endif

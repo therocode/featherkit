@@ -1,5 +1,6 @@
 #include <fea/audio/efx/reverb.hpp>
 #include <fea/assert.hpp>
+#include "efx.h"
 
 namespace fea
 {

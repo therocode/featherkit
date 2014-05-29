@@ -1,12 +1,13 @@
 #include <fea/audio/audiofilter.hpp>
 #include <fea/assert.hpp>
 #include <utility>
+#include "efx.h"
 
 namespace fea
 {
     AudioFilter::AudioFilter()
     {
-#if !defined(__EMSCRIPTEN__)
+#if !defined(NO_FEA_EFX)
         alGenFilters(1, &mFilterId);
 #endif
     }
@@ -26,7 +27,7 @@ namespace fea
 
     AudioFilter::~AudioFilter()
     {
-#if !defined(__EMSCRIPTEN__)
+#if !defined(NO_FEA_EFX)
         if(mFilterId != 0)
             alDeleteFilters(1, &mFilterId);
 #endif

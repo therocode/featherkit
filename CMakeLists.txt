@@ -60,6 +60,12 @@ add_definitions(-DFEA_EXPORT=1)
 
 if(BUILD_AUDIO)
     ##Audio module##
+    set(DISABLE_EFX FALSE CACHE BOOL "Set to true to disable the OpenAL EFX extension. Useful for some systems")
+
+    if(DISABLE_EFX)
+        add_definitions(-DFEA_NO_EFX)
+    endif()
+
     if(NOT EMSCRIPTEN)
         find_package(OpenAL REQUIRED)
         if(OPENAL_FOUND)

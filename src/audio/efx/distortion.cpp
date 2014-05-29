@@ -1,5 +1,6 @@
 #include <fea/audio/efx/distortion.hpp>
 #include <fea/assert.hpp>
+#include "efx.h"
 
 namespace fea
 {

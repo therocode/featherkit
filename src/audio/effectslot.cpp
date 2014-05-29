@@ -1,5 +1,5 @@
 #include <fea/audio/effectslot.hpp>
-#if !defined(__EMSCRIPTEN__)
+#if !defined(NO_FEA_EFX)
 #define AL_ALEXT_PROTOTYPES
 #include "efx.h"
 #endif
@@ -10,7 +10,7 @@ namespace fea
     EffectSlot::EffectSlot() :
         mFilter(nullptr)
     {
-#if !defined(__EMSCRIPTEN__)
+#if !defined(NO_FEA_EFX)
         alGenAuxiliaryEffectSlots(1, &mSlotId);
 #endif
     }
@@ -30,7 +30,7 @@ namespace fea
 
     EffectSlot::~EffectSlot()
     {
-#if !defined(__EMSCRIPTEN__)
+#if !defined(NO_FEA_EFX)
         if(mSlotId != 0)
             alDeleteAuxiliaryEffectSlots(1, &mSlotId);
 #endif
