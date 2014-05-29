@@ -5,6 +5,7 @@
 #include <cstring>
 #include <fea/audio/audiobuffer.hpp>
 #include <fea/audio/audiobase.hpp>
+#include <memory>
 
 namespace fea
 {
@@ -25,7 +26,7 @@ namespace fea
         private:
             size_t mChannelCount;
             size_t fillBuffer(AudioBuffer* buffer);
-            std::vector<AudioBuffer> mBuffers;
+            std::vector<std::shared_ptr<AudioBuffer>> mBuffers;
             size_t mBufferSize;
             std::queue<size_t> mReadyBuffers;
             std::queue<size_t> mConsumingBuffers;

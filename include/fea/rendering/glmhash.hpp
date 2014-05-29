@@ -35,13 +35,13 @@ namespace std
                                           10010010 01001001 00100100 10010010 01001001 00100100 10010010 01001001 &
                                       x = a00b00c0 0d00e00f 00g00h00 i00j00k0 0l00m00n 00o00p00 q00r00s0 0t00u00v
                                       */
-                    size_t x = coord.x;
+                    size_t x = (size_t)(coord.x * 1000);
                     x = (x | (x << 16)) & 0x00FF0000FF0000FF;
                     x = (x | (x << 8))  & 0xF00F00F00F00F00F;
                     x = (x | (x << 4))  & 0x30C30C30C30C30C3;
                     x = (x | (x << 2))  & 0x9249249249249249;
 
-                    size_t y = coord.y;
+                    size_t y = (size_t)(coord.y * 1000);
                     y = (y | (y << 16)) & 0x00FF0000FF0000FF;
                     y = (y | (y << 8))  & 0xF00F00F00F00F00F;
                     y = (y | (y << 4))  & 0x30C30C30C30C30C3;

@@ -1,7 +1,6 @@
 #include <fea/audio/audiofile.hpp>
 #include <fea/audio/audiofilenotfoundexception.hpp>
 #include <fea/assert.hpp>
-#include <iostream>
 
 namespace fea
 {
