@@ -9,7 +9,7 @@ namespace fea
         mGain(1.0f),
         mAutoSend(true)
     {
-#if !defined(NO_FEA_EFX)
+#if !defined(FEA_NO_EFX)
         alGenEffects(1, &mEffectId);
 #endif
     }
@@ -35,7 +35,7 @@ namespace fea
 
     AudioEffect::~AudioEffect()
     {
-#if !defined(NO_FEA_EFX)
+#if !defined(FEA_NO_EFX)
         if(mEffectId != 0)
             alDeleteEffects(1, &mEffectId);
 #endif

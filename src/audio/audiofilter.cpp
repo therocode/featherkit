@@ -7,7 +7,7 @@ namespace fea
 {
     AudioFilter::AudioFilter()
     {
-#if !defined(NO_FEA_EFX)
+#if !defined(FEA_NO_EFX)
         alGenFilters(1, &mFilterId);
 #endif
     }
@@ -27,7 +27,7 @@ namespace fea
 
     AudioFilter::~AudioFilter()
     {
-#if !defined(NO_FEA_EFX)
+#if !defined(FEA_NO_EFX)
         if(mFilterId != 0)
             alDeleteFilters(1, &mFilterId);
 #endif

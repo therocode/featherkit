@@ -3,7 +3,7 @@
 #include <chrono>
 #include <set>
 #include <fea/audio/vec3f.hpp>
-#if !defined(NO_FEA_EFX)
+#if !defined(FEA_NO_EFX)
 #include <fea/audio/audiofilter.hpp>
 #endif
 
