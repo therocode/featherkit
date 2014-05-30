@@ -1,6 +1,7 @@
 #include <fea/audio/audiofile.hpp>
 #include <fea/audio/audiofilenotfoundexception.hpp>
 #include <fea/assert.hpp>
+#include <vorbis/vorbisfile.h>
 
 namespace fea
 {

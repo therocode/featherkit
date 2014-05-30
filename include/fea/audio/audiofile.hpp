@@ -2,8 +2,9 @@
 #include <fea/config.hpp>
 #include <string>
 #include <vector>
-#include <vorbis/vorbisfile.h>
 #include <cstdint>
+
+struct OggVorbis_File;
 
 namespace fea
 {
