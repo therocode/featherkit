@@ -2,7 +2,6 @@
 #include <fea/config.hpp>
 //#define NO_SDL_GLEXT
 #include <fea/ui/windowbackend.hpp>
-#include <glm/glm.hpp>
 #include <SDL2/SDL.h>
 //#include <SDL2/SDL_opengl.hpp>
 #include <memory>

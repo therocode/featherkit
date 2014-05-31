@@ -1,7 +1,6 @@
 #pragma once
 #include <fea/config.hpp>
 #include <fea/ui/windowbackend.hpp>
-#include <glm/glm.hpp>
 #include <SFML/Window.hpp>
 #include <memory>
 

@@ -1,7 +1,7 @@
 #pragma once
 #include <fea/config.hpp>
 #include <fea/ui/event.hpp>
-#include <glm/glm.hpp>
+#include <fea/ui/vec2i.hpp>
 #include <queue>
 
 namespace fea
@@ -14,8 +14,8 @@ namespace fea
             virtual bool isKeyPressed(Keyboard::Code code) = 0;
 
             virtual bool isMouseButtonPressed(Mouse::Button button) = 0;
-            virtual glm::ivec2 getMouseGlobalPosition() = 0;
-            virtual glm::ivec2 getMouseWindowPosition() = 0;
+            virtual Vec2I getMouseGlobalPosition() = 0;
+            virtual Vec2I getMouseWindowPosition() = 0;
             virtual void setMouseGlobalPosition(int32_t x, int32_t y) = 0;
             virtual void setMouseWindowPosition(int32_t x, int32_t y) = 0;
 
@@ -53,11 +53,11 @@ namespace fea
      *  @param button The button to check.
      *  @return True if the button is currently pushed down.
      ***
-     *  @fn virtual glm::ivec2 InputBackend::getMouseGlobalPosition() const
+     *  @fn virtual Vec2I InputBackend::getMouseGlobalPosition() const
      *  @brief Access the current mouse position relative to the whole screen.
      *  @return Coordinates as a vector.
      ***
-     *  @fn virtual glm::ivec2 InputBackend::getMouseWindowPosition() const
+     *  @fn virtual Vec2I InputBackend::getMouseWindowPosition() const
      *  @brief Access the current mouse position relative to the window.
      *  @return Coordinates as a vector.
      ***

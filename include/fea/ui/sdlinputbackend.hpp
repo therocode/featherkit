@@ -1,8 +1,8 @@
 #pragma once
 #include <fea/config.hpp>
 #include <fea/ui/inputbackend.hpp>
-#include <glm/glm.hpp>
-#include <SDL/SDL.h>
+
+union SDL_Event;
 
 namespace fea
 {
@@ -16,8 +16,8 @@ namespace fea
             bool isKeyPressed(Keyboard::Code code) override;
 
             bool isMouseButtonPressed(Mouse::Button b) override;
-            glm::ivec2 getMouseGlobalPosition() override; //not supported
-            glm::ivec2 getMouseWindowPosition() override;
+            Vec2I getMouseGlobalPosition() override; //not supported
+            Vec2I getMouseWindowPosition() override;
             void setMouseGlobalPosition(int32_t x, int32_t y) override; //not supported
             void setMouseWindowPosition(int32_t x, int32_t y) override;
 
@@ -41,8 +41,8 @@ namespace fea
             Event gamepadButtonPressed(SDL_Event& event); //not supported
             Event gamepadButtonReleased(SDL_Event& event); //not supported
             Event gamepadMoved(SDL_Event& event); //not supported
-            Keyboard::Code sdlKeyCodeToFea(SDLKey sdlCode) const;
-            SDLKey feaKeyCodeToSdl(Keyboard::Code feaCode) const;
+            Keyboard::Code sdlKeyCodeToFea(int32_t sdlCode) const;
+            int32_t feaKeyCodeToSdl(Keyboard::Code feaCode) const;
             uint8_t feaMouseButtonToSdl(Mouse::Button feaMouseButton) const;
             Mouse::Button sdlMouseButtonToFea(uint32_t sdlMouseButton) const;
     };

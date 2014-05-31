@@ -61,19 +61,19 @@ namespace fea
         return SDL_GetMouseState(NULL, NULL)&SDL_BUTTON(feaMouseButtonToSdl(b));
     }
 
-    glm::ivec2 SDL2InputBackend::getMouseGlobalPosition()
+    Vec2I SDL2InputBackend::getMouseGlobalPosition()
     {
         //will be local only, not global
         int x, y;
         SDL_GetMouseState(&x, &y);
-        return glm::ivec2(0, 0);
+        return Vec2I{0, 0};
     }
 
-    glm::ivec2 SDL2InputBackend::getMouseWindowPosition()
+    Vec2I SDL2InputBackend::getMouseWindowPosition()
     {
         int x, y;
         SDL_GetMouseState(&x, &y);
-        return glm::ivec2(x, y);
+        return Vec2I{x, y};
     }
 
     void SDL2InputBackend::setMouseGlobalPosition(int32_t x, int32_t y)

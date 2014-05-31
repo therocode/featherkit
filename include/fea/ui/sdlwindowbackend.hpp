@@ -1,11 +1,9 @@
 #pragma once
 #include <fea/config.hpp>
-#define NO_SDL_GLEXT
 #include <fea/ui/windowbackend.hpp>
-#include <glm/glm.hpp>
-#include <SDL/SDL.h>
 //#include <SDL/SDL_opengl.h>
-#include <memory>
+
+class SDL_Surface;
 
 namespace fea
 {

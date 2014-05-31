@@ -1,7 +1,6 @@
 #pragma once
 #include <fea/config.hpp>
 #include <fea/ui/inputbackend.hpp>
-#include <glm/glm.hpp>
 #include <SFML/Window.hpp>
 
 namespace fea
@@ -16,8 +15,8 @@ namespace fea
             bool isKeyPressed(Keyboard::Code code) override;
 
             bool isMouseButtonPressed(Mouse::Button b) override;
-            glm::ivec2 getMouseGlobalPosition() override;
-            glm::ivec2 getMouseWindowPosition() override;
+            Vec2I getMouseGlobalPosition() override;
+            Vec2I getMouseWindowPosition() override;
             void setMouseGlobalPosition(int32_t x, int32_t y) override;
             void setMouseWindowPosition(int32_t x, int32_t y) override;
 
