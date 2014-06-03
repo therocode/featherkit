@@ -126,6 +126,11 @@ namespace fea
         return pixelData.get();
     }
 
+    const uint8_t* Texture::getPixelData() const
+    {
+        return pixelData.get();
+    }
+
 
     void Texture::update()
     {
