@@ -1,17 +1,72 @@
+[*] API breaking changes
+  -notes on how to update the code after an API breaking change
+[+] API additions
+[-] Bug fixes/internal changes
+
+1.0.0rc3 - Changes from 1.0.0rc2 below
+* Exchanged libsndfile in favour of libvorbisfile
+    -No other formats than .ogg currently supported
+    -No longer need to supply libsndfile as dependency
+    -Dependency added: libogg, libvorbis, libvorbisfile
+* Changed include directories to fea
+    -Change all #include <featherkit/*> to <fea/*>
+* Tile maps returns pointers in chunklist
+    -Dereference pointers before passing to the renderer
+* Tile map using int32_t for IDs instead of strings
+    -addTileDefinition and setTile must be used with int32_t
+* Colors reworked to work with bytes instead of float
+    - .r() and .setR() work with uint32_t now. for floats, use
+	.rAsFloat()/.setRAsFloat()
+* Removed util namespace
+    -Omit /util/ from includes and ::util from accesses.
+* JsonCpp used for json loading instead of json0
+    -Provide the dependency to build json loaders
+	-A new cmake option BUILD_JSON can be set to false to not use json
+* Entity json format changed.
+    -See
+	http://featherkit.therocode.net/docs/classfea_1_1util_1_1JsonEntityLoader.html
++ Setting colours on the text surface's text possible
++ Shader now supports arrays
++ Added entityKept/entityDropped function pair to entity components
++ Tilemaps now have set/get for: parallax, opacity, colour, origin, rotation
++ Orientation of tiles can be set in the tilemap
++ Camera now also has transform/untranfsorm functions
+and scale
++ Added default colours like fea::Color::Black etc.
++ EFX related functionality can now be switched off from cmake
+- glm dependency removed from the ui module
+- Added export/import symbols for VS
+- Improved OpenAL handling
+- No segfault when vertex arrays are empty in drawables
+- Asserts for when no font is set
+- Fixed memory leak in shader
+- VS2013 support
+- Fixed GLM warnings
+- Fixed bug in action handler
+- Optimised tilemap a lot
+- Emscripten fixes
+- Documentation fixes
+
+1.0.0rc2 - Changes from 1.0.0rc1 below
+-No more using unsafe hashing
+-Emscripten bug fixes
+-TextSurface bug fix
+-Documentation fixes
+
 1.0.0rc1 - Changes from v0.5 below
--Added audio module
--SFML/SDL/SDL2 backends are now built as separate lib files
--The prefix "-d" is now added for debug builds
--The FindFeatherKit.cmake module now finds debug/release equivalent based on build type
--GLEW dependency dropped
--Files renamed from h to hpp
--Added FEA_ASSERT for assert with messages
--Templated headers now use .inl files
--Entity component foundation added
--Reworked entity system to be safe and easier to use
--Added entity factory
--Added message declaration macro
--Parameters now uses vector form where possible
--Switched to US spelling
--Bug fixes
--More...
+ Added audio module
+ SFML/SDL/SDL2 backends are now built as separate lib files
+ The prefix "-d" is now added for debug builds
+ The FindFeatherKit.cmake module now finds debug/release equivalent based on build type
+ GLEW dependency dropped
+ Files renamed from h to hpp
+ Added FEA_ASSERT for assert with messages
+ Templated headers now use .inl files
+ Entity component foundation added
+ Reworked entity system to be safe and easier to use
+ Added entity factory
+ Added message declaration macro
+ Parameters now uses vector form where possible
+ Switched to US spelling
+ Bug fixes
+ More...
