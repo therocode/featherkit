@@ -90,7 +90,7 @@ namespace fea
     void Drawable2D::setOpacity(float opacity)
     {
         FEA_ASSERT(opacity >= 0.0f && opacity <= 1.0f, "Opacity must be within the range of [0.0f, 1.0f]! " + std::to_string(opacity) + " provided.");
-        mColor.setA(opacity);
+        mColor.setAAsFloat(opacity);
     }
 
     float Drawable2D::getOpacity() const

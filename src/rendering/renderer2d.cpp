@@ -36,7 +36,7 @@ namespace fea
     {
         if(mClearColor != color)
         {
-            glClearColor(color.r(), color.g(), color.b(), 0.0f);
+            glClearColor(color.rAsFloat(), color.gAsFloat(), color.bAsFloat(), 0.0f);
             mClearColor = color;
         }
 
@@ -47,7 +47,7 @@ namespace fea
     {
         if(mClearColor != color)
         {
-            glClearColor(color.r(), color.g(), color.b(), 0.0f);
+            glClearColor(color.rAsFloat(), color.gAsFloat(), color.bAsFloat(), 0.0f);
             mClearColor = color;
         }
 
