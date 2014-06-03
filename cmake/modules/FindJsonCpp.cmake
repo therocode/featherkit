@@ -33,9 +33,9 @@ if(JSONCPP_FOUND)
       message(STATUS "Found JsonCpp: ${JSONCPP_LIBRARIES}")
    endif (NOT JSONCPP_FIND_QUIETLY)
 else(JSONCPP_FOUND)
-   if(JSONCPP_FIND_REQUIRED)
+   if(JsonCpp_FIND_REQUIRED)
       message(FATAL_ERROR "Could not find JsonCpp library")
-   endif(JSONCPP_FIND_REQUIRED)
+   endif(JsonCpp_FIND_REQUIRED)
 endif(JSONCPP_FOUND)
 
 mark_as_advanced(
