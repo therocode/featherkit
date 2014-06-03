@@ -23,6 +23,6 @@ namespace fea
      ***
      *  @fn FileNotFoundException::FileNotFoundException(const std::string& message)
      *  @brief Construct a FileNotFoundException instance to throw.
-     *  @param msg Message further explaining the error.
+     *  @param message Message further explaining the error.
      **/
 }

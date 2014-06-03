@@ -87,5 +87,9 @@ namespace fea
      ***
      *  @fn void TileChunk::clear()
      *  @brief Clear the chunk of all tiles.
+     ***
+     *  @fn bool TileChunk::isEmpty() const
+     *  @brief Check if the chunk has any set tiles.
+     *  @return True if there are any set tiles, otherwise false.
      ***/
 }
