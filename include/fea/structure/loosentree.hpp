@@ -74,7 +74,7 @@ namespace fea
             float mMoveCache[Pow(2, Dimensions)][Dimensions];
     };
 
-#include <fea/util/loosentree.inl>
+#include <fea/structure/loosentree.inl>
 
     /** @addtogroup Structure
      *@{

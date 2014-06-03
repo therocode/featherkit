@@ -22,11 +22,13 @@ set(BUILD_SFMLBACKENDS FALSE CACHE BOOL "Selects if the SFML backends should be 
 set(BUILD_SDLBACKENDS FALSE CACHE BOOL "Selects if the SDL backends should be built")
 set(BUILD_SDL2BACKENDS FALSE CACHE BOOL "Selects if the SDL2 backends should be built")
 
+set(BUILD_JSON TRUE CACHE BOOL "Selects if the json (de)serialization functions should be built")
+
 set(SDK_PATH "" CACHE PATH "Optional path to the Featherkit SDK. If this is not set, the dependencies have to be handled manually.")
 
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)  #for shared libs
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)   #for static libs
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)   #for static libs
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)  #for static libs
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)  #for static libs
 
 SET(CMAKE_DEBUG_POSTFIX "-d")
 
@@ -59,6 +61,16 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CPP_11_FLAG}")
 
 add_definitions(-DFEA_EXPORT=1)
 
+if(BUILD_JSON)
+    find_package(JsonCpp REQUIRED)
+    if(JSONCPP_FOUND)
+        include_directories(${JSONCPP_INCLUDE_DIRS})
+        add_definitions(-DUSE_JSONCPP)
+        # for having <json/json.h> instead of <jsoncpp/json/json.h>
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -I${JSONCPP_INCLUDE_DIRS}/jsoncpp")
+    endif()
+endif()
+
 if(BUILD_AUDIO)
     ##Audio module##
     set(DISABLE_EFX FALSE CACHE BOOL "Set to true to disable the OpenAL EFX extension. Useful for some systems")
@@ -86,24 +98,6 @@ if(BUILD_AUDIO)
 
     set(BUILT_TARGETS ${BUILT_TARGETS} ${project_name}-audio)
 
-    if(NOT EMSCRIPTEN)
-        set(FEATHERKIT_EFX_SOURCES 
-            src/audio/audioeffect.cpp
-            src/audio/effectslot.cpp
-            src/audio/audiofilter.cpp
-            src/audio/efx/chorus.cpp
-            src/audio/efx/compressor.cpp
-            src/audio/efx/distortion.cpp
-            src/audio/efx/echo.cpp
-            src/audio/efx/equalizer.cpp
-            src/audio/efx/flanger.cpp
-            src/audio/efx/lowpassfilter.cpp
-            src/audio/efx/presets.cpp
-            src/audio/efx/reverb.cpp
-            src/audio/efx/ringmodulator.cpp)
-    endif()
-
-
     set(audio_source_files 
         src/audio/audio.cpp
         src/audio/audiobase.cpp
@@ -116,38 +110,61 @@ if(BUILD_AUDIO)
         src/audio/audiofilenotfoundexception.cpp
         src/audio/listener.cpp
         src/audio/playsource.cpp
-        src/audio/oscillator.cpp
-        ${FEATHERKIT_EFX_SOURCES})
+        src/audio/oscillator.cpp)
 
     set(audio_header_files
         include/fea/audio/openal.hpp
         include/fea/audio/audio.hpp
         include/fea/audio/audiobase.hpp
         include/fea/audio/audiobuffer.hpp
-        include/fea/audio/audioeffect.hpp
         include/fea/audio/audiofile.hpp
         include/fea/audio/audiofilestream.hpp
-        include/fea/audio/audiofilter.hpp
         include/fea/audio/audioplayer.hpp
         include/fea/audio/audiosample.hpp
         include/fea/audio/audiostream.hpp
-        include/fea/audio/effectslot.hpp
         include/fea/audio/audiofilenotfoundexception.hpp
         include/fea/audio/listener.hpp
         include/fea/audio/playsource.hpp
-        include/fea/audio/oscillator.hpp
-        include/fea/audio/efx/chorus.hpp
-        include/fea/audio/efx/compressor.hpp
-        include/fea/audio/efx/distortion.hpp
-        include/fea/audio/efx/echo.hpp
-        include/fea/audio/efx/equalizer.hpp
-        include/fea/audio/efx/flanger.hpp
-        include/fea/audio/efx/lowpassfilter.hpp
-        include/fea/audio/efx/presets.hpp
-        include/fea/audio/efx/reverb.hpp
-        include/fea/audio/efx/ringmodulator.hpp)
+        include/fea/audio/oscillator.hpp)
 
-    add_library(${project_name}-audio ${SHARED_OR_STATIC} ${audio_header_files} ${audio_source_files})
+    if(NOT EMSCRIPTEN)
+        set(audio_efx_source_files 
+            src/audio/audioeffect.cpp
+            src/audio/audiofilter.cpp
+            src/audio/effectslot.cpp
+            src/audio/efx/chorus.cpp
+            src/audio/efx/compressor.cpp
+            src/audio/efx/distortion.cpp
+            src/audio/efx/echo.cpp
+            src/audio/efx/equalizer.cpp
+            src/audio/efx/flanger.cpp
+            src/audio/efx/lowpassfilter.cpp
+            src/audio/efx/presets.cpp
+            src/audio/efx/reverb.cpp
+            src/audio/efx/ringmodulator.cpp)
+
+        set(audio_efx_header_files
+            include/fea/audio/audioeffect.hpp
+            include/fea/audio/audiofilter.hpp
+            include/fea/audio/effectslot.hpp
+            include/fea/audio/efx/chorus.hpp
+            include/fea/audio/efx/compressor.hpp
+            include/fea/audio/efx/distortion.hpp
+            include/fea/audio/efx/echo.hpp
+            include/fea/audio/efx/equalizer.hpp
+            include/fea/audio/efx/flanger.hpp
+            include/fea/audio/efx/lowpassfilter.hpp
+            include/fea/audio/efx/presets.hpp
+            include/fea/audio/efx/reverb.hpp
+            include/fea/audio/efx/ringmodulator.hpp)
+    endif()
+
+    add_library(${project_name}-audio ${SHARED_OR_STATIC}
+        ${audio_source_files}
+        ${audio_header_files}
+        ${audio_efx_source_files}
+        ${audio_efx_header_files})
+
     target_link_libraries(${project_name}-audio ${OPENAL_LIBRARY} ${VorbisFile_LIBRARIES} ${OGG_LIBRARIES})
 endif()
 
@@ -163,10 +180,12 @@ if(BUILD_STRUCTURE)
     set(structure_header_files include/fea/structure/application.hpp
         include/fea/structure/gamestate.hpp
         include/fea/structure/gamestatemachine.hpp
-        include/fea/util/loosentree.hpp
-        include/fea/util/loosentree.inl)
+        include/fea/structure/loosentree.hpp
+        include/fea/structure/loosentree.inl)
 
-    add_library(${project_name}-structure ${SHARED_OR_STATIC} ${structure_header_files} ${structure_source_files})
+    add_library(${project_name}-structure ${SHARED_OR_STATIC}
+        ${structure_source_files}
+        ${structure_header_files})
 endif()
 
 if(BUILD_ENTITY)
@@ -180,9 +199,11 @@ if(BUILD_ENTITY)
         src/entity/entityfactory.cpp
         src/entity/filenotfoundexception.cpp
         src/entity/entitystorage.cpp
-        src/entity/entitymanager.cpp)
+        src/entity/entitymanager.cpp
+        src/entity/basictypeadder.cpp
+        src/entity/glmtypeadder.cpp)
 
-    set(entity_header_files 
+    set(entity_header_files
         include/fea/entity/entity.hpp
         include/fea/entity/entity.inl
         include/fea/entity/entityfactory.hpp
@@ -193,18 +214,25 @@ if(BUILD_ENTITY)
         include/fea/entity/entitymanager.inl
         include/fea/entity/entitystorage.hpp
         include/fea/entity/entitystorage.inl
-        include/fea/entity/entitytemplate.hpp)
+        include/fea/entity/entitytemplate.hpp
+        include/fea/entity/basictypeadder.hpp
+        include/fea/entity/glmtypeadder.hpp)
 
-    set(entity_util_source_files
-        src/util/entity/basictypeadder.cpp
-        src/util/entity/glmtypeadder.cpp
-        src/util/entity/jsonentityloader.cpp)
-    set(entity_util_header_files
-        include/fea/util/entity/basictypeadder.hpp
-        include/fea/util/entity/glmtypeadder.hpp
-        include/fea/util/entity/jsonentityloader.hpp)
+    if(BUILD_JSON)
+        set(entity_json_source_files
+            src/entity/jsonentityloader.cpp)
 
-    add_library(${project_name}-entity ${SHARED_OR_STATIC} ${entity_header_files} ${entity_source_files} ${entity_util_source_files} ${entity_util_header_files})
+        set(entity_json_header_files
+            include/fea/entity/jsonentityloader.hpp)
+    endif()
+
+    add_library(${project_name}-entity ${SHARED_OR_STATIC}
+        ${entity_source_files}
+        ${entity_header_files}
+        ${entity_json_source_files}
+        ${entity_json_header_files})
+
+    target_link_libraries(${project_name}-entity ${JSONCPP_LIBRARIES})
 endif()
 
 if(BUILD_MESSAGING)
@@ -221,18 +249,34 @@ if(BUILD_MESSAGING)
         include/fea/messaging/message.hpp
         include/fea/messaging/message.inl
         include/fea/messaging/messagereceiver.hpp)
-    add_library(${project_name}-messaging ${SHARED_OR_STATIC} ${messaging_header_files} ${messaging_source_files})
+
+    add_library(${project_name}-messaging ${SHARED_OR_STATIC}
+        ${messaging_source_files}
+        ${messaging_header_files})
 endif()
 
 if(BUILD_RENDERING)
     set(BUILD_RENDERING_TEXT TRUE CACHE BOOL "Selects if text rendering should be built (requires freetype2)")
     ##Rendering module##
 
-    set(BUILT_TARGETS ${BUILT_TARGETS} ${project_name}-rendering)
+    find_package(GLM REQUIRED)
+    if(GLM_FOUND)
+        include_directories(${WINFIX} ${GLM_INCLUDE_DIRS})
+    endif()
 
     if(NOT EMSCRIPTEN)
-        set(FEA_GL_SOURCE src/rendering/gl_core_3_2.c)
+        find_package(OpenGL REQUIRED)
+        if(OPENGL_FOUND)
+            include_directories(${OPENGL_INCLUDE_DIRS})
+        endif(OPENGL_FOUND)
     endif()
+
+    if(BUILD_RENDERING_TEXT)
+        FIND_PACKAGE( Freetype REQUIRED )
+        include_directories(${FREETYPE_INCLUDE_DIRS})
+    endif(BUILD_RENDERING_TEXT)
+
+    set(BUILT_TARGETS ${BUILT_TARGETS} ${project_name}-rendering)
 
     set(rendering_source_files 
         src/rendering/animatedquad.cpp
@@ -241,7 +285,6 @@ if(BUILD_RENDERING)
         src/rendering/color.cpp
         src/rendering/defaultshader.cpp
         src/rendering/drawable2d.cpp
-        ${FEA_GL_SOURCE}
         src/rendering/projection.cpp
         src/rendering/quad.cpp
         src/rendering/renderer2d.cpp
@@ -281,52 +324,45 @@ if(BUILD_RENDERING)
         include/fea/rendering/vertexattribute.hpp
         include/fea/rendering/viewport.hpp)
 
+    if(NOT EMSCRIPTEN)
+        set(rendering_gl_core_source_files
+            src/rendering/gl_core_3_2.c)
+    endif()
+
     if(BUILD_RENDERING_TEXT)
-        set(freetype-gl_source_files 
+        set(freetype_gl_source_files 
             src/freetype-gl/platform.c
             src/freetype-gl/texture-atlas.c
             src/freetype-gl/texture-font.c
             src/freetype-gl/vector.c)
 
-        set(rendering_source_files ${rendering_source_files}
-            src/rendering/textsurface.cpp
-            src/rendering/font.cpp)
-
-        set(rendering_header_files ${rendering_header_files}
-            include/fea/rendering/textsurface.hpp
-            include/fea/rendering/font.hpp
-            include/fea/rendering/font.inl)
-
-        set(freetype-gl_header_files 
+        set(freetype_gl_header_files 
             include/fea/freetype-gl/platform.h
             include/fea/freetype-gl/texture-atlas.h
             include/fea/freetype-gl/texture-font.h
             include/fea/freetype-gl/vec234.h
             include/fea/freetype-gl/vector.h)
+
+        set(rendering_text_source_files
+            src/rendering/textsurface.cpp
+            src/rendering/font.cpp)
+
+        set(rendering_text_header_files
+            include/fea/rendering/textsurface.hpp
+            include/fea/rendering/font.hpp
+            include/fea/rendering/font.inl)
     endif(BUILD_RENDERING_TEXT)
 
+    add_library(${project_name}-rendering ${SHARED_OR_STATIC}
+        ${rendering_source_files}
+        ${rendering_header_files}
+        ${rendering_gl_core_source_files}
+        ${freetype_gl_source_files}
+        ${freetype_gl_header_files}
+        ${rendering_text_source_files}
+        ${rendering_text_header_files})
 
-    find_package(GLM REQUIRED)
-    if(GLM_FOUND)
-        include_directories(${WINFIX} ${GLM_INCLUDE_DIRS})
-    endif()
-
-    if(NOT EMSCRIPTEN)
-        find_package(OpenGL REQUIRED)
-        if(OPENGL_FOUND)
-            include_directories(${OPENGL_INCLUDE_DIRS})
-        endif(OPENGL_FOUND)
-    endif()
-
-    add_library(${project_name}-rendering ${SHARED_OR_STATIC} ${rendering_source_files} ${rendering_header_files} ${freetype-gl_source_files} ${freetype-gl_header_files})
-
-    if(BUILD_RENDERING_TEXT)
-        FIND_PACKAGE( Freetype REQUIRED )
-        include_directories(${FREETYPE_INCLUDE_DIRS})
-    endif(BUILD_RENDERING_TEXT)
-
-    target_link_libraries(${project_name}-rendering ${FREETYPE_LIBRARY} ${OPENGL_LIBRARIES})
-
+    target_link_libraries(${project_name}-rendering ${OPENGL_LIBRARIES} ${FREETYPE_LIBRARY})
 endif()
 
 if(BUILD_UI)
@@ -361,19 +397,27 @@ if(BUILD_UI)
         include/fea/ui/keyboard.hpp
         include/fea/ui/mouse.hpp)
 
-    set(ui_util_header_files 
-        include/fea/util/ui/jsonactioniohandler.hpp
-        include/fea/util/ui/jsonactioniohandler.inl)
+    if(BUILD_JSON)
+        set(ui_json_header_files 
+            include/fea/ui/jsonactioniohandler.hpp
+            include/fea/ui/jsonactioniohandler.inl)
+    endif()
     
-	add_library(${project_name}-ui ${SHARED_OR_STATIC} ${ui_header_files} ${ui_source_files} ${ui_util_source_files} ${ui_util_header_files})
+    add_library(${project_name}-ui ${SHARED_OR_STATIC}
+        ${ui_header_files}
+        ${ui_source_files}
+        ${ui_json_header_files})
+
+    target_link_libraries(${project_name}-ui ${JSONCPP_LIBRARIES})
 
     if(${BUILD_SFMLBACKENDS})
-        set(BUILT_TARGETS ${BUILT_TARGETS} ${project_name}-sfml)
-
         find_package(SFML 2.0 COMPONENTS system window REQUIRED)
         if(SFML_FOUND)
             include_directories(${SFML_INCLUDE_DIR})
         endif(SFML_FOUND)
+
+        set(BUILT_TARGETS ${BUILT_TARGETS} ${project_name}-sfml)
+
         set(ui_sfml_backend_source_files 
             src/ui/sfmlwindowbackend.cpp
             #src/ui/contextsettings.cpp
@@ -383,7 +427,10 @@ if(BUILD_UI)
             include/fea/ui/sfmlwindowbackend.hpp
             include/fea/ui/sfmlinputbackend.hpp)
 
-        add_library(${project_name}-sfml ${SHARED_OR_STATIC} ${ui_sfml_backend_source_files} ${ui_sfml_backend_header_files})
+        add_library(${project_name}-sfml ${SHARED_OR_STATIC}
+            ${ui_sfml_backend_source_files}
+            ${ui_sfml_backend_header_files})
+
         target_link_libraries(${project_name}-sfml ${SFML_LIBRARIES} ${project_name}-ui)
     endif()
 
@@ -406,20 +453,24 @@ if(BUILD_UI)
         include/fea/ui/sdlwindowbackend.hpp
         include/fea/ui/sdlinputbackend.hpp)
 
-        add_library(${project_name}-sdl ${SHARED_OR_STATIC} ${ui_sdl_backend_source_files} ${ui_sdl_backend_header_files})
+        add_library(${project_name}-sdl ${SHARED_OR_STATIC}
+            ${ui_sdl_backend_source_files}
+            ${ui_sdl_backend_header_files})
+
         target_link_libraries(${project_name}-sdl ${SDL_LIBRARY} ${project_name}-ui)
     endif()
 
-	if(${BUILD_SDL2BACKENDS})
+    if(${BUILD_SDL2BACKENDS})
+        find_package(SDL2 REQUIRED)
+        if(SDL2_FOUND)
+            include_directories(${SDL2_INCLUDE_DIR})
+        elseif(SDK_PATH)
+            link_directories(${SDK_PATH}/SDL-2.0/lib)
+            include_directories(${SDK_PATH}/SDL-2.0/include)
+        endif(SDL2_FOUND)
+
         set(BUILT_TARGETS ${BUILT_TARGETS} ${project_name}-sdl2)
 
-		find_package(SDL2)
-		if(SDL2_FOUND)
-			include_directories(${SDL2_INCLUDE_DIR})
-		elseif(SDK_PATH)
-			link_directories(${SDK_PATH}/SDL-2.0/lib)
-			include_directories(${SDK_PATH}/SDL-2.0/include)
-		endif(SDL2_FOUND)
         set(ui_sdl2_backend_source_files
             src/ui/sdl2windowbackend.cpp
             #src/ui/contextsettings.cpp
@@ -430,9 +481,8 @@ if(BUILD_UI)
             include/fea/ui/sdl2inputbackend.hpp)
     
         add_library(${project_name}-sdl2 ${SHARED_OR_STATIC} ${ui_sdl2_backend_source_files} ${ui_sdl2_backend_header_files})
-		target_link_libraries(${project_name}-sdl2 ${SDL2_LIBRARY} ${project_name}-ui)
-	endif()
-
+        target_link_libraries(${project_name}-sdl2 ${SDL2_LIBRARY} ${project_name}-ui)
+    endif()
 endif()
 
 install(

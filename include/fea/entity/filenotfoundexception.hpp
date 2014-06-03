@@ -4,15 +4,12 @@
 
 namespace fea
 {
-    namespace util
+    class FEA_API FileNotFoundException: public std::runtime_error
     {
-        class FEA_API FileNotFoundException: public std::runtime_error
-        {
-            public:
-                FileNotFoundException();
-                FileNotFoundException(const std::string& message);
-        };
-    }
+        public:
+            FileNotFoundException();
+            FileNotFoundException(const std::string& message);
+    };
     /** @addtogroup EntitySystem
      *@{
      *  @class FileNotFoundException
