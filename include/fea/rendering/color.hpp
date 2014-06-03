@@ -25,25 +25,25 @@ namespace fea
             bool operator==(const Color& other) const;
             bool operator!=(const Color& other) const;
 
-            float r() const;
-            float g() const;
-            float b() const;
-            float a() const;
+            uint8_t r() const;
+            uint8_t g() const;
+            uint8_t b() const;
+            uint8_t a() const;
 
-            uint8_t rAsByte() const;
-            uint8_t gAsByte() const;
-            uint8_t bAsByte() const;
-            uint8_t aAsByte() const;
+            float rAsFloat() const;
+            float gAsFloat() const;
+            float bAsFloat() const;
+            float aAsFloat() const;
 
-            void setR(float red);
-            void setG(float green);
-            void setB(float blue);
-            void setA(float alpha);
+            void setR(int32_t red);
+            void setG(int32_t green);
+            void setB(int32_t blue);
+            void setA(int32_t alpha);
 
-            void setRAsByte(int32_t red);
-            void setGAsByte(int32_t green);
-            void setBAsByte(int32_t blue);
-            void setAAsByte(int32_t alpha);
+            void setRAsFloat(float red);
+            void setGAsFloat(float green);
+            void setBAsFloat(float blue);
+            void setAAsFloat(float alpha);
 
             static const Color Black;
             static const Color Gray;
@@ -63,10 +63,10 @@ namespace fea
             static const Color Purple;
 
         private:
-            float mRed;
-            float mGreen;
-            float mBlue;
-            float mAlpha;
+            uint8_t mRed;
+            uint8_t mGreen;
+            uint8_t mBlue;
+            uint8_t mAlpha;
     };
     /** @addtogroup Render2D
      *@{
@@ -173,69 +173,69 @@ namespace fea
      *  @param other The color instance to compare to.
      *  @return True if the instances differ in the color channel values.
      ***
-     *  @fn float Color::r() const
-     *  @brief Get the value of the red channel.
-     *  @return The value of the red channel from 0.0f to 1.0f.
-     ***
-     *  @fn float Color::g() const
-     *  @brief Get the value of the green channel.
-     *  @return The value of the green channel from 0.0f to 1.0f.
-     ***
-     *  @fn float Color::b() const
-     *  @brief Get the value of the blue channel.
-     *  @return The value of the blue channel from 0.0f to 1.0f.
-     ***
-     *  @fn float Color::a() const
-     *  @brief Get the value of the alpha channel.
-     *  @return The value of the alpha channel from 0.0f to 1.0f.
-     ***
-     *  @fn uint8_t Color::rAsByte() const
+     *  @fn uint8_t Color::r() const
      *  @brief Get the value of the red channel.
      *  @return The value of the red channel from 0 to 255.
      ***
-     *  @fn uint8_t Color::gAsByte() const
+     *  @fn uint8_t Color::g() const
      *  @brief Get the value of the green channel.
      *  @return The value of the green channel from 0 to 255.
      ***
-     *  @fn uint8_t Color::bAsByte() const
+     *  @fn uint8_t Color::b() const
      *  @brief Get the value of the blue channel.
      *  @return The value of the blue channel from 0 to 255.
      ***
-     *  @fn uint8_t Color::aAsByte() const
+     *  @fn uint8_t Color::a() const
      *  @brief Get the value of the alpha channel.
      *  @return The value of the alpha channel from 0 to 255.
      ***
-     *  @fn void Color::setR(float red)
-     *  @brief Set the value of the color's red channel. Values higher than 1.0f will be capped.
-     *  @param red The value of the red channel to set from 0.0f to 1.0f.
+     *  @fn float Color::rAsFloat() const
+     *  @brief Get the value of the red channel.
+     *  @return The value of the red channel from 0.0f to 1.0f.
      ***
-     *  @fn void Color::setG(float green)
-     *  @brief Set the value of the color's green channel. Values higher than 1.0f will be capped.
-     *  @param green The value of the green channel to set from 0.0f to 1.0f.
+     *  @fn float Color::gAsFloat() const
+     *  @brief Get the value of the green channel.
+     *  @return The value of the green channel from 0.0f to 1.0f.
      ***
-     *  @fn void Color::setB(float blue)
-     *  @brief Set the value of the color's blue channel. Values higher than 1.0f will be capped.
-     *  @param blue The value of the blue channel to set from 0.0f to 1.0f.
+     *  @fn float Color::bAsFloat() const
+     *  @brief Get the value of the blue channel.
+     *  @return The value of the blue channel from 0.0f to 1.0f.
      ***
-     *  @fn void Color::setA(float alpha)
-     *  @brief Set the value of the color's alpha channel. Values higher than 1.0f will be capped.
-     *  @param alpha The value of the alpha channel to set from 0.0f to 1.0f.
+     *  @fn float Color::aAsFloat() const
+     *  @brief Get the value of the alpha channel.
+     *  @return The value of the alpha channel from 0.0f to 1.0f.
      ***
-     *  @fn void Color::setRAsByte(int32_t red)
+     *  @fn void Color::setR(int32_t red)
      *  @brief Set the value of the color's red channel. Values higher than 255 will be capped.
      *  @param red The value of the red channel to set from 0 to 255.
      ***
-     *  @fn void Color::setGAsByte(int32_t green)
+     *  @fn void Color::setG(int32_t green)
      *  @brief Set the value of the color's green channel. Values higher than 255 will be capped.
      *  @param green The value of the green channel to set from 0 to 255.
      ***
-     *  @fn void Color::setBAsByte(int32_t blue)
+     *  @fn void Color::setB(int32_t blue)
      *  @brief Set the value of the color's blue channel. Values higher than 255 will be capped.
      *  @param blue The value of the blue channel to set from 0 to 255.
      ***
-     *  @fn void Color::setAAsByte(int32_t alpha)
+     *  @fn void Color::setA(int32_t alpha)
      *  @brief Set the value of the color's alpha channel. Values higher than 255 will be capped.
      *  @param alpha The value of the alpha channel to set from 0 to 255.
+     ***
+     *  @fn void Color::setRAsFloat(float red)
+     *  @brief Set the value of the color's red channel. Values higher than 1.0f will be capped.
+     *  @param red The value of the red channel to set from 0.0f to 1.0f.
+     ***
+     *  @fn void Color::setGAsFloat(float green)
+     *  @brief Set the value of the color's green channel. Values higher than 1.0f will be capped.
+     *  @param green The value of the green channel to set from 0.0f to 1.0f.
+     ***
+     *  @fn void Color::setBAsFloat(float blue)
+     *  @brief Set the value of the color's blue channel. Values higher than 1.0f will be capped.
+     *  @param blue The value of the blue channel to set from 0.0f to 1.0f.
+     ***
+     *  @fn void Color::setAAsFloat(float alpha)
+     *  @brief Set the value of the color's alpha channel. Values higher than 1.0f will be capped.
+     *  @param alpha The value of the alpha channel to set from 0.0f to 1.0f.
      ***
      *  @var const Color::Black
      *  @brief Black predefined color.

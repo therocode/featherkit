@@ -313,12 +313,12 @@ namespace fea
                     s0, t0,
                     s1, t1,
                     s1, t0});
-            colorsToAdd.insert(colorsToAdd.end(), {mColor.r(), mColor.g(), mColor.b(), 1.0f,
-                                mColor.r(), mColor.g(), mColor.b(), 1.0f,
-                                mColor.r(), mColor.g(), mColor.b(), 1.0f,
-                                mColor.r(), mColor.g(), mColor.b(), 1.0f,
-                                mColor.r(), mColor.g(), mColor.b(), 1.0f,
-                                mColor.r(), mColor.g(), mColor.b(), 1.0f});
+            colorsToAdd.insert(colorsToAdd.end(), {mColor.rAsFloat(), mColor.gAsFloat(), mColor.bAsFloat(), 1.0f,
+                                mColor.rAsFloat(), mColor.gAsFloat(), mColor.bAsFloat(), 1.0f,
+                                mColor.rAsFloat(), mColor.gAsFloat(), mColor.bAsFloat(), 1.0f,
+                                mColor.rAsFloat(), mColor.gAsFloat(), mColor.bAsFloat(), 1.0f,
+                                mColor.rAsFloat(), mColor.gAsFloat(), mColor.bAsFloat(), 1.0f,
+                                mColor.rAsFloat(), mColor.gAsFloat(), mColor.bAsFloat(), 1.0f});
             penTempPosition.x += glyph->advance_x * mScale;
         }
 
