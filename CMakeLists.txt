@@ -66,8 +66,6 @@ if(BUILD_JSON)
     if(JSONCPP_FOUND)
         include_directories(${JSONCPP_INCLUDE_DIRS})
         add_definitions(-DUSE_JSONCPP)
-        # for having <json/json.h> instead of <jsoncpp/json/json.h>
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -I${JSONCPP_INCLUDE_DIRS}/jsoncpp")
     endif()
 endif()
 
