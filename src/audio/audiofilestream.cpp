@@ -1,5 +1,4 @@
 #include <fea/audio/audiofilestream.hpp>
-#include <iostream>
 
 namespace fea
 {

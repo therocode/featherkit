@@ -1,6 +1,5 @@
 #include <fea/ui/inputbackend.hpp>
 #include <fea/ui/inputhandler.hpp>
-#include <iostream>
 
 namespace fea
 {

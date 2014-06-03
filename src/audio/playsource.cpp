@@ -1,6 +1,5 @@
 #include <fea/audio/playsource.hpp>
 #include <utility>
-#include <iostream>
 
 namespace fea
 {

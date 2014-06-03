@@ -1,5 +1,4 @@
 #include <fea/rendering/tilechunk.hpp>
-#include <iostream>
 
 namespace fea
 {
