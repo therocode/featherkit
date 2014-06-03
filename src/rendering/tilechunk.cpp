@@ -199,12 +199,12 @@ namespace fea
         {
             size_t colorIndex = tileIterator->second.first * 24;
 
-            mVertexColors[colorIndex] = color.r(); mVertexColors[colorIndex + 1] = color.g(); mVertexColors[colorIndex + 2] = color.b(); mVertexColors[colorIndex + 3] = color.a();
-            mVertexColors[colorIndex + 4] = color.r(); mVertexColors[colorIndex + 5] = color.g(); mVertexColors[colorIndex + 6] = color.b(); mVertexColors[colorIndex + 7] = color.a();
-            mVertexColors[colorIndex + 8] = color.r(); mVertexColors[colorIndex + 9] = color.g(); mVertexColors[colorIndex + 10] = color.b(); mVertexColors[colorIndex + 11] = color.a();
-            mVertexColors[colorIndex + 12] = color.r(); mVertexColors[colorIndex + 13] = color.g(); mVertexColors[colorIndex + 14] = color.b(); mVertexColors[colorIndex + 15] = color.a();
-            mVertexColors[colorIndex + 16] = color.r(); mVertexColors[colorIndex + 17] = color.g(); mVertexColors[colorIndex + 18] = color.b(); mVertexColors[colorIndex + 19] = color.a();
-            mVertexColors[colorIndex + 20] = color.r(); mVertexColors[colorIndex + 21] = color.g(); mVertexColors[colorIndex + 22] = color.b(); mVertexColors[colorIndex + 23] = color.a();
+            mVertexColors[colorIndex] = color.rAsFloat(); mVertexColors[colorIndex + 1] = color.gAsFloat(); mVertexColors[colorIndex + 2] = color.bAsFloat(); mVertexColors[colorIndex + 3] = color.aAsFloat();
+            mVertexColors[colorIndex + 4] = color.rAsFloat(); mVertexColors[colorIndex + 5] = color.gAsFloat(); mVertexColors[colorIndex + 6] = color.bAsFloat(); mVertexColors[colorIndex + 7] = color.aAsFloat();
+            mVertexColors[colorIndex + 8] = color.rAsFloat(); mVertexColors[colorIndex + 9] = color.gAsFloat(); mVertexColors[colorIndex + 10] = color.bAsFloat(); mVertexColors[colorIndex + 11] = color.aAsFloat();
+            mVertexColors[colorIndex + 12] = color.rAsFloat(); mVertexColors[colorIndex + 13] = color.gAsFloat(); mVertexColors[colorIndex + 14] = color.bAsFloat(); mVertexColors[colorIndex + 15] = color.aAsFloat();
+            mVertexColors[colorIndex + 16] = color.rAsFloat(); mVertexColors[colorIndex + 17] = color.gAsFloat(); mVertexColors[colorIndex + 18] = color.bAsFloat(); mVertexColors[colorIndex + 19] = color.aAsFloat();
+            mVertexColors[colorIndex + 20] = color.rAsFloat(); mVertexColors[colorIndex + 21] = color.gAsFloat(); mVertexColors[colorIndex + 22] = color.bAsFloat(); mVertexColors[colorIndex + 23] = color.aAsFloat();
         }
     }
     

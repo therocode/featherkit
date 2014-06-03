@@ -95,15 +95,15 @@ namespace fea
 
     float Drawable2D::getOpacity() const
     {
-        return mColor.a();
+        return mColor.aAsFloat();
     }
 
     std::vector<RenderEntity> Drawable2D::getRenderInfo() const
     {
         RenderEntity temp;
 
-        glm::vec3 colorInfo = glm::vec3(mColor.r(), mColor.g(), mColor.b());
-        float opacity = mColor.a();
+        glm::vec3 colorInfo = glm::vec3(mColor.rAsFloat(), mColor.gAsFloat(), mColor.bAsFloat());
+        float opacity = mColor.aAsFloat();
 
         temp.mDrawMode = mDrawMode;
         temp.mElementAmount = mVertices.size() / 2;
