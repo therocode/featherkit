@@ -1,6 +1,7 @@
 #include <fea/entity/jsonentityloader.hpp>
 #include <fstream>
 #include <json/reader.h>
+#include <json/value.h>
 
 namespace fea
 {

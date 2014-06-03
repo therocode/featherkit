@@ -4,7 +4,11 @@
 #include <string>
 #include <fea/entity/filenotfoundexception.hpp>
 #include <fea/entity/entityfactory.hpp>
-#include <json/value.h>
+
+namespace Json
+{
+    class Value;
+}
 
 namespace fea
 {
@@ -41,28 +45,34 @@ namespace fea
      *  @code
      *  {   
      *      "entities":[
-     *      {"physics_entity":{
+     *      {
+     *          "name" : "physics_entity",
+     *
      *          "attributes":
      *          {
      *              "position":"0.0f,0.0f", "velocity":"0.0f,0.0f", "acceleration":"0.0f,0.0f"
      *          }
-     *      }},
-     *      {"enemy":{
-     *          "inherits" : ["physics_entity"]
-     *          ,
+     *      },
+     *      {
+     *          "name" : "enemy",
+     *
+     *          "inherits" : ["physics_entity"],
+     *           
      *          "attributes":
      *          {
      *              "health":""
      *          }
-     *      }},
-     *      {"player":{
-     *          "inherits" : ["physics_entity"]
-     *          ,
+     *      },
+     *      {
+     *          "name" : "player",
+     *
+     *          "inherits" : ["physics_entity"],
+     *           
      *          "attributes":
      *          {
      *              "health":"100", "jump_strength":"1.0f", "position":"50.0f, 60.0f"
      *          }
-     *      }}]
+     *      }]
      *  }
      *  @endcode
      *  The file is divided into entity template definitions. The three entities defined in this files are "physics_entity", "enemy" and "player". Every entity template internally defines a sequence of attributes that they should have and/or which other entity templates they inherit. The attributes might come with default values. For instance, the first attribute of the entity template "player" is "health" with a default value of "100".
