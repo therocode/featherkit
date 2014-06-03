@@ -11,100 +11,60 @@ void JsonActionIOHandler<Action>::loadBindingsFile(const std::string& path, std:
 
     Json::Value root;
     Json::Reader reader;
+
     reader.parse(file, root, false);
+    file.close();
 
-	Json::Value primaryArray = root["primary"];
-    if(primaryArray.isArray())
+    std::string names[2] {"primary", "secondary"};
+
+    for(int i = 0; i < 2; i++)
     {
-        for(const Json::Value& binding : primaryArray)
+        const Json::Value& array = root[names[i]];
+        if(array.isArray())
         {
-            std::string type = binding["type"].asString();
+            for(const Json::Value& binding : array)
+            {
+                std::string type = binding["type"].asString();
 
-            ActionTrigger tempTrigger;
-            Action tempAction = stringToAction(binding["action"].asString());
+                ActionTrigger tempTrigger;
+                Action tempAction = stringToAction(binding["action"].asString());
 
-			// TODO: std::stoi(Json::Value.asString()) needed?
-            if(type == "keypress")
-            {
-                tempTrigger.type = ActionTrigger::KEYPRESS;
-                tempTrigger.keyCode = (Keyboard::Code) std::stoi(binding["key"].asString());
-            }
-            else if(type == "keyrelease")
-            {
-                tempTrigger.type = ActionTrigger::KEYRELEASE;
-                tempTrigger.keyCode = (Keyboard::Code) std::stoi(binding["key"].asString());
-            }
-            else if(type == "mousepress")
-            {
-                tempTrigger.type = ActionTrigger::MOUSEPRESS;
-                tempTrigger.mouseButton = (Mouse::Button) std::stoi(binding["mousebutton"].asString());
-            }
-            else if(type == "mouserelease")
-            {
-                tempTrigger.type = ActionTrigger::MOUSERELEASE;
-                tempTrigger.mouseButton = (Mouse::Button) std::stoi(binding["mousebutton"].asString());
-            }
-            else if(type == "gamepadpress")
-            {
-                tempTrigger.type = ActionTrigger::GAMEPADPRESS;
-                tempTrigger.gamepadButton = (uint32_t) std::stoi(binding["gamepadbutton"].asString());
-                tempTrigger.gamepadId = (uint32_t) std::stoi(binding["gamepadid"].asString());
-            }
-            else if(type == "gamepadrelease")
-            {
-                tempTrigger.type = ActionTrigger::GAMEPADRELEASE;
-                tempTrigger.gamepadButton = (uint32_t) std::stoi(binding["gamepadbutton"].asString());
-                tempTrigger.gamepadId = (uint32_t) std::stoi(binding["gamepadid"].asString());
-            }
+                // TODO: std::stoi(Json::Value.asString()) needed?
+                if(type == "keypress")
+                {
+                    tempTrigger.type = ActionTrigger::KEYPRESS;
+                    tempTrigger.keyCode = (Keyboard::Code) std::stoi(binding["key"].asString());
+                }
+                else if(type == "keyrelease")
+                {
+                    tempTrigger.type = ActionTrigger::KEYRELEASE;
+                    tempTrigger.keyCode = (Keyboard::Code) std::stoi(binding["key"].asString());
+                }
+                else if(type == "mousepress")
+                {
+                    tempTrigger.type = ActionTrigger::MOUSEPRESS;
+                    tempTrigger.mouseButton = (Mouse::Button) std::stoi(binding["mousebutton"].asString());
+                }
+                else if(type == "mouserelease")
+                {
+                    tempTrigger.type = ActionTrigger::MOUSERELEASE;
+                    tempTrigger.mouseButton = (Mouse::Button) std::stoi(binding["mousebutton"].asString());
+                }
+                else if(type == "gamepadpress")
+                {
+                    tempTrigger.type = ActionTrigger::GAMEPADPRESS;
+                    tempTrigger.gamepadButton = (uint32_t) std::stoi(binding["gamepadbutton"].asString());
+                    tempTrigger.gamepadId = (uint32_t) std::stoi(binding["gamepadid"].asString());
+                }
+                else if(type == "gamepadrelease")
+                {
+                    tempTrigger.type = ActionTrigger::GAMEPADRELEASE;
+                    tempTrigger.gamepadButton = (uint32_t) std::stoi(binding["gamepadbutton"].asString());
+                    tempTrigger.gamepadId = (uint32_t) std::stoi(binding["gamepadid"].asString());
+                }
 
-            mPrimaryBindings.emplace(tempTrigger, tempAction);
-        }
-    }
-
-	Json::Value secondaryArray = root["secondary"];
-    if(secondaryArray.isArray())
-    {
-        for(Json::Value binding : secondaryArray)
-        {
-            std::string type = binding["type"].asString();
-
-            ActionTrigger tempTrigger;
-            Action tempAction = stringToAction(binding["action"].asString());
-
-            if(type == "keypress")
-            {
-                tempTrigger.type = ActionTrigger::KEYPRESS;
-                tempTrigger.keyCode = (Keyboard::Code) std::stoi(binding["key"].asString());
+                mPrimaryBindings.emplace(tempTrigger, tempAction);
             }
-            else if(type == "keyrelease")
-            {
-                tempTrigger.type = ActionTrigger::KEYRELEASE;
-                tempTrigger.keyCode = (Keyboard::Code) std::stoi(binding["key"].asString());
-            }
-            else if(type == "mousepress")
-            {
-                tempTrigger.type = ActionTrigger::MOUSEPRESS;
-                tempTrigger.mouseButton = (Mouse::Button) std::stoi(binding["mousebutton"].asString());
-            }
-            else if(type == "mouserelease")
-            {
-                tempTrigger.type = ActionTrigger::MOUSERELEASE;
-                tempTrigger.mouseButton = (Mouse::Button) std::stoi(binding["mousebutton"].asString());
-            }
-            else if(type == "gamepadpress")
-            {
-                tempTrigger.type = ActionTrigger::GAMEPADPRESS;
-                tempTrigger.gamepadButton = (uint32_t) std::stoi(binding["gamepadbutton"].asString());
-                tempTrigger.gamepadId = (uint32_t) std::stoi(binding["gamepadid"].asString());
-            }
-            else if(type == "gamepadrelease")
-            {
-                tempTrigger.type = ActionTrigger::GAMEPADRELEASE;
-                tempTrigger.gamepadButton = (uint32_t) std::stoi(binding["gamepadbutton"].asString());
-                tempTrigger.gamepadId = (uint32_t) std::stoi(binding["gamepadid"].asString());
-            }
-
-            mSecondaryBindings.emplace(tempTrigger, tempAction);
         }
     }
 }
@@ -123,105 +83,63 @@ void JsonActionIOHandler<Action>::saveBindingsFile(const std::string& path, cons
     if(!file)
         throw fea::InputFileNotFoundException("Error! Action bindings file not found: " + path + '\n');
 
-	Json::Value root;
-    Json::Value primaryArray;
-    Json::Value secondaryArray;
-
-    for(auto binding : primaryActions)
+    Json::Value root;
+    
+    const std::map<ActionTrigger, Action>* actions[2] {&primaryActions, &secondaryActions};
+    Json::Value arrays[2];
+    std::string names[2] {"primary", "secondary"};
+    
+    for(int i = 0; i < 2; i++)
     {
-        Json::Value bindingEntry;
-
-        switch(binding.first.type)
+        for(auto binding : *actions[i])
         {
-            case ActionTrigger::KEYPRESS:
-                bindingEntry["type"] = "keypress";
-                bindingEntry["key"] = std::to_string(binding.first.keyCode);
-                break;
-            case ActionTrigger::KEYRELEASE:
-                bindingEntry["type"] = "keyrelease";
-                bindingEntry["key"] = std::to_string(binding.first.keyCode);
-                break;
-            case ActionTrigger::MOUSEPRESS:
-                bindingEntry["type"] = "mousepress";
-                bindingEntry["mousebutton"] = std::to_string(binding.first.mouseButton);
-                break;
-            case ActionTrigger::MOUSERELEASE:
-                bindingEntry["type"] = "mouserelease";
-                bindingEntry["mousebutton"] = std::to_string(binding.first.mouseButton);
-                break;
-            case ActionTrigger::GAMEPADPRESS:
-                bindingEntry["type"] = "gamepadpress";
-                bindingEntry["gamepadid"] = std::to_string(binding.first.gamepadId);
-                bindingEntry["gamepadbutton"] = std::to_string(binding.first.gamepadButton);
-                break;
-            case ActionTrigger::GAMEPADRELEASE:
-                bindingEntry["type"] = "gamepadrelease";
-                bindingEntry["gamepadid"] = std::to_string(binding.first.gamepadId);
-                bindingEntry["gamepadbutton"] = std::to_string(binding.first.gamepadButton);
-                break;
-            default:
-                break;
+            Json::Value bindingEntry;
+
+            switch(binding.first.type)
+            {
+                case ActionTrigger::KEYPRESS:
+                    bindingEntry["type"] = "keypress";
+                    bindingEntry["key"] = std::to_string(binding.first.keyCode);
+                    break;
+                case ActionTrigger::KEYRELEASE:
+                    bindingEntry["type"] = "keyrelease";
+                    bindingEntry["key"] = std::to_string(binding.first.keyCode);
+                    break;
+                case ActionTrigger::MOUSEPRESS:
+                    bindingEntry["type"] = "mousepress";
+                    bindingEntry["mousebutton"] = std::to_string(binding.first.mouseButton);
+                    break;
+                case ActionTrigger::MOUSERELEASE:
+                    bindingEntry["type"] = "mouserelease";
+                    bindingEntry["mousebutton"] = std::to_string(binding.first.mouseButton);
+                    break;
+                case ActionTrigger::GAMEPADPRESS:
+                    bindingEntry["type"] = "gamepadpress";
+                    bindingEntry["gamepadid"] = std::to_string(binding.first.gamepadId);
+                    bindingEntry["gamepadbutton"] = std::to_string(binding.first.gamepadButton);
+                    break;
+                case ActionTrigger::GAMEPADRELEASE:
+                    bindingEntry["type"] = "gamepadrelease";
+                    bindingEntry["gamepadid"] = std::to_string(binding.first.gamepadId);
+                    bindingEntry["gamepadbutton"] = std::to_string(binding.first.gamepadButton);
+                    break;
+                default:
+                    break;
+            }
+
+            std::stringstream ss;
+            ss << binding.second;
+
+            bindingEntry["action"] = ss.str();
+
+            arrays[i].append(bindingEntry);
         }
 
-        std::stringstream ss;
-        ss << binding.second;
-
-        bindingEntry["action"] = ss.str();
-
-        primaryArray.append(bindingEntry);
+        if(!actions[i]->empty())
+            root[names[i]] = arrays[i];
     }
 
-    if(!primaryActions.empty())
-        root["primary"] = primaryArray;
-
-    for(auto binding : secondaryActions)
-    {
-        Json::Value bindingEntry;
-
-        switch(binding.first.type)
-        {
-            case ActionTrigger::KEYPRESS:
-                bindingEntry["type"] = "keypress";
-                bindingEntry["key"] = std::to_string(binding.first.keyCode);
-                break;
-            case ActionTrigger::KEYRELEASE:
-                bindingEntry["type"] = "keyrelease";
-                bindingEntry["key"] = std::to_string(binding.first.keyCode);
-                break;
-            case ActionTrigger::MOUSEPRESS:
-                bindingEntry["type"] = "mousepress";
-                bindingEntry["mousebutton"] = std::to_string(binding.first.mouseButton);
-                break;
-            case ActionTrigger::MOUSERELEASE:
-                bindingEntry["type"] = "mouserelease";
-                bindingEntry["mousebutton"] = std::to_string(binding.first.mouseButton);
-                break;
-            case ActionTrigger::GAMEPADPRESS:
-                bindingEntry["type"] = "gamepadpress";
-                bindingEntry["gamepadid"] = std::to_string(binding.first.gamepadId);
-                bindingEntry["gamepadbutton"] = std::to_string(binding.first.gamepadButton);
-                break;
-            case ActionTrigger::GAMEPADRELEASE:
-                bindingEntry["type"] = "gamepadrelease";
-                bindingEntry["gamepadid"] = std::to_string(binding.first.gamepadId);
-                bindingEntry["gamepadbutton"] = std::to_string(binding.first.gamepadButton);
-                break;
-            default:
-                break;
-        }
-
-        std::stringstream ss;
-        ss << binding.second;
-
-        bindingEntry["action"] = ss.str();
-
-        secondaryArray.append(bindingEntry);
-    }
-
-    if(secondaryActions.size() > 0)
-        root["secondary"] = secondaryArray;
-
-	// TODO: use FastWriter or StyledWriter?
+    // TODO: use FastWriter or StyledWriter?
     Json::FastWriter writer;
     file << writer.write(root);
 

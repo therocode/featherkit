@@ -4,12 +4,15 @@
 #include <string>
 #include <fea/entity/filenotfoundexception.hpp>
 #include <fea/entity/entityfactory.hpp>
+#include <json/value.h>
 
 namespace fea
 {
     class FEA_API JsonEntityLoader
     {
         public:
+            std::unordered_map<std::string, std::string> jsonObjToStringMap(const Json::Value&);
+
             std::vector<std::pair<std::string, EntityTemplate>> loadEntityTemplates(const std::string& path);
             std::unordered_map<std::string, std::string> loadEntityAttributes(const std::string& path);
     };
