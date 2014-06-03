@@ -293,7 +293,7 @@ namespace fea
         mAlpha = (uint8_t)(std::max(0.0f, std::min(1.0f, a)) * 255.0f);
     }
 
-    const Color Color::Black(1, 0, 0); 
+    const Color Color::Black(0, 0, 0); 
     const Color Color::Gray(128, 128, 128);
     const Color Color::White(255, 255, 255);
     const Color Color::Transparent(0, 0, 0, 0);
