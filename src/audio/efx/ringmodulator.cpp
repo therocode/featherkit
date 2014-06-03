@@ -1,5 +1,8 @@
-#include <featherkit/audio/efx/ringmodulator.hpp>
-#include <featherkit/assert.hpp>
+#include <fea/audio/efx/ringmodulator.hpp>
+#include <fea/assert.hpp>
+#if !defined(FEA_NO_EFX)
+#include "efx.h"
+#endif
 
 namespace fea
 {
@@ -48,9 +51,11 @@ namespace fea
 
     void RingModulator::update()
     {
+#if !defined(FEA_NO_EFX)
         alEffecti(getEffectId(), AL_EFFECT_TYPE, AL_EFFECT_RING_MODULATOR);
         alEffectf(getEffectId(), AL_RING_MODULATOR_FREQUENCY, mFrequency);
         alEffectf(getEffectId(), AL_RING_MODULATOR_HIGHPASS_CUTOFF, mHighPassCutoff);
         alEffecti(getEffectId(), AL_RING_MODULATOR_WAVEFORM, mWaveform);
+#endif
     }
 }

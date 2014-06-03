@@ -1,14 +1,16 @@
-#include <featherkit/audio/effectslot.hpp>
-#define AL_ALEXT_PROTOTYPES
-#include <AL/efx.h>
+#include <fea/audio/effectslot.hpp>
+#include <fea/audio/openal.hpp>
 #include <utility>
+#if !defined(FEA_NO_EFX)
+#include "efx.h"
+#endif
 
 namespace fea
 {
     EffectSlot::EffectSlot() :
         mFilter(nullptr)
     {
-#if !defined(__EMSCRIPTEN__)
+#if !defined(FEA_NO_EFX)
         alGenAuxiliaryEffectSlots(1, &mSlotId);
 #endif
     }
@@ -28,7 +30,7 @@ namespace fea
 
     EffectSlot::~EffectSlot()
     {
-#if !defined(__EMSCRIPTEN__)
+#if !defined(FEA_NO_EFX)
         if(mSlotId != 0)
             alDeleteAuxiliaryEffectSlots(1, &mSlotId);
 #endif

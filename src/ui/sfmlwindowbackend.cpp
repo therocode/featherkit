@@ -1,4 +1,4 @@
-#include <featherkit/ui/sfmlwindowbackend.hpp>
+#include <fea/ui/sfmlwindowbackend.hpp>
 namespace fea
 {
     SFMLWindowBackend::SFMLWindowBackend(sf::Window& window) : mWindow(window)

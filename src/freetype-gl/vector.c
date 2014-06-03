@@ -34,7 +34,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include <featherkit/freetype-gl/vector.h>
+#include <fea/freetype-gl/vector.h>
 
 
 

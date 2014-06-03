@@ -1,5 +1,5 @@
-#include <featherkit/rendering/quad.hpp>
-#include <featherkit/assert.hpp>
+#include <fea/rendering/quad.hpp>
+#include <fea/assert.hpp>
 
 namespace fea
 {
@@ -31,12 +31,12 @@ namespace fea
                       texCoordsX[0], texCoordsY[1],
                       texCoordsX[1], texCoordsY[1]};
 
-        mVertexColors = {0.0f, 0.0f, 0.0f, 0.0f,
-                         0.0f, 0.0f, 0.0f, 0.0f,
-                         0.0f, 0.0f, 0.0f, 0.0f,
-                         0.0f, 0.0f, 0.0f, 0.0f,
-                         0.0f, 0.0f, 0.0f, 0.0f,
-                         0.0f, 0.0f, 0.0f, 0.0f};
+        mVertexColors = {1.0f, 1.0f, 1.0f, 1.0f,
+                         1.0f, 1.0f, 1.0f, 1.0f,
+                         1.0f, 1.0f, 1.0f, 1.0f,
+                         1.0f, 1.0f, 1.0f, 1.0f,
+                         1.0f, 1.0f, 1.0f, 1.0f,
+                         1.0f, 1.0f, 1.0f, 1.0f};
 
         mDrawMode = GL_TRIANGLES;
         mConstraints = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
@@ -109,16 +109,16 @@ namespace fea
                       texCoordsX[1], texCoordsY[1]};
     }
     
-    RenderInfo Quad::getRenderInfo() const
+    std::vector<RenderEntity> Quad::getRenderInfo() const
     {
-        RenderInfo temp = Drawable2D::getRenderInfo();
+        std::vector<RenderEntity> temp = Drawable2D::getRenderInfo();
 
         if(mTexture != nullptr)
         {
-            temp.mUniforms.push_back(Uniform("texture", TEXTURE, getTexture().getId()));
+            temp[0].mUniforms.push_back(Uniform("texture", TEXTURE, getTexture().getId()));
         }
 
-        temp.mUniforms.push_back(Uniform("constraints", VEC4, mConstraints));
+        temp[0].mUniforms.push_back(Uniform("constraints", VEC4, mConstraints));
         
         return temp;
     }

@@ -1,6 +1,6 @@
-#include <featherkit/rendering/font.hpp>
-#include <featherkit/rendering/textsurface.hpp>
-#include <featherkit/assert.hpp>
+#include <fea/rendering/font.hpp>
+#include <fea/rendering/textsurface.hpp>
+#include <fea/assert.hpp>
 #include <sstream>
 #include <sys/stat.h>
 

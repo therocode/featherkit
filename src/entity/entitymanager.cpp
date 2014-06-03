@@ -1,5 +1,5 @@
-#include <featherkit/entity/entitymanager.hpp>
-#include <featherkit/entity/entity.hpp>
+#include <fea/entity/entitymanager.hpp>
+#include <fea/entity/entity.hpp>
 #include <sstream>
 
 namespace fea

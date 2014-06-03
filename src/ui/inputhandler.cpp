@@ -1,6 +1,5 @@
-#include <featherkit/ui/inputbackend.hpp>
-#include <featherkit/ui/inputhandler.hpp>
-#include <iostream>
+#include <fea/ui/inputbackend.hpp>
+#include <fea/ui/inputhandler.hpp>
 
 namespace fea
 {
@@ -38,12 +37,12 @@ namespace fea
         return mInputBackend->isMouseButtonPressed(b);
     }
     
-    glm::ivec2 InputHandler::getMouseGlobalPosition() const
+    Vec2I InputHandler::getMouseGlobalPosition() const
     {
         return mInputBackend->getMouseGlobalPosition();
     }
 
-    glm::ivec2 InputHandler::getMouseWindowPosition() const
+    Vec2I InputHandler::getMouseWindowPosition() const
     {
         return mInputBackend->getMouseWindowPosition();
     }

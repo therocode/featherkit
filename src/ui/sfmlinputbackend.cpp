@@ -1,4 +1,4 @@
-#include <featherkit/ui/sfmlinputbackend.hpp>
+#include <fea/ui/sfmlinputbackend.hpp>
 
 namespace fea
 {
@@ -64,16 +64,16 @@ namespace fea
         return sf::Mouse::isButtonPressed((sf::Mouse::Button) b);
     }
 
-    glm::ivec2 SFMLInputBackend::getMouseGlobalPosition()
+    Vec2I SFMLInputBackend::getMouseGlobalPosition()
     {
         sf::Vector2i pos = sf::Mouse::getPosition();
-        return glm::ivec2(pos.x, pos.y);
+        return Vec2I{pos.x, pos.y};
     }
 
-    glm::ivec2 SFMLInputBackend::getMouseWindowPosition()
+    Vec2I SFMLInputBackend::getMouseWindowPosition()
     {
         sf::Vector2i pos = sf::Mouse::getPosition(mWindow);
-        return glm::ivec2(pos.x, pos.y);
+        return Vec2I{pos.x, pos.y};
     }
 
     void SFMLInputBackend::setMouseGlobalPosition(int32_t x, int32_t y)

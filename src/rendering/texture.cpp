@@ -1,7 +1,7 @@
-#include <featherkit/rendering/texture.hpp>
-#include <featherkit/assert.hpp>
+#include <fea/rendering/texture.hpp>
+#include <fea/assert.hpp>
 #include <utility>
-
+#include <string>
 
 namespace fea
 {
@@ -75,10 +75,10 @@ namespace fea
         {
             for(uint32_t y = 0; y < height; y++)
             {
-                pixels[(x + y * width) * 4 + 0] = color.rAsByte();
-                pixels[(x + y * width) * 4 + 1] = color.gAsByte();
-                pixels[(x + y * width) * 4 + 2] = color.bAsByte();
-                pixels[(x + y * width) * 4 + 3] = color.aAsByte();
+                pixels[(x + y * width) * 4 + 0] = color.r();
+                pixels[(x + y * width) * 4 + 1] = color.g();
+                pixels[(x + y * width) * 4 + 2] = color.b();
+                pixels[(x + y * width) * 4 + 3] = color.a();
             }
         }
         create(width, height, pixels.get(), smooth, interactive);
@@ -105,10 +105,10 @@ namespace fea
     {
         FEA_ASSERT(x >= 0 && y >= 0 && x < mWidth && y < mHeight, "Trying to set pixel outside of the bounds of the texture. Accessing at " + std::to_string(x) + " " + std::to_string(y) + " and texture dimensions are " + std::to_string(mWidth) + " " + std::to_string(mHeight));
         uint32_t pixelIndex = (x + y * mWidth) * 4;
-        pixelData[pixelIndex    ] = color.rAsByte();
-        pixelData[pixelIndex + 1] = color.gAsByte();
-        pixelData[pixelIndex + 2] = color.bAsByte();
-        pixelData[pixelIndex + 3] = color.aAsByte();
+        pixelData[pixelIndex    ] = color.r();
+        pixelData[pixelIndex + 1] = color.g();
+        pixelData[pixelIndex + 2] = color.b();
+        pixelData[pixelIndex + 3] = color.a();
     }
 
     Color Texture::getPixel(uint32_t x, uint32_t y) const
@@ -122,6 +122,11 @@ namespace fea
     }
 
     uint8_t* Texture::getPixelData()
+    {
+        return pixelData.get();
+    }
+
+    const uint8_t* Texture::getPixelData() const
     {
         return pixelData.get();
     }

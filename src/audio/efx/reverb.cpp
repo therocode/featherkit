@@ -1,5 +1,8 @@
-#include <featherkit/audio/efx/reverb.hpp>
-#include <featherkit/assert.hpp>
+#include <fea/audio/efx/reverb.hpp>
+#include <fea/assert.hpp>
+#if !defined(FEA_NO_EFX)
+#include "efx.h"
+#endif
 
 namespace fea
 {
@@ -178,6 +181,7 @@ namespace fea
 
     void Reverb::update()
     {
+#if !defined(FEA_NO_EFX)
         alEffecti(getEffectId(), AL_EFFECT_TYPE, AL_EFFECT_REVERB);
         alEffectf(getEffectId(), AL_REVERB_DENSITY, mDensity);
         alEffectf(getEffectId(), AL_REVERB_DIFFUSION, mDiffusion);
@@ -192,5 +196,6 @@ namespace fea
         alEffectf(getEffectId(), AL_REVERB_ROOM_ROLLOFF_FACTOR, mRoomRolloffFactor);
         alEffectf(getEffectId(), AL_REVERB_AIR_ABSORPTION_GAINHF, mAirAbsorptionGainHF);
         alEffecti(getEffectId(), AL_REVERB_DECAY_HFLIMIT, mDecayHFLimit ? AL_TRUE : AL_FALSE);
+#endif
     }
 }

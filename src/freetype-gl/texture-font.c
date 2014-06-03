@@ -42,8 +42,8 @@
 #include <assert.h>
 #include <math.h>
 #include <wchar.h>
-#include <featherkit/freetype-gl/platform.h>
-#include <featherkit/freetype-gl/texture-font.h>
+#include <fea/freetype-gl/platform.h>
+#include <fea/freetype-gl/texture-font.h>
 
 #undef __FTERRORS_H__
 #define FT_ERRORDEF( e, v, s )  { e, s },
@@ -257,6 +257,7 @@ texture_font_new( texture_atlas_t * atlas,
     self->ascender = 0;
     self->descender = 0;
     self->filename = strdup( filename );
+    //self->filename = filename;
     self->size = size;
     self->outline_type = 0;
     self->outline_thickness = 0.0;

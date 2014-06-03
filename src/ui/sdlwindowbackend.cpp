@@ -1,5 +1,7 @@
-#include <featherkit/ui/sdlwindowbackend.hpp>
+#include <fea/ui/sdlwindowbackend.hpp>
 #include <cstdlib>
+#define NO_SDL_GLEXT
+#include <SDL/SDL.h>
 
 namespace fea
 {
@@ -118,6 +120,5 @@ namespace fea
 
     SDLWindowBackend::~SDLWindowBackend()
     {
-        free(mWindow);
     }
 }

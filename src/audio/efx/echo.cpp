@@ -1,5 +1,8 @@
-#include <featherkit/audio/efx/echo.hpp>
-#include <featherkit/assert.hpp>
+#include <fea/audio/efx/echo.hpp>
+#include <fea/assert.hpp>
+#if !defined(FEA_NO_EFX)
+#include "efx.h"
+#endif
 
 namespace fea
 {
@@ -76,11 +79,13 @@ namespace fea
 
     void Echo::update()
     {
+#if !defined(FEA_NO_EFX)
         alEffecti(getEffectId(), AL_EFFECT_TYPE, AL_EFFECT_ECHO);
         alEffectf(getEffectId(), AL_ECHO_DELAY, mDelay);
         alEffectf(getEffectId(), AL_ECHO_LRDELAY, mLRDelay);
         alEffectf(getEffectId(), AL_ECHO_DAMPING, mDamping);
         alEffectf(getEffectId(), AL_ECHO_FEEDBACK, mFeedback);
         alEffectf(getEffectId(), AL_ECHO_SPREAD, mSpread);
+#endif
     }
 }

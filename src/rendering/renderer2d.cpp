@@ -1,9 +1,9 @@
 #include <glm/glm.hpp>
-#include <featherkit/rendering/renderer2d.hpp>
-#include <featherkit/rendering/drawable2d.hpp>
-#include <featherkit/rendering/projection.hpp>
-#include <featherkit/rendering/defaultshader.hpp>
-#include <featherkit/assert.hpp>
+#include <fea/rendering/renderer2d.hpp>
+#include <fea/rendering/drawable2d.hpp>
+#include <fea/rendering/projection.hpp>
+#include <fea/rendering/defaultshader.hpp>
+#include <fea/assert.hpp>
 #include <sstream>
 
 namespace fea
@@ -36,7 +36,7 @@ namespace fea
     {
         if(mClearColor != color)
         {
-            glClearColor(color.r(), color.g(), color.b(), 0.0f);
+            glClearColor(color.rAsFloat(), color.gAsFloat(), color.bAsFloat(), 0.0f);
             mClearColor = color;
         }
 
@@ -47,7 +47,7 @@ namespace fea
     {
         if(mClearColor != color)
         {
-            glClearColor(color.r(), color.g(), color.b(), 0.0f);
+            glClearColor(color.rAsFloat(), color.gAsFloat(), color.bAsFloat(), 0.0f);
             mClearColor = color;
         }
 
@@ -58,8 +58,10 @@ namespace fea
     
     void Renderer2D::queue(const Drawable2D& drawable)
     {
-        mRenderQueue.push_back(drawable.getRenderInfo());
-        mRenderQueue[mRenderQueue.size() - 1].mBlendMode = mCurrentBlendMode;
+        for(const auto& renderEntity : drawable.getRenderInfo())
+            mRenderQueue.push_back(renderEntity);
+
+        mRenderQueue.back().mBlendMode = mCurrentBlendMode;
     }
 
     void Renderer2D::render()
@@ -124,7 +126,7 @@ namespace fea
         glViewport(viewPos.x, viewPos.y, (GLsizei)viewSize.x, (GLsizei)viewSize.y);
 
         Projection proj;
-        mProjection = proj.createOrthoProjection(0.0f, viewSize.x, 0.0f, viewSize.y, 0.000000001f, 100.0f);
+        mProjection = proj.createOrthoProjection(0.0f, (GLfloat)viewSize.x, 0.0f, (GLfloat)viewSize.y, 0.000000001f, 100.0f);
     }
     
     Viewport& Renderer2D::getViewport()

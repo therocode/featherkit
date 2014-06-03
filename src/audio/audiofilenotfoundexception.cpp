@@ -1,4 +1,4 @@
-#include <featherkit/audio/audiofilenotfoundexception.hpp>
+#include <fea/audio/audiofilenotfoundexception.hpp>
 #include <string>
 
 namespace fea

@@ -36,8 +36,9 @@
 #include <string.h>
 #include <assert.h>
 #include <limits.h>
-#include <featherkit/rendering/opengl.hpp>
-#include <featherkit/freetype-gl/texture-atlas.h>
+#include <stdint.h>
+#include <fea/rendering/opengl.hpp>
+#include <fea/freetype-gl/texture-atlas.h>
 
 
 // ------------------------------------------------------ texture_atlas_new ---
@@ -219,7 +220,7 @@ texture_atlas_get_region( texture_atlas_t * self,
 		if( y >= 0 )
 		{
             node = (ivec3 *) vector_get( self->nodes, i );
-			if( ( (y + height) < best_height ) ||
+			if( ( (int)(y + height) < best_height ) ||
                 ( ((y + height) == best_height) && (node->z < best_width)) )
 			{
 				best_height = y + height;
@@ -338,8 +339,23 @@ texture_atlas_upload( texture_atlas_t * self )
     }
     else
     {
-        glTexImage2D( GL_TEXTURE_2D, 0, GL_ALPHA, self->width, self->height,
-                      0, GL_ALPHA, GL_UNSIGNED_BYTE, self->data );
+        uint8_t* pixels = malloc(self->width * self->height * 4);
+
+        size_t i;
+        for(i = 0; i < self->width * self->height; i++)
+        {
+            size_t index = i * 4;
+            pixels[index] = 255;//self->data[i];
+            pixels[index+1] = 255;//self->data[i];
+            pixels[index+2] = 255;//self->data[i];
+            pixels[index+3] = self->data[i];
+        }
+
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, self->width, self->height,
+                      0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+        //glTexImage2D( GL_TEXTURE_2D, 0, GL_ALPHA, self->width, self->height,
+        //              0, GL_ALPHA, GL_UNSIGNED_BYTE, self->data );
+        free(pixels);
     }
 }
 

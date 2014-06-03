@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stddef.h>
-#include <featherkit/rendering/gl_core_3_2.h>
+#include <fea/rendering/gl_core_3_2.h>
 	
 #if defined(__APPLE__)
 #include <mach-o/dyld.h>

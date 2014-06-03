@@ -1,7 +1,6 @@
-#include <featherkit/audio/oscillator.hpp>
+#include <fea/audio/oscillator.hpp>
 #include <limits>
 #include <cmath>
-#include <iostream>
 
 const double pi = 3.14159;
 

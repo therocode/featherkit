@@ -1,6 +1,9 @@
-#include <featherkit/audio/audioeffect.hpp>
-#include <featherkit/assert.hpp>
+#include <fea/audio/audioeffect.hpp>
+#include <fea/assert.hpp>
 #include <utility>
+#if !defined(FEA_NO_EFX)
+#include "efx.h"
+#endif
 
 namespace fea
 {
@@ -8,7 +11,9 @@ namespace fea
         mGain(1.0f),
         mAutoSend(true)
     {
+#if !defined(FEA_NO_EFX)
         alGenEffects(1, &mEffectId);
+#endif
     }
 
     AudioEffect::AudioEffect(AudioEffect&& other) : 
@@ -32,8 +37,10 @@ namespace fea
 
     AudioEffect::~AudioEffect()
     {
+#if !defined(FEA_NO_EFX)
         if(mEffectId != 0)
             alDeleteEffects(1, &mEffectId);
+#endif
     }
     
     ALuint AudioEffect::getEffectId() const

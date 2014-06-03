@@ -1,4 +1,4 @@
-#include <featherkit/ui/videomode.hpp>
+#include <fea/ui/videomode.hpp>
 
 namespace fea
 {

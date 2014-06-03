@@ -1,8 +1,11 @@
-#include <featherkit/audio/efx/presets.hpp>
-#include <AL/efx-presets.h>
+#include <fea/audio/efx/presets.hpp>
+#if !defined(FEA_NO_EFX)
+#include "efx-presets.h"
+#endif
 
 namespace fea
 {
+#if !defined(FEA_NO_EFX)
     static void loadFromEAXPreset(Reverb& reverb, EFXEAXREVERBPROPERTIES& properties)
     {
         reverb.setDensity(properties.flDensity);
@@ -19,9 +22,11 @@ namespace fea
         reverb.setAirAbsorptionGainHF(properties.flAirAbsorptionGainHF);
         reverb.setDecayHFLimit(properties.iDecayHFLimit == AL_TRUE ? true : false);
     }
+#endif
 
     static void loadReverbPreset(Reverb& reverb, ReverbPreset preset)
     {
+#if !defined(FEA_NO_EFX)
         switch(preset)
         {
             EFXEAXREVERBPROPERTIES properties;
@@ -478,5 +483,6 @@ namespace fea
                 loadFromEAXPreset(reverb, properties);
                 break;
         }
+#endif
     }
 }

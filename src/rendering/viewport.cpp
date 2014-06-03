@@ -1,5 +1,5 @@
-#include <featherkit/rendering/viewport.hpp>
-#include <featherkit/assert.hpp>
+#include <fea/rendering/viewport.hpp>
+#include <fea/assert.hpp>
 #include <string>
 
 namespace fea
@@ -36,12 +36,12 @@ namespace fea
     glm::vec2 Viewport::transformPoint(const glm::vec2 point) const
     {
         glm::vec2 halfViewSize = ((glm::vec2) mSize) * 0.5f;
-        return glm::inverse(mCamera.getRotationMatrix()) * (mCamera.getZoom() * (point - mCamera.getPosition())) + halfViewSize;
+        return mCamera.transformPoint(point) + halfViewSize;
     }
-    
+
     glm::vec2 Viewport::untransformPoint(const glm::vec2 point) const
     {
         glm::vec2 halfViewSize = ((glm::vec2) mSize) * 0.5f;
-        return (1.0f/mCamera.getZoom()) * (mCamera.getRotationMatrix() * (point - halfViewSize)) + mCamera.getPosition();
+        return mCamera.untransformPoint(point - halfViewSize);
     }
 }

@@ -1,4 +1,5 @@
-#include <featherkit/ui/sdlinputbackend.hpp>
+#include <fea/ui/sdlinputbackend.hpp>
+#include <SDL/SDL.h>
 
 namespace fea
 {
@@ -48,25 +49,25 @@ namespace fea
 #else
         uint8_t* keymap = SDL_GetKeyState(0);
 #endif
-        return keymap[feaKeyCodeToSdl(code)];
+        return keymap[feaKeyCodeToSdl(code)] != 0;
     }
 
     bool SDLInputBackend::isMouseButtonPressed(Mouse::Button b)
     {
-        return SDL_GetMouseState(NULL, NULL)&SDL_BUTTON(feaMouseButtonToSdl(b));
+        return (SDL_GetMouseState(NULL, NULL) & SDL_BUTTON(feaMouseButtonToSdl(b))) != 0;
     }
 
-    glm::ivec2 SDLInputBackend::getMouseGlobalPosition()
+    Vec2I SDLInputBackend::getMouseGlobalPosition()
     {
         //will be local only, not global
-        return glm::ivec2(0, 0);
+        return Vec2I{0, 0};
     }
 
-    glm::ivec2 SDLInputBackend::getMouseWindowPosition()
+    Vec2I SDLInputBackend::getMouseWindowPosition()
     {
         int x, y;
         SDL_GetMouseState(&x, &y);
-        return glm::ivec2(x, y);
+        return Vec2I{x, y};
     }
 
     void SDLInputBackend::setMouseGlobalPosition(int32_t x, int32_t y)
@@ -281,7 +282,7 @@ namespace fea
     }
 
 
-    Keyboard::Code SDLInputBackend::sdlKeyCodeToFea(SDLKey sdlCode) const
+    Keyboard::Code SDLInputBackend::sdlKeyCodeToFea(int32_t sdlCode) const
     {
         switch(sdlCode)
         {
@@ -492,7 +493,7 @@ namespace fea
         }
     }
 
-    SDLKey SDLInputBackend::feaKeyCodeToSdl(Keyboard::Code feaCode) const
+    int32_t SDLInputBackend::feaKeyCodeToSdl(Keyboard::Code feaCode) const
     {
         switch(feaCode)
         {
@@ -700,6 +701,8 @@ namespace fea
                 return SDLK_F15;
             case Keyboard::PAUSE:
                 return SDLK_PAUSE;
+			default:
+				return (SDLKey)-1;
         }
     }
 
@@ -717,6 +720,8 @@ namespace fea
                 return 1;
             case Mouse::XBUTTON2:
                 return 3;
+			default:
+				return 0;
         }
     }
 

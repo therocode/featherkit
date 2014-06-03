@@ -1,5 +1,5 @@
-#include <featherkit/rendering/drawable2d.hpp>
-#include <featherkit/assert.hpp>
+#include <fea/rendering/drawable2d.hpp>
+#include <fea/assert.hpp>
 
 namespace fea
 {
@@ -66,23 +66,13 @@ namespace fea
     {
         mScaling *= scaling;
     }
-    
-    void Drawable2D::setParallax(float parallax)
-    {
-        mParallax = glm::vec2(parallax, parallax);
-    }
 
     void Drawable2D::setParallax(const glm::vec2& parallax)
     {
         mParallax = parallax;
     }
     
-    float Drawable2D::getParallax() const
-    {
-        return mParallax.x;
-    }
-    
-    const glm::vec2& Drawable2D::getParallaxVector() const
+    const glm::vec2& Drawable2D::getParallax() const
     {
         return mParallax;
     }
@@ -100,26 +90,29 @@ namespace fea
     void Drawable2D::setOpacity(float opacity)
     {
         FEA_ASSERT(opacity >= 0.0f && opacity <= 1.0f, "Opacity must be within the range of [0.0f, 1.0f]! " + std::to_string(opacity) + " provided.");
-        mColor.setA(opacity);
+        mColor.setAAsFloat(opacity);
     }
 
     float Drawable2D::getOpacity() const
     {
-        return mColor.a();
+        return mColor.aAsFloat();
     }
 
-    RenderInfo Drawable2D::getRenderInfo() const
+    std::vector<RenderEntity> Drawable2D::getRenderInfo() const
     {
-        RenderInfo temp;
+        RenderEntity temp;
 
-        glm::vec3 colorInfo = glm::vec3(mColor.r(), mColor.g(), mColor.b());
-        float opacity = mColor.a();
+        glm::vec3 colorInfo = glm::vec3(mColor.rAsFloat(), mColor.gAsFloat(), mColor.bAsFloat());
+        float opacity = mColor.aAsFloat();
 
         temp.mDrawMode = mDrawMode;
         temp.mElementAmount = mVertices.size() / 2;
 
-        temp.mVertexAttributes.push_back(VertexAttribute("vertex", 2, &mVertices[0]));
+        if(mVertices.size() > 0)
+            temp.mVertexAttributes.push_back(VertexAttribute("vertex", 2, &mVertices[0]));
+        if(mTexCoords.size() > 0)
         temp.mVertexAttributes.push_back(VertexAttribute("texCoords", 2, &mTexCoords[0]));
+        if(mVertexColors.size() > 0)
         temp.mVertexAttributes.push_back(VertexAttribute("colors", 4, &mVertexColors[0]));
 
         temp.mUniforms.push_back(Uniform("position", VEC2, mPosition));
@@ -132,6 +125,6 @@ namespace fea
         temp.mUniforms.push_back(Uniform("color", VEC3, colorInfo));
         temp.mUniforms.push_back(Uniform("opacity", FLOAT, opacity));
 
-        return temp;
+        return {temp};
     }
 }

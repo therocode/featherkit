@@ -1,5 +1,6 @@
-#include <featherkit/rendering/textsurface.hpp>
-#include <featherkit/rendering/font.hpp>
+#include <fea/rendering/textsurface.hpp>
+#include <fea/rendering/font.hpp>
+#include <fea/assert.hpp>
 
 std::wstring utf8_to_utf16(const std::string& utf8)
 {
@@ -90,7 +91,53 @@ namespace fea
 
     TextSurface::~TextSurface()
     {
-        texture_atlas_delete(mAtlas);
+        if(mAtlas)
+            texture_atlas_delete(mAtlas);
+
+        for(auto& cached : mFontCache)
+        {
+            texture_font_delete(cached.second);
+        }
+    }
+
+    TextSurface::TextSurface(TextSurface&& other)
+    {
+        mAtlas = other.mAtlas;
+        mCurrentFont = other.mCurrentFont;
+        mPenPosition = other.mPenPosition;
+        mScale = other.mScale;
+        mColor = other.mColor;
+        mHorizontalAlign = other.mHorizontalAlign;
+        mAtlasSize = other.mAtlasSize;
+
+        mFontCache = std::move(other.mFontCache);
+        mWritings = std::move(other.mWritings);
+
+        mLowBounds = other.mLowBounds;
+        mHighBounds = other.mHighBounds;
+        
+        other.mAtlas = nullptr;
+    }
+    
+    TextSurface& TextSurface::operator=(TextSurface&& other)
+    {
+        mAtlas = other.mAtlas;
+        mCurrentFont = other.mCurrentFont;
+        mPenPosition = other.mPenPosition;
+        mScale = other.mScale;
+        mColor = other.mColor;
+        mHorizontalAlign = other.mHorizontalAlign;
+        mAtlasSize = other.mAtlasSize;
+
+        mFontCache = std::move(other.mFontCache);
+        mWritings = std::move(other.mWritings);
+
+        mLowBounds = other.mLowBounds;
+        mHighBounds = other.mHighBounds;
+        
+        other.mAtlas = nullptr;
+
+        return *this;
     }
 
     void TextSurface::write(const std::string& text)
@@ -101,6 +148,7 @@ namespace fea
 
     void TextSurface::write(const std::wstring& text)
     {
+        FEA_ASSERT(mCurrentFont != nullptr, "Cannot write text with no font set!\n");
         mWritings.push_back(Writing(text, mCurrentFont, mPenPosition, mScale, mColor));
         addText(text);
     }
@@ -137,11 +185,11 @@ namespace fea
         mPenPosition.y += distance * mScale;
     }
 
-    RenderInfo TextSurface::getRenderInfo() const
+    std::vector<RenderEntity> TextSurface::getRenderInfo() const
     {
-        RenderInfo temp = Drawable2D::getRenderInfo();
+        std::vector<RenderEntity> temp = Drawable2D::getRenderInfo();
 
-        temp.mUniforms.push_back(Uniform("texture", TEXTURE, mAtlas->id));
+        temp[0].mUniforms.push_back(Uniform("texture", TEXTURE, mAtlas->id));
         return temp;
     }
     
@@ -265,12 +313,12 @@ namespace fea
                     s0, t0,
                     s1, t1,
                     s1, t0});
-            colorsToAdd.insert(colorsToAdd.end(), {mColor.r(), mColor.g(), mColor.b(), 1.0f,
-                                mColor.r(), mColor.g(), mColor.b(), 1.0f,
-                                mColor.r(), mColor.g(), mColor.b(), 1.0f,
-                                mColor.r(), mColor.g(), mColor.b(), 1.0f,
-                                mColor.r(), mColor.g(), mColor.b(), 1.0f,
-                                mColor.r(), mColor.g(), mColor.b(), 1.0f});
+            colorsToAdd.insert(colorsToAdd.end(), {mColor.rAsFloat(), mColor.gAsFloat(), mColor.bAsFloat(), 1.0f,
+                                mColor.rAsFloat(), mColor.gAsFloat(), mColor.bAsFloat(), 1.0f,
+                                mColor.rAsFloat(), mColor.gAsFloat(), mColor.bAsFloat(), 1.0f,
+                                mColor.rAsFloat(), mColor.gAsFloat(), mColor.bAsFloat(), 1.0f,
+                                mColor.rAsFloat(), mColor.gAsFloat(), mColor.bAsFloat(), 1.0f,
+                                mColor.rAsFloat(), mColor.gAsFloat(), mColor.bAsFloat(), 1.0f});
             penTempPosition.x += glyph->advance_x * mScale;
         }
 
@@ -291,7 +339,14 @@ namespace fea
                 throw std::logic_error("Error! Could not create font from file '" + font.getPath() + "' maybe the file does not exist?");
             }
             else
-                mFontCache.emplace(font, created);
+            {
+                if(mFontCache.find(font) == mFontCache.end())
+                    mFontCache.emplace(font, created);
+                else
+                {
+                    texture_font_delete(mFontCache.at(font));
+                }
+            }
         }
     }
 }

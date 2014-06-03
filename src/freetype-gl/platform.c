@@ -32,7 +32,7 @@
  * ============================================================================
  */
 #include <string.h>
-#include <featherkit/freetype-gl/platform.h>
+#include <fea/freetype-gl/platform.h>
 
 #if defined(_WIN32) || defined(_WIN64)
 
