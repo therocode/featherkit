@@ -504,7 +504,7 @@ namespace fea
                 auto iterator = mStreams.find(sourceId);
                 if(iterator != mStreams.end())
                 {
-                    //iterator->second.stop(); BLI
+                    iterator->second.stop();
                     mStreams.erase(iterator);
                 }
             }
