@@ -505,8 +505,11 @@ namespace fea
                 auto iterator = mStreams.find(sourceId);
                 if(iterator != mStreams.end())
                 {
+#if !defined(FEA_NO_EFX)
                     if(iterator->second.isRunning())
                         iterator->second.stop();
+#else
+#endif
 
                     mStreams.erase(iterator);
                 }
