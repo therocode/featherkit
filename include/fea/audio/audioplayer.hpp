@@ -94,7 +94,7 @@ namespace fea
                     AudioStream& mStream;
                     bool mIsFinishing;
                     std::thread mStreamerThread;
-                    std::unordered_set<uint32_t> mQueued;
+                    std::queue<uint32_t> mQueued;
                     bool mRunning;
             };
 #else

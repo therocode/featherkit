@@ -540,17 +540,17 @@ namespace fea
 
             if(buffersProcessed > 0)
             {
-                ALuint bufferId;
+                ALuint bufferId = mQueued.front();
+                mQueued.pop();
                 alSourceUnqueueBuffers(mSource.getSourceId(), 1, &bufferId);
                 mStream.bufferConsumed();
-                mQueued.erase(bufferId);
             }
 
             while(AudioBuffer* newBuffer = mStream.nextReadyBuffer())
             {
                 ALuint bufferId = newBuffer->getBufferId();
                 alSourceQueueBuffers(mSource.getSourceId(), 1, &bufferId);
-                mQueued.insert(bufferId);
+                mQueued.push(bufferId);
             }
             std::this_thread::sleep_for(std::chrono::milliseconds(25));
         }
@@ -566,8 +566,10 @@ namespace fea
     {
         mRunning = false;
         alSourceStop(mSource.getSourceId());
-        for(uint32_t bufferId : mQueued)
+        while(mQueued.size())
         {
+            uint32_t bufferId = mQueued.front();
+            mQueued.pop();
             alSourceUnqueueBuffers(mSource.getSourceId(), 1, &bufferId);
         }
 
