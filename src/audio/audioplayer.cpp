@@ -162,11 +162,7 @@ namespace fea
         }
 
         mStreams.emplace(sourceId, Stream(mPlayingSources.at(handle), stream));
-#if !defined(FEA_NO_EFX)
         mStreams.at(sourceId).start();
-#else
-        mStreams.at(sourceId).update();
-#endif
 
         std::this_thread::sleep_for(std::chrono::milliseconds(25)); //hack?
 
@@ -212,9 +208,7 @@ namespace fea
                 auto streamIterator = mStreams.find(sourceId);
                 if(streamIterator != mStreams.end())
                 {
-#if !defined(FEA_NO_EFX)
                     streamIterator->second.stop();
-#endif
                 }
                 alSourceStop(sourceId);
             }
@@ -601,13 +595,24 @@ namespace fea
     {
     }
 
+    void AudioPlayer::Stream::start()
+    {
+        while(AudioBuffer* newBuffer = mStream.nextReadyBuffer())
+        {
+            ALuint bufferId = newBuffer->getBufferId();
+            mQueued.push(bufferId);
+            alSourceQueueBuffers(mSource.getSourceId(), 1, &bufferId);
+        }
+    }
+
     void AudioPlayer::Stream::update()
     {
         ALint buffersProcessed;
         alGetSourcei(mSource.getSourceId(), AL_BUFFERS_PROCESSED, &buffersProcessed);
         if(buffersProcessed > 0)
         {
-            ALuint bufferId;
+            ALuint bufferId = mQueued.front();
+            mQueued.pop();
             alSourceUnqueueBuffers(mSource.getSourceId(), 1, &bufferId);
             mStream.bufferConsumed();
         }
@@ -615,7 +620,19 @@ namespace fea
         while(AudioBuffer* newBuffer = mStream.nextReadyBuffer())
         {
             ALuint bufferId = newBuffer->getBufferId();
+            mQueued.push(bufferId);
             alSourceQueueBuffers(mSource.getSourceId(), 1, &bufferId);
+        }
+    }
+    
+    void AudioPlayer::Stream::stop()
+    {
+        alSourceStop(mSource.getSourceId());
+        while(mQueued.size() > 0)
+        {
+            ALuint bufferId = mQueued.front();
+            mQueued.pop();
+            alSourceUnqueueBuffers(mSource.getSourceId(), 1, &bufferId);
         }
     }
 #endif

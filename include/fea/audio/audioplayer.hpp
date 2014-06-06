@@ -3,7 +3,7 @@
 #include <fea/audio/openal.hpp>
 #include <stack>
 #include <unordered_map>
-#include <unordered_set>
+#include <queue>
 #include <fea/audio/playsource.hpp>
 #include <fea/audio/listener.hpp>
 #include <fea/audio/effectslot.hpp>
@@ -103,8 +103,11 @@ namespace fea
                 public:
                     Stream(const PlaySource& source, AudioStream& audioStream);
                     Stream(Stream&& other);
+                    void start();
                     void update();
+                    void stop();
                 private:
+                    std::queue<uint32_t> mQueued;
                     const PlaySource& mSource;
                     AudioStream& mStream;
             };
