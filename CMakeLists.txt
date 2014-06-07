@@ -177,9 +177,7 @@ if(BUILD_STRUCTURE)
 
     set(structure_header_files include/fea/structure/application.hpp
         include/fea/structure/gamestate.hpp
-        include/fea/structure/gamestatemachine.hpp
-        include/fea/structure/loosentree.hpp
-        include/fea/structure/loosentree.inl)
+        include/fea/structure/gamestatemachine.hpp)
 
     add_library(${project_name}-structure ${SHARED_OR_STATIC}
         ${structure_source_files}
@@ -482,6 +480,26 @@ if(BUILD_UI)
         target_link_libraries(${project_name}-sdl2 ${SDL2_LIBRARY} ${project_name}-ui)
     endif()
 endif()
+
+##Util module##
+
+#set(BUILT_TARGETS ${BUILT_TARGETS} ${project_name}-util)
+
+#find all source files
+#set(util_source_files)
+
+set(util_header_files 
+    include/fea/util/loosentree.hpp
+    include/fea/util/loosentree.inl
+    include/fea/util/pathfinder.hpp
+    include/fea/util/pathfinder.inl)
+
+#add_library(${project_name}-util ${SHARED_OR_STATIC}
+#    ${util_header_files}
+#    ${util_source_files})
+
+#target_link_libraries(${project_name}-ui ${JSONCPP_LIBRARIES})
+
 
 install(
     DIRECTORY include

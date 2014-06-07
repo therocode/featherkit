@@ -74,9 +74,9 @@ namespace fea
             float mMoveCache[Pow(2, Dimensions)][Dimensions];
     };
 
-#include <fea/structure/loosentree.inl>
+#include <fea/util/loosentree.inl>
 
-    /** @addtogroup Structure
+    /** @addtogroup Util
      *@{
      *  @typedef LooseNTree::TreeEntry
      *  @class LooseNTree
