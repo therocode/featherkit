@@ -1,4 +1,5 @@
 #include <fea/rendering/shader.hpp>
+#include <fea/assert.hpp>
 #include <vector>
 #include <sstream>
 #define GLM_FORCE_RADIANS
@@ -122,6 +123,11 @@ namespace fea
                 glBindTexture(GL_TEXTURE_2D, *((GLuint*)value));
                 break;
             }
+            case NO_TYPE:
+            {
+                FEA_ASSERT(false, "Cannot set null uniform on shader!\n");
+                break;
+            }
         }
     }
 
@@ -166,6 +172,11 @@ namespace fea
                 glActiveTexture(GL_TEXTURE0);
                 glUniform1i(mUniformLocations.at(name), 0);
                 glBindTexture(GL_TEXTURE_2D, *((GLuint*)value));
+                break;
+            }
+            case NO_TYPE:
+            {
+                FEA_ASSERT(false, "Cannot set null uniform on shader!\n");
                 break;
             }
         }

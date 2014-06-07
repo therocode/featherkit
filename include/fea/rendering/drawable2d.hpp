@@ -1,6 +1,7 @@
 #pragma once
 #include <fea/config.hpp>
 #include <vector>
+#include <unordered_map>
 #include <glm/glm.hpp>
 #include <fea/rendering/renderentity.hpp>
 #include <fea/rendering/color.hpp>
@@ -33,6 +34,12 @@ namespace fea
             float getOpacity() const;
 
             virtual std::vector<RenderEntity> getRenderInfo() const;
+
+            void setExtraUniform(const Uniform& uniform);
+            bool hasExtraUniform(const std::string& name) const;
+            const Uniform& getExtraUniform(const std::string& name) const;
+            void removeExtraUniform(const std::string& name);
+            void clearExtraUniforms();
         protected:
             std::vector<float> mVertices;
             std::vector<float> mTexCoords;
@@ -44,6 +51,7 @@ namespace fea
             glm::vec2 mScaling;
             glm::vec2 mParallax;
             Color mColor;
+            std::unordered_map<std::string, Uniform> mExtraUniforms;
     };
     /** @addtogroup Render2D
      *@{
@@ -142,6 +150,33 @@ namespace fea
      *  The returned array contains RenderEntity instances which contain vertex information useful for rendering with OpenGL or similar. See RenderEntity for more information.
      *  @return Render information.
      ***
+     *  @fn void Drawable2D::setExtraUniform(const Uniform& uniform)
+     *  @brief Set an additional uniform for the drawable.
+     *
+     *  The drawable internally sets all the basic uniforms it needs. With this function, additional uniforms can be set to use with custom shaders.
+     *  @param uniform Uniform to set.
+     ***
+     *  @fn bool Drawable2D::hasExtraUniform(const std::string& name) const
+     *  @brief Check if a specific additional uniform has been set.
+     *  @param name Name of the uniform to check for.
+     *  @return True if it existed.
+     ***
+     *  @fn const Uniform& Drawable2D::getExtraUniform(const std::string& name) const
+     *  @brief Get a specific additional uniform.
+     *
+     *  Assert/undefined behaviour if the requested uniform does not exist.
+     *  @param name Name of the uniform to get.
+     *  @return The uniform.
+     ***
+     *  @fn void Drawable2D::removeExtraUniform(const std::string& name)
+     *  @brief Remove a specific additional uniform.
+     *
+     *  Assert/undefined behaviour if the requested uniform does not exist.
+     *  @param name Name of the uniform to remove.
+     ***
+     *  @fn void Drawable2D::clearExtraUniforms()
+     *  @brief Remove all additional uniforms added.
+     ***
      *  @var Drawable2D::mVertices
      *  @brief List of all vertices.
      ***
@@ -173,5 +208,8 @@ namespace fea
      ***
      *  @var Drawable2D::mColor
      *  @brief Stores the color.
+     ***
+     *  @var Drawable2D::mExtraUniforms
+     *  @brief Map containing all additional uniforms added to the drawable.
      ***/
 }

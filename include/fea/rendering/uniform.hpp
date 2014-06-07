@@ -7,10 +7,11 @@
 
 namespace fea
 {
-    enum UniformType{FLOAT, VEC2, VEC3, VEC4, MAT2X2, MAT4X4, TEXTURE};
+    enum UniformType{NO_TYPE, FLOAT, VEC2, VEC3, VEC4, MAT2X2, MAT4X4, TEXTURE};
 
     struct FEA_API Uniform
     {
+        Uniform();
         Uniform(const std::string& name, UniformType t, float val);
         Uniform(const std::string& name, UniformType t, glm::vec2 val);
         Uniform(const std::string& name, UniformType t, glm::vec3 val);
@@ -44,6 +45,9 @@ namespace fea
      ***
      *  @enum UniformType
      *  @brief Type of the uniform.
+     ***
+     *  @fn Uniform::Uniform()
+     *  @brief Construct a null uniform.
      ***
      *  @fn Uniform::Uniform(const std::string& name, UniformType t, float val)
      *  @brief Construct a float uniform.

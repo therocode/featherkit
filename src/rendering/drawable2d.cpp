@@ -120,11 +120,40 @@ namespace fea
         temp.mUniforms.push_back(Uniform("rotation", FLOAT, mRotation));
         temp.mUniforms.push_back(Uniform("scaling", VEC2, mScaling));
         temp.mUniforms.push_back(Uniform("parallax", VEC2, mParallax));
-        //temp.uniforms.push_back(Uniform("texture", TEXTURE, (GLuint)0)); maybe not needed
         temp.mUniforms.push_back(Uniform("constraints", VEC4, glm::vec4(0.0f, 1.0f, 0.0f, 1.0f)));
         temp.mUniforms.push_back(Uniform("color", VEC3, colorInfo));
         temp.mUniforms.push_back(Uniform("opacity", FLOAT, opacity));
 
+        for(const auto& uniform : mExtraUniforms)
+            temp.mUniforms.push_back(uniform.second);
+
         return {temp};
+    }
+
+    void Drawable2D::setExtraUniform(const Uniform& uniform)
+    {
+        mExtraUniforms[uniform.mName] = uniform;
+    }
+
+    bool Drawable2D::hasExtraUniform(const std::string& name) const
+    {
+        return mExtraUniforms.find(name) != mExtraUniforms.end();
+    }
+
+    const Uniform& Drawable2D::getExtraUniform(const std::string& name) const
+    {
+        FEA_ASSERT(mExtraUniforms.find(name) != mExtraUniforms.end(), "Trying to access a uniform called " << name << " which doesn't exist");
+        return mExtraUniforms.at(name);
+    }
+    
+    void Drawable2D::removeExtraUniform(const std::string& name)
+    {
+        FEA_ASSERT(mExtraUniforms.find(name) != mExtraUniforms.end(), "Trying to erase a uniform called " << name << " which doesn't exist");
+        mExtraUniforms.erase(name);
+    }
+
+    void Drawable2D::clearExtraUniforms()
+    {
+        mExtraUniforms.clear();
     }
 }
