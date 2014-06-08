@@ -42,20 +42,29 @@ namespace fea
     
     AudioPlayer::~AudioPlayer()
     {
-        std::vector<AudioHandle> playingSources;
+        for(auto& stream : mStreams)
+            stream.second.stop();
 
-        for(auto& source : mPlayingSources)
-            playingSources.push_back(source.first);
+        mStreams.clear();
 
-        for(auto source : playingSources)
-            stop(source);
+        {
+            std::lock_guard<std::mutex> lock(mSourcesMutex);
 
-        alcMakeContextCurrent(nullptr);
-        if(mAudioContext)
-            alcDestroyContext(mAudioContext);
+            std::vector<AudioHandle> playingSources;
 
-        if(mAudioDevice)
-            alcCloseDevice(mAudioDevice);
+            for(auto& source : mPlayingSources)
+                playingSources.push_back(source.first);
+
+            mIdleSources = std::stack<PlaySource>();
+            mEffectSlots.clear();
+
+            alcMakeContextCurrent(nullptr);
+            if(mAudioContext)
+                alcDestroyContext(mAudioContext);
+
+            if(mAudioDevice)
+                alcCloseDevice(mAudioDevice);
+        }
     }
 
     AudioHandle AudioPlayer::play(Audio& audio)
