@@ -242,8 +242,6 @@ if(BUILD_MESSAGING)
     set(messaging_header_files 
         include/fea/messaging/messagebus.hpp
         include/fea/messaging/messagebus.inl
-        include/fea/messaging/message.hpp
-        include/fea/messaging/message.inl
         include/fea/messaging/messagereceiver.hpp)
 
     add_library(${project_name}-messaging ${SHARED_OR_STATIC}

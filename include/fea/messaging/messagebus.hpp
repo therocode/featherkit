@@ -8,6 +8,25 @@
 #include <fea/messaging/messagereceiver.hpp>
 #include <fea/assert.hpp>
 
+#define FEA_DECLARE_MESSAGE1(name)                      \
+    struct name {};                                 \
+using name##Receiver = fea::MessageReceiver< name >;
+
+#define FEA_DECLARE_MESSAGE2(name, args)                      \
+    struct name { args };                                 \
+using name##Receiver = fea::MessageReceiver< name >;
+
+#define _ARG2(_0, _1, _2, ...) _2
+#define NARG2(...) _ARG2(__VA_ARGS__, 2, 1, 0)
+
+#define _ONE_OR_TWO_ARGS_1(a) FEA_DECLARE_MESSAGE1(a)
+#define _ONE_OR_TWO_ARGS_2(a, b) FEA_DECLARE_MESSAGE2(a,b)
+
+#define __ONE_OR_TWO_ARGS(N, ...) _ONE_OR_TWO_ARGS_ ## N (__VA_ARGS__)
+#define _ONE_OR_TWO_ARGS(N, ...) __ONE_OR_TWO_ARGS(N, __VA_ARGS__)
+
+#define FEA_DECLARE_MESSAGE(...) _ONE_OR_TWO_ARGS(NARG2(__VA_ARGS__), __VA_ARGS__)
+
 namespace fea
 {
     class FEA_API MessageBus
@@ -34,6 +53,12 @@ namespace fea
      *  @brief Class that manages Message sending.
      *
      *  It offers a way of subscribing to messages. It will keep track of the subscriptions and when messages are send, it will reroute these to the correct receivers.
+     *  The type of the message can be anything. Even primitives like int or double can be subscribed to. Most of the time, the message type is a struct carrying the information needed. Due to that being the common case, Feather Kit defines a macro which eases the process of creating a message with a receiver: 
+     *  @code
+     *  FEA_DECLARE_MESSAGE(ResizedMessage, uint32_t width; uint32_t height;);
+     *  @endcode
+     *
+     *  This line declares a struct called ResizedMessage carrying a width and a height. Furthermore it also declares an alias ResizedMessageReceiver which is equivalent to fea::MessageReceiver<ResizedMessage>.
      ***
      *  @fn void MessageBus::addSubscriber(const MessageReceiver<Message>& receiver)
      *  @brief Create a subscription for a receiver.
