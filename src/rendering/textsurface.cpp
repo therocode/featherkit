@@ -361,6 +361,13 @@ namespace fea
                 }
             }
 
+            if(text[i] == '\n')
+            {
+                penTempPosition.x = mHorizontalAlign;
+                penTempPosition.y += mLineHeight * mScale;
+                continue;
+            }
+
             texture_glyph_t* glyph = texture_font_get_glyph(mFontCache.at(*mCurrentFont), text[i]);
 
             float kerning = 0.0f;
