@@ -13,12 +13,13 @@ namespace fea
     {
         struct Writing
         {
-            Writing(const std::wstring& text, const Font* font, const glm::vec2& penPosition, const float scale, const Color& color);
+            Writing(const std::wstring& text, const Font* font, const glm::vec2& penPosition, const float scale, const Color& color, bool positionSet);
             std::wstring mText;
             const Font* mFont;
             glm::vec2 mPenPosition;
             float mScale;
             Color mColor;
+            bool mPositionSet;
         };
 
     public:
@@ -46,6 +47,8 @@ namespace fea
         texture_atlas_t* mAtlas;
         const Font* mCurrentFont;
         glm::vec2 mPenPosition;
+        glm::vec2 mPenSetPosition;
+        bool mPenSet;
         float mScale;
         Color mColor;
         float mHorizontalAlign;

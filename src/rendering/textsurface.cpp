@@ -1,6 +1,7 @@
 #include <fea/rendering/textsurface.hpp>
 #include <fea/rendering/font.hpp>
 #include <fea/assert.hpp>
+#include <iostream>
 
 std::wstring utf8_to_utf16(const std::string& utf8)
 {
@@ -76,12 +77,12 @@ std::wstring utf8_to_utf16(const std::string& utf8)
 
 namespace fea
 {
-    TextSurface::Writing::Writing(const std::wstring& text, const Font* font, const glm::vec2& penPosition, const float scale, const Color& color)
-        : mText(text), mFont(font), mPenPosition(penPosition), mScale(scale), mColor(color)
+    TextSurface::Writing::Writing(const std::wstring& text, const Font* font, const glm::vec2& penPosition, const float scale, const Color& color, bool positionSet)
+        : mText(text), mFont(font), mPenPosition(penPosition), mScale(scale), mColor(color), mPositionSet(positionSet)
     {
     }
     
-    TextSurface::TextSurface() : mScale(1.0f)
+    TextSurface::TextSurface() : mScale(1.0f), mPenSet(true)
     {
         mAtlasSize = 64;
         mAtlas = texture_atlas_new(mAtlasSize, mAtlasSize, 1);
@@ -142,15 +143,16 @@ namespace fea
 
     void TextSurface::write(const std::string& text)
     {
-        //write(std::wstring(text.begin(), text.end()));
         write(utf8_to_utf16(text));
     }
 
     void TextSurface::write(const std::wstring& text)
     {
         FEA_ASSERT(mCurrentFont != nullptr, "Cannot write text with no font set!\n");
-        mWritings.push_back(Writing(text, mCurrentFont, mPenPosition, mScale, mColor));
+        mWritings.push_back(Writing(text, mCurrentFont, mPenSetPosition, mScale, mColor, mPenSet));
         addText(text);
+
+        mPenSet = false;
     }
             
     void TextSurface::setPenFont(const Font& font)
@@ -162,6 +164,8 @@ namespace fea
     void TextSurface::setPenPosition(const glm::vec2 position)
     {
         mPenPosition = position;
+        mPenSetPosition = position;
+        mPenSet = true;
     }
     
     void TextSurface::setPenScale(const float scale)
@@ -183,6 +187,8 @@ namespace fea
     {
         mPenPosition.x = mHorizontalAlign + indentation * mScale;
         mPenPosition.y += distance * mScale;
+        mPenSetPosition = mPenPosition;
+        mPenSet = true;
     }
 
     std::vector<RenderEntity> TextSurface::getRenderInfo() const
@@ -199,14 +205,15 @@ namespace fea
         mTexCoords.clear();
         mVertexColors.clear();
 
-        const glm::vec2 originalPosition = mPenPosition;
-        const Font* originalFont = mCurrentFont;
-        const float originalScale = mScale;
-        const Color originalColor = mColor;
+        //const glm::vec2 originalPosition = mPenPosition;
+        //const Font* originalFont = mCurrentFont;
+        //const float originalScale = mScale;
+        //const Color originalColor = mColor;
 
         for(auto& writing : mWritings)
         {
-            mPenPosition = writing.mPenPosition;
+            if(writing.mPositionSet)
+                mPenPosition = writing.mPenPosition;
             mCurrentFont = writing.mFont;
             cacheFont(*mCurrentFont);
             mScale = writing.mScale;
@@ -214,10 +221,10 @@ namespace fea
             addText(writing.mText);
         }
 
-        mPenPosition = originalPosition;
-        mCurrentFont = originalFont;
-        mScale = originalScale;
-        mColor = originalColor;
+        //mPenPosition = originalPosition;
+        //mCurrentFont = originalFont;
+        //mScale = originalScale;
+        //mColor = originalColor;
     }
 
     void TextSurface::clear()
@@ -239,16 +246,13 @@ namespace fea
             
     void TextSurface::addText(const std::wstring& text)
     {
-        //void add_text( vertex_buffer_t * buffer, texture_font_t * font, wchar_t * text, vec4 * color, vec2 * pen )
-        size_t i;
-        //float r = color->red, g = color->green, b = color->blue, a = color->alpha;
-
         std::vector<float> verticesToAdd;
         std::vector<float> texCoordsToAdd;
         std::vector<float> colorsToAdd;
         glm::vec2 penTempPosition = mPenPosition;
 
-        for(i = 0; i < text.size(); ++i )
+        //make sure all glyphs are available
+        for(int32_t i = 0; i < text.size(); ++i )
         {
             texture_glyph_t* glyph = texture_font_get_glyph( mFontCache.at(*mCurrentFont), text[i] );
 
@@ -265,9 +269,56 @@ namespace fea
                 mFontCache.clear();
 
                 rewrite();
-                //addText(text); //don't think this is needed :D
                 return;
             }
+        }
+
+        int32_t currentWordStart = -1;
+        int32_t currentWordEnd = -1;
+        float lineLength = 40.0f;
+
+        float wordWidth = 0.0f;
+
+        for(int32_t i = 0; i < text.size(); ++i)
+        {
+            if(std::iswspace(text[i]) == 0 && i > currentWordEnd)
+            {
+                int32_t currentWordStart = i;
+                int32_t currentWordEnd = i;
+
+                int32_t wordIterator = i;
+                while(wordIterator < text.size() && std::iswspace(text[wordIterator]) == 0)
+                {
+                    currentWordEnd++;
+                    wordIterator++;
+                }
+
+                wordWidth = 0.0f;
+
+                for(int32_t iter = currentWordStart; iter < currentWordEnd; iter++)
+                {
+                    texture_glyph_t* glyph = texture_font_get_glyph( mFontCache.at(*mCurrentFont), text[iter]);
+
+                    wordWidth += glyph->advance_x * mScale;
+                }
+
+                if((penTempPosition.x + wordWidth) - mHorizontalAlign > lineLength)
+                {
+                    if(wordWidth < lineLength)
+                    {
+                        penTempPosition.x = mHorizontalAlign;
+                        penTempPosition.y += 20.0f * mScale;
+                    }
+                }
+            }
+
+            if(penTempPosition.x - mHorizontalAlign > lineLength)
+            {
+                penTempPosition.x = mHorizontalAlign;
+                penTempPosition.y += 20.0f * mScale;
+            }
+
+            texture_glyph_t* glyph = texture_font_get_glyph(mFontCache.at(*mCurrentFont), text[i]);
 
             float kerning = 0.0f;
             if( i > 0)
