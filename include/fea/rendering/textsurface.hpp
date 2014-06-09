@@ -13,7 +13,7 @@ namespace fea
     {
         struct Writing
         {
-            Writing(const std::wstring& text, const Font* font, const glm::vec2& penPosition, const float scale, const Color& color, bool positionSet);
+            Writing(const std::wstring& text, const Font* font, const glm::vec2& penPosition, float scale, const Color& color, bool positionSet);
             std::wstring mText;
             const Font* mFont;
             glm::vec2 mPenPosition;
@@ -33,10 +33,14 @@ namespace fea
         void write(const std::wstring& text);
         void setPenFont(const Font& font);
         void setPenPosition(const glm::vec2 position);
-        void setPenScale(const float scale);
+        void setPenScale(float scale);
         void setPenColor(const Color& color);
-        void setHorizontalAlign(const float coord);
-        void newLine(const float distance, const float indentation = 0.0f);
+        void setHorizontalAlign(float coord);
+        void setLineHeight(float height);
+        void setLineWidth(float width);
+        void enableWordWrap(bool enabled);
+        void newLine(float distance, float indentation = 0.0f);
+        void newLine();
         virtual std::vector<RenderEntity> getRenderInfo() const override;
         void clear();
         glm::vec2 getSize();
@@ -52,6 +56,9 @@ namespace fea
         float mScale;
         Color mColor;
         float mHorizontalAlign;
+        float mLineHeight;
+        float mLineWidth;
+        bool mWordWrap;
         uint32_t mAtlasSize;
 
         std::unordered_map<Font, texture_font_t*> mFontCache;
@@ -112,7 +119,7 @@ namespace fea
      *  @brief Set the current pen position.
      *  @param position New position.
      ***
-     *  @fn void TextSurface::setPenScale(const float scale)
+     *  @fn void TextSurface::setPenScale(float scale)
      *  @brief Set the current pen scale.
      *
      *  Scaling can make text appear grainy. If a higher resolution of the text is needed, increase the size of the font.
@@ -122,18 +129,47 @@ namespace fea
      *  @brief Set the current pen color.
      *  @param color New color.
      ***
-     *  @fn void TextSurface::setHorizontalAlign(const float coord)
+     *  @fn void TextSurface::setHorizontalAlign(float coord)
      *  @brief Set the horizontal alignment for new text lines.
      *
-     *  When a new line is issued using the TextSurface::newLine method, the pen is moved down under the current line, aligned to this value on the X axis.
+     *  When a new line is issued using the TextSurface::newLine method or when it word wraps, the pen is moved down under the current line, aligned to this value on the X axis.
      *  @param coord X coordinate to align to.
      ***
-     *  @fn void TextSurface::newLine(const float distance, const float indentation = 0.0f)
+     *  @fn void TextSurface::setLineHeight(float height)
+     *  @brief Set the spacing between each line.
+     *
+     *  The spacing is maintained when the pen moves to a new line.
+     *
+     *  Default is 0.
+     *  @param height Height.
+     ***
+     *  @fn void TextSurface::setLineWidth(float width)
+     *  @brief Set how long lines should be.
+     *
+     *  If word wrapping is enabled, new lines will be issued automatically when required to not exceed the line width. Words will be conserved as possible.
+     *
+     *  Default is 0.
+     *  @param width Maximum line width.
+     ***
+     *  @fn void TextSurface::enableWordWrap(bool enabled)
+     *  @brief Enable word wrapping.
+     *
+     *  Word wrapping causes the pen to automatically move to a new line to prevent the line from exceeding the current line width set by setLineWidth. If a word would exceed the limit, the whole word is moved to the next line. If a word is longer than the line width, the word will be split up.
+     *
+     *  Default is disabled.
+     *  @param enabled True if enabled.
+     ***
+     *  @fn void TextSurface::newLine(float distance, float indentation = 0.0f)
      *  @brief Move the pen to a new line.
      *
      *  The pen is moved downwards with the amount given by the distance parameter. The X position of the pen will be set to the horizontal alignment given by TextSurface::setHorizontalAlign.
      *  @param distance Distance to move downwards. Can be negative.
      *  @param indentation Optional indentation to deviate from the horizontal alignment.
+     ***
+     *  @fn void TextSurface::newLine()
+     *  @brief Move the pen to a new line.
+     *
+     *  This overload of newLine uses the values set by setLineWidth and has no indentation.
      ***
      *  @fn void TextSurface::clear()
      *  @brief Clear all text written on the text area.

@@ -78,11 +78,23 @@ std::wstring utf8_to_utf16(const std::string& utf8)
 namespace fea
 {
     TextSurface::Writing::Writing(const std::wstring& text, const Font* font, const glm::vec2& penPosition, const float scale, const Color& color, bool positionSet)
-        : mText(text), mFont(font), mPenPosition(penPosition), mScale(scale), mColor(color), mPositionSet(positionSet)
+       :
+           mText(text),
+           mFont(font),
+           mPenPosition(penPosition),
+           mScale(scale),
+           mColor(color),
+           mPositionSet(positionSet)
     {
     }
     
-    TextSurface::TextSurface() : mScale(1.0f), mPenSet(true)
+    TextSurface::TextSurface() :
+        mScale(1.0f),
+        mPenSet(true),
+        mHorizontalAlign(0.0f),
+        mLineHeight(0.0f),
+        mLineWidth(0.0f),
+        mWordWrap(false)
     {
         mAtlasSize = 64;
         mAtlas = texture_atlas_new(mAtlasSize, mAtlasSize, 1);
@@ -109,6 +121,9 @@ namespace fea
         mScale = other.mScale;
         mColor = other.mColor;
         mHorizontalAlign = other.mHorizontalAlign;
+        mLineHeight = other.mLineHeight;
+        mLineWidth = other.mLineWidth;
+        mWordWrap = other.mWordWrap;
         mAtlasSize = other.mAtlasSize;
 
         mFontCache = std::move(other.mFontCache);
@@ -128,6 +143,9 @@ namespace fea
         mScale = other.mScale;
         mColor = other.mColor;
         mHorizontalAlign = other.mHorizontalAlign;
+        mLineHeight = other.mLineHeight;
+        mLineWidth = other.mLineWidth;
+        mWordWrap = other.mWordWrap;
         mAtlasSize = other.mAtlasSize;
 
         mFontCache = std::move(other.mFontCache);
@@ -183,10 +201,33 @@ namespace fea
         mHorizontalAlign = coord;
     }
 
+    void TextSurface::setLineHeight(float height)
+    {
+        mLineHeight = height;
+    }
+
+    void TextSurface::setLineWidth(float width)
+    {
+        mLineWidth = width;
+    }
+    
+    void TextSurface::enableWordWrap(bool enabled)
+    {
+        mWordWrap = enabled;
+    }
+
     void TextSurface::newLine(const float distance, const float indentation)
     {
         mPenPosition.x = mHorizontalAlign + indentation * mScale;
         mPenPosition.y += distance * mScale;
+        mPenSetPosition = mPenPosition;
+        mPenSet = true;
+    }
+
+    void TextSurface::newLine()
+    {
+        mPenPosition.x = mHorizontalAlign;
+        mPenPosition.y += mLineHeight * mScale;
         mPenSetPosition = mPenPosition;
         mPenSet = true;
     }
@@ -275,47 +316,49 @@ namespace fea
 
         int32_t currentWordStart = -1;
         int32_t currentWordEnd = -1;
-        float lineLength = 40.0f;
 
         float wordWidth = 0.0f;
 
         for(int32_t i = 0; i < text.size(); ++i)
         {
-            if(std::iswspace(text[i]) == 0 && i > currentWordEnd)
+            if(mWordWrap)
             {
-                int32_t currentWordStart = i;
-                int32_t currentWordEnd = i;
-
-                int32_t wordIterator = i;
-                while(wordIterator < text.size() && std::iswspace(text[wordIterator]) == 0)
+                if(std::iswspace(text[i]) == 0 && i > currentWordEnd)
                 {
-                    currentWordEnd++;
-                    wordIterator++;
-                }
+                    int32_t currentWordStart = i;
+                    int32_t currentWordEnd = i;
 
-                wordWidth = 0.0f;
-
-                for(int32_t iter = currentWordStart; iter < currentWordEnd; iter++)
-                {
-                    texture_glyph_t* glyph = texture_font_get_glyph( mFontCache.at(*mCurrentFont), text[iter]);
-
-                    wordWidth += glyph->advance_x * mScale;
-                }
-
-                if((penTempPosition.x + wordWidth) - mHorizontalAlign > lineLength)
-                {
-                    if(wordWidth < lineLength)
+                    int32_t wordIterator = i;
+                    while(wordIterator < text.size() && std::iswspace(text[wordIterator]) == 0)
                     {
-                        penTempPosition.x = mHorizontalAlign;
-                        penTempPosition.y += 20.0f * mScale;
+                        currentWordEnd++;
+                        wordIterator++;
+                    }
+
+                    wordWidth = 0.0f;
+
+                    for(int32_t iter = currentWordStart; iter < currentWordEnd; iter++)
+                    {
+                        texture_glyph_t* glyph = texture_font_get_glyph( mFontCache.at(*mCurrentFont), text[iter]);
+
+                        wordWidth += glyph->advance_x * mScale;
+                    }
+
+                    if((penTempPosition.x + wordWidth) - mHorizontalAlign > mLineWidth)
+                    {
+                        if(wordWidth < mLineWidth)
+                        {
+                            penTempPosition.x = mHorizontalAlign;
+                            penTempPosition.y += mLineHeight * mScale;
+                        }
                     }
                 }
-            }
 
-            if(penTempPosition.x - mHorizontalAlign > lineLength)
-            {
-                penTempPosition.x = mHorizontalAlign;
-                penTempPosition.y += 20.0f * mScale;
+                if(penTempPosition.x - mHorizontalAlign > mLineWidth)
+                {
+                    penTempPosition.x = mHorizontalAlign;
+                    penTempPosition.y += mLineHeight * mScale;
+                }
             }
 
             texture_glyph_t* glyph = texture_font_get_glyph(mFontCache.at(*mCurrentFont), text[i]);
