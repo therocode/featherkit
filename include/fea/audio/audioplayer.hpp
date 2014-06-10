@@ -78,7 +78,7 @@ namespace fea
             std::unordered_map<AudioHandle, PlaySource> mPlayingSources;
             mutable std::mutex mSourcesMutex;
 
-#if !defined(FEA_NO_EFX)
+#if !defined(EMSCRIPTEN)
             //streaming threads
             class Stream
             {

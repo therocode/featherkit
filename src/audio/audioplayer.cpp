@@ -266,7 +266,7 @@ namespace fea
             
     void AudioPlayer::update()
     {
-#if defined(FEA_NO_EFX)
+#if defined(EMSCRIPTEN)
         for(auto& stream : mStreams)
             stream.second.update();
 #endif
@@ -524,7 +524,7 @@ namespace fea
         }
     }
     
-#if !defined(FEA_NO_EFX)
+#if !defined(EMSCRIPTEN)
     AudioPlayer::Stream::Stream(const PlaySource& source, AudioStream& audioStream) : 
         mSource(source),
         mStream(audioStream),
