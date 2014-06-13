@@ -11,7 +11,7 @@
     }
 
     template<class DataType>
-    DataType EntityStorage::StorageEntity::getData(const std::string& attribute) const
+    const DataType& EntityStorage::StorageEntity::getData(const std::string& attribute) const
     {
         FEA_ASSERT(attributeData.find(attribute) != attributeData.end(), "Trying to get the attribute '" + attribute + "' on an entity which does not have said attribute!");
         auto& valuePointer = attributeData.at(attribute);
@@ -36,7 +36,7 @@
     }
 
     template<class DataType>
-    DataType EntityStorage::getData(const uint32_t id, const std::string& attribute) const
+    const DataType& EntityStorage::getData(const uint32_t id, const std::string& attribute) const
     {
         FEA_ASSERT(mAttributes.find(attribute) != mAttributes.end(), "Trying to get the attribute '" + attribute + "' on an entity but such an attribute has not been registered!");
         FEA_ASSERT(std::type_index(typeid(DataType)) == mAttributes.at(attribute), "Trying to get attibute '" + attribute + "' as a '" + std::type_index(typeid(DataType)).name() + std::string(" but it is of type '") + std::string(mAttributes.at(attribute).name()) + "'");

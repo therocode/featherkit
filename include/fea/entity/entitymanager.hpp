@@ -24,7 +24,7 @@ namespace fea
             WeakEntityPtr findEntity(EntityId id) const;
             void removeEntity(const EntityId id);
             template<class DataType>
-            DataType getAttribute(const EntityId id, const std::string& attribute) const;
+            const DataType& getAttribute(const EntityId id, const std::string& attribute) const;
             template<class DataType>
             void setAttribute(const EntityId id, const std::string& attribute, const DataType& attributeData);
             template<class DataType>
@@ -98,7 +98,7 @@ namespace fea
      *
      *  @param id ID of the Entity to remove.
      ***
-     *  @fn DataType EntityManager::getAttribute(const EntityId id, const std::string& attribute) const
+     *  @fn const DataType& EntityManager::getAttribute(const EntityId id, const std::string& attribute) const
      *  @brief Retrieve the value of an attribute of a selected Entity. 
      *  
      *  Assert/undefined behavior when the attribute does not exist or the wrong template argument is provided or the entity does not exist.

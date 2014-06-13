@@ -1,5 +1,5 @@
 template<class DataType>
-DataType Entity::getAttribute(const std::string& attribute) const
+const DataType& Entity::getAttribute(const std::string& attribute) const
 {
     FEA_ASSERT(!mEntityManager.findEntity(mId).expired(), "Trying to set the attribute '" + attribute + "' on entity ID '" + std::to_string(mId) + "' which has previously been deleted!");
     return mEntityManager.getAttribute<DataType>(mId, attribute);

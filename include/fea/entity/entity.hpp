@@ -9,7 +9,7 @@ namespace fea
         public:
             Entity(EntityId id, EntityManager& entityManager);
             template<class DataType>
-            DataType getAttribute(const std::string& attribute) const;
+            const DataType& getAttribute(const std::string& attribute) const;
             template<class DataType>
             void setAttribute(const std::string& attribute, const DataType& value) const;
             template<class DataType>
@@ -43,7 +43,7 @@ namespace fea
      *  @param i ID of the new entity.
      *  @param m EntityManager that the entity will use.
      ***
-     *  @fn DataType Entity::getAttribute(const std::string& attribute) const
+     *  @fn const DataType& Entity::getAttribute(const std::string& attribute) const
      *  @brief Get the value of an attribute of the entity.
      *
      *  Assert/undefined behavior when the attribute does not exist or the wrong template argument is provided.

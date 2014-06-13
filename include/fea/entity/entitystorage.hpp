@@ -19,7 +19,7 @@ namespace fea
                 template<class DataType>
                 void setData(const std::string& attribute, const DataType& inData);
                 template<class DataType>
-                DataType getData(const std::string& attribute) const;
+                const DataType& getData(const std::string& attribute) const;
                 bool hasData(const std::string& attribute) const;
                 std::unordered_set<std::string> getAttributes() const;
             private:
@@ -35,7 +35,7 @@ namespace fea
         template<class DataType>
         void setData(const uint32_t id, const std::string& attribute, const DataType& inData);
         template<class DataType>
-        DataType getData(const uint32_t id, const std::string& attribute) const;
+        const DataType& getData(const uint32_t id, const std::string& attribute) const;
         bool hasData(const uint32_t id, const std::string& attribute) const;
         bool attributeIsValid(const std::string& attribute) const;
         void clear();
