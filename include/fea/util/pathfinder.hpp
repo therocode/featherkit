@@ -10,7 +10,11 @@ namespace fea
     template<typename NodeProvider>
         class Pathfinder
         {
+            public:
             using Node = typename std::remove_const<typename std::remove_reference<decltype((std::declval<NodeProvider>()).getNeighbor({}, 0))>::type>::type;
+            using Path = std::vector<Node>;
+
+            private:
             enum State { OPEN, CLOSED };
 
             struct NodeInfo
@@ -20,7 +24,7 @@ namespace fea
             };  
 
             public:
-            std::vector<Node> findPath(NodeProvider& nodes, const Node& start, const Node& target, uint32_t costLimit = (uint32_t)-1);
+            Path findPath(NodeProvider& nodes, const Node& start, const Node& target, uint32_t costLimit = (uint32_t)-1);
             private:
             std::vector<int32_t> fCosts;
             std::vector<int32_t> gCosts;
@@ -36,6 +40,7 @@ namespace fea
     /** @addtogroup Util
      *@{
      *  @typedef Pathfinder::Node
+     *  @typedef Pathfinder::Path
      *  @class Pathfinder
      *@}
      ***
@@ -43,6 +48,11 @@ namespace fea
      *  @brief A pathfinding node.
      *
      *  A pathfinding node has N amount of connected neighbors and the whole data that a path is to be found in consists of connected nodes.
+     ***
+     *  @typedef Pathfinder::Path
+     *  @brief The returned path.
+     *
+     *  Simply a vector with nodes that in order makes the path.
      ***
      *  @class Pathfinder
      *  @brief A* algorithm capable of finding a path through a dataset.
