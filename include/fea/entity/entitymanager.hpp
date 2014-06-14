@@ -26,6 +26,8 @@ namespace fea
             template<class DataType>
             const DataType& getAttribute(const EntityId id, const std::string& attribute) const;
             template<class DataType>
+            DataType& getAttribute(const EntityId id, const std::string& attribute);
+            template<class DataType>
             void setAttribute(const EntityId id, const std::string& attribute, const DataType& attributeData);
             template<class DataType>
             void addToAttribute(const EntityId id, const std::string& attribute, const DataType& attributeData);
@@ -99,6 +101,14 @@ namespace fea
      *  @param id ID of the Entity to remove.
      ***
      *  @fn const DataType& EntityManager::getAttribute(const EntityId id, const std::string& attribute) const
+     *  @brief Retrieve the value of an attribute of a selected Entity. 
+     *  
+     *  Assert/undefined behavior when the attribute does not exist or the wrong template argument is provided or the entity does not exist.
+     *  @tparam DataType of the attribute to get.
+     *  @param attribute Name of the attribute to get.
+     *  @param id ID of the Entity to get the attribute from.
+     ***
+     *  @fn DataType& EntityManager::getAttribute(const EntityId id, const std::string& attribute)
      *  @brief Retrieve the value of an attribute of a selected Entity. 
      *  
      *  Assert/undefined behavior when the attribute does not exist or the wrong template argument is provided or the entity does not exist.
