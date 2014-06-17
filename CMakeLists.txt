@@ -50,6 +50,19 @@ endif()
 include_directories(${CMAKE_CURRENT_LIST_DIR}/include)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_LIST_DIR}/cmake/modules/")
 
+
+
+set(ASM_OPTIMISATIONS FALSE CACHE BOOL "use assembler optimisation for noise generation. only compatible with 64 bit builds")
+set(ASM_COMPILER_PATH "" CACHE FILEPATH "select asm compiler to use (nasm/yasm)")
+
+if(ASM_OPTIMISATIONS) #if this option is chosen, then it #ifdef NOISE_ASM in the code will be run
+	set(YASM_PATH ${ASM_COMPILER_PATH})
+	enable_language(ASM-NASM)
+	add_definitions(-DNOISE_ASM)
+endif(ASM_OPTIMISATIONS)
+
+
+
 if(NOT MSVC)
     set(CPP_11_FLAG -std=c++11)
 endif()
@@ -490,7 +503,8 @@ if(BUILD_UTIL)
         src/util/noise.cpp
         src/util/simplexnoise.cpp
         src/util/voronoinoise.cpp
-        src/util/whitenoise.cpp)
+        src/util/whitenoise.cpp
+		src/util/simplexasm.asm)
     
     set(util_header_files 
         include/fea/util/loosentree.hpp
@@ -500,7 +514,8 @@ if(BUILD_UTIL)
         include/fea/util/noise.hpp
         include/fea/util/simplexnoise.hpp
         include/fea/util/voronoinoise.hpp
-        include/fea/util/whitenoise.hpp)
+        include/fea/util/whitenoise.hpp
+        include/fea/util/simplexasm.hpp)
     
     add_library(${project_name}-util ${SHARED_OR_STATIC}
         ${util_header_files}

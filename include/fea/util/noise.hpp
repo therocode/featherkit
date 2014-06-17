@@ -7,6 +7,10 @@
 #include <fea/util/voronoinoise.hpp>
 #include <fea/util/whitenoise.hpp>
 
+#ifdef NOISE_ASM
+#include <fea/util/simplexasm.hpp>
+#endif
+
 namespace fea
 {
 	const uint32_t globalSeed = 51253;
