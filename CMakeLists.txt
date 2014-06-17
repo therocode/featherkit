@@ -17,6 +17,7 @@ set(BUILD_ENTITY TRUE CACHE BOOL "Selects if the entity module should be built")
 set(BUILD_MESSAGING TRUE CACHE BOOL "Selects if the messaging module should be built")
 set(BUILD_RENDERING TRUE CACHE BOOL "Selects if the rendering module should be built")
 set(BUILD_UI TRUE CACHE BOOL "Selects if the UI module should be built")
+set(BUILD_UTIL TRUE CACHE BOOL "Selects if the util module should be built")
 
 set(BUILD_SFMLBACKENDS FALSE CACHE BOOL "Selects if the SFML backends should be built")
 set(BUILD_SDLBACKENDS FALSE CACHE BOOL "Selects if the SDL backends should be built")
@@ -479,24 +480,28 @@ if(BUILD_UI)
     endif()
 endif()
 
-##Util module##
-
-#set(BUILT_TARGETS ${BUILT_TARGETS} ${project_name}-util)
-
-#find all source files
-#set(util_source_files)
-
-set(util_header_files 
-    include/fea/util/loosentree.hpp
-    include/fea/util/loosentree.inl
-    include/fea/util/pathfinder.hpp
-    include/fea/util/pathfinder.inl)
-
-#add_library(${project_name}-util ${SHARED_OR_STATIC}
-#    ${util_header_files}
-#    ${util_source_files})
-
-#target_link_libraries(${project_name}-ui ${JSONCPP_LIBRARIES})
+if(BUILD_UTIL)
+    ##Util module##
+    
+    set(BUILT_TARGETS ${BUILT_TARGETS} ${project_name}-util)
+    
+    #find all source files
+    set(util_source_files
+        src/util/simplexnoise.cpp)
+    
+    set(util_header_files 
+        include/fea/util/loosentree.hpp
+        include/fea/util/loosentree.inl
+        include/fea/util/pathfinder.hpp
+        include/fea/util/pathfinder.inl
+        include/fea/util/simplexnoise.hpp)
+    
+    add_library(${project_name}-util ${SHARED_OR_STATIC}
+        ${util_header_files}
+        ${util_source_files})
+    
+    target_link_libraries(${project_name}-util)
+endif()
 
 
 install(
