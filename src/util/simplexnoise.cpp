@@ -1,7 +1,5 @@
-#include <cmath>
-
 #include <fea/util/simplexnoise.hpp>
-
+#include <cmath>
 
 namespace fea
 {

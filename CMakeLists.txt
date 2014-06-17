@@ -487,14 +487,20 @@ if(BUILD_UTIL)
     
     #find all source files
     set(util_source_files
-        src/util/simplexnoise.cpp)
+        src/util/noise.cpp
+        src/util/simplexnoise.cpp
+        src/util/voronoinoise.cpp
+        src/util/whitenoise.cpp)
     
     set(util_header_files 
         include/fea/util/loosentree.hpp
         include/fea/util/loosentree.inl
         include/fea/util/pathfinder.hpp
         include/fea/util/pathfinder.inl
-        include/fea/util/simplexnoise.hpp)
+        include/fea/util/noise.hpp
+        include/fea/util/simplexnoise.hpp
+        include/fea/util/voronoinoise.hpp
+        include/fea/util/whitenoise.hpp)
     
     add_library(${project_name}-util ${SHARED_OR_STATIC}
         ${util_header_files}
