@@ -1,7 +1,6 @@
+#pragma once
 #include <random>
 #include <cstring>
-
-#pragma once
 
 namespace fea
 {
