@@ -1,9 +1,5 @@
 #include <fea/util/noise.hpp>
 
-#ifdef NOISE_ASM
-#include "asmnoise.h"
-#endif
-
 namespace fea
 {
 	Noise::Noise()
