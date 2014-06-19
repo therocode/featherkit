@@ -66,7 +66,7 @@ section .data
 	whiteret dd 255.0
 
 section .text
-default rel
+	default rel
 	global  asm_raw_noise_3d,\
 			asm_raw_noise_2d,\
 			asm_VoronoiNoise_2d,\
@@ -180,27 +180,48 @@ asm_raw_noise_3d:
 	mov       r9  ,12
 	div       r9b
 	shr       ax  ,8                 ;gi0
+<<<<<<< HEAD
 lea eax,[eax+eax*2]
 mov r10,qword grad3
 pmovsxbd xmm1,[rax+r10]
+=======
+	lea       eax ,[eax+eax*2]
+	mov       r10 ,qword grad3
+	pmovsxbd  xmm1,[rax+r10]
+>>>>>>> 66621dbc79699a8bf48dd661740652337b1be14d
 	;pmovsxbd  xmm1,[grad3+rax+rax*2] ;grad3[gi0]
 	mov       rax ,rcx
 	div       r9b
 	shr       ax  ,8
+<<<<<<< HEAD
 lea eax,[eax+eax*2]
 pmovsxbd xmm2,[rax+r10]
+=======
+	lea       eax ,[eax+eax*2]
+	pmovsxbd  xmm2,[rax+r10]
+>>>>>>> 66621dbc79699a8bf48dd661740652337b1be14d
 	;pmovsxbd  xmm2,[grad3+rax+rax*2]
 	mov       rax ,rdx
 	div       r9b
 	shr       ax  ,8
+<<<<<<< HEAD
 lea eax,[eax+eax*2]
 pmovsxbd xmm3,[rax+r10]
+=======
+	lea       eax ,[eax+eax*2]
+	pmovsxbd  xmm3,[rax+r10]
+>>>>>>> 66621dbc79699a8bf48dd661740652337b1be14d
 	;pmovsxbd  xmm3,[grad3+rax+rax*2]
 	mov       rax ,r8
 	div       r9b
 	shr       ax  ,8
+<<<<<<< HEAD
 lea eax,[eax+eax*2]
 pmovsxbd xmm6,[rax+r10]
+=======
+	lea       eax ,[eax+eax*2]
+	pmovsxbd  xmm6,[rax+r10]
+>>>>>>> 66621dbc79699a8bf48dd661740652337b1be14d
 	;pmovsxbd  xmm6,[grad3+rax+rax*2]
 
 	cvtdq2ps  xmm1,xmm1
@@ -337,6 +358,7 @@ asm_raw_noise_2d:
 	mov       r8  ,12
 	div       r8b
 	shr       ax  ,8                 ;gi0
+<<<<<<< HEAD
 lea eax,[eax+eax*2]
 add rax,[grad3 wrt rip]
 pmovsxbd xmm1,[rax]
@@ -355,6 +377,25 @@ lea eax,[eax+eax*2]
 add rax,[grad3 wrt rip]
 pmovsxbd xmm5,[rax]
 	;pmovsxbd  xmm5,[grad3+rax+rax*2]
+=======
+
+	lea       eax ,[eax+eax*2]
+	mov       r10 ,qword grad3
+	pmovsxbd  xmm1,[rax+r10]
+	; pmovsxbd  xmm1,[grad3+rax+rax*2] ;grad3[gi0]
+	mov       rax ,rcx
+	div       r8b
+	shr       ax  ,8
+	lea       eax ,[eax+eax*2]
+	pmovsxbd  xmm3,[rax+r10]
+	; pmovsxbd  xmm3,[grad3+rax+rax*2]
+	mov       rax ,rdx
+	div       r8b
+	shr       ax  ,8
+	lea       eax ,[eax+eax*2]
+	pmovsxbd  xmm5,[rax+r10]
+	; pmovsxbd  xmm5,[grad3+rax+rax*2]
+>>>>>>> 66621dbc79699a8bf48dd661740652337b1be14d
 
 	cvtdq2ps  xmm1,xmm1
 	cvtdq2ps  xmm3,xmm3
@@ -498,4 +539,7 @@ asm_WhiteNoise_2d:
 
 	%undef   perm
 	ret
+<<<<<<< HEAD
 
+=======
+>>>>>>> 66621dbc79699a8bf48dd661740652337b1be14d

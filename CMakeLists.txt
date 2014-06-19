@@ -59,7 +59,7 @@ if(ASM_OPTIMISATIONS) #if this option is chosen, then it #ifdef NOISE_ASM in the
 	set(YASM_PATH ${ASM_COMPILER_PATH})
 	enable_language(ASM-NASM)
 	add_definitions(-DNOISE_ASM)
-endif(ASM_OPTIMISATIONS)
+endif(64BIT_ASM_OPTIMISATIONS)
 
 
 
