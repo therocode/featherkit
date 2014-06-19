@@ -8,7 +8,7 @@
 #include <fea/util/whitenoise.hpp>
 
 #ifdef NOISE_ASM
-#include <fea/util/simplexasm.hpp>
+#include <fea/util/asmnoise.hpp>
 #endif
 
 namespace fea
