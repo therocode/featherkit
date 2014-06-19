@@ -8,6 +8,7 @@
 #include <fea/util/whitenoise.hpp>
 
 #ifdef NOISE_ASM
+#include <fea/util/asmchecksse41.hpp>
 #include <fea/util/asmnoise.hpp>
 #endif
 
@@ -34,5 +35,6 @@ namespace fea
 			VoronoiNoise mVoronoiNoise;
 			std::ranlux24_base mRandomEngine;
 			PermutationTable mPerm;
+			bool asmCompatible;
 	};
 }

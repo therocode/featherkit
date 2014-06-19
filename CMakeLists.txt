@@ -503,7 +503,8 @@ if(BUILD_UTIL)
         src/util/simplexnoise.cpp
         src/util/voronoinoise.cpp
         src/util/whitenoise.cpp
-		src/util/asmnoise.asm)
+		src/util/asmnoise.asm
+		src/util/asmchecksse41.asm)
     
     set(util_header_files 
         include/fea/util/loosentree.hpp
@@ -514,7 +515,8 @@ if(BUILD_UTIL)
         include/fea/util/simplexnoise.hpp
         include/fea/util/voronoinoise.hpp
         include/fea/util/whitenoise.hpp
-        include/fea/util/asmnoise.hpp)
+        include/fea/util/asmnoise.hpp
+        include/fea/util/asmchecksse41.hpp)
     
     add_library(${project_name}-util ${SHARED_OR_STATIC}
         ${util_header_files}

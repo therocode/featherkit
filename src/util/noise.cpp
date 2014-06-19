@@ -5,6 +5,10 @@ namespace fea
 	Noise::Noise()
 	{
 		setSeed(0);
+
+		#ifdef NOISE_ASM
+		asmCompatible = CheckSse41();
+		#endif
 	}
 
 	Noise::Noise(uint32_t seed)
@@ -29,7 +33,7 @@ namespace fea
 	#ifndef NOISE_ASM
 		return mWhiteNoise.get2d(x, y, mPerm.data());
 	#else
-		return asm_WhiteNoise_2d(x, y, mPerm.data());
+		return (asmCompatible) ? asm_WhiteNoise_2d(x, y, mPerm.data()) : mWhiteNoise.get2d(x, y, mPerm.data());
 	#endif
 	}
 
@@ -38,7 +42,7 @@ namespace fea
 	#ifndef NOISE_ASM
 		return raw_noise_2d(x, y, mPerm.data());
 	#else
-		return asm_raw_noise_2d(x, y, mPerm.data());
+		return (asmCompatible) ? asm_raw_noise_2d(x, y, mPerm.data()) : raw_noise_2d(x, y, mPerm.data());
 	#endif
 	}
 
@@ -47,7 +51,7 @@ namespace fea
 	#ifndef NOISE_ASM
 		return raw_noise_3d(x, y, z, mPerm.data());
 	#else
-		return asm_raw_noise_3d(x, y, z, mPerm.data());
+		return (asmCompatible) ? asm_raw_noise_3d(x, y, z, mPerm.data()) : raw_noise_3d(x, y, z, mPerm.data());
 	#endif
 	}
 
@@ -108,7 +112,7 @@ namespace fea
 	#ifndef NOISE_ASM
 		return mVoronoiNoise.get2d(x, y, mPerm.data());
 	#else
-		return asm_VoronoiNoise_2d(x, y, mPerm.data());
+		return (asmCompatible) ? asm_VoronoiNoise_2d(x, y, mPerm.data()) : mVoronoiNoise.get2d(x, y, mPerm.data());
 	#endif
 	}
 }
