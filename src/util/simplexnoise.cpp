@@ -28,7 +28,7 @@ namespace fea
 		float x1 = x0 - i1 + G2;
 		float y1 = y0 - j1 + G2;
 		float x2 = x0 - 1.0f + 2.0f * G2;
-		float y2 = y0 - 1.0f + 2.0F * G2;
+		float y2 = y0 - 1.0f + 2.0f * G2;
 
 		uint8_t ii = uint8_t(i);
 		uint8_t jj = uint8_t(j);
