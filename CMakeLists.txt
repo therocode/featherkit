@@ -52,13 +52,14 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_LIST_DIR}/cmake/modu
 
 
 
-set(64BIT_ASM_OPTIMISATIONS FALSE CACHE BOOL "use assembler optimisation for noise generation. only compatible with 64 bit builds")
-set(ASM_COMPILER_PATH "" CACHE FILEPATH "select asm compiler to use (nasm/yasm)")
-if(64BIT_ASM_OPTIMISATIONS) #if this option is chosen, then it #ifdef NOISE_ASM in the code will be run
+set(ASM_OPTIMISATIONS FALSE CACHE BOOL "use assembler optimisation for noise generation. only compatible with 64 bit builds")
+
+if(ASM_OPTIMISATIONS) #if this option is chosen, then it #ifdef NOISE_ASM in the code will be run
+    set(ASM_COMPILER_PATH "" CACHE FILEPATH "select asm compiler to use (nasm/yasm)")
 	set(YASM_PATH ${ASM_COMPILER_PATH})
 	enable_language(ASM-NASM)
 	add_definitions(-DNOISE_ASM)
-endif(64BIT_ASM_OPTIMISATIONS)
+endif(ASM_OPTIMISATIONS)
 
 
 
@@ -497,14 +498,19 @@ if(BUILD_UTIL)
     
     set(BUILT_TARGETS ${BUILT_TARGETS} ${project_name}-util)
     
+    if(ASM_OPTIMISATIONS)
+        set(UTIL_ASM_SOURCE 
+            src/util/asmnoise.asm
+            src/util/asmchecksse41.asm)
+    endif()
+    
     #find all source files
     set(util_source_files
         src/util/noise.cpp
         src/util/simplexnoise.cpp
         src/util/voronoinoise.cpp
         src/util/whitenoise.cpp
-		src/util/asmnoise.asm
-		src/util/asmchecksse41.asm)
+        ${UTIL_ASM_SOURCE})
     
     set(util_header_files 
         include/fea/util/loosentree.hpp
