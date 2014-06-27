@@ -18,9 +18,9 @@ namespace fea
 		// Inside each unit cube, there is a seed point at a random position.  Go
 		// through each of the nearby cubes until we find a cube with a seed point
 		// that is closest to the specified position.
-		for (int yCur = -2; yCur <= 2; yCur++) 
+		for (int yCur = -1; yCur <= 1; yCur++) 
 		{
-			for (int xCur = -2; xCur <= 2; xCur++) 
+			for (int xCur = -1; xCur <= 1; xCur++) 
 			{
 
 				// Calculate the position and distance to the seed point inside of

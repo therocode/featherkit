@@ -50,7 +50,6 @@ section .data
 
 	;voronoi
 	mindist  dd 2147483648.0
-	v1000    dd 1000.0
 
 	;white noise
 	whiteret dd 255.0
@@ -378,64 +377,63 @@ asm_VoronoiNoise_2d:
 
 %ifdef win64
 	movups    [rsp-16],xmm6
-	movups    [rsp-32],xmm7
-	movups    [rsp-48],xmm8
-	movups    [rsp-64],xmm9
-	movups    [rsp-80],xmm10
 %endif
 ;0=x 1=y r8/rdi=perm
 
-	vunpcklps xmm3,xmm0,xmm1
-	roundps   xmm4,xmm3,1
-;3=xy 4=xyInt
+	roundss   xmm2,xmm0,1
+	roundss   xmm3,xmm1,1
+	cvtss2si  eax ,xmm2
+	cvtss2si  ecx ,xmm3
+	movss     xmm2,xmm0
+	movss     xmm4,[mindist]
+	unpcklps  xmm2,xmm1
+;2=xy eax=xInt ecx=yInt
 
-	vbroadcastss xmm5,[one]
-	subps     xmm4,xmm5
-	subps     xmm4,xmm5           ;xycur
-	movss     xmm10,xmm4
-	movss     xmm7,[v1000]
-	movss     xmm8,[mindist]
-	mov       al  ,6
-	mov       cl  ,6
+	mov       r10d,eax
+	mov       r11d,ecx
+	sub       eax ,1
+	sub       ecx ,1
+	add       r10d,1
+	add       r11d,1
+;2=xy eax=xInt-2 ecx=yInt-2 r10d=xInt+2 r11d=yInt+2
+
 findcube:
-	movss     xmm0,xmm4
-	pshufd    xmm1,xmm4,1
+	cvtsi2ss  xmm0,eax
+	cvtsi2ss  xmm1,ecx
+	movss     xmm5,xmm0
 	call      asm_WhiteNoise_2d
-	movss     xmm6,xmm0
-	movss     xmm0,xmm4
-	addss     xmm1,xmm7
+	movss     xmm3,xmm0
+	add       ecx ,1000
+	movss     xmm0,xmm5
+	cvtsi2ss  xmm1,ecx
 	call      asm_WhiteNoise_2d
-	unpcklps  xmm6,xmm0
-	addps     xmm6,xmm4           ;xyPos
-	vsubps    xmm2,xmm6,xmm3
-	dpps      xmm2,xmm2,00110001b ;dist
-	vcmpss    xmm0,xmm2,xmm8,1
+	sub       ecx ,1000
+	cvtsi2ss  xmm1,ecx
+	unpcklps  xmm3,xmm0
+	unpcklps  xmm5,xmm1
+	addps     xmm5,xmm3           ;5=xyPos
+	vsubps    xmm3,xmm5,xmm2
+	dpps      xmm3,xmm3,00110001b ;2=dist
+	vcmpss    xmm0,xmm3,xmm4,1
 	shufps    xmm0,xmm0,0
-	blendvps  xmm9,xmm6           ;xyCandidate
-	minss     xmm8,xmm2
+	minss     xmm4,xmm3
+	blendvps  xmm6,xmm5
 
-	addss     xmm4,xmm5
-	sub       al  ,1
-	jnz       findcube
-	mov       al  ,6
-	movss     xmm4,xmm10
-	shufps    xmm4,xmm4,1
-	addss     xmm4,xmm5  ;...
-	shufps    xmm4,xmm4,1
-	sub       cl  ,1
-	jnz       findcube
-;9=xyCandidate
+	add       eax ,1
+	cmp       eax ,r10d
+	jng       findcube
+	sub       eax ,3
+	add       ecx ,1
+	cmp       ecx ,r11d
+	jng       findcube
+;6=xyCandidate
 
-	roundps   xmm0,xmm9,1
+	roundps   xmm0,xmm6,1
 	pshufd    xmm1,xmm0,1
 	call      asm_WhiteNoise_2d
 
 %ifdef win64
 	movups    xmm6,[rsp-16]
-	movups    xmm7,[rsp-32]
-	movups    xmm8,[rsp-48]
-	movups    xmm9,[rsp-64]
-	movups    xmm10,[rsp-80]
 %endif
 	ret
 
@@ -452,9 +450,9 @@ asm_WhiteNoise_2d:
 %endif
 ;0=x 1=y
 
-	roundss  xmm2,xmm1,1
+	roundss  xmm1,xmm1,1
 	roundss  xmm0,xmm0,1
-	cvtss2si r9d ,xmm2
+	cvtss2si r9d ,xmm1
 	cvtss2si edx ,xmm0
 	and      r9  ,255
 	and      edx ,255
