@@ -85,6 +85,8 @@ namespace fea
      *  @brief Generate a single coordinate of layered 2-dimensional simplex noise.
      *
      *  This layers several "octaves" of simplex noise together to produce a more interesting result. An octave is a scaled layer of noise. Note that as the amount of octaves increases, so does the computational time.
+     *
+     *  Assert/undefined behaviour when zero or less is given as the octave value.
      *  @param x X coordinate to generate.
      *  @param y Y coordinate to generate.
      *  @param scaleFactor The size of the output noise.
@@ -103,6 +105,8 @@ namespace fea
      *  @brief Generate a single coordinate of layered 3-dimensional simplex noise.
      *
      *  This layers several "octaves" of simplex noise together to produce a more interesting result. An octave is a scaled layer of noise. Note that as the amount of octaves increases, so does the computational time.
+     *
+     *  Assert/undefined behaviour when zero or less is given as the octave value.
      *  @param x X coordinate to generate.
      *  @param y Y coordinate to generate.
      *  @param z Z coordinate to generate.

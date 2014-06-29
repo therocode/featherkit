@@ -1,5 +1,5 @@
 #include <fea/util/noise.hpp>
-#include <fea/assert.h>
+#include <fea/assert.hpp>
 
 namespace fea
 {
@@ -89,6 +89,7 @@ namespace fea
 	// The higher the persistence [0-1], the more of each succeeding octave will be added.
 	float Noise::simplexOctave3D(float x, float y, float z, float scaleFactor, uint32_t octaves, float persistence) const
 	{
+        FEA_ASSERT(octaves > 0, "Amount of octaves must be greater than zero!");
 		float total = 0.0f;
 		float frequency = scaleFactor;
 		float amplitude = 1.0f;
