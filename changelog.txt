@@ -3,6 +3,9 @@
 [+] API additions
 [-] Bug fixes/internal changes
 
+1.0.0rc4 - Changes from 1.0.0rc3 below
+
+
 1.0.0rc3 - Changes from 1.0.0rc2 below
 * Exchanged libsndfile in favour of libvorbisfile
     -No other formats than .ogg currently supported

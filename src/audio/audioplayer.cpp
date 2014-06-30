@@ -45,26 +45,29 @@ namespace fea
         for(auto& stream : mStreams)
             stream.second.stop();
 
-        mStreams.clear();
+        std::vector<AudioHandle> playingSources;
 
         {
-            std::lock_guard<std::mutex> lock(mSourcesMutex);
+        mStreams.clear();
 
-            std::vector<AudioHandle> playingSources;
+            std::lock_guard<std::mutex> lock(mSourcesMutex);
 
             for(auto& source : mPlayingSources)
                 playingSources.push_back(source.first);
-
-            mIdleSources = std::stack<PlaySource>();
-            mEffectSlots.clear();
-
-            alcMakeContextCurrent(nullptr);
-            if(mAudioContext)
-                alcDestroyContext(mAudioContext);
-
-            if(mAudioDevice)
-                alcCloseDevice(mAudioDevice);
         }
+
+        for(auto source : playingSources)
+            stop(source);
+
+        mIdleSources = std::stack<PlaySource>();
+        mEffectSlots.clear();
+
+        alcMakeContextCurrent(nullptr);
+        if(mAudioContext)
+            alcDestroyContext(mAudioContext);
+
+        if(mAudioDevice)
+            alcCloseDevice(mAudioDevice);
     }
 
     AudioHandle AudioPlayer::play(Audio& audio)
