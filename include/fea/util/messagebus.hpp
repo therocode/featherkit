@@ -5,7 +5,7 @@
 #include <sstream>
 #include <typeindex>
 #include <algorithm>
-#include <fea/messaging/messagereceiver.hpp>
+#include <fea/util/messagereceiver.hpp>
 #include <fea/assert.hpp>
 
 #define FEA_DECLARE_MESSAGE1(name)                      \
@@ -43,7 +43,7 @@ namespace fea
             std::unordered_map<std::type_index, std::vector<MessageReceiverBase*>> mSubscribers;
     };
 
-#include <fea/messaging/messagebus.inl>
+#include <fea/util/messagebus.inl>
     /** @addtogroup Messaging
      *@{
      *  @class MessageBus
