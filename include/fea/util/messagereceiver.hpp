@@ -13,7 +13,7 @@ namespace fea
         public:
             virtual void handleMessage(const MessageType& message) = 0;
     };
-    /** @addtogroup Messaging
+    /** @addtogroup Util
      *@{
      *  @class MessageReceiverBase
      *  @class MessageReceiver

@@ -44,7 +44,7 @@ namespace fea
     };
 
 #include <fea/util/messagebus.inl>
-    /** @addtogroup Messaging
+    /** @addtogroup Util
      *@{
      *  @class MessageBus
      *@}
