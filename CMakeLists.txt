@@ -14,7 +14,6 @@ set(SHARED_BUILD TRUE CACHE BOOL "Set this to false if you want a static build")
 set(BUILD_AUDIO TRUE CACHE BOOL "Selects if the audio module should be built")
 set(BUILD_STRUCTURE TRUE CACHE BOOL "Selects if the structure module should be built")
 set(BUILD_ENTITY TRUE CACHE BOOL "Selects if the entity module should be built")
-set(BUILD_MESSAGING TRUE CACHE BOOL "Selects if the messaging module should be built")
 set(BUILD_RENDERING TRUE CACHE BOOL "Selects if the rendering module should be built")
 set(BUILD_UI TRUE CACHE BOOL "Selects if the UI module should be built")
 set(BUILD_UTIL TRUE CACHE BOOL "Selects if the util module should be built")
@@ -243,24 +242,6 @@ if(BUILD_ENTITY)
         ${entity_json_header_files})
 
     target_link_libraries(${project_name}-entity ${JSONCPP_LIBRARIES})
-endif()
-
-if(BUILD_MESSAGING)
-    ##Messaging module##
-
-    set(BUILT_TARGETS ${BUILT_TARGETS} ${project_name}-messaging)
-
-    set(messaging_source_files 
-        src/messaging/messagebus.cpp)
-
-    set(messaging_header_files 
-        include/fea/messaging/messagebus.hpp
-        include/fea/messaging/messagebus.inl
-        include/fea/messaging/messagereceiver.hpp)
-
-    add_library(${project_name}-messaging ${SHARED_OR_STATIC}
-        ${messaging_source_files}
-        ${messaging_header_files})
 endif()
 
 if(BUILD_RENDERING)
@@ -506,6 +487,7 @@ if(BUILD_UTIL)
     
     #find all source files
     set(util_source_files
+        src/util/messagebus.cpp
         src/util/noise.cpp
         src/util/simplexnoise.cpp
         src/util/voronoinoise.cpp
@@ -513,6 +495,9 @@ if(BUILD_UTIL)
         ${UTIL_ASM_SOURCE})
     
     set(util_header_files 
+        include/fea/util/messagebus.hpp
+        include/fea/util/messagebus.inl
+        include/fea/util/messagereceiver.hpp
         include/fea/util/loosentree.hpp
         include/fea/util/loosentree.inl
         include/fea/util/pathfinder.hpp
