@@ -3,6 +3,7 @@
 #include <fea/audio/openal.hpp>
 #include <stack>
 #include <unordered_map>
+#include <queue>
 #include <fea/audio/playsource.hpp>
 #include <fea/audio/listener.hpp>
 #include <fea/audio/effectslot.hpp>
@@ -77,7 +78,7 @@ namespace fea
             std::unordered_map<AudioHandle, PlaySource> mPlayingSources;
             mutable std::mutex mSourcesMutex;
 
-#if !defined(FEA_NO_EFX)
+#if !defined(EMSCRIPTEN)
             //streaming threads
             class Stream
             {
@@ -87,11 +88,14 @@ namespace fea
                     void streamerThread();
                     void start();
                     void stop();
+                    bool isRunning();
                 private:
                     const PlaySource& mSource;
                     AudioStream& mStream;
                     bool mIsFinishing;
                     std::thread mStreamerThread;
+                    std::queue<uint32_t> mQueued;
+                    bool mRunning;
             };
 #else
             class Stream
@@ -99,8 +103,11 @@ namespace fea
                 public:
                     Stream(const PlaySource& source, AudioStream& audioStream);
                     Stream(Stream&& other);
+                    void start();
                     void update();
+                    void stop();
                 private:
+                    std::queue<uint32_t> mQueued;
                     const PlaySource& mSource;
                     AudioStream& mStream;
             };

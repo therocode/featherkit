@@ -4,6 +4,11 @@
 
 namespace fea
 {
+    Uniform::Uniform()
+    {
+        mType = NO_TYPE;
+    }
+
     Uniform::Uniform(const std::string& name, UniformType t, float val)
     {
         mName = name;
@@ -106,6 +111,8 @@ namespace fea
                 break;
             case TEXTURE:
                 mTextureVal = other.mTextureVal;
+                break;
+            case NO_TYPE:
                 break;
         }
     }

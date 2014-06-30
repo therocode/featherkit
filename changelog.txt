@@ -3,6 +3,28 @@
 [+] API additions
 [-] Bug fixes/internal changes
 
+1.0.0rc4 - Changes from 1.0.0rc3 below
+* Moved messaging classes to util
+    -Change includes and linking accordingly
+* Deleted fea::Message
+    -Since the message bus can send objects of any type, you are now
+	recommended to send data structs. the FEA_DECLARE_MESSAGE macro now
+	reflects this and declares a struct. usage:
+	FEA_DECLARE_MESSAGE(SomethingMessage, float data1; int32_t data2;);
+* Moved LooseNTree into util module.
+    -Use this include path: <fea/util/loosentree.hpp>
++ Can now add custom uniforms to any drawable.
++ Created util module.
++ Added pathfinding class.
++ TextSurface now has word wrap functionality.
++ TextSurface now interprets "\n" as a new line.
++ There are now convenience aliases for the loosentree to reflect QuadTree and Octrees. (Thanks jP_wanN)
++ Added various noise functions. (simplex noise, white noise, voronoi noise) (Thanks Fred).
++ Added [ui]64vec[23] to glm type adder.
+- Minor audio bug fixes.
+- Minor entity system fixes.
+- Minor bug in FindCMake module.
+
 1.0.0rc3 - Changes from 1.0.0rc2 below
 * Exchanged libsndfile in favour of libvorbisfile
     -No other formats than .ogg currently supported

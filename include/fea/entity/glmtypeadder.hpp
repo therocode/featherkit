@@ -27,6 +27,10 @@ namespace fea
      *  - "uvec2"
      *  - "ivec3"
      *  - "uvec3"
+     *  - "i64vec2"
+     *  - "u64vec2"
+     *  - "i64vec3"
+     *  - "u64vec3"
      *
      *  The parser for integer type vectors takes two integer numbers separated by comma where each follows the convention of the std string-to-int parsing functions (std::stoi and the like) with additional range checks.
      *

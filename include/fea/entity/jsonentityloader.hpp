@@ -15,10 +15,10 @@ namespace fea
     class FEA_API JsonEntityLoader
     {
         public:
-            std::unordered_map<std::string, std::string> jsonObjToStringMap(const Json::Value&);
-
             std::vector<std::pair<std::string, EntityTemplate>> loadEntityTemplates(const std::string& path);
             std::unordered_map<std::string, std::string> loadEntityAttributes(const std::string& path);
+        private:
+            std::unordered_map<std::string, std::string> jsonObjToStringMap(const Json::Value&);
     };
     /** @addtogroup EntitySystem
      *@{
