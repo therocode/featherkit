@@ -4,6 +4,8 @@
 [-] Bug fixes/internal changes
 
 1.0.0rc4 - Changes from 1.0.0rc3 below
+* Moved messaging classes to util
+    -Change includes and linking accordingly
 * Deleted fea::Message
     -Since the message bus can send objects of any type, you are now
 	recommended to send data structs. the FEA_DECLARE_MESSAGE macro now
