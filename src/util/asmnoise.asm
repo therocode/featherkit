@@ -18,20 +18,12 @@
 		movaps   %1,%2
 		unpcklps %1,%3
 	%endmacro
-
-	%macro vshufps 4
-		movaps   %1,%2
-		shufps   %1,%3,%4
-	%endmacro
-
-	%macro vbroadcastss 2
-		movss    %1,%2
-		shufps   %1,%1,0
-	%endmacro
 %endif
 
 
 section .data
+	align 16
+
 	;simplex
 	F3	     dd 0.33333334
 	G3	     dd 0.16666667
@@ -39,7 +31,7 @@ section .data
 	tval     dd 0.6
 	retval   dd 32.0
 
-	F2       dd 0.36602542
+	F2       dd 0.3660254 ;0.36602542
 	G2       dd 0.21132487
 	tval2d   dd 0.5
 	retval2d dd 70.0
@@ -49,6 +41,7 @@ section .data
 				0,1,1,  0,-1,1,  0,1,-1,  0,-1,-1
 
 	;voronoi
+	align 16
 	mindist  dd 2147483648.0
 
 	;white noise
@@ -68,9 +61,10 @@ section .text
 asm_raw_noise_3d:
 
 %ifdef win64
-	movups    [rsp-16],xmm6
-	movups    [rsp-32],xmm7
-	mov       [rsp-48],rbx
+	movaps    [rsp-0x28],xmm7
+	movaps    [rsp-0x18],xmm6
+	mov       [rsp-0x08],rbx
+
 	mov       rbx ,r9
 	%define   perm rbx
 
@@ -92,7 +86,7 @@ asm_raw_noise_3d:
 	pshufd    xmm2,xmm1,1
 	movhlps   xmm3,xmm1
 	addss     xmm2,xmm1
-	vbroadcastss xmm6,[G3]
+	pshufd    xmm6,[F3],010101b ;G3
 	addss     xmm2,xmm3
 	mulss     xmm2,xmm6
 	shufps    xmm2,xmm2,0
@@ -100,7 +94,7 @@ asm_raw_noise_3d:
 	subps     xmm0,xmm3
 ;0=x0y0z0 1=ijk 6=G3
 
-	vbroadcastss xmm7,[one]
+	pshufd    xmm7,[F3],101010b ;one
 	pshufd    xmm2,xmm0,000001b ;yxx
 	pshufd    xmm3,xmm0,100110b ;zyz
 	movaps    xmm4,xmm2
@@ -216,7 +210,7 @@ asm_raw_noise_3d:
 	unpckhps  xmm2,xmm3       ;159D
 	unpcklps  xmm0,xmm4       ;26AE
 
-	vbroadcastss xmm4,[tval]
+	pshufd    xmm4,[F3],11111111b ;tval
 	subps     xmm4,xmm5
 	subps     xmm4,xmm2
 	subps     xmm4,xmm0       ;t0t1t2t3
@@ -238,9 +232,9 @@ asm_raw_noise_3d:
 	mulss     xmm0,[retval]
 
 %ifdef win64
-	movups    xmm6,[rsp-16]
-	movups    xmm7,[rsp-32]
-	mov       rbx ,[rsp-48]
+	movaps    xmm7,[rsp-0x28]
+	movaps    xmm6,[rsp-0x18]
+	mov       rbx ,[rsp-0x08]
 %endif
 
 	%undef    perm
@@ -268,7 +262,7 @@ asm_raw_noise_2d:
 	roundps   xmm1,xmm1,1
 ;0=xy 1=ij
 
-	vbroadcastss xmm2,[G2]
+	pshufd    xmm2,[retval],1010b ;G2
 	pshufd    xmm4,xmm1,1
 	addss     xmm4,xmm1
 	mulss     xmm4,xmm2
@@ -277,7 +271,7 @@ asm_raw_noise_2d:
 	subps     xmm0,xmm5
 ;0=x0y0 1=ij 2=G2
 
-	vbroadcastss xmm5,[one]
+	pshufd    xmm5,[F3],1010b ;one
 	unpcklps  xmm3,xmm0
 	cmpps     xmm3,xmm0,1 ; 1: x < y
 	insertps  xmm3,xmm0,01001100b
@@ -344,10 +338,11 @@ asm_raw_noise_2d:
 	mulps     xmm2,xmm2
 	mulps     xmm0,xmm0
 
-	vshufps   xmm4,xmm0,xmm2,001000b
+	movaps    xmm4,xmm0
+	shufps    xmm4,xmm2,001000b
 	shufps    xmm0,xmm2,011101b
 
-	vbroadcastss xmm3,[tval2d]
+	pshufd    xmm3,[retval],111111b ;tval2d
 	subps     xmm3,xmm4
 	subps     xmm3,xmm0 ;t0t1t2
 
@@ -376,7 +371,7 @@ asm_raw_noise_2d:
 asm_VoronoiNoise_2d:
 
 %ifdef win64
-	movups    [rsp-16],xmm6
+	movaps    [rsp-0x18],xmm6
 %endif
 ;0=x 1=y r8/rdi=perm
 
@@ -385,7 +380,7 @@ asm_VoronoiNoise_2d:
 	cvtss2si  eax ,xmm2
 	cvtss2si  ecx ,xmm3
 	movss     xmm2,xmm0
-	movss     xmm4,[mindist]
+	movsldup  xmm4,[mindist]
 	unpcklps  xmm2,xmm1
 ;2=xy eax=xInt ecx=yInt
 
@@ -413,10 +408,10 @@ findcube:
 	unpcklps  xmm5,xmm1
 	addps     xmm5,xmm3           ;5=xyPos
 	vsubps    xmm3,xmm5,xmm2
-	dpps      xmm3,xmm3,00110001b ;2=dist
-	vcmpss    xmm0,xmm3,xmm4,1
-	shufps    xmm0,xmm0,0
-	minss     xmm4,xmm3
+	dpps      xmm3,xmm3,00110011b ;2=dist
+	movaps    xmm0,xmm3
+	cmpps     xmm0,xmm4,1
+	minps     xmm4,xmm3
 	blendvps  xmm6,xmm5
 
 	add       eax ,1
@@ -433,7 +428,7 @@ findcube:
 	call      asm_WhiteNoise_2d
 
 %ifdef win64
-	movups    xmm6,[rsp-16]
+	movaps    xmm6,[rsp-0x18]
 %endif
 	ret
 
