@@ -4,7 +4,7 @@
 
 namespace fea
 {
-    GameStateMachine::GameStateMachine() : mCurrentStateName("NONE"), mCurrentState(nullptr)
+    GameStateMachine::GameStateMachine() : mCurrentStateName("NONE"), mCurrentState(nullptr), gameStates(new std::unordered_map<std::string, std::unique_ptr<GameState>>)
     {
     }
 
@@ -12,7 +12,7 @@ namespace fea
     {
         FEA_ASSERT(gameStates.find(name) == gameStates.end(), "Trying to add state called " + name + " but such a state name already exists!");
         state->setup();
-        gameStates.emplace(name, std::move(state));
+        gameStates->emplace(name, std::move(state));
     }
 
     void GameStateMachine::setCurrentState(const std::string& name)
@@ -21,7 +21,7 @@ namespace fea
 
         if(mCurrentState == nullptr)
         {
-            mCurrentState = gameStates.at(name).get();
+            mCurrentState = gameStates->at(name).get();
             mCurrentState->activate("");
             mCurrentStateName = name;
         }
@@ -48,7 +48,7 @@ namespace fea
         GameState* previousState = mCurrentState;
         std::string previousStateName = mCurrentStateName;
 
-        mCurrentState = gameStates.at(nextStateName).get();
+        mCurrentState = gameStates->at(nextStateName).get();
         mCurrentStateName = nextStateName;
 
         mCurrentState->handOver(*previousState, previousStateName);
