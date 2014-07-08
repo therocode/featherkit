@@ -3,7 +3,7 @@
 
 namespace fea
 {
-	float raw_noise_2d(const float x, const float y, const uint8_t* perm)
+	float raw_noise_2d(float x, float y, const uint8_t* perm)
 	{
 		const float F2 = 0.5f * (std::sqrt(3.0f) - 1.0f);
 		float s = (x + y) * F2;
@@ -49,7 +49,7 @@ namespace fea
 	}
 
 
-	float raw_noise_3d(const float x, const float y, const float z, const uint8_t* perm)
+	float raw_noise_3d(float x, float y, float z, const uint8_t* perm)
 	{
 		float F3 = 1.0f / 3.0f;
 		float s = (x + y + z) * F3;
@@ -129,23 +129,6 @@ namespace fea
 		float n3 = (t3 < 0) ? 0.0f : std::pow(t3, 4) * dot(grad3[gi3], x3, y3, z3);
 
 		return 32.0f * (n0 + n1 + n2 + n3);
-	}
-
-
-	void setSimplexSeed(const int32_t seed){
-		std::mt19937 eng(seed);
-		std::uniform_int_distribution<int> dist(0, 255);
-		for(int i = 0; i < 256; i ++)
-			perm[i] = i;
-
-		for(int i = 0; i < 10000; i ++){
-			uint8_t firstID = dist(eng);
-			uint8_t secondID = dist(eng);
-			int h = perm[firstID];
-			perm[firstID] = perm[secondID];
-			perm[secondID] = h;
-		}
-		memcpy(&perm[256], &perm[0], 256);
 	}
 
 

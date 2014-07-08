@@ -20,7 +20,7 @@ namespace fea
 	void Noise::setSeed(uint32_t seed)
 	{
 		mRandomEngine.seed(seed);
-		for(uint16_t i = 0; i < 256; i++)
+		for(uint8_t i = 0; i < 256; i++)
 		{
 			mPerm[i] = i;
 		}
@@ -71,7 +71,7 @@ namespace fea
 		// because each octave adds more, and we need a value in [-1, 1].
 		float maxAmplitude = 0.0f;
 
-		for(int i=0; i < octaves; i++)
+		for(uint32_t i = 0; i < octaves; i++)
 		{
 			total += simplex2D(x * frequency + 3000.f * i, y * frequency + 1500.0f * i) * amplitude;
 
