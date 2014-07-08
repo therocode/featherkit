@@ -51,14 +51,14 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_LIST_DIR}/cmake/modu
 
 
 
-set(ASM_OPTIMISATIONS FALSE CACHE BOOL "use assembler optimisation for noise generation. only compatible with 64 bit builds")
+set(ASM_OPTIMIZATIONS FALSE CACHE BOOL "use assembler optimization for noise generation. only compatible with 64 bit builds")
 
-if(ASM_OPTIMISATIONS) #if this option is chosen, then it #ifdef NOISE_ASM in the code will be run
+if(ASM_OPTIMIZATIONS) #if this option is chosen, then it #ifdef NOISE_ASM in the code will be run
     set(ASM_COMPILER_PATH "" CACHE FILEPATH "select asm compiler to use (nasm/yasm)")
 	set(YASM_PATH ${ASM_COMPILER_PATH})
 	enable_language(ASM-NASM)
 	add_definitions(-DNOISE_ASM)
-endif(ASM_OPTIMISATIONS)
+endif(ASM_OPTIMIZATIONS)
 
 
 
@@ -479,7 +479,7 @@ if(BUILD_UTIL)
     
     set(BUILT_TARGETS ${BUILT_TARGETS} ${project_name}-util)
     
-    if(ASM_OPTIMISATIONS)
+    if(ASM_OPTIMIZATIONS)
         set(UTIL_ASM_SOURCE 
             src/util/asmnoise.asm
             src/util/asmchecksse41.asm)
