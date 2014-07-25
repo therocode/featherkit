@@ -9,6 +9,12 @@ endif()
 set(project_name fea)
 project(${project_name})
 
+set(${project_name}_VERSION_MAJOR 0)
+set(${project_name}_VERSION_MINOR 9)
+set(${project_name}_VERSION_PATCH 9)
+set(${project_name}_VERSION
+      ${${project_name}_MAJOR_VERSION}.${${project_name}_MINOR_VERSION}.${${project_name}_PATCH_VERSION})
+
 set(SHARED_BUILD TRUE CACHE BOOL "Set this to false if you want a static build")
 
 set(BUILD_AUDIO TRUE CACHE BOOL "Selects if the audio module should be built")
