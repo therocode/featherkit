@@ -43,7 +43,7 @@ namespace fea
 
     void RenderTarget::create(uint32_t w, uint32_t h, bool smooth)
     {
-        FEA_ASSERT(w > 0 && h > 0, "Size must me greater than zero in both dimensions. " + std::to_string(w) + " " + std::to_string(h) + " provided.");
+        FEA_ASSERT(w > 0 && h > 0, "Size must be greater than zero in both dimensions. " + std::to_string(w) + " " + std::to_string(h) + " provided.");
         if(mId)
         {
             destroy();

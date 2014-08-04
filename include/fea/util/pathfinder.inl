@@ -3,6 +3,9 @@ typename Pathfinder<NodeProvider>::Path Pathfinder<NodeProvider>::findPath(NodeP
 {   
     auto comparator = [this] (uint32_t a, uint32_t b)
     {
+        if(fCosts[a] == fCosts[b])
+            return gCosts[a] < gCosts[b];
+
         return fCosts[a] > fCosts[b];
     };
 
