@@ -20,7 +20,7 @@ namespace fea
 	void Noise::setSeed(uint32_t seed)
 	{
 		mRandomEngine.seed(seed);
-		for(uint8_t i = 0; i < 256; i++)
+		for(uint16_t i = 0; i < 256; i++)
 		{
 			mPerm[i] = i;
 		}
