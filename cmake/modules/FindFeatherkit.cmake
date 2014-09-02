@@ -65,7 +65,7 @@ else()
     set(ANTI_BUILD_TYPE "debug")
 endif()
 
-if(NOT ${FEA_LAST_MODE} MATCHES ${BUILD_TYPE})
+if(NOT (${FEA_LAST_MODE} MATCHES ${BUILD_TYPE}))
     unset(FEA_LAST_MODE CACHE)
     set(FEA_LAST_MODE ${BUILD_TYPE} CACHE "" INTERNAL)
     set(FEA_RESET_LIBS true)
