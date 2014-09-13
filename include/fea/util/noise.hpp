@@ -14,7 +14,7 @@
 
 namespace fea
 {
-	class Noise
+	class FEA_API Noise
 	{
         using PermutationTable = std::array<uint8_t, 512>;
 		public:
