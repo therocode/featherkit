@@ -1,4 +1,5 @@
 #pragma once
+#include <fea/config.hpp>
 #include <stdint.h>
 #include <array>
 #include <random>
