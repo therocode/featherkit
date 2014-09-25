@@ -9,7 +9,7 @@ namespace fea
     template<class... MessageTypes>
     class MessageReceiver;
     template <class... MessageTypes>
-    void subscribe(MessageBus&, MessageReceiver<MessageTypes...>&);
+    void subscribe(MessageBus&, MessageReceiver<MessageTypes...>&, bool = true);
     class FEA_API MessageReceiverBase
     {
     };
@@ -25,7 +25,7 @@ namespace fea
     class FEA_API MessageReceiver : public MessageReceiverSingle<MessageTypes>...
     {
         public:
-            ~MessageReceiver()
+            virtual ~MessageReceiver()
             {
                 for(auto desubscriber : mDesubscribers)
                     desubscriber();
@@ -33,7 +33,7 @@ namespace fea
         private:
             std::vector<std::function<void()>> mDesubscribers;
         template <class... Types>
-        friend void subscribe(MessageBus& bus, MessageReceiver<Types...>&);
+        friend void subscribe(MessageBus& bus, MessageReceiver<Types...>&, bool);
     };
     /** @addtogroup Util
      *@{

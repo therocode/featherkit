@@ -25,17 +25,19 @@ namespace fea
     };
 
     template <class MessageType>
-    void subscribeToType(MessageBus& bus, MessageReceiverSingle<MessageType>& receiver, std::vector<std::function<void()>>& desubscribers)
+    void subscribeToType(MessageBus& bus, MessageReceiverSingle<MessageType>& receiver, std::vector<std::function<void()>>& desubscribers, bool unsubscribe)
     {
         bus.addSubscriber<MessageType>(receiver);
-        desubscribers.push_back([&] () { bus.removeSubscriber<MessageType>(receiver);});
+
+        if(unsubscribe)
+            desubscribers.push_back([&] () { bus.removeSubscriber<MessageType>(receiver);});
     }
 
     template<class... MessageTypes>
-    void subscribe(MessageBus& bus, MessageReceiver<MessageTypes...>& receiver)
+    void subscribe(MessageBus& bus, MessageReceiver<MessageTypes...>& receiver, bool unsubscribe)
     {
         std::vector<std::function<void()>> desubscribers;
-        int _[] = {0, (subscribeToType<MessageTypes>(bus, receiver, desubscribers), 0)...};
+        int _[] = {0, (subscribeToType<MessageTypes>(bus, receiver, desubscribers, unsubscribe), 0)...};
         (void)_;
         receiver.mDesubscribers = desubscribers;
     }
@@ -44,7 +46,7 @@ namespace fea
     /** @addtogroup Util
      *@{
      *  @class MessageBus
-     *  @fn void subscribe(MessageBus& bus, MessageReceiver<MessageTypes...>& receiver)
+     *  @fn void subscribe(MessageBus& bus, MessageReceiver<MessageTypes...>& receiver, bool unsubscribe = true)
      *@}
      ***
      *  @class MessageBus
@@ -79,13 +81,14 @@ namespace fea
      *  @tparam Message Type of the Message to send.
      *  @param mess Message instance to send.
      ***
-     *  @fn void subscribe(MessageBus& bus, MessageReceiver<MessageTypes...>& receiver)
+     *  @fn void subscribe(MessageBus& bus, MessageReceiver<MessageTypes...>& receiver, bool unsubscribe = true)
      *  @brief Subscribe to all messages for a receiver in a RAII manner.
      *
-     *  When this function is called on a receiver, the receiver will be subscribed to all messages it is able to receive. Futhermore, upon destruction, all subscriptions will be cancelled.
+     *  When this function is called on a receiver, the receiver will be subscribed to all messages it is able to receive. Futhermore, upon destruction, all subscriptions will be cancelled unless automatic unsubscription is switched off.
      *
      *  @param bus Message bus which messages to subscribe to.
      *  @param receiver Instance to receive messages.
+     *  @param unsubscribe Set this to false to disable automatic unsubscription
      *  @tparam Message types to subscribe to.
      **/
 }
