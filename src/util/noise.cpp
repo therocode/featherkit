@@ -15,6 +15,10 @@ namespace fea
 	Noise::Noise(uint32_t seed)
 	{
 		setSeed(seed);
+
+		#ifdef NOISE_ASM
+		asmCompatible = CheckSse41();
+		#endif
 	}
 
 	void Noise::setSeed(uint32_t seed)
