@@ -1,5 +1,5 @@
 template<class Message>
-void MessageBus::addSubscriber(const MessageReceiver<Message>& receiver)
+void MessageBus::addSubscriber(const MessageReceiverSingle<Message>& receiver)
 {
     MessageReceiverBase* receiverPtr = (MessageReceiverBase*) &receiver;
     std::type_index index = std::type_index(typeid(Message));
@@ -9,7 +9,7 @@ void MessageBus::addSubscriber(const MessageReceiver<Message>& receiver)
 }
 
 template<class Message>
-void MessageBus::removeSubscriber(const MessageReceiver<Message>& receiver)
+void MessageBus::removeSubscriber(const MessageReceiverSingle<Message>& receiver)
 {
     MessageReceiverBase* receiverPtr = (MessageReceiverBase*) &receiver;
     std::type_index index = std::type_index(typeid(Message));
