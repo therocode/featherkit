@@ -14,11 +14,13 @@ namespace fea
 
     WeakEntityPtr EntityManager::findEntity(EntityId id) const
     {
-        try
+        auto iterator = mEntities.find(id);
+
+        if(iterator != mEntities.end())
         {
-            return mEntities.at(id);
+            return iterator->second;
         }
-        catch(std::out_of_range e)
+        else    
         {
             return WeakEntityPtr();
         }
