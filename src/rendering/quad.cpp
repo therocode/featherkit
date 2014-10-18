@@ -3,7 +3,7 @@
 
 namespace fea
 {
-    Quad::Quad() : Quad({2.0f, 2.0f})
+    Quad::Quad() : Quad(glm::vec2(2.0f, 2.0f))
     {
 
     }
