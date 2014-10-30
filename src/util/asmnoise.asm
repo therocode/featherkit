@@ -28,12 +28,11 @@ section .data
 	F3	     dd 0.33333334
 	G3	     dd 0.16666667
 	one      dd 1.0
-	tval     dd 0.6
+	tval     dd 0.5
 	retval   dd 32.0
 
 	F2       dd 0.3660254 ;0.36602542
 	G2       dd 0.21132487
-	tval2d   dd 0.5
 	retval2d dd 70.0
 
 	grad3    db 1,1,0,  -1,1,0,  1,-1,0,  -1,-1,0,\
@@ -248,7 +247,6 @@ asm_raw_noise_2d:
 
 %ifdef win64
 	%define   perm r8
-
 %else ;elf64
 	%define   perm rdi
 %endif
@@ -279,14 +277,13 @@ asm_raw_noise_2d:
 	andps     xmm3,xmm5
 ;0=x0y0 1=ij 2=G2 3=i1j1 5=1.0
 
-	movaps    xmm4,xmm5
-	movaps    xmm5,xmm0
-	subps     xmm5,xmm4
-	vsubps    xmm4,xmm0,xmm3
-	addps     xmm4,xmm2
+	movaps    xmm4,xmm0
+	subps     xmm4,xmm5
+	vsubps    xmm5,xmm0,xmm3
+	addps     xmm5,xmm2
 	addps     xmm2,xmm2
-	addps     xmm2,xmm5
-;0=x0y0 1=ij 2=x2y2 3=i1j1 4=x1y1
+	addps     xmm2,xmm4
+;0=x0y0 1=ij 2=x2y2 3=i1j1 5=x1y1
 
 	cvtps2dq  xmm1,xmm1
 	cvtps2dq  xmm3,xmm3
@@ -321,43 +318,43 @@ asm_raw_noise_2d:
 	div       r8b
 	shr       ax  ,8
 	lea       eax ,[eax+eax*2]
-	pmovsxbd  xmm5,[rax+r10]
+	pmovsxbd  xmm4,[rax+r10]
 
 	cvtdq2ps  xmm1,xmm1
 	cvtdq2ps  xmm3,xmm3
-	cvtdq2ps  xmm5,xmm5
-;0=x0y0 1=grad3[gi0] 2=x2y2 3=grad3[gi1] 4=x1y1 5=grad3[gi2]
+	cvtdq2ps  xmm4,xmm4
+;0=x0y0 1=grad3[gi0] 2=x2y2 3=grad3[gi1] 4=grad3[gi2] 5=x1y1
 
 	dpps      xmm1,xmm0,00110001b
-	dpps      xmm3,xmm4,00110001b
-	dpps      xmm5,xmm2,00110001b
+	dpps      xmm3,xmm5,00110001b
+	dpps      xmm4,xmm2,00110001b
 	unpcklps  xmm1,xmm3
-	movlhps   xmm1,xmm5 ;dot x0x1x2
+	movlhps   xmm1,xmm4 ;dot x0x1x2
 
-	movlhps   xmm0,xmm4
+	movlhps   xmm0,xmm5
 	mulps     xmm2,xmm2
 	mulps     xmm0,xmm0
 
-	movaps    xmm4,xmm0
-	shufps    xmm4,xmm2,001000b
+	movaps    xmm5,xmm0
+	shufps    xmm5,xmm2,001000b
 	shufps    xmm0,xmm2,011101b
 
-	pshufd    xmm3,[retval],111111b ;tval2d
-	subps     xmm3,xmm4
+	pshufd    xmm3,[F3],111111b ;tval
+	subps     xmm3,xmm5
 	subps     xmm3,xmm0 ;t0t1t2
 
-	xorps     xmm4,xmm4
-	cmpps     xmm4,xmm3,1
-	andps     xmm4,xmm3
-	mulps     xmm4,xmm4
-	mulps     xmm4,xmm4
+	xorps     xmm5,xmm5
+	cmpps     xmm5,xmm3,1
+	andps     xmm5,xmm3
+	mulps     xmm5,xmm5
+	mulps     xmm5,xmm5
 
-	mulps     xmm4,xmm1 ;n0n1n2
-;7=n0n1n2
+	mulps     xmm5,xmm1
+;4=n0n1n2
 
-	pshufd    xmm0,xmm4,01b
-	movhlps   xmm1,xmm4
-	addss     xmm0,xmm4
+	pshufd    xmm0,xmm5,01b
+	movhlps   xmm1,xmm5
+	addss     xmm0,xmm5
 	addss     xmm0,xmm1
 	mulss     xmm0,[retval2d]
 
