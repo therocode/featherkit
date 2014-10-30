@@ -5,7 +5,7 @@ namespace fea
 {
 	float raw_noise_2d(float x, float y, const uint8_t* perm)
 	{
-		const float F2 = 0.5f * (std::sqrt(3.0f) - 1.0f);
+		constexpr float F2 = 0.5f * (std::sqrt(3.0f) - 1.0f);
 		float s = (x + y) * F2;
 
 		float i = std::floor(x + s);
@@ -51,14 +51,14 @@ namespace fea
 
 	float raw_noise_3d(float x, float y, float z, const uint8_t* perm)
 	{
-		float F3 = 1.0f / 3.0f;
+		constexpr float F3 = 1.0f / 3.0f;
 		float s = (x + y + z) * F3;
 
 		float i = std::floor(x + s);
 		float j = std::floor(y + s);
 		float k = std::floor(z + s);
 
-		float G3 = 1.0f / 6.0f;
+		constexpr float G3 = 1.0f / 6.0f;
 		float t = (i + j + k) * G3;
 
 		float x0 = x - (i - t);
@@ -118,10 +118,10 @@ namespace fea
 		uint8_t gi2 = perm[ii + perm[jj + perm[kk + k2] + j2] + i2] % 12;
 		uint8_t gi3 = perm[ii + perm[jj + perm[kk + 1 ] + 1 ] + 1 ] % 12;
 
-		float t0 = 0.6f - x0 * x0 - y0 * y0 - z0 * z0;
-		float t1 = 0.6f - x1 * x1 - y1 * y1 - z1 * z1;
-		float t2 = 0.6f - x2 * x2 - y2 * y2 - z2 * z2;
-		float t3 = 0.6f - x3 * x3 - y3 * y3 - z3 * z3;
+		float t0 = 0.5f - x0 * x0 - y0 * y0 - z0 * z0;
+		float t1 = 0.5f - x1 * x1 - y1 * y1 - z1 * z1;
+		float t2 = 0.5f - x2 * x2 - y2 * y2 - z2 * z2;
+		float t3 = 0.5f - x3 * x3 - y3 * y3 - z3 * z3;
 
 		float n0 = (t0 < 0) ? 0.0f : std::pow(t0, 4) * dot(grad3[gi0], x0, y0, z0);
 		float n1 = (t1 < 0) ? 0.0f : std::pow(t1, 4) * dot(grad3[gi1], x1, y1, z1);
