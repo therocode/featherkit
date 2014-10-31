@@ -2,20 +2,6 @@
 ;float function return value = first dword of xmm0
 ;xmm6-xmm15 = callee save on win64
 
-
-%ifdef enableAVX
-	%macro vsubps 3
-		vsubps   %1,%2,%3
-	%endmacro
-
-%else
-	%macro vsubps 3    ;if %1 != %3
-		movaps   %1,%2
-		subps    %1,%3
-	%endmacro
-%endif
-
-
 section .data
 	align 16
 
@@ -82,7 +68,8 @@ asm_raw_noise_3d:
 	addss     xmm2,xmm3
 	mulss     xmm2,xmm6
 	shufps    xmm2,xmm2,0
-	vsubps    xmm3,xmm1,xmm2
+	movaps    xmm3,xmm1
+	subps     xmm3,xmm2
 	subps     xmm0,xmm3
 ;0=x0y0z0 1=ijk 6=G3
 
@@ -106,9 +93,11 @@ asm_raw_noise_3d:
 	movaps    xmm5,xmm7
 	movaps    xmm7,xmm0
 	subps     xmm7,xmm5
-	vsubps    xmm4,xmm0,xmm2
+	movaps    xmm4,xmm0
+	subps     xmm4,xmm2
 	addps     xmm4,xmm6
-	vsubps    xmm5,xmm0,xmm3
+	movaps    xmm5,xmm0
+	subps     xmm5,xmm3
 	addps     xmm6,xmm6
 	addps     xmm5,xmm6
 	addss     xmm6,[G3]
@@ -261,7 +250,8 @@ asm_raw_noise_2d:
 	addss     xmm4,xmm1
 	mulss     xmm4,xmm2
 	shufps    xmm4,xmm4,0
-	vsubps    xmm5,xmm1,xmm4
+	movaps    xmm5,xmm1
+	subps     xmm5,xmm4
 	subps     xmm0,xmm5
 ;0=x0y0 1=ij 2=G2
 
@@ -275,7 +265,8 @@ asm_raw_noise_2d:
 
 	movaps    xmm5,xmm0
 	subps     xmm5,xmm4
-	vsubps    xmm4,xmm0,xmm3
+	movaps    xmm4,xmm0
+	subps     xmm4,xmm3
 	addps     xmm4,xmm2
 	addps     xmm2,xmm2
 	addps     xmm2,xmm5
@@ -400,7 +391,8 @@ findcube:
 	unpcklps  xmm3,xmm0
 	unpcklps  xmm5,xmm1
 	addps     xmm5,xmm3           ;5=xyPos
-	vsubps    xmm3,xmm5,xmm2
+	movaps    xmm3,xmm5
+	subps     xmm3,xmm2
 	dpps      xmm3,xmm3,00110011b ;2=dist
 	movaps    xmm0,xmm3
 	cmpps     xmm0,xmm4,1
