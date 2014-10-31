@@ -61,6 +61,27 @@ if(ASM_OPTIMISATIONS) #if this option is chosen, then it #ifdef NOISE_ASM in the
 endif(ASM_OPTIMISATIONS)
 
 
+set(USE_NATIVE_OPTIMISATIONS FALSE CACHE BOOL "Use GCC-like compiler's support for native instruction set detection and use.")
+
+if(USE_NATIVE_OPTIMISATIONS)
+    if(NOT MSVC)
+        set(CPP_CPU_OPTIMISE_FLAGS "-march=native")
+    endif()
+endif()
+
+set(USE_SSE_OPTIMISATIONS FALSE CACHE BOOL "Use compiler's support for SSE3 instruction set detection and use.")
+
+if(USE_SSE_OPTIMISATIONS)
+    if(MSVC)
+        set(CPP_CPU_OPTIMISE_FLAGS "${CPP_CPU_OPTIMISE_FLAGS} /arch:SSE2")
+    else()
+        if(USE_NATIVE_OPTIMISATIONS)
+            set(CPP_CPU_OPTIMISE_FLAGS "${CPP_CPU_OPTIMISE_FLAGS} -mfpmath=sse")
+        else()
+            set(CPP_CPU_OPTIMISE_FLAGS "${CPP_CPU_OPTIMISE_FLAGS} -msse3 -mfpmath=sse")
+        endif()
+    endif()
+endif()
 
 if(NOT MSVC)
     set(CPP_11_FLAG -std=c++11)
@@ -68,7 +89,7 @@ endif()
 
 #if(MINGW OR CMAKE_COMPILER_IS_GNUCXX OR Clang)
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -Werror -Wshadow -Wconversion -Wno-long-long -pedantic -Wconstant-conversion")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CPP_11_FLAG}")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CPP_11_FLAG} ${CPP_CPU_OPTIMISE_FLAGS}")
 #set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99")
 #endif()
 
