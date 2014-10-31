@@ -13,11 +13,6 @@
 		movaps   %1,%2
 		subps    %1,%3
 	%endmacro
-
-	%macro vunpcklps 3
-		movaps   %1,%2
-		unpcklps %1,%3
-	%endmacro
 %endif
 
 
@@ -63,10 +58,8 @@ asm_raw_noise_3d:
 	movaps    [rsp-0x28],xmm7
 	movaps    [rsp-0x18],xmm6
 	mov       [rsp-0x08],rbx
-
 	mov       rbx ,r9
 	%define   perm rbx
-
 %else ;elf64
 	%define   perm rdi
 %endif
@@ -200,12 +193,15 @@ asm_raw_noise_3d:
 	mulps     xmm5,xmm5
 	mulps     xmm7,xmm7
 
-	vunpcklps xmm2,xmm0,xmm5  ;0819
-	vunpcklps xmm3,xmm4,xmm7  ;4C5D
+	movaps    xmm2,xmm0
+	movaps    xmm3,xmm4
+	unpcklps  xmm2,xmm5       ;0819
+	unpcklps  xmm3,xmm7       ;4C5D
 	unpckhps  xmm0,xmm5       ;2A3B
 	unpckhps  xmm4,xmm7       ;6E7F
 
-	vunpcklps xmm5,xmm2,xmm3  ;048C
+	movaps    xmm5,xmm2
+	unpcklps  xmm5,xmm3       ;048C
 	unpckhps  xmm2,xmm3       ;159D
 	unpcklps  xmm0,xmm4       ;26AE
 
@@ -269,21 +265,21 @@ asm_raw_noise_2d:
 	subps     xmm0,xmm5
 ;0=x0y0 1=ij 2=G2
 
-	pshufd    xmm5,[F3],1010b ;one
+	pshufd    xmm4,[F3],1010b ;one
 	unpcklps  xmm3,xmm0
 	cmpps     xmm3,xmm0,1 ; 1: x < y
 	insertps  xmm3,xmm0,01001100b
 	cmpss     xmm3,xmm0,2 ; 0: y <=x
-	andps     xmm3,xmm5
-;0=x0y0 1=ij 2=G2 3=i1j1 5=1.0
+	andps     xmm3,xmm4
+;0=x0y0 1=ij 2=G2 3=i1j1 4=1.0
 
-	movaps    xmm4,xmm0
-	subps     xmm4,xmm5
-	vsubps    xmm5,xmm0,xmm3
-	addps     xmm5,xmm2
+	movaps    xmm5,xmm0
+	subps     xmm5,xmm4
+	vsubps    xmm4,xmm0,xmm3
+	addps     xmm4,xmm2
 	addps     xmm2,xmm2
-	addps     xmm2,xmm4
-;0=x0y0 1=ij 2=x2y2 3=i1j1 5=x1y1
+	addps     xmm2,xmm5
+;0=x0y0 1=ij 2=x2y2 3=i1j1 4=x1y1
 
 	cvtps2dq  xmm1,xmm1
 	cvtps2dq  xmm3,xmm3
@@ -318,43 +314,43 @@ asm_raw_noise_2d:
 	div       r8b
 	shr       ax  ,8
 	lea       eax ,[eax+eax*2]
-	pmovsxbd  xmm4,[rax+r10]
+	pmovsxbd  xmm5,[rax+r10]
 
 	cvtdq2ps  xmm1,xmm1
 	cvtdq2ps  xmm3,xmm3
-	cvtdq2ps  xmm4,xmm4
-;0=x0y0 1=grad3[gi0] 2=x2y2 3=grad3[gi1] 4=grad3[gi2] 5=x1y1
+	cvtdq2ps  xmm5,xmm5
+;0=x0y0 1=grad3[gi0] 2=x2y2 3=grad3[gi1] 4=x1y1 5=grad3[gi2]
 
 	dpps      xmm1,xmm0,00110001b
-	dpps      xmm3,xmm5,00110001b
-	dpps      xmm4,xmm2,00110001b
+	dpps      xmm3,xmm4,00110001b
+	dpps      xmm5,xmm2,00110001b
 	unpcklps  xmm1,xmm3
-	movlhps   xmm1,xmm4 ;dot x0x1x2
+	movlhps   xmm1,xmm5 ;dot x0x1x2
 
-	movlhps   xmm0,xmm5
+	movlhps   xmm0,xmm4
 	mulps     xmm2,xmm2
 	mulps     xmm0,xmm0
 
-	movaps    xmm5,xmm0
-	shufps    xmm5,xmm2,001000b
+	movaps    xmm4,xmm0
+	shufps    xmm4,xmm2,001000b
 	shufps    xmm0,xmm2,011101b
 
 	pshufd    xmm3,[F3],111111b ;tval
-	subps     xmm3,xmm5
+	subps     xmm3,xmm4
 	subps     xmm3,xmm0 ;t0t1t2
 
-	xorps     xmm5,xmm5
-	cmpps     xmm5,xmm3,1
-	andps     xmm5,xmm3
-	mulps     xmm5,xmm5
-	mulps     xmm5,xmm5
+	xorps     xmm4,xmm4
+	cmpps     xmm4,xmm3,1
+	andps     xmm4,xmm3
+	mulps     xmm4,xmm4
+	mulps     xmm4,xmm4
 
-	mulps     xmm5,xmm1
+	mulps     xmm4,xmm1
 ;4=n0n1n2
 
-	pshufd    xmm0,xmm5,01b
-	movhlps   xmm1,xmm5
-	addss     xmm0,xmm5
+	pshufd    xmm0,xmm4,01b
+	movhlps   xmm1,xmm4
+	addss     xmm0,xmm4
 	addss     xmm0,xmm1
 	mulss     xmm0,[retval2d]
 
