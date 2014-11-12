@@ -45,10 +45,10 @@ namespace fea
             mVertices.push_back(((float)xPos) + halfTileWidth); mVertices.push_back(((float)yPos) + halfTileHeight);
 
             glm::vec2 coordinates[4] = {
-                {startCoords.x, startCoords.y},
-                {startCoords.x, endCoords.y  },
-                {endCoords.x,   startCoords.y},
-                {endCoords.x,   endCoords.y  }};
+                glm::vec2(startCoords.x, startCoords.y),
+                glm::vec2(startCoords.x, endCoords.y  ),
+                glm::vec2(endCoords.x,   startCoords.y),
+                glm::vec2(endCoords.x,   endCoords.y  )};
 
             if(orientation & V_FLIP)
             {
@@ -107,10 +107,10 @@ namespace fea
             }
 
             glm::vec2 coordinates[4] = {
-                {startCoords.x, startCoords.y},
-                {startCoords.x, endCoords.y  },
-                {endCoords.x,   startCoords.y},
-                {endCoords.x,   endCoords.y  }};
+                glm::vec2(startCoords.x, startCoords.y),
+                glm::vec2(startCoords.x, endCoords.y  ),
+                glm::vec2(endCoords.x,   startCoords.y),
+                glm::vec2(endCoords.x,   endCoords.y  )};
 
             if(orientation & V_FLIP)
             {
