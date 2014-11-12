@@ -2,25 +2,6 @@
 ;float function return value = first dword of xmm0
 ;xmm6-xmm15 = callee save on win64
 
-
-%ifdef enableAVX
-	%macro vsubps 3
-		vsubps   %1,%2,%3
-	%endmacro
-
-%else
-	%macro vsubps 3    ;if %1 != %3
-		movaps   %1,%2
-		subps    %1,%3
-	%endmacro
-
-	%macro vunpcklps 3
-		movaps   %1,%2
-		unpcklps %1,%3
-	%endmacro
-%endif
-
-
 section .data
 	align 16
 
@@ -28,12 +9,11 @@ section .data
 	F3	     dd 0.33333334
 	G3	     dd 0.16666667
 	one      dd 1.0
-	tval     dd 0.6
+	tval     dd 0.5
 	retval   dd 32.0
 
 	F2       dd 0.3660254 ;0.36602542
 	G2       dd 0.21132487
-	tval2d   dd 0.5
 	retval2d dd 70.0
 
 	grad3    db 1,1,0,  -1,1,0,  1,-1,0,  -1,-1,0,\
@@ -64,10 +44,8 @@ asm_raw_noise_3d:
 	movaps    [rsp-0x28],xmm7
 	movaps    [rsp-0x18],xmm6
 	mov       [rsp-0x08],rbx
-
 	mov       rbx ,r9
 	%define   perm rbx
-
 %else ;elf64
 	%define   perm rdi
 %endif
@@ -90,11 +68,12 @@ asm_raw_noise_3d:
 	addss     xmm2,xmm3
 	mulss     xmm2,xmm6
 	shufps    xmm2,xmm2,0
-	vsubps    xmm3,xmm1,xmm2
+	movaps    xmm3,xmm1
+	subps     xmm3,xmm2
 	subps     xmm0,xmm3
 ;0=x0y0z0 1=ijk 6=G3
 
-	pshufd    xmm7,[F3],101010b ;one
+	pshufd    xmm5,[F3],101010b ;one
 	pshufd    xmm2,xmm0,000001b ;yxx
 	pshufd    xmm3,xmm0,100110b ;zyz
 	movaps    xmm4,xmm2
@@ -107,16 +86,17 @@ asm_raw_noise_3d:
 	movaps    xmm3,xmm2
 	andps     xmm2,xmm4
 	orps      xmm3,xmm4
-	andps     xmm2,xmm7
-	andps     xmm3,xmm7
-;0=x0y0z0 1=ijk 2=i1j1k1 3=i2j2k2 6=G3 7=1.0f
+	andps     xmm2,xmm5
+	andps     xmm3,xmm5
+;0=x0y0z0 1=ijk 2=i1j1k1 3=i2j2k2 5=1.0f 6=G3
 
-	movaps    xmm5,xmm7
 	movaps    xmm7,xmm0
 	subps     xmm7,xmm5
-	vsubps    xmm4,xmm0,xmm2
+	movaps    xmm4,xmm0
+	subps     xmm4,xmm2
 	addps     xmm4,xmm6
-	vsubps    xmm5,xmm0,xmm3
+	movaps    xmm5,xmm0
+	subps     xmm5,xmm3
 	addps     xmm6,xmm6
 	addps     xmm5,xmm6
 	addss     xmm6,[G3]
@@ -201,12 +181,15 @@ asm_raw_noise_3d:
 	mulps     xmm5,xmm5
 	mulps     xmm7,xmm7
 
-	vunpcklps xmm2,xmm0,xmm5  ;0819
-	vunpcklps xmm3,xmm4,xmm7  ;4C5D
+	movaps    xmm2,xmm0
+	movaps    xmm3,xmm4
+	unpcklps  xmm2,xmm5       ;0819
+	unpcklps  xmm3,xmm7       ;4C5D
 	unpckhps  xmm0,xmm5       ;2A3B
 	unpckhps  xmm4,xmm7       ;6E7F
 
-	vunpcklps xmm5,xmm2,xmm3  ;048C
+	movaps    xmm5,xmm2
+	unpcklps  xmm5,xmm3       ;048C
 	unpckhps  xmm2,xmm3       ;159D
 	unpcklps  xmm0,xmm4       ;26AE
 
@@ -248,7 +231,6 @@ asm_raw_noise_2d:
 
 %ifdef win64
 	%define   perm r8
-
 %else ;elf64
 	%define   perm rdi
 %endif
@@ -263,26 +245,27 @@ asm_raw_noise_2d:
 ;0=xy 1=ij
 
 	pshufd    xmm2,[retval],1010b ;G2
-	pshufd    xmm4,xmm1,1
-	addss     xmm4,xmm1
-	mulss     xmm4,xmm2
-	shufps    xmm4,xmm4,0
-	vsubps    xmm5,xmm1,xmm4
+	pshufd    xmm3,xmm1,1
+	addss     xmm3,xmm1
+	mulss     xmm3,xmm2
+	shufps    xmm3,xmm3,0
+	movaps    xmm5,xmm1
+	subps     xmm5,xmm3
 	subps     xmm0,xmm5
 ;0=x0y0 1=ij 2=G2
 
-	pshufd    xmm5,[F3],1010b ;one
+	pshufd    xmm4,[F3],1010b ;one
 	unpcklps  xmm3,xmm0
 	cmpps     xmm3,xmm0,1 ; 1: x < y
 	insertps  xmm3,xmm0,01001100b
 	cmpss     xmm3,xmm0,2 ; 0: y <=x
-	andps     xmm3,xmm5
-;0=x0y0 1=ij 2=G2 3=i1j1 5=1.0
+	andps     xmm3,xmm4
+;0=x0y0 1=ij 2=G2 3=i1j1 4=1.0
 
-	movaps    xmm4,xmm5
 	movaps    xmm5,xmm0
 	subps     xmm5,xmm4
-	vsubps    xmm4,xmm0,xmm3
+	movaps    xmm4,xmm0
+	subps     xmm4,xmm3
 	addps     xmm4,xmm2
 	addps     xmm2,xmm2
 	addps     xmm2,xmm5
@@ -342,7 +325,7 @@ asm_raw_noise_2d:
 	shufps    xmm4,xmm2,001000b
 	shufps    xmm0,xmm2,011101b
 
-	pshufd    xmm3,[retval],111111b ;tval2d
+	pshufd    xmm3,[F3],111111b ;tval
 	subps     xmm3,xmm4
 	subps     xmm3,xmm0 ;t0t1t2
 
@@ -352,8 +335,8 @@ asm_raw_noise_2d:
 	mulps     xmm4,xmm4
 	mulps     xmm4,xmm4
 
-	mulps     xmm4,xmm1 ;n0n1n2
-;7=n0n1n2
+	mulps     xmm4,xmm1
+;4=n0n1n2
 
 	pshufd    xmm0,xmm4,01b
 	movhlps   xmm1,xmm4
@@ -407,7 +390,8 @@ findcube:
 	unpcklps  xmm3,xmm0
 	unpcklps  xmm5,xmm1
 	addps     xmm5,xmm3           ;5=xyPos
-	vsubps    xmm3,xmm5,xmm2
+	movaps    xmm3,xmm5
+	subps     xmm3,xmm2
 	dpps      xmm3,xmm3,00110011b ;2=dist
 	movaps    xmm0,xmm3
 	cmpps     xmm0,xmm4,1
@@ -439,23 +423,23 @@ findcube:
 asm_WhiteNoise_2d:
 
 %ifdef win64
-	%define  perm r8
+	%define   perm r8
 %else ;elf64
-	%define  perm rdi
+	%define   perm rdi
 %endif
 ;0=x 1=y
 
-	roundss  xmm1,xmm1,1
-	roundss  xmm0,xmm0,1
-	cvtss2si r9d ,xmm1
-	cvtss2si edx ,xmm0
-	and      r9  ,255
-	and      edx ,255
-	mov      r9b ,[perm+r9]
-	add      rdx ,r9
-	mov      r9b ,[perm+rdx]
-	cvtsi2ss xmm0,r9d
-	divss    xmm0,[whiteret]
+	roundss   xmm1,xmm1,1
+	roundss   xmm0,xmm0,1
+	cvtss2si  r9d ,xmm1
+	cvtss2si  edx ,xmm0
+	and       r9  ,255
+	and       edx ,255
+	mov       r9b ,[perm+r9]
+	add       rdx ,r9
+	mov       r9b ,[perm+rdx]
+	cvtsi2ss  xmm0,r9d
+	divss     xmm0,[whiteret]
 
-	%undef   perm
+	%undef    perm
 	ret
