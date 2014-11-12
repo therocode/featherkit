@@ -5,7 +5,7 @@ namespace fea
 {
 	float raw_noise_2d(float x, float y, const uint8_t* perm)
 	{
-		constexpr float F2 = 0.5f * (std::sqrt(3.0f) - 1.0f);
+		const float F2 = 0.5f * (std::sqrt(3.0f) - 1.0f);
 		float s = (x + y) * F2;
 
 		float i = std::floor(x + s);
