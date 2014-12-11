@@ -12,6 +12,8 @@ namespace fea
 	static float dot(const int8_t* grad, float x, float y);
 	static float dot(const int8_t* grad, float x, float y, float z);
 
+	static inline int fast_floor(float x);
+
 
 	// The gradients are the midpoints of the vertices of a cube.
 	static const int8_t grad3[12][3] = {
