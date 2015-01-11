@@ -9,9 +9,11 @@ if(JSONCPP_INCLUDE_DIR)
     set(JSONCPP_FIND_QUIETLY TRUE)
 endif(JSONCPP_INCLUDE_DIR)
 
-find_path(JSONCPP_INCLUDE_DIR jsoncpp/json/json.h
-    /usr/local/include
+find_path(JSONCPP_INCLUDE_DIR json/json.h
     /usr/include
+    /usr/local/include
+    /usr/include/jsoncpp
+    /usr/local/include/jsoncpp
     )
 
 set(JSONCPP_NAMES ${JSONCPP_NAMES} libjsoncpp.so)
@@ -21,7 +23,7 @@ find_library(JSONCPP_LIBRARY
     )
 
 if(JSONCPP_LIBRARY AND JSONCPP_INCLUDE_DIR)
-    set(JSONCPP_INCLUDE_DIRS ${JSONCPP_INCLUDE_DIR} ${JSONCPP_INCLUDE_DIR}/jsoncpp)
+    set(JSONCPP_INCLUDE_DIRS ${JSONCPP_INCLUDE_DIR})
     set(JSONCPP_LIBRARIES ${JSONCPP_LIBRARY})
     set(JSONCPP_FOUND "YES")
 else(JSONCPP_LIBRARY AND JSONCPP_INCLUDE_DIR)
