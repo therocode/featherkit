@@ -1,5 +1,6 @@
 #include <fea/entity/glmtypeadder.hpp>
 #include <fea/entity/entityfactory.hpp>
+#define GLM_FORCE_RADIANS
 #include <glm/glm.hpp>
 #include <glm/gtc/type_precision.hpp>
 
