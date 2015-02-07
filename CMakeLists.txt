@@ -116,11 +116,9 @@ if(BUILD_AUDIO)
         add_definitions(-DFEA_NO_EFX)
     endif()
 
-    if(NOT EMSCRIPTEN)
-        find_package(OpenAL REQUIRED)
-        if(OPENAL_FOUND)
-            include_directories(${OPENAL_INCLUDE_DIR})
-        endif()
+    find_package(OpenAL REQUIRED)
+    if(OPENAL_FOUND)
+        include_directories(${OPENAL_INCLUDE_DIR})
     endif()
 
     find_package(VorbisFile REQUIRED)
@@ -135,7 +133,7 @@ if(BUILD_AUDIO)
 
     set(BUILT_TARGETS ${BUILT_TARGETS} ${project_name}-audio)
 
-    set(audio_source_files 
+    set(audio_source_files
         src/audio/audio.cpp
         src/audio/audiobase.cpp
         src/audio/audiobuffer.cpp
@@ -165,7 +163,7 @@ if(BUILD_AUDIO)
         include/fea/audio/oscillator.hpp)
 
     if(NOT EMSCRIPTEN)
-        set(audio_efx_source_files 
+        set(audio_efx_source_files
             src/audio/audioeffect.cpp
             src/audio/audiofilter.cpp
             src/audio/effectslot.cpp
@@ -210,7 +208,7 @@ if(BUILD_STRUCTURE)
 
     set(BUILT_TARGETS ${BUILT_TARGETS} ${project_name}-structure)
 
-    set(structure_source_files 
+    set(structure_source_files
         src/structure/application.cpp
         src/structure/gamestatemachine.cpp)
 
@@ -279,12 +277,10 @@ if(BUILD_RENDERING)
         include_directories(${WINFIX} ${GLM_INCLUDE_DIRS})
     endif()
 
-    if(NOT EMSCRIPTEN)
-        find_package(OpenGL REQUIRED)
-        if(OPENGL_FOUND)
-            include_directories(${OPENGL_INCLUDE_DIRS})
-        endif(OPENGL_FOUND)
-    endif()
+    find_package(OpenGL REQUIRED)
+    if(OPENGL_FOUND)
+        include_directories(${OPENGL_INCLUDE_DIRS})
+    endif(OPENGL_FOUND)
 
     if(BUILD_RENDERING_TEXT)
         FIND_PACKAGE( Freetype REQUIRED )
@@ -293,7 +289,7 @@ if(BUILD_RENDERING)
 
     set(BUILT_TARGETS ${BUILT_TARGETS} ${project_name}-rendering)
 
-    set(rendering_source_files 
+    set(rendering_source_files
         src/rendering/animatedquad.cpp
         src/rendering/animation.cpp
         src/rendering/camera.cpp
@@ -314,7 +310,7 @@ if(BUILD_RENDERING)
         src/rendering/vertexattribute.cpp
         src/rendering/viewport.cpp)
 
-    set(rendering_header_files 
+    set(rendering_header_files
         include/fea/rendering/animatedquad.hpp
         include/fea/rendering/animation.hpp
         include/fea/rendering/camera.hpp
@@ -345,13 +341,13 @@ if(BUILD_RENDERING)
     endif()
 
     if(BUILD_RENDERING_TEXT)
-        set(freetype_gl_source_files 
+        set(freetype_gl_source_files
             src/freetype-gl/platform.c
             src/freetype-gl/texture-atlas.c
             src/freetype-gl/texture-font.c
             src/freetype-gl/vector.c)
 
-        set(freetype_gl_header_files 
+        set(freetype_gl_header_files
             include/fea/freetype-gl/platform.h
             include/fea/freetype-gl/texture-atlas.h
             include/fea/freetype-gl/texture-font.h
@@ -386,7 +382,7 @@ if(BUILD_UI)
     set(BUILT_TARGETS ${BUILT_TARGETS} ${project_name}-ui)
 
     #find all source files
-    set(ui_source_files 
+    set(ui_source_files
         src/ui/actiontrigger.cpp
         src/ui/inputhandler.cpp
         src/ui/inputfilenotfoundexception.cpp
@@ -394,7 +390,7 @@ if(BUILD_UI)
         src/ui/videomode.cpp
         src/ui/window.cpp)
 
-    set(ui_header_files 
+    set(ui_header_files
         #include/fea/ui/contextsettings.hpp
         include/fea/ui/vec2i.hpp
         include/fea/ui/videomode.hpp
@@ -413,7 +409,7 @@ if(BUILD_UI)
         include/fea/ui/mouse.hpp)
 
     if(BUILD_JSON)
-        set(ui_json_header_files 
+        set(ui_json_header_files
             include/fea/ui/jsonactioniohandler.hpp
             include/fea/ui/jsonactioniohandler.inl)
     endif()
@@ -433,7 +429,7 @@ if(BUILD_UI)
 
         set(BUILT_TARGETS ${BUILT_TARGETS} ${project_name}-sfml)
 
-        set(ui_sfml_backend_source_files 
+        set(ui_sfml_backend_source_files
             src/ui/sfmlwindowbackend.cpp
             #src/ui/contextsettings.cpp
             src/ui/sfmlinputbackend.cpp)
@@ -459,7 +455,7 @@ if(BUILD_UI)
             endif(SDL_FOUND)
         endif()
 
-        set(ui_sdl_backend_source_files 
+        set(ui_sdl_backend_source_files
             src/ui/sdlwindowbackend.cpp
             #src/ui/contextsettings.cpp
             src/ui/sdlinputbackend.cpp)
@@ -508,7 +504,7 @@ if(BUILD_UTIL)
     set(BUILT_TARGETS ${BUILT_TARGETS} ${project_name}-util)
 
     if(ASM_OPTIMIZATIONS)
-        set(UTIL_ASM_SOURCE 
+        set(UTIL_ASM_SOURCE
             src/util/asmnoise.asm
             src/util/asmchecksse41.asm)
     endif()
@@ -522,7 +518,7 @@ if(BUILD_UTIL)
         src/util/whitenoise.cpp
         ${UTIL_ASM_SOURCE})
 
-    set(util_header_files 
+    set(util_header_files
         include/fea/util/messagebus.hpp
         include/fea/util/messagebus.inl
         include/fea/util/messagereceiver.hpp
