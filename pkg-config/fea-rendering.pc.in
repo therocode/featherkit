@@ -1,0 +1,12 @@
+prefix=@CMAKE_INSTALL_PREFIX@
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: fea-rendering
+Description: Feather Kit rendering module
+Version: @fea_VERSION@
+URL: http://featherkit.therocode.net/
+Libs: -L${libdir} -lfea-rendering
+Cflags: -I${includedir}
+Requires.private: gl @PKGREQ_FREETYPE2@

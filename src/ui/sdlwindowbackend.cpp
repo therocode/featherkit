@@ -12,7 +12,7 @@ namespace fea
 
     void SDLWindowBackend::create(VideoMode mode, const std::string& title, uint32_t style, const ContextSettings& settings)
     {
-        //todo: fix style
+        //todo: fix style and version
         (void) style;
         (void) settings;
         mWindow = SDL_SetVideoMode((int32_t)mode.mWidth, (int32_t)mode.mHeight, (int32_t)mode.mBitDepth, SDL_OPENGL | SDL_RESIZABLE);

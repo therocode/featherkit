@@ -1,0 +1,11 @@
+prefix=@CMAKE_INSTALL_PREFIX@
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: fea-structure
+Description: Feather Kit structure module
+Version: @fea_VERSION@
+URL: http://featherkit.therocode.net/
+Libs: -L${libdir} -lfea-structure
+Cflags: -I${includedir}

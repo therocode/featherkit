@@ -37,7 +37,7 @@ namespace fea
     void subscribe(MessageBus& bus, MessageReceiver<MessageTypes...>& receiver, bool unsubscribe)
     {
         std::vector<std::function<void()>> desubscribers;
-        int _[] = {0, (subscribeToType<MessageTypes>(bus, receiver, desubscribers, unsubscribe), 0)...};
+        int _[] = {(subscribeToType<MessageTypes>(bus, receiver, desubscribers, unsubscribe), 0)...};
         (void)_;
         receiver.mDesubscribers = desubscribers;
     }

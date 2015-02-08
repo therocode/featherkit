@@ -2,11 +2,13 @@
 *.swo
 *~
 CMakeCache.txt
-CMakeFiles/*
+CMakeFiles/
 cmake_install.cmake
 Makefile
 *.a
-bin/*
-lib/*
-doxy/gen/*
+*.so
+*.pc
+bin
+lib
+doxy/gen/
 install_manifest.txt

@@ -13,7 +13,7 @@ set(${project_name}_VERSION_MAJOR 0)
 set(${project_name}_VERSION_MINOR 9)
 set(${project_name}_VERSION_PATCH 9)
 set(${project_name}_VERSION
-      ${${project_name}_MAJOR_VERSION}.${${project_name}_MINOR_VERSION}.${${project_name}_PATCH_VERSION})
+      ${${project_name}_VERSION_MAJOR}.${${project_name}_VERSION_MINOR}.${${project_name}_VERSION_PATCH})
 
 set(SHARED_BUILD TRUE CACHE BOOL "Set this to false if you want a static build")
 
@@ -29,6 +29,8 @@ set(BUILD_SDLBACKENDS FALSE CACHE BOOL "Selects if the SDL backends should be bu
 set(BUILD_SDL2BACKENDS FALSE CACHE BOOL "Selects if the SDL2 backends should be built")
 
 set(BUILD_JSON TRUE CACHE BOOL "Selects if the json (de)serialization functions should be built")
+
+set(INSTALL_PKGCONFIG_FILES TRUE CACHE BOOL "Selects if pkg-config .pc files should be generated and installed")
 
 set(SDK_PATH "" CACHE PATH "Optional path to the Featherkit SDK. If this is not set, the dependencies have to be handled manually.")
 
@@ -55,18 +57,36 @@ endif()
 include_directories(${CMAKE_CURRENT_LIST_DIR}/include)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_LIST_DIR}/cmake/modules/")
 
-
-
 set(ASM_OPTIMIZATIONS FALSE CACHE BOOL "use assembler optimization for noise generation. only compatible with 64 bit builds")
 
 if(ASM_OPTIMIZATIONS) #if this option is chosen, then it #ifdef NOISE_ASM in the code will be run
     set(ASM_COMPILER_PATH "" CACHE FILEPATH "select asm compiler to use (nasm/yasm)")
-	set(YASM_PATH ${ASM_COMPILER_PATH})
-	enable_language(ASM-NASM)
-	add_definitions(-DNOISE_ASM)
+    set(YASM_PATH ${ASM_COMPILER_PATH})
+    enable_language(ASM-NASM)
+    add_definitions(-DNOISE_ASM)
 endif(ASM_OPTIMIZATIONS)
 
+set(USE_NATIVE_OPTIMIZATIONS FALSE CACHE BOOL "Use GCC-like compiler's support for native instruction set detection and use.")
 
+if(USE_NATIVE_OPTIMIZATIONS)
+    if(NOT MSVC)
+        set(CPP_CPU_OPTIMISE_FLAGS "-march=native")
+    endif()
+endif()
+
+set(USE_SSE_OPTIMIZATIONS FALSE CACHE BOOL "Use compiler's support for SSE3 instruction set detection and use.")
+
+if(USE_SSE_OPTIMIZATIONS)
+    if(MSVC)
+        set(CPP_CPU_OPTIMISE_FLAGS "${CPP_CPU_OPTIMISE_FLAGS} /arch:SSE2")
+    else()
+        if(USE_NATIVE_OPTIMIZATIONS)
+            set(CPP_CPU_OPTIMISE_FLAGS "${CPP_CPU_OPTIMISE_FLAGS} -mfpmath=sse")
+        else()
+            set(CPP_CPU_OPTIMISE_FLAGS "${CPP_CPU_OPTIMISE_FLAGS} -msse3 -mfpmath=sse")
+        endif()
+    endif()
+endif()
 
 if(NOT MSVC)
     set(CPP_11_FLAG -std=c++11)
@@ -74,7 +94,7 @@ endif()
 
 #if(MINGW OR CMAKE_COMPILER_IS_GNUCXX OR Clang)
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -Werror -Wshadow -Wconversion -Wno-long-long -pedantic -Wconstant-conversion")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CPP_11_FLAG}")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CPP_11_FLAG} ${CPP_CPU_OPTIMISE_FLAGS}")
 #set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99")
 #endif()
 
@@ -397,7 +417,7 @@ if(BUILD_UI)
             include/fea/ui/jsonactioniohandler.hpp
             include/fea/ui/jsonactioniohandler.inl)
     endif()
-    
+
     add_library(${project_name}-ui ${SHARED_OR_STATIC}
         ${ui_header_files}
         ${ui_source_files}
@@ -474,23 +494,25 @@ if(BUILD_UI)
         set(ui_sdl2_backend_header_files
             include/fea/ui/sdl2windowbackend.hpp
             include/fea/ui/sdl2inputbackend.hpp)
-    
-        add_library(${project_name}-sdl2 ${SHARED_OR_STATIC} ${ui_sdl2_backend_source_files} ${ui_sdl2_backend_header_files})
+
+        add_library(${project_name}-sdl2 ${SHARED_OR_STATIC}
+            ${ui_sdl2_backend_source_files}
+            ${ui_sdl2_backend_header_files})
         target_link_libraries(${project_name}-sdl2 ${SDL2_LIBRARY} ${project_name}-ui)
     endif()
 endif()
 
 if(BUILD_UTIL)
     ##Util module##
-    
+
     set(BUILT_TARGETS ${BUILT_TARGETS} ${project_name}-util)
-    
+
     if(ASM_OPTIMIZATIONS)
         set(UTIL_ASM_SOURCE 
             src/util/asmnoise.asm
             src/util/asmchecksse41.asm)
     endif()
-    
+
     #find all source files
     set(util_source_files
         src/util/messagebus.cpp
@@ -499,7 +521,7 @@ if(BUILD_UTIL)
         src/util/voronoinoise.cpp
         src/util/whitenoise.cpp
         ${UTIL_ASM_SOURCE})
-    
+
     set(util_header_files 
         include/fea/util/messagebus.hpp
         include/fea/util/messagebus.inl
@@ -514,14 +536,63 @@ if(BUILD_UTIL)
         include/fea/util/whitenoise.hpp
         include/fea/util/asmnoise.hpp
         include/fea/util/asmchecksse41.hpp)
-    
+
     add_library(${project_name}-util ${SHARED_OR_STATIC}
         ${util_header_files}
         ${util_source_files})
-    
+
     target_link_libraries(${project_name}-util)
 endif()
 
+if(INSTALL_PKGCONFIG_FILES)
+    if(BUILD_AUDIO)
+        set(PKGMODULE_AUDIO fea-audio)
+    endif()
+    if(BUILD_ENTITY)
+        set(PKGMODULE_ENTITY fea-entity)
+    endif()
+    if(BUILD_RENDERING)
+        set(PKGMODULE_RENDERING fea-rendering)
+        if(BUILD_RENDERING_TEXT)
+            set(PKGREQ_FREETYPE2 freetype2)
+        endif()
+    endif()
+    if(BUILD_STRUCTURE)
+        set(PKGMODULE_STRUCTURE fea-structure)
+    endif()
+    if(BUILD_UI)
+        set(PKGMODULE_UI fea-ui)
+    endif()
+    if(BUILD_UTIL)
+        set(PKGMODULE_UTIL fea-util)
+    endif()
+    if(BUILD_SDLBACKENDS)
+        set(PKGMODULE_SDL fea-sdl)
+    endif()
+    if(BUILD_SDL2BACKENDS)
+        set(PKGMODULE_SDL2 fea-sdl2)
+    endif()
+    if(BUILD_JSON)
+        set(PKGREQ_JSONCPP jsoncpp)
+    endif()
+
+    foreach(module IN ITEMS
+        ${PKGMODULE_AUDIO}
+        ${PKGMODULE_ENTITY}
+        ${PKGMODULE_RENDERING}
+        ${PKGMODULE_STRUCTURE}
+        ${PKGMODULE_UI}
+        ${PKGMODULE_UTIL}
+        ${PKGMODULE_SDL}
+        ${PKGMODULE_SDL2})
+        configure_file(
+            "pkg-config/${module}.pc.in"
+            "pkg-config/${module}.pc"
+            @ONLY)
+        install(FILES "${CMAKE_BINARY_DIR}/pkg-config/${module}.pc"
+            DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig")
+    endforeach()
+endif()
 
 install(
     DIRECTORY include
