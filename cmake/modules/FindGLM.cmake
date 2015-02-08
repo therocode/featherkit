@@ -31,6 +31,8 @@
 
 # default search dirs
 SET(_glm_HEADER_SEARCH_DIRS
+    "/include"
+    "/local/include"
     "/usr/include"
     "/usr/local/include")
 
