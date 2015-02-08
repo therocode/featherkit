@@ -5,8 +5,8 @@
 #include <sstream>
 #include <typeindex>
 #include <algorithm>
-#include <fea/messaging/messagereceiver.hpp>
 #include <fea/assert.hpp>
+#include <fea/util/messagereceiver.hpp>
 
 namespace fea
 {
@@ -14,9 +14,9 @@ namespace fea
     {
         public:
             template<class Message>
-            void addSubscriber(const MessageReceiver<Message>& receiver);
+            void addSubscriber(const MessageReceiverSingle<Message>& receiver);
             template<class Message>
-            void removeSubscriber(const MessageReceiver<Message>& receiver);
+            void removeSubscriber(const MessageReceiverSingle<Message>& receiver);
             template<class Message>
             void send(const Message& mess);
         private:
@@ -24,16 +24,36 @@ namespace fea
             std::unordered_map<std::type_index, std::vector<MessageReceiverBase*>> mSubscribers;
     };
 
-#include <fea/messaging/messagebus.inl>
-    /** @addtogroup Messaging
+    template <class MessageType>
+    void subscribeToType(MessageBus& bus, MessageReceiverSingle<MessageType>& receiver, std::vector<std::function<void()>>& desubscribers, bool unsubscribe)
+    {
+        bus.addSubscriber<MessageType>(receiver);
+
+        if(unsubscribe)
+            desubscribers.push_back([&] () { bus.removeSubscriber<MessageType>(receiver);});
+    }
+
+    template<class... MessageTypes>
+    void subscribe(MessageBus& bus, MessageReceiver<MessageTypes...>& receiver, bool unsubscribe)
+    {
+        std::vector<std::function<void()>> desubscribers;
+        int _[] = {0, (subscribeToType<MessageTypes>(bus, receiver, desubscribers, unsubscribe), 0)...};
+        (void)_;
+        receiver.mDesubscribers = desubscribers;
+    }
+
+#include <fea/util/messagebus.inl>
+    /** @addtogroup Util
      *@{
      *  @class MessageBus
+     *  @fn void subscribe(MessageBus& bus, MessageReceiver<MessageTypes...>& receiver, bool unsubscribe = true)
      *@}
      ***
      *  @class MessageBus
      *  @brief Class that manages Message sending.
      *
      *  It offers a way of subscribing to messages. It will keep track of the subscriptions and when messages are send, it will reroute these to the correct receivers.
+     *  The type of the message can be anything. Even primitives like int or double can be subscribed to. Most of the time, the message type is a struct carrying the information needed.
      ***
      *  @fn void MessageBus::addSubscriber(const MessageReceiver<Message>& receiver)
      *  @brief Create a subscription for a receiver.
@@ -60,5 +80,15 @@ namespace fea
      *  Messages sent using this function will be routed to any subscribers which subscribed to that particular message type. If there are no subscribers to a particular Message type, nothing will hapen.
      *  @tparam Message Type of the Message to send.
      *  @param mess Message instance to send.
+     ***
+     *  @fn void subscribe(MessageBus& bus, MessageReceiver<MessageTypes...>& receiver, bool unsubscribe = true)
+     *  @brief Subscribe to all messages for a receiver in a RAII manner.
+     *
+     *  When this function is called on a receiver, the receiver will be subscribed to all messages it is able to receive. Futhermore, upon destruction, all subscriptions will be cancelled unless automatic unsubscription is switched off.
+     *
+     *  @param bus Message bus which messages to subscribe to.
+     *  @param receiver Instance to receive messages.
+     *  @param unsubscribe Set this to false to disable automatic unsubscription
+     *  @tparam Message types to subscribe to.
      **/
 }

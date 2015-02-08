@@ -20,6 +20,8 @@ namespace fea
             GameState* mCurrentState;
             std::string mCurrentStateName;
             std::unordered_map<std::string, std::unique_ptr<GameState>> gameStates;
+            GameStateMachine(const GameStateMachine &obj) = delete;
+            GameStateMachine& operator=(GameStateMachine obj) = delete;
     };
     
     /** @addtogroup Structure

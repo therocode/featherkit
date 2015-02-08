@@ -1,6 +1,7 @@
 #include <fea/entity/glmtypeadder.hpp>
 #include <fea/entity/entityfactory.hpp>
 #include <glm/glm.hpp>
+#include <glm/gtc/type_precision.hpp>
 
 namespace fea
 {
@@ -30,6 +31,23 @@ namespace fea
             return glm::ivec2(static_cast<int32_t>(std::stoi(params[0])), static_cast<int32_t>(std::stoi(params[1])));
         });
 
+        factory.addDataType("u64vec2", [] (const Parameters& params)
+        {
+            FEA_ASSERT(params.size() == 2, "Wrong amount of parameters! Expected 2, got " + std::to_string(params.size()) + "!");
+
+            FEA_ASSERT(params[0].find('-') == std::string::npos && params[1].find('-') == std::string::npos, "Default value for type u64vec2 is not allowed to have negative numbers! Given '" + params[0] + "," + params[1] + "'.");
+            FEA_ASSERT(static_cast<unsigned long>(static_cast<uint64_t>(std::stoul(params[0]))) == std::stoul(params[0]) && static_cast<unsigned long>(static_cast<uint64_t>(std::stoul(params[1]))) == std::stoul(params[1]), "Default value '" + params[0] + "," + params[1] + "' given to attribute of u64vec2 is too large!");
+
+            return glm::u64vec2(static_cast<uint64_t>(std::stoul(params[0])), static_cast<uint64_t>(std::stoul(params[1])));
+        });
+
+        factory.addDataType("i64vec2", [] (const Parameters& params)
+        {
+            FEA_ASSERT(params.size() == 2, "Wrong amount of parameters! Expected 2, got " + std::to_string(params.size()) + "!");
+
+            return glm::i64vec2(static_cast<int64_t>(std::stoi(params[0])), static_cast<int64_t>(std::stoi(params[1])));
+        });
+
         factory.addDataType("vec3", [] (const Parameters& params)
         {
             FEA_ASSERT(params.size() == 3, "Wrong amount of parameters! Expected 3, got " + std::to_string(params.size()) + "!");
@@ -52,6 +70,23 @@ namespace fea
             FEA_ASSERT(params.size() == 3, "Wrong amount of parameters! Expected 3, got " + std::to_string(params.size()) + "!");
 
             return glm::ivec3(static_cast<int32_t>(std::stoi(params[0])), static_cast<int32_t>(std::stoi(params[1])), static_cast<int32_t>(std::stoi(params[2])));
+        });
+
+        factory.addDataType("u64vec3", [] (const Parameters& params)
+        {
+            FEA_ASSERT(params.size() == 3, "Wrong amount of parameters! Expected 3, got " + std::to_string(params.size()) + "!");
+
+            FEA_ASSERT(params[0].find('-') == std::string::npos && params[1].find('-') == std::string::npos && params[2].find('-') == std::string::npos, "Default value for type u64vec3 is not allowed to have negative numbers! Given '" + params[0] + "," + params[1] + "," + params[2] + "'.");
+            FEA_ASSERT(static_cast<unsigned long>(static_cast<uint64_t>(std::stoul(params[0]))) == std::stoul(params[0]) && static_cast<unsigned long>(static_cast<uint64_t>(std::stoul(params[1]))) == std::stoul(params[1]) && static_cast<unsigned long>(static_cast<uint64_t>(std::stoul(params[2]))) == std::stoul(params[2]), "Default value '" + params[0] + "," + params[1] + "," + params[2] + "' given to attribute of u64vec3 is too large!");
+
+            return glm::u64vec3(static_cast<uint64_t>(std::stoul(params[0])), static_cast<uint64_t>(std::stoul(params[1])), static_cast<uint64_t>(std::stoul(params[2])));
+        });
+
+        factory.addDataType("i64vec3", [] (const Parameters& params)
+        {
+            FEA_ASSERT(params.size() == 3, "Wrong amount of parameters! Expected 3, got " + std::to_string(params.size()) + "!");
+
+            return glm::i64vec3(static_cast<int64_t>(std::stoi(params[0])), static_cast<int64_t>(std::stoi(params[1])), static_cast<int64_t>(std::stoi(params[2])));
         });
 
         factory.addDataType("mat2x2", [] (const Parameters& params)

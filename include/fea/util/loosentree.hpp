@@ -1,3 +1,4 @@
+#pragma once
 #include <set>
 #include <sstream>
 #include <unordered_map>
@@ -74,23 +75,37 @@ namespace fea
             float mMoveCache[Pow(2, Dimensions)][Dimensions];
     };
 
-#include <fea/structure/loosentree.inl>
+	template<uint32_t Depth, bool StaticAllocation>
+	using QuadTree = LooseNTree<2, Depth, StaticAllocation>;
 
-    /** @addtogroup Structure
+	template<uint32_t Depth, bool StaticAllocation>
+	using Octree = LooseNTree<3, Depth, StaticAllocation>;
+
+#include <fea/util/loosentree.inl>
+
+    /** @addtogroup Util
      *@{
      *  @typedef LooseNTree::TreeEntry
+     *  @typedef QuadTree
+     *  @typedef Octree
      *  @class LooseNTree
      *@}
      ***
      *  @typedef LooseNTree::TreeEntry
      *  @brief An entry in the tree.
      ***
+     *  @typedef QuadTree
+     *  @brief Tree structure for keeping track of possibly overlapping objects in 2-dimensional space.
+     ***
+     *  @typedef Octree
+     *  @brief Tree structure for keeping track of possibly overlapping objects in 3-dimensional space.
+     ***
      *  @class LooseNTree
      *  @brief Tree structure for keeping track of possibly overlapping objects.
      *
      *  This class generalizes the concept of a loose quadtree/octree to make it work in any dimension. The amount of dimensions are passed as template parameters. The tree can be used to track objects with a position and size, to return possible overlaps. The node depth of the tree is also configured with a template parameter as well as if the tree should allocate all memory possibly needed at once, or if it should dynamically grow depending on need.
      *
-     *  @tparam Dimensions Amount of dimensions. 2 makes a quadtree and 3 makes an octree.
+     *  @tparam Dimensions Amount of dimensions. 2 makes a quadtree and 3 makes an octree. For these, you can also use the aliases QuadTree and Octree which only have the two other template parameters.
      *  @tparam Depth Node depth. The deeper the tree, the bigger memory footprint, but might reduce false positives when returning possible overlaps.
      *  @tparam StaticAllocation If this is set to true, the tree allocates all nodes at once. This increases performance of the tree, but with bigger depth and dimensions, the memory usage quickly goes out of hand.
      ***

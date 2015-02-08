@@ -9,14 +9,20 @@ endif()
 set(project_name fea)
 project(${project_name})
 
+set(${project_name}_VERSION_MAJOR 0)
+set(${project_name}_VERSION_MINOR 9)
+set(${project_name}_VERSION_PATCH 9)
+set(${project_name}_VERSION
+      ${${project_name}_MAJOR_VERSION}.${${project_name}_MINOR_VERSION}.${${project_name}_PATCH_VERSION})
+
 set(SHARED_BUILD TRUE CACHE BOOL "Set this to false if you want a static build")
 
 set(BUILD_AUDIO TRUE CACHE BOOL "Selects if the audio module should be built")
 set(BUILD_STRUCTURE TRUE CACHE BOOL "Selects if the structure module should be built")
 set(BUILD_ENTITY TRUE CACHE BOOL "Selects if the entity module should be built")
-set(BUILD_MESSAGING TRUE CACHE BOOL "Selects if the messaging module should be built")
 set(BUILD_RENDERING TRUE CACHE BOOL "Selects if the rendering module should be built")
 set(BUILD_UI TRUE CACHE BOOL "Selects if the UI module should be built")
+set(BUILD_UTIL TRUE CACHE BOOL "Selects if the util module should be built")
 
 set(BUILD_SFMLBACKENDS FALSE CACHE BOOL "Selects if the SFML backends should be built")
 set(BUILD_SDLBACKENDS FALSE CACHE BOOL "Selects if the SDL backends should be built")
@@ -48,6 +54,19 @@ endif()
 
 include_directories(${CMAKE_CURRENT_LIST_DIR}/include)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_LIST_DIR}/cmake/modules/")
+
+
+
+set(ASM_OPTIMIZATIONS FALSE CACHE BOOL "use assembler optimization for noise generation. only compatible with 64 bit builds")
+
+if(ASM_OPTIMIZATIONS) #if this option is chosen, then it #ifdef NOISE_ASM in the code will be run
+    set(ASM_COMPILER_PATH "" CACHE FILEPATH "select asm compiler to use (nasm/yasm)")
+	set(YASM_PATH ${ASM_COMPILER_PATH})
+	enable_language(ASM-NASM)
+	add_definitions(-DNOISE_ASM)
+endif(ASM_OPTIMIZATIONS)
+
+
 
 if(NOT MSVC)
     set(CPP_11_FLAG -std=c++11)
@@ -177,9 +196,7 @@ if(BUILD_STRUCTURE)
 
     set(structure_header_files include/fea/structure/application.hpp
         include/fea/structure/gamestate.hpp
-        include/fea/structure/gamestatemachine.hpp
-        include/fea/structure/loosentree.hpp
-        include/fea/structure/loosentree.inl)
+        include/fea/structure/gamestatemachine.hpp)
 
     add_library(${project_name}-structure ${SHARED_OR_STATIC}
         ${structure_source_files}
@@ -231,26 +248,6 @@ if(BUILD_ENTITY)
         ${entity_json_header_files})
 
     target_link_libraries(${project_name}-entity ${JSONCPP_LIBRARIES})
-endif()
-
-if(BUILD_MESSAGING)
-    ##Messaging module##
-
-    set(BUILT_TARGETS ${BUILT_TARGETS} ${project_name}-messaging)
-
-    set(messaging_source_files 
-        src/messaging/messagebus.cpp)
-
-    set(messaging_header_files 
-        include/fea/messaging/messagebus.hpp
-        include/fea/messaging/messagebus.inl
-        include/fea/messaging/message.hpp
-        include/fea/messaging/message.inl
-        include/fea/messaging/messagereceiver.hpp)
-
-    add_library(${project_name}-messaging ${SHARED_OR_STATIC}
-        ${messaging_source_files}
-        ${messaging_header_files})
 endif()
 
 if(BUILD_RENDERING)
@@ -482,6 +479,49 @@ if(BUILD_UI)
         target_link_libraries(${project_name}-sdl2 ${SDL2_LIBRARY} ${project_name}-ui)
     endif()
 endif()
+
+if(BUILD_UTIL)
+    ##Util module##
+    
+    set(BUILT_TARGETS ${BUILT_TARGETS} ${project_name}-util)
+    
+    if(ASM_OPTIMIZATIONS)
+        set(UTIL_ASM_SOURCE 
+            src/util/asmnoise.asm
+            src/util/asmchecksse41.asm)
+    endif()
+    
+    #find all source files
+    set(util_source_files
+        src/util/messagebus.cpp
+        src/util/noise.cpp
+        src/util/simplexnoise.cpp
+        src/util/voronoinoise.cpp
+        src/util/whitenoise.cpp
+        ${UTIL_ASM_SOURCE})
+    
+    set(util_header_files 
+        include/fea/util/messagebus.hpp
+        include/fea/util/messagebus.inl
+        include/fea/util/messagereceiver.hpp
+        include/fea/util/loosentree.hpp
+        include/fea/util/loosentree.inl
+        include/fea/util/pathfinder.hpp
+        include/fea/util/pathfinder.inl
+        include/fea/util/noise.hpp
+        include/fea/util/simplexnoise.hpp
+        include/fea/util/voronoinoise.hpp
+        include/fea/util/whitenoise.hpp
+        include/fea/util/asmnoise.hpp
+        include/fea/util/asmchecksse41.hpp)
+    
+    add_library(${project_name}-util ${SHARED_OR_STATIC}
+        ${util_header_files}
+        ${util_source_files})
+    
+    target_link_libraries(${project_name}-util)
+endif()
+
 
 install(
     DIRECTORY include

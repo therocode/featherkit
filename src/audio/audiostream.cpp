@@ -140,7 +140,7 @@ namespace fea
         {
             alBufferData(buffer->getBufferId(), mFormat, audioData.data(), audioData.size() * sizeof(int16_t), mSampleRate);
         }
-        
+
         return audioData.size();
     }
 }

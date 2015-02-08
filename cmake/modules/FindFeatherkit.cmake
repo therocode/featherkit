@@ -51,6 +51,8 @@ set(FEATHERKIT_FOUND)
 set(FEATHERKIT_LIBRARY)
 set(FEATHERKIT_INCLUDE_DIR)
 
+set(FEA_PRESERVE_LIBS false CACHE "" INTERNAL)
+
 if(CMAKE_BUILD_TYPE MATCHES Debug)
     set(FEA_LIBRARY_SUFFIX "-d")
     set(FEA_LIBRARY_ANTISUFFIX "")
@@ -63,13 +65,24 @@ else()
     set(ANTI_BUILD_TYPE "debug")
 endif()
 
+if(NOT (${FEA_LAST_MODE} MATCHES ${BUILD_TYPE}))
+    unset(FEA_LAST_MODE CACHE)
+    set(FEA_LAST_MODE ${BUILD_TYPE} CACHE "" INTERNAL)
+    set(FEA_RESET_LIBS true)
+else()
+    set(FEA_RESET_LIBS false)
+endif()
+
 foreach(FIND_Featherkit_COMPONENT ${Featherkit_FIND_COMPONENTS})
     string(TOLOWER ${FIND_Featherkit_COMPONENT} FIND_Featherkit_COMPONENT)
     set(FEATHERKIT_CURRENT_COMPONENT ${FIND_Featherkit_COMPONENT}${FEA_LIBRARY_SUFFIX})
 
     set(FIND_Featherkit_COMPONENT_NAME fea-${FEATHERKIT_CURRENT_COMPONENT})
 
-    unset(Featherkit_${FIND_Featherkit_COMPONENT}_LIBRARY CACHE)
+    if(${FEA_RESET_LIBS})
+        unset(Featherkit_${FIND_Featherkit_COMPONENT}_LIBRARY CACHE)
+    endif()
+
     find_library(Featherkit_${FIND_Featherkit_COMPONENT}_LIBRARY
         NAMES ${FIND_Featherkit_COMPONENT_NAME}
         PATH_SUFFIXES lib64 lib
@@ -85,8 +98,11 @@ foreach(FIND_Featherkit_COMPONENT ${Featherkit_FIND_COMPONENTS})
         set(FEATHERKIT_CURRENT_COMPONENT ${FIND_Featherkit_COMPONENT}${FEA_LIBRARY_ANTISUFFIX})
 
         set(FIND_Featherkit_COMPONENT_NAME fea-${FEATHERKIT_CURRENT_COMPONENT})
+        
+        if(${FEA_RESET_LIBS})
+            unset(Featherkit_${FIND_Featherkit_COMPONENT}_LIBRARY CACHE)
+        endif()
 
-        unset(Featherkit_${FIND_Featherkit_COMPONENT}_LIBRARY CACHE)
         find_library(Featherkit_${FIND_Featherkit_COMPONENT}_LIBRARY
             NAMES ${FIND_Featherkit_COMPONENT_NAME}
             PATH_SUFFIXES lib64 lib

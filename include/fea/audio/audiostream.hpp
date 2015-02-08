@@ -21,7 +21,6 @@ namespace fea
             size_t getSampleRate() const;
             size_t getChannelCount() const;
             void setPlayOffset(std::chrono::milliseconds timePoint);
-        protected:
             void reset();
         private:
             size_t mChannelCount;
