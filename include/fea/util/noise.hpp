@@ -71,9 +71,10 @@ namespace fea
      *  @fn float Noise::white2D(float x, float y) const
      *  @brief Generate a single coordinate of 2-dimensional white noise.
      *
-     *  White noise is comparable to the noise seen on old TVs when receiving no signal.
+     *  White noise is comparable to the noise seen on old TVs when receiving no signal. 
      *  @param x X coordinate to generate.
      *  @param y Y coordinate to generate.
+     *  @return A noise value between 0 and 1
 	 ***
      *  @fn float Noise::simplex2D(float x, float y) const
      *  @brief Generate a single coordinate of 2-dimensional simplex noise.
@@ -81,6 +82,7 @@ namespace fea
      *  Simplex noise, or "improved perlin noise" as it is also known by, is a smoother kind of coherent noise. It is often layered together to create landscape heightmaps and other such things. The simplexOctave2D function is a convenience function for layering simplex noise in such a manner.
      *  @param x X coordinate to generate.
      *  @param y Y coordinate to generate.
+     *  @return A noise value between -1 and 1
 	 ***
      *  @fn float Noise::simplexOctave2D(float x, float y, float scaleFactor = 1.0f, uint32_t octaves = 5, float persistence = 0.5f) const
      *  @brief Generate a single coordinate of layered 2-dimensional simplex noise.
@@ -93,6 +95,7 @@ namespace fea
      *  @param scaleFactor The size of the output noise.
      *  @param octaves Amount of octaves. More octaves gives more detail, but is heavier to compute.
      *  @param persistence Controls the roughness of the noise.
+     *  @return a noise value between -1 and 1
 	 ***
      *  @fn float Noise::simplex3D(float x, float y, float z) const
      *  @brief Generate a single coordinate of 3-dimensional simplex noise.
@@ -101,6 +104,7 @@ namespace fea
      *  @param x X coordinate to generate.
      *  @param y Y coordinate to generate.
      *  @param z Z coordinate to generate.
+     *  @return a noise value between -1 and 1
 	 ***
      *  @fn float Noise::simplexOctave3D(float x, float y, float z, float scaleFactor = 1.0f, uint32_t octaves = 5, float persistence = 0.5f) const
      *  @brief Generate a single coordinate of layered 3-dimensional simplex noise.
@@ -114,6 +118,7 @@ namespace fea
      *  @param scaleFactor The size of the output noise.
      *  @param octaves Amount of octaves. More octaves gives more detail, but is heavier to compute.
      *  @param persistence Controls the roughness of the noise.
+     *  @return a noise value between -1 and 1
 	 ***
      *  @fn float Noise::voronoi2D(float x, float y) const
      *  @brief Generate a single coordinate of 2-dimensional voronoi noise.
@@ -122,5 +127,6 @@ namespace fea
      *
      *  @param x X coordinate to generate.
      *  @param y Y coordinate to generate.
+     *  @return a noise value between 0 and 1
      ***/
 }

@@ -181,8 +181,6 @@ namespace fea
         alSourcePlay(sourceId); //play
 
         return handle;
-
-        return 0;
     }
 
     void AudioPlayer::pause(AudioHandle handle)

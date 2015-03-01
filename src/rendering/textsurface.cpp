@@ -12,7 +12,6 @@ std::wstring utf8_to_utf16(const std::string& utf8)
     {
         unsigned long uni;
         size_t todo;
-        bool error = false;
         unsigned char ch = utf8[i++];
         if (ch <= 0x7F)
         {
@@ -315,7 +314,6 @@ namespace fea
             }
         }
 
-        int32_t currentWordStart = -1;
         int32_t currentWordEnd = -1;
 
         float wordWidth = 0.0f;

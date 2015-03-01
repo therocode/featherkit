@@ -96,7 +96,7 @@ namespace fea
     {
         std::queue<Event> newEvents = mInputBackend->fetchEvents();
 
-        while(newEvents.size() > 0)
+        while(!newEvents.empty())
         {
             mEventQueue.push(newEvents.front());
             newEvents.pop();
