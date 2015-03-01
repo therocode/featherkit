@@ -35,15 +35,16 @@ namespace fea
 
     void Texture::create(uint32_t width, uint32_t height, const uint8_t* imageData, bool smooth, bool interactive)
     {
-        mInteractive = interactive;
         FEA_ASSERT(width > 0 && height > 0, "Cannot create a texture with a width or height smaller than zero! Given dimensions are " + std::to_string(width) + " " + std::to_string(height));
-        mWidth = width;
-        mHeight = height;
 
         if(mId)
         {
             destroy();
         }
+
+        mInteractive = interactive;
+        mWidth = width;
+        mHeight = height;
         
         glGenTextures(1, &mId);
         FEA_ASSERT(mId != 0, "Failed to create texture. Make sure there is a valid OpenGL context available!");
