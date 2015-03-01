@@ -19,7 +19,7 @@ namespace fea
             glm::vec2 mTileSize;
             glm::vec2 mScrollSpeed; //FIX with tick
     };
-    /** @addtogroup Render2D
+    /** @addtogroup Rendering
      *@{
      *  @class RepeatedQuad
      *@}

@@ -33,7 +33,7 @@ namespace fea
             glm::vec2 mOriginalOrigin;
     };
 
-    /** @addtogroup Render2D
+    /** @addtogroup Rendering
      *@{
      *  @class TileChunk
      *@}

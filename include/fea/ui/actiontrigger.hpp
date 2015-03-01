@@ -25,7 +25,7 @@ namespace fea
             bool operator>(const ActionTrigger& other) const;
             bool operator<(const ActionTrigger& other) const;
     };
-    /** @addtogroup UserInterface
+    /** @addtogroup UI
      *@{
      *  @class ActionTrigger
      *@}

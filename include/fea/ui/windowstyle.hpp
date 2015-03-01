@@ -13,7 +13,7 @@ namespace fea
         Default = Titlebar | Resize | Close 
     };
 
-    /** @addtogroup UserInterface
+    /** @addtogroup UI
      *@{
      *  @enum Style
      *@}

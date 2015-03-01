@@ -107,7 +107,7 @@ namespace fea
                 GamepadConnectEvent gamepadConnect;    ///< Holds data of GAMEPADCONNECTED and GAMEPADDISCONNECTED events.
             };
     };
-    /** @addtogroup UserInterface
+    /** @addtogroup UI
      *@{
      *  @class Event
      *  @enum Event::EventType

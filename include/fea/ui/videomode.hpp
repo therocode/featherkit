@@ -14,7 +14,7 @@ namespace fea
             uint32_t mBitDepth;
     };
 
-    /** @addtogroup UserInterface
+    /** @addtogroup UI
      *@{
      *  @struct VideoMode
      *@}

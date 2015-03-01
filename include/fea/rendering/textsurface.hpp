@@ -67,7 +67,7 @@ namespace fea
         glm::vec2 mLowBounds;
         glm::vec2 mHighBounds;
     };
-    /** @addtogroup Render2D
+    /** @addtogroup Rendering
      *@{
      *  @class TextSurface
      *@}

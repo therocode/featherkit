@@ -34,7 +34,7 @@ namespace fea
             GLuint mTextureVal;        ///<Hold a texture
         };
     };
-    /** @addtogroup Render2D
+    /** @addtogroup Rendering
      *@{
      *  @class Uniform
      *  @enum UniformType

@@ -71,7 +71,7 @@ namespace fea
         std::unordered_map<TileId, TileDefinition> mTileDefs;
         std::unordered_map<glm::uvec2, AnimatedTile> mAnimatedTiles;
     };
-    /** @addtogroup Render2D
+    /** @addtogroup Rendering
      *@{
      *  @struct TileDefinition
      *  @class TileMap

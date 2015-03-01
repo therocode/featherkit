@@ -27,7 +27,7 @@ namespace fea
             bool mLoop;
             AnimationBehavior mAnimBehavior;
     };
-    /** @addtogroup Render2D
+    /** @addtogroup Rendering
      *@{
      *  @enum AnimationBehavior
      *  @class Animation

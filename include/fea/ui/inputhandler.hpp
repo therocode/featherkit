@@ -38,7 +38,7 @@ namespace fea
             std::queue<Event> mEventQueue;
     };
 
-    /** @addtogroup UserInterface
+    /** @addtogroup UI
      *@{
      *  @class InputHandler
      *@}

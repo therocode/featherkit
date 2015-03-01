@@ -38,7 +38,7 @@ namespace fea
             std::queue<Action> mActions;
     };
 #include <fea/ui/actionhandler.inl>
-    /** @addtogroup UserInterface
+    /** @addtogroup UI
      *@{
      *  @class ActionHandler
      *@}

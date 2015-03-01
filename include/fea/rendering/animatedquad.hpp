@@ -34,7 +34,7 @@ namespace fea
             bool mBack;
             std::function<void(void)> mOnEnd;
     };
-    /** @addtogroup Render2D
+    /** @addtogroup Rendering
      *@{
      *  @class AnimatedQuad
      *@}

@@ -68,7 +68,7 @@ namespace fea
             uint8_t mBlue;
             uint8_t mAlpha;
     };
-    /** @addtogroup Render2D
+    /** @addtogroup Rendering
      *@{
      *  @class Color
      *@}

@@ -35,7 +35,7 @@ namespace fea
             bool mInteractive;
             std::unique_ptr<uint8_t[]> pixelData;
     };
-    /** @addtogroup Render2D
+    /** @addtogroup Rendering
      *@{
      *  @class Texture
      *@}

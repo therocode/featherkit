@@ -27,7 +27,7 @@ namespace fea
             float mFontSize;
     };
     
-    /** @addtogroup Render2D
+    /** @addtogroup Rendering
      *@{
      *  @class Font
      *@}

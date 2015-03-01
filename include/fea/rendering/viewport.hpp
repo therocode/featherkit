@@ -21,7 +21,7 @@ namespace fea
             glm::uvec2 mSize;
             Camera mCamera;
     };
-    /** @addtogroup Render2D
+    /** @addtogroup Rendering
      *@{
      *  @class Viewport
      *@}

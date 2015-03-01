@@ -30,7 +30,7 @@ namespace fea
 			virtual void lockCursor(bool lock) = 0;
             virtual ~WindowBackend(){};
     };
-    /** @addtogroup UserInterface
+    /** @addtogroup UI
      *@{
      *  @class WindowBackend
      *@}

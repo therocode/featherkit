@@ -53,7 +53,7 @@ namespace fea
             Color mColor;
             std::unordered_map<std::string, Uniform> mExtraUniforms;
     };
-    /** @addtogroup Render2D
+    /** @addtogroup Rendering
      *@{
      *  @class Drawable2D
      *@}

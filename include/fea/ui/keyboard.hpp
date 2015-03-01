@@ -113,7 +113,7 @@ namespace fea
             PAUSE,
         };
     }
-    /** @addtogroup UserInterface
+    /** @addtogroup UI
      *@{
      *  @enum Keyboard::Code
      *@}

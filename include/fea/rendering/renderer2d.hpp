@@ -40,7 +40,7 @@ namespace fea
             //cache
             Color mClearColor;
     };
-    /** @addtogroup Render2D
+    /** @addtogroup Rendering
      *@{
      *  @class InvalidFontException
      *  @class Renderer2D

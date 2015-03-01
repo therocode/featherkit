@@ -24,7 +24,7 @@ namespace fea
             const Texture* mTexture;
             glm::vec4 mConstraints;
     };
-    /** @addtogroup Render2D
+    /** @addtogroup Rendering
      *@{
      *  @class Quad
      *@}

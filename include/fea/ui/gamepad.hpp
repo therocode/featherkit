@@ -16,7 +16,7 @@ namespace fea
             PovY
         };
     }
-    /** @addtogroup UserInterface
+    /** @addtogroup UI
      *@{
      *  @enum Gamepad::Axis
      *@}

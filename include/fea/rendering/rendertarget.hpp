@@ -26,7 +26,7 @@ namespace fea
             uint32_t mHeight;
             Texture mTexture;
     };
-    /** @addtogroup Render2D
+    /** @addtogroup Rendering
      *@{
      *  @class RenderTarget
      *@}

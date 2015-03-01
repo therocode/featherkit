@@ -25,7 +25,7 @@ namespace fea
             glm::vec2 mZoom;
             float mRotation;
     };
-    /** @addtogroup Render2D
+    /** @addtogroup Rendering
      *@{
      *  @class Camera
      *@}

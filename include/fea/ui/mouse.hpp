@@ -13,7 +13,7 @@ namespace fea
             XBUTTON2
         };
     }
-    /** @addtogroup UserInterface
+    /** @addtogroup UI
      *@{
      *  @enum Mouse::Button
      *@}

@@ -42,7 +42,7 @@ namespace fea
             GLuint mFragmentShader;
             mutable std::vector<GLint> mEnabledVertexAttributes;
     };
-    /** @addtogroup Render2D
+    /** @addtogroup Rendering
      *@{
      *  @class GLSLException
      *  @class Shader

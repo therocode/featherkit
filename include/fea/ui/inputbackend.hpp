@@ -29,7 +29,7 @@ namespace fea
             virtual void setKeyRepeatEnabled(bool enabled) = 0;
     };
 
-    /** @addtogroup UserInterface
+    /** @addtogroup UI
      *@{
      *  @class InputBackend
      *@}

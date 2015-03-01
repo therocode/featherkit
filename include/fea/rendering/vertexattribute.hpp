@@ -15,7 +15,7 @@ namespace fea
         uint32_t mFloatAmount;
         const float* mData;
     };
-    /** @addtogroup Render2D
+    /** @addtogroup Rendering
      *@{
      *  @class VertexAttribute
      *  @enum VertexAttributeType

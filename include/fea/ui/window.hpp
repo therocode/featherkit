@@ -40,7 +40,7 @@ namespace fea
         private:
             std::unique_ptr<WindowBackend> mWindowBackend;
     };
-    /** @addtogroup UserInterface
+    /** @addtogroup UI
      *@{
      *  @class Window
      *@}

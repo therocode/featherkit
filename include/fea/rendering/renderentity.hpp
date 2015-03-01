@@ -17,7 +17,7 @@ namespace fea
         GLenum mDrawMode;
         uint32_t mElementAmount;
     };
-    /** @addtogroup Render2D
+    /** @addtogroup Rendering
      *@{
      *  @enum BlendMode
      *  @class RenderEntity

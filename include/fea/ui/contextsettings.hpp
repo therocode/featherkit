@@ -15,7 +15,7 @@ namespace fea
         uint32_t mMinorVersion;   
     };
 
-    /** @addtogroup UserInterface
+    /** @addtogroup UI
      *@{
      *  @struct ContextSettings
      *@}

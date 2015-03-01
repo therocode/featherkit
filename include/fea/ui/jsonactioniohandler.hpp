@@ -28,7 +28,7 @@ namespace fea
 
 #include <fea/ui/jsonactioniohandler.inl>
 
-    /** @addtogroup UserInterface
+    /** @addtogroup UI
      *@{
      *  @class JsonActionIOHandler
      *@}

@@ -8,7 +8,7 @@ namespace fea
         int32_t y;
     };
 
-    /** @addtogroup UserInterface
+    /** @addtogroup UI
      *@{
      *  @struct Vec2I
      *@}

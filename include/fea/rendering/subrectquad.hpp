@@ -15,7 +15,7 @@ namespace fea
             glm::vec2 mSubrectStart;
             glm::vec2 mSubrectEnd;
     };
-    /** @addtogroup Render2D
+    /** @addtogroup Rendering
      *@{
      *  @class SubrectQuad
      *@}
