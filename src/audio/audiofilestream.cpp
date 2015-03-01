@@ -8,8 +8,6 @@ namespace fea
 
     void AudioFileStream::fillBufferData(size_t sampleIndex, std::vector<int16_t>& toFill)
     {
-        size_t desiredSampleAmount = toFill.size();
-
         mFile.fillBufferFromIndex(toFill, sampleIndex);
     }
 

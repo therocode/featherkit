@@ -6,7 +6,7 @@ namespace fea
 {
     struct FEA_API ContextSettings
     {
-        explicit ContextSettings(uint32_t depthBits = 0, uint32_t stencilBits = 0, uint32_t antialiasingLevel = 0, uint32_t majorVersion = 2, uint32_t minorVersion = 0);
+        explicit ContextSettings(uint32_t depthBits = 0, uint32_t stencilBits = 0, uint32_t antialiasingLevel = 0, uint32_t majorVersion = 2, uint32_t minorVersion = 2);
 
         uint32_t mDepthBits;         
         uint32_t mStencilBits;       
@@ -24,7 +24,7 @@ namespace fea
      *  @brief Defines the settings of the OpenGL context attached to a window if OpenGL is used.
      *
      ***
-     *  @fn explicit ContextSettings::ContextSettings(uint32_t depthBits = 0, uint32_t stencilBits = 0, uint32_t antialiasingLevel = 0, uint32_t majorVersion = 2, uint32_t minorVersion = 0)
+     *  @fn explicit ContextSettings::ContextSettings(uint32_t depthBits = 0, uint32_t stencilBits = 0, uint32_t antialiasingLevel = 0, uint32_t majorVersion = 2, uint32_t minorVersion = 2)
      *  @brief Default constructor.
      *
      *  @param depthBits Number of bits per pixel of the depth buffer.
