@@ -345,7 +345,7 @@ namespace fea
     {
         std::lock_guard<std::mutex> lock(mSourcesMutex);
         FEA_ASSERT(mPlayingSources.find(handle) != mPlayingSources.end(), "Trying to set pitch on an expired audio!");
-        FEA_ASSERT(pitch > 0.0f, "Trying to set pitch to 0 or less! Given " + std::to_string(pitch));
+        FEA_ASSERT(pitch >= 0.0f, "Trying to set pitch to less than 0! Given " + std::to_string(pitch));
         auto& source = mPlayingSources.at(handle);
         
         alSourcef(source.getSourceId(), AL_PITCH, pitch);
@@ -366,7 +366,7 @@ namespace fea
     {
         std::lock_guard<std::mutex> lock(mSourcesMutex);
         FEA_ASSERT(mPlayingSources.find(handle) != mPlayingSources.end(), "Trying to set gain on an expired audio!");
-        FEA_ASSERT(gain > 0.0f, "Trying to set gain to 0 or less! Given " + std::to_string(gain));
+        FEA_ASSERT(gain >= 0.0f, "Trying to set gain to less than 0! Given " + std::to_string(gain));
         auto& source = mPlayingSources.at(handle);
         
         alSourcef(source.getSourceId(), AL_GAIN, gain);
@@ -387,7 +387,7 @@ namespace fea
     {
         std::lock_guard<std::mutex> lock(mSourcesMutex);
         FEA_ASSERT(mPlayingSources.find(handle) != mPlayingSources.end(), "Trying to set attenuation factor on an expired audio!");
-        FEA_ASSERT(attenuationFactor > 0.0f, "Trying to set attenuation factor to 0 or less! Given " + std::to_string(attenuationFactor));
+        FEA_ASSERT(attenuationFactor >= 0.0f, "Trying to set attenuation factor to less than 0! Given " + std::to_string(attenuationFactor));
         auto& source = mPlayingSources.at(handle);
 
         alSourcef(source.getSourceId(), AL_ROLLOFF_FACTOR, attenuationFactor);
@@ -408,7 +408,7 @@ namespace fea
     {
         std::lock_guard<std::mutex> lock(mSourcesMutex);
         FEA_ASSERT(mPlayingSources.find(handle) != mPlayingSources.end(), "Trying to set attenuation distance on an expired audio!");
-        FEA_ASSERT(attenuationDistance > 0.0f, "Trying to set attenuation factor to 0 or less! Given " + std::to_string(attenuationDistance));
+        FEA_ASSERT(attenuationDistance >= 0.0f, "Trying to set attenuation factor to less than 0! Given " + std::to_string(attenuationDistance));
         auto& source = mPlayingSources.at(handle);
 
         alSourcef(source.getSourceId(), AL_REFERENCE_DISTANCE, attenuationDistance);
