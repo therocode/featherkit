@@ -2,7 +2,8 @@
 
 namespace fea
 {
-    SDL2InputBackend::SDL2InputBackend()
+    SDL2InputBackend::SDL2InputBackend():
+        mKeyRepeat(true)
     {
         //SDL_EnableKeyRepeat(500, 30);
     }
@@ -27,7 +28,12 @@ namespace fea
                     result.push(windowFocus(true));
             }
             else if(event.type == SDL_KEYDOWN)
+            {
+                if(event.key.repeat == 1 && !mKeyRepeat)
+                    continue;
+
                 result.push(keyPressed(event));
+            }
             else if(event.type == SDL_KEYUP)
                 result.push(keyReleased(event));
             else if(event.type == SDL_MOUSEBUTTONDOWN)
@@ -136,6 +142,7 @@ namespace fea
     {
         //TBI
         //window.setKeyRepeatEnabled(enabled);
+        mKeyRepeat = enabled;
         (void) enabled;
     }
 

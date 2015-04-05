@@ -46,5 +46,6 @@ namespace fea
             SDL_Keycode feaKeyCodeToSdl(Keyboard::Code feaCode) const;
             uint8_t feaMouseButtonToSdl(Mouse::Button feaMouseButton) const;
             Mouse::Button sdlMouseButtonToFea(uint32_t sdlMouseButton) const;
+            bool mKeyRepeat;
     };
 }
