@@ -44,7 +44,7 @@ void MessageBus::send(const Message& mess)
         if(list.size() > 0)
         {
             for(auto subscriber : list)
-                static_cast<MessageReceiver<Message>*>(subscriber)->handleMessage(mess);
+                static_cast<MessageReceiverSingle<Message>*>(subscriber)->handleMessage(mess);
         }
     }
 }
