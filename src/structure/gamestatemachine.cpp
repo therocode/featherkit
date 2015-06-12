@@ -65,6 +65,7 @@ namespace fea
             {
                 if(returned == "NONE")
                 {
+                    mCurrentState->deactivate("NONE");
                     mCurrentState = nullptr;
                     mCurrentStateName = "NONE";
                 }
