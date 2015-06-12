@@ -10,10 +10,10 @@ namespace fea
 	float raw_noise_3d(float x, float y, float z, const uint8_t* perm);
 
 
-	static float dot(const int8_t* grad, float x, float y);
-	static float dot(const int8_t* grad, float x, float y, float z);
+	float dot(const int8_t* grad, float x, float y);
+	float dot(const int8_t* grad, float x, float y, float z);
 
-	static inline int fast_floor(float x);
+	inline int fast_floor(float x);
 
 
 	// The gradients are the midpoints of the vertices of a cube.

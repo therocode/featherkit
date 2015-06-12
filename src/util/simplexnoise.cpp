@@ -143,5 +143,5 @@ namespace fea
 		return grad[0] * x + grad[1] * y + grad[2] * z;
 	}
 
-	static inline int fast_floor(float x){return ((x>=0)?((int)x):((x==(int)x)?(int)x:((int)x)-1));}
+	inline int fast_floor(float x){return ((x>=0)?((int)x):((x==(int)x)?(int)x:((int)x)-1));}
 }
