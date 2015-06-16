@@ -13,6 +13,7 @@ namespace fea
             GameStateMachine();
             void addGameState(const std::string& name, std::unique_ptr<GameState> state);
             void setCurrentState(const std::string& name);
+            GameState* getCurrentState();
             bool isFinished() const;
             void run();
         private:
@@ -58,6 +59,11 @@ namespace fea
      *
      *  Assert/undefined behavior if the given state does not exist.
      *  @param name Name of the state to switch to.
+     ***
+     *  @fn GameState* GameStateMachine::getCurrentState()
+     *  @brief Access the currently active state.
+     *
+     *  @return The current state. Will be nullptr if no state is current
      ***
      *  @fn bool GameStateMachine::isFinished() const
      *  @brief Check if the GameStateMachine is in a terminated state.

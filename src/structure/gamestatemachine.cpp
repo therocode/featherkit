@@ -31,6 +31,11 @@ namespace fea
         }
     }
     
+    GameState* GameStateMachine::getCurrentState()
+    {
+        return mCurrentState;
+    }
+    
     bool GameStateMachine::isFinished() const
     {
         return mCurrentState == nullptr;
