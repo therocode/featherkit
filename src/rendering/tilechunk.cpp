@@ -226,7 +226,7 @@ namespace fea
 
         temp[0].mUniforms.push_back(Uniform("texture", TEXTURE, getTexture().getId()));
 
-        temp[0].mVertexAttributes.push_back(VertexAttribute("texCoords", 2, &mTexCoords[0]));
+        temp[0].mVertexAttributes.push_back(VertexAttribute("texCoords", 2, mTexCoords));
 
         return temp;
     }

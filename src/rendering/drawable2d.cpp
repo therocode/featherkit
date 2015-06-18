@@ -109,11 +109,11 @@ namespace fea
         temp.mElementAmount = mVertices.size() / 2;
 
         if(mVertices.size() > 0)
-            temp.mVertexAttributes.push_back(VertexAttribute("vertex", 2, &mVertices[0]));
+            temp.mVertexAttributes.push_back(VertexAttribute("vertex", 2, mVertices));
         if(mTexCoords.size() > 0)
-        temp.mVertexAttributes.push_back(VertexAttribute("texCoords", 2, &mTexCoords[0]));
+            temp.mVertexAttributes.push_back(VertexAttribute("texCoords", 2, mTexCoords));
         if(mVertexColors.size() > 0)
-        temp.mVertexAttributes.push_back(VertexAttribute("colors", 4, &mVertexColors[0]));
+            temp.mVertexAttributes.push_back(VertexAttribute("colors", 4, mVertexColors));
 
         temp.mUniforms.push_back(Uniform("position", VEC2, mPosition));
         temp.mUniforms.push_back(Uniform("origin", VEC2, mOrigin));

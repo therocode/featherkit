@@ -2,7 +2,7 @@
 
 namespace fea
 {
-    VertexAttribute::VertexAttribute(const std::string& name, const uint32_t fAmount, const float* d) : mName(name), mFloatAmount(fAmount), mData(d)
+    VertexAttribute::VertexAttribute(std::string name, uint32_t fAmount, std::vector<float> d) : mName(std::move(name)), mFloatAmount(std::move(fAmount)), mData(std::move(d))
     {
     }
 }

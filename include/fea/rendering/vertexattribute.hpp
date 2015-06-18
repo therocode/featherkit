@@ -3,6 +3,7 @@
 #include <cstdint>
 #include <cstddef>
 #include <string>
+#include <vector>
 
 namespace fea
 {
@@ -10,10 +11,10 @@ namespace fea
 
     struct FEA_API VertexAttribute
     {
-        VertexAttribute(const std::string& name, const uint32_t floatAmount, const float* data);
+        VertexAttribute(std::string name, uint32_t floatAmount, std::vector<float> data);
         std::string mName;
         uint32_t mFloatAmount;
-        const float* mData;
+        std::vector<float> mData;
     };
     /** @addtogroup Render2D
      *@{
@@ -27,7 +28,7 @@ namespace fea
      *  @enum VertexAttributeType
      *  @brief Type of the attribute.
      ***
-     *  @fn VertexAttribute::VertexAttribute(const std::string& name, const uint32_t floatAmount, const float* data)
+     *  @fn VertexAttribute::VertexAttribute(std::string name, uint32_t floatAmount, std::vector<float> data)
      *  @brief Construct a vertex attribute.
      *  @param name name;
      *  @param floatAmount Amount of floats.

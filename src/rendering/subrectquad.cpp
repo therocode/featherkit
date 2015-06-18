@@ -30,7 +30,7 @@ namespace fea
     {
         std::vector<RenderEntity> temp = Quad::getRenderInfo();
 
-        temp[0].mVertexAttributes.push_back(VertexAttribute("texCoords", 2, &mTexCoords[0]));
+        //temp[0].mVertexAttributes.push_back(VertexAttribute("texCoords", 2, &mTexCoords[0]));
 
         return temp;
     }
