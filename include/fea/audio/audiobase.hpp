@@ -30,7 +30,7 @@ namespace fea
             void setLooping(bool loop);
             bool isLooping() const;
             void setRelative(bool relative);
-            bool isRelative();
+            bool isRelative() const;
             void setPlayOffset(std::chrono::milliseconds timePoint);
             std::chrono::milliseconds getPlayOffset() const;
             void addEffectSend(size_t slot);
@@ -154,7 +154,7 @@ namespace fea
      *  When the audio is relative to the listener, the position will be regarded as if the listener is at position 0,0,0 at all times.
      *  @param relative True if it should be relative.
      ***
-     *  @fn bool AudioBase::isRelative()
+     *  @fn bool AudioBase::isRelative() const
      *  @brief Check if the audio is heard relative to the listener.
      *  @return True if it is relative.
      ***

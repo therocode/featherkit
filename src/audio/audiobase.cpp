@@ -98,7 +98,7 @@ namespace fea
         mRelative = relative;
     }
 
-    bool AudioBase::isRelative()
+    bool AudioBase::isRelative() const
     {
         return mRelative;
     }

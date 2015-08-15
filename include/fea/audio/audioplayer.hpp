@@ -30,7 +30,7 @@ namespace fea
             AudioPlayer& operator=(const AudioPlayer& other) = delete;
             AudioPlayer& operator=(AudioPlayer&& other) = delete;
             ~AudioPlayer();
-            AudioHandle play(Audio& audio);
+            AudioHandle play(const Audio& audio);
             AudioHandle play(AudioStream& stream);
             void pause(AudioHandle handle);
             void resume(AudioHandle handle);
@@ -155,7 +155,7 @@ namespace fea
      *  @fn AudioPlayer::~AudioPlayer()
      *  @brief Destroy an AudioPlayer.
      ***
-     *  @fn AudioHandle AudioPlayer::play(Audio& audio)
+     *  @fn AudioHandle AudioPlayer::play(const Audio& audio)
      *  @brief Play a sampled audio.
      *
      *  The returned handle can be used to manipulate the properties of the audio in real time. Changing the properties of the Audio instance after playback has been started will not affect the playing audio.

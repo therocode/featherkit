@@ -70,7 +70,7 @@ namespace fea
             alcCloseDevice(mAudioDevice);
     }
 
-    AudioHandle AudioPlayer::play(Audio& audio)
+    AudioHandle AudioPlayer::play(const Audio& audio)
     {
         renewFinishedSources();
         if(mNumSoundsPlaying == mMaxSoundsPlaying)
