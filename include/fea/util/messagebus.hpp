@@ -13,6 +13,9 @@ namespace fea
     class FEA_API MessageBus
     {
         public:
+            MessageBus();
+            MessageBus(const MessageBus&) = delete;
+            MessageBus& operator=(const MessageBus&) = delete;
             template<class Message>
             void addSubscriber(const MessageReceiverSingle<Message>& receiver);
             template<class Message>

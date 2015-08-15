@@ -2,6 +2,10 @@
 
 namespace fea
 {
+    MessageBus::MessageBus()
+    {
+    }
+
     bool MessageBus::subscriptionExists(std::type_index id, MessageReceiverBase* receiver) const
     {
         const auto listIterator = mSubscribers.find(id);
