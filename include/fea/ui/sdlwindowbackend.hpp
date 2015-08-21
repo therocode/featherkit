@@ -12,7 +12,7 @@ namespace fea
         public:
             SDLWindowBackend();
 
-            void create(VideoMode mode, const std::string& title, uint32_t style = Style::Default, const ContextSettings& settings = ContextSettings()) override; //style and settings not supported
+            void open(VideoMode mode, const std::string& title, uint32_t style = Style::Default, const ContextSettings& settings = ContextSettings()) override; //style and settings not supported
             void close() override;
             bool isOpen() const override;
             const ContextSettings getSettings() const override; //not supported

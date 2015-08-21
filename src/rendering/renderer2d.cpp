@@ -10,10 +10,6 @@ namespace fea
 {
     Renderer2D::Renderer2D(const Viewport& v) : mCurrentViewport(v), mCurrentBlendMode(ALPHA)
     {
-    }
-    
-    void Renderer2D::setup()
-    {
 #ifdef EMSCRIPTEN
 #else
         auto glStatus = feaogl_LoadFunctions();
@@ -31,7 +27,7 @@ namespace fea
 
         setViewport(mCurrentViewport);
     }
-
+    
     void Renderer2D::clear(const Color& color)
     {
         if(mClearColor != color)

@@ -7,7 +7,7 @@ namespace fea
         SDL_Init(SDL_INIT_VIDEO);
     }
 
-    void SDL2WindowBackend::create(VideoMode mode, const std::string& title, uint32_t style, const ContextSettings& settings)
+    void SDL2WindowBackend::open(VideoMode mode, const std::string& title, uint32_t style, const ContextSettings& settings)
     {
         //todo: fix style
         (void) style;

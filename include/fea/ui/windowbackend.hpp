@@ -11,7 +11,7 @@ namespace fea
     class FEA_API WindowBackend
     {
         public:
-            virtual void create(VideoMode mode, const std::string& title, uint32_t style=Style::Default, const ContextSettings& settings=ContextSettings()) = 0;
+            virtual void open(VideoMode mode, const std::string& title, uint32_t style=Style::Default, const ContextSettings& settings=ContextSettings()) = 0;
             virtual void close() = 0;
             virtual bool isOpen() const = 0;
             virtual const ContextSettings getSettings() const = 0;
@@ -38,8 +38,8 @@ namespace fea
      *  @class WindowBackend
      *  @brief Abstract base class for implementing varous Window backends.
      ***
-     *  @fn void WindowBackend::create(VideoMode mode, const std::string& title, uint32_t style=Style::Default, const ContextSettings& settings=ContextSettings())
-     *  @brief Create a window and open it.
+     *  @fn void WindowBackend::open(VideoMode mode, const std::string& title, uint32_t style=Style::Default, const ContextSettings& settings=ContextSettings())
+     *  @brief Open a window
      *
      *  This opens the window with the given settings.
      *  @param mode Video mode to use.

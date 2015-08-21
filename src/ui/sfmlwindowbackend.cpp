@@ -5,7 +5,7 @@ namespace fea
     {
     }
 
-    void SFMLWindowBackend::create(VideoMode mode, const std::string& title, uint32_t style, const ContextSettings& settings)
+    void SFMLWindowBackend::open(VideoMode mode, const std::string& title, uint32_t style, const ContextSettings& settings)
     {
         sf::VideoMode vidMode(mode.mWidth, mode.mHeight, mode.mBitDepth);
         sf::ContextSettings conSettings(settings.mDepthBits, settings.mStencilBits, settings.mAntialiasingLevel, settings.mMajorVersion, settings.mMinorVersion);

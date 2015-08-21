@@ -6,10 +6,15 @@ namespace fea
     Window::Window(WindowBackend* windowBackend) : mWindowBackend(windowBackend)
     {
     }
-
-    void Window::create(VideoMode mode, const std::string& title, uint32_t style, const ContextSettings& settings)
+    
+    Window::Window(WindowBackend* windowBackend, VideoMode mode, const std::string& title, uint32_t style, const ContextSettings& settings): Window(windowBackend)
     {
-        mWindowBackend->create(mode, title, style, settings);
+        open(mode, title, style, settings);
+    }
+
+    void Window::open(VideoMode mode, const std::string& title, uint32_t style, const ContextSettings& settings)
+    {
+        mWindowBackend->open(mode, title, style, settings);
     }
 
     void Window::close()

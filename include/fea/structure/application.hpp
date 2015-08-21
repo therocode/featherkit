@@ -13,9 +13,8 @@ namespace fea
             void quit();
             virtual void loop() = 0;
             bool shuttingDown();
-            virtual void destroy() = 0;
         protected:
-            virtual void setup(const std::vector<std::string>& args) = 0;
+            virtual void setup(const std::vector<std::string>& args);
         private:
             bool mShutDown;
     };
@@ -65,10 +64,5 @@ namespace fea
      *
      *  If the appication is shutting down, the current frame will be the last one.
      *  @return True if the application is shutting down.
-     ***
-     *  @fn virtual void Application::destroy() = 0
-     *  @brief Run clean up procedures and shut down the application.
-     *
-     *  This function is not meant to be called directly. It is run bu the Application::run() function after the looping is over.
      ***/
 }

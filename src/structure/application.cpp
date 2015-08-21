@@ -16,7 +16,6 @@ namespace fea
                 instance->loop();
             else
             {
-                instance->destroy();
                 instance = nullptr;
                 emscripten_cancel_main_loop();
             }
@@ -45,7 +44,6 @@ namespace fea
         while(!mShutDown)
             loop();
 #endif
-        destroy();
     }
 
     void Application::quit()
@@ -56,5 +54,9 @@ namespace fea
     bool Application::shuttingDown()
     {
         return mShutDown;
+    }
+
+    void Application::setup(const std::vector<std::string>& args)
+    {
     }
 }

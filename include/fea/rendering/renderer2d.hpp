@@ -15,7 +15,6 @@ namespace fea
     {
         public:
             Renderer2D(const Viewport& viewport);
-            void setup();
             void clear(const Color& color = Color());
             void clear(const RenderTarget& target, const Color& color = Color());
             void queue(const Drawable2D& drawable);
@@ -59,17 +58,14 @@ namespace fea
      *  This class provides a complete interface for rendering to the screen. Only objects which inherit from the Drawable2D base class may be rendered.
      *
      *  The Renderer2D keeps a Viewport describing the size of the render area as well as the current camera data.
+     *
+     *  Important: A valid OpenGL context must exist to be able to construct the renderer.
      ***
      *  @fn Renderer2D::Renderer2D(Viewport viewport)
      *  @brief Construct a renderer with the given Viewport.
      *
      *  @param viewport Viewport to use.
      *** 
-     *  @fn void Renderer2D::setup()
-     *  @brief Perform one-time setup for the renderer.
-     *  
-     *  When the renderer is setup, it is ready to be used. The underlying purpose of this function may vary depending on the backend used.
-     ***
      *  @fn void Renderer2D::clear(const Color& color = Color())
      *  @brief Clear the screen, filling it with the given color.
      *

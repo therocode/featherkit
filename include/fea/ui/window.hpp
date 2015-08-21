@@ -20,7 +20,8 @@ namespace fea
 
         public:
             Window(WindowBackend* windowBackend);
-            void create(VideoMode mode, const std::string& title, uint32_t style = Style::Default, const ContextSettings& settings = ContextSettings());
+            Window(WindowBackend* windowBackend, VideoMode mode, const std::string& title, uint32_t style = Style::Default, const ContextSettings& settings = ContextSettings());
+            void open(VideoMode mode, const std::string& title, uint32_t style = Style::Default, const ContextSettings& settings = ContextSettings());
             void close();
             bool isOpen() const;
             const ContextSettings getSettings() const;
@@ -47,7 +48,7 @@ namespace fea
      *  @class Window
      *  @brief Class that manages a window instance for the application.
      *
-     *  The window can be created with different settings, including resolution and title. To make the window cross platform and flexible, it needs a backend implementation. This backend could for instance be based on OpenGL, Direct X or even ncurses. Depending on the backend, the window's capabilities and settings may vary.
+     *  The window can be opened with different settings, including resolution and title. To make the window cross platform and flexible, it needs a backend implementation. This backend could for instance be based on OpenGL, Direct X or even ncurses. Depending on the backend, the window's capabilities and settings may vary.
      *
      *  The API of this class is heavily inspired by the window class of [SFML](http://www.sfml-dev.org/).
      ***
@@ -55,7 +56,15 @@ namespace fea
      *  @brief Construct a window using the specified backend.
      *  @param windowBackend Backend to use with the window instance. Will be stored as an std::unique_ptr and therefore memory will be managed.
      ***
-     *  @fn void Window::create(VideoMode mode, const std::string& title, uint32_t style=Style::Default, const ContextSettings& settings=ContextSettings())
+     *  @fn Window::Window(WindowBackend* windowBackend, VideoMode mode, const std::string& title, uint32_t style = Style::Default, const ContextSettings& settings = ContextSettings())
+     *  @brief Construct a window using the specified backend and open it with the given parameters.
+     *  @param windowBackend Backend to use with the window instance. Will be stored as an std::unique_ptr and therefore memory will be managed.
+     *  @param mode Video mode to use.
+     *  @param title Desired title bar name.
+     *  @param style Window style to use.
+     *  @param settings OpenGL context settings to use.
+     ***
+     *  @fn void Window::open(VideoMode mode, const std::string& title, uint32_t style=Style::Default, const ContextSettings& settings=ContextSettings())
      *  @brief Create a window and open it.
      *
      *  This opens the window with the given settings.
