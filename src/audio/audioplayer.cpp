@@ -234,7 +234,7 @@ namespace fea
     void AudioPlayer::setSlotEffect(const AudioEffect& effect, size_t slot)
     {
 #if !defined(FEA_NO_EFX)
-        FEA_ASSERT(slot < mMaxSoundsPlaying, "Trying to add an effect to slot number " << slot << " but the highest slot number is " << 4 << "!\n");
+        FEA_ASSERT(slot < mMaxAuxSend, "Trying to add an effect to slot number " << slot << " but the highest slot number is " << 4 << "!\n");
         alAuxiliaryEffectSloti(mEffectSlots.at(slot).getSlotId(), AL_EFFECTSLOT_EFFECT, effect.getEffectId());
         alAuxiliaryEffectSlotf(mEffectSlots.at(slot).getSlotId(), AL_EFFECTSLOT_GAIN, effect.getEffectGain());
         alAuxiliaryEffectSloti(mEffectSlots.at(slot).getSlotId(), AL_EFFECTSLOT_AUXILIARY_SEND_AUTO, effect.getAutoAdjustments() ? AL_TRUE : AL_FALSE);
@@ -244,7 +244,7 @@ namespace fea
     void AudioPlayer::clearSlotEffect(size_t slot)
     {
 #if !defined(FEA_NO_EFX)
-        FEA_ASSERT(slot < mMaxSoundsPlaying, "Trying to clear the effects of slot number " << slot << " but the highest slot number is " << 4 << "!\n");
+        FEA_ASSERT(slot < mMaxAuxSend, "Trying to clear the effects of slot number " << slot << " but the highest slot number is " << 4 << "!\n");
         alAuxiliaryEffectSloti(mEffectSlots.at(slot).getSlotId(), AL_EFFECTSLOT_EFFECT, AL_EFFECT_NULL);
 #endif
     }
@@ -252,7 +252,7 @@ namespace fea
     void AudioPlayer::setSlotFilter(const AudioFilter& filter, size_t slot)
     {
 #if !defined(FEA_NO_EFX)
-        FEA_ASSERT(slot < mMaxSoundsPlaying, "Trying to set the filter of slot number " << slot << " but the highest slot number is " << 4 << "!\n");
+        FEA_ASSERT(slot < mMaxAuxSend, "Trying to set the filter of slot number " << slot << " but the highest slot number is " << 4 << "!\n");
         mEffectSlots.at(slot).setFilter(filter);
 #endif
     }
@@ -260,7 +260,7 @@ namespace fea
     void AudioPlayer::clearSlotFilter(size_t slot)
     {
 #if !defined(FEA_NO_EFX)
-        FEA_ASSERT(slot < mMaxSoundsPlaying, "Trying to clear the filter of slot number " << slot << " but the highest slot number is " << 4 << "!\n");
+        FEA_ASSERT(slot < mMaxAuxSend, "Trying to clear the filter of slot number " << slot << " but the highest slot number is " << 4 << "!\n");
         mEffectSlots.at(slot).clearFilter();
 #endif
     }
