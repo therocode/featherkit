@@ -51,14 +51,6 @@ namespace fea
         glClear(GL_COLOR_BUFFER_BIT);
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }
-    
-    void Renderer2D::queue(const Drawable2D& drawable)
-    {
-        for(const auto& renderEntity : drawable.getRenderInfo())
-            mRenderQueue.push_back(renderEntity);
-
-        mRenderQueue.back().mBlendMode = mCurrentBlendMode;
-    }
 
     void Renderer2D::render()
     {

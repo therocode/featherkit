@@ -22,6 +22,7 @@ namespace fea
             bool isPlaying() const;
             void onAnimationEnd(std::function<void(void)> callback = nullptr);
         private:
+            void setConstraints();
             void animateForwards();
             void animateBackwards();
             void animateBounce();

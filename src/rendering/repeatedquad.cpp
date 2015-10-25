@@ -21,14 +21,14 @@ namespace fea
         updateConstraints();
     }
 
-    void RepeatedQuad::setTileSize(const glm::vec2& size)
+    void RepeatedQuad::setTileSize(const glm::ivec2& size)
     {
-        FEA_ASSERT(size.x > 0.0f && size.y > 0.0f, "Size must be greater than zero in all dimensions when calling RepeatedQuad::setTileSize! " + std::to_string(size.x) + " " + std::to_string(size.y) + " provided.");
+        FEA_ASSERT(size.x > 0 && size.y > 0, "Size must be greater than zero in all dimensions when calling RepeatedQuad::setTileSize! " + std::to_string(size.x) + " " + std::to_string(size.y) + " provided.");
         mTileSize = size;
         updateConstraints();
     }
 
-    const glm::vec2& RepeatedQuad::getTileSize()
+    const glm::ivec2& RepeatedQuad::getTileSize()
     {
         return mTileSize;
     }
@@ -45,7 +45,7 @@ namespace fea
     
     void RepeatedQuad::updateConstraints()
     {
-        glm::vec2 hej = getSize() / mTileSize;
+        glm::vec2 scaleFactor = getSize() / static_cast<glm::vec2>(mTileSize);
 
         glm::vec2 texCoordsX = glm::vec2(0.0f, 1.0f) * mHFlip;
         glm::vec2 texCoordsY = glm::vec2(0.0f, 1.0f) * mVFlip;
@@ -59,7 +59,7 @@ namespace fea
 
         for(uint32_t i = 0; i < 12; i += 2)
         {
-            glm::vec2 newCoords = glm::vec2(mTexCoords[i], mTexCoords[i+1]) * hej;
+            glm::vec2 newCoords = glm::vec2(mTexCoords[i], mTexCoords[i+1]) * scaleFactor;
             mTexCoords[i] = newCoords.x;
             mTexCoords[i+1] = newCoords.y;
         }

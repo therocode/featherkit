@@ -34,7 +34,7 @@
                 mCurrentFrame = (uint32_t)rand() % currentAnimation->getFrameAmount();
             }
         }
-        currentAnimation->getConstraints(mConstraints, mCurrentFrame);
+        setConstraints();
     }
     
     const Animation& AnimatedQuad::getAnimation() const
@@ -45,44 +45,47 @@
 
     void AnimatedQuad::tick()
     {
-        if(mAnimate && currentAnimation != nullptr)
+        if(mTexture)
         {
-            mClock++;
-            
-            uint32_t delay = currentAnimation->getDelay();
-            uint32_t frameAmount = currentAnimation->getFrameAmount();
-            AnimationBehavior animBehavior = currentAnimation->getAnimationBehavior();
-
-            if(frameAmount <= 1)
-                return;
-
-            switch(animBehavior)
+            if(mAnimate && currentAnimation != nullptr)
             {
-                case FORWARDS:
-                    animateForwards();
-                    break;
+                mClock++;
 
-                case BACKWARDS:
-                    animateBackwards();
-                    break;
-                case BOUNCE:
-                    animateBounce();
-                    break;
-                case INV_BOUNCE:
-                    animateInvBounce();
-                    break;
-                case RANDOM:
+                uint32_t delay = currentAnimation->getDelay();
+                uint32_t frameAmount = currentAnimation->getFrameAmount();
+                AnimationBehavior animBehavior = currentAnimation->getAnimationBehavior();
 
-                    if(mClock == delay)
-                    {
-                        mCurrentFrame = (uint32_t)rand() % frameAmount;
-                        mClock = 0;
-                    }
-                    break;
-                default:
-                    break;
+                if(frameAmount <= 1)
+                    return;
+
+                switch(animBehavior)
+                {
+                    case FORWARDS:
+                        animateForwards();
+                        break;
+
+                    case BACKWARDS:
+                        animateBackwards();
+                        break;
+                    case BOUNCE:
+                        animateBounce();
+                        break;
+                    case INV_BOUNCE:
+                        animateInvBounce();
+                        break;
+                    case RANDOM:
+
+                        if(mClock == delay)
+                        {
+                            mCurrentFrame = (uint32_t)rand() % frameAmount;
+                            mClock = 0;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                setConstraints();
             }
-            currentAnimation->getConstraints(mConstraints, mCurrentFrame);
         }
     }
     
@@ -91,7 +94,7 @@
         FEA_ASSERT(currentAnimation != nullptr, "No animation set when calling playAnimation!");
         mAnimate = true;
         mClock = startFrame * currentAnimation->getDelay();
-        currentAnimation->getConstraints(mConstraints, mCurrentFrame);
+        setConstraints();
     }
     
     void AnimatedQuad::stopAnimation()
@@ -103,7 +106,7 @@
     {
         FEA_ASSERT(currentAnimation != nullptr, "No animation set when calling setAnimationFrame!");
         mCurrentFrame = frame;
-        currentAnimation->getConstraints(mConstraints, mCurrentFrame);
+        setConstraints();
     }
     
     uint32_t AnimatedQuad::getAnimationFrame() const
@@ -267,5 +270,13 @@
                 }
             }
         }
+    }
+
+    void AnimatedQuad::setConstraints()
+    {
+        auto pixelConstraints = currentAnimation->getConstraints(mCurrentFrame);
+        auto textureSize = static_cast<glm::vec2>(mTexture->getSize());
+
+        mConstraints = glm::vec4(glm::vec2(pixelConstraints.x, pixelConstraints.y) / textureSize, glm::vec2(pixelConstraints.z, pixelConstraints.w) / textureSize);
     }
 }

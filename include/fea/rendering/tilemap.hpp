@@ -26,7 +26,7 @@ namespace fea
             uint32_t mTimeLeft;
         };
         public:
-        TileMap(uint32_t gridWidth, uint32_t gridHeight, uint32_t tileWidth = 16, uint32_t tileHeight = 16, float textureTileWidth = 0.25f, float textureTileHeight = 0.25f , uint32_t chunkWidth = 32, uint32_t chunkHeight = 32);
+        TileMap(uint32_t gridWidth, uint32_t gridHeight, uint32_t tileWidth, uint32_t tileHeight, int32_t textureTileWidth, int32_t textureTileHeight, uint32_t chunkWidth = 32, uint32_t chunkHeight = 32);
         void setPosition(const glm::vec2& position);
         const glm::vec2& getPosition() const;
         void translate(const glm::vec2& amount);
@@ -65,7 +65,7 @@ namespace fea
         glm::uvec2 mChunkSize;
         glm::uvec2 mTileSize;
         glm::uvec2 mGridSize;
-        glm::vec2 mTextureTileSize;
+        glm::ivec2 mTextureTileSize;
         std::vector<TileChunk> mChunks;
         const Texture* mTexture;
         std::unordered_map<TileId, TileDefinition> mTileDefs;
@@ -108,7 +108,7 @@ namespace fea
      *  
      *  This class is not a TileMap and can therefore not be rendered directly. It internally manages TileChunk instances which the whole tilemap is divided into. These have to be sent to the renderer for rendering. The size of the tile chunks is customisable.
      ***
-     *  @fn TileMap::TileMap(uint32_t gridWidth, uint32_t gridHeight, uint32_t tileWidth = 16, uint32_t tileHeight = 16, float textureTileWidth = 0.25f, float textureTileHeight = 0.25f , uint32_t chunkWidth = 32, uint32_t chunkHeight = 32)
+     *  @fn TileMap::TileMap(uint32_t gridWidth, uint32_t gridHeight, uint32_t tileWidth, uint32_t tileHeight, int32_t textureTileWidth, int32_t textureTileHeight, uint32_t chunkWidth = 32, uint32_t chunkHeight = 32)
      *  @brief Construct a TileMap.
      *
      *  Assert/undefined behavior when any of the input values are zero or below.
@@ -116,8 +116,8 @@ namespace fea
      *  @param gridHeight Amount of tiles on the Y axis.
      *  @param tileWidth Width of a single tile displayed on the screen in pixels with no scaling.
      *  @param tileHeight Height of a single tile displayed on the screen in pixels with no scaling.
-     *  @param textureTileWidth Width of a tile in the texture image. Measured in percent of total texture width.
-     *  @param textureTileHeight Height of a tile in the texture image. Measured in percent of total texture height.
+     *  @param textureTileWidth Width of a tile in the texture image. Measured in pixels.
+     *  @param textureTileHeight Height of a tile in the texture image. Measured in pixels.
      *  @param chunkWidth How many tiles on the X axis makes up a TileChunk.
      *  @param chunkHeight How many tiles on the Y axis makes up a TileChunk.
      ***

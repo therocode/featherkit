@@ -29,7 +29,7 @@ namespace fea
             glm::uvec2 mGridSize;
             const Texture* mTexture;
             std::unordered_map<glm::uvec2, std::pair<size_t, int32_t>> mTileInfo;
-            glm::vec2 mTileSize;
+            glm::ivec2 mTileSize;
             glm::vec2 mOriginalOrigin;
     };
 

@@ -13,15 +13,15 @@ namespace fea
     {
         public:
             Animation();
-            Animation(const glm::vec2& frameStart, const glm::vec2& frameSize, uint32_t frameAmount = 1, uint32_t delay = 1, bool loop = true, AnimationBehavior animationBehavior = FORWARDS);
-            void getConstraints(glm::vec4& constraints, uint32_t frame) const;
+            Animation(const glm::ivec2& frameStart, const glm::ivec2& frameSize, uint32_t frameAmount = 1, uint32_t delay = 1, bool loop = true, AnimationBehavior animationBehavior = FORWARDS);
+            glm::ivec4 getConstraints(uint32_t frame) const;
             uint32_t getFrameAmount() const;
             uint32_t getDelay() const;
             bool getLoop() const;
             AnimationBehavior getAnimationBehavior() const;
         private:
-            glm::vec2 mStart;
-            glm::vec2 mFrameSize;
+            glm::ivec2 mStart;
+            glm::ivec2 mFrameSize;
             uint32_t mFrameAmount;
             uint32_t mDelay;
             bool mLoop;
@@ -43,7 +43,7 @@ namespace fea
      *
      *  All values defining location on the sprite sheet is in percent of the total texture size.
      ***
-     *  @fn Animation::Animation(const glm::vec2& frameStart, const glm::vec2& frameSize, uint32_t frameAmount = 1, uint32_t delay = 1, bool loop = true, AnimationBehavior animationBehavior = FORWARDS)
+     *  @fn Animation::Animation(const glm::ivec2& frameStart, const glm::ivec2& frameSize, uint32_t frameAmount = 1, uint32_t delay = 1, bool loop = true, AnimationBehavior animationBehavior = FORWARDS)
      *  @brief Construct an animation. All positioning values are in percent (between 0.0 and 1.0) of the total texture size.
      *  @param frameStart Starting point. The top left corner of the first animation frame.
      *  @param frameSize Width and height of one animation frame.
@@ -52,12 +52,12 @@ namespace fea
      *  @param loop Describes if the animation is looping or not.
      *  @param animationBehavior Can currently be FORWARDS or BACKWARDS, and defines if the frame is animated backwards or not.
      ***
-     *  @fn void Animation::getConstraints(glm::vec4& constraints, uint32_t frame) const
+     *  @fn glm::ivec4 Animation::getConstraints(uint32_t frame) const
      *  @brief Get constraints.
      *
      *  The constraints are used by the Renderer2D to display the correct subrectangle of the texture. They define a rectangle which the current frame lies in. This function is called automatically in the rendering process and is seldom used manually.
-     *  @param constraints Vector in which to put the constraints.
      *  @param frame Frame to get the constraints of.
+     *  @return Constraints.
      ***
      *  @fn uint32_t Animation::getFrameAmount() const
      *  @brief Get amount of frames.

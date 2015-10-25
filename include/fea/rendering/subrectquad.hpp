@@ -9,11 +9,13 @@ namespace fea
         public:
             SubrectQuad();
             SubrectQuad(const glm::vec2& size);
-            void setSubrect(const glm::vec2& subrectStart, const glm::vec2& subrectEnd);
+            virtual void setTexture(const Texture& texture) override;
+            void setSubrect(const glm::ivec2& subrectStart, const glm::ivec2& subrectEnd);
             virtual std::vector<RenderEntity> getRenderInfo() const override;
         private:
-            glm::vec2 mSubrectStart;
-            glm::vec2 mSubrectEnd;
+            void updateTexCoords();
+            glm::ivec2 mSubrectStart;
+            glm::ivec2 mSubrectEnd;
     };
     /** @addtogroup Render2D
      *@{
@@ -28,6 +30,10 @@ namespace fea
      *  
      *  Uses the Quad::Quad() constructor.
      ***
+     *  @fn void SubrectQuad::setTexture(const Texture& texture)
+     *  @brief Set the texture.
+     *  @param texture Texture to set.
+     ***
      *  @fn SubrectQuad::SubrectQuad(const glm::vec2& size)
      *  @brief Construct a SubrectQuad with the given size.
      *  
@@ -35,10 +41,10 @@ namespace fea
      *  Assert/undefined behavior if the size is zero or negative in any dimension.
      *  @param size Size.
      ***
-     *  @fn void SubrectQuad::setSubrect(const glm::vec2& subrectStart, const glm::vec2& subrectEnd)
+     *  @fn void SubrectQuad::setSubrect(const glm::ivec2& subrectStart, const glm::ivec2& subrectEnd)
      *  @brief Define which region of the Texture that should be displayed.
      *  
-     *  The regions are given in percent of total texture size.
+     *  The regions are given in pixels.
      *  @param subrectStart Coordinates of the top-left corner of the region.
      *  @param subrectEnd Coordinates of the bottom-right corner of the region.
      ***/

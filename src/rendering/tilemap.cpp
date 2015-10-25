@@ -11,7 +11,7 @@ namespace fea
     {
     }
 
-    TileMap::TileMap(uint32_t gridWidth, uint32_t gridHeight, uint32_t tileWidth, uint32_t tileHeight, float textureTileWidth, float textureTileHeight, uint32_t chunkWidth, uint32_t chunkHeight)
+    TileMap::TileMap(uint32_t gridWidth, uint32_t gridHeight, uint32_t tileWidth, uint32_t tileHeight, int32_t textureTileWidth, int32_t textureTileHeight, uint32_t chunkWidth, uint32_t chunkHeight)
     {
 
         FEA_ASSERT(gridWidth > 0 && gridHeight > 0, "The size of the tile grid cannot be zero or below in any dimension! " + std::to_string(gridWidth) + " " + std::to_string(gridHeight) + " provided.");
@@ -25,7 +25,7 @@ namespace fea
         mChunkGridSize = glm::uvec2(chunkGridWidth, chunkGridHeight);
         mChunkSize = glm::uvec2(chunkWidth, chunkHeight);
         mGridSize = glm::uvec2(gridWidth, gridHeight);
-        mTextureTileSize = glm::vec2(textureTileWidth, textureTileHeight);
+        mTextureTileSize = glm::ivec2(textureTileWidth, textureTileHeight);
         mTileSize = glm::uvec2(tileWidth, tileHeight);
 
         bool uneven = gridWidth % chunkWidth != 0;
@@ -122,7 +122,7 @@ namespace fea
 
         const TileDefinition& tileDef = mTileDefs.at(id);
 
-        glm::vec2 texPos = (glm::vec2)tileDef.mTileTexPosition * mTextureTileSize;
+        glm::vec2 texPos = (glm::vec2)tileDef.mTileTexPosition * static_cast<glm::vec2>(mTextureTileSize);
 
         float startX = texPos.x;
         float startY = texPos.y;

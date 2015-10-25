@@ -17,7 +17,8 @@ namespace fea
             Renderer2D(const Viewport& viewport);
             void clear(const Color& color = Color());
             void clear(const RenderTarget& target, const Color& color = Color());
-            void queue(const Drawable2D& drawable);
+            template<typename Drawable>
+            void queue(const Drawable& drawable);
             void render();
             void render(const RenderTarget& target);
             void render(const Shader& shader);
@@ -39,6 +40,8 @@ namespace fea
             //cache
             Color mClearColor;
     };
+
+#include <fea/rendering/renderer2d.inl>
     /** @addtogroup Render2D
      *@{
      *  @class InvalidFontException
@@ -79,11 +82,12 @@ namespace fea
      *  @param target RenderTarget to clear.
      *  @param color Color object. Black by default.
      ***
-     *  @fn void Renderer2D::queue(const Drawable2D& drawable)
+     *  @fn void Renderer2D::queue(const Drawable& drawable)
      *  @brief Queue a drawable for rendering.
      *
-     *  Can take any object which inherits from the Drawable2D base class. The drawable will be rendered offset and transformed depending on the current Viewport of the renderer.
+     *  Can take any object which implements a public method getRenderInfo which returns an iterable container of RenderEntity objetcs. The Drawable2D class fits this criteria. The drawable will be rendered offset and transformed depending on the current Viewport of the renderer.
      *
+     *  @tparam Drawable type of the drawable.
      *  @param drawable Object to queue.
      ***
      *  @fn void Renderer2D::render()

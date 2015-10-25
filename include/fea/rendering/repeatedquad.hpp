@@ -10,13 +10,13 @@ namespace fea
             RepeatedQuad();
             RepeatedQuad(const glm::vec2& size);
             virtual void setSize(const glm::vec2& size) override;
-            void setTileSize(const glm::vec2& size);
-            const glm::vec2& getTileSize();
+            void setTileSize(const glm::ivec2& size);
+            const glm::ivec2& getTileSize();
             void setScrollSpeed(const glm::vec2& speed);
             const glm::vec2& getScrollSpeed() const;
         private:
             void updateConstraints();
-            glm::vec2 mTileSize;
+            glm::ivec2 mTileSize;
             glm::vec2 mScrollSpeed; //FIX with tick
     };
     /** @addtogroup Render2D
@@ -41,13 +41,13 @@ namespace fea
      *  Assert/undefined behavior if size is zero or less in any dimension.
      *  @param size Size.
      ***
-     *  @fn void RepeatedQuad::setTileSize(const glm::vec2& size)
+     *  @fn void RepeatedQuad::setTileSize(const glm::ivec2& size)
      *  @brief Set the size of every repeated texture cell.
      *
      *  Uses the AnimatedQuad::AnimatedQuad(const glm::vec2& size) constructor.
      *  @param size Vector containing the size.
      ***
-     *  @fn const glm::vec2& RepeatedQuad::getTileSize()
+     *  @fn const glm::ivec2& RepeatedQuad::getTileSize()
      *  @brief Get the texture cell size.
      ***
      *  @fn void RepeatedQuad::setScrollSpeed(const glm::vec2& speed)
