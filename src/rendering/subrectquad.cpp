@@ -12,6 +12,7 @@ namespace fea
 
     void SubrectQuad::setTexture(const Texture& texture)
     {
+        Quad::setTexture(texture);
         updateTexCoords();
     }
 

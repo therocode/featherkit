@@ -43,6 +43,12 @@
         return *currentAnimation;
     }
 
+    void AnimatedQuad::setTexture(const Texture& texture)
+    {
+        Quad::setTexture(texture);
+        setConstraints();
+    }
+
     void AnimatedQuad::tick()
     {
         if(mTexture)
@@ -274,9 +280,12 @@
 
     void AnimatedQuad::setConstraints()
     {
-        auto pixelConstraints = currentAnimation->getConstraints(mCurrentFrame);
-        auto textureSize = static_cast<glm::vec2>(mTexture->getSize());
+        if(mTexture)
+        {
+            auto pixelConstraints = currentAnimation->getConstraints(mCurrentFrame);
+            auto textureSize = static_cast<glm::vec2>(mTexture->getSize());
 
-        mConstraints = glm::vec4(glm::vec2(pixelConstraints.x, pixelConstraints.y) / textureSize, glm::vec2(pixelConstraints.z, pixelConstraints.w) / textureSize);
+            mConstraints = glm::vec4(glm::vec2(pixelConstraints.x, pixelConstraints.y) / textureSize.x, glm::vec2(pixelConstraints.z, pixelConstraints.w) / textureSize.y);
+        }
     }
 }

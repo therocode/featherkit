@@ -5,15 +5,14 @@
 
 namespace fea
 {
-    Texture::Texture() : mId(0), mWidth(0), mHeight(0), mInteractive(false), pixelData(nullptr)
+    Texture::Texture() : mId(0), mSize(0, 0), mInteractive(false), pixelData(nullptr)
     {
     }
 
-    Texture::Texture(Texture&& other) : mId(0), mWidth(0), mHeight(0), mInteractive(false), pixelData(nullptr)
+    Texture::Texture(Texture&& other) : mId(0), mSize(0, 0), mInteractive(false), pixelData(nullptr)
     {
         std::swap(mId, other.mId);
-        std::swap(mWidth, other.mWidth);
-        std::swap(mHeight, other.mHeight);
+        std::swap(mSize, other.mSize);
         std::swap(mInteractive, other.mInteractive);
         pixelData = std::move(other.pixelData);
     }
@@ -21,8 +20,7 @@ namespace fea
     Texture& Texture::operator=(Texture&& other)
     {
         std::swap(mId, other.mId);
-        std::swap(mWidth, other.mWidth);
-        std::swap(mHeight, other.mHeight);
+        std::swap(mSize, other.mSize);
         std::swap(mInteractive, other.mInteractive);
         pixelData = std::move(other.pixelData);
         return *this;
@@ -43,8 +41,7 @@ namespace fea
         }
 
         mInteractive = interactive;
-        mWidth = width;
-        mHeight = height;
+        mSize = {width, height};
         
         glGenTextures(1, &mId);
         FEA_ASSERT(mId != 0, "Failed to create texture. Make sure there is a valid OpenGL context available!");
@@ -60,7 +57,7 @@ namespace fea
 
         if(mInteractive)
         {
-            uint32_t byteAmount = mWidth * mHeight * 4;
+            uint32_t byteAmount = mSize.x * mSize.y * 4;
             pixelData = std::unique_ptr<uint8_t[]>(new uint8_t[byteAmount]);
 
             if(imageData)
@@ -85,9 +82,9 @@ namespace fea
         create(width, height, pixels.get(), smooth, interactive);
     }
     
-    glm::uvec2 Texture::getSize() const
+    const glm::uvec2& Texture::getSize() const
     {
-        return glm::uvec2(mWidth, mHeight);
+        return mSize;
     }
 
     void Texture::destroy()
@@ -96,16 +93,15 @@ namespace fea
         {
             glDeleteTextures(1, &mId);
             mId = 0;
-            mWidth = 0;
-            mHeight = 0;
+            mSize = {0, 0};
             pixelData.release();
         }
     }
     
     void Texture::setPixel(uint32_t x, uint32_t y, const Color& color)
     {
-        FEA_ASSERT(x >= 0 && y >= 0 && x < mWidth && y < mHeight, "Trying to set pixel outside of the bounds of the texture. Accessing at " + std::to_string(x) + " " + std::to_string(y) + " and texture dimensions are " + std::to_string(mWidth) + " " + std::to_string(mHeight));
-        uint32_t pixelIndex = (x + y * mWidth) * 4;
+        FEA_ASSERT(x >= 0 && y >= 0 && x < mSize.x && y < mSize.y, "Trying to set pixel outside of the bounds of the texture. Accessing at " + std::to_string(x) + " " + std::to_string(y) + " and texture dimensions are " + std::to_string(mSize.x) + " " + std::to_string(mSize.y));
+        uint32_t pixelIndex = (x + y * mSize.x) * 4;
         pixelData[pixelIndex    ] = color.r();
         pixelData[pixelIndex + 1] = color.g();
         pixelData[pixelIndex + 2] = color.b();
@@ -114,8 +110,8 @@ namespace fea
 
     Color Texture::getPixel(uint32_t x, uint32_t y) const
     {
-        FEA_ASSERT(x >= 0 && y >= 0 && x < mWidth && y < mHeight, "Trying to get pixel outside of the bounds of the texture. Accessing at " + std::to_string(x) + " " + std::to_string(y) + " and texture dimensions are " + std::to_string(mWidth) + " " + std::to_string(mHeight));
-        uint32_t pixelIndex = (x + y * mWidth) * 4;
+        FEA_ASSERT(x >= 0 && y >= 0 && x < mSize.x && y < mSize.y, "Trying to get pixel outside of the bounds of the texture. Accessing at " + std::to_string(x) + " " + std::to_string(y) + " and texture dimensions are " + std::to_string(mSize.x) + " " + std::to_string(mSize.y));
+        uint32_t pixelIndex = (x + y * mSize.x) * 4;
         return Color(pixelData[pixelIndex],
                          pixelData[pixelIndex + 1],
                          pixelData[pixelIndex + 2],
@@ -137,7 +133,7 @@ namespace fea
     {
         FEA_ASSERT(mInteractive, "Cannot modify a non-interactive texture!");
         glBindTexture(GL_TEXTURE_2D, mId);
-        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, mWidth, mHeight, GL_RGBA, GL_UNSIGNED_BYTE, pixelData.get());
+        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, mSize.x, mSize.y, GL_RGBA, GL_UNSIGNED_BYTE, pixelData.get());
     }
     
     Texture::~Texture()
