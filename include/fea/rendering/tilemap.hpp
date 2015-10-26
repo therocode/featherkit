@@ -1,8 +1,10 @@
 #pragma once
 #include <fea/config.hpp>
-#include <fea/rendering/tilechunk.hpp>
 #include <unordered_map>
 #include <functional>
+#include <fea/rendering/glmhash.hpp>
+#include <fea/rendering/drawable2d.hpp>
+#include <fea/rendering/texture.hpp>
 
 namespace fea
 {
@@ -10,66 +12,57 @@ namespace fea
 
     struct FEA_API TileDefinition
     {
-        TileDefinition(const glm::uvec2& texPos, TileId next = -1, uint32_t ticks = 0);
-        glm::uvec2 mTileTexPosition;
+        TileDefinition(const glm::ivec2& texPos, TileId next = -1, int32_t ticks = 1);
+        glm::ivec2 mTileTexPosition;
         TileId mNextTile;
-        uint32_t mTicksUntilChange;
+        int32_t mTicksUntilChange;
     };
 
-    class FEA_API TileMap
+    class FEA_API TileMap: public fea::Drawable2D
     {
-
-        struct AnimatedTile
+        struct Tile
         {
-            AnimatedTile(TileId next, uint32_t timeLeft);
-            TileId mNext;
-            uint32_t mTimeLeft;
+            TileId id;
+            int32_t mTicksUntilChange;
         };
+
+        struct TileChunk
+        {
+            TileChunk();
+            void setTile(const glm::ivec2& position, TileId id);
+            void unsetTile(const glm::ivec2& position);
+            int32_t tileCount;
+            std::vector<Tile> tiles;
+            std::vector<bool> tilesSet;
+        };
+
         public:
-        TileMap(uint32_t gridWidth, uint32_t gridHeight, uint32_t tileWidth, uint32_t tileHeight, int32_t textureTileWidth, int32_t textureTileHeight, uint32_t chunkWidth = 32, uint32_t chunkHeight = 32);
-        void setPosition(const glm::vec2& position);
-        const glm::vec2& getPosition() const;
-        void translate(const glm::vec2& amount);
-        std::vector<const TileChunk*> getTileChunks() const;
+        TileMap(const glm::ivec2& tileSize, const glm::ivec2& tileTextureSize);
         void setTexture(const Texture& texture);
         const Texture& getTexture() const;
         void addTileDefinition(TileId id, const TileDefinition& tileDef);
-        void setTile(const glm::uvec2& pos, TileId id, int32_t orientation = NORMAL);
-        void unsetTile(const glm::uvec2& pos);
-        void fill(TileId id);
-        void setTileColor(const glm::uvec2& pos, const fea::Color& color);
+        void setTile(const glm::ivec2& pos, TileId id);
+        void unsetTile(const glm::ivec2& pos);
+        void fillRegion(glm::ivec2 startCorner, glm::ivec2 endCorner, TileId id);
         void clear();
-        glm::uvec2 getTileByCoordinates(const glm::vec2& coordinates) const;
-        bool isOutOfBounds(const glm::uvec2& pos) const;
-        glm::uvec2 getTileSize() const;
-        glm::uvec2 getGridSize() const;
-        glm::uvec2 getTileMapSize() const;
+        void setTileColor(const glm::ivec2& pos, const fea::Color& color);
+        const fea::Color& getTileColor() const;
+        glm::ivec2 worldToTileCoordinates(const glm::vec2& coordinates) const;
+        const glm::ivec2& getTileSize() const;
+        const glm::ivec2& getTileTextureSize() const;
         void tick();
-        void setOpacity(float opacity);
-        float getOpacity() const;
-        void setRotation(float rotation);
-        float getRotation() const;
-        void rotate(float amount);
-        void setScale(const glm::vec2& scale);
-        const glm::vec2& getScale() const;
-        void scale(const glm::vec2& amount);
-        void setOrigin(const glm::vec2& origin);
-        const glm::vec2& getOrigin() const;
-        void setParallax(const glm::vec2& parallax);
-        const glm::vec2& getParallax() const;
-        void setColor(const Color& color);
-        Color getColor() const;
+        virtual std::vector<RenderEntity> getRenderInfo() const override;
         private:
-        glm::vec2 mPosition;
-        glm::uvec2 mChunkGridSize;
-        glm::uvec2 mChunkSize;
-        glm::uvec2 mTileSize;
-        glm::uvec2 mGridSize;
-        glm::ivec2 mTextureTileSize;
-        std::vector<TileChunk> mChunks;
+        glm::ivec2 tileToChunk(const glm::ivec2& pos) const;
+        glm::ivec2 tileToTileInChunk(const glm::ivec2& pos) const;
+        RenderEntity renderInfoFromChunk(const glm::ivec2& chunkPos, const TileChunk& chunk) const;
+        glm::ivec2 mTileSize;
+        glm::ivec2 mTileTextureSize;
         const Texture* mTexture;
-        std::unordered_map<TileId, TileDefinition> mTileDefs;
-        std::unordered_map<glm::uvec2, AnimatedTile> mAnimatedTiles;
+
+        std::unordered_map<TileId, TileDefinition> mTileDefinitions;
+        std::unordered_map<glm::ivec2, TileChunk> mChunks;
+        std::unordered_map<glm::ivec2, Tile&> mAnimatedTiles;
     };
     /** @addtogroup Render2D
      *@{

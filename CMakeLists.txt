@@ -303,7 +303,6 @@ if(BUILD_RENDERING)
         src/rendering/shader.cpp
         src/rendering/subrectquad.cpp
         src/rendering/texture.cpp
-        src/rendering/tilechunk.cpp
         src/rendering/tilemap.cpp
         src/rendering/uniform.cpp
         src/rendering/vertexattribute.cpp
@@ -328,7 +327,6 @@ if(BUILD_RENDERING)
         include/fea/rendering/shader.hpp
         include/fea/rendering/subrectquad.hpp
         include/fea/rendering/texture.hpp
-        include/fea/rendering/tilechunk.hpp
         include/fea/rendering/tilemap.hpp
         include/fea/rendering/uniform.hpp
         include/fea/rendering/vertexattribute.hpp
