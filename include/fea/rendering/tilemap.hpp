@@ -23,14 +23,17 @@ namespace fea
         struct Tile
         {
             TileId id;
-            int32_t mTicksUntilChange;
+            fea::Color color;
+            int32_t ticksUntilChange;
         };
 
         struct TileChunk
         {
             TileChunk();
             void setTile(const glm::ivec2& position, TileId id);
+            void setTileColor(const glm::ivec2& position, const fea::Color& color);
             void unsetTile(const glm::ivec2& position);
+            const Tile& getTile(const glm::ivec2& position) const;
             int32_t tileCount;
             std::vector<Tile> tiles;
             std::vector<bool> tilesSet;
@@ -46,7 +49,7 @@ namespace fea
         void fillRegion(glm::ivec2 startCorner, glm::ivec2 endCorner, TileId id);
         void clear();
         void setTileColor(const glm::ivec2& pos, const fea::Color& color);
-        const fea::Color& getTileColor() const;
+        const Tile& getTile(const glm::ivec2& pos) const;
         glm::ivec2 worldToTileCoordinates(const glm::vec2& coordinates) const;
         const glm::ivec2& getTileSize() const;
         const glm::ivec2& getTileTextureSize() const;

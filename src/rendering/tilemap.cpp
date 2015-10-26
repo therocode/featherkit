@@ -23,12 +23,29 @@ namespace fea
     {
         size_t index = position.x + position.y * tileMapChunkSize;
         tiles[index].id = id;
+        tiles[index].color = fea::Color::White;
 
         if(!tilesSet[index])
         {
             tilesSet[index] = true;
             tileCount++;
         };
+    }
+
+    void TileMap::TileChunk::setTileColor(const glm::ivec2& position, const fea::Color& color)
+    {
+        size_t index = position.x + position.y * tileMapChunkSize;
+
+        //ensure tile is set
+        tiles[index].color = color;
+    }
+
+    const TileMap::Tile& TileMap::TileChunk::getTile(const glm::ivec2& position) const
+    {
+        size_t index = position.x + position.y * tileMapChunkSize;
+
+        //ensure tile is set
+        return tiles[index];
     }
 
     void TileMap::TileChunk::unsetTile(const glm::ivec2& position)
@@ -110,8 +127,27 @@ namespace fea
         mAnimatedTiles.clear();
     }
 
-    //    void setTileColor(const glm::ivec2& pos, const fea::Color& color);
-    //    const fea::Color& getTileColor() const;
+    void TileMap::setTileColor(const glm::ivec2& pos, const fea::Color& color)
+    {
+        //assert that tile exists
+        const glm::ivec2 chunkCoord = tileToChunk(pos);
+        const glm::ivec2 tileInChunkCoord = tileToTileInChunk(pos);
+
+        auto& chunk = mChunks[chunkCoord];
+
+        chunk.setTileColor(tileInChunkCoord, color);
+    }
+
+    const TileMap::Tile& TileMap::getTile(const glm::ivec2& pos) const
+    {
+        //assert that tile exists
+        const glm::ivec2 chunkCoord = tileToChunk(pos);
+        const glm::ivec2 tileInChunkCoord = tileToTileInChunk(pos);
+
+        auto& chunk = mChunks.at(chunkCoord);
+
+        return chunk.getTile(tileInChunkCoord);
+    }
     
     glm::ivec2 TileMap::worldToTileCoordinates(const glm::vec2& coordinate) const
     {
@@ -179,6 +215,8 @@ namespace fea
                 if(chunk.tilesSet[index])
                 {
                     TileId tileId = chunk.tiles[index].id;
+                    const fea::Color& tileColor = chunk.tiles[index].color;
+
                     FEA_ASSERT(mTileDefinitions.count(tileId) != 0, "Set tile does not exist. This is a bug in feather kit");
                     tilePos.x = worldPos.x + x * mTileSize.x;
 
@@ -206,12 +244,17 @@ namespace fea
                     texCoords.push_back(startTexCoords.x); texCoords.push_back(endTexCoords.y);
                     texCoords.push_back(endTexCoords.x); texCoords.push_back(endTexCoords.y);
 
-                    vertexColors.push_back(1.0f); vertexColors.push_back(1.0f); vertexColors.push_back(1.0f); vertexColors.push_back(1.0f);
-                    vertexColors.push_back(1.0f); vertexColors.push_back(1.0f); vertexColors.push_back(1.0f); vertexColors.push_back(1.0f);
-                    vertexColors.push_back(1.0f); vertexColors.push_back(1.0f); vertexColors.push_back(1.0f); vertexColors.push_back(1.0f);
-                    vertexColors.push_back(1.0f); vertexColors.push_back(1.0f); vertexColors.push_back(1.0f); vertexColors.push_back(1.0f);
-                    vertexColors.push_back(1.0f); vertexColors.push_back(1.0f); vertexColors.push_back(1.0f); vertexColors.push_back(1.0f);
-                    vertexColors.push_back(1.0f); vertexColors.push_back(1.0f); vertexColors.push_back(1.0f); vertexColors.push_back(1.0f);
+                    float r = tileColor.rAsFloat();
+                    float g = tileColor.gAsFloat();
+                    float b = tileColor.bAsFloat();
+                    float a = tileColor.aAsFloat();
+
+                    vertexColors.push_back(r); vertexColors.push_back(g); vertexColors.push_back(b); vertexColors.push_back(a);
+                    vertexColors.push_back(r); vertexColors.push_back(g); vertexColors.push_back(b); vertexColors.push_back(a);
+                    vertexColors.push_back(r); vertexColors.push_back(g); vertexColors.push_back(b); vertexColors.push_back(a);
+                    vertexColors.push_back(r); vertexColors.push_back(g); vertexColors.push_back(b); vertexColors.push_back(a);
+                    vertexColors.push_back(r); vertexColors.push_back(g); vertexColors.push_back(b); vertexColors.push_back(a);
+                    vertexColors.push_back(r); vertexColors.push_back(g); vertexColors.push_back(b); vertexColors.push_back(a);
                 }
 
                 ++index;
