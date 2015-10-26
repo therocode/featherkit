@@ -40,33 +40,44 @@ namespace fea
             std::vector<bool> tilesSet;
         };
 
-        public:
-        TileMap(const glm::ivec2& tileSize, const glm::ivec2& tileTextureSize);
-        void setTexture(const Texture& texture);
-        const Texture& getTexture() const;
-        void addTileDefinition(TileId id, const TileDefinition& tileDef);
-        void setTile(const glm::ivec2& pos, TileId id);
-        void unsetTile(const glm::ivec2& pos);
-        void fillRegion(glm::ivec2 startCorner, glm::ivec2 endCorner, TileId id);
-        void clear();
-        void setTileColor(const glm::ivec2& pos, const fea::Color& color);
-        const Tile& getTile(const glm::ivec2& pos) const;
-        glm::ivec2 worldToTileCoordinates(const glm::vec2& coordinates) const;
-        const glm::ivec2& getTileSize() const;
-        const glm::ivec2& getTileTextureSize() const;
-        void tick();
-        virtual std::vector<RenderEntity> getRenderInfo() const override;
-        private:
-        glm::ivec2 tileToChunk(const glm::ivec2& pos) const;
-        glm::ivec2 tileToTileInChunk(const glm::ivec2& pos) const;
-        RenderEntity renderInfoFromChunk(const glm::ivec2& chunkPos, const TileChunk& chunk) const;
-        glm::ivec2 mTileSize;
-        glm::ivec2 mTileTextureSize;
-        const Texture* mTexture;
+        struct CacheEntry
+        {
+            std::vector<float> vertices;
+            std::vector<float> texCoords;
+            std::vector<float> colors;
+        };
 
-        std::unordered_map<TileId, TileDefinition> mTileDefinitions;
-        std::unordered_map<glm::ivec2, TileChunk> mChunks;
-        std::unordered_map<glm::ivec2, Tile*> mAnimatedTiles;
+        public:
+            TileMap(const glm::ivec2& tileSize, const glm::ivec2& tileTextureSize);
+            void setTexture(const Texture& texture);
+            const Texture& getTexture() const;
+            void addTileDefinition(TileId id, const TileDefinition& tileDef);
+            void setTile(const glm::ivec2& pos, TileId id);
+            void unsetTile(const glm::ivec2& pos);
+            void fillRegion(glm::ivec2 startCorner, glm::ivec2 endCorner, TileId id);
+            void clear();
+            void setTileColor(const glm::ivec2& pos, const fea::Color& color);
+            const Tile& getTile(const glm::ivec2& pos) const;
+            glm::ivec2 worldToTileCoordinates(const glm::vec2& coordinates) const;
+            const glm::ivec2& getTileSize() const;
+            const glm::ivec2& getTileTextureSize() const;
+            void tick();
+            virtual std::vector<RenderEntity> getRenderInfo() const override;
+        private:
+            glm::ivec2 tileToChunk(const glm::ivec2& pos) const;
+            glm::ivec2 tileToTileInChunk(const glm::ivec2& pos) const;
+            RenderEntity renderInfoFromChunk(const glm::ivec2& chunkPos, const TileChunk& chunk) const;
+            void setDirty(const glm::ivec2& chunk) const;
+            bool isDirty(const glm::ivec2& chunk) const;
+            glm::ivec2 mTileSize;
+            glm::ivec2 mTileTextureSize;
+            const Texture* mTexture;
+
+            std::unordered_map<TileId, TileDefinition> mTileDefinitions;
+            std::unordered_map<glm::ivec2, TileChunk> mChunks;
+            std::unordered_map<glm::ivec2, Tile*> mAnimatedTiles;
+
+            mutable std::unordered_map<glm::ivec2, CacheEntry> mChunkCache;
     };
     /** @addtogroup Render2D
      *@{

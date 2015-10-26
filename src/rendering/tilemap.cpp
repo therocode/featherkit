@@ -76,6 +76,7 @@ namespace fea
     void TileMap::setTexture(const Texture& texture)
     {
         mTexture = &texture;
+        mChunkCache.clear();
     }
 
     const Texture& TileMap::getTexture() const
@@ -108,6 +109,8 @@ namespace fea
         {
             mAnimatedTiles.erase(pos);
         }
+
+        setDirty(chunkCoord);
     }
 
     void TileMap::unsetTile(const glm::ivec2& pos)
@@ -126,6 +129,7 @@ namespace fea
 
         auto animatedIterator = mAnimatedTiles.find(pos);
         mAnimatedTiles.erase(animatedIterator);
+        setDirty(chunkCoord);
     }
 
     void TileMap::fillRegion(glm::ivec2 startCorner, glm::ivec2 endCorner, TileId id)
@@ -148,6 +152,7 @@ namespace fea
     {
         mChunks.clear();
         mAnimatedTiles.clear();
+        mChunkCache.clear();
     }
 
     void TileMap::setTileColor(const glm::ivec2& pos, const fea::Color& color)
@@ -159,6 +164,7 @@ namespace fea
         auto& chunk = mChunks[chunkCoord];
 
         chunk.setTileColor(tileInChunkCoord, color);
+        setDirty(chunkCoord);
     }
 
     const TileMap::Tile& TileMap::getTile(const glm::ivec2& pos) const
@@ -247,58 +253,77 @@ namespace fea
         std::vector<float> vertexColors;
         glm::vec2 tilePos;
 
-        for(int32_t y = 0; y < tileMapChunkSize; ++y)
+
+        if(isDirty(chunkPos))
         {
-            tilePos.y = worldPos.y + y * mTileSize.y;
-            for(int32_t x = 0; x < tileMapChunkSize; ++x)
+            for(int32_t y = 0; y < tileMapChunkSize; ++y)
             {
-                if(chunk.tilesSet[index])
+                tilePos.y = worldPos.y + y * mTileSize.y;
+                for(int32_t x = 0; x < tileMapChunkSize; ++x)
                 {
-                    TileId tileId = chunk.tiles[index].id;
-                    const fea::Color& tileColor = chunk.tiles[index].color;
-
-                    FEA_ASSERT(mTileDefinitions.count(tileId) != 0, "Set tile does not exist. This is a bug in feather kit");
-                    tilePos.x = worldPos.x + x * mTileSize.x;
-
-                    vertices.push_back(tilePos.x              ); vertices.push_back(tilePos.y              );
-                    vertices.push_back(tilePos.x              ); vertices.push_back(tilePos.y + mTileSize.y);
-                    vertices.push_back(tilePos.x + mTileSize.x); vertices.push_back(tilePos.y              );
-                    vertices.push_back(tilePos.x + mTileSize.x); vertices.push_back(tilePos.y              );
-                    vertices.push_back(tilePos.x              ); vertices.push_back(tilePos.y + mTileSize.y);
-                    vertices.push_back(tilePos.x + mTileSize.x); vertices.push_back(tilePos.y + mTileSize.y);
-
-                    glm::vec2 startTexCoords;
-                    glm::vec2 endTexCoords = {1.0f, 1.0f};
-
-
-                    if(mTexture)
+                    if(chunk.tilesSet[index])
                     {
-                        startTexCoords = static_cast<glm::vec2>(mTileDefinitions.at(tileId).tileTexPosition * mTileTextureSize) / static_cast<glm::vec2>(mTexture->getSize());
-                        endTexCoords = startTexCoords + static_cast<glm::vec2>(mTileTextureSize) / static_cast<glm::vec2>(mTexture->getSize());
+                        TileId tileId = chunk.tiles[index].id;
+                        const fea::Color& tileColor = chunk.tiles[index].color;
+
+                        FEA_ASSERT(mTileDefinitions.count(tileId) != 0, "Set tile does not exist. This is a bug in feather kit");
+                        tilePos.x = worldPos.x + x * mTileSize.x;
+
+                        vertices.push_back(tilePos.x              ); vertices.push_back(tilePos.y              );
+                        vertices.push_back(tilePos.x              ); vertices.push_back(tilePos.y + mTileSize.y);
+                        vertices.push_back(tilePos.x + mTileSize.x); vertices.push_back(tilePos.y              );
+                        vertices.push_back(tilePos.x + mTileSize.x); vertices.push_back(tilePos.y              );
+                        vertices.push_back(tilePos.x              ); vertices.push_back(tilePos.y + mTileSize.y);
+                        vertices.push_back(tilePos.x + mTileSize.x); vertices.push_back(tilePos.y + mTileSize.y);
+
+                        glm::vec2 startTexCoords;
+                        glm::vec2 endTexCoords = {1.0f, 1.0f};
+
+
+                        if(mTexture)
+                        {
+                            startTexCoords = static_cast<glm::vec2>(mTileDefinitions.at(tileId).tileTexPosition * mTileTextureSize) / static_cast<glm::vec2>(mTexture->getSize());
+                            endTexCoords = startTexCoords + static_cast<glm::vec2>(mTileTextureSize) / static_cast<glm::vec2>(mTexture->getSize());
+                        }
+
+                        texCoords.push_back(startTexCoords.x); texCoords.push_back(startTexCoords.y);
+                        texCoords.push_back(startTexCoords.x); texCoords.push_back(endTexCoords.y);
+                        texCoords.push_back(endTexCoords.x); texCoords.push_back(startTexCoords.y);
+                        texCoords.push_back(endTexCoords.x); texCoords.push_back(startTexCoords.y);
+                        texCoords.push_back(startTexCoords.x); texCoords.push_back(endTexCoords.y);
+                        texCoords.push_back(endTexCoords.x); texCoords.push_back(endTexCoords.y);
+
+                        float r = tileColor.rAsFloat();
+                        float g = tileColor.gAsFloat();
+                        float b = tileColor.bAsFloat();
+                        float a = tileColor.aAsFloat();
+
+                        vertexColors.push_back(r); vertexColors.push_back(g); vertexColors.push_back(b); vertexColors.push_back(a);
+                        vertexColors.push_back(r); vertexColors.push_back(g); vertexColors.push_back(b); vertexColors.push_back(a);
+                        vertexColors.push_back(r); vertexColors.push_back(g); vertexColors.push_back(b); vertexColors.push_back(a);
+                        vertexColors.push_back(r); vertexColors.push_back(g); vertexColors.push_back(b); vertexColors.push_back(a);
+                        vertexColors.push_back(r); vertexColors.push_back(g); vertexColors.push_back(b); vertexColors.push_back(a);
+                        vertexColors.push_back(r); vertexColors.push_back(g); vertexColors.push_back(b); vertexColors.push_back(a);
                     }
 
-                    texCoords.push_back(startTexCoords.x); texCoords.push_back(startTexCoords.y);
-                    texCoords.push_back(startTexCoords.x); texCoords.push_back(endTexCoords.y);
-                    texCoords.push_back(endTexCoords.x); texCoords.push_back(startTexCoords.y);
-                    texCoords.push_back(endTexCoords.x); texCoords.push_back(startTexCoords.y);
-                    texCoords.push_back(startTexCoords.x); texCoords.push_back(endTexCoords.y);
-                    texCoords.push_back(endTexCoords.x); texCoords.push_back(endTexCoords.y);
-
-                    float r = tileColor.rAsFloat();
-                    float g = tileColor.gAsFloat();
-                    float b = tileColor.bAsFloat();
-                    float a = tileColor.aAsFloat();
-
-                    vertexColors.push_back(r); vertexColors.push_back(g); vertexColors.push_back(b); vertexColors.push_back(a);
-                    vertexColors.push_back(r); vertexColors.push_back(g); vertexColors.push_back(b); vertexColors.push_back(a);
-                    vertexColors.push_back(r); vertexColors.push_back(g); vertexColors.push_back(b); vertexColors.push_back(a);
-                    vertexColors.push_back(r); vertexColors.push_back(g); vertexColors.push_back(b); vertexColors.push_back(a);
-                    vertexColors.push_back(r); vertexColors.push_back(g); vertexColors.push_back(b); vertexColors.push_back(a);
-                    vertexColors.push_back(r); vertexColors.push_back(g); vertexColors.push_back(b); vertexColors.push_back(a);
+                    ++index;
                 }
-
-                ++index;
             }
+
+            mChunkCache[chunkPos] = { vertices, texCoords, vertexColors };
+            std::cout << chunkPos.x << " " << chunkPos.y << "\n";
+            std::cout << "cached a thing\n";
+        }
+        else
+        {
+            const auto& cacheEntry = mChunkCache[chunkPos];
+
+            vertices = cacheEntry.vertices;
+            texCoords = cacheEntry.texCoords;
+            vertexColors = cacheEntry.colors;
+
+            std::cout << chunkPos.x << " " << chunkPos.y << "\n";
+            std::cout << "retreived a cached thing\n";
         }
 
         RenderEntity renderEntity;
@@ -307,9 +332,9 @@ namespace fea
 
         if(vertices.size() > 0)
         {
-            renderEntity.mVertexAttributes.push_back(VertexAttribute("vertex", 2, vertices));
-            renderEntity.mVertexAttributes.push_back(VertexAttribute("texCoords", 2, texCoords));
-            renderEntity.mVertexAttributes.push_back(VertexAttribute("colors", 4, vertexColors));
+            renderEntity.mVertexAttributes.push_back(VertexAttribute("vertex", 2, std::move(vertices)));
+            renderEntity.mVertexAttributes.push_back(VertexAttribute("texCoords", 2, std::move(texCoords)));
+            renderEntity.mVertexAttributes.push_back(VertexAttribute("colors", 4, std::move(vertexColors)));
         }
 
         if(mTexture != nullptr)
@@ -334,345 +359,13 @@ namespace fea
         return renderEntity;
     }
 
-    //TileMap::TileMap(uint32_t gridWidth, uint32_t gridHeight, uint32_t tileWidth, uint32_t tileHeight, int32_t textureTileWidth, int32_t textureTileHeight, uint32_t chunkWidth, uint32_t chunkHeight)
-    //{
+    void TileMap::setDirty(const glm::ivec2& chunk) const
+    {
+        mChunkCache.erase(chunk);
+    }
 
-    //    FEA_ASSERT(gridWidth > 0 && gridHeight > 0, "The size of the tile grid cannot be zero or below in any dimension! " + std::to_string(gridWidth) + " " + std::to_string(gridHeight) + " provided.");
-    //    FEA_ASSERT(tileWidth > 0 && tileHeight > 0, "The size of the tiles cannot be zero or below in any dimension! " + std::to_string(tileWidth) + " " + std::to_string(tileHeight) + " provided.");
-    //    FEA_ASSERT(textureTileWidth > 0.0f && textureTileHeight > 0.0f, "The size of the tiles in the texture cannot be zero or below in any dimension! " + std::to_string(textureTileWidth) + " " + std::to_string(textureTileHeight) + " provided.");
-    //    FEA_ASSERT(chunkWidth > 0 && chunkHeight > 0, "The size of the tile chunks cannot be zero or below in any dimension! " + std::to_string(chunkWidth) + " " + std::to_string(chunkHeight) + " provided.");
-
-    //    uint32_t chunkGridWidth = (gridWidth + chunkWidth - 1) / chunkWidth;
-    //    uint32_t chunkGridHeight = (gridHeight + chunkHeight - 1) / chunkHeight;
-
-    //    mChunkGridSize = glm::uvec2(chunkGridWidth, chunkGridHeight);
-    //    mChunkSize = glm::uvec2(chunkWidth, chunkHeight);
-    //    mGridSize = glm::uvec2(gridWidth, gridHeight);
-    //    mTextureTileSize = glm::ivec2(textureTileWidth, textureTileHeight);
-    //    mTileSize = glm::uvec2(tileWidth, tileHeight);
-
-    //    bool uneven = gridWidth % chunkWidth != 0;
-    //    glm::uvec2 edgeSize(gridWidth % chunkWidth, gridHeight % chunkHeight);
-
-    //    uint32_t newChunkHeight = chunkHeight;
-
-    //    for(uint32_t y = 0; y < chunkGridHeight; y++)
-    //    {
-    //        if(y == chunkGridHeight - 1 && uneven)
-    //            newChunkHeight = edgeSize.y;
-
-    //        uint32_t newChunkWidth = chunkWidth;
-    //        for(uint32_t x = 0; x < chunkGridWidth; x++)
-    //        {
-    //            if(x == chunkGridWidth - 1 && uneven)
-    //                newChunkWidth = edgeSize.x;
-
-    //            TileChunk newChunk(newChunkWidth, newChunkHeight, tileWidth, tileHeight);
-    //            glm::vec2 chunkOrigin = glm::vec2(mPosition.x +(float) (x * chunkWidth * tileWidth),mPosition.y + (float)(y * chunkHeight * tileHeight));
-    //            newChunk.setOriginalOrigin(-chunkOrigin);
-
-    //            mChunks.push_back(newChunk);
-    //        }
-    //    }
-    //}
-
-    //void TileMap::setPosition(const glm::vec2& pos)
-    //{
-    //    mPosition = pos;
-
-    //    for(auto& chunk : mChunks)
-    //        chunk.setPosition(pos);
-    //}
-    //
-    //const glm::vec2& TileMap::getPosition() const
-    //{
-    //    return mPosition;
-    //}
-
-    //void TileMap::translate(const glm::vec2& amount)
-    //{
-    //    mPosition += amount;
-
-    //    for(auto& chunk : mChunks)
-    //        chunk.translate(amount);
-    //}
-    //
-    //std::vector<const TileChunk*> TileMap::getTileChunks() const
-    //{
-    //    std::vector<const TileChunk*> toReturn;
-
-    //    for(const auto& chunk : mChunks)
-    //    {
-    //        if(!chunk.isEmpty())
-    //            toReturn.push_back(&chunk);
-    //    }
-
-    //    return toReturn;
-    //}
-    //
-    //void TileMap::setTexture(const Texture& tex)
-    //{
-    //    mTexture = &tex;
-
-    //    for(auto& chunk : mChunks)
-    //    {
-    //        chunk.setTexture(tex);
-    //    }
-    //}
-    //
-    //const Texture& TileMap::getTexture() const
-    //{
-    //    return *mTexture;
-    //}
-    //
-
-    //void TileMap::setTile(const glm::uvec2& pos, TileId id, int32_t orientation)
-    //{
-    //    FEA_ASSERT(!isOutOfBounds(pos), "Trying to set tile outside of the bounds of the tilemap! Setting at " + std::to_string(pos.x) + " " + std::to_string(pos.y) + ".");
-    //    FEA_ASSERT(orientation <= 16, "Cannot pass other flags with the PRESERVE flag!");
-    //    uint32_t x = pos.x;
-    //    uint32_t y = pos.y;
-
-    //    uint32_t chunkX = x / mChunkSize.x;
-    //    uint32_t chunkY = y / mChunkSize.y;
-    //    uint32_t chunkIndex = chunkX + chunkY * mChunkGridSize.x;
-
-    //    FEA_ASSERT(mTileDefs.find(id) != mTileDefs.end(), "Trying to set tile '" + std::to_string(id) + "' which doesn't exist!");
-
-    //    const TileDefinition& tileDef = mTileDefs.at(id);
-
-    //    glm::vec2 texPos = (glm::vec2)tileDef.mTileTexPosition * static_cast<glm::vec2>(mTextureTileSize);
-
-    //    float startX = texPos.x;
-    //    float startY = texPos.y;
-    //    float endX   = texPos.x + mTextureTileSize.x;
-    //    float endY   = texPos.y + mTextureTileSize.y;
-
-    //    mChunks[chunkIndex].setTileTexCoords(x - chunkX * mChunkSize.x, y - chunkY * mChunkSize.y, 
-    //            glm::vec2(startX , startY),
-    //            glm::vec2(endX   , endY  ), orientation);
-
-    //    if(mAnimatedTiles.find(glm::uvec2(x, y)) != mAnimatedTiles.end())
-    //    {
-    //        mAnimatedTiles.erase(glm::uvec2(x, y));
-    //    }
-
-    //    if(tileDef.mTicksUntilChange > 0)
-    //    {
-    //        AnimatedTile animation(tileDef.mNextTile, tileDef.mTicksUntilChange);
-    //        mAnimatedTiles.emplace(glm::uvec2(x, y), animation);
-    //    }
-    //}
-
-    //void TileMap::unsetTile(const glm::uvec2& pos)
-    //{
-    //    FEA_ASSERT(!isOutOfBounds(pos), "Trying to unset tile outside of the bounds of the tilemap! Setting at " + std::to_string(pos.x) + " " + std::to_string(pos.y) + ".");
-
-    //    uint32_t x = pos.x;
-    //    uint32_t y = pos.y;
-
-    //    uint32_t chunkX = x / mChunkSize.x;
-    //    uint32_t chunkY = y / mChunkSize.y;
-    //    uint32_t chunkIndex = chunkX + chunkY * mChunkGridSize.x;
-
-    //    mChunks[chunkIndex].unsetTileTexCoords(x - chunkX * mChunkSize.x, y - chunkY * mChunkSize.y);
-
-    //    if(mAnimatedTiles.find(glm::uvec2(x, y)) != mAnimatedTiles.end())
-    //    {
-    //        mAnimatedTiles.erase(glm::uvec2(x, y));
-    //    }
-    //}
-
-    //void TileMap::fill(TileId id)
-    //{
-    //    FEA_ASSERT(mTileDefs.find(id) != mTileDefs.end(), "Trying to fill tilemap with tile id  '" + std::to_string(id) + "' which doesn't exist!");
-
-    //    const TileDefinition& tileDef = mTileDefs.at(id);
-
-    //    glm::uvec2 texPos = tileDef.mTileTexPosition;
-
-    //    for(auto& chunk : mChunks)
-    //        chunk.fillTexCoords(glm::vec2((float)texPos.x * mTextureTileSize.x, (float)texPos.y * mTextureTileSize.y),
-    //                            glm::vec2((float)texPos.x * mTextureTileSize.x + mTextureTileSize.x, (float)texPos.y * mTextureTileSize.y + mTextureTileSize.y));
-
-    //    mAnimatedTiles.clear();
-
-    //    if(tileDef.mTicksUntilChange > 0)
-    //    {
-    //        AnimatedTile animation(tileDef.mNextTile, tileDef.mTicksUntilChange);
-
-    //        for(uint32_t x = 0; x < mGridSize.x; x++)
-    //        {
-    //            for(uint32_t y = 0; y < mGridSize.y; y++)
-    //            {
-    //                mAnimatedTiles.emplace(glm::uvec2(x, y), animation);
-    //            }
-    //        }
-    //    }
-    //}
-    //        
-    //void TileMap::setTileColor(const glm::uvec2& pos, const fea::Color& color)
-    //{
-    //    FEA_ASSERT(!isOutOfBounds(pos), "Trying to set color outside of the bounds of the tilemap! Setting at " + std::to_string(pos.x) + " " + std::to_string(pos.y) + ".");
-    //    uint32_t x = pos.x;
-    //    uint32_t y = pos.y;
-
-    //    uint32_t chunkX = x / mChunkSize.x;
-    //    uint32_t chunkY = y / mChunkSize.y;
-    //    uint32_t chunkIndex = chunkX + chunkY * mChunkGridSize.x;
-
-    //    mChunks[chunkIndex].setTileColors(x - chunkX * mChunkSize.x, y - chunkY * mChunkSize.y, color);
-    //}
-    //
-    //void TileMap::clear()
-    //{
-    //    for(auto& chunk : mChunks)
-    //        chunk.clear();
-
-    //    mAnimatedTiles.clear();
-    //}
-    //
-    //glm::uvec2 TileMap::getTileSize() const
-    //{
-    //    return mTileSize;
-    //}
-
-    //glm::uvec2 TileMap::getGridSize() const
-    //{
-    //    return mGridSize;
-    //}
-
-    //glm::uvec2 TileMap::getTileMapSize() const
-    //{
-    //    return mTileSize * mGridSize;
-    //}
-
-    //void TileMap::tick()
-    //{
-    //    std::vector<glm::uvec2> toSet;
-    //    std::vector<TileId> ids;
-
-    //    for(auto animated = mAnimatedTiles.begin(); animated != mAnimatedTiles.end();)
-    //    {
-    //        if(animated->second.mTimeLeft == 0)
-    //        {
-    //            uint32_t x = animated->first.x;
-    //            uint32_t y = animated->first.y;
-    //            TileId id = animated->second.mNext;
-    //            animated = mAnimatedTiles.erase(animated);
-    //            
-    //            toSet.push_back(glm::uvec2(x, y));
-    //            ids.push_back(id);
-    //            continue;
-    //        }
-    //        else
-    //        {
-    //            animated->second.mTimeLeft--;
-    //            animated++;
-    //        }
-    //    }
-    //    for(uint32_t i = 0; i < toSet.size(); i++)
-    //    {
-    //        setTile(toSet[i], ids[i], PRESERVE);
-    //    }
-    //}
-
-    //void TileMap::setOpacity(float opacity)
-    //{
-    //    for(auto& chunk : mChunks)
-    //        chunk.setOpacity(opacity);
-    //}
-
-    //float TileMap::getOpacity() const
-    //{
-    //    return mChunks.begin()->getOpacity();
-    //}
-
-    //void TileMap::setRotation(float rotation)
-    //{
-    //    for(auto& chunk : mChunks)
-    //        chunk.setRotation(rotation);
-    //}
-
-    //float TileMap::getRotation() const
-    //{
-    //    return mChunks.begin()->getRotation();
-    //}
-
-    //void TileMap::rotate(float amount)
-    //{
-    //    for(auto& chunk : mChunks)
-    //        chunk.rotate(amount);
-    //}
-
-    //void TileMap::setScale(const glm::vec2& scale)
-    //{
-    //    for(auto& chunk : mChunks)
-    //    {
-    //        chunk.setScale(scale);
-    //        chunk.multiplyOrigin(scale);
-    //    }
-    //}
-
-    //const glm::vec2& TileMap::getScale() const
-    //{
-    //    return mChunks.begin()->getScale();
-    //}
-
-    //void TileMap::scale(const glm::vec2& amount)
-    //{
-    //    for(auto& chunk : mChunks)
-    //    {
-    //        chunk.scale(amount);
-    //        chunk.multiplyOrigin(chunk.getScale());
-    //    }
-    //}
-
-    //void TileMap::setOrigin(const glm::vec2& origin)
-    //{
-    //    uint32_t chunkWidth = mChunkSize.x;
-    //    uint32_t chunkHeight = mChunkSize.y;
-    //    uint32_t chunkGridWidth = (mGridSize.x + chunkWidth - 1) / chunkWidth;
-    //    uint32_t chunkGridHeight = (mGridSize.y + chunkHeight - 1) / chunkHeight;
-
-    //    for(uint32_t y = 0; y < chunkGridHeight; y++)
-    //    {
-    //        for(uint32_t x = 0; x < chunkGridWidth; x++)
-    //        {
-    //            glm::vec2 chunkOrigin = glm::vec2(mPosition.x +(float) (x * chunkWidth * mTileSize.x),mPosition.y + (float)(y * chunkHeight * mTileSize.y));
-    //            mChunks[x + y * chunkGridWidth].setOriginalOrigin(-chunkOrigin + origin);
-    //        }
-    //    }
-    //}
-
-    //const glm::vec2& TileMap::getOrigin() const
-    //{
-    //    return mChunks[0].getOrigin();
-    //}
-
-    //void TileMap::setParallax(const glm::vec2& parallax)
-    //{
-    //    for(auto& chunk : mChunks)
-    //    {
-    //        chunk.setParallax(parallax);
-    //    }
-    //}
-
-    //const glm::vec2& TileMap::getParallax() const
-    //{
-    //    return mChunks.begin()->getParallax();
-    //}
-
-    //void TileMap::setColor(const Color& color)
-    //{
-    //    for(auto& chunk : mChunks)
-    //    {
-    //        chunk.setColor(color);
-    //    }
-    //}
-
-    //Color TileMap::getColor() const
-    //{
-    //    return mChunks.begin()->getColor();
-    //}
+    bool TileMap::isDirty(const glm::ivec2& chunk) const
+    {
+        return mChunkCache.count(chunk) == 0;
+    }
 }
