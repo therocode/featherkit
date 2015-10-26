@@ -6,9 +6,9 @@ namespace fea
     const int32_t tileMapChunkSize = 32;
 
     TileDefinition::TileDefinition(const glm::ivec2& texPos, TileId next, int32_t ticks):
-        mTileTexPosition(texPos),
-        mNextTile(next),
-        mTicksUntilChange(ticks)
+        tileTexPosition(texPos),
+        nextTile(next),
+        ticksUntilChange(ticks)
     {
     }
 
@@ -41,6 +41,14 @@ namespace fea
     }
 
     const TileMap::Tile& TileMap::TileChunk::getTile(const glm::ivec2& position) const
+    {
+        size_t index = position.x + position.y * tileMapChunkSize;
+
+        //ensure tile is set
+        return tiles[index];
+    }
+
+    TileMap::Tile& TileMap::TileChunk::getTile(const glm::ivec2& position)
     {
         size_t index = position.x + position.y * tileMapChunkSize;
 
@@ -88,6 +96,18 @@ namespace fea
         auto& chunk = mChunks[chunkCoord];
 
         chunk.setTile(tileInChunkCoord, id);
+
+        const auto& definition = mTileDefinitions.at(id);
+        if(definition.nextTile != -1)
+        {
+            auto& tile = mAnimatedTiles[pos];
+            tile = &chunk.getTile(tileInChunkCoord);
+            tile->ticksUntilChange = definition.ticksUntilChange;
+        }
+        else
+        {
+            mAnimatedTiles.erase(pos);
+        }
     }
 
     void TileMap::unsetTile(const glm::ivec2& pos)
@@ -103,6 +123,9 @@ namespace fea
         {
             mChunks.erase(chunkCoord);
         }
+
+        auto animatedIterator = mAnimatedTiles.find(pos);
+        mAnimatedTiles.erase(animatedIterator);
     }
 
     void TileMap::fillRegion(glm::ivec2 startCorner, glm::ivec2 endCorner, TileId id)
@@ -172,7 +195,24 @@ namespace fea
         return mTileTextureSize;
     }
 
-    //void tick();
+    void TileMap::tick()
+    {
+        std::unordered_map<glm::ivec2, TileId> tilesToSet;
+
+        for(auto tileIter : mAnimatedTiles)
+        {
+            if(--tileIter.second->ticksUntilChange == 0)
+            {
+                TileId nextTile = mTileDefinitions.at(tileIter.second->id).nextTile;
+                tilesToSet.emplace(tileIter.first, nextTile);
+            }
+        }
+
+        for(auto tileIter : tilesToSet)
+        {
+            setTile(tileIter.first, tileIter.second);
+        }
+    }
             
     std::vector<RenderEntity> TileMap::getRenderInfo() const
     {
@@ -233,7 +273,7 @@ namespace fea
 
                     if(mTexture)
                     {
-                        startTexCoords = static_cast<glm::vec2>(mTileDefinitions.at(tileId).mTileTexPosition * mTileTextureSize) / static_cast<glm::vec2>(mTexture->getSize());
+                        startTexCoords = static_cast<glm::vec2>(mTileDefinitions.at(tileId).tileTexPosition * mTileTextureSize) / static_cast<glm::vec2>(mTexture->getSize());
                         endTexCoords = startTexCoords + static_cast<glm::vec2>(mTileTextureSize) / static_cast<glm::vec2>(mTexture->getSize());
                     }
 

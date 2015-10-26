@@ -13,9 +13,9 @@ namespace fea
     struct FEA_API TileDefinition
     {
         TileDefinition(const glm::ivec2& texPos, TileId next = -1, int32_t ticks = 1);
-        glm::ivec2 mTileTexPosition;
-        TileId mNextTile;
-        int32_t mTicksUntilChange;
+        glm::ivec2 tileTexPosition;
+        TileId nextTile;
+        int32_t ticksUntilChange;
     };
 
     class FEA_API TileMap: public fea::Drawable2D
@@ -34,6 +34,7 @@ namespace fea
             void setTileColor(const glm::ivec2& position, const fea::Color& color);
             void unsetTile(const glm::ivec2& position);
             const Tile& getTile(const glm::ivec2& position) const;
+            Tile& getTile(const glm::ivec2& position);
             int32_t tileCount;
             std::vector<Tile> tiles;
             std::vector<bool> tilesSet;
@@ -65,7 +66,7 @@ namespace fea
 
         std::unordered_map<TileId, TileDefinition> mTileDefinitions;
         std::unordered_map<glm::ivec2, TileChunk> mChunks;
-        std::unordered_map<glm::ivec2, Tile&> mAnimatedTiles;
+        std::unordered_map<glm::ivec2, Tile*> mAnimatedTiles;
     };
     /** @addtogroup Render2D
      *@{
