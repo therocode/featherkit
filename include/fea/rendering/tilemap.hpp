@@ -59,10 +59,13 @@ namespace fea
             void setTileColor(const glm::ivec2& pos, const fea::Color& color);
             const Tile& getTile(const glm::ivec2& pos) const;
             glm::ivec2 worldToTileCoordinates(const glm::vec2& coordinates) const;
+            glm::vec2 tileToWorldCoordinates(const glm::ivec2& tile) const;
             const glm::ivec2& getTileSize() const;
             const glm::ivec2& getTileTextureSize() const;
             void tick();
             virtual std::vector<RenderEntity> getRenderInfo() const override;
+            void setCullRegion(const glm::vec2& start, const glm::vec2& end);
+            void setCullEnabled(bool enabled);
         private:
             glm::ivec2 tileToChunk(const glm::ivec2& pos) const;
             glm::ivec2 tileToTileInChunk(const glm::ivec2& pos) const;
@@ -78,6 +81,10 @@ namespace fea
             std::unordered_map<glm::ivec2, Tile*> mAnimatedTiles;
 
             mutable std::unordered_map<glm::ivec2, CacheEntry> mChunkCache;
+
+            glm::vec2 mCullStart;
+            glm::vec2 mCullEnd;
+            bool mCullEnabled;
     };
     /** @addtogroup Render2D
      *@{
