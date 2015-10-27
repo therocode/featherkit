@@ -10,6 +10,7 @@ namespace fea
         nextTile(next),
         ticksUntilChange(ticks)
     {
+        FEA_ASSERT(texPos.x >= 0 && texPos.y >= 0, "Texture index must be zero or above");
     }
 
     TileMap::TileChunk::TileChunk():
@@ -73,6 +74,8 @@ namespace fea
         mTexture(nullptr),
         mCullEnabled(false)
     {
+        FEA_ASSERT(tileSize.x > 0 && tileSize.y > 0, "Tile size must be greater than zero");
+        FEA_ASSERT(tileTextureSize.x > 0 && tileTextureSize.y > 0, "Tile texture size must be greater than zero");
     }
 
     void TileMap::setTexture(const Texture& texture)
@@ -88,11 +91,13 @@ namespace fea
 
     void TileMap::addTileDefinition(TileId id, const TileDefinition& tileDef)
     {
+        FEA_ASSERT(mTileDefinitions.count(id) == 0, "Tile definition already exists.");
         mTileDefinitions.emplace(id, tileDef);
     }
 
     void TileMap::setTile(const glm::ivec2& pos, TileId id)
     {
+        FEA_ASSERT(mTileDefinitions.count(id) != 0, "Tile definition does not exists.");
         const glm::ivec2 chunkCoord = tileToChunk(pos);
         const glm::ivec2 tileInChunkCoord = tileToTileInChunk(pos);
 
@@ -135,6 +140,7 @@ namespace fea
 
     void TileMap::fillRegion(glm::ivec2 startCorner, glm::ivec2 endCorner, TileId id)
     {
+        FEA_ASSERT(mTileDefinitions.count(id) != 0, "Tile definition does not exists.");
         if(startCorner.x > endCorner.x)
             std::swap(startCorner.x, endCorner.x);
         if(startCorner.y > endCorner.y)
@@ -158,25 +164,28 @@ namespace fea
 
     void TileMap::setTileColor(const glm::ivec2& pos, const fea::Color& color)
     {
-        //assert that tile exists
         const glm::ivec2 chunkCoord = tileToChunk(pos);
         const glm::ivec2 tileInChunkCoord = tileToTileInChunk(pos);
 
         auto& chunk = mChunks[chunkCoord];
 
+        FEA_ASSERT(chunk.tilesSet[tileInChunkCoord.x + tileInChunkCoord.y * tileMapChunkSize], "Trying to set the tile color of a tile that doesn't exists.");
+
         chunk.setTileColor(tileInChunkCoord, color);
         setDirty(chunkCoord);
     }
 
-    const TileMap::Tile& TileMap::getTile(const glm::ivec2& pos) const
+    const TileMap::Tile* TileMap::getTile(const glm::ivec2& pos) const
     {
-        //assert that tile exists
         const glm::ivec2 chunkCoord = tileToChunk(pos);
         const glm::ivec2 tileInChunkCoord = tileToTileInChunk(pos);
 
         auto& chunk = mChunks.at(chunkCoord);
 
-        return chunk.getTile(tileInChunkCoord);
+        if(chunk.tilesSet[tileInChunkCoord.x + tileInChunkCoord.y * tileMapChunkSize])
+            return &chunk.getTile(tileInChunkCoord);
+        else
+            return nullptr;
     }
     
     glm::ivec2 TileMap::worldToTileCoordinates(const glm::vec2& coordinate) const
