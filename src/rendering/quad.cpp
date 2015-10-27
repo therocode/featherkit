@@ -3,12 +3,16 @@
 
 namespace fea
 {
-    Quad::Quad() : Quad(glm::vec2(2.0f, 2.0f))
+    Quad::Quad() : Quad(glm::vec2(1.0f, 1.0f))
     {
 
     }
 
-    Quad::Quad(const glm::vec2& size) : mHFlip(1.0f), mVFlip(1.0f), mTexture(nullptr)
+    Quad::Quad(const glm::vec2& size):
+        mHFlip(1.0f),
+        mVFlip(1.0f),
+        mTexture(nullptr),
+        mSize(size)
     {
         FEA_ASSERT(size.x > 0.0f && size.y > 0.0f, "Size of quads must be bigger than zero in all dimensions! " + std::to_string(size.x) + " " + std::to_string(size.y) + " provided.");
         float xnum = size.x;
@@ -54,11 +58,13 @@ namespace fea
                      xnum, 0.0f, 
                      0.0f, ynum, 
                      xnum, ynum};
+
+        mSize = size;
     }
 
-    glm::vec2 Quad::getSize() const
+    const glm::vec2& Quad::getSize() const
     {
-        return glm::vec2(mVertices[4], mVertices[3]);
+        return mSize;
     }
     
     void Quad::setTexture(const Texture& tex)

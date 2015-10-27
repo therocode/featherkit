@@ -12,7 +12,7 @@ namespace fea
             virtual ~Quad() = default;
             Quad(const glm::vec2& size);
             virtual void setSize(const glm::vec2& size);
-            glm::vec2 getSize() const;
+            const glm::vec2& getSize() const;
             virtual void setTexture(const Texture& texture);
             const Texture& getTexture() const;
             void setHFlip(bool enabled);
@@ -23,6 +23,7 @@ namespace fea
             float mVFlip;
             const Texture* mTexture;
             glm::vec4 mConstraints;
+            glm::vec2 mSize;
     };
     /** @addtogroup Render2D
      *@{
@@ -51,7 +52,7 @@ namespace fea
      *  Assert/undefined behavior if size is zero or less in any dimension.
      *  @param size Vector with the new size.
      ***
-     *  @fn glm::vec2 Quad::getSize() const
+     *  @fn const glm::vec2& Quad::getSize() const
      *  @brief Get the size.
      *  @return Size as a vector.
      ***
@@ -88,5 +89,8 @@ namespace fea
      *  @brief Vector describing the texture constraints.
      *
      *  Texture constraints are used to "lock" the texture displayed on the quad to a certain region of the texture. This can be used for instance to create animations or wrapping type of effects. The first two ints define the starting point of the constraint rectangle and the second two ints define the end point. In percent
+     ***
+     *  @var Quad::mSize
+     *  @brief Vector describing the size of the quad
      ***/
 }
