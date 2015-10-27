@@ -15,15 +15,14 @@ namespace fea
             RenderTarget& operator=(RenderTarget&& other);
             RenderTarget& operator=(const RenderTarget& other) = delete;
             GLuint getId() const;
-            glm::uvec2 getSize() const;
+            const glm::ivec2& getSize() const;
             const Texture& getTexture() const;
-            void create(uint32_t width, uint32_t height, bool smooth = false);
+            void create(const glm::ivec2& size, bool smooth = false);
             void destroy();
             ~RenderTarget();
         private:
             GLuint mId;
-            uint32_t mWidth;
-            uint32_t mHeight;
+            glm::ivec2 mSize;
             Texture mTexture;
     };
     /** @addtogroup Render2D
@@ -60,7 +59,7 @@ namespace fea
      *  @fn int32_t RenderTarget::getId() const
      *  @brief Get the ID of the internal render target.
      ***
-     *  @fn glm::uvec2 RenderTarget::getSize() const
+     *  @fn const glm::ivec2& RenderTarget::getSize() const
      *  @brief Get the size.
      *  @return The size.
      ***
@@ -70,13 +69,12 @@ namespace fea
      *  Using the Texture returned by this function, the content of the RenderTarget can be displayed on a drawable.
      *  @return The Texture.
      ***
-     *  @fn void RenderTarget::create(uint32_t width, uint32_t height, bool smooth = false)
+     *  @fn void RenderTarget::create(const glm::ivec2& size, bool smooth = false)
      *  @brief Create a RenderTarget with the given size.
      *
      *  This method has to be called prior to using the RenderTarget. 
      *  Assert/undefined behavior if size is zero or less in any dimension.
-     *  @param width Width of the RenderTarget.
-     *  @param height Height of the RenderTarget.
+     *  @param size Size of the RenderTarget.
      *  @param smooth If this is true, the internal texture used by the RenderTarget will be smoothed using a nearest neighbor algorithm.
      ***
      *  @fn void RenderTarget::destroy()

@@ -31,9 +31,9 @@ namespace fea
         return mId;
     }
 
-    void Texture::create(uint32_t width, uint32_t height, const uint8_t* imageData, bool smooth, bool interactive)
+    void Texture::create(const glm::ivec2& size, const uint8_t* imageData, bool smooth, bool interactive)
     {
-        FEA_ASSERT(width > 0 && height > 0, "Cannot create a texture with a width or height smaller than zero! Given dimensions are " + std::to_string(width) + " " + std::to_string(height));
+        FEA_ASSERT(size.x > 0 && size.y > 0, "Cannot create a texture with a width or height smaller than zero! Given dimensions are " + std::to_string(size.x) + " " + std::to_string(size.y));
 
         if(mId)
         {
@@ -41,12 +41,12 @@ namespace fea
         }
 
         mInteractive = interactive;
-        mSize = {width, height};
+        mSize = size;
         
         glGenTextures(1, &mId);
         FEA_ASSERT(mId != 0, "Failed to create texture. Make sure there is a valid OpenGL context available!");
         glBindTexture(GL_TEXTURE_2D, mId);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLsizei)width, (GLsizei)height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLsizei)size.x, (GLsizei)size.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
 
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
@@ -65,24 +65,25 @@ namespace fea
         }
     }
 
-    void Texture::create(uint32_t width, uint32_t height, const Color& color, bool smooth, bool interactive)
+    void Texture::create(const glm::ivec2& size, const Color& color, bool smooth, bool interactive)
     {
-        std::unique_ptr<uint8_t[]> pixels = std::unique_ptr<uint8_t[]>(new uint8_t[width * height * 4]);
+        FEA_ASSERT(size.x > 0 && size.y > 0, "Cannot create a texture with a width or height smaller than zero! Given dimensions are " + std::to_string(size.x) + " " + std::to_string(size.y));
+        std::unique_ptr<uint8_t[]> pixels = std::unique_ptr<uint8_t[]>(new uint8_t[size.x * size.y * 4]);
 
-        for(uint32_t x = 0; x < width; x++)
+        for(uint32_t x = 0; x < size.x; x++)
         {
-            for(uint32_t y = 0; y < height; y++)
+            for(uint32_t y = 0; y < size.y; y++)
             {
-                pixels[(x + y * width) * 4 + 0] = color.r();
-                pixels[(x + y * width) * 4 + 1] = color.g();
-                pixels[(x + y * width) * 4 + 2] = color.b();
-                pixels[(x + y * width) * 4 + 3] = color.a();
+                pixels[(x + y * size.x) * 4 + 0] = color.r();
+                pixels[(x + y * size.x) * 4 + 1] = color.g();
+                pixels[(x + y * size.x) * 4 + 2] = color.b();
+                pixels[(x + y * size.x) * 4 + 3] = color.a();
             }
         }
-        create(width, height, pixels.get(), smooth, interactive);
+        create(size, pixels.get(), smooth, interactive);
     }
     
-    const glm::uvec2& Texture::getSize() const
+    const glm::ivec2& Texture::getSize() const
     {
         return mSize;
     }
@@ -98,20 +99,20 @@ namespace fea
         }
     }
     
-    void Texture::setPixel(uint32_t x, uint32_t y, const Color& color)
+    void Texture::setPixel(const glm::ivec2& pixel, const Color& color)
     {
-        FEA_ASSERT(x >= 0 && y >= 0 && x < mSize.x && y < mSize.y, "Trying to set pixel outside of the bounds of the texture. Accessing at " + std::to_string(x) + " " + std::to_string(y) + " and texture dimensions are " + std::to_string(mSize.x) + " " + std::to_string(mSize.y));
-        uint32_t pixelIndex = (x + y * mSize.x) * 4;
+        FEA_ASSERT(pixel.x >= 0 && pixel.y >= 0 && pixel.x < mSize.x && pixel.y < mSize.y, "Trying to set pixel outside of the bounds of the texture. Accessing at " + std::to_string(pixel.x) + " " + std::to_string(pixel.y) + " and texture dimensions are " + std::to_string(mSize.x) + " " + std::to_string(mSize.y));
+        uint32_t pixelIndex = (pixel.x + pixel.y * mSize.x) * 4;
         pixelData[pixelIndex    ] = color.r();
         pixelData[pixelIndex + 1] = color.g();
         pixelData[pixelIndex + 2] = color.b();
         pixelData[pixelIndex + 3] = color.a();
     }
 
-    Color Texture::getPixel(uint32_t x, uint32_t y) const
+    Color Texture::getPixel(const glm::ivec2& pixel) const
     {
-        FEA_ASSERT(x >= 0 && y >= 0 && x < mSize.x && y < mSize.y, "Trying to get pixel outside of the bounds of the texture. Accessing at " + std::to_string(x) + " " + std::to_string(y) + " and texture dimensions are " + std::to_string(mSize.x) + " " + std::to_string(mSize.y));
-        uint32_t pixelIndex = (x + y * mSize.x) * 4;
+        FEA_ASSERT(pixel.x >= 0 && pixel.y >= 0 && pixel.x < mSize.x && pixel.y < mSize.y, "Trying to get pixel outside of the bounds of the texture. Accessing at " + std::to_string(pixel.x) + " " + std::to_string(pixel.y) + " and texture dimensions are " + std::to_string(mSize.x) + " " + std::to_string(mSize.y));
+        uint32_t pixelIndex = (pixel.x + pixel.y * mSize.x) * 4;
         return Color(pixelData[pixelIndex],
                          pixelData[pixelIndex + 1],
                          pixelData[pixelIndex + 2],

@@ -20,7 +20,7 @@ namespace fea
         glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
-        mDefaultTexture.create(16, 16, fea::Color(1.0f, 1.0f, 1.0f));
+        mDefaultTexture.create({16, 16}, fea::Color(1.0f, 1.0f, 1.0f));
 
         mDefaultShader.setSource(DefaultShader::vertexSource, DefaultShader::fragmentSource);
         mDefaultShader.compile();

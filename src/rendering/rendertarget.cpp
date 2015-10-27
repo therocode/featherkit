@@ -4,23 +4,21 @@
 
 namespace fea
 {
-    RenderTarget::RenderTarget() : mId(0), mWidth(0), mHeight(0)
+    RenderTarget::RenderTarget() : mId(0)
     {
     }
 
-    RenderTarget::RenderTarget(RenderTarget&& other) : mId(0), mWidth(0), mHeight(0)
+    RenderTarget::RenderTarget(RenderTarget&& other) : mId(0)
     {
         std::swap(mId, other.mId);
-        std::swap(mWidth, other.mWidth);
-        std::swap(mHeight, other.mHeight);
+        std::swap(mSize, other.mSize);
         std::swap(mTexture, other.mTexture);
     }
 
     RenderTarget& RenderTarget::operator=(RenderTarget&& other)
     {
         std::swap(mId, other.mId);
-        std::swap(mWidth, other.mWidth);
-        std::swap(mHeight, other.mHeight);
+        std::swap(mSize, other.mSize);
         std::swap(mTexture, other.mTexture);
 
         return *this;
@@ -31,9 +29,9 @@ namespace fea
         return mId;
     }
 
-    glm::uvec2 RenderTarget::getSize() const
+    const glm::ivec2& RenderTarget::getSize() const
     {
-        return glm::uvec2(mWidth, mHeight);
+        return mSize;
     }
     
     const Texture& RenderTarget::getTexture() const
@@ -41,21 +39,20 @@ namespace fea
         return mTexture;
     }
 
-    void RenderTarget::create(uint32_t w, uint32_t h, bool smooth)
+    void RenderTarget::create(const glm::ivec2& size, bool smooth)
     {
-        FEA_ASSERT(w > 0 && h > 0, "Size must be greater than zero in both dimensions. " + std::to_string(w) + " " + std::to_string(h) + " provided.");
+        FEA_ASSERT(size.x > 0 && size.y > 0, "Size must be greater than zero in both dimensions. " + std::to_string(size.x) + " " + std::to_string(size.y) + " provided.");
         if(mId)
         {
             destroy();
         }
 
-        mWidth = w;
-        mHeight= h;
+        mSize = size;
 
         glGenFramebuffers(1, &mId);
         glBindFramebuffer(GL_FRAMEBUFFER, mId);
 
-        mTexture.create(w, h, nullptr);
+        mTexture.create(size, nullptr);
     
         glBindTexture(GL_TEXTURE_2D, mTexture.getId());
         glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, mTexture.getId(), 0);

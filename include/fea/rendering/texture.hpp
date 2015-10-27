@@ -18,19 +18,19 @@ namespace fea
             Texture(Texture&& other);
             Texture& operator=(Texture&& other);
             GLuint getId() const;
-            void create(uint32_t width, uint32_t height, const uint8_t* imageData, bool smooth = false, bool interactive = false);
-            void create(uint32_t width, uint32_t height, const Color& color, bool smooth = false, bool interactive = false);
-            const glm::uvec2& getSize() const;
+            void create(const glm::ivec2& size, const uint8_t* imageData, bool smooth = false, bool interactive = false);
+            void create(const glm::ivec2& size, const Color& color, bool smooth = false, bool interactive = false);
+            const glm::ivec2& getSize() const;
             void destroy();
-            void setPixel(uint32_t x, uint32_t y, const Color& color);
-            Color getPixel(uint32_t x, uint32_t y) const;
+            void setPixel(const glm::ivec2& pixel, const Color& color);
+            Color getPixel(const glm::ivec2& pixel) const;
             uint8_t* getPixelData();
             const uint8_t* getPixelData() const;
             void update();
             ~Texture();
         private:
             GLuint mId;
-            glm::uvec2 mSize;
+            glm::ivec2 mSize;
             bool mInteractive;
             std::unique_ptr<uint8_t[]> pixelData;
     };
@@ -68,52 +68,50 @@ namespace fea
      *  @fn int32_t Texture::getId() const
      *  @brief Get the ID of the internal texture.
      ***
-     *  @fn void Texture::create(uint32_t width, uint32_t height, const uint8_t* imageData, bool smooth = false, bool interactive = false)
+     *  @fn void Texture::create(const glm::ivec2 size, const uint8_t* imageData, bool smooth = false, bool interactive = false)
      *  @brief Create a texture from an image.
      *  
      *  When the texture is successfully created, it can be used by drawables. Keep in mind that the texture must be kept alive as long as it is in use by any drawable. If the texture is created in interactive mode, it can be used to access and updated pixels at any time.
      *  Assert/undefined behavior when width or height is zero or less.
      *
-     *  @param width Width of the texture in pixels.
-     *  @param height Height of the texture in pixels.
+     *  @param size of the texture in pixels.
      *  @param imageData Image to create the texture from. Must be in 32-bit RGBA format.
      *  @param smooth If this is true, the texture will be smoothed using nearest neighbor interpolation.
      *  @param interactive If this is true, pixels can be accessed and updated using the setPixel and getPixel methods.
      ***
-     *  @fn void Texture::create(uint32_t width, uint32_t height, const Color& color, bool smooth = false, bool interactive = false)
+     *  @fn void Texture::create(const glm::ivec2 size, const Color& color, bool smooth = false, bool interactive = false)
      *  @brief Create a texture filled with a color.
      *  
      *  When the texture is successfully created, it can be used by drawables. Keep in mind that the texture must be kept alive as long as it is in use by any drawable. If the texture is created in interactive mode, it can be used to access and updated pixels at any time.
      *  Assert/undefined behavior when width or height is zero or less.
      *
-     *  @param width Width of the texture in pixels.
-     *  @param height Height of the texture in pixels.
+     *  @param size of the texture in pixels.
      *  @param color Color to fill the texture with.
      *  @param smooth If this is true, the texture will be smoothed using nearest neighbor interpolation.
      *  @param interactive If this is true, pixels can be accessed and updated using the setPixel and getPixel methods.
      ***
-     *  @fn glm::uvec2 Texture::getSize() const
+     *  @fn const glm::ivec2& Texture::getSize() const
      *  @brief Return the size of the texture.
      *  @return Texture size.
      ***
      *  @fn void Texture::destroy()
      *  @brief Release the resources used by the texture. The texture will be invalid afterwards.
      ***
-     *  @fn void Texture::setPixel(uint32_t x, uint32_t y, const Color& color)
+     *  @fn void Texture::setPixel(const glm::ivec2 pixel, const Color& color)
      *  @brief Set the color of a particular pixel.
      *
      *  Setting a pixel using this method does not change the Texture until the Texture::update method has been called. This method requires the texture to be set to interactive.
      *  Assert/undefined behavior when setting a pixel outside of the dimensions of the texture.
-     *  @param x X index of the pixel.
-     *  @param y Y index of the pixel.
+     *  @param pixel Pixel to set.
      *  @param color Color to set the pixel to.
      ***
-     *  @fn Color Texture::getPixel(uint32_t x, uint32_t y) const
+     *  @fn Color Texture::getPixel(const glm::ivec2 pixel) const
      *  @brief Access the color value of a pixel.
      *
      *  This method requires the texture to be set to interactive.
      *  Assert/undefined behavior when getting a pixel outside of the dimensions of the texture.
      *
+     *  @param pixel Pixel to get.
      *  @return The color value of the pixel.
      ***
      *  @fn uint8_t* Texture::getPixelData()
