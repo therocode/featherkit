@@ -13,7 +13,7 @@ namespace fea
     {
         VertexAttribute(std::string name, uint32_t floatAmount, std::vector<float> data);
         std::string mName;
-        uint32_t mFloatAmount;
+        uint32_t mAttributeFloatAmount;
         std::vector<float> mData;
     };
     /** @addtogroup Render2D
@@ -30,15 +30,15 @@ namespace fea
      ***
      *  @fn VertexAttribute::VertexAttribute(std::string name, uint32_t floatAmount, std::vector<float> data)
      *  @brief Construct a vertex attribute.
-     *  @param name name;
-     *  @param floatAmount Amount of floats.
-     *  @param data Float array.
+     *  @param mName name;
+     *  @param mAttributeFloatAmount Amount of floats per attribute
+     *  @param mData Float array.
      ***
      *  @var VertexAttribute::mName
      *  @brief Name of the attribute.
      ***
-     *  @var VertexAttribute::mFloatAmount
-     *  @brief Amount of floats in the data array.
+     *  @var VertexAttribute::mAttributeFloatAmount
+     *  @brief The amount of floats per attribute. For example, a 2D coordinate would have 2 (x and y), and a colour would have 4 (r, g, b and a).
      ***
      *  @var VertexAttribute::mData
      *  @brief Data array.
