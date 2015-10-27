@@ -15,7 +15,7 @@ namespace fea
             void setAnimation(const Animation& animation, bool play = true);
             const Animation& getAnimation() const;
             virtual void setTexture(const Texture& texture) override;
-            void tick();
+            virtual void tick();
             void playAnimation(uint32_t startFrame = 0);
             void stopAnimation();
             void setAnimationFrame(uint32_t frame);

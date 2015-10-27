@@ -14,10 +14,12 @@ namespace fea
             const glm::ivec2& getTileSize();
             void setScrollSpeed(const glm::vec2& speed);
             const glm::vec2& getScrollSpeed() const;
+            virtual void tick() override;
         private:
             void updateConstraints();
             glm::ivec2 mTileSize;
-            glm::vec2 mScrollSpeed; //FIX with tick
+            glm::vec2 mScrollSpeed;
+            glm::vec2 mCurrentScroll;
     };
     /** @addtogroup Render2D
      *@{
@@ -59,5 +61,10 @@ namespace fea
      *  @fn const glm::vec2& RepeatedQuad::getScrollSpeed() const
      *  @brief Get the rate at which the texture is scrolled.
      *  @return Vector containing the scroll speed.
+     ***
+     *  @fn void RepeatedQuad::tick()
+     *  @brief Advance the animation and scrolling one tick.
+     *  
+     *  This function should always be called on all RepeatedQuad instances every frame as it acts as the clock which drives the animation logic. If it isn't called, no animations will animate and no scrolling will happen.
      **/
 }

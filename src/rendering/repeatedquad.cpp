@@ -47,8 +47,8 @@ namespace fea
     {
         glm::vec2 scaleFactor = getSize() / static_cast<glm::vec2>(mTileSize);
 
-        glm::vec2 texCoordsX = glm::vec2(0.0f, 1.0f) * mHFlip;
-        glm::vec2 texCoordsY = glm::vec2(0.0f, 1.0f) * mVFlip;
+        glm::vec2 texCoordsX = glm::vec2(0.0f, 1.0f) * mHFlip - glm::vec2(mCurrentScroll.x, mCurrentScroll.x);
+        glm::vec2 texCoordsY = glm::vec2(0.0f, 1.0f) * mVFlip - glm::vec2(mCurrentScroll.y, mCurrentScroll.y);
 
         mTexCoords =  {texCoordsX[0], texCoordsY[0],
                       texCoordsX[0], texCoordsY[1],
@@ -63,5 +63,23 @@ namespace fea
             mTexCoords[i] = newCoords.x;
             mTexCoords[i+1] = newCoords.y;
         }
+    }
+
+    void RepeatedQuad::tick()
+    {
+        AnimatedQuad::tick();
+
+        mCurrentScroll += mScrollSpeed;
+
+        updateConstraints();
+
+        if(mCurrentScroll.x > 1000.0f)
+            mCurrentScroll.x -= 1000.0f;
+        if(mCurrentScroll.y > 1000.0f)
+            mCurrentScroll.y -= 1000.0f;
+        if(mCurrentScroll.x < -1000.0f)
+            mCurrentScroll.x += 1000.0f;
+        if(mCurrentScroll.y < -1000.0f)
+            mCurrentScroll.y += 1000.0f;
     }
 }
