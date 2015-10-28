@@ -2,3 +2,4 @@
 #include <fea/rendering/subrectquad.hpp>
 #include <fea/rendering/repeatedquad.hpp>
 #include <fea/rendering/tilemap.hpp>
+#include <fea/rendering/hsvcolor.hpp>

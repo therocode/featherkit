@@ -295,6 +295,7 @@ if(BUILD_RENDERING)
         src/rendering/color.cpp
         src/rendering/defaultshader.cpp
         src/rendering/drawable2d.cpp
+        src/rendering/hsvcolor.cpp
         src/rendering/projection.cpp
         src/rendering/quad.cpp
         src/rendering/renderer2d.cpp
@@ -317,6 +318,7 @@ if(BUILD_RENDERING)
         include/fea/rendering/drawable2d.hpp
         include/fea/rendering/gl_core_3_2.h
         include/fea/rendering/glmhash.hpp
+        include/fea/rendering/hsvcolor.hpp
         include/fea/rendering/opengl.hpp
         include/fea/rendering/projection.hpp
         include/fea/rendering/quad.hpp

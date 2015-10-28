@@ -1,5 +1,6 @@
 #include <fea/rendering/tilemap.hpp>
 #include <fea/assert.hpp>
+#include <algorithm>
 
 namespace fea
 {
