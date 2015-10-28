@@ -18,7 +18,10 @@ namespace fea
 
     HSVColor::HSVColor(float h, float s, float v, float a)
     {
-        mHue   = (uint16_t)(std::max(0.0f, std::min(1.0f, h)) * 360.0f);
+        h = std::abs(h);
+        h = h -(long)h;
+
+        mHue   = (uint16_t)(h * 360.0f);
         mSaturation = (uint8_t)(std::max(0.0f, std::min(1.0f, s)) * 100.0f);
         mValue  = (uint8_t)(std::max(0.0f, std::min(1.0f, v)) * 100.0f);
         mAlpha = (uint8_t)(std::max(0.0f, std::min(1.0f, a)) * 255.0f);
@@ -26,7 +29,8 @@ namespace fea
 
     HSVColor::HSVColor(int32_t h, int32_t s, int32_t v, int32_t a)
     {
-        mHue   = std::max(0, std::min(360, h));
+        h = h < 0 ? h % 360 + 360 : h % 360;
+        mHue   = h;
         mSaturation = std::max(0, std::min(100, s));
         mValue  = std::max(0, std::min(100, v));
         mAlpha = std::max(0, std::min(255, a));
@@ -139,7 +143,8 @@ namespace fea
 
     void HSVColor::setH(int32_t h)
     {
-        mHue = std::max(0, std::min(360, h));
+        h = h < 0 ? h % 360 + 360 : h % 360;
+        mHue = h;
     }
 
     void HSVColor::setS(int32_t s)
@@ -159,7 +164,10 @@ namespace fea
 
     void HSVColor::setHAsFloat(float h)
     {
-        mHue = (uint16_t)(std::max(0.0f, std::min(1.0f, h)) * 360.0f);
+        h = std::abs(h);
+        h = h -(long)h;
+
+        mHue = (uint16_t)(h * 360.0f);
     }
 
     void HSVColor::setSAsFloat(float s)
