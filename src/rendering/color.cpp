@@ -1,4 +1,5 @@
 #include <fea/rendering/color.hpp>
+#include <algorithm>
 
 namespace fea
 {
