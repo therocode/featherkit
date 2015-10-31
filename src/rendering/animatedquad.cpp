@@ -3,23 +3,23 @@
 
     namespace fea
     {
-        AnimatedQuad::AnimatedQuad() : Quad(), currentAnimation(nullptr), mClock(0), mCurrentFrame(0), mAnimate(false), mBack(false)
+        AnimatedQuad::AnimatedQuad() : Quad(), mCurrentAnimation(nullptr), mClock(0), mCurrentFrame(0), mAnimate(false), mBack(false)
         {
         }
 
-        AnimatedQuad::AnimatedQuad(const glm::vec2& size) : Quad(size), currentAnimation(nullptr), mClock(0), mCurrentFrame(0), mAnimate(false), mBack(false)
+        AnimatedQuad::AnimatedQuad(const glm::vec2& size) : Quad(size), mCurrentAnimation(nullptr), mClock(0), mCurrentFrame(0), mAnimate(false), mBack(false)
         {
         }
 
         void AnimatedQuad::setAnimation(const Animation& animation, bool play)
         {
             mClock = 0;
-            if(&animation != currentAnimation)
+            if(&animation != mCurrentAnimation)
             {
-                currentAnimation = &animation;
+                mCurrentAnimation = &animation;
                 mAnimate = play;
 
-                AnimationBehavior animBehavior = currentAnimation->getAnimationBehavior();
+                AnimationBehavior animBehavior = mCurrentAnimation->getAnimationBehavior();
 
                 if(animBehavior == FORWARDS || animBehavior == BOUNCE)
                 {
@@ -27,11 +27,11 @@
                 }
                 else if(animBehavior == BACKWARDS || animBehavior == INV_BOUNCE)
             {
-                mCurrentFrame = currentAnimation->getFrameAmount() - 1;
+                mCurrentFrame = mCurrentAnimation->getFrameAmount() - 1;
             }
             else if(animBehavior == RANDOM)
             {
-                mCurrentFrame = (uint32_t)rand() % currentAnimation->getFrameAmount();
+                mCurrentFrame = (uint32_t)rand() % mCurrentAnimation->getFrameAmount();
             }
         }
         setConstraints();
@@ -39,8 +39,8 @@
     
     const Animation& AnimatedQuad::getAnimation() const
     {
-        FEA_ASSERT(currentAnimation != nullptr, "No animation set!");
-        return *currentAnimation;
+        FEA_ASSERT(mCurrentAnimation != nullptr, "No animation set!");
+        return *mCurrentAnimation;
     }
 
     void AnimatedQuad::setTexture(const Texture& texture)
@@ -53,13 +53,13 @@
     {
         if(mTexture)
         {
-            if(mAnimate && currentAnimation != nullptr)
+            if(mAnimate && mCurrentAnimation != nullptr)
             {
                 mClock++;
 
-                uint32_t delay = currentAnimation->getDelay();
-                uint32_t frameAmount = currentAnimation->getFrameAmount();
-                AnimationBehavior animBehavior = currentAnimation->getAnimationBehavior();
+                uint32_t delay = mCurrentAnimation->getDelay();
+                uint32_t frameAmount = mCurrentAnimation->getFrameAmount();
+                AnimationBehavior animBehavior = mCurrentAnimation->getAnimationBehavior();
 
                 if(frameAmount <= 1)
                     return;
@@ -97,9 +97,9 @@
     
     void AnimatedQuad::playAnimation(uint32_t startFrame)
     {
-        FEA_ASSERT(currentAnimation != nullptr, "No animation set when calling playAnimation!");
+        FEA_ASSERT(mCurrentAnimation != nullptr, "No animation set when calling playAnimation!");
         mAnimate = true;
-        mClock = startFrame * currentAnimation->getDelay();
+        mClock = startFrame * mCurrentAnimation->getDelay();
         setConstraints();
     }
     
@@ -110,7 +110,7 @@
 
     void AnimatedQuad::setAnimationFrame(uint32_t frame)
     {
-        FEA_ASSERT(currentAnimation != nullptr, "No animation set when calling setAnimationFrame!");
+        FEA_ASSERT(mCurrentAnimation != nullptr, "No animation set when calling setAnimationFrame!");
         mCurrentFrame = frame;
         setConstraints();
     }
@@ -132,9 +132,9 @@
 
     void AnimatedQuad::animateForwards()
     {
-        bool loop = currentAnimation->getLoop();
-        uint32_t delay = currentAnimation->getDelay();
-        uint32_t frameAmount = currentAnimation->getFrameAmount();
+        bool loop = mCurrentAnimation->getLoop();
+        uint32_t delay = mCurrentAnimation->getDelay();
+        uint32_t frameAmount = mCurrentAnimation->getFrameAmount();
 
         if(mClock == delay)
         {
@@ -160,9 +160,9 @@
 
     void AnimatedQuad::animateBackwards()
     {
-        bool loop = currentAnimation->getLoop();
-        uint32_t delay = currentAnimation->getDelay();
-        uint32_t frameAmount = currentAnimation->getFrameAmount();
+        bool loop = mCurrentAnimation->getLoop();
+        uint32_t delay = mCurrentAnimation->getDelay();
+        uint32_t frameAmount = mCurrentAnimation->getFrameAmount();
 
         if(mClock == delay)
         {
@@ -188,9 +188,9 @@
 
     void AnimatedQuad::animateBounce()
     {
-        bool loop = currentAnimation->getLoop();
-        uint32_t delay = currentAnimation->getDelay();
-        uint32_t frameAmount = currentAnimation->getFrameAmount();
+        bool loop = mCurrentAnimation->getLoop();
+        uint32_t delay = mCurrentAnimation->getDelay();
+        uint32_t frameAmount = mCurrentAnimation->getFrameAmount();
 
         if(!mBack)
         {
@@ -234,9 +234,9 @@
 
     void AnimatedQuad::animateInvBounce()
     {
-        bool loop = currentAnimation->getLoop();
-        uint32_t delay = currentAnimation->getDelay();
-        uint32_t frameAmount = currentAnimation->getFrameAmount();
+        bool loop = mCurrentAnimation->getLoop();
+        uint32_t delay = mCurrentAnimation->getDelay();
+        uint32_t frameAmount = mCurrentAnimation->getFrameAmount();
 
         if(!mBack)
         {
@@ -280,9 +280,9 @@
 
     void AnimatedQuad::setConstraints()
     {
-        if(mTexture)
+        if(mTexture && mCurrentAnimation)
         {
-            auto pixelConstraints = currentAnimation->getConstraints(mCurrentFrame);
+            auto pixelConstraints = mCurrentAnimation->getConstraints(mCurrentFrame);
             auto textureSize = static_cast<glm::vec2>(mTexture->getSize());
 
             mConstraints = glm::vec4(glm::vec2(pixelConstraints.x, pixelConstraints.y) / textureSize.x, glm::vec2(pixelConstraints.z, pixelConstraints.w) / textureSize.y);

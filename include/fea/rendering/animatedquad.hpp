@@ -28,7 +28,7 @@ namespace fea
             void animateBackwards();
             void animateBounce();
             void animateInvBounce();
-            const Animation* currentAnimation;
+            const Animation* mCurrentAnimation;
 
             uint32_t mClock;
             uint32_t mCurrentFrame;
