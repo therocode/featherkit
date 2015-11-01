@@ -35,6 +35,11 @@ namespace fea
         return mZoom;
     }
 
+    void Camera::zoom(glm::vec2 zoom)
+    {
+        mZoom *= zoom;
+    }
+
     void Camera::setRotation(float radians)
     {
         mRotation = radians;

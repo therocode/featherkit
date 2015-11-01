@@ -14,6 +14,7 @@ namespace fea
             void translate(glm::vec2 position);
             void setZoom(glm::vec2 zoom);
             const glm::vec2& getZoom() const;
+            void zoom(glm::vec2 zoom);
             void setRotation(float radians);
             float getRotation() const;
             void rotate(float radians);
@@ -66,6 +67,10 @@ namespace fea
      *  @fn const glm::vec2& Camera::getZoom() const
      *  @brief Get the zoom factor of the Camera.
      *  @return Vector with the zoom factor.
+     ***
+     *  @fn void Camera::zoom(glm::vec2& zoom) const
+     *  @brief Zoom the camera with the given amount.
+     *  @param zoom Zoom factor.
      ***
      *  @fn void Camera::setRotation(float radians)
      *  @brief Set the rotation angle of the Camera.
