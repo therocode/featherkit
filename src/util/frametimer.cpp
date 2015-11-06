@@ -8,6 +8,7 @@ namespace fea
         mHasAtLeastOneTimePoint(false),
         mFrameCount(0)
     {
+        FEA_ASSERT(pastFrames > 1, "Too small value (" << pastFrames << ") given to FrameTimer. It must be at least 2 for the timer to function.");
     }
 
     void FrameTimer::sample()
@@ -64,7 +65,7 @@ namespace fea
             return 0.0f;
     }
 
-    float FrameTimer::deviationFactor() const
+    float FrameTimer::avgDeviation() const
     {
         std::deque<float> frameTimes(mMaxPastFrames, 0.0f);
         std::copy(mLastFrameTimes.begin(), mLastFrameTimes.end(), frameTimes.begin());
