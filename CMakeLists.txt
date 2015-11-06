@@ -510,6 +510,7 @@ if(BUILD_UTIL)
 
     #find all source files
     set(util_source_files
+        src/util/frametimer.cpp
         src/util/messagebus.cpp
         src/util/noise.cpp
         src/util/simplexnoise.cpp
@@ -518,11 +519,12 @@ if(BUILD_UTIL)
         ${UTIL_ASM_SOURCE})
 
     set(util_header_files
+        include/fea/util/frametimer.hpp
+        include/fea/util/loosentree.hpp
+        include/fea/util/loosentree.inl
         include/fea/util/messagebus.hpp
         include/fea/util/messagebus.inl
         include/fea/util/messagereceiver.hpp
-        include/fea/util/loosentree.hpp
-        include/fea/util/loosentree.inl
         include/fea/util/pathfinder.hpp
         include/fea/util/pathfinder.inl
         include/fea/util/noise.hpp

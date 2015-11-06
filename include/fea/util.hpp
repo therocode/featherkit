@@ -2,3 +2,4 @@
 #include <fea/util/loosentree.hpp>
 #include <fea/util/pathfinder.hpp>
 #include <fea/util/noise.hpp>
+#include <fea/util/frametimer.hpp>
