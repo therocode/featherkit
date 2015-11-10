@@ -8,7 +8,7 @@
 
 namespace fea
 {
-    Renderer2D::Renderer2D(const Viewport& v) : mCurrentViewport(v), mCurrentBlendMode(ALPHA)
+    Renderer2D::Renderer2D(const Viewport& viewport) : mCurrentBlendMode(ALPHA)
     {
 #ifdef EMSCRIPTEN
 #else
@@ -25,7 +25,7 @@ namespace fea
         mDefaultShader.setSource(DefaultShader::vertexSource, DefaultShader::fragmentSource);
         mDefaultShader.compile();
 
-        setViewport(mCurrentViewport);
+        setViewport(viewport);
     }
     
     void Renderer2D::clear(const Color& color)
