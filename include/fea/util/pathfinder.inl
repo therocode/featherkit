@@ -91,7 +91,7 @@ typename Pathfinder<NodeProvider>::Path Pathfinder<NodeProvider>::findPath(NodeP
 
     if(targetFound)
     {
-        std::vector<Node> result;
+        Path result;
 
         if(closed.back() == startId)
         {
@@ -114,6 +114,6 @@ typename Pathfinder<NodeProvider>::Path Pathfinder<NodeProvider>::findPath(NodeP
     }
     else
     {
-        return std::vector<Node>();
+        return Path();
     }
 }

@@ -1,6 +1,7 @@
 #pragma once
 #include <cstdint>
 #include <vector>
+#include <deque>
 #include <unordered_map>
 #include <algorithm>
 #include <type_traits>
@@ -12,7 +13,7 @@ namespace fea
         {
             public:
             using Node = typename std::remove_const<typename std::remove_reference<decltype((std::declval<NodeProvider>()).getNeighbor({}, 0))>::type>::type;
-            using Path = std::vector<Node>;
+            using Path = std::deque<Node>;
 
             private:
             enum State { OPEN, CLOSED };
@@ -52,7 +53,7 @@ namespace fea
      *  @typedef Pathfinder::Path
      *  @brief The returned path.
      *
-     *  Simply a vector with nodes that in order makes the path.
+     *  Simply a deque with nodes that in order makes the path.
      ***
      *  @class Pathfinder
      *  @brief A* algorithm capable of finding a path through a dataset.
@@ -80,11 +81,11 @@ namespace fea
      *
      *  The estimateDistance function lets you implement a heuristics for the A* algorithm used. For the tilemap example, Manhattan distance is good (or Euclidean distance if diagonal walking is allowed). Look up details on the A* algorithm for more details.
      *
-     *  When using the pathfinder, two nodes are supplied to the Pathfinder::findPath() function. Start node and target node. The returned value is a vector with the path from the start node to the target node with each node in order, or an empty vector if no path existed.
+     *  When using the pathfinder, two nodes are supplied to the Pathfinder::findPath() function. Start node and target node. The returned value is a deque with the path from the start node to the target node with each node in order, or an empty deque if no path existed.
      *
      *  @tparam NodeProvider Object providing access to the node structure to pathfind. Commonly an adaptor for an already existing object.
      ***
-     *  @fn std::vector<Node> Pathfinder::findPath(NodeProvider& nodes, const Node& start, const Node& target, uint32_t costLimit = (uint32_t)-1)
+     *  @fn Pathfinder::Path Pathfinder::findPath(NodeProvider& nodes, const Node& start, const Node& target, uint32_t costLimit = (uint32_t)-1)
      *  @brief Find a path from a starting node to a target node.
      *
      *  The details behind what nodes are, are explained in the class description.
