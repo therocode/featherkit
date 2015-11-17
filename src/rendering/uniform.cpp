@@ -9,14 +9,14 @@ namespace fea
         mType = NO_TYPE;
     }
 
-    Uniform::Uniform(const std::string& name, UniformType t, float val)
+    Uniform::Uniform(const std::string& name, UniformType t, const float val)
     {
         mName = name;
         mType = t;
         mFloatVal = val;
     }
 
-    Uniform::Uniform(const std::string& name, UniformType t, glm::vec2 val)
+    Uniform::Uniform(const std::string& name, UniformType t, const glm::vec2& val)
     {
         mName = name;
         mType = t;
@@ -24,7 +24,7 @@ namespace fea
         mVec2Val[1] = val[1];
     }
 
-    Uniform::Uniform(const std::string& name, UniformType t, glm::vec3 val)
+    Uniform::Uniform(const std::string& name, UniformType t, const glm::vec3& val)
     {
         mName = name;
         mType = t;
@@ -33,7 +33,7 @@ namespace fea
         mVec3Val[2] = val[2];
     }
 
-    Uniform::Uniform(const std::string& name, UniformType t, glm::vec4 val)
+    Uniform::Uniform(const std::string& name, UniformType t, const glm::vec4& val)
     {
         mName = name;
         mType = t;
@@ -43,22 +43,22 @@ namespace fea
         mVec4Val[3] = val[3];
     }
 
-    Uniform::Uniform(const std::string& name, UniformType t, glm::mat2x2 val)
+    Uniform::Uniform(const std::string& name, UniformType t, const glm::mat2x2& val)
     {
         mName = name;
         mType = t;
-        float* mat = glm::value_ptr(val);
+        const float* mat = glm::value_ptr(val);
         mMat2x2Val[0] = mat[0];
         mMat2x2Val[1] = mat[1];
         mMat2x2Val[2] = mat[2];
         mMat2x2Val[3] = mat[3];
     }
 
-    Uniform::Uniform(const std::string& name, UniformType t, glm::mat4x4 val)
+    Uniform::Uniform(const std::string& name, UniformType t, const glm::mat4x4& val)
     {
         mName = name;
         mType = t;
-        float* mat = glm::value_ptr(val);
+        const float* mat = glm::value_ptr(val);
         mMat4x4Val[0] = mat[0];
         mMat4x4Val[1] = mat[1];
         mMat4x4Val[2] = mat[2];
@@ -77,7 +77,7 @@ namespace fea
         mMat4x4Val[15] = mat[15];
     }
 
-    Uniform::Uniform(const std::string& name, UniformType t, GLuint val)
+    Uniform::Uniform(const std::string& name, UniformType t, const GLuint val)
     {
         mName = name;
         mType = t;
