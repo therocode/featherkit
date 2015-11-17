@@ -66,24 +66,24 @@ namespace fea
     {
         shader.activate();
 
-        shader.setUniform("camPosition", VEC2, &mCurrentViewport.getCamera().getPosition());
-        shader.setUniform("camZoom", VEC2, &mCurrentViewport.getCamera().getZoom());
+        shader.setUniform(Uniform("camPosition", VEC2, mCurrentViewport.getCamera().getPosition()));
+        shader.setUniform(Uniform( "camZoom", VEC2, mCurrentViewport.getCamera().getZoom()));
         glm::mat2x2 camRot = mCurrentViewport.getCamera().getRotationMatrix();
-        shader.setUniform("camRotation", MAT2X2, &camRot);
+        shader.setUniform(Uniform("camRotation", MAT2X2, camRot));
         glm::vec2 halfViewSize = glm::vec2((float)mCurrentViewport.getSize().x / 2.0f, (float)mCurrentViewport.getSize().y / 2.0f);
-        shader.setUniform("halfViewSize", VEC2, &halfViewSize);
-        shader.setUniform("projection", MAT4X4, &mProjection);
+        shader.setUniform(Uniform("halfViewSize", VEC2, halfViewSize));
+        shader.setUniform(Uniform("projection", MAT4X4, mProjection));
 
         GLuint defaultTextureId = mDefaultTexture.getId();
 
         for(auto& renderOperation : mRenderQueue)
         {
-            shader.setUniform("texture", TEXTURE, &defaultTextureId); //may be overriden
+            shader.setUniform(Uniform("texture", TEXTURE, defaultTextureId)); //may be overriden
             setBlendModeGl(renderOperation.mBlendMode);
 
             for(auto& uniform : renderOperation.mUniforms)
             {
-                shader.setUniform(uniform.mName, uniform.mType, &uniform.mFloatVal);
+                shader.setUniform(Uniform(uniform.mName, uniform.mType, uniform.mFloatVal));
             }
             
             for(auto& vertexAttribute : renderOperation.mVertexAttributes)

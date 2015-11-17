@@ -77,13 +77,17 @@ namespace fea
         glUseProgram(0);
     }
 
-    void Shader::setUniform(const std::string& name, UniformType type, const void* value) const
+    void Shader::setUniform(const Uniform& uniform) const
     {
+        auto name = uniform.mName;
+        auto type = uniform.mType;
+        const void* value = &uniform.mFloatVal;
+
         switch(type)
         {
             case FLOAT:
             {
-                glUniform1f(mUniformLocations.at(name), *((float*)value));
+                glUniform1f(mUniformLocations.at(name), *((const float*)value));
                 break;
             }
             case VEC2:
