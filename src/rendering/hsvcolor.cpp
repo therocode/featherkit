@@ -1,5 +1,6 @@
 #include <fea/rendering/hsvcolor.hpp>
 #include <algorithm>
+#include <cmath>
 
 namespace fea
 {

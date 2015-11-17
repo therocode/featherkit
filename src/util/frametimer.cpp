@@ -1,5 +1,7 @@
 #include <fea/util/frametimer.hpp>
 #include <algorithm>
+#include <numeric>
+#include <cmath>
 
 namespace fea
 {
