@@ -236,7 +236,7 @@ namespace fea
     {
         std::vector<RenderEntity> temp = Drawable2D::getRenderInfo();
 
-        temp[0].mUniforms.push_back(Uniform("texture", TEXTURE, mAtlas->id));
+        temp[0].mUniforms.emplace_back("texture", TEXTURE, mAtlas->id);
         return temp;
     }
     

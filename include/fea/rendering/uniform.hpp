@@ -12,13 +12,13 @@ namespace fea
     struct FEA_API Uniform
     {
         Uniform();
-        Uniform(const std::string& name, UniformType t, float val);
-        Uniform(const std::string& name, UniformType t, glm::vec2 val);
-        Uniform(const std::string& name, UniformType t, glm::vec3 val);
-        Uniform(const std::string& name, UniformType t, glm::vec4 val);
-        Uniform(const std::string& name, UniformType t, glm::mat2x2 val);
-        Uniform(const std::string& name, UniformType t, glm::mat4x4 val);
-        Uniform(const std::string& name, UniformType t, GLuint val);
+        Uniform(const std::string& name, UniformType t, const float val);
+        Uniform(const std::string& name, UniformType t, const glm::vec2& val);
+        Uniform(const std::string& name, UniformType t, const glm::vec3& val);
+        Uniform(const std::string& name, UniformType t, const glm::vec4& val);
+        Uniform(const std::string& name, UniformType t, const glm::mat2x2& val);
+        Uniform(const std::string& name, UniformType t, const glm::mat4x4& val);
+        Uniform(const std::string& name, UniformType t, const GLuint val);
         Uniform(const Uniform& other);
 
         std::string mName;
