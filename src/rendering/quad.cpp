@@ -121,10 +121,10 @@ namespace fea
 
         if(mTexture != nullptr)
         {
-            temp[0].mUniforms.push_back(Uniform("texture", TEXTURE, getTexture().getId()));
+            temp[0].mUniforms.emplace_back("texture", TEXTURE, getTexture().getId());
         }
 
-        temp[0].mUniforms.push_back(Uniform("constraints", VEC4, mConstraints));
+        temp[0].mUniforms.emplace_back("constraints", VEC4, mConstraints);
         
         return temp;
     }
