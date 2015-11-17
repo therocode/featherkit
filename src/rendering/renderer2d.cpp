@@ -83,7 +83,7 @@ namespace fea
 
             for(auto& uniform : renderOperation.mUniforms)
             {
-                shader.setUniform(Uniform(uniform.mName, uniform.mType, uniform.mFloatVal));
+                shader.setUniform(uniform);
             }
             
             for(auto& vertexAttribute : renderOperation.mVertexAttributes)
