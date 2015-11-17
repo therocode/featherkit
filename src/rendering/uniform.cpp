@@ -116,4 +116,34 @@ namespace fea
                 break;
         }
     }
+
+    bool Uniform::operator==(const Uniform& other) const
+    {
+        if(!(mType == other.mType && mName == other.mName))
+            return false;
+        else
+        {
+            std::equal(mMat4x4Val, mMat4x4Val + 16, other.mMat4x4Val) && mName == other.mName;
+
+            switch(mType)
+            {
+                case FLOAT:
+                    return mFloatVal == other.mFloatVal;
+                case VEC2:
+                    return std::equal(other.mVec2Val, other.mVec2Val + 2, mVec2Val);
+                case VEC3:
+                    return std::equal(other.mVec3Val, other.mVec3Val + 3, mVec3Val);
+                case VEC4:
+                    return std::equal(other.mVec4Val, other.mVec4Val + 4, mVec4Val);
+                case MAT2X2:
+                    return std::equal(other.mMat2x2Val, other.mMat2x2Val + 4, mMat2x2Val);
+                case MAT4X4:
+                    return std::equal(other.mMat4x4Val, other.mMat4x4Val + 16, mMat4x4Val);
+                case TEXTURE:
+                    return mTextureVal == other.mTextureVal;
+                case NO_TYPE:
+                    return true;
+            }
+        }
+    }
 }

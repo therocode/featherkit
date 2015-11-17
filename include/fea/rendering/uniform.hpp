@@ -23,6 +23,9 @@ namespace fea
 
         std::string mName;
         UniformType mType;
+
+        bool operator==(const Uniform& other) const;
+
         union
         {
             float mFloatVal;           ///<Hold a float value
