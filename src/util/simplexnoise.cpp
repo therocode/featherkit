@@ -8,8 +8,8 @@ namespace fea
 		const float F2 = 0.5f * (std::sqrt(3.0f) - 1.0f);
 		float s = (x + y) * F2;
 
-		float i = fast_floor(x + s);
-		float j = fast_floor(y + s);
+		int32_t i = fast_floor(x + s);
+		int32_t j = fast_floor(y + s);
 
 		const float G2 = (3.0f - std::sqrt(3.0f)) / 6.0f;
 		float t = (i + j) * G2;
@@ -30,8 +30,8 @@ namespace fea
 		float x2 = x0 - 1.0f + 2.0f * G2;
 		float y2 = y0 - 1.0f + 2.0f * G2;
 
-		uint8_t ii = uint8_t(i);
-		uint8_t jj = uint8_t(j);
+		uint8_t ii = i & 255;
+		uint8_t jj = j & 255;
 
 		uint8_t gi0 = perm[ii + perm[jj     ]     ] % 12;
 		uint8_t gi1 = perm[ii + perm[jj + j1] + i1] % 12;
