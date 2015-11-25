@@ -109,9 +109,9 @@ namespace fea
 		float y3 = y0 - 1.0f + G3 * 3.0f;
 		float z3 = z0 - 1.0f + G3 * 3.0f;
 
-		uint8_t ii = uint8_t(i);
-		uint8_t jj = uint8_t(j);
-		uint8_t kk = uint8_t(k);
+		uint8_t ii = int32_t(i);
+		uint8_t jj = int32_t(j);
+		uint8_t kk = int32_t(k);
 
 		uint8_t gi0 = perm[ii + perm[jj + perm[kk     ]     ]     ] % 12;
 		uint8_t gi1 = perm[ii + perm[jj + perm[kk + k1] + j1] + i1] % 12;
