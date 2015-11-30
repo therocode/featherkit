@@ -1,8 +1,8 @@
-#include <fea/entity/entitycomponent.hpp>
+#include <fea/entity/entitycontroller.hpp>
 
 namespace fea
 {
-    void EntityComponent::entityCreated(WeakEntityPtr entity)
+    void EntityController::entityCreated(WeakEntityPtr entity)
     {
         if(keepEntity(entity))
         {
@@ -11,7 +11,7 @@ namespace fea
         }
     }
     
-    void EntityComponent::entityRemoved(EntityId entityId)
+    void EntityController::entityRemoved(EntityId entityId)
     {
         if(mEntities.find(entityId) != mEntities.end())
         {
@@ -20,25 +20,25 @@ namespace fea
         }
     }
     
-    bool EntityComponent::keepEntity(WeakEntityPtr entity) const
+    bool EntityController::keepEntity(WeakEntityPtr entity) const
     {
         return false;
     }
             
-    void EntityComponent::entityKept(WeakEntityPtr entity)
+    void EntityController::entityKept(WeakEntityPtr entity)
     {
     }
 
-    void EntityComponent::entityDropped(WeakEntityPtr entity)
+    void EntityController::entityDropped(WeakEntityPtr entity)
     {
     }
 
-    const std::unordered_map<EntityId, WeakEntityPtr>& EntityComponent::getEntities() const
+    const std::unordered_map<EntityId, WeakEntityPtr>& EntityController::getEntities() const
     {
         return mEntities;
     }
     
-    EntityComponent::~EntityComponent()
+    EntityController::~EntityController()
     {
     }
 }

@@ -227,7 +227,7 @@ if(BUILD_ENTITY)
 
     set(entity_source_files
         src/entity/entity.cpp
-        src/entity/entitycomponent.cpp
+        src/entity/entitycontroller.cpp
         src/entity/entityfactory.cpp
         src/entity/filenotfoundexception.cpp
         src/entity/entitystorage.cpp
@@ -241,7 +241,7 @@ if(BUILD_ENTITY)
         include/fea/entity/entityfactory.hpp
         include/fea/entity/entityfactory.inl
         include/fea/entity/filenotfoundexception.hpp
-        include/fea/entity/entitycomponent.hpp
+        include/fea/entity/entitycontroller.hpp
         include/fea/entity/entitymanager.hpp
         include/fea/entity/entitymanager.inl
         include/fea/entity/entitystorage.hpp
