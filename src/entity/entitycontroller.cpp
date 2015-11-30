@@ -2,7 +2,7 @@
 
 namespace fea
 {
-    void EntityController::entityCreated(WeakEntityPtr entity)
+    void EntityController::entityCreated(EntityPtr entity)
     {
         if(keepEntity(entity))
         {
@@ -15,25 +15,25 @@ namespace fea
     {
         if(mEntities.find(entityId) != mEntities.end())
         {
-            entityDropped(mEntities.at(entityId));
+            entityDestroyed(mEntities.at(entityId));
             mEntities.erase(entityId);
         }
     }
     
-    bool EntityController::keepEntity(WeakEntityPtr entity) const
+    bool EntityController::keepEntity(EntityPtr entity) const
     {
         return false;
     }
             
-    void EntityController::entityKept(WeakEntityPtr entity)
+    void EntityController::entityKept(EntityPtr entity)
     {
     }
 
-    void EntityController::entityDropped(WeakEntityPtr entity)
+    void EntityController::entityDestroyed(EntityPtr entity)
     {
     }
 
-    const std::unordered_map<EntityId, WeakEntityPtr>& EntityController::getEntities() const
+    const std::unordered_map<EntityId, EntityPtr>& EntityController::getEntities() const
     {
         return mEntities;
     }

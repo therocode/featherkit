@@ -8,15 +8,15 @@ namespace fea
     class FEA_API EntityController
     {
         public:
-            void entityCreated(WeakEntityPtr entity);
+            void entityCreated(EntityPtr entity);
             void entityRemoved(EntityId entityId);
-            virtual bool keepEntity(WeakEntityPtr entity) const;
-            virtual void entityKept(WeakEntityPtr entity);
-            virtual void entityDropped(WeakEntityPtr entity);
-            const std::unordered_map<EntityId, WeakEntityPtr>& getEntities() const;
+            virtual bool keepEntity(EntityPtr entity) const;
+            virtual void entityKept(EntityPtr entity);
+            virtual void entityDestroyed(EntityPtr entity);
+            const std::unordered_map<EntityId, EntityPtr>& getEntities() const;
             virtual ~EntityController();
         protected:
-            std::unordered_map<EntityId, WeakEntityPtr> mEntities;
+            std::unordered_map<EntityId, EntityPtr> mEntities;
     };
 
     /** @addtogroup EntitySystem
@@ -33,7 +33,7 @@ namespace fea
      *
      *  When entities are created and removed, all components must be notified using the EntityController::entityCreated and EntityController::entityRemoved functions.
      ***
-     *  @fn void EntityController::entityCreated(WeakEntityPtr entity)
+     *  @fn void EntityController::entityCreated(EntityPtr entity)
      *  @brief Let the component know that an entity has been created.
      *  
      *  This will pass the entity to the EntityController::keepEntity function and if that one returns true, the entity will be stored in EntityController::mEntities.
@@ -44,26 +44,26 @@ namespace fea
      *
      *  If the entity exists in the member variable EntityController::mEntities, then it will be removed from there.
      ***
-     *  @fn virtual bool EntityController::keepEntity(WeakEntityPtr entity) const
+     *  @fn virtual bool EntityController::keepEntity(EntityPtr entity) const
      *  @brief Decide if an entity should be kept or not.
      *
      *  Override this function to specify which entities the component should keep track of. In the case that the entity should be kept, then it will be put in the EntityController::mEntities variable.
      *  @param entity Entity to investigate.
      *  @return True if the entity should be kept.
      ***
-     *  @fn virtual void EntityController::entityKept(WeakEntityPtr entity)
+     *  @fn virtual void EntityController::entityKept(EntityPtr entity)
      *  @brief Handle a newly kept entity.
      *
      *  Override this function to specify what the component should do with an entity that is kept.
      *  @param entity kept Entity.
      ***
-     *  @fn virtual void EntityController::entityDropped(WeakEntityPtr entity)
-     *  @brief Handle an entity that is dropped.
+     *  @fn virtual void EntityController::entityDestroyed(EntityPtr entity)
+     *  @brief Handle an entity that is destroyed.
      *
-     *  Override this function to specify what the component should do with an entity that is dropped.
-     *  @param entity dropped Entity.
+     *  Override this function to specify what the component should do with an entity that is destroyed.
+     *  @param entity destroyed Entity.
      ***
-     *  @fn const std::unordered_map<EntityId, WeakEntityPtr>& EntityController::getEntities() const
+     *  @fn const std::unordered_map<EntityId, EntityPtr>& EntityController::getEntities() const
      *  @brief Get the entities that this component is keeping track of.
      *  @return Map with entities.
      ***
