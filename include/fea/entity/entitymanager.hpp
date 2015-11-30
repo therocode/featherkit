@@ -14,7 +14,7 @@ namespace fea
 
     using EntityPtr = std::shared_ptr<Entity>;
     using WeakEntityPtr = std::weak_ptr<Entity>;
-    using EntityId = uint32_t;
+    using EntityId = int32_t;
     using EntitySet = std::set<WeakEntityPtr, std::owner_less<WeakEntityPtr>>;
 
     class FEA_API EntityManager
