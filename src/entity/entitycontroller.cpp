@@ -7,7 +7,7 @@ namespace fea
         if(keepEntity(entity))
         {
             entityKept(entity);
-            mEntities.emplace(entity.lock()->getId(), entity);
+            mEntities.emplace(entity->getId(), entity);
         }
     }
     
