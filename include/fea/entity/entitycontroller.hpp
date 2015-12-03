@@ -13,6 +13,7 @@ namespace fea
             virtual bool keepEntity(EntityPtr entity) const;
             virtual void entityKept(EntityPtr entity);
             virtual void entityDestroyed(EntityPtr entity);
+            virtual void update(float deltaTime);
             const std::unordered_map<EntityId, EntityPtr>& getEntities() const;
             virtual ~EntityController();
         protected:
@@ -62,6 +63,12 @@ namespace fea
      *
      *  Override this function to specify what the component should do with an entity that is destroyed.
      *  @param entity destroyed Entity.
+     ***
+     *  @fn virtual void EntityController::update(float deltaTime)
+     *  @brief Let the controller know that time has passed.
+     *
+     *  Override this function to define what this controller should do every frame.
+     *  @param deltaTime amount of time passed.
      ***
      *  @fn const std::unordered_map<EntityId, EntityPtr>& EntityController::getEntities() const
      *  @brief Get the entities that this component is keeping track of.

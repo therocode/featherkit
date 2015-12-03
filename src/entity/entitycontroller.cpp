@@ -33,6 +33,10 @@ namespace fea
     {
     }
 
+    void EntityController::update(float deltaTime)
+    {
+    }
+
     const std::unordered_map<EntityId, EntityPtr>& EntityController::getEntities() const
     {
         return mEntities;
