@@ -139,13 +139,12 @@ namespace fea
         setDirty(chunkCoord);
     }
 
-    void TileMap::fillRegion(glm::ivec2 startCorner, glm::ivec2 endCorner, TileId id)
+    void TileMap::fillRegion(const glm::ivec2& startCorner, const glm::ivec2& size, TileId id)
     {
         FEA_ASSERT(mTileDefinitions.count(id) != 0, "Tile definition does not exists.");
-        if(startCorner.x > endCorner.x)
-            std::swap(startCorner.x, endCorner.x);
-        if(startCorner.y > endCorner.y)
-            std::swap(startCorner.y, endCorner.y);
+        FEA_ASSERT(size.x > 0 && size.y > 0, "Size must be bigger than zero in both dimensions. " << size.x << ", " << size.y << " given.");
+
+        glm::ivec2 endCorner = startCorner + size;
             
         for(int32_t x = startCorner.x; x <= endCorner.x; ++x)
         {

@@ -56,7 +56,7 @@ namespace fea
             void addTileDefinition(TileId id, const TileDefinition& tileDef);
             void setTile(const glm::ivec2& pos, TileId id);
             void unsetTile(const glm::ivec2& pos);
-            void fillRegion(glm::ivec2 startCorner, glm::ivec2 endCorner, TileId id);
+            void fillRegion(const glm::ivec2& startCorner, const glm::ivec2& size, TileId id);
             void clear();
             void setTileColor(const glm::ivec2& pos, const fea::Color& color);
             const Tile* getTile(const glm::ivec2& pos) const;
@@ -173,10 +173,12 @@ namespace fea
      *  This is the default state of tiles, so unsetting tiles is equivalent to adding "holes" in the tilemap.
      *  @param pos Coordinate of the tile to unset.
      ***
-     *  @fn void TileMap::fillRegion(glm::ivec2 startCorner, glm::ivec2 endCorner, TileId id)
+     *  @fn void TileMap::fillRegion(const glm::ivec2& startCorner, const glm::ivec2& size, TileId id)
      *  @brief Fill a rectangular region of the tile map with a single tile type.
      *
      *  Assert/undefined behavior when tile type doesn't exist.
+     *  @param startCorner Upper left corner of region.
+     *  @param size Region size in tiles.
      *  @param id Id of the tile to fill with.
      ***
      *  @fn void TileMap::setTileColor(const glm::ivec2& pos, const fea::Color& color)
