@@ -3,6 +3,24 @@
 [+] API additions
 [-] Bug fixes/internal changes
 
+1.0.0rc6 - Changes from 1.0.0rc5 below
+* EntityId is now signed
+* Tile map class reworked
+* Textures and animations use pixel sizes instead of percent
+* Improved RAII in Window and Application
+* MessageBus is now non-copyable
+* Renamed EntityComponent to EntityController
++ Added update() to EntityController
++ HSV color object added
++ Camera can now zoom
++ Added FrameTimer utility class
++ RepeatedQuad now has proper scrolling
++ Added support for disabling key repeat in sdl2 backend
++ Added getCurrentState function in game state machine
++ Attributes of renderables are copied 
+- Removed ASM optimisation for noise
+- Various bugs etc
+
 1.0.0rc5 - Changes from 1.0.0rc4 below
 + Added options to enable native CPU optimisations (Thanks Mischa-Alff)
 - Use FindOpenAL and FindOpenGL for emscripten (Thanks jP_wanN)
