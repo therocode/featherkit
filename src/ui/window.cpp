@@ -3,28 +3,9 @@
 
 namespace fea
 {
-    Window::Window(WindowBackend* windowBackend) : mWindowBackend(windowBackend)
-    {
-    }
-    
-    Window::Window(WindowBackend* windowBackend, VideoMode mode, const std::string& title, uint32_t style, const ContextSettings& settings): Window(windowBackend)
-    {
-        open(mode, title, style, settings);
-    }
-
-    void Window::open(VideoMode mode, const std::string& title, uint32_t style, const ContextSettings& settings)
+    Window::Window(WindowBackend* windowBackend, VideoMode mode, const std::string& title, uint32_t style, const ContextSettings& settings): mWindowBackend(windowBackend)
     {
         mWindowBackend->open(mode, title, style, settings);
-    }
-
-    void Window::close()
-    {
-        mWindowBackend->close();
-    }
-
-    bool Window::isOpen() const
-    {
-        return mWindowBackend->isOpen();
     }
 
     const ContextSettings Window::getSettings() const

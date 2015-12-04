@@ -19,11 +19,7 @@ namespace fea
     {
 
         public:
-            Window(WindowBackend* windowBackend);
             Window(WindowBackend* windowBackend, VideoMode mode, const std::string& title, uint32_t style = Style::Default, const ContextSettings& settings = ContextSettings());
-            void open(VideoMode mode, const std::string& title, uint32_t style = Style::Default, const ContextSettings& settings = ContextSettings());
-            void close();
-            bool isOpen() const;
             const ContextSettings getSettings() const;
             Vec2I getPosition() const;
             void setPosition(int32_t x, int32_t y);
@@ -52,10 +48,6 @@ namespace fea
      *
      *  The API of this class is heavily inspired by the window class of [SFML](http://www.sfml-dev.org/).
      ***
-     *  @fn Window::Window(WindowBackend* windowBackend)
-     *  @brief Construct a window using the specified backend.
-     *  @param windowBackend Backend to use with the window instance. Will be stored as an std::unique_ptr and therefore memory will be managed.
-     ***
      *  @fn Window::Window(WindowBackend* windowBackend, VideoMode mode, const std::string& title, uint32_t style = Style::Default, const ContextSettings& settings = ContextSettings())
      *  @brief Construct a window using the specified backend and open it with the given parameters.
      *  @param windowBackend Backend to use with the window instance. Will be stored as an std::unique_ptr and therefore memory will be managed.
@@ -63,22 +55,6 @@ namespace fea
      *  @param title Desired title bar name.
      *  @param style Window style to use.
      *  @param settings OpenGL context settings to use.
-     ***
-     *  @fn void Window::open(VideoMode mode, const std::string& title, uint32_t style=Style::Default, const ContextSettings& settings=ContextSettings())
-     *  @brief Create a window and open it.
-     *
-     *  This opens the window with the given settings.
-     *  @param mode Video mode to use.
-     *  @param title Desired title bar name.
-     *  @param style Window style to use.
-     *  @param settings OpenGL context settings to use.
-     ***
-     *  @fn void Window::close()
-     *  @brief Close the window.
-     ***
-     *  @fn bool Window::isOpen() const
-     *  @brief Check if the window is currently open.
-     *  @return True if the window is open, otherwise false.
      ***
      *  @fn const ContextSettings Window::getSettings() const
      *  @brief Access the OpenGL settings of the Window.
