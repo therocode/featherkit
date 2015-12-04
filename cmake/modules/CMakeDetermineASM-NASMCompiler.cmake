@@ -1,9 +1,0 @@
-# Find the nasm assembler
-
-SET(ASM_DIALECT "-NASM")
-
-SET(CMAKE_ASM${ASM_DIALECT}_COMPILER ${ASM_COMPILER_PATH})
-
-INCLUDE(CMakeDetermineCompilerId)
-INCLUDE(CMakeDetermineASMCompiler)
-SET(ASM_DIALECT)

@@ -8,11 +8,6 @@
 #include <fea/util/voronoinoise.hpp>
 #include <fea/util/whitenoise.hpp>
 
-#ifdef NOISE_ASM
-#include <fea/util/asmchecksse41.hpp>
-#include <fea/util/asmnoise.hpp>
-#endif
-
 namespace fea
 {
 	class FEA_API Noise
@@ -33,7 +28,6 @@ namespace fea
 			VoronoiNoise mVoronoiNoise;
 			std::ranlux24_base mRandomEngine;
 			PermutationTable mPerm;
-			bool asmCompatible;
 	};
 
     /** @addtogroup Util
@@ -53,8 +47,6 @@ namespace fea
      *  These noise fields can be used for example for landscape generation or texture generation.
      *
      *  Variations of the patterns can be achieved by setting different seed values. The same seed will always yield the same pattern on the same machine, but not necessarily across different machines.
-     *
-     *  If enabled in the compilation, the noise functions will be optimized using assembly.
      ***
      *  @fn Noise::Noise()
      *  @brief Construct a Noise.

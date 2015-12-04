@@ -57,14 +57,6 @@ endif()
 include_directories(${CMAKE_CURRENT_LIST_DIR}/include)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_LIST_DIR}/cmake/modules/")
 
-set(ASM_OPTIMIZATIONS FALSE CACHE BOOL "use assembler optimization for noise generation. only compatible with 64 bit builds")
-
-if(ASM_OPTIMIZATIONS) #if this option is chosen, then it #ifdef NOISE_ASM in the code will be run
-    set(ASM_COMPILER_PATH "nasm" CACHE FILEPATH "select asm compiler to use (nasm/yasm)")
-    enable_language(ASM-NASM)
-    add_definitions(-DNOISE_ASM)
-endif(ASM_OPTIMIZATIONS)
-
 set(USE_NATIVE_OPTIMIZATIONS FALSE CACHE BOOL "Use GCC-like compiler's support for native instruction set detection and use.")
 
 if(USE_NATIVE_OPTIMIZATIONS)
@@ -502,12 +494,6 @@ if(BUILD_UTIL)
 
     set(BUILT_TARGETS ${BUILT_TARGETS} ${project_name}-util)
 
-    if(ASM_OPTIMIZATIONS)
-        set(UTIL_ASM_SOURCE
-            src/util/asmnoise.asm
-            src/util/asmchecksse41.asm)
-    endif()
-
     #find all source files
     set(util_source_files
         src/util/frametimer.cpp
@@ -516,7 +502,7 @@ if(BUILD_UTIL)
         src/util/simplexnoise.cpp
         src/util/voronoinoise.cpp
         src/util/whitenoise.cpp
-        ${UTIL_ASM_SOURCE})
+        )
 
     set(util_header_files
         include/fea/util/frametimer.hpp
@@ -531,8 +517,7 @@ if(BUILD_UTIL)
         include/fea/util/simplexnoise.hpp
         include/fea/util/voronoinoise.hpp
         include/fea/util/whitenoise.hpp
-        include/fea/util/asmnoise.hpp
-        include/fea/util/asmchecksse41.hpp)
+        )
 
     add_library(${project_name}-util ${SHARED_OR_STATIC}
         ${util_header_files}
