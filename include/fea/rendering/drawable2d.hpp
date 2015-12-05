@@ -14,6 +14,7 @@ namespace fea
     {
         public:
             Drawable2D();
+            virtual ~Drawable2D() = default;
             const std::vector<float>& getVertices() const;
             void setPosition(const glm::vec2& position);
             const glm::vec2& getPosition() const;
