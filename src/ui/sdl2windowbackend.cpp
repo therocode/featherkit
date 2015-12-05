@@ -24,6 +24,7 @@ namespace fea
 
     void SDL2WindowBackend::close()
     {
+        SDL_GL_DeleteContext(mGlContext);
         SDL_DestroyWindow(mWindow);
         SDL_Quit();
         mWindow = nullptr;
@@ -139,6 +140,7 @@ namespace fea
 
     SDL2WindowBackend::~SDL2WindowBackend()
     {
-        free(mWindow);
+        close();
+        //free(mWindow);
     }
 }
