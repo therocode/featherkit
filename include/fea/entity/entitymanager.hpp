@@ -28,9 +28,7 @@ namespace fea
             template<class DataType>
             DataType& getAttribute(const EntityId id, const std::string& attribute);
             template<class DataType>
-            void setAttribute(const EntityId id, const std::string& attribute, const DataType& attributeData);
-            template<class DataType>
-            void addToAttribute(const EntityId id, const std::string& attribute, const DataType& attributeData);
+            void setAttribute(const EntityId id, const std::string& attribute, DataType attributeData);
             bool hasAttribute(const EntityId id, const std::string& attribute) const;
             template<class DataType>
             void registerAttribute(const std::string& attributeName);
@@ -116,7 +114,7 @@ namespace fea
      *  @param attribute Name of the attribute to get.
      *  @param id ID of the Entity to get the attribute from.
      ***
-     *  @fn void EntityManager::setAttribute(const EntityId id, const std::string& attribute, const DataType& attributeData)
+     *  @fn void EntityManager::setAttribute(const EntityId id, const std::string& attribute, DataType attributeData)
      *  @brief Set the value of an attribute of a selected Entity. 
      *  
      *  Assert/undefined behavior when the attribute does not exist or the wrong template argument is provide or the entity does not exist..
@@ -124,18 +122,6 @@ namespace fea
      *  @param id ID of the Entity to set the attribute of.
      *  @param attribute Name of the attribute to set.
      *  @param attributeData Value to set the attribute to.
-     ***
-     *  @fn void EntityManager::addToAttribute(const EntityId id, const std::string& attribute, const DataType& attributeData)
-     *  @brief Add the given value to an attribute of a selected Entity. 
-     *
-     *  Needs the operator+ function to be implemented for the target type.
-     *  
-     *  Assert/undefined behavior when the attribute does not exist or the wrong template argument is provide or the entity does not exist..
-     *  In most cases, it is better to use the setting functions of a specific WeakEntityPtr than using this function.
-     *  @tparam DataType of the attribute to add to.
-     *  @param id ID of the Entity to add the attribute to.
-     *  @param attribute Name of the attribute to add to.
-     *  @param attributeData Value to add to the attribute.
      ***
      *  @fn bool EntityManager::hasAttribute(const EntityId id, const std::string& attribute) const
      *  @brief Check if an attribute exists for a specific Entity.

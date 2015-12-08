@@ -13,14 +13,7 @@ DataType& Entity::getAttribute(const std::string& attribute)
 }
 
 template<class DataType>
-void Entity::setAttribute(const std::string& attribute, const DataType& value) const
+void Entity::setAttribute(const std::string& attribute, DataType value) const
 {
-    mEntityManager.setAttribute<DataType>(mId, attribute, value);
+    mEntityManager.setAttribute<DataType>(mId, attribute, std::move(value));
 }
-
-template<class DataType>
-void Entity::addToAttribute(const std::string& attribute, const DataType& value) const
-{
-    mEntityManager.addToAttribute<DataType>(mId, attribute, value);
-}
-

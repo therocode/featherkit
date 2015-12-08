@@ -1,13 +1,13 @@
     template<class DataType>
-    void EntityStorage::StorageEntity::setData(const std::string& attribute, const DataType& inData)
+    void EntityStorage::StorageEntity::setData(const std::string& attribute, DataType inData)
     {
         FEA_ASSERT(attributeData.find(attribute) != attributeData.end(), "Trying to set the attribute '" + attribute + "' on an entity which does not have said attribute!");
         auto& valuePointer = attributeData.at(attribute);
 
         if(!valuePointer)
-            valuePointer = std::make_shared<DataType>(inData);
+            valuePointer = std::make_shared<DataType>(std::move(inData));
         else
-            *std::static_pointer_cast<DataType>(valuePointer) = inData;
+            *std::static_pointer_cast<DataType>(valuePointer) = std::move(inData);
     }
 
     template<class DataType>
@@ -38,11 +38,11 @@
     }
 
     template<class DataType>
-    void EntityStorage::setData(const uint32_t id, const std::string& attribute, const DataType& inData)
+    void EntityStorage::setData(const uint32_t id, const std::string& attribute, DataType inData)
     {
         FEA_ASSERT(mAttributes.find(attribute) != mAttributes.end(), "Trying to set the attribute '" + attribute + "' on an entity but such an attribute has not been registered!");
         FEA_ASSERT(std::type_index(typeid(DataType)) == mAttributes.at(attribute), "Trying to set attibute '" + attribute + "' as a '" + std::type_index(typeid(DataType)).name() + std::string(" but it is of type '") + std::string(mAttributes.at(attribute).name()) + "'");
-        mEntities.at(id).setData(attribute, inData);
+        mEntities.at(id).setData(attribute, std::move(inData));
     }
 
     template<class DataType>

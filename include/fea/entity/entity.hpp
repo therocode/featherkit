@@ -13,9 +13,7 @@ namespace fea
             template<class DataType>
             DataType& getAttribute(const std::string& attribute);
             template<class DataType>
-            void setAttribute(const std::string& attribute, const DataType& value) const;
-            template<class DataType>
-            void addToAttribute(const std::string& attribute, const DataType& value) const;
+            void setAttribute(const std::string& attribute, DataType value) const;
             bool hasAttribute(const std::string& attribute) const;
             EntityId getId() const;
             std::unordered_set<std::string> getAttributes() const;
@@ -68,16 +66,6 @@ namespace fea
      *  @tparam Type of the attribute to set.
      *  @param attribute Name of the attribute to set.
      *  @param value Value to set the attribute to.
-     ***
-     *  @fn void Entity::addToAttribute(const std::string& attribute, DataType value) const
-     *  @brief Add the given value to an attribute of the entity.
-     *
-     *  The given value will be added to the already existing value. Needs the operator+ function to be implemented for the target type.
-     *  Assert/undefined behavior when the attribute does not exist or the wrong template argument is provided.
-     *
-     *  @tparam Type of the attribute to add to.
-     *  @param attribute Name of the attribute to add to.
-     *  @param value Value to add to the attribute.
      ***
      *  @fn bool Entity::hasAttribute(const std::string& attribute) const
      *  @brief Check if the entity has an attribute.

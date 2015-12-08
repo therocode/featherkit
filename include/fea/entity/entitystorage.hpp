@@ -17,7 +17,7 @@ namespace fea
             public:
                 StorageEntity(const std::set<std::string>& attributeList);
                 template<class DataType>
-                void setData(const std::string& attribute, const DataType& inData);
+                void setData(const std::string& attribute, DataType inData);
                 template<class DataType>
                 const DataType& getData(const std::string& attribute) const;
                 template<class DataType>
@@ -35,7 +35,7 @@ namespace fea
         template<class DataType>
         void registerAttribute(const std::string& attribute);
         template<class DataType>
-        void setData(const uint32_t id, const std::string& attribute, const DataType& inData);
+        void setData(const uint32_t id, const std::string& attribute, DataType inData);
         template<class DataType>
         const DataType& getData(const uint32_t id, const std::string& attribute) const;
         template<class DataType>
