@@ -96,7 +96,7 @@ namespace fea
 
         for(uint32_t x = 0; x < mSize.x && x < newSize.x; x++)
         {   
-            for(uint32_t y = 0; y < mSize.y < newSize.y; y++)
+            for(uint32_t y = 0; y < mSize.y && y < newSize.y; y++)
             {   
                 newPixels[(x + y * newWidth) * 4 + 0] = mPixelData[(x + y * currentWidth) * 4 + 0]; 
                 newPixels[(x + y * newWidth) * 4 + 1] = mPixelData[(x + y * currentWidth) * 4 + 1]; 
