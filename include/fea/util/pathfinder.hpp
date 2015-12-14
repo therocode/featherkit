@@ -25,7 +25,7 @@ namespace fea
             };  
 
             public:
-            Path findPath(NodeProvider& nodes, const Node& start, const Node& target, uint32_t costLimit = (uint32_t)-1);
+            Path findPath(const NodeProvider& nodes, const Node& start, const Node& target, uint32_t costLimit = (uint32_t)-1);
             private:
             std::vector<int32_t> fCosts;
             std::vector<int32_t> gCosts;
@@ -85,7 +85,7 @@ namespace fea
      *
      *  @tparam NodeProvider Object providing access to the node structure to pathfind. Commonly an adaptor for an already existing object.
      ***
-     *  @fn Pathfinder::Path Pathfinder::findPath(NodeProvider& nodes, const Node& start, const Node& target, uint32_t costLimit = (uint32_t)-1)
+     *  @fn Pathfinder::Path Pathfinder::findPath(const NodeProvider& nodes, const Node& start, const Node& target, uint32_t costLimit = (uint32_t)-1)
      *  @brief Find a path from a starting node to a target node.
      *
      *  The details behind what nodes are, are explained in the class description.

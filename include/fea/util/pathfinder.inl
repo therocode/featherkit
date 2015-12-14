@@ -1,5 +1,5 @@
 template<typename NodeProvider>
-typename Pathfinder<NodeProvider>::Path Pathfinder<NodeProvider>::findPath(NodeProvider& nodes, const Node& start, const Node& target, uint32_t costLimit)
+typename Pathfinder<NodeProvider>::Path Pathfinder<NodeProvider>::findPath(const NodeProvider& nodes, const Node& start, const Node& target, uint32_t costLimit)
 {   
     auto comparator = [this] (uint32_t a, uint32_t b)
     {
