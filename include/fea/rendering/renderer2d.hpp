@@ -18,11 +18,13 @@ namespace fea
             void clear(const Color& color = Color());
             void clear(const RenderTarget& target, const Color& color = Color());
             template<typename Drawable>
-            void queue(const Drawable& drawable);
-            void render();
-            void render(const RenderTarget& target);
-            void render(const Shader& shader);
-            void render(const RenderTarget& target, const Shader& shader);
+            void render(const Drawable& drawable);
+            template<typename Drawable>
+            void render(const Drawable& drawable, const RenderTarget& target);
+            template<typename Drawable>
+            void render(const Drawable& drawable, const Shader& shader);
+            template<typename Drawable>
+            void render(const Drawable& drawable, const RenderTarget& target, const Shader& shader);
             void setViewport(const Viewport& viewport);
             Viewport& getViewport();
             void setBlendMode(BlendMode mode);
@@ -35,7 +37,6 @@ namespace fea
             glm::mat4 mProjection;
 
             BlendMode mCurrentBlendMode;
-            std::vector<RenderEntity> mRenderQueue;
 
             //cache
             Color mClearColor;
@@ -58,7 +59,7 @@ namespace fea
      *  @class Renderer2D
      *  @brief Used to render 2D drawables to the screen.
      *
-     *  This class provides a complete interface for rendering to the screen. Only objects which inherit from the Drawable2D base class may be rendered.
+     *  This class provides a complete interface for rendering to the screen.
      *
      *  The Renderer2D keeps a Viewport describing the size of the render area as well as the current camera data.
      *
@@ -82,30 +83,28 @@ namespace fea
      *  @param target RenderTarget to clear.
      *  @param color Color object. Black by default.
      ***
-     *  @fn void Renderer2D::queue(const Drawable& drawable)
-     *  @brief Queue a drawable for rendering.
+     *  @fn void Renderer2D::render(const Drawable& drawable)
+     *  @brief Render drawable to the screen.
      *
-     *  Can take any object which implements a public method getRenderInfo which returns an iterable container of RenderEntity objetcs. The Drawable2D class fits this criteria. The drawable will be rendered offset and transformed depending on the current Viewport of the renderer.
-     *
-     *  @tparam Drawable type of the drawable.
-     *  @param drawable Object to queue.
+     *  Can take any object which implements a public method getRenderInfo which returns an iterable container of RenderEntity objects. The Drawable2D class fits this criteria. The drawable will be rendered offset and transformed depending on the current Viewport of the renderer.
+     *  @param drawable Drawable to render.
      ***
-     *  @fn void Renderer2D::render()
-     *  @brief Render all queued drawables to the screen.
-     ***
-     *  @fn void Renderer2D::render(const RenderTarget& target)
-     *  @brief Render all queued drawables to a RenderTarget.
+     *  @fn void Renderer2D::render(const Drawable& drawable, const RenderTarget& target)
+     *  @brief Render drawable to a RenderTarget.
      *
+     *  @param drawable Drawable to render.
      *  @param target RenderTarget to render to.
      ***
-     *  @fn void Renderer2D::render(const Shader& shader)
-     *  @brief Render all queued drawables using a custom shader.
+     *  @fn void Renderer2D::render(const Drawable& drawable, const Shader& shader)
+     *  @brief Render drawable using a custom shader.
      *
+     *  @param drawable Drawable to render.
      *  @param shader Shader object to use.
      ***
-     *  @fn void Renderer2D::render(const RenderTarget& target, const Shader& shader)
-     *  @brief Render all queued drawables to a RenderTarget using a custom shader.
+     *  @fn void Renderer2D::render(const Drawable& drawable, const RenderTarget& target, const Shader& shader)
+     *  @brief Render drawable to a RenderTarget using a custom shader.
      *
+     *  @param drawable Drawable to render.
      *  @param target RenderTarget to render to.
      *  @param shader Shader object to use.
      ***

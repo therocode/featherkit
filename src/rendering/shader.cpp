@@ -77,9 +77,8 @@ namespace fea
         glUseProgram(0);
     }
 
-    void Shader::setUniform(const Uniform& uniform) const
+    void Shader::setUniform(const std::string& name, const Uniform& uniform) const
     {
-        auto name = uniform.mName;
         auto type = uniform.mType;
         const void* value = &uniform.mFloatVal;
 

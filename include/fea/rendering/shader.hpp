@@ -28,7 +28,7 @@ namespace fea
             void setSource(const std::string& vertexSource, const std::string& fragmentSource);
             void activate() const;
             void deactivate() const;
-            void setUniform(const Uniform& uniform) const;
+            void setUniform(const std::string& name, const Uniform& uniform) const;
             void setUniform(const std::string& name, UniformType type, int32_t count, const void* value) const;
             void setVertexAttribute(const std::string& name, const uint32_t floatAmount, const float* data) const;
             void compile();
@@ -90,8 +90,9 @@ namespace fea
      *
      *  There is no need to call this if the Renderer2D class is used for rendering since it will call it internally.
      ***
-     *  @fn void Shader::setUniform(const Uniform& uniform) const
+     *  @fn void Shader::setUniform(const std::string& name, const Uniform& uniform) const
      *  @brief Set a uniform variable in the shader.
+     *  @param name Name of the uniform to set.
      *  @param uniform Object representing uniform to set.
      ***
      *  @fn void Shader::setUniform(const std::string& name, UniformType type, int32_t count, const void* value) const

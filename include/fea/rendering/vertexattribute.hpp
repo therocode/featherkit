@@ -11,8 +11,7 @@ namespace fea
 
     struct FEA_API VertexAttribute
     {
-        VertexAttribute(std::string name, uint32_t floatAmount, std::vector<float> data);
-        std::string mName;
+        VertexAttribute(uint32_t floatAmount, std::vector<float> data);
         uint32_t mAttributeFloatAmount;
         std::vector<float> mData;
     };
@@ -28,14 +27,10 @@ namespace fea
      *  @enum VertexAttributeType
      *  @brief Type of the attribute.
      ***
-     *  @fn VertexAttribute::VertexAttribute(std::string name, uint32_t floatAmount, std::vector<float> data)
+     *  @fn VertexAttribute::VertexAttribute(uint32_t floatAmount, std::vector<float> data)
      *  @brief Construct a vertex attribute.
-     *  @param mName name;
      *  @param mAttributeFloatAmount Amount of floats per attribute
      *  @param mData Float array.
-     ***
-     *  @var VertexAttribute::mName
-     *  @brief Name of the attribute.
      ***
      *  @var VertexAttribute::mAttributeFloatAmount
      *  @brief The amount of floats per attribute. For example, a 2D coordinate would have 2 (x and y), and a colour would have 4 (r, g, b and a).

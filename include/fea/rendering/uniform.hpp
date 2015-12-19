@@ -12,13 +12,13 @@ namespace fea
     struct FEA_API Uniform
     {
         Uniform();
-        Uniform(const std::string& name, UniformType t, const float val);
-        Uniform(const std::string& name, UniformType t, const glm::vec2& val);
-        Uniform(const std::string& name, UniformType t, const glm::vec3& val);
-        Uniform(const std::string& name, UniformType t, const glm::vec4& val);
-        Uniform(const std::string& name, UniformType t, const glm::mat2x2& val);
-        Uniform(const std::string& name, UniformType t, const glm::mat4x4& val);
-        Uniform(const std::string& name, UniformType t, const GLuint val);
+        Uniform(UniformType t, const float val);
+        Uniform(UniformType t, const glm::vec2& val);
+        Uniform(UniformType t, const glm::vec3& val);
+        Uniform(UniformType t, const glm::vec4& val);
+        Uniform(UniformType t, const glm::mat2x2& val);
+        Uniform(UniformType t, const glm::mat4x4& val);
+        Uniform(UniformType t, const GLuint val);
         Uniform(const Uniform& other);
 
         std::string mName;
@@ -52,54 +52,44 @@ namespace fea
      *  @fn Uniform::Uniform()
      *  @brief Construct a null uniform.
      ***
-     *  @fn Uniform::Uniform(const std::string& name, UniformType t, float val)
+     *  @fn Uniform::Uniform(UniformType t, float val)
      *  @brief Construct a float uniform.
-     *  @param name Name.
      *  @param t Type.
      *  @param val Value.
      ***
-     *  @fn Uniform::Uniform(const std::string& name, UniformType t, glm::vec2 val)
+     *  @fn Uniform::Uniform(UniformType t, glm::vec2 val)
      *  @brief Construct a vec2 uniform.
-     *  @param name Name.
      *  @param t Type.
      *  @param val Value.
      ***
-     *  @fn Uniform::Uniform(const std::string& name, UniformType t, glm::vec3 val)
+     *  @fn Uniform::Uniform(UniformType t, glm::vec3 val)
      *  @brief Construct a vec3 uniform.
-     *  @param name Name.
      *  @param t Type.
      *  @param val Value.
      ***
-     *  @fn Uniform::Uniform(const std::string& name, UniformType t, glm::vec4 val)
+     *  @fn Uniform::Uniform(UniformType t, glm::vec4 val)
      *  @brief Construct a vec4 uniform.
-     *  @param name Name.
      *  @param t Type.
      *  @param val Value.
      ***
-     *  @fn Uniform::Uniform(const std::string& name, UniformType t, glm::mat2x2 val)
+     *  @fn Uniform::Uniform(UniformType t, glm::mat2x2 val)
      *  @brief Construct a mat2x2 uniform.
-     *  @param name Name.
      *  @param t Type.
      *  @param val Value.
      ***
-     *  @fn Uniform::Uniform(const std::string& name, UniformType t, glm::mat4x4 val)
+     *  @fn Uniform::Uniform(UniformType t, glm::mat4x4 val)
      *  @brief Construct a mat4x4 uniform.
-     *  @param name Name.
      *  @param t Type.
      *  @param val Value.
      ***
-     *  @fn Uniform::Uniform(const std::string& name, UniformType t, GLuint val)
+     *  @fn Uniform::Uniform(UniformType t, GLuint val)
      *  @brief Construct a texture uniform.
-     *  @param name Name.
      *  @param t Type.
      *  @param val Value.
      ***
      *  @fn Uniform::Uniform(const Uniform& other)
      *  @brief Construct a uniform from another uniform.
      *  @param other Uniform to copy.
-     ***
-     *  @var Uniform::mName
-     *  @brief name of the uniform.
      ***
      *  @var Uniform::mType
      *  @brief Type of the uniform.

@@ -98,7 +98,7 @@ namespace fea
         return mColor.aAsFloat();
     }
 
-    std::vector<RenderEntity> Drawable2D::getRenderInfo() const
+    const std::vector<RenderEntity>& Drawable2D::getRenderInfo() const
     {
         std::vector<RenderEntity> entities(1);
         RenderEntity& temp = entities[0];
@@ -110,52 +110,22 @@ namespace fea
         temp.mElementAmount = mVertices.size() / 2;
 
         if(mVertices.size() > 0)
-            temp.mVertexAttributes.emplace_back("vertex", 2, mVertices);
+            temp.mVertexAttributes.emplace("vertex", VertexAttribute{2, mVertices});
         if(mTexCoords.size() > 0)
-            temp.mVertexAttributes.emplace_back("texCoords", 2, mTexCoords);
+            temp.mVertexAttributes.emplace("texCoords", VertexAttribute{2, mTexCoords});
         if(mVertexColors.size() > 0)
-            temp.mVertexAttributes.emplace_back("colors", 4, mVertexColors);
+            temp.mVertexAttributes.emplace("colors", VertexAttribute{4, mVertexColors});
 
-        temp.mUniforms.reserve(16);
-        temp.mUniforms.emplace_back("position", VEC2, mPosition);
-        temp.mUniforms.emplace_back("origin", VEC2, mOrigin);
-        temp.mUniforms.emplace_back("rotation", FLOAT, mRotation);
-        temp.mUniforms.emplace_back("scaling", VEC2, mScaling);
-        temp.mUniforms.emplace_back("parallax", VEC2, mParallax);
-        temp.mUniforms.emplace_back("constraints", VEC4, glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
-        temp.mUniforms.emplace_back("color", VEC3, colorInfo);
-        temp.mUniforms.emplace_back("opacity", FLOAT, opacity);
+        temp.mUniforms.emplace("position", Uniform{VEC2, mPosition});
+        temp.mUniforms.emplace("origin", Uniform{VEC2, mOrigin});
+        temp.mUniforms.emplace("rotation", Uniform{FLOAT, mRotation});
+        temp.mUniforms.emplace("scaling", Uniform{VEC2, mScaling});
+        temp.mUniforms.emplace("parallax", Uniform{VEC2, mParallax});
+        temp.mUniforms.emplace("constraints", Uniform{VEC4, glm::vec4(0.0f, 1.0f, 0.0f, 1.0f)});
+        temp.mUniforms.emplace("color", Uniform{VEC3, colorInfo});
+        temp.mUniforms.emplace("opacity", Uniform{FLOAT, opacity});
 
-        for(const auto& uniform : mExtraUniforms)
-            temp.mUniforms.push_back(uniform.second);
-
-        return entities;
+        return mRenderInfo;
     }
 
-    void Drawable2D::setExtraUniform(const Uniform& uniform)
-    {
-        mExtraUniforms[uniform.mName] = uniform;
-    }
-
-    bool Drawable2D::hasExtraUniform(const std::string& name) const
-    {
-        return mExtraUniforms.find(name) != mExtraUniforms.end();
-    }
-
-    const Uniform& Drawable2D::getExtraUniform(const std::string& name) const
-    {
-        FEA_ASSERT(mExtraUniforms.find(name) != mExtraUniforms.end(), "Trying to access a uniform called " << name << " which doesn't exist");
-        return mExtraUniforms.at(name);
-    }
-    
-    void Drawable2D::removeExtraUniform(const std::string& name)
-    {
-        FEA_ASSERT(mExtraUniforms.find(name) != mExtraUniforms.end(), "Trying to erase a uniform called " << name << " which doesn't exist");
-        mExtraUniforms.erase(name);
-    }
-
-    void Drawable2D::clearExtraUniforms()
-    {
-        mExtraUniforms.clear();
-    }
 }

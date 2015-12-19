@@ -393,31 +393,28 @@ namespace fea
 
         if(vertices.size() > 0)
         {
-            renderEntity.mVertexAttributes.emplace_back("vertex", 2, std::move(vertices));
-            renderEntity.mVertexAttributes.emplace_back("texCoords", 2, std::move(texCoords));
-            renderEntity.mVertexAttributes.emplace_back("colors", 4, std::move(vertexColors));
+            renderEntity.mVertexAttributes.emplace("vertex", VertexAttribute(2, std::move(vertices)));
+            renderEntity.mVertexAttributes.emplace("texCoords", VertexAttribute(2, std::move(texCoords)));
+            renderEntity.mVertexAttributes.emplace("colors", VertexAttribute(4, std::move(vertexColors)));
         }
 
         renderEntity.mUniforms.reserve(16);
 
         if(mTexture != nullptr)
         {
-            renderEntity.mUniforms.emplace_back("texture", TEXTURE, getTexture().getId());
+            renderEntity.mUniforms.emplace("texture", Uniform(TEXTURE, getTexture().getId()));
         }
 
-        renderEntity.mUniforms.emplace_back("position", VEC2, mPosition);
-        renderEntity.mUniforms.emplace_back("origin", VEC2, mOrigin);
-        renderEntity.mUniforms.emplace_back("rotation", FLOAT, mRotation);
-        renderEntity.mUniforms.emplace_back("scaling", VEC2, mScaling);
-        renderEntity.mUniforms.emplace_back("parallax", VEC2, mParallax);
-        renderEntity.mUniforms.emplace_back("constraints", VEC4, glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
+        renderEntity.mUniforms.emplace("position", Uniform(VEC2, mPosition));
+        renderEntity.mUniforms.emplace("origin", Uniform(VEC2, mOrigin));
+        renderEntity.mUniforms.emplace("rotation", Uniform(FLOAT, mRotation));
+        renderEntity.mUniforms.emplace("scaling", Uniform(VEC2, mScaling));
+        renderEntity.mUniforms.emplace("parallax", Uniform(VEC2, mParallax));
+        renderEntity.mUniforms.emplace("constraints", Uniform(VEC4, glm::vec4(0.0f, 1.0f, 0.0f, 1.0f)));
         glm::vec3 colorInfo = glm::vec3(mColor.rAsFloat(), mColor.gAsFloat(), mColor.bAsFloat());
-        renderEntity.mUniforms.emplace_back("color", VEC3, colorInfo);
+        renderEntity.mUniforms.emplace("color", Uniform(VEC3, colorInfo));
         float opacity = mColor.aAsFloat();
-        renderEntity.mUniforms.emplace_back("opacity", FLOAT, opacity);
-
-        for(const auto& uniform : mExtraUniforms)
-            renderEntity.mUniforms.push_back(uniform.second);
+        renderEntity.mUniforms.emplace("opacity", Uniform(FLOAT, opacity));
 
         return renderEntity;
     }

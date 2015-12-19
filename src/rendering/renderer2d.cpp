@@ -52,60 +52,6 @@ namespace fea
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }
 
-    void Renderer2D::render()
-    {
-        render(mDefaultShader);
-    }
-
-    void Renderer2D::render(const RenderTarget& target)
-    {
-        render(target, mDefaultShader);
-    }
-
-    void Renderer2D::render(const Shader& shader)
-    {
-        shader.activate();
-
-        shader.setUniform(Uniform("camPosition", VEC2, mCurrentViewport.getCamera().getPosition()));
-        shader.setUniform(Uniform( "camZoom", VEC2, mCurrentViewport.getCamera().getZoom()));
-        glm::mat2x2 camRot = mCurrentViewport.getCamera().getRotationMatrix();
-        shader.setUniform(Uniform("camRotation", MAT2X2, camRot));
-        glm::vec2 halfViewSize = glm::vec2((float)mCurrentViewport.getSize().x / 2.0f, (float)mCurrentViewport.getSize().y / 2.0f);
-        shader.setUniform(Uniform("halfViewSize", VEC2, halfViewSize));
-        shader.setUniform(Uniform("projection", MAT4X4, mProjection));
-
-        GLuint defaultTextureId = mDefaultTexture.getId();
-
-        for(auto& renderOperation : mRenderQueue)
-        {
-            shader.setUniform(Uniform("texture", TEXTURE, defaultTextureId)); //may be overriden
-            setBlendModeGl(renderOperation.mBlendMode);
-
-            for(auto& uniform : renderOperation.mUniforms)
-            {
-                shader.setUniform(uniform);
-            }
-            
-            for(auto& vertexAttribute : renderOperation.mVertexAttributes)
-            {
-                shader.setVertexAttribute(vertexAttribute.mName, vertexAttribute.mAttributeFloatAmount, vertexAttribute.mData.data());
-            }
-
-            glDrawArrays(renderOperation.mDrawMode, 0, renderOperation.mElementAmount);
-        }
-
-        setBlendMode(ALPHA);
-        shader.deactivate();
-        mRenderQueue.clear();
-    }
-
-    void Renderer2D::render(const RenderTarget& target, const Shader& shader)
-    {
-        glBindFramebuffer(GL_FRAMEBUFFER, target.getId());
-        render(shader);
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    }
-
     void Renderer2D::setViewport(const Viewport& viewport)
     {
         mCurrentViewport = viewport;
