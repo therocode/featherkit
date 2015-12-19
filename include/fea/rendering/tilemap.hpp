@@ -65,7 +65,7 @@ namespace fea
             const glm::ivec2& getTileSize() const;
             const glm::ivec2& getTileTextureSize() const;
             void tick();
-            virtual std::vector<RenderEntity> getRenderInfo() const override;
+            virtual void updateRenderInfo(std::vector<RenderEntity>& renderInfo, bool updateVertices, bool updateUniforms) const override;
             void setCullRegion(const glm::vec2& start, const glm::vec2& end);
             void setCullEnabled(bool enabled);
         private:

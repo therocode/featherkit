@@ -286,6 +286,8 @@
             auto textureSize = static_cast<glm::vec2>(mTexture->getSize());
 
             mConstraints = glm::vec4(glm::vec2(pixelConstraints.x, pixelConstraints.y) / textureSize.x, glm::vec2(pixelConstraints.z, pixelConstraints.w) / textureSize.y);
+
+            mUniformsDirty = true;
         }
     }
 }

@@ -63,6 +63,8 @@ namespace fea
             mTexCoords[i] = newCoords.x;
             mTexCoords[i+1] = newCoords.y;
         }
+
+        mUniformsDirty = true;
     }
 
     void RepeatedQuad::tick()

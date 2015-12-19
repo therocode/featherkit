@@ -35,7 +35,7 @@ namespace fea
             float getOpacity() const;
 
             const std::vector<RenderEntity>& getRenderInfo() const;
-            virtual void updateRenderInfo(std::vector<RenderEntity>& renderEntity) const;
+            virtual void updateRenderInfo(std::vector<RenderEntity>& renderInfo, bool updateVertices, bool updateUniforms) const;
         protected:
             std::vector<float> mVertices;
             std::vector<float> mTexCoords;
@@ -49,8 +49,8 @@ namespace fea
             Color mColor;
 
             //cache
-            mutable bool mIsDirty;
-        private:
+            mutable bool mVerticesDirty;
+            mutable bool mUniformsDirty;
             mutable std::vector<RenderEntity> mRenderInfo;
     };
     /** @addtogroup Render2D

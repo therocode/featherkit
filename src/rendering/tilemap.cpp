@@ -4,7 +4,7 @@
 
 namespace fea
 {
-    const int32_t tileMapChunkSize = 32;
+    const int32_t tileMapChunkSize = 64;
 
     TileDefinition::TileDefinition(const glm::ivec2& texPos, TileId next, int32_t ticks):
         tileTexPosition(texPos),
@@ -83,6 +83,7 @@ namespace fea
     {
         mTexture = &texture;
         mChunkCache.clear();
+        mVerticesDirty = mUniformsDirty = true;
     }
 
     const Texture& TileMap::getTexture() const
@@ -119,6 +120,7 @@ namespace fea
         }
 
         setDirty(chunkCoord);
+        mVerticesDirty = mUniformsDirty = true;
     }
 
     void TileMap::unsetTile(const glm::ivec2& pos)
@@ -137,6 +139,7 @@ namespace fea
 
         mAnimatedTiles.erase(pos);
         setDirty(chunkCoord);
+        mVerticesDirty = mUniformsDirty = true;
     }
 
     void TileMap::fillRegion(const glm::ivec2& startCorner, const glm::ivec2& size, TileId id)
@@ -160,6 +163,7 @@ namespace fea
         mChunks.clear();
         mAnimatedTiles.clear();
         mChunkCache.clear();
+        mVerticesDirty = mUniformsDirty = true;
     }
 
     void TileMap::setTileColor(const glm::ivec2& pos, const fea::Color& color)
@@ -173,6 +177,7 @@ namespace fea
 
         chunk.setTileColor(tileInChunkCoord, color);
         setDirty(chunkCoord);
+        mVerticesDirty = mUniformsDirty = true;
     }
 
     const TileMap::Tile* TileMap::getTile(const glm::ivec2& pos) const
@@ -245,57 +250,57 @@ namespace fea
         }
     }
             
-    std::vector<RenderEntity> TileMap::getRenderInfo() const
+    void TileMap::updateRenderInfo(std::vector<RenderEntity>& renderInfo, bool updateVertices, bool updateUniforms) const
     {
-        std::vector<RenderEntity> renderInfo;
-
-        for(auto chunk : mChunks)
+        if(mVerticesDirty || mUniformsDirty)
         {
-            bool renderIt = false;
-
-            if(!mCullEnabled)
-                renderIt = true;
-            else
+            renderInfo.clear();
+            for(auto chunk : mChunks)
             {
-                glm::vec2 chunkSideLength = static_cast<glm::vec2>(tileMapChunkSize * mTileSize);
-                glm::vec2 topLeft = static_cast<glm::vec2>(chunk.first *  tileMapChunkSize * mTileSize);
-                glm::vec2 topRight = topLeft + glm::vec2({chunkSideLength.x, 0.0f});
-                glm::vec2 bottomLeft = topLeft + glm::vec2({0.0f, chunkSideLength.y});
-                glm::vec2 bottomRight = topLeft + glm::vec2({chunkSideLength.x, chunkSideLength.y});
+                bool renderIt = false;
 
-                topLeft = tileToWorldCoordinates(static_cast<glm::ivec2>(topLeft) / mTileSize);
-                topRight = tileToWorldCoordinates(static_cast<glm::ivec2>(topRight) / mTileSize);
-                topRight.x += mTileSize.x;
-                bottomLeft = tileToWorldCoordinates(static_cast<glm::ivec2>(bottomLeft) / mTileSize);
-                bottomLeft.y += mTileSize.y;
-                bottomRight = tileToWorldCoordinates(static_cast<glm::ivec2>(bottomRight) / mTileSize);
-                bottomRight += mTileSize;
+                if(!mCullEnabled)
+                    renderIt = true;
+                else
+                {
+                    glm::vec2 chunkSideLength = static_cast<glm::vec2>(tileMapChunkSize * mTileSize);
+                    glm::vec2 topLeft = static_cast<glm::vec2>(chunk.first *  tileMapChunkSize * mTileSize);
+                    glm::vec2 topRight = topLeft + glm::vec2({chunkSideLength.x, 0.0f});
+                    glm::vec2 bottomLeft = topLeft + glm::vec2({0.0f, chunkSideLength.y});
+                    glm::vec2 bottomRight = topLeft + glm::vec2({chunkSideLength.x, chunkSideLength.y});
 
-                glm::vec2 boundsStart = glm::vec2(
-                {
-                    std::min({topLeft.x, topRight.x, bottomLeft.x, bottomRight.x}),
-                    std::min({topLeft.y, topRight.y, bottomLeft.y, bottomRight.y})
-                });
-                glm::vec2 boundsEnd = glm::vec2(
-                {
-                    std::max({topLeft.x, topRight.x, bottomLeft.x, bottomRight.x}),
-                    std::max({topLeft.y, topRight.y, bottomLeft.y, bottomRight.y})
-                });
+                    topLeft = tileToWorldCoordinates(static_cast<glm::ivec2>(topLeft) / mTileSize);
+                    topRight = tileToWorldCoordinates(static_cast<glm::ivec2>(topRight) / mTileSize);
+                    topRight.x += mTileSize.x;
+                    bottomLeft = tileToWorldCoordinates(static_cast<glm::ivec2>(bottomLeft) / mTileSize);
+                    bottomLeft.y += mTileSize.y;
+                    bottomRight = tileToWorldCoordinates(static_cast<glm::ivec2>(bottomRight) / mTileSize);
+                    bottomRight += mTileSize;
 
-                if((boundsStart.x > mCullStart.x && boundsStart.x < mCullEnd.x) || (boundsEnd.x > mCullStart.x && boundsEnd.x < mCullEnd.x))
-                {
-                    if((boundsStart.y > mCullStart.y && boundsStart.y < mCullEnd.y) || (boundsEnd.y > mCullStart.y && boundsEnd.y < mCullEnd.y))
+                    glm::vec2 boundsStart = glm::vec2(
+                            {
+                            std::min({topLeft.x, topRight.x, bottomLeft.x, bottomRight.x}),
+                            std::min({topLeft.y, topRight.y, bottomLeft.y, bottomRight.y})
+                            });
+                    glm::vec2 boundsEnd = glm::vec2(
+                            {
+                            std::max({topLeft.x, topRight.x, bottomLeft.x, bottomRight.x}),
+                            std::max({topLeft.y, topRight.y, bottomLeft.y, bottomRight.y})
+                            });
+
+                    if((boundsStart.x > mCullStart.x && boundsStart.x < mCullEnd.x) || (boundsEnd.x > mCullStart.x && boundsEnd.x < mCullEnd.x))
                     {
-                        renderIt = true;
+                        if((boundsStart.y > mCullStart.y && boundsStart.y < mCullEnd.y) || (boundsEnd.y > mCullStart.y && boundsEnd.y < mCullEnd.y))
+                        {
+                            renderIt = true;
+                        }
                     }
                 }
+
+                if(renderIt)
+                    renderInfo.push_back(renderInfoFromChunk(chunk.first, chunk.second));
             }
-
-            if(renderIt)
-                renderInfo.push_back(renderInfoFromChunk(chunk.first, chunk.second));
         }
-
-        return renderInfo;
     }
 
     glm::ivec2 TileMap::tileToChunk(const glm::ivec2& pos) const
@@ -423,11 +428,13 @@ namespace fea
     {
         mCullStart = start;
         mCullEnd = end;
+        mVerticesDirty = mUniformsDirty = true;
     }
 
     void TileMap::setCullEnabled(bool enabled)
     {
         mCullEnabled = enabled;
+        mVerticesDirty = mUniformsDirty = true;
     }
 
     void TileMap::setDirty(const glm::ivec2& chunk) const

@@ -41,7 +41,7 @@ namespace fea
         void enableWordWrap(bool enabled);
         void newLine(float distance, float indentation = 0.0f);
         void newLine();
-        virtual std::vector<RenderEntity> getRenderInfo() const override;
+        virtual void updateRenderInfo(std::vector<RenderEntity>& renderInfo, bool updateVertices, bool updateUniforms) const override;
         void clear();
         glm::vec2 getSize();
     private:

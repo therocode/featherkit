@@ -100,6 +100,8 @@ namespace fea
         mAtlas = texture_atlas_new(mAtlasSize, mAtlasSize, 1);
         mDrawMode = GL_TRIANGLES;
         mCurrentFont = nullptr;
+
+        mRenderInfo.front().mUniforms.emplace("texture", Uniform{TEXTURE, 0u});
     }
 
     TextSurface::~TextSurface()
@@ -162,6 +164,7 @@ namespace fea
     void TextSurface::write(const std::string& text)
     {
         write(utf8_to_utf16(text));
+        mUniformsDirty = true;
     }
 
     void TextSurface::write(const std::wstring& text)
@@ -232,12 +235,15 @@ namespace fea
         mPenSet = true;
     }
 
-    std::vector<RenderEntity> TextSurface::getRenderInfo() const
+    void TextSurface::updateRenderInfo(std::vector<RenderEntity>& renderInfo, bool updateVertices, bool updateUniforms) const
     {
-        std::vector<RenderEntity> temp = Drawable2D::getRenderInfo();
+        Drawable2D::updateRenderInfo(renderInfo, updateVertices, updateUniforms);
+        RenderEntity& renderEntity = renderInfo.front();
 
-        temp[0].mUniforms["texture"] = Uniform(TEXTURE, mAtlas->id);
-        return temp;
+        if(mUniformsDirty)
+        {
+            renderEntity.mUniforms.at("texture") = Uniform(TEXTURE, mAtlas->id);
+        }
     }
     
     void TextSurface::rewrite()

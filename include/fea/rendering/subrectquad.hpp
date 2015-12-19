@@ -11,7 +11,6 @@ namespace fea
             SubrectQuad(const glm::vec2& size);
             virtual void setTexture(const Texture& texture) override;
             void setSubrect(const glm::ivec2& subrectStart, const glm::ivec2& subrectEnd);
-            virtual std::vector<RenderEntity> getRenderInfo() const override;
         private:
             void updateTexCoords();
             glm::ivec2 mSubrectStart;

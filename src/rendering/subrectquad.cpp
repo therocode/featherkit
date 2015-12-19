@@ -24,15 +24,6 @@ namespace fea
         updateTexCoords();
     }
 
-    std::vector<RenderEntity> SubrectQuad::getRenderInfo() const
-    {
-        std::vector<RenderEntity> temp = Quad::getRenderInfo();
-
-        //temp[0].mVertexAttributes.push_back(VertexAttribute("texCoords", 2, &mTexCoords[0]));
-
-        return temp;
-    }
-
     void SubrectQuad::updateTexCoords()
     {
         if(mTexture)
@@ -49,6 +40,8 @@ namespace fea
                 texCoordsX[1], texCoordsY[0],
                 texCoordsX[0], texCoordsY[1],
                 texCoordsX[1], texCoordsY[1]};
+
+            mUniformsDirty = true;
         }
     }
 }

@@ -44,6 +44,8 @@ namespace fea
 
         mDrawMode = GL_TRIANGLES;
         mConstraints = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
+
+        mRenderInfo.front().mUniforms.emplace("texture", Uniform{TEXTURE, 0u});
     }
     
     void Quad::setSize(const glm::vec2& size)
@@ -60,6 +62,8 @@ namespace fea
                      xnum, ynum};
 
         mSize = size;
+
+        mVerticesDirty = true;
     }
 
     const glm::vec2& Quad::getSize() const
@@ -70,6 +74,7 @@ namespace fea
     void Quad::setTexture(const Texture& tex)
     {
         mTexture = &tex;
+        mUniformsDirty = true;
     }
 
     const Texture& Quad::getTexture() const
@@ -94,7 +99,7 @@ namespace fea
                       texCoordsX[0], texCoordsY[1],
                       texCoordsX[1], texCoordsY[1]};
                       
-                      //Make nice
+        mVerticesDirty = true;
     }
 
     void Quad::setVFlip(bool enabled)
@@ -113,19 +118,25 @@ namespace fea
                       texCoordsX[1], texCoordsY[0],
                       texCoordsX[0], texCoordsY[1],
                       texCoordsX[1], texCoordsY[1]};
+
+        mVerticesDirty = true;
     }
     
-    std::vector<RenderEntity> Quad::getRenderInfo() const
+    void Quad::updateRenderInfo(std::vector<RenderEntity>& renderInfo, bool updateVertices, bool updateUniforms) const
     {
-        std::vector<RenderEntity> temp = Drawable2D::getRenderInfo();
+        Drawable2D::updateRenderInfo(renderInfo, updateVertices, updateUniforms);
+        RenderEntity& renderEntity = renderInfo.front();
 
-        if(mTexture != nullptr)
+        renderEntity.mElementAmount = mVertices.size() / 2; //this could be worked out correctly from drawmode. it must now be set in the child
+
+        if(mUniformsDirty)
         {
-            temp[0].mUniforms["texture"] = Uniform{TEXTURE, getTexture().getId()};
-        }
+            if(mTexture != nullptr)
+            {
+                renderEntity.mUniforms.at("texture") = Uniform{TEXTURE, getTexture().getId()};
+            }
 
-        temp[0].mUniforms["constraints"] = Uniform{VEC4, mConstraints};
-        
-        return temp;
+            renderEntity.mUniforms.at("constraints") = Uniform{VEC4, mConstraints};
+        }
     }
 }
