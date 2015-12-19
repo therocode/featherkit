@@ -4,7 +4,7 @@
 
 namespace fea
 {
-    const int32_t tileMapChunkSize = 64;
+    const int32_t tileMapChunkSize = 32;
 
     TileDefinition::TileDefinition(const glm::ivec2& texPos, TileId next, int32_t ticks):
         tileTexPosition(texPos),
