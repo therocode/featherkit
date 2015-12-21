@@ -41,7 +41,7 @@ namespace fea
                 texCoordsX[0], texCoordsY[1],
                 texCoordsX[1], texCoordsY[1]};
 
-            mUniformsDirty = true;
+            mVerticesDirty = true;
         }
     }
 }

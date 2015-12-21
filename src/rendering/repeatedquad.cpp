@@ -64,7 +64,7 @@ namespace fea
             mTexCoords[i+1] = newCoords.y;
         }
 
-        mUniformsDirty = true;
+        mVerticesDirty = true;
     }
 
     void RepeatedQuad::tick()
