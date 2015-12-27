@@ -28,6 +28,11 @@ namespace fea
         mCamera = cam;
     }
     
+    const Camera& Viewport::getCamera() const
+    {
+        return mCamera;
+    }
+    
     Camera& Viewport::getCamera()
     {
         return mCamera;

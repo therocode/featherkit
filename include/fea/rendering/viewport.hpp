@@ -13,6 +13,7 @@ namespace fea
             const glm::ivec2& getPosition() const;
             const glm::uvec2& getSize() const;
             void setCamera(const Camera& camera);
+            const Camera& getCamera() const;
             Camera& getCamera();
             glm::vec2 transformPoint(const glm::vec2 point) const;
             glm::vec2 untransformPoint(const glm::vec2 point) const;
@@ -56,8 +57,12 @@ namespace fea
      *  @brief Set the Camera of the Viewport.
      *  @param camera Camera to set it to.
      ***
+     *  @fn const Camera& Viewport::getCamera() const
+     *  @brief Get the Camera currently in use by the Viewport.
+     *  @return The current camera.
+     ***
      *  @fn Camera& Viewport::getCamera()
-     *  @brief Get the Camera currently in use by the Viewport. The camera might be modified externally.
+     *  @brief Get the Camera currently in use by the Viewport.
      *  @return The current camera.
      ***
      *  @fn glm::vec2 Viewport::transformPoint(const glm::vec2 point) const
