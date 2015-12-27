@@ -63,6 +63,11 @@ namespace fea
         mProjection = proj.createOrthoProjection(0.0f, (GLfloat)viewSize.x, 0.0f, (GLfloat)viewSize.y, 0.000000001f, 100.0f);
     }
     
+    const Viewport& Renderer2D::getViewport() const
+    {
+        return mCurrentViewport;
+    }
+    
     Viewport& Renderer2D::getViewport()
     {
         return mCurrentViewport;

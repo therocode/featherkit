@@ -26,6 +26,7 @@ namespace fea
             template<typename Drawable>
             void render(const Drawable& drawable, const RenderTarget& target, const Shader& shader);
             void setViewport(const Viewport& viewport);
+            const Viewport& getViewport() const;
             Viewport& getViewport();
             void setBlendMode(BlendMode mode);
         private:
@@ -111,6 +112,12 @@ namespace fea
      *  @fn void Renderer2D::setViewport(const Viewport& viewport)
      *  @brief Set the Viewport of the renderer
      *  @param viewport Viewport to set it to.
+     ***
+     *  @fn const Viewport& Renderer2D::getViewport() const
+     *  @brief Access the current Viewport.
+     *  
+     *  Returns a reference, so this can be used to modify the Viewport.
+     *  @return A reference to the Viewport.
      ***
      *  @fn Viewport& Renderer2D::getViewport()
      *  @brief Access the current Viewport.
