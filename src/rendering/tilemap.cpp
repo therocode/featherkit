@@ -4,8 +4,6 @@
 
 namespace fea
 {
-    const int32_t tileMapChunkSize = 32;
-
     TileDefinition::TileDefinition(const glm::ivec2& texPos, TileId next, int32_t ticks):
         tileTexPosition(texPos),
         nextTile(next),
@@ -14,16 +12,17 @@ namespace fea
         FEA_ASSERT(texPos.x >= 0 && texPos.y >= 0, "Texture index must be zero or above");
     }
 
-    TileMap::TileChunk::TileChunk():
+    TileMap::TileChunk::TileChunk(int32_t chunkSize):
+        mChunkSize(chunkSize),
         tileCount(0),
-        tilesSet(tileMapChunkSize*tileMapChunkSize, false)
+        tilesSet(mChunkSize*mChunkSize, false)
     {
-        tiles.resize(tileMapChunkSize*tileMapChunkSize);
+        tiles.resize(mChunkSize*mChunkSize);
     }
 
     void TileMap::TileChunk::setTile(const glm::ivec2& position, TileId id)
     {
-        size_t index = position.x + position.y * tileMapChunkSize;
+        size_t index = position.x + position.y * mChunkSize;
         tiles[index].id = id;
         tiles[index].color = fea::Color::White;
 
@@ -36,7 +35,7 @@ namespace fea
 
     void TileMap::TileChunk::setTileColor(const glm::ivec2& position, const fea::Color& color)
     {
-        size_t index = position.x + position.y * tileMapChunkSize;
+        size_t index = position.x + position.y * mChunkSize;
 
         //ensure tile is set
         tiles[index].color = color;
@@ -44,7 +43,7 @@ namespace fea
 
     const TileMap::Tile& TileMap::TileChunk::getTile(const glm::ivec2& position) const
     {
-        size_t index = position.x + position.y * tileMapChunkSize;
+        size_t index = position.x + position.y * mChunkSize;
 
         //ensure tile is set
         return tiles[index];
@@ -52,7 +51,7 @@ namespace fea
 
     TileMap::Tile& TileMap::TileChunk::getTile(const glm::ivec2& position)
     {
-        size_t index = position.x + position.y * tileMapChunkSize;
+        size_t index = position.x + position.y * mChunkSize;
 
         //ensure tile is set
         return tiles[index];
@@ -60,7 +59,7 @@ namespace fea
 
     void TileMap::TileChunk::unsetTile(const glm::ivec2& position)
     {
-        size_t index = position.x + position.y * tileMapChunkSize;
+        size_t index = position.x + position.y * mChunkSize;
 
         if(tilesSet[index])
         {
@@ -69,14 +68,16 @@ namespace fea
         };
     }
 
-    TileMap::TileMap(const glm::ivec2& tileSize, const glm::ivec2& tileTextureSize):
+    TileMap::TileMap(const glm::ivec2& tileSize, const glm::ivec2& tileTextureSize, int32_t chunkSize):
         mTileSize(tileSize),
         mTileTextureSize(tileTextureSize),
         mTexture(nullptr),
-        mCullEnabled(false)
+        mCullEnabled(false),
+        mChunkSize(chunkSize)
     {
         FEA_ASSERT(tileSize.x > 0 && tileSize.y > 0, "Tile size must be greater than zero");
         FEA_ASSERT(tileTextureSize.x > 0 && tileTextureSize.y > 0, "Tile texture size must be greater than zero");
+        FEA_ASSERT(chunkSize > 0, "Chunk size must be greater than zero");
     }
 
     void TileMap::setTexture(const Texture& texture)
@@ -103,7 +104,7 @@ namespace fea
         const glm::ivec2 chunkCoord = tileToChunk(pos);
         const glm::ivec2 tileInChunkCoord = tileToTileInChunk(pos);
 
-        auto& chunk = mChunks[chunkCoord];
+        auto& chunk = getOrCreateChunk(chunkCoord);
 
         chunk.setTile(tileInChunkCoord, id);
 
@@ -128,7 +129,7 @@ namespace fea
         const glm::ivec2 chunkCoord = tileToChunk(pos);
         const glm::ivec2 tileInChunkCoord = tileToTileInChunk(pos);
 
-        auto& chunk = mChunks[chunkCoord];
+        auto& chunk = getOrCreateChunk(chunkCoord);
 
         chunk.unsetTile(tileInChunkCoord);
 
@@ -171,9 +172,9 @@ namespace fea
         const glm::ivec2 chunkCoord = tileToChunk(pos);
         const glm::ivec2 tileInChunkCoord = tileToTileInChunk(pos);
 
-        auto& chunk = mChunks[chunkCoord];
+        auto& chunk = getOrCreateChunk(chunkCoord);
 
-        FEA_ASSERT(chunk.tilesSet[tileInChunkCoord.x + tileInChunkCoord.y * tileMapChunkSize], "Trying to set the tile color of a tile that doesn't exists.");
+        FEA_ASSERT(chunk.tilesSet[tileInChunkCoord.x + tileInChunkCoord.y * mChunkSize], "Trying to set the tile color of a tile that doesn't exists.");
 
         chunk.setTileColor(tileInChunkCoord, color);
         setDirty(chunkCoord);
@@ -187,7 +188,7 @@ namespace fea
 
         auto& chunk = mChunks.at(chunkCoord);
 
-        if(chunk.tilesSet[tileInChunkCoord.x + tileInChunkCoord.y * tileMapChunkSize])
+        if(chunk.tilesSet[tileInChunkCoord.x + tileInChunkCoord.y * mChunkSize])
             return &chunk.getTile(tileInChunkCoord);
         else
             return nullptr;
@@ -215,8 +216,7 @@ namespace fea
 
         glm::mat2x2 rot = glm::mat2x2(cos, sin, -sin, cos);
         glm::vec2 scale = getScale();
-
-        glm::vec2 transformedCoordinate = (rot * ((tileCoordinate - getOrigin()) * scale)) + mPosition;
+glm::vec2 transformedCoordinate = (rot * ((tileCoordinate - getOrigin()) * scale)) + mPosition;
 
         return transformedCoordinate;
     }
@@ -263,34 +263,35 @@ namespace fea
                     renderIt = true;
                 else
                 {
-                    glm::vec2 chunkSideLength = static_cast<glm::vec2>(tileMapChunkSize * mTileSize);
-                    glm::vec2 topLeft = static_cast<glm::vec2>(chunk.first *  tileMapChunkSize * mTileSize);
+                    glm::vec2 chunkSideLength = static_cast<glm::vec2>(mChunkSize * mTileSize);
+                    glm::vec2 topLeft = static_cast<glm::vec2>(chunk.first *  mChunkSize * mTileSize);
                     glm::vec2 topRight = topLeft + glm::vec2({chunkSideLength.x, 0.0f});
                     glm::vec2 bottomLeft = topLeft + glm::vec2({0.0f, chunkSideLength.y});
                     glm::vec2 bottomRight = topLeft + glm::vec2({chunkSideLength.x, chunkSideLength.y});
 
                     topLeft = tileToWorldCoordinates(static_cast<glm::ivec2>(topLeft) / mTileSize);
                     topRight = tileToWorldCoordinates(static_cast<glm::ivec2>(topRight) / mTileSize);
-                    topRight.x += mTileSize.x;
+                    //topRight.x += mTileSize.x * 2.0f * mScaling.x;
                     bottomLeft = tileToWorldCoordinates(static_cast<glm::ivec2>(bottomLeft) / mTileSize);
-                    bottomLeft.y += mTileSize.y;
+                    //bottomLeft.y += mTileSize.y * 2.0f * mScaling.y;
                     bottomRight = tileToWorldCoordinates(static_cast<glm::ivec2>(bottomRight) / mTileSize);
-                    bottomRight += mTileSize;
+                    //bottomRight += static_cast<glm::vec2>(mTileSize) * 2.0f * mScaling;
 
                     glm::vec2 boundsStart = glm::vec2(
-                            {
+                    {
                             std::min({topLeft.x, topRight.x, bottomLeft.x, bottomRight.x}),
                             std::min({topLeft.y, topRight.y, bottomLeft.y, bottomRight.y})
-                            });
+                    });
                     glm::vec2 boundsEnd = glm::vec2(
-                            {
+                    {
                             std::max({topLeft.x, topRight.x, bottomLeft.x, bottomRight.x}),
                             std::max({topLeft.y, topRight.y, bottomLeft.y, bottomRight.y})
-                            });
+                    });
+                    //}) + (static_cast<glm::vec2>(mTileSize) * 2.0f * mScaling); //extra padding
 
-                    if((boundsStart.x > mCullStart.x && boundsStart.x < mCullEnd.x) || (boundsEnd.x > mCullStart.x && boundsEnd.x < mCullEnd.x))
+                    if((boundsStart.x > mCullStart.x && boundsStart.x < mCullEnd.x) || (boundsEnd.x > mCullStart.x && boundsEnd.x < mCullEnd.x) || (boundsStart.x < mCullStart.x && boundsEnd.x > mCullEnd.x))
                     {
-                        if((boundsStart.y > mCullStart.y && boundsStart.y < mCullEnd.y) || (boundsEnd.y > mCullStart.y && boundsEnd.y < mCullEnd.y))
+                        if((boundsStart.y > mCullStart.y && boundsStart.y < mCullEnd.y) || (boundsEnd.y > mCullStart.y && boundsEnd.y < mCullEnd.y) || (boundsStart.y < mCullStart.y && boundsEnd.y > mCullEnd.y))
                         {
                             renderIt = true;
                         }
@@ -305,17 +306,17 @@ namespace fea
 
     glm::ivec2 TileMap::tileToChunk(const glm::ivec2& pos) const
     {
-        return glm::ivec2(pos.x >= 0 ? pos.x / tileMapChunkSize : (pos.x+1) / tileMapChunkSize - 1, pos.y >= 0 ? pos.y / tileMapChunkSize : (pos.y+1) / tileMapChunkSize - 1); //takes <0 into account
+        return glm::ivec2(pos.x >= 0 ? pos.x / mChunkSize : (pos.x+1) / mChunkSize - 1, pos.y >= 0 ? pos.y / mChunkSize : (pos.y+1) / mChunkSize - 1); //takes <0 into account
     }
     
     glm::ivec2 TileMap::tileToTileInChunk(const glm::ivec2& pos) const
     {
-        return glm::ivec2(pos.x >= 0 ? pos.x % tileMapChunkSize : pos.x % tileMapChunkSize + tileMapChunkSize, pos.y >= 0 ? pos.y % tileMapChunkSize : pos.y % tileMapChunkSize + tileMapChunkSize); //takes <0 into account
+        return glm::ivec2(pos.x >= 0 ? pos.x % mChunkSize : pos.x % mChunkSize + mChunkSize, pos.y >= 0 ? pos.y % mChunkSize : pos.y % mChunkSize + mChunkSize); //takes <0 into account
     }
 
     RenderEntity TileMap::renderInfoFromChunk(const glm::ivec2& chunkPos, const TileChunk& chunk) const
     {
-        glm::vec2 worldPos = static_cast<glm::vec2>(chunkPos * tileMapChunkSize * mTileSize);
+        glm::vec2 worldPos = static_cast<glm::vec2>(chunkPos * mChunkSize * mTileSize);
 
         size_t index = 0;
 
@@ -327,10 +328,10 @@ namespace fea
 
         if(isDirty(chunkPos))
         {
-            for(int32_t y = 0; y < tileMapChunkSize; ++y)
+            for(int32_t y = 0; y < mChunkSize; ++y)
             {
                 tilePos.y = worldPos.y + y * mTileSize.y;
-                for(int32_t x = 0; x < tileMapChunkSize; ++x)
+                for(int32_t x = 0; x < mChunkSize; ++x)
                 {
                     if(chunk.tilesSet[index])
                     {
@@ -445,5 +446,21 @@ namespace fea
     bool TileMap::isDirty(const glm::ivec2& chunk) const
     {
         return mChunkCache.count(chunk) == 0;
+    }
+
+    TileMap::TileChunk& TileMap::getOrCreateChunk(const glm::ivec2& coordinate)
+    {
+        auto iter = mChunks.find(coordinate);
+
+        if(iter == mChunks.end())
+        {
+            auto created = mChunks.emplace(coordinate, mChunkSize);
+
+            return created.first->second;
+        }
+        else
+        {
+            return iter->second;
+        }
     }
 }

@@ -31,12 +31,13 @@ namespace fea
         private:
             struct TileChunk
             {
-                TileChunk();
+                TileChunk(int32_t chunkSize);
                 void setTile(const glm::ivec2& position, TileId id);
                 void setTileColor(const glm::ivec2& position, const fea::Color& color);
                 void unsetTile(const glm::ivec2& position);
                 const Tile& getTile(const glm::ivec2& position) const;
                 Tile& getTile(const glm::ivec2& position);
+                int32_t mChunkSize;
                 int32_t tileCount;
                 std::vector<Tile> tiles;
                 std::vector<bool> tilesSet;
@@ -50,7 +51,7 @@ namespace fea
             };
 
         public:
-            TileMap(const glm::ivec2& tileSize, const glm::ivec2& tileTextureSize);
+            TileMap(const glm::ivec2& tileSize, const glm::ivec2& tileTextureSize, int32_t chunkSize = 32);
             void setTexture(const Texture& texture);
             const Texture& getTexture() const;
             void addTileDefinition(TileId id, const TileDefinition& tileDef);
@@ -74,6 +75,7 @@ namespace fea
             RenderEntity renderInfoFromChunk(const glm::ivec2& chunkPos, const TileChunk& chunk) const;
             void setDirty(const glm::ivec2& chunk) const;
             bool isDirty(const glm::ivec2& chunk) const;
+            TileChunk& getOrCreateChunk(const glm::ivec2& coordinate);
             glm::ivec2 mTileSize;
             glm::ivec2 mTileTextureSize;
             const Texture* mTexture;
@@ -87,6 +89,8 @@ namespace fea
             glm::vec2 mCullStart;
             glm::vec2 mCullEnd;
             bool mCullEnabled;
+
+            int32_t mChunkSize;
     };
     /** @addtogroup Render2D
      *@{
@@ -138,11 +142,12 @@ namespace fea
      *  @var Tile::ticksUntilChange
      *  @brief The amount of ticks (as given by the tick function) until the tile changes to another tile as a part of the tile animation process.
      ***
-     *  @fn TileMap::TileMap(const glm::ivec2& tileSize, const glm::ivec2& tileTextureSize);
+     *  @fn TileMap::TileMap(const glm::ivec2& tileSize, const glm::ivec2& tileTextureSize, int32_t chunkSize = 32);
      *  @brief Construct a TileMap.
      *
      *  Assert/undefined behavior when any of the input values are zero or below.
      *  @param tileSize Size of a single tile displayed on the screen in pixels.
+     *  @param chunkSize Size of the internal chunks that the tilemap is divided into. 
      *  @param tileTextureSize Size of a tile in the texture image.
      ***
      *  @fn void TileMap::setTexture(const Texture& texture)
