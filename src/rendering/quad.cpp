@@ -131,7 +131,7 @@ namespace fea
         {
             if(mTexture != nullptr)
             {
-                renderEntity.mUniforms.at("texture") = Uniform{TEXTURE, getTexture().getId()};
+                renderEntity.mUniforms["texture"] = Uniform{TEXTURE, getTexture().getId()};
             }
             else
             {
