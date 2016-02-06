@@ -71,10 +71,10 @@ namespace fea
         {
             for(uint32_t y = 0; y < size.y; y++)
             {
-                pixels[(x + y * size.x) * 4 + 0] = color.r();
-                pixels[(x + y * size.x) * 4 + 1] = color.g();
-                pixels[(x + y * size.x) * 4 + 2] = color.b();
-                pixels[(x + y * size.x) * 4 + 3] = color.a();
+                pixels[(x + y * size.x) * 4 + 0] = color.r;
+                pixels[(x + y * size.x) * 4 + 1] = color.g;
+                pixels[(x + y * size.x) * 4 + 2] = color.b;
+                pixels[(x + y * size.x) * 4 + 3] = color.a;
             }
         }
         create(size, pixels.data(), smooth);
@@ -124,10 +124,10 @@ namespace fea
     {
         FEA_ASSERT(pixel.x >= 0 && pixel.y >= 0 && pixel.x < mSize.x && pixel.y < mSize.y, "Trying to set pixel outside of the bounds of the texture. Accessing at " + std::to_string(pixel.x) + " " + std::to_string(pixel.y) + " and texture dimensions are " + std::to_string(mSize.x) + " " + std::to_string(mSize.y));
         uint32_t pixelIndex = (pixel.x + pixel.y * mSize.x) * 4;
-        mPixelData[pixelIndex    ] = color.r();
-        mPixelData[pixelIndex + 1] = color.g();
-        mPixelData[pixelIndex + 2] = color.b();
-        mPixelData[pixelIndex + 3] = color.a();
+        mPixelData[pixelIndex    ] = color.r;
+        mPixelData[pixelIndex + 1] = color.g;
+        mPixelData[pixelIndex + 2] = color.b;
+        mPixelData[pixelIndex + 3] = color.a;
     }
 
     Color Texture::getPixel(const glm::ivec2& pixel) const
