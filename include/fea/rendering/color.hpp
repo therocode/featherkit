@@ -10,8 +10,8 @@ namespace fea
             Color();
             Color(float red, float green, float blue, float alpha = 1.0f);
             Color(int32_t red, int32_t green, int32_t blue, int32_t alpha = 255);
-            Color(int32_t hexValue, float alpha);
-            Color(int32_t hexValue, int32_t alpha = 255);
+            explicit Color(int32_t hexValue, float alpha);
+            explicit Color(int32_t hexValue, int32_t alpha = 255);
 
             Color operator+(const Color& other) const;
             Color& operator+=(const Color& other);
