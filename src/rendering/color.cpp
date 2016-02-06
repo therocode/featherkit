@@ -11,49 +11,49 @@ namespace fea
         a = 255u;
     }
 
-    Color::Color(float r, float g, float b, float a)
+    Color::Color(float _r, float _g, float _b, float _a)
     {
-        r   = (uint8_t)(std::max(0.0f, std::min(1.0f, r)) * 255.0f);
-        g = (uint8_t)(std::max(0.0f, std::min(1.0f, g)) * 255.0f);
-        b  = (uint8_t)(std::max(0.0f, std::min(1.0f, b)) * 255.0f);
-        a = (uint8_t)(std::max(0.0f, std::min(1.0f, a)) * 255.0f);
+        r = (uint8_t)(std::max(0.0f, std::min(1.0f, _r)) * 255.0f);
+        g = (uint8_t)(std::max(0.0f, std::min(1.0f, _g)) * 255.0f);
+        b = (uint8_t)(std::max(0.0f, std::min(1.0f, _b)) * 255.0f);
+        a = (uint8_t)(std::max(0.0f, std::min(1.0f, _a)) * 255.0f);
     }
 
-    Color::Color(int32_t r, int32_t g, int32_t b, int32_t a)
+    Color::Color(int32_t _r, int32_t _g, int32_t _b, int32_t _a)
     {
-        r   = std::max(0, std::min(255, r));
-        g = std::max(0, std::min(255, g));
-        b  = std::max(0, std::min(255, b));
-        a = std::max(0, std::min(255, a));
+        r = std::max(0, std::min(255, _r));
+        g = std::max(0, std::min(255, _g));
+        b = std::max(0, std::min(255, _b));
+        a = std::max(0, std::min(255, _a));
     }
 
-    Color::Color(int32_t hexValue, float a)
+    Color::Color(int32_t hexValue, float _a)
     {
         hexValue = std::max(0, std::min(0xFFFFFF, hexValue));
 
-        r   = (hexValue >> 16) & 0xFF;
+        r = (hexValue >> 16) & 0xFF;
         g = (hexValue >>  8) & 0xFF;
-        b  =  hexValue & 0xFF;
-        a = (uint8_t)(std::max(0.0f, std::min(1.0f, a)) * 255.0f);
+        b =  hexValue & 0xFF;
+        a = (uint8_t)(std::max(0.0f, std::min(1.0f, _a)) * 255.0f);
     }
 
-    Color::Color(int32_t hexValue, int32_t a)
+    Color::Color(int32_t hexValue, int32_t _a)
     {
         hexValue = std::max(0, std::min(0xFFFFFF, hexValue));
 
-        r   = (hexValue >> 16) & 0xFF;
+        r = (hexValue >> 16) & 0xFF;
         g = (hexValue >>  8) & 0xFF;
-        b  =  hexValue & 0xFF;
-        a = std::max(0, std::min(255, a));
+        b =  hexValue & 0xFF;
+        a = std::max(0, std::min(255, _a));
     }
 
     Color Color::operator+(const Color& other) const
     {
         Color result;
 
-        result.r   = (uint8_t)std::min((int16_t)r   + other.r,   255);
+        result.r = (uint8_t)std::min((int16_t)r + other.r, 255);
         result.g = (uint8_t)std::min((int16_t)g + other.g, 255);
-        result.b  = (uint8_t)std::min((int16_t)b  + other.b,  255);
+        result.b = (uint8_t)std::min((int16_t)b + other.b, 255);
         result.a = (uint8_t)std::min((int16_t)a + other.a, 255);
 
         return result;
@@ -61,9 +61,9 @@ namespace fea
 
     Color& Color::operator+=(const Color& other)
     {
-        r   = (uint8_t)std::min((int16_t)r   + other.r,   255);
+        r = (uint8_t)std::min((int16_t)r + other.r, 255);
         g = (uint8_t)std::min((int16_t)g + other.g, 255);
-        b  = (uint8_t)std::min((int16_t)b  + other.b,  255);
+        b = (uint8_t)std::min((int16_t)b + other.b, 255);
         a = (uint8_t)std::min((int16_t)a + other.a, 255);
 
         return *this;
@@ -73,9 +73,9 @@ namespace fea
     {
         Color result;
 
-        result.r   = (uint8_t)std::max((int16_t)r   - other.r,   0);
+        result.r = (uint8_t)std::max((int16_t)r - other.r, 0);
         result.g = (uint8_t)std::max((int16_t)g - other.g, 0);
-        result.b  = (uint8_t)std::max((int16_t)b  - other.b,  0);
+        result.b = (uint8_t)std::max((int16_t)b - other.b, 0);
         result.a = (uint8_t)std::max((int16_t)a - other.a, 0);
 
         return result;
@@ -83,9 +83,9 @@ namespace fea
 
     Color& Color::operator-=(const Color& other)
     {
-        r   = (uint8_t)std::max((int16_t)r   - other.r,   0);
+        r = (uint8_t)std::max((int16_t)r - other.r, 0);
         g = (uint8_t)std::max((int16_t)g - other.g, 0);
-        b  = (uint8_t)std::max((int16_t)b  - other.b,  0);
+        b = (uint8_t)std::max((int16_t)b - other.b, 0);
         a = (uint8_t)std::max((int16_t)a - other.a, 0);
 
         return *this;
@@ -95,9 +95,9 @@ namespace fea
     {
         Color result;
 
-        result.r   = (uint8_t)((int16_t)r   * other.r   / 255);
+        result.r = (uint8_t)((int16_t)r * other.r / 255);
         result.g = (uint8_t)((int16_t)g * other.g / 255);
-        result.b  = (uint8_t)((int16_t)b  * other.b  / 255);
+        result.b = (uint8_t)((int16_t)b * other.b / 255);
         result.a = (uint8_t)((int16_t)a * other.a / 255);
 
         return result;
@@ -105,9 +105,9 @@ namespace fea
 
     Color& Color::operator*=(const Color& other)
     {
-        r   = (uint8_t)((int16_t)r * other.r     / 255);
+        r = (uint8_t)((int16_t)r * other.r / 255);
         g = (uint8_t)((int16_t)g * other.g / 255);
-        b  = (uint8_t)((int16_t)b * other.b   / 255);
+        b = (uint8_t)((int16_t)b * other.b / 255);
         a = (uint8_t)((int16_t)a * other.a / 255);
 
         return *this;
@@ -233,24 +233,24 @@ namespace fea
 		return (float)a / 255.0f;
     }
 
-    void Color::setRAsFloat(float r)
+    void Color::setRAsFloat(float _r)
     {
-        r = (uint8_t)(std::max(0.0f, std::min(1.0f, r)) * 255.0f);
+        r = (uint8_t)(std::max(0.0f, std::min(1.0f, _r)) * 255.0f);
     }
 
-    void Color::setGAsFloat(float g)
+    void Color::setGAsFloat(float _g)
     {
-        g = (uint8_t)(std::max(0.0f, std::min(1.0f, g)) * 255.0f);
+        g = (uint8_t)(std::max(0.0f, std::min(1.0f, _g)) * 255.0f);
     }
 
-    void Color::setBAsFloat(float b)
+    void Color::setBAsFloat(float _b)
     {
-        b = (uint8_t)(std::max(0.0f, std::min(1.0f, b)) * 255.0f);
+        b = (uint8_t)(std::max(0.0f, std::min(1.0f, _b)) * 255.0f);
     }
 
-    void Color::setAAsFloat(float a)
+    void Color::setAAsFloat(float _a)
     {
-        a = (uint8_t)(std::max(0.0f, std::min(1.0f, a)) * 255.0f);
+        a = (uint8_t)(std::max(0.0f, std::min(1.0f, _a)) * 255.0f);
     }
 
     const Color Color::Black(0, 0, 0); 
