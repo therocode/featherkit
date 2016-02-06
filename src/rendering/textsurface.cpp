@@ -165,6 +165,7 @@ namespace fea
     {
         write(utf8_to_utf16(text));
         mUniformsDirty = true;
+        mVerticesDirty = true;
     }
 
     void TextSurface::write(const std::wstring& text)
@@ -239,6 +240,8 @@ namespace fea
     {
         Drawable2D::updateRenderInfo(renderInfo, updateVertices, updateUniforms);
         RenderEntity& renderEntity = renderInfo.front();
+
+        renderEntity.mElementAmount = mVertices.size() / 2; //this could be worked out correctly from drawmode. it must now be set in the child
 
         if(mUniformsDirty)
         {
