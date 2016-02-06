@@ -213,27 +213,6 @@ namespace fea
                  (mAlpha == other.mAlpha));
     }
 
-
-    uint8_t Color::r() const
-    {
-        return mRed;
-    }
-
-    uint8_t Color::g() const
-    {
-        return mGreen;
-    }
-
-    uint8_t Color::b() const
-    {
-        return mBlue;
-    }
-
-    uint8_t Color::a() const
-    {
-        return mAlpha;
-    }
-
     float Color::rAsFloat() const
     {
 		return (float)mRed / 255.0f;
@@ -252,26 +231,6 @@ namespace fea
     float Color::aAsFloat() const
     {
 		return (float)mAlpha / 255.0f;
-    }
-
-    void Color::setR(int32_t r)
-    {
-        mRed = std::max(0, std::min(255, r));
-    }
-
-    void Color::setG(int32_t g)
-    {
-        mGreen = std::max(0, std::min(255, g));
-    }
-
-    void Color::setB(int32_t b)
-    {
-        mBlue = std::max(0, std::min(255, b));
-    }
-
-    void Color::setA(int32_t a)
-    {
-        mAlpha = std::max(0, std::min(255, a));
     }
 
     void Color::setRAsFloat(float r)
