@@ -44,8 +44,6 @@ namespace fea
 
         mDrawMode = GL_TRIANGLES;
         mConstraints = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
-
-        mRenderInfo.front().mUniforms.emplace("texture", Uniform{TEXTURE, 0u});
     }
     
     void Quad::setSize(const glm::vec2& size)
@@ -134,6 +132,10 @@ namespace fea
             if(mTexture != nullptr)
             {
                 renderEntity.mUniforms.at("texture") = Uniform{TEXTURE, getTexture().getId()};
+            }
+            else
+            {
+                renderEntity.mUniforms.erase("texture");
             }
 
             renderEntity.mUniforms.at("constraints") = Uniform{VEC4, mConstraints};
