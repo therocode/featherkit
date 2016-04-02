@@ -76,6 +76,12 @@ namespace fea
         mMat4x4Val[14] = mat[14];
         mMat4x4Val[15] = mat[15];
     }
+
+    Uniform::Uniform(UniformType t, const GLuint val)
+    {
+        mType = t;
+        mTextureVal = val;
+    }
     
     Uniform::Uniform(const Uniform& other)
     {
