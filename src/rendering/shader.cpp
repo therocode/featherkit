@@ -126,9 +126,10 @@ namespace fea
             }
             case TEXTURE:
             {
-                glActiveTexture(GL_TEXTURE0);
-                glUniform1i(mUniformLocations.at(name), 0);
-                glBindTexture(GL_TEXTURE_2D, *((GLuint*)value));
+                FEA_ASSERT(GL_TEXTURE0 + 1 == GL_TEXTURE1, "Wrong assumption about GL constants. This is a bug");
+                glActiveTexture(GL_TEXTURE0 + uniform.mTextureVal.index);
+                glUniform1i(mUniformLocations.at(name), uniform.mTextureVal.index);
+                glBindTexture(GL_TEXTURE_2D, uniform.mTextureVal.id);
                 break;
             }
             case NO_TYPE:
@@ -182,9 +183,7 @@ namespace fea
             }
             case TEXTURE:
             {
-                glActiveTexture(GL_TEXTURE0);
-                glUniform1i(mUniformLocations.at(name), 0);
-                glBindTexture(GL_TEXTURE_2D, *((GLuint*)value));
+                FEA_ASSERT(false, "Not supported");
                 break;
             }
             case NO_TYPE:

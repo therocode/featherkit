@@ -408,7 +408,7 @@ glm::vec2 transformedCoordinate = (rot * ((tileCoordinate - getOrigin()) * scale
 
         if(mTexture != nullptr)
         {
-            renderEntity.mUniforms.emplace("texture", Uniform(TEXTURE, getTexture().getId()));
+            renderEntity.mUniforms.emplace("texture", Uniform(TEXTURE, Uniform::TextureData{getTexture().getId(), 0}));
         }
 
         renderEntity.mUniforms.emplace("position", Uniform(VEC2, mPosition));

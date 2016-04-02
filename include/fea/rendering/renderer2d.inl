@@ -28,7 +28,7 @@ void Renderer2D::render(const Drawable& drawable, const Shader& shader)
 
     for(const auto& renderOperation : drawable.getRenderInfo())
     {
-        shader.setUniform("texture", Uniform(TEXTURE, defaultTextureId)); //may be overriden
+        shader.setUniform("texture", Uniform(TEXTURE, Uniform::TextureData{defaultTextureId, 0})); //may be overriden
         setBlendModeGl(mCurrentBlendMode); //can be cached
 
         for(const auto& uniformIter : renderOperation.mUniforms)

@@ -11,6 +11,11 @@ namespace fea
 
     struct FEA_API Uniform
     {
+        struct TextureData
+        {
+            GLuint id;
+            GLuint index;
+        };
         Uniform();
         Uniform(UniformType t, const float val);
         Uniform(UniformType t, const int32_t val);
@@ -19,7 +24,7 @@ namespace fea
         Uniform(UniformType t, const glm::vec4& val);
         Uniform(UniformType t, const glm::mat2x2& val);
         Uniform(UniformType t, const glm::mat4x4& val);
-        Uniform(UniformType t, const GLuint val);
+        Uniform(UniformType t, TextureData val);
         Uniform(const Uniform& other);
 
         std::string mName;
@@ -36,7 +41,7 @@ namespace fea
             float mVec4Val[4];        ///<Hold a vec4 value
             float mMat2x2Val[4];    ///<Hold a mat2x2 value
             float mMat4x4Val[16];    ///<Hold a mat4x4 value
-            GLuint mTextureVal;        ///<Hold a texture
+            TextureData mTextureVal;        ///<Hold a texture
         };
     };
     /** @addtogroup Render2D
@@ -89,7 +94,7 @@ namespace fea
      *  @param t Type.
      *  @param val Value.
      ***
-     *  @fn Uniform::Uniform(UniformType t, GLuint val)
+     *  @fn Uniform::Uniform(UniformType t, TextureData val)
      *  @brief Construct a texture uniform.
      *  @param t Type.
      *  @param val Value.

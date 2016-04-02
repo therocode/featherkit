@@ -101,7 +101,7 @@ namespace fea
         mDrawMode = GL_TRIANGLES;
         mCurrentFont = nullptr;
 
-        mRenderInfo.front().mUniforms.emplace("texture", Uniform{TEXTURE, 0u});
+        mRenderInfo.front().mUniforms.emplace("texture", Uniform{TEXTURE, Uniform::TextureData{0u, 0u}});
     }
 
     TextSurface::~TextSurface()
@@ -245,7 +245,7 @@ namespace fea
 
         if(mUniformsDirty)
         {
-            renderEntity.mUniforms.at("texture") = Uniform(TEXTURE, mAtlas->id);
+            renderEntity.mUniforms.at("texture") = Uniform(TEXTURE, Uniform::TextureData{mAtlas->id, 0});
         }
     }
     

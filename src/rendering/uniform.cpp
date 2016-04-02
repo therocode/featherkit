@@ -77,10 +77,10 @@ namespace fea
         mMat4x4Val[15] = mat[15];
     }
 
-    Uniform::Uniform(UniformType t, const GLuint val)
+    Uniform::Uniform(UniformType t, TextureData val)
     {
         mType = t;
-        mTextureVal = val;
+        mTextureVal = std::move(val);
     }
     
     Uniform::Uniform(const Uniform& other)
@@ -144,7 +144,7 @@ namespace fea
                 case MAT4X4:
                     return std::equal(other.mMat4x4Val, other.mMat4x4Val + 16, mMat4x4Val);
                 case TEXTURE:
-                    return mTextureVal == other.mTextureVal;
+                    return mTextureVal.id == other.mTextureVal.id && mTextureVal.index == other.mTextureVal.index;
                 case NO_TYPE:
                     return true;
             }
