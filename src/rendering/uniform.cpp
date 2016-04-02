@@ -15,6 +15,12 @@ namespace fea
         mFloatVal = val;
     }
 
+    Uniform::Uniform(UniformType t, const int32_t val)
+    {
+        mType = t;
+        mIntVal = val;
+    }
+
     Uniform::Uniform(UniformType t, const glm::vec2& val)
     {
         mType = t;
@@ -70,12 +76,6 @@ namespace fea
         mMat4x4Val[14] = mat[14];
         mMat4x4Val[15] = mat[15];
     }
-
-    Uniform::Uniform(UniformType t, const GLuint val)
-    {
-        mType = t;
-        mTextureVal = val;
-    }
     
     Uniform::Uniform(const Uniform& other)
     {
@@ -86,6 +86,9 @@ namespace fea
         {
             case FLOAT:
                 mFloatVal = other.mFloatVal;
+                break;
+            case INT:
+                mIntVal = other.mIntVal;
                 break;
             case VEC2:
                 std::copy(other.mVec2Val, other.mVec2Val + 2, mVec2Val);
@@ -122,6 +125,8 @@ namespace fea
             {
                 case FLOAT:
                     return mFloatVal == other.mFloatVal;
+                case INT:
+                    return mIntVal == other.mIntVal;
                 case VEC2:
                     return std::equal(other.mVec2Val, other.mVec2Val + 2, mVec2Val);
                 case VEC3:

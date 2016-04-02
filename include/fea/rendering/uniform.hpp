@@ -7,12 +7,13 @@
 
 namespace fea
 {
-    enum UniformType{NO_TYPE, FLOAT, VEC2, VEC3, VEC4, MAT2X2, MAT4X4, TEXTURE};
+    enum UniformType{NO_TYPE, FLOAT, INT, VEC2, VEC3, VEC4, MAT2X2, MAT4X4, TEXTURE};
 
     struct FEA_API Uniform
     {
         Uniform();
         Uniform(UniformType t, const float val);
+        Uniform(UniformType t, const int32_t val);
         Uniform(UniformType t, const glm::vec2& val);
         Uniform(UniformType t, const glm::vec3& val);
         Uniform(UniformType t, const glm::vec4& val);
@@ -29,6 +30,7 @@ namespace fea
         union
         {
             float mFloatVal;           ///<Hold a float value
+            int32_t mIntVal;           ///<Hold an int value
             float mVec2Val[2];        ///<Hold a vec2 value
             float mVec3Val[3];        ///<Hold a vec3 value
             float mVec4Val[4];        ///<Hold a vec4 value
@@ -54,6 +56,11 @@ namespace fea
      ***
      *  @fn Uniform::Uniform(UniformType t, float val)
      *  @brief Construct a float uniform.
+     *  @param t Type.
+     *  @param val Value.
+     ***
+     *  @fn Uniform::Uniform(UniformType t, int32_t val)
+     *  @brief Construct an integer uniform.
      *  @param t Type.
      *  @param val Value.
      ***

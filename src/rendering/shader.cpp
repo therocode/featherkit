@@ -89,6 +89,11 @@ namespace fea
                 glUniform1f(mUniformLocations.at(name), *((const float*)value));
                 break;
             }
+            case INT:
+            {
+                glUniform1i(mUniformLocations.at(name), *((const int32_t*)value));
+                break;
+            }
             case VEC2:
             {
                 const glm::vec2& val2 = *((glm::vec2*)value);
@@ -141,6 +146,11 @@ namespace fea
             case FLOAT:
             {
                 glUniform1fv(mUniformLocations.at(name), count, ((float*)value));
+                break;
+            }
+            case INT:
+            {
+                glUniform1iv(mUniformLocations.at(name), count, ((int32_t*)value));
                 break;
             }
             case VEC2:
