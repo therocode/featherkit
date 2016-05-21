@@ -54,6 +54,11 @@ namespace fea
             glDeleteShader(mFragmentShader);
             glDeleteProgram(mProgramId);
         }
+
+        for(const auto& buffer : mVertexAttributeBuffers)
+        {
+            glDeleteBuffers(1, &buffer.second);
+        }
     }
 
     void Shader::setSource(const std::string& vertexSource, const std::string& fragmentSource)
@@ -194,11 +199,22 @@ namespace fea
         }
     }
 
-    void Shader::setVertexAttribute(const std::string& name, const uint32_t floatAmount, const float* data) const
+    void Shader::setVertexAttribute(const std::string& name, const uint32_t floatAmount, const float* data, int32_t count)
     {
+        if(mVertexAttributeBuffers.count(name) == 0)
+        {
+            GLuint newBuffer;
+            glGenBuffers(1, &newBuffer);
+
+            mVertexAttributeBuffers.emplace(name, newBuffer);
+        }
+
+        glBindBuffer(GL_ARRAY_BUFFER, mVertexAttributeBuffers.at(name));
+        glBufferData(GL_ARRAY_BUFFER, count * sizeof(float), data, GL_DYNAMIC_DRAW);
+
         glEnableVertexAttribArray(mVertexAttributeLocations.at(name));
         mEnabledVertexAttributes.push_back(mVertexAttributeLocations.at(name));
-        glVertexAttribPointer(mVertexAttributeLocations.at(name), floatAmount, GL_FLOAT, false, 0, data);
+        glVertexAttribPointer(mVertexAttributeLocations.at(name), floatAmount, GL_FLOAT, false, 0, nullptr);
     }
 
     void Shader::compile()

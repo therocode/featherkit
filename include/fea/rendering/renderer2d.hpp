@@ -22,9 +22,9 @@ namespace fea
             template<typename Drawable>
             void render(const Drawable& drawable, const RenderTarget& target);
             template<typename Drawable>
-            void render(const Drawable& drawable, const Shader& shader);
+            void render(const Drawable& drawable, Shader& shader);
             template<typename Drawable>
-            void render(const Drawable& drawable, const RenderTarget& target, const Shader& shader);
+            void render(const Drawable& drawable, const RenderTarget& target, Shader& shader);
             void setViewport(const Viewport& viewport);
             const Viewport& getViewport() const;
             Viewport& getViewport();
@@ -34,6 +34,7 @@ namespace fea
             Viewport mCurrentViewport;
 
             Texture mDefaultTexture;
+            GLuint mVertexArray;
             Shader mDefaultShader;
             glm::mat4 mProjection;
 
@@ -96,13 +97,13 @@ namespace fea
      *  @param drawable Drawable to render.
      *  @param target RenderTarget to render to.
      ***
-     *  @fn void Renderer2D::render(const Drawable& drawable, const Shader& shader)
+     *  @fn void Renderer2D::render(const Drawable& drawable, Shader& shader)
      *  @brief Render drawable using a custom shader.
      *
      *  @param drawable Drawable to render.
      *  @param shader Shader object to use.
      ***
-     *  @fn void Renderer2D::render(const Drawable& drawable, const RenderTarget& target, const Shader& shader)
+     *  @fn void Renderer2D::render(const Drawable& drawable, const RenderTarget& target, Shader& shader)
      *  @brief Render drawable to a RenderTarget using a custom shader.
      *
      *  @param drawable Drawable to render.

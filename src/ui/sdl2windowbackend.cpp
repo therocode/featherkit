@@ -14,6 +14,7 @@ namespace fea
         (void) settings;
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, settings.mMajorVersion);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, settings.mMinorVersion);
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
         mWindow = SDL_CreateWindow(title.c_str(),
                 SDL_WINDOWPOS_CENTERED,
                 SDL_WINDOWPOS_CENTERED,

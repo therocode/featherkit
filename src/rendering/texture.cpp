@@ -31,7 +31,7 @@ namespace fea
         return mId;
     }
 
-    void Texture::create(const glm::ivec2& size, const uint8_t* imageData, bool smooth)
+    void Texture::create(const glm::ivec2& size, const uint8_t* imageData, bool smooth, GLint internalFormat, bool normalized)
     {
         FEA_ASSERT(size.x > 0 && size.y > 0, "Cannot create a texture with a width or height smaller than zero! Given dimensions are " + std::to_string(size.x) + " " + std::to_string(size.y));
 
@@ -46,7 +46,7 @@ namespace fea
         glGenTextures(1, &mId);
         FEA_ASSERT(mId != 0, "Failed to create texture. Make sure there is a valid OpenGL context available!");
         glBindTexture(GL_TEXTURE_2D, mId);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLsizei)size.x, (GLsizei)size.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
+        glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, (GLsizei)size.x, (GLsizei)size.y, 0, normalized ? GL_RGBA : GL_RGBA_INTEGER, GL_UNSIGNED_BYTE, imageData);
 
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
@@ -77,6 +77,7 @@ namespace fea
                 pixels[(x + y * size.x) * 4 + 3] = color.a;
             }
         }
+
         create(size, pixels.data(), smooth);
     }
     

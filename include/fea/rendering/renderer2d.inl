@@ -11,8 +11,9 @@ void Renderer2D::render(const Drawable& drawable, const RenderTarget& target)
 }
 
 template <typename Drawable>
-void Renderer2D::render(const Drawable& drawable, const Shader& shader)
+void Renderer2D::render(const Drawable& drawable, Shader& shader)
 {
+    glBindVertexArray(mVertexArray);
     shader.activate();
 
     //can be cached
@@ -38,7 +39,7 @@ void Renderer2D::render(const Drawable& drawable, const Shader& shader)
         
         for(const auto& vertexAttributeIter : renderOperation.mVertexAttributes)
         {
-            shader.setVertexAttribute(vertexAttributeIter.first, vertexAttributeIter.second.mAttributeFloatAmount, vertexAttributeIter.second.mData.data());
+            shader.setVertexAttribute(vertexAttributeIter.first, vertexAttributeIter.second.mAttributeFloatAmount, vertexAttributeIter.second.mData.data(), vertexAttributeIter.second.mData.size());
         }
 
         glDrawArrays(renderOperation.mDrawMode, 0, renderOperation.mElementAmount);
@@ -46,10 +47,11 @@ void Renderer2D::render(const Drawable& drawable, const Shader& shader)
 
     setBlendMode(ALPHA);  //needed?
     shader.deactivate();
+    glBindVertexArray(0);
 }
 
 template <typename Drawable>
-void Renderer2D::render(const Drawable& drawable, const RenderTarget& target, const Shader& shader)
+void Renderer2D::render(const Drawable& drawable, const RenderTarget& target, Shader& shader)
 {
     glBindFramebuffer(GL_FRAMEBUFFER, target.getId());
     render(drawable, shader);

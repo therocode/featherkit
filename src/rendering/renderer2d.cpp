@@ -8,7 +8,7 @@
 
 namespace fea
 {
-    Renderer2D::Renderer2D(const Viewport& viewport) : mCurrentBlendMode(ALPHA)
+    Renderer2D::Renderer2D(const Viewport& viewport) : mVertexArray(0), mCurrentBlendMode(ALPHA)
     {
 #ifdef EMSCRIPTEN
 #else
@@ -19,6 +19,8 @@ namespace fea
         glEnable(GL_BLEND);
         glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+
+        glGenVertexArrays(1, &mVertexArray); //these are never deleted. RAII it
 
         mDefaultTexture.create({16, 16}, fea::Color(1.0f, 1.0f, 1.0f));
 

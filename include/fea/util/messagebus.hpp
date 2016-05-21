@@ -16,6 +16,8 @@ namespace fea
             MessageBus();
             MessageBus(const MessageBus&) = delete;
             MessageBus& operator=(const MessageBus&) = delete;
+            MessageBus(MessageBus&&) = default;
+            MessageBus& operator=(MessageBus&&) = default;
             template<class Message>
             void addSubscriber(const MessageReceiverSingle<Message>& receiver);
             template<class Message>

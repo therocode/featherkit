@@ -18,7 +18,7 @@ namespace fea
             Texture(Texture&& other);
             Texture& operator=(Texture&& other);
             GLuint getId() const;
-            void create(const glm::ivec2& size, const uint8_t* imageData, bool smooth = false);
+            void create(const glm::ivec2& size, const uint8_t* imageData, bool smooth = false, GLint internalFormat = GL_RGBA, bool normalized = true);
             void create(const glm::ivec2& size, const Color& color, bool smooth = false);
             const glm::ivec2& getSize() const;
             void resize(const glm::ivec2& newSize);
@@ -69,7 +69,7 @@ namespace fea
      *  @fn int32_t Texture::getId() const
      *  @brief Get the ID of the internal texture.
      ***
-     *  @fn void Texture::create(const glm::ivec2 size, const uint8_t* imageData, bool smooth = false)
+     *  @fn void Texture::create(const glm::ivec2 size, const uint8_t* imageData, bool smooth = false, GLint internalFormat = GL_RGBA, bool normalized = true)
      *  @brief Create a texture from an image.
      *  
      *  When the texture is successfully created, it can be used by drawables. Keep in mind that the texture must be kept alive as long as it is in use by any drawable.
@@ -78,6 +78,8 @@ namespace fea
      *  @param size of the texture in pixels.
      *  @param imageData Image to create the texture from. Must be in 32-bit RGBA format.
      *  @param smooth If this is true, the texture will be smoothed using nearest neighbor interpolation.
+     *  @param internalFormat Internal format to use for the texture.
+     *  @param normalized If the pixels should be normalized or not
      ***
      *  @fn void Texture::create(const glm::ivec2 size, const Color& color, bool smooth = false)
      *  @brief Create a texture filled with a color.
