@@ -1,6 +1,7 @@
 #pragma once
 #include <set>
 #include <sstream>
+#include <cmath>
 #include <unordered_map>
 #include <fea/assert.hpp>
 
