@@ -135,7 +135,7 @@ LooseNTree<Dimensions, Depth, StaticAllocation>::LooseNTree(const Vector& size) 
     {
         for(uint32_t dim = 0; dim < Dimensions; dim++)
         {
-            mMoveCache[child][dim] = ((float)((uint32_t)(child / std::pow(2, dim)) % 2) - 0.5f) / 2.0f;
+            mMoveCache[child][dim] = ((float)((uint32_t)(child / std::pow(2u, dim)) % 2) - 0.5f) / 2.0f;
         }
     }
 }
@@ -276,7 +276,7 @@ void LooseNTree<Dimensions, Depth, StaticAllocation>::placeTreeEntryInDepth(cons
         {
             if(positionPercent[dim] > 0.5f)
             {
-                childIndex += std::pow(2, dim);
+                childIndex += std::pow(2u, dim);
                 positionPercent[dim] = (positionPercent[dim] - 0.5f) * 2.0f;
             }
             else
