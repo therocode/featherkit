@@ -39,10 +39,10 @@ void Renderer2D::render(const Drawable& drawable, Shader& shader)
         
         for(const auto& vertexAttributeIter : renderOperation.mVertexAttributes)
         {
-            shader.setVertexAttribute(vertexAttributeIter.first, vertexAttributeIter.second.mAttributeFloatAmount, vertexAttributeIter.second.mData.data(), vertexAttributeIter.second.mData.size());
+            shader.setVertexAttribute(vertexAttributeIter.first, vertexAttributeIter.second.mAttributeFloatAmount, vertexAttributeIter.second.mData.data(), static_cast<int32_t>(vertexAttributeIter.second.mData.size()));
         }
 
-        glDrawArrays(renderOperation.mDrawMode, 0, renderOperation.mElementAmount);
+        glDrawArrays(renderOperation.mDrawMode, 0, static_cast<GLsizei>(renderOperation.mElementAmount));
     }
 
     setBlendMode(ALPHA);  //needed?
