@@ -1,4 +1,5 @@
 #include <fea/ui/sdl2windowbackend.hpp>
+#include <iostream>
 
 namespace fea
 {
@@ -14,13 +15,17 @@ namespace fea
         (void) settings;
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, settings.mMajorVersion);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, settings.mMinorVersion);
-        SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, settings.mType == ContextSettings::Type::CORE ? SDL_GL_CONTEXT_PROFILE_CORE : SDL_GL_CONTEXT_PROFILE_ES);
         mWindow = SDL_CreateWindow(title.c_str(),
                 SDL_WINDOWPOS_CENTERED,
                 SDL_WINDOWPOS_CENTERED,
                 mode.mWidth, mode.mHeight,
                 SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
+
+        std::cout << SDL_GetError() << "\n";
         mGlContext = SDL_GL_CreateContext(mWindow);
+        std::cout << SDL_GetError() << "\n";
+
     }
 
     void SDL2WindowBackend::close()

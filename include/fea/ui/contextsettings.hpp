@@ -6,13 +6,15 @@ namespace fea
 {
     struct FEA_API ContextSettings
     {
-        explicit ContextSettings(uint32_t depthBits = 0, uint32_t stencilBits = 0, uint32_t antialiasingLevel = 0, uint32_t majorVersion = 3, uint32_t minorVersion = 3);
+        enum class Type { CORE, ES };
+        explicit ContextSettings(uint32_t depthBits = 0, uint32_t stencilBits = 0, uint32_t antialiasingLevel = 0, uint32_t majorVersion = 3, uint32_t minorVersion = 3, Type type = Type::CORE);
 
         uint32_t mDepthBits;         
         uint32_t mStencilBits;       
         uint32_t mAntialiasingLevel; 
         uint32_t mMajorVersion;      
         uint32_t mMinorVersion;   
+        Type mType;
     };
 
     /** @addtogroup UserInterface
@@ -24,7 +26,7 @@ namespace fea
      *  @brief Defines the settings of the OpenGL context attached to a window if OpenGL is used.
      *
      ***
-     *  @fn explicit ContextSettings::ContextSettings(uint32_t depthBits = 0, uint32_t stencilBits = 0, uint32_t antialiasingLevel = 0, uint32_t majorVersion = 3, uint32_t minorVersion = 3)
+     *  @fn explicit ContextSettings::ContextSettings(uint32_t depthBits = 0, uint32_t stencilBits = 0, uint32_t antialiasingLevel = 0, uint32_t majorVersion = 3, uint32_t minorVersion = 3, Type type = Type::CORE)
      *  @brief Default constructor.
      *
      *  @param depthBits Number of bits per pixel of the depth buffer.
@@ -32,6 +34,7 @@ namespace fea
      *  @param antialiasingLevel Antialiasing level.
      *  @param majorVersion Major version number of the OpenGL context.
      *  @param minorVersion Minor version number of the OpenGL context.
+     *  @param type Type of the context
      ***
      *  @var ContextSettings::mDepthBits
      *  @brief The number of bits per pixel requested for the depth buffer.
@@ -47,6 +50,9 @@ namespace fea
      ***
      *  @var ContextSettings::mMinorVersion
      *  @brief The minor version number of the OpenGL context to be created.
+     ***
+     *  @var ContextSettings::mType
+     *  @brief The type of the context.
      ***/
 
 }

@@ -191,7 +191,11 @@ if(BUILD_AUDIO)
         ${audio_efx_source_files}
         ${audio_efx_header_files})
 
-    target_link_libraries(${project_name}-audio ${OPENAL_LIBRARY} ${VorbisFile_LIBRARIES} ${OGG_LIBRARIES})
+    if(NOT EMSCRIPTEN)
+        target_link_libraries(${project_name}-audio ${OPENAL_LIBRARY} ${VorbisFile_LIBRARIES} ${OGG_LIBRARIES})
+    else()
+        target_link_libraries(${project_name}-audio ${OPENAL_LIBRARY})
+    endif()
 endif()
 
 if(BUILD_STRUCTURE)
@@ -485,7 +489,11 @@ if(BUILD_UI)
         add_library(${project_name}-sdl2 ${SHARED_OR_STATIC}
             ${ui_sdl2_backend_source_files}
             ${ui_sdl2_backend_header_files})
-        target_link_libraries(${project_name}-sdl2 ${SDL2_LIBRARY} ${project_name}-ui)
+        if(NOT EMSCRIPTEN)
+            target_link_libraries(${project_name}-sdl2 ${SDL2_LIBRARY} ${project_name}-ui)
+        else()
+            target_link_libraries(${project_name}-sdl2 ${project_name}-ui)
+        endif()
     endif()
 endif()
 
