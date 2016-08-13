@@ -1,5 +1,5 @@
 template<typename NodeProvider>
-typename Pathfinder<NodeProvider>::Path Pathfinder<NodeProvider>::findPath(const NodeProvider& nodes, const Node& start, const Node& target, uint32_t costLimit)
+typename Pathfinder<NodeProvider>::Result Pathfinder<NodeProvider>::findPath(const NodeProvider& nodes, const Node& start, const Node& target, uint32_t costLimit)
 {   
     auto comparator = [this] (uint32_t a, uint32_t b)
     {
@@ -26,6 +26,8 @@ typename Pathfinder<NodeProvider>::Path Pathfinder<NodeProvider>::findPath(const
 
     bool noMoreNodes = false;
     bool targetFound = false;
+
+    int32_t totalCost = -1;
 
     while(!noMoreNodes && !targetFound)
     {
@@ -56,6 +58,7 @@ typename Pathfinder<NodeProvider>::Path Pathfinder<NodeProvider>::findPath(const
 
                 if(g <= costLimit)
                 {
+                    totalCost = g;
                     parents.push_back(currentNodeIndex);
                     gCosts.push_back(g);
                     fCosts.push_back(g + nodes.estimateDistance(neighbor, target));
@@ -85,35 +88,37 @@ typename Pathfinder<NodeProvider>::Path Pathfinder<NodeProvider>::findPath(const
         if(open.size() == 0)
         {
             noMoreNodes = true;
+            if(totalCost != costLimit)
+                totalCost = -1;
             continue;
         }
     }
 
     if(targetFound)
     {
-        Path result;
+        Result result{{}, totalCost};
 
         if(closed.back() == startId)
         {
-            result.push_back(nodeList[startId]);
+            result.path.push_back(nodeList[startId]);
             return result;
         }
 
-        result.push_back(nodeList[closed.back()]);
+        result.path.push_back(nodeList[closed.back()]);
         uint32_t nextParent = parents[closed.back()];
         while(nextParent != startId)
         {
-            result.push_back(nodeList[nextParent]);
+            result.path.push_back(nodeList[nextParent]);
             nextParent = parents[nextParent];
         }
-        result.push_back(nodeList[startId]);
+        result.path.push_back(nodeList[startId]);
 
-        std::reverse(result.begin(), result.end());
+        std::reverse(result.path.begin(), result.path.end());
 
         return result;
     }
     else
     {
-        return Path();
+        return {Path(), totalCost};
     }
 }

@@ -14,6 +14,11 @@ namespace fea
             public:
             using Node = typename std::remove_const<typename std::remove_reference<decltype((std::declval<NodeProvider>()).getNeighbor({}, 0))>::type>::type;
             using Path = std::deque<Node>;
+            struct Result
+            {
+                Path path;
+                int32_t cost;
+            };
 
             private:
             enum State { OPEN, CLOSED };
@@ -25,7 +30,7 @@ namespace fea
             };  
 
             public:
-            Path findPath(const NodeProvider& nodes, const Node& start, const Node& target, uint32_t costLimit = (uint32_t)-1);
+            Result findPath(const NodeProvider& nodes, const Node& start, const Node& target, uint32_t costLimit = (uint32_t)-1);
             private:
             std::vector<int32_t> fCosts;
             std::vector<int32_t> gCosts;
