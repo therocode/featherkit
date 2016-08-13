@@ -13,6 +13,7 @@ namespace fea
     {
         std::unordered_map<std::string, Uniform> mUniforms;
         std::unordered_map<std::string, VertexAttribute> mVertexAttributes;
+        std::vector<uint16_t> mIndices;
         GLenum mDrawMode;
         uint32_t mElementAmount;
     };
@@ -33,6 +34,9 @@ namespace fea
      ***
      *  @var RenderEntity::mVertexAttributes
      *  @brief Map of vertex attributes to use in the rendering process.
+     ***
+     *  @var RenderEntity::mIndices
+     *  @brief Indices to use for rendering. Optional.
      ***
      *  @var RenderEntity::mDrawMode
      *  @brief Describes which GL draw mode should be used to render the drawable.

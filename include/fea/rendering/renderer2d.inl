@@ -42,7 +42,14 @@ void Renderer2D::render(const Drawable& drawable, Shader& shader)
             shader.setVertexAttribute(vertexAttributeIter.first, vertexAttributeIter.second.mAttributeFloatAmount, vertexAttributeIter.second.mData.data(), static_cast<int32_t>(vertexAttributeIter.second.mData.size()));
         }
 
-        glDrawArrays(renderOperation.mDrawMode, 0, static_cast<GLsizei>(renderOperation.mElementAmount));
+        if(renderOperation.mIndices.empty())
+        {
+            glDrawArrays(renderOperation.mDrawMode, 0, static_cast<GLsizei>(renderOperation.mElementAmount));
+        }
+        else
+        {
+            glDrawElements(renderOperation.mDrawMode, static_cast<GLsizei>(renderOperation.mElementAmount), GL_UNSIGNED_SHORT, renderOperation.mIndices.data());
+        }
     }
 
     setBlendMode(ALPHA);  //needed?
