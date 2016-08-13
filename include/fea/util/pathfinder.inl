@@ -56,7 +56,7 @@ typename Pathfinder<NodeProvider>::Result Pathfinder<NodeProvider>::findPath(con
                 uint32_t id = fCosts.size();
                 int32_t g = gCosts[currentNodeIndex] + nodes.getStepCost(currentNode, neighbor);
 
-                if(g <= static_cast<int32_t>(costLimit))
+                if(static_cast<uint32_t>(g) <= costLimit)
                 {
                     totalCost = g;
                     parents.push_back(currentNodeIndex);
