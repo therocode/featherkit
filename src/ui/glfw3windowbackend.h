@@ -1,3 +1,12 @@
+                              // written by antonio trpeski  //
+
+
+
+
+
+
+
+
 #ifndef GLFW3WINDOWBACKEND_H_INCLUDED
 #define GLFW3WINDOWBACKEND_H_INCLUDED
 
