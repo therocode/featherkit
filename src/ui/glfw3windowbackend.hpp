@@ -1,7 +1,8 @@
-#include<GLFW/glfw3>
+#include<GLFW/glfw3.h>
+#include "glfw3windowbackend.h"
 
 namespace fea{
-  
+
 void glfw3WindowBackend::open(VideoMode mode, const std::string& title, uint32_t style, const ContextSettings& settings)
 {
   glfwInit();
@@ -21,9 +22,9 @@ void glfw3WindowBackend::open(VideoMode mode, const std::string& title, uint32_t
 
     const ContextSettings glfw3WindowBackend::getSettings() const
     {
-      
+
         //  still looking on how to get and set context setings
-       
+
     }
 
     Vec2I glfw3WindowBackend::getPosition() const
@@ -33,7 +34,7 @@ void glfw3WindowBackend::open(VideoMode mode, const std::string& title, uint32_t
         s.y = 0;
 
         if(isOpen())
-            glfwGetWindowPos(window, &s.x , &s.y ); 		
+            glfwGetWindowPos(window, &s.x , &s.y );
 
         return s;
     }
@@ -42,7 +43,7 @@ void glfw3WindowBackend::open(VideoMode mode, const std::string& title, uint32_t
     {
         if(isOpen())
         {
-            glfwSetWindowPos(window , x , y); 		
+            glfwSetWindowPos(window , x , y);
         }
     }
 
@@ -100,7 +101,7 @@ void glfw3WindowBackend::open(VideoMode mode, const std::string& title, uint32_t
 
     void glfw3WindowBackend::swapBuffers()
     {
-        glfwSwapBuffers(window);	
+        glfwSwapBuffers(window);
     }
 
     void glfw3WindowBackend::lockCursor(bool lock)
@@ -111,7 +112,7 @@ void glfw3WindowBackend::open(VideoMode mode, const std::string& title, uint32_t
         }
     }
 
-    glfw3WindowBackend::~SDL2WindowBackend()
+    glfw3WindowBackend::~glfw3WindowBackend()
     {
         close();
     }
