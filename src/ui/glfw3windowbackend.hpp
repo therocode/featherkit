@@ -1,3 +1,11 @@
+                                    // written by antonio trpeski //
+
+
+
+
+
+
+
 #include<GLFW/glfw3.h>
 #include "glfw3windowbackend.h"
 
