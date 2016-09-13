@@ -13,6 +13,8 @@
 namespace fea{
 class glfw3WindowBackend
 {
+private:
+    GLFWwindow *window;
 public:
     void open(VideoMode mode, const std::string& title, uint32_t style, const ContextSettings& settings) const;
     void close();
