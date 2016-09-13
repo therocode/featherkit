@@ -14,7 +14,7 @@ namespace fea{
 void glfw3WindowBackend::open(VideoMode mode, const std::string& title, uint32_t style, const ContextSettings& settings)
 {
   glfwInit();
-  GLFWwindow * window = glfwCreateWindow(mode.mwidth, mode.mheight, title.c_str(), NULL, NULL);
+  window = glfwCreateWindow(mode.mwidth, mode.mheight, title.c_str(), NULL, NULL);
 }
 
  void glfw3WindowBackend::close()
