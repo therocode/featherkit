@@ -79,7 +79,7 @@ void glfw3WindowBackend::open(VideoMode mode, const std::string& title, uint32_t
 
     void glfw3WindowBackend::setIcon(uint32_t width, uint32_t height, const uint8_t* pixels)
     {
-       // still working on it
+       glfwSetWindowIcon(window, 0 ,images ) 	
     }
 
     void glfw3WindowBackend::setVisible(bool visible)
