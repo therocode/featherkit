@@ -15,6 +15,7 @@ class glfw3WindowBackend
 {
 private:
     GLFWwindow *window;
+    GLFWimage *images[2];
 public:
     void open(VideoMode mode, const std::string& title, uint32_t style, const ContextSettings& settings) const;
     void close();
