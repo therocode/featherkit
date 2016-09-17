@@ -1,0 +1,12 @@
+prefix=@CMAKE_INSTALL_PREFIX@
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: fea-glfw
+Description: Feather Kit GLFW backends
+Version: @fea_VERSION@
+URL: http://featherkit.therocode.net/
+Libs: -L${libdir} -lfea-glfw
+Cflags: -I${includedir}
+Requires.private: glfw

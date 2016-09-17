@@ -1,29 +1,21 @@
-                              // written by antonio trpeski  //
-
-
-
-
-
-
-
-
-#ifndef GLFW3WINDOWBACKEND_H_INCLUDED
-#define GLFW3WINDOWBACKEND_H_INCLUDED
+#pragma once
+#include <fea/config.hpp>
+#include <fea/ui/windowbackend.hpp>
 
 namespace fea{
-class glfw3WindowBackend
+class GLFW3WindowBackend : public WindowBackend
 {
 private:
     GLFWwindow *window;
     GLFWimage *images[2];
 public:
-    void open(VideoMode mode, const std::string& title, uint32_t style, const ContextSettings& settings) const;
+    void open(VideoMode mode, const std::string& title, uint32_t style, const ContextSettings& settings) override;
     void close();
-    bool isOpen();
-    void getSettings();
-    Vec2I getPosition();
+    bool isOpen() const;
+    const ContextSettings getSettings() const override; //not supported
+    Vec2I getPosition() const;
     void setPosition(int32_t x, int32_t y);
-    vec2I getSize();
+    Vec2I getSize() const;
     void setSize(int32_t w, int32_t h);
     void setTitle(const std::string& title);
     void setIcon(uint32_t width, uint32_t height, const uint8_t* pixels);
@@ -31,16 +23,13 @@ public:
     void setVSyncEnabled(bool enabled);
     void setMouseCursorVisible(bool visible);
     void setFramerateLimit(uint32_t limit);
-    bool setRenderingActive(bool active);
+    bool setRenderingActive(bool active) const override;
     void swapBuffers();
     void lockCursor(bool lock);
-    ~glfw3WindowBackend();
+    ~GLFW3WindowBackend();
 
 
 
 };
 
 }
-
-
-#endif // GLFW3WINDOWBACKEND_H_INCLUDED
