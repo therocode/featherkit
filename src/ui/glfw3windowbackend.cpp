@@ -2,6 +2,18 @@
 #include <fea/ui/glfw3windowbackend.hpp>
 
 namespace fea{
+    
+    int key_press(KeyBoard::Code pkey_code ,bool psystem,bool pcontrol,bool pshift,bool palt )
+    {
+        KeyEvent Event;
+        Event.code =pKey_code;
+        Event.shift = pshift;
+        Event.control = pcontrol;
+        Event.alt = palt;
+        Event.system = psystem;
+        
+        return Event;
+    }
 
     void GLFW3WindowBackend::open(VideoMode mode, const std::string& title, uint32_t style, const ContextSettings& settings)
     {
