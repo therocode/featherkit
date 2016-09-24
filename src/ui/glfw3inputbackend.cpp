@@ -10,7 +10,26 @@ namespace fea
     std::queue<Event> GLFW3InputBackend::fetchEvents()
     {
         std::queue<Event> result;
-        return result;
+        glfwSetKeyCallback(window, key_callback);
+        
+    void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+    {
+       switch(action){
+           case GLFW_PRESS:
+                switch(key)
+                         {
+                        case GLFW_KEY_E:
+                            KeyEvent event;
+                            Code code(4);
+                            event = key_press(code,false,false,false,false);
+                            break;
+                         }
+                break;
+                }
+           
+       }
+    }
+        return event;
     }
 
 
