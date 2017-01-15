@@ -5,9 +5,9 @@ namespace fea
 {
     Color::Color()
     {
-        r = 0u;
-        g = 0u;
-        b = 0u;
+        r = 255u;
+        g = 255u;
+        b = 255u;
         a = 255u;
     }
 
