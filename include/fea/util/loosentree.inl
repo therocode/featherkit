@@ -148,7 +148,7 @@ void LooseNTree<Dimensions, Depth, StaticAllocation>::add(uint32_t id, const Vec
 
     for(uint32_t dim = 0; dim < Dimensions; dim++)
     {
-        FEA_ASSERT(position[dim]  >= 0.0f && position[dim] <= mSize[dim], "Trying to add object outside of the bounds of the tree!");
+        FEA_ASSERT(position[dim]  >= 0.0f && position[dim] <= mSize[dim], "Trying to add object outside of the bounds of the tree at " << position[0] << " " << position[1]);
     }
 
     uint32_t depth;

@@ -3,6 +3,7 @@
 #include <sstream>
 #include <cmath>
 #include <unordered_map>
+#include <vector>
 #include <fea/assert.hpp>
 
 namespace fea
