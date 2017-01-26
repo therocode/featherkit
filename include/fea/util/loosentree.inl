@@ -182,7 +182,7 @@ void LooseNTree<Dimensions, Depth, StaticAllocation>::remove(uint32_t id)
             nodesToCheck.push_back(currentNode);
             currentNode = mNodes[currentNode].mParent;
         }
-        for(int32_t i = 0; i < nodesToCheck.size(); i++)
+        for(size_t i = 0; i < nodesToCheck.size(); i++)
         {
             checkForRemoval(nodesToCheck[i], nodesToCheck);
         }
@@ -222,7 +222,7 @@ void LooseNTree<Dimensions, Depth, StaticAllocation>::move(uint32_t id, const Ve
             nodesToCheck.push_back(currentNode);
             currentNode = mNodes[currentNode].mParent;
         }
-        for(int32_t i = 0; i < nodesToCheck.size(); i++)
+        for(size_t i = 0; i < nodesToCheck.size(); i++)
         {
             checkForRemoval(nodesToCheck[i], nodesToCheck);
         }
