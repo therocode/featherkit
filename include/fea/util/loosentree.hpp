@@ -53,8 +53,8 @@ namespace fea
             void add(uint32_t id, const Vector& position, const Vector& size);
             void remove(uint32_t id);
             void move(uint32_t id, const Vector& position);
-            std::vector<TreeEntry> get(const Vector& point) const;
-            std::vector<TreeEntry> get(const Vector& start, const Vector& end) const;
+            const std::vector<TreeEntry>& get(const Vector& point) const;
+            const std::vector<TreeEntry>& get(const Vector& start, const Vector& end) const;
             void clear();
             ~LooseNTree();
         private:
@@ -75,6 +75,7 @@ namespace fea
             std::unordered_map<TreeEntry, uint32_t> mEntryLocations;
             std::unordered_multimap<uint32_t, TreeEntry> mEntries;
             float mMoveCache[Pow(2, Dimensions)][Dimensions];
+            mutable std::vector<TreeEntry> mResultVector;
     };
 
 	template<uint32_t Depth, bool StaticAllocation>

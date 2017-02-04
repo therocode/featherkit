@@ -230,23 +230,23 @@ void LooseNTree<Dimensions, Depth, StaticAllocation>::move(uint32_t id, const Ve
 }
 
 template<uint32_t Dimensions, uint32_t Depth, bool StaticAllocation>
-std::vector<typename LooseNTree<Dimensions, Depth, StaticAllocation>::TreeEntry> LooseNTree<Dimensions, Depth, StaticAllocation>::get(const Vector& point) const
+const std::vector<typename LooseNTree<Dimensions, Depth, StaticAllocation>::TreeEntry>& LooseNTree<Dimensions, Depth, StaticAllocation>::get(const Vector& point) const
 {
-    std::vector<TreeEntry> result;
+    mResultVector.clear();
 
-    getFromNode(point / mSize, 0, result);
+    getFromNode(point / mSize, 0, mResultVector);
 
-    return result;
+    return mResultVector;
 }
 
 template<uint32_t Dimensions, uint32_t Depth, bool StaticAllocation>
-std::vector<typename LooseNTree<Dimensions, Depth, StaticAllocation>::TreeEntry> LooseNTree<Dimensions, Depth, StaticAllocation>::get(const Vector& start, const Vector& end) const
+const std::vector<typename LooseNTree<Dimensions, Depth, StaticAllocation>::TreeEntry>& LooseNTree<Dimensions, Depth, StaticAllocation>::get(const Vector& start, const Vector& end) const
 {
-    std::vector<TreeEntry> result;
+    mResultVector.clear();
 
-    getFromNode(start / mSize, end / mSize, 0, result);
+    getFromNode(start / mSize, end / mSize, 0, mResultVector);
 
-    return result;
+    return mResultVector;
 }
 
 template<uint32_t Dimensions, uint32_t Depth, bool StaticAllocation>
