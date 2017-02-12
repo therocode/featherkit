@@ -21,6 +21,7 @@ namespace fea
     template<uint32_t Dimensions, uint32_t Depth, bool StaticAllocation>
     class LooseNTree
     {
+        public:
             class Vector
             {
                 public:
@@ -46,7 +47,6 @@ namespace fea
                 uint32_t mParent;
             };
 
-        public:
             using TreeEntry = size_t;
 
             LooseNTree(const Vector& size);
