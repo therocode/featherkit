@@ -109,7 +109,8 @@ LooseNTree<Dimensions, Depth, StaticAllocation>::LooseNTree(const Vector& size) 
     {
         //allocate all nodes ever and make them all used
         mAllocatedNodesCount = NodeAmount(Depth, Dimensions, 0);
-        mNodes = new Node[mAllocatedNodesCount];
+        mNodes.clear();
+        mNodes.resize(mAllocatedNodesCount);
         mUsedNodesCount = mAllocatedNodesCount;
 
         //setup nodes
@@ -127,7 +128,8 @@ LooseNTree<Dimensions, Depth, StaticAllocation>::LooseNTree(const Vector& size) 
     {
         //allocate a basic amount of 8 nodes, of which 1 will be used, the root.
         mAllocatedNodesCount = 8;
-        mNodes = new Node[mAllocatedNodesCount];
+        mNodes.clear();
+        mNodes.resize(mAllocatedNodesCount);
         mUsedNodesCount = 1;
     }
 
@@ -257,12 +259,6 @@ void LooseNTree<Dimensions, Depth, StaticAllocation>::clear()
 }
 
 template<uint32_t Dimensions, uint32_t Depth, bool StaticAllocation>
-LooseNTree<Dimensions, Depth, StaticAllocation>::~LooseNTree()
-{
-    delete [] mNodes;
-}
-
-template<uint32_t Dimensions, uint32_t Depth, bool StaticAllocation>
 void LooseNTree<Dimensions, Depth, StaticAllocation>::placeTreeEntryInDepth(const TreeEntry& entry, const Vector& position, uint32_t depth)
 {
     Vector positionPercent = position / mSize;
@@ -295,9 +291,9 @@ void LooseNTree<Dimensions, Depth, StaticAllocation>::placeTreeEntryInDepth(cons
             {
                 if(mUsedNodesCount == mAllocatedNodesCount)
                 {
-                    uint32_t pointerDistance = currentNode - mNodes;
+                    uint32_t pointerDistance = currentNode - mNodes.data();
                     increaseSize();
-                    currentNode = mNodes + pointerDistance;
+                    currentNode = mNodes.data() + pointerDistance;
                 }
 
                 currentNode->mChildren[childIndex] = mUsedNodesCount;
@@ -447,11 +443,7 @@ template<uint32_t Dimensions, uint32_t Depth, bool StaticAllocation>
 void LooseNTree<Dimensions, Depth, StaticAllocation>::increaseSize()
 {
     uint32_t newSize = mAllocatedNodesCount * 2;
-    Node* newNodes = new Node[newSize];
-
-    std::copy(mNodes, mNodes + mAllocatedNodesCount, newNodes);
-    delete [] mNodes;
-    mNodes = newNodes;
+    mNodes.resize(newSize);
 
     mAllocatedNodesCount = newSize;
 }
@@ -460,11 +452,7 @@ template<uint32_t Dimensions, uint32_t Depth, bool StaticAllocation>
 void LooseNTree<Dimensions, Depth, StaticAllocation>::decreaseSize()
 {
     uint32_t newSize = mAllocatedNodesCount / 4;
-    Node* newNodes = new Node[newSize];
-
-    std::copy(mNodes, mNodes + newSize, newNodes);
-    delete [] mNodes;
-    mNodes = newNodes;
+    mNodes.resize(newSize);
 
     mAllocatedNodesCount = newSize;
 }

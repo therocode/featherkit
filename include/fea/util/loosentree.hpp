@@ -49,14 +49,13 @@ namespace fea
 
             using TreeEntry = size_t;
 
-            LooseNTree(const Vector& size);
+            LooseNTree(const Vector& size = {1.0f, 1.0f});
             void add(uint32_t id, const Vector& position, const Vector& size);
             void remove(uint32_t id);
             void move(uint32_t id, const Vector& position);
             const std::vector<TreeEntry>& get(const Vector& point) const;
             const std::vector<TreeEntry>& get(const Vector& start, const Vector& end) const;
             void clear();
-            ~LooseNTree();
         private:
             void placeTreeEntryInDepth(const TreeEntry& entry, const Vector& position, uint32_t depth);
             void removeTreeEntry(uint32_t id);
@@ -69,7 +68,7 @@ namespace fea
             void removeNode(uint32_t nodeIndex, std::vector<uint32_t>& toCheck);
 
             Vector mSize;
-            Node* mNodes;
+            std::vector<Node> mNodes;
             uint32_t mAllocatedNodesCount;
             uint32_t mUsedNodesCount;
             std::unordered_map<TreeEntry, uint32_t> mEntryLocations;
