@@ -27,6 +27,7 @@ set(BUILD_UTIL TRUE CACHE BOOL "Selects if the util module should be built")
 set(BUILD_SFMLBACKENDS FALSE CACHE BOOL "Selects if the SFML backends should be built")
 set(BUILD_SDLBACKENDS FALSE CACHE BOOL "Selects if the SDL backends should be built")
 set(BUILD_SDL2BACKENDS FALSE CACHE BOOL "Selects if the SDL2 backends should be built")
+set(BUILD_GLFWBACKENDS FALSE CACHE BOOL "Selects if the GLFW backends should be built")
 
 set(BUILD_JSON TRUE CACHE BOOL "Selects if the json (de)serialization functions should be built")
 
@@ -487,6 +488,29 @@ if(BUILD_UI)
             ${ui_sdl2_backend_header_files})
         target_link_libraries(${project_name}-sdl2 ${SDL2_LIBRARY} ${project_name}-ui)
     endif()
+
+    if(${BUILD_GLFWBACKENDS})
+        find_package(GLFW REQUIRED)
+        if(GLFW_FOUND)
+            include_directories(${GLFW_INCLUDE_DIR})
+        endif(GLFW_FOUND)
+
+        set(ui_glfw_backend_source_files
+            src/ui/glfw3windowbackend.cpp
+            #src/ui/contextsettings.cpp
+            src/ui/glfw3inputbackend.cpp)
+
+        set(ui_glfw_backend_header_files
+            include/fea/ui/glfw3windowbackend.hpp
+            include/fea/ui/glfw3inputbackend.hpp)
+
+        set(BUILT_TARGETS ${BUILT_TARGETS} ${project_name}-glfw)
+
+        add_library(${project_name}-glfw ${SHARED_OR_STATIC}
+            ${ui_glfw_backend_source_files}
+            ${ui_glfw_backend_header_files})
+        target_link_libraries(${project_name}-glfw ${GLFW_LIBRARY} ${project_name}-ui)
+    endif()
 endif()
 
 if(BUILD_UTIL)
@@ -553,6 +577,9 @@ if(INSTALL_PKGCONFIG_FILES)
     endif()
     if(BUILD_SDL2BACKENDS)
         set(PKGMODULE_SDL2 fea-sdl2)
+    endif()
+    if(BUILD_GLFWBACKENDS)
+        set(PKGMODULE_SDL2 fea-glfw)
     endif()
     if(BUILD_JSON)
         set(PKGREQ_JSONCPP jsoncpp)
